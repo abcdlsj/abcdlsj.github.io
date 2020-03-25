@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>sklearn通用学习模式 - ABCDLSJ&#39;S WORLD</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="abcdlsj" /><meta name="description" content=" sklearn 基础学习
+" /><meta name="keywords" content="Hugo, Org, Emacs, CPP, Python, Developer" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.0 with theme even" />
+
+
+<link rel="canonical" href="https://abcdlsj.github.io/post/sklearn%E9%80%9A%E7%94%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.b6e631c7.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="sklearn通用学习模式" />
+<meta property="og:description" content="
+sklearn 基础学习
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://abcdlsj.github.io/post/sklearn%E9%80%9A%E7%94%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F/" />
+<meta property="article:published_time" content="2018-10-26T00:00:00+08:00" />
+<meta property="article:modified_time" content="2018-10-26T14:51:14+08:00" />
+<meta itemprop="name" content="sklearn通用学习模式">
+<meta itemprop="description" content="
+sklearn 基础学习
+">
+<meta itemprop="datePublished" content="2018-10-26T00:00:00&#43;08:00" />
+<meta itemprop="dateModified" content="2018-10-26T14:51:14&#43;08:00" />
+<meta itemprop="wordCount" content="1301">
+
+
+
+<meta itemprop="keywords" content="Sklearn," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="sklearn通用学习模式"/>
+<meta name="twitter:description" content="
+sklearn 基础学习
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">sklearn通用学习模式</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-10-26 </span>
+        <div class="post-category">
+            <a href="/categories/learn/"> learn </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+  <div class="post-outdated">
+    <div class="warn">
+      <p>[NOTE] Updated <span class="timeago" datetime="2018-10-26T14:51:14" title="October 26, 2018">October 26, 2018</span>. This article may have outdated content or subject matter.</p>
+    </div>
+  </div>
+    <div class="post-content">
+      <blockquote>
+<p>sklearn 基础学习</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>引入数据</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">iris</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+<span class="n">iris_X</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span>
+<span class="n">iris_Y</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">target</span>
+<span class="k">print</span><span class="p">(</span><span class="n">iris_X</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">iris_Y</span><span class="p">)</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">
+    [[5.1 3.5 1.4 0.2]
+     [4.9 3.  1.4 0.2]
+     [4.7 3.2 1.3 0.2]
+     [4.6 3.1 1.5 0.2]
+     [5.  3.6 1.4 0.2]
+     [5.4 3.9 1.7 0.4]
+     [4.6 3.4 1.4 0.3]
+     [5.  3.4 1.5 0.2]
+     [4.4 2.9 1.4 0.2]
+     [4.9 3.1 1.5 0.1]
+     [5.4 3.7 1.5 0.2]
+     [4.8 3.4 1.6 0.2]
+     [4.8 3.  1.4 0.1]
+     [4.3 3.  1.1 0.1]
+     [5.8 4.  1.2 0.2]
+     [5.7 4.4 1.5 0.4]
+     [5.4 3.9 1.3 0.4]
+     [5.1 3.5 1.4 0.3]
+     [5.7 3.8 1.7 0.3]
+     [5.1 3.8 1.5 0.3]
+     [5.4 3.4 1.7 0.2]
+     [5.1 3.7 1.5 0.4]
+     [4.6 3.6 1.  0.2]
+     [5.1 3.3 1.7 0.5]
+     [4.8 3.4 1.9 0.2]
+     [5.  3.  1.6 0.2]
+     [5.  3.4 1.6 0.4]
+     [5.2 3.5 1.5 0.2]
+     [5.2 3.4 1.4 0.2]
+     [4.7 3.2 1.6 0.2]
+     [4.8 3.1 1.6 0.2]
+     [5.4 3.4 1.5 0.4]
+     [5.2 4.1 1.5 0.1]
+     [5.5 4.2 1.4 0.2]
+     [4.9 3.1 1.5 0.1]
+     [5.  3.2 1.2 0.2]
+     [5.5 3.5 1.3 0.2]
+     [4.9 3.1 1.5 0.1]
+     [4.4 3.  1.3 0.2]
+     [5.1 3.4 1.5 0.2]
+     [5.  3.5 1.3 0.3]
+     [4.5 2.3 1.3 0.3]
+     [4.4 3.2 1.3 0.2]
+     [5.  3.5 1.6 0.6]
+     [5.1 3.8 1.9 0.4]
+     [4.8 3.  1.4 0.3]
+     [5.1 3.8 1.6 0.2]
+     [4.6 3.2 1.4 0.2]
+     [5.3 3.7 1.5 0.2]
+     [5.  3.3 1.4 0.2]
+     [7.  3.2 4.7 1.4]
+     [6.4 3.2 4.5 1.5]
+     [6.9 3.1 4.9 1.5]
+     [5.5 2.3 4.  1.3]
+     [6.5 2.8 4.6 1.5]
+     [5.7 2.8 4.5 1.3]
+     [6.3 3.3 4.7 1.6]
+     [4.9 2.4 3.3 1. ]
+     [6.6 2.9 4.6 1.3]
+     [5.2 2.7 3.9 1.4]
+     [5.  2.  3.5 1. ]
+     [5.9 3.  4.2 1.5]
+     [6.  2.2 4.  1. ]
+     [6.1 2.9 4.7 1.4]
+     [5.6 2.9 3.6 1.3]
+     [6.7 3.1 4.4 1.4]
+     [5.6 3.  4.5 1.5]
+     [5.8 2.7 4.1 1. ]
+     [6.2 2.2 4.5 1.5]
+     [5.6 2.5 3.9 1.1]
+     [5.9 3.2 4.8 1.8]
+     [6.1 2.8 4.  1.3]
+     [6.3 2.5 4.9 1.5]
+     [6.1 2.8 4.7 1.2]
+     [6.4 2.9 4.3 1.3]
+     [6.6 3.  4.4 1.4]
+     [6.8 2.8 4.8 1.4]
+     [6.7 3.  5.  1.7]
+     [6.  2.9 4.5 1.5]
+     [5.7 2.6 3.5 1. ]
+     [5.5 2.4 3.8 1.1]
+     [5.5 2.4 3.7 1. ]
+     [5.8 2.7 3.9 1.2]
+     [6.  2.7 5.1 1.6]
+     [5.4 3.  4.5 1.5]
+     [6.  3.4 4.5 1.6]
+     [6.7 3.1 4.7 1.5]
+     [6.3 2.3 4.4 1.3]
+     [5.6 3.  4.1 1.3]
+     [5.5 2.5 4.  1.3]
+     [5.5 2.6 4.4 1.2]
+     [6.1 3.  4.6 1.4]
+     [5.8 2.6 4.  1.2]
+     [5.  2.3 3.3 1. ]
+     [5.6 2.7 4.2 1.3]
+     [5.7 3.  4.2 1.2]
+     [5.7 2.9 4.2 1.3]
+     [6.2 2.9 4.3 1.3]
+     [5.1 2.5 3.  1.1]
+     [5.7 2.8 4.1 1.3]
+     [6.3 3.3 6.  2.5]
+     [5.8 2.7 5.1 1.9]
+     [7.1 3.  5.9 2.1]
+     [6.3 2.9 5.6 1.8]
+     [6.5 3.  5.8 2.2]
+     [7.6 3.  6.6 2.1]
+     [4.9 2.5 4.5 1.7]
+     [7.3 2.9 6.3 1.8]
+     [6.7 2.5 5.8 1.8]
+     [7.2 3.6 6.1 2.5]
+     [6.5 3.2 5.1 2. ]
+     [6.4 2.7 5.3 1.9]
+     [6.8 3.  5.5 2.1]
+     [5.7 2.5 5.  2. ]
+     [5.8 2.8 5.1 2.4]
+     [6.4 3.2 5.3 2.3]
+     [6.5 3.  5.5 1.8]
+     [7.7 3.8 6.7 2.2]
+     [7.7 2.6 6.9 2.3]
+     [6.  2.2 5.  1.5]
+     [6.9 3.2 5.7 2.3]
+     [5.6 2.8 4.9 2. ]
+     [7.7 2.8 6.7 2. ]
+     [6.3 2.7 4.9 1.8]
+     [6.7 3.3 5.7 2.1]
+     [7.2 3.2 6.  1.8]
+     [6.2 2.8 4.8 1.8]
+     [6.1 3.  4.9 1.8]
+     [6.4 2.8 5.6 2.1]
+     [7.2 3.  5.8 1.6]
+     [7.4 2.8 6.1 1.9]
+     [7.9 3.8 6.4 2. ]
+     [6.4 2.8 5.6 2.2]
+     [6.3 2.8 5.1 1.5]
+     [6.1 2.6 5.6 1.4]
+     [7.7 3.  6.1 2.3]
+     [6.3 3.4 5.6 2.4]
+     [6.4 3.1 5.5 1.8]
+     [6.  3.  4.8 1.8]
+     [6.9 3.1 5.4 2.1]
+     [6.7 3.1 5.6 2.4]
+     [6.9 3.1 5.1 2.3]
+     [5.8 2.7 5.1 1.9]
+     [6.8 3.2 5.9 2.3]
+     [6.7 3.3 5.7 2.5]
+     [6.7 3.  5.2 2.3]
+     [6.3 2.5 5.  1.9]
+     [6.5 3.  5.2 2. ]
+     [6.2 3.4 5.4 2.3]
+     [5.9 3.  5.1 1.8]]
+    [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+     0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+     1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2
+     2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+     2 2]
+
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>将iris_X,iris_Y分成X_train,X_test,Y_train,Y_test,其中X_test,Y_test占30%</p>
+</blockquote>
+<blockquote>
+<p>分开后会打乱数据,有利于学习</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">Y_train</span><span class="p">,</span><span class="n">Y_test</span><span class="o">=</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">iris_X</span><span class="p">,</span><span class="n">iris_Y</span><span class="p">,</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">Y_train</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>[2 2 1 1 2 1 0 1 0 1 1 2 2 1 1 1 0 1 2 2 2 2 0 0 2 2 2 2 1 0 1 2 1 0 2 0 1
+ 0 1 0 2 1 0 0 0 0 0 1 0 2 2 0 0 2 2 2 2 2 1 0 1 0 0 0 0 2 1 0 0 1 1 1 2 2
+ 2 1 1 0 0 0 0 1 2 0 1 0 0 1 2 2 2 0 2 2 1 1 0 0 2 0 2 1 1 1 1]
+</code></pre>
+<blockquote>
+<p>将tarin数据使用knn训练</p>
+</blockquote>
+<blockquote>
+<p>knn.perdict(X_test)  使用训练好的knn model(属性)来预测我的X_test数据的属性</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">knn</span><span class="o">=</span><span class="n">KNeighborsClassifier</span><span class="p">()</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">Y_train</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">Y_test</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">    [2 0 1 1 2 2 0 1 1 1 1 0 0 2 0 0 1 1 2 2 2 0 0 2 2 1 1 0 2 2 0 1 0 1 2 2 2
+     0 1 0 0 2 2 2 1]
+    [1 0 1 1 2 2 0 1 1 1 1 0 0 2 0 0 1 1 2 2 1 0 0 2 2 1 1 0 2 2 0 1 0 1 2 2 2
+     0 1 0 0 2 2 2 1]
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">abcdlsj</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2018-10-26
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/sklearn/">Sklearn</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E5%AE%89%E8%A3%85tensorflow/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">安装TensorFlow</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/%E5%85%B3%E4%BA%8E%E4%B8%8D%E8%92%9C%E5%AD%90%E8%AE%A1%E6%95%B0%E6%96%B0%E5%9F%9F%E5%90%8D%E4%BF%AE%E6%94%B9/">
+            <span class="next-text nav-default">关于不蒜子计数新域名修改</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'abcdlsj';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:lisongjianshuai@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/abcdlsj/" class="iconfont icon-github" title="github"></a>
+  <a href="https://abcdlsj.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">abcdlsj</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "en".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

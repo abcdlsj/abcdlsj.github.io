@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>gdb调试方法总结(基础) - ABCDLSJ&#39;S WORLD</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="abcdlsj" /><meta name="description" content=" 原本早就准备系统学习linux知识的,但是懒惰的本性让我&amp;hellip;.这个原本一月就要学完的知识结果现在四月了还没学到多少&amp;hellip;.打算这段时间好好学习一下技术知识
+" /><meta name="keywords" content="Hugo, Org, Emacs, CPP, Python, Developer" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.0 with theme even" />
+
+
+<link rel="canonical" href="https://abcdlsj.github.io/post/gdb%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-%E5%9F%BA%E7%A1%80/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.b6e631c7.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="gdb调试方法总结(基础)" />
+<meta property="og:description" content="
+原本早就准备系统学习linux知识的,但是懒惰的本性让我&hellip;.这个原本一月就要学完的知识结果现在四月了还没学到多少&hellip;.打算这段时间好好学习一下技术知识
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://abcdlsj.github.io/post/gdb%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-%E5%9F%BA%E7%A1%80/" />
+<meta property="article:published_time" content="2019-04-15T00:00:00+08:00" />
+<meta property="article:modified_time" content="2019-04-16T14:51:14+08:00" />
+<meta itemprop="name" content="gdb调试方法总结(基础)">
+<meta itemprop="description" content="
+原本早就准备系统学习linux知识的,但是懒惰的本性让我&hellip;.这个原本一月就要学完的知识结果现在四月了还没学到多少&hellip;.打算这段时间好好学习一下技术知识
+">
+<meta itemprop="datePublished" content="2019-04-15T00:00:00&#43;08:00" />
+<meta itemprop="dateModified" content="2019-04-16T14:51:14&#43;08:00" />
+<meta itemprop="wordCount" content="1857">
+
+
+
+<meta itemprop="keywords" content="gdb," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="gdb调试方法总结(基础)"/>
+<meta name="twitter:description" content="
+原本早就准备系统学习linux知识的,但是懒惰的本性让我&hellip;.这个原本一月就要学完的知识结果现在四月了还没学到多少&hellip;.打算这段时间好好学习一下技术知识
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">gdb调试方法总结(基础)</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-04-15 </span>
+        <div class="post-category">
+            <a href="/categories/learn/"> learn </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#基础命令">基础命令</a>
+      <ul>
+        <li><a href="#help">help</a></li>
+        <li><a href="#list">list</a></li>
+        <li><a href="#start">start</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+  <div class="post-outdated">
+    <div class="hint">
+      <p>[NOTE] Updated <span class="timeago" datetime="2019-04-16T14:51:14" title="April 16, 2019">April 16, 2019</span>. This article may have outdated content or subject matter.</p>
+    </div>
+  </div>
+    <div class="post-content">
+      <blockquote>
+<p>原本早就准备系统学习linux知识的,但是懒惰的本性让我&hellip;.这个原本一月就要学完的知识结果现在四月了还没学到多少&hellip;.打算这段时间好好学习一下技术知识</p>
+</blockquote>
+<p>gdb是linux系统中一个非常强大的调试工具，调试的基本思想是“分析现象-&gt;假设错误原因-&gt;产生新的现象去验证假设”
+这是<code>&lt;&lt;Linux C编程一站式学习&gt;&gt;</code>中的一个gdb调试例子，非常的简明扼要，正好学习了，所以记录一下(这个例子在书上是给的错误代码，然后一步一步找到错误，但是运行环境不一样，错误不一定一样，所以我直接写正确的代码)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="kt">int</span> <span class="nf">add_range</span><span class="p">(</span><span class="kt">int</span> <span class="n">low</span><span class="p">,</span><span class="kt">int</span> <span class="n">high</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="n">low</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">high</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">sum</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="n">sum</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">result</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+	<span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">add_range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+	<span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">add_range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;result[0]=%d</span><span class="se">\n</span><span class="s">result[1]=%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们需要在编译时加上<code>-g</code>选项，这样生成的可执行文件才能使用gdb调试</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">gcc -g test.c -o test
+gdb test
+</code></pre></td></tr></table>
+</div>
+</div><p><code>-g</code>选项是在可执行文件中加入源代码的信息，比如可执行文件的第几条机器指令对应源代码第几行，但并不是把整个源代码嵌入到可执行文件中，所以必须保证gdb能找到源文件</p>
+<h2 id="基础命令">基础命令</h2>
+<h3 id="help">help</h3>
+<p>查看命令的类别</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="o">(</span>gdb<span class="o">)</span> <span class="nb">help</span>
+List of classes of commands:
+
+aliases -- Aliases of other commands
+breakpoints -- Making program stop at certain points
+data -- Examining data
+files -- Specifying and examining files
+internals -- Maintenance commands
+obscure -- Obscure features
+running -- Running the program
+stack -- Examining the stack
+status -- Status inquiries
+support -- Support facilities
+tracepoints -- Tracing of program execution without stopping the program
+user-defined -- User-defined commands
+
+Type <span class="s2">&#34;help&#34;</span> followed by a class name <span class="k">for</span> a list of commands in that class.
+Type <span class="s2">&#34;help all&#34;</span> <span class="k">for</span> the list of all commands.
+Type <span class="s2">&#34;help&#34;</span> followed by <span class="nb">command</span> name <span class="k">for</span> full documentation.
+Type <span class="s2">&#34;apropos word&#34;</span> to search <span class="k">for</span> commands related to <span class="s2">&#34;word&#34;</span>.
+Command name abbreviations are allowed <span class="k">if</span> unambiguous.
+</code></pre></td></tr></table>
+</div>
+</div><p>进一步某一类别有哪些命令，比如查看file下有那些命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(gdb) help files
+Specifying and examining files.
+
+List of commands:
+
+add-symbol-file -- Load symbols from FILE
+add-symbol-file-from-memory -- Load the symbols out of memory from a dynamically loaded object file
+cd -- Set working directory to DIR for debugger
+core-file -- Use FILE as core dump for examining memory and registers
+directory -- Add directory DIR to beginning of search path for source files
+edit -- Edit specified file or function
+exec-file -- Use FILE as program for getting contents of pure memory
+file -- Use FILE as program to be debugged
+forward-search -- Search for regular expression (see regex(3)) from last line listed
+generate-core-file -- Save a core file with the current state of the debugged process
+list -- List specified function or line
+load -- Dynamically load FILE into the running program
+nosharedlibrary -- Unload all shared object library symbols
+path -- Add directory DIR(s) to beginning of search path for object files
+pwd -- Print working directory
+remote -- Manipulate files on the remote system
+---Type &lt;return&gt; to continue, or q &lt;return&gt; to quit---
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="list">list</h3>
+<p>list命令可以列出程序源代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="o">(</span>gdb<span class="o">)</span> list <span class="m">1</span>
+1	<span class="c1">#include &lt;stdio.h&gt;</span>
+2	int add_range<span class="o">(</span>int low,int high<span class="o">)</span>
+3	<span class="o">{</span>
+4		int sum,i<span class="p">;</span>
+5		<span class="k">for</span><span class="o">(</span><span class="nv">i</span><span class="o">=</span>low<span class="p">;</span>i&lt;<span class="o">=</span>high<span class="p">;</span>i++<span class="o">)</span>
+6		<span class="o">{</span>
+7			<span class="nv">sum</span><span class="o">=</span>i+sum<span class="p">;</span>
+8		<span class="o">}</span>
+9		<span class="k">return</span> sum<span class="p">;</span>
+10	<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>一次只能读取十行
+<code>gdb</code>有个好处是你回车默认是执行上次命令
+list 可以简写为 l,也可以列出某个函数源代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(gdb) l add_range
+1	#include &lt;stdio.h&gt;
+2	int add_range(int low,int high)
+3	{
+4		int sum,i;
+5		for(i=low;i&lt;=high;i++)
+6		{
+7			sum=i+sum;
+8		}
+9		return sum;
+10	}
+</code></pre></td></tr></table>
+</div>
+</div><p>退出是<code>quit</code></p>
+<h3 id="start">start</h3>
+<p>开始执行程序是<code>start</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(gdb) start
+Temporary breakpoint 1 at 0x6de: file test.c, line 12.
+Starting program: /home/lsj/code/test
+
+Temporary breakpoint 1, main () at test.c:12
+12	{
+</code></pre></td></tr></table>
+</div>
+</div><p>看到gdb停在main函数变量定义以后的第一条语句处等待我们命令，gdb停下的这条语句即是下一条要执行的语句，<code>next</code>可以控制一条一条执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(gdb) start
+Temporary breakpoint 1 at 0x6ec: file test.c, line 13.
+Starting program: /home/lsj/code/test
+
+Temporary breakpoint 1, main () at test.c:13
+13	{
+(gdb) n
+15		result[0]=add_range(1,10);
+(gdb) n
+16		result[1]=add_range(1,100);
+(gdb) n
+17		printf(&#34;result[0]=%d\nresult[1]=%d\n&#34;,result[0],result[1]);
+(gdb) n
+result[0]=55
+result[1]=5050
+18		return 0;
+</code></pre></td></tr></table>
+</div>
+</div><p>这样我们无法看到<code>add_range</code>函数里面
+所以我们需要使用<code>step</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(gdb) start
+Temporary breakpoint 1 at 0x6ec: file test.c, line 13.
+Starting program: /home/lsj/code/test
+
+Temporary breakpoint 1, main () at test.c:13
+13	{
+(gdb) step
+15		result[0]=add_range(1,10);
+(gdb)
+add_range (low=1, high=10) at test.c:4
+4		int sum=0;
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到停在了<code>add_range</code>函数变量定义之后的第一条语句处。在函数中有几种查看状态的方法，<code>backtrace</code>命令可以查看函数调用的浅栈。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(gdb) bt
+#0  add_range (low=1, high=10) at test.c:4
+#1  0x000055555555470a in main () at test.c:15
+</code></pre></td></tr></table>
+</div>
+</div><p>看到<code>add_range</code>函数是被<code>main</code>函数调用的,<code>main</code>函数浅栈编号为1，<code>add_range</code>函数浅栈编号为0.
+可以用<code>info</code>命令来查看<code>add_range</code>函数局部变量的值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(gdb) i locals
+sum = -138840185
+i = 32767
+</code></pre></td></tr></table>
+</div>
+</div><p>要查看<code>main</code>函数的局部变量的值可以使用<code>frame</code>命令选择1号浅栈，然后<code>info</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">#1  0x000055555555470a in main () at test.c:15
+15		result[0]=add_range(1,10);
+(gdb) i locals
+result = {2, 32767, 0, 0, ..., 21845}
+</code></pre></td></tr></table>
+</div>
+</div><p>我们可以往下走几步，然后<code>print</code>出来</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(gdb) step
+15		result[0]=add_range(1,10);
+(gdb)
+add_range (low=1, high=10) at test.c:4
+4		int sum=0;
+(gdb)
+5		int i=0;
+(gdb)
+6		for(i=low;i&lt;=high;i++)
+(gdb)
+8			sum=i+sum;
+(gdb)
+6		for(i=low;i&lt;=high;i++)
+(gdb) p sum
+$2 = 1
+</code></pre></td></tr></table>
+</div>
+</div><p>两次循环，所以sum值是1，前面的<code>$2</code>是编号
+然后我们可以用<code>finish</code>命令让程序一直运行到当前函数返回为止</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(gdb) finish
+Run till exit from #0  add_range (low=1, high=10) at test.c:6
+0x000055555555470a in main () at test.c:15
+15		result[0]=add_range(1,10);
+Value returned is $3 = 55
+</code></pre></td></tr></table>
+</div>
+</div><p>返回值是55,然后可以用<code>step</code>进行下一步，也就是给result赋值，然后<code>print</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(gdb) p result
+$4 = {55, 32767, 0, 0, -8576,..., 21845}
+</code></pre></td></tr></table>
+</div>
+</div><p>看到55确实赋值给了result[0],下面进行第二次<code>add_range</code>调用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(gdb) s
+16		result[1]=add_range(1,100);
+(gdb)
+add_range (low=1, high=100) at test.c:4
+4		int sum=0;
+(gdb) finish
+Run till exit from #0  add_range (low=1, high=100) at test.c:4
+0x000055555555471f in main () at test.c:16
+16		result[1]=add_range(1,100);
+Value returned is $2 = 5050
+</code></pre></td></tr></table>
+</div>
+</div><p>发现我们的答案已经出来，我们还可以用<code>set</code>,<code>print</code>命令修改变量的值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">(gdb) set var result[2]=99
+(gdb) p result
+$3 = {55, 32767, 99, 0, -8576,..., 21845}
+(gdb) s
+17		printf(&#34;result[0]=%d\nresult[1]=%d\n&#34;,result[0],result[1]);
+(gdb) p result
+$4 = {55, 5050, 99, 0, -8576,..., 21845}
+(gdb) print result[3]=50
+$5 = 50
+(gdb) p result
+$6 = {55, 5050, 99, 50, -8576,..., 21845}
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">abcdlsj</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-04-16
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/gdb/">gdb</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/bfs%E5%92%8Castar%E7%AE%97%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E6%95%B0%E7%A0%81%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%81/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">BFS和A*算法解决八数码问题简单代码</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2-3%E6%9C%88%E6%97%A5%E5%B8%B8/">
+            <span class="next-text nav-default">2-3月日常</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'abcdlsj';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:lisongjianshuai@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/abcdlsj/" class="iconfont icon-github" title="github"></a>
+  <a href="https://abcdlsj.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">abcdlsj</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "en".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

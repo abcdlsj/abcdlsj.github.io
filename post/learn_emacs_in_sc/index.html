@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Learn-elisp-in-sc - ABCDLSJ&#39;S WORLD</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="abcdlsj" /><meta name="description" content=" 这是learn x in minutes 的elisp教程，跟着做一遍
+" /><meta name="keywords" content="Hugo, Org, Emacs, CPP, Python, Developer" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.0 with theme even" />
+
+
+<link rel="canonical" href="https://abcdlsj.github.io/post/learn_emacs_in_sc/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.b6e631c7.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Learn-elisp-in-sc" />
+<meta property="og:description" content="
+这是learn x in minutes 的elisp教程，跟着做一遍
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://abcdlsj.github.io/post/learn_emacs_in_sc/" />
+<meta property="article:published_time" content="2019-11-15T00:00:00+08:00" />
+<meta property="article:modified_time" content="2020-01-13T22:44:40+08:00" />
+<meta itemprop="name" content="Learn-elisp-in-sc">
+<meta itemprop="description" content="
+这是learn x in minutes 的elisp教程，跟着做一遍
+">
+<meta itemprop="datePublished" content="2019-11-15T00:00:00&#43;08:00" />
+<meta itemprop="dateModified" content="2020-01-13T22:44:40&#43;08:00" />
+<meta itemprop="wordCount" content="1074">
+
+
+
+<meta itemprop="keywords" content="elisp,Emacs," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Learn-elisp-in-sc"/>
+<meta name="twitter:description" content="
+这是learn x in minutes 的elisp教程，跟着做一遍
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Learn-elisp-in-sc</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-11-15 </span>
+        <div class="post-category">
+            <a href="/categories/learn/"> learn </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+  <div class="post-outdated">
+    <div class="hint">
+      <p>[NOTE] Updated <span class="timeago" datetime="2020-01-13T22:44:40" title="January 13, 2020">January 13, 2020</span>. This article may have outdated content or subject matter.</p>
+    </div>
+  </div>
+    <div class="post-content">
+      <blockquote>
+<p>这是learn x in minutes 的elisp教程，跟着做一遍</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-elisp" data-lang="elisp"><span class="c1">;;use C-x C-e(后面直接写Cxe)</span>
+<span class="c1">;;基本运算符</span>
+<span class="p">(</span><span class="nf">+</span> <span class="mi">3</span> <span class="p">(</span><span class="nf">+</span> <span class="mi">1</span> <span class="mi">3</span><span class="p">))</span>
+<span class="c1">;;setq stores a value into a variable</span>
+<span class="p">(</span><span class="nb">setq</span> <span class="nv">my-name</span> <span class="s">&#34;lsj&#34;</span><span class="p">)</span>
+<span class="c1">;;C-x C-e 就会出现&#34;lsj&#34;在我的mini-buffer中</span>
+<span class="c1">;;insert will insert &#34;hello!&#34; where the cursor is</span>
+<span class="p">(</span><span class="nf">insert</span> <span class="s">&#34;hello!&#34;</span><span class="p">)</span>
+<span class="c1">;;C-x C-e 光标处出现hello!</span>
+<span class="p">(</span><span class="nf">insert</span> <span class="s">&#34;hello!&#34;</span> <span class="s">&#34;world&#34;</span><span class="p">)</span>
+<span class="c1">;;出现hello!world</span>
+<span class="c1">;;也可以这样</span>
+<span class="p">(</span><span class="nf">insert</span> <span class="s">&#34;hello!&#34;</span> <span class="s">&#34;world &#34;</span> <span class="nv">my-name</span><span class="p">)</span>
+<span class="c1">;;hello!world lsj</span>
+<span class="c1">;;也可以定义成一个functions</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">hello</span> <span class="p">()</span> <span class="p">(</span><span class="nf">insert</span> <span class="s">&#34;hello,my name is &#34;</span> <span class="nv">my-name</span><span class="p">))</span>
+<span class="c1">;;Cxe -&gt;hello</span>
+<span class="p">(</span><span class="nv">hello</span><span class="p">)</span>
+<span class="c1">;;hello,my name islsj</span>
+<span class="c1">;;hello()可以接受参数</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">hello</span><span class="p">(</span><span class="nv">name</span><span class="p">)</span> <span class="p">(</span><span class="nf">insert</span> <span class="s">&#34;hello &#34;</span> <span class="nv">name</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">hello</span> <span class="s">&#34;lsj&#34;</span><span class="p">)</span>
+<span class="c1">;;输入</span>
+<span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
+<span class="c1">;;现在光标在*test*中</span>
+<span class="c1">;;C-x o 切换回去</span>
+<span class="c1">;;输入</span>
+<span class="p">(</span><span class="nb">progn</span>
+  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">hello</span> <span class="s">&#34;you&#34;</span> <span class="p">))</span>
+<span class="c1">;;progn 官方解释&#34;progn is a special form that causes each of its arguments to be evaluated in sequence and then returns the value of the last one. The preceding expressions are evaluated only for the side effects they perform. The values produced by them are discarded.&#34;</span>
+<span class="c1">;;翻译过来就是 progn 是一个特殊的过程，只返回最后一个表达式的值，前面表达式会被运行但是产生的值会被丢弃</span>
+<span class="c1">;;所以我们看到*test*中出现hello you</span>
+<span class="c1">;;抹除缓冲区</span>
+<span class="p">(</span><span class="nb">progn</span>
+  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">hello</span> <span class="s">&#34;there&#34;</span><span class="p">))</span>
+<span class="c1">;;也可以完成上面同时回到开始的buffer</span>
+<span class="p">(</span><span class="nb">progn</span>
+  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">hello</span> <span class="s">&#34;you &#34;</span><span class="p">)</span>
+  <span class="c1">;;C-x o 等价于(other-window)</span>
+  <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c1">;;定义局部变量 let</span>
+<span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">local-name</span> <span class="s">&#34;you&#34;</span><span class="p">))</span>
+  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">hello</span> <span class="nv">local-name</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c1">;;格式化字符串</span>
+<span class="p">(</span><span class="nf">format</span> <span class="s">&#34;hello %s!\n&#34;</span> <span class="s">&#34;visitor&#34;</span><span class="p">)</span>
+<span class="c1">;;%s就跟c语言一样的，visitor替换%s</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">hello</span> <span class="p">(</span><span class="nv">name</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">insert</span> <span class="p">(</span><span class="nf">format</span> <span class="s">&#34;hello %s!\n&#34;</span> <span class="nv">name</span><span class="p">)))</span>
+<span class="p">(</span><span class="nv">hello</span> <span class="s">&#34;you&#34;</span><span class="p">)</span>
+<span class="c1">;;hello you!</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">greeting</span> <span class="p">(</span><span class="nv">name</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">your-name</span> <span class="s">&#34;Bastien&#34;</span><span class="p">))</span>
+    <span class="p">(</span><span class="nf">insert</span> <span class="p">(</span><span class="nf">format</span> <span class="s">&#34;hello %s!\n\nI am %s.&#34;</span> <span class="nv">name</span> <span class="nv">your-name</span><span class="p">))))</span>
+<span class="p">(</span><span class="nv">greeting</span> <span class="s">&#34;you&#34;</span><span class="p">)</span>
+<span class="c1">;;hello you!</span>
+
+<span class="c1">;;I am Bastien.</span>
+<span class="c1">;;一些交互</span>
+<span class="p">(</span><span class="nf">read-from-minibuffer</span> <span class="s">&#34;Enter your name: &#34;</span><span class="p">)</span>
+<span class="c1">;;完善greeting()</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">greeting</span> <span class="p">(</span><span class="nv">from-name</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">your-name</span> <span class="p">(</span><span class="nf">read-from-minibuffer</span> <span class="s">&#34;Enter your name:&#34;</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nf">insert</span> <span class="p">(</span><span class="nf">format</span> <span class="s">&#34;hello! I am %s and you are %s.&#34;</span> <span class="nv">from-name</span> <span class="nv">your-name</span><span class="p">))))</span>
+<span class="p">(</span><span class="nv">greeting</span> <span class="s">&#34;Bastien&#34;</span><span class="p">)</span>
+<span class="c1">;;minibuffer-&gt;Enter your name:lsj</span>
+<span class="c1">;;hello! I am Bastien and you are lsj.</span>
+<span class="c1">;;结合前面把内容展示到其他窗口</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">greeting</span><span class="p">(</span><span class="nv">from-name</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">your-name</span> <span class="p">(</span><span class="nf">read-from-minibuffer</span> <span class="s">&#34;Enter your name:&#34;</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">insert</span> <span class="p">(</span><span class="nf">format</span> <span class="s">&#34;hello ! i am %s and you are %s&#34;</span> <span class="nv">from-name</span> <span class="nv">your-name</span><span class="p">))</span>
+    <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="p">(</span><span class="nv">greeting</span> <span class="s">&#34;Bastien&#34;</span><span class="p">)</span>
+<span class="c1">;;*test*-&gt;hello ! i am Bastien and you are lsj</span>
+<span class="c1">;;创建一个列表</span>
+<span class="p">(</span><span class="nb">setq</span> <span class="nv">list-of-names</span> <span class="o">&#39;</span><span class="p">(</span><span class="s">&#34;Saeah&#34;</span> <span class="s">&#34;Chloe&#34;</span> <span class="s">&#34;Mathilde&#34;</span><span class="p">))</span>
+<span class="c1">;;获取这个列表的第一个元素</span>
+<span class="p">(</span><span class="nf">car</span> <span class="nv">list-of-names</span><span class="p">)</span>
+<span class="c1">;;获取除了第一个元素之外的全部元素</span>
+<span class="p">(</span><span class="nf">cdr</span> <span class="nv">list-of-names</span><span class="p">)</span>
+<span class="c1">;;push</span>
+<span class="p">(</span><span class="nb">push</span> <span class="s">&#34;Stephanie&#34;</span> <span class="nv">list-of-names</span><span class="p">)</span>
+<span class="c1">;;mapcar</span>
+<span class="p">(</span><span class="nf">mapcar</span> <span class="ss">&#39;hello</span> <span class="nv">list-of-names</span><span class="p">)</span>
+<span class="c1">;;</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">greeting</span><span class="p">()</span>
+  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">mapcar</span> <span class="ss">&#39;hello</span> <span class="nv">list-of-names</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c1">;;mapcar 调用hello 函数，依次使用&#34;list-of-names&#34;的元素作为参数</span>
+<span class="c1">;;</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">replace-hello-by-bonjour</span><span class="p">()</span>
+  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">goto-char</span> <span class="p">(</span><span class="nf">point-min</span><span class="p">))</span>
+  <span class="p">(</span><span class="nb">while</span> <span class="p">(</span><span class="nf">search-forward</span> <span class="s">&#34;hello&#34;</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">replace-match</span> <span class="s">&#34;bonjour&#34;</span><span class="p">))</span>
+    <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c1">;;goto-char(point-min) 转到缓冲区的开头</span>
+<span class="c1">;;(search-forward &#34;hello&#34;) 搜索&#34;hello&#34;</span>
+<span class="c1">;;elisp中 while x y 代表if x true,y;if x nil,out</span>
+<span class="p">(</span><span class="nv">replace-hello-by-bonjour</span><span class="p">)</span>
+<span class="c1">;;bonjour Stephanie!</span>
+<span class="c1">;;bonjour Saeah!</span>
+<span class="c1">;;bonjour Chloe!</span>
+<span class="c1">;;bonjour Mathilde!</span>
+<span class="c1">;;同时还会出现Search failed: Hello</span>
+<span class="c1">;;可以把(search-forward)替换成(search-forward &#34;Hello&#34; nil t)</span>
+<span class="c1">;;</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">hello-to-bonjour</span><span class="p">()</span>
+  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">mapcar</span> <span class="ss">&#39;hello</span> <span class="nv">list-of-names</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">goto-char</span><span class="p">(</span><span class="nf">point-min</span><span class="p">))</span>
+  <span class="p">(</span><span class="nb">while</span><span class="p">(</span><span class="nf">search-forward</span> <span class="s">&#34;hello&#34;</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">replace-match</span> <span class="s">&#34;bonjour&#34;</span><span class="p">))</span>
+  <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">hello-to-bonjour</span><span class="p">)</span>
+<span class="c1">;;</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">boldify-names</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">goto-char</span> <span class="p">(</span><span class="nf">point-min</span><span class="p">))</span>
+  <span class="p">(</span><span class="nb">while</span> <span class="p">(</span><span class="nf">re-search-forward</span> <span class="s">&#34;bonjour \\(.+\\)!&#34;</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">add-text-properties</span> <span class="p">(</span><span class="nf">match-beginning</span> <span class="mi">1</span><span class="p">)</span>
+			   <span class="p">(</span><span class="nf">match-end</span> <span class="mi">1</span><span class="p">)</span>
+			   <span class="p">(</span><span class="nf">list</span> <span class="ss">&#39;face</span> <span class="ss">&#39;bold</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">boldify-names</span><span class="p">)</span>
+<span class="c1">;;re-search-forward 使用正则</span>
+<span class="c1">;;add-text-properties 为文本添加属性</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">abcdlsj</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-01-13
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/elisp/">elisp</a>
+          <a href="/tags/emacs/">Emacs</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/org-page%E6%90%AD%E5%BB%BAblog/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">org-page 搭建 blog</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/bigdata_env/">
+            <span class="next-text nav-default">大数据环境搭建示例</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'abcdlsj';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:lisongjianshuai@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/abcdlsj/" class="iconfont icon-github" title="github"></a>
+  <a href="https://abcdlsj.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">abcdlsj</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "en".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

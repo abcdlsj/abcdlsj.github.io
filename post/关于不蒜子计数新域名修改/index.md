@@ -1,0 +1,34 @@
+
+> 如下
+
+<!--more-->
+
+![](https://graph-bed-1256708472.cos.ap-chengdu.myqcloud.com/2018101355.png)
+
+[不蒜子官网](http://ibruce.info/2015/04/04/busuanzi/)
+
+如果你是用的hexo，打开`themes/你的主题/layout/_partial/footer.ejs`修改:
+
+原有的:
+```
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+```
+修改为
+```
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+```
+
+当然hexo某些主题不一样
+
+我的`indigo`要找到`themes/你的主题/layout/_partial/script.ejs`中修改
+
+而且还要修改一下:
+```
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+```
+为
+```
+<script src="//cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.4/waves.min.js"></script>
+```
+
+部署一下就可以了.......

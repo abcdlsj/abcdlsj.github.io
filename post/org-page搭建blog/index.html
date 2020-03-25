@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>org-page 搭建 blog - ABCDLSJ&#39;S WORLD</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="abcdlsj" /><meta name="description" content=" 最近把 org-page 配置好了，大概今年五月份开始，就迷上了 emacs，期间爱上了配置 emacs，然后现在也开始使用 org-capture 做日常的笔记，我期间也写了挺多 org 笔记，所以才会想拿 org 来搭建 blog，搞了挺长时间，最开始的 EGO，到现在的 org-page，我终于弄好了，因为 org-page 太久没人修了，加上文档写的不全，对于小白不友好，所以我准备简单记录一下怎么搭建成功的
+" /><meta name="keywords" content="Hugo, Org, Emacs, CPP, Python, Developer" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.0 with theme even" />
+
+
+<link rel="canonical" href="https://abcdlsj.github.io/post/org-page%E6%90%AD%E5%BB%BAblog/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<link href="/dist/even.b6e631c7.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="org-page 搭建 blog" />
+<meta property="og:description" content="
+最近把 org-page 配置好了，大概今年五月份开始，就迷上了 emacs，期间爱上了配置 emacs，然后现在也开始使用 org-capture 做日常的笔记，我期间也写了挺多 org 笔记，所以才会想拿 org 来搭建 blog，搞了挺长时间，最开始的 EGO，到现在的 org-page，我终于弄好了，因为 org-page 太久没人修了，加上文档写的不全，对于小白不友好，所以我准备简单记录一下怎么搭建成功的
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://abcdlsj.github.io/post/org-page%E6%90%AD%E5%BB%BAblog/" />
+<meta property="article:published_time" content="2019-11-23T00:00:00+08:00" />
+<meta property="article:modified_time" content="2020-02-09T15:27:29+08:00" />
+<meta itemprop="name" content="org-page 搭建 blog">
+<meta itemprop="description" content="
+最近把 org-page 配置好了，大概今年五月份开始，就迷上了 emacs，期间爱上了配置 emacs，然后现在也开始使用 org-capture 做日常的笔记，我期间也写了挺多 org 笔记，所以才会想拿 org 来搭建 blog，搞了挺长时间，最开始的 EGO，到现在的 org-page，我终于弄好了，因为 org-page 太久没人修了，加上文档写的不全，对于小白不友好，所以我准备简单记录一下怎么搭建成功的
+">
+<meta itemprop="datePublished" content="2019-11-23T00:00:00&#43;08:00" />
+<meta itemprop="dateModified" content="2020-02-09T15:27:29&#43;08:00" />
+<meta itemprop="wordCount" content="772">
+
+
+
+<meta itemprop="keywords" content="org-page,org,emacs," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="org-page 搭建 blog"/>
+<meta name="twitter:description" content="
+最近把 org-page 配置好了，大概今年五月份开始，就迷上了 emacs，期间爱上了配置 emacs，然后现在也开始使用 org-capture 做日常的笔记，我期间也写了挺多 org 笔记，所以才会想拿 org 来搭建 blog，搞了挺长时间，最开始的 EGO，到现在的 org-page，我终于弄好了，因为 org-page 太久没人修了，加上文档写的不全，对于小白不友好，所以我准备简单记录一下怎么搭建成功的
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">org-page 搭建 blog</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-11-23 </span>
+        <div class="post-category">
+            <a href="/categories/blog/"> blog </a>
+            </div>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#下载-org-page">下载 org-page</a></li>
+    <li><a href="#配置">配置</a></li>
+    <li><a href="#使用">使用</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>最近把 org-page 配置好了，大概今年五月份开始，就迷上了 emacs，期间爱上了配置 emacs，然后现在也开始使用 org-capture 做日常的笔记，我期间也写了挺多 org 笔记，所以才会想拿 org 来搭建 blog，搞了挺长时间，最开始的 EGO，到现在的 org-page，我终于弄好了，因为 org-page 太久没人修了，加上文档写的不全，对于小白不友好，所以我准备简单记录一下怎么搭建成功的</p>
+</blockquote>
+<h2 id="下载-org-page">下载 org-page</h2>
+<p><a href="https://github.com/sillykelvin/org-page">地址</a></p>
+<h2 id="配置">配置</h2>
+<p>配置的话,我的是这样的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-elisp" data-lang="elisp"><span class="p">(</span><span class="nv">use-package!</span> <span class="nv">org-page</span>
+  <span class="nb">:config</span>
+  <span class="p">(</span><span class="nb">setq</span> <span class="nv">op/repository-directory</span> <span class="s">&#34;~/GithubPro/abcdlsj.github.io&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">setq</span> <span class="nv">op/site-domain</span> <span class="s">&#34;https://abcdlsj.github.io&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">setq</span> <span class="nv">op/personal-github-link</span> <span class="s">&#34;https://github.com/abcdlsj&#34;</span><span class="p">)</span> <span class="c1">; if you want to show a personal github link</span>
+  <span class="p">(</span><span class="nb">setq</span> <span class="nv">op/site-main-title</span> <span class="s">&#34;ABCDLSJ&#39;S WORLD&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">setq</span> <span class="nv">op/site-sub-title</span> <span class="s">&#34;=========&gt;&gt;享受专注&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">setq</span> <span class="nv">op/personal-disqus-shortname</span> <span class="s">&#34;abcdlsj&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">setq</span> <span class="nv">op/repository-org-branch</span> <span class="s">&#34;source&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">setq</span> <span class="nv">op/repository-html-branch</span> <span class="s">&#34;master&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">setq</span> <span class="nv">op/theme</span> <span class="ss">&#39;mdo</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我用的是 <code>doom-emacs</code> ，这是org-page 官方的示例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-elisp" data-lang="elisp"><span class="c1">;;; the following is only needed if you install org-page manually</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;load-path</span> <span class="s">&#34;path/to/org-page&#34;</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;org-page</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">setq</span> <span class="nv">op/repository-directory</span> <span class="s">&#34;path/to/your/org/repository&#34;</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">setq</span> <span class="nv">op/site-domain</span> <span class="s">&#34;http://your.personal.site.com/&#34;</span><span class="p">)</span>
+<span class="c1">;;; for commenting, you can choose either disqus, duoshuo or hashover</span>
+<span class="p">(</span><span class="nb">setq</span> <span class="nv">op/personal-disqus-shortname</span> <span class="s">&#34;your_disqus_shortname&#34;</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">setq</span> <span class="nv">op/personal-duoshuo-shortname</span> <span class="s">&#34;your_duoshuo_shortname&#34;</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">setq</span> <span class="nv">op/hashover-comments</span> <span class="no">t</span><span class="p">)</span>
+<span class="c1">;;; the configuration below are optional</span>
+<span class="p">(</span><span class="nb">setq</span> <span class="nv">op/personal-google-analytics-id</span> <span class="s">&#34;your_google_analytics_id&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="使用">使用</h2>
+<h4 id="新建仓库">新建仓库</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">M-x op/new-repository
+</code></pre></td></tr></table>
+</div>
+</div><p>输入路径之后，会初始化两个分支 ， <code>source</code> 和 <code>master</code> ，org-page 是在 <code>source</code> 下写文件，然后生成 html 文件到 <code>master</code> 分支，然后提交，就可以在 <code>yourname.github.io</code> 看到你的博客了。</p>
+<p>对了，记得 <code>git remote</code> 你 github上面的仓库哦！</p>
+<h4 id="写博客">写博客</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">M-x op/new-post
+</code></pre></td></tr></table>
+</div>
+</div><p>输入一系列配置之后，就可以了。这时候你会发现你的仓库地址分支会切换成 <code>source</code> ，这个分支就是给你写 org 文档的</p>
+<h4 id="提交">提交</h4>
+<p>如果不太看得懂下面这步的话，可以先花二十分钟熟悉一下 git 操作，保证受益匪浅</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">git add new blog (under source branch) and commit it ( in emacs, you can use magit, it would be much easier to do the process)
+git push source(这步随便，因为博客本身只需要 html，也就是 master分支)
+</code></pre></td></tr></table>
+</div>
+</div><p>然后</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">M-x op/do-publication
+</code></pre></td></tr></table>
+</div>
+</div><p>选择 y n y y (或者我推荐 y n n n,然后你手动提交)就可以了，这个时候应该看不到博客因为 media 文件夹里面的东西是链接形式，你可以删除本地仓库中的 media 文件，然后复制源文件进去提交（我就是这样做的，所以每次 do-publication 都要操作一次，如果找到更好的办法我会写出来的）</p>
+<h4 id="完成上面这些步骤应该能看到博客了-至于其他的东西你可以慢慢来">完成上面这些步骤应该能看到博客了，至于其他的东西你可以慢慢来。</h4>
+<p>两个链接参考</p>
+<p><a href="http://google-ebook.com/blog/2015/12/24/%E4%BD%BF%E7%94%A8org-page%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">1</a></p>
+<p><a href="https://dingmingxin.github.io/blog/2016/05/05/test-org-page/">2</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">abcdlsj</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-02-09
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/org-page/">org-page</a>
+          <a href="/tags/org/">org</a>
+          <a href="/tags/emacs/">emacs</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/conky%E6%98%BE%E7%A4%BAtodo-list/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">conky 显示 todo-list</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/learn_emacs_in_sc/">
+            <span class="next-text nav-default">Learn-elisp-in-sc</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'abcdlsj';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:lisongjianshuai@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/abcdlsj/" class="iconfont icon-github" title="github"></a>
+  <a href="https://abcdlsj.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">abcdlsj</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "en".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
