@@ -12,7 +12,7 @@
 
 {{< figure src="/ox-hugo/githubPageBuildFaild.png" caption="Figure 1: githubPageBuildFaild" >}}
 
-这也太坑了，原来 Github Page 对 hugo 的支持不好，但是我不信邪，我的是静态文档，应该无所谓是什么生成的
+这也太坑了，原来 Github Pages 对 hugo 的支持不好，但是我不信邪，我的是静态文档，应该无所谓是什么生成的
 
 于是我去查了下文档，找到了这个
 
