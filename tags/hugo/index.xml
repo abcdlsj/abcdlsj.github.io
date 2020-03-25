@@ -6,10 +6,21 @@
     <description>Recent content in hugo on ABCDLSJ&#39;S WORLD</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 13 Jan 2020 13:23:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 25 Mar 2020 20:52:00 +0800</lastBuildDate>
     
 	<atom:link href="https://abcdlsj.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>一次修复blog的过程</title>
+      <link>https://abcdlsj.github.io/post/%E4%B8%80%E6%AC%A1%E4%BF%AE%E5%A4%8Dblog%E7%9A%84%E8%BF%87%E7%A8%8B/</link>
+      <pubDate>Wed, 25 Mar 2020 20:52:00 +0800</pubDate>
+      
+      <guid>https://abcdlsj.github.io/post/%E4%B8%80%E6%AC%A1%E4%BF%AE%E5%A4%8Dblog%E7%9A%84%E8%BF%87%E7%A8%8B/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;记一次修复 Blog 的过程&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>ox-hugo 搭建 blog</title>
