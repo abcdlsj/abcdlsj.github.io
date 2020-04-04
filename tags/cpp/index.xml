@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CPP on ABCDLSJ&#39;S WORLD</title>
+    <link>https://abcdlsj.github.io/tags/cpp/</link>
+    <description>Recent content in CPP on ABCDLSJ&#39;S WORLD</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 04 Apr 2020 18:57:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://abcdlsj.github.io/tags/cpp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用哑元重载 prefix/postfix &#43;&#43;</title>
+      <link>https://abcdlsj.github.io/post/%E4%BD%BF%E7%94%A8%E5%93%91%E5%85%83%E9%87%8D%E8%BD%BD-prefix-postfix-plus-plus/</link>
+      <pubDate>Sat, 04 Apr 2020 18:57:00 +0800</pubDate>
+      
+      <guid>https://abcdlsj.github.io/post/%E4%BD%BF%E7%94%A8%E5%93%91%E5%85%83%E9%87%8D%E8%BD%BD-prefix-postfix-plus-plus/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;最近因为选择找工作的原因，在准备春招实习面试的知识，好多东西不太会，之前看过的书有些都忘了（自闭了），希望我能够找到一个好的实习，加油！！！前段时间粗略的复习了一下 C++，现在准备好好的复习一下 C++ 比较繁琐的方面，写博文记录一下我认为网上写的比较少的点。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
