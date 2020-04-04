@@ -77,4 +77,4 @@ void Number::operator++ (int)
 }
 ```
 
-但是这个版本不能返回 `this` 指针
+但是这个版本不能返回 `this` 对象，也就是不能进行赋值。
