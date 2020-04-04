@@ -46,14 +46,14 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://abcdlsj.github.io/post/org-page%E6%90%AD%E5%BB%BAblog/" />
 <meta property="article:published_time" content="2019-11-23T00:00:00+08:00" />
-<meta property="article:modified_time" content="2020-02-09T15:27:29+08:00" />
+<meta property="article:modified_time" content="2020-04-04T19:03:55+08:00" />
 <meta itemprop="name" content="org-page 搭建 blog">
 <meta itemprop="description" content="
 最近把 org-page 配置好了，大概今年五月份开始，就迷上了 emacs，期间爱上了配置 emacs，然后现在也开始使用 org-capture 做日常的笔记，我期间也写了挺多 org 笔记，所以才会想拿 org 来搭建 blog，搞了挺长时间，最开始的 EGO，到现在的 org-page，我终于弄好了，因为 org-page 太久没人修了，加上文档写的不全，对于小白不友好，所以我准备简单记录一下怎么搭建成功的
 ">
 <meta itemprop="datePublished" content="2019-11-23T00:00:00&#43;08:00" />
-<meta itemprop="dateModified" content="2020-02-09T15:27:29&#43;08:00" />
-<meta itemprop="wordCount" content="772">
+<meta itemprop="dateModified" content="2020-04-04T19:03:55&#43;08:00" />
+<meta itemprop="wordCount" content="740">
 
 
 
@@ -148,9 +148,12 @@
     <li><a href="#配置">配置</a></li>
     <li><a href="#使用">使用</a>
       <ul>
-        <li></li>
+        <li><a href="#新建仓库">新建仓库</a></li>
+        <li><a href="#写博客">写博客</a></li>
+        <li><a href="#提交">提交</a></li>
       </ul>
     </li>
+    <li><a href="#参考链接">参考链接</a></li>
   </ul>
 </nav>
   </div>
@@ -221,7 +224,7 @@
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="使用">使用</h2>
-<h4 id="新建仓库">新建仓库</h4>
+<h3 id="新建仓库">新建仓库</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -232,7 +235,7 @@
 </div>
 </div><p>输入路径之后，会初始化两个分支 ， <code>source</code> 和 <code>master</code> ，org-page 是在 <code>source</code> 下写文件，然后生成 html 文件到 <code>master</code> 分支，然后提交，就可以在 <code>yourname.github.io</code> 看到你的博客了。</p>
 <p>对了，记得 <code>git remote</code> 你 github上面的仓库哦！</p>
-<h4 id="写博客">写博客</h4>
+<h3 id="写博客">写博客</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -242,7 +245,7 @@
 </code></pre></td></tr></table>
 </div>
 </div><p>输入一系列配置之后，就可以了。这时候你会发现你的仓库地址分支会切换成 <code>source</code> ，这个分支就是给你写 org 文档的</p>
-<h4 id="提交">提交</h4>
+<h3 id="提交">提交</h3>
 <p>如果不太看得懂下面这步的话，可以先花二十分钟熟悉一下 git 操作，保证受益匪浅</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -264,10 +267,16 @@ git push source(这步随便，因为博客本身只需要 html，也就是 mast
 </code></pre></td></tr></table>
 </div>
 </div><p>选择 y n y y (或者我推荐 y n n n,然后你手动提交)就可以了，这个时候应该看不到博客因为 media 文件夹里面的东西是链接形式，你可以删除本地仓库中的 media 文件，然后复制源文件进去提交（我就是这样做的，所以每次 do-publication 都要操作一次，如果找到更好的办法我会写出来的）</p>
-<h4 id="完成上面这些步骤应该能看到博客了-至于其他的东西你可以慢慢来">完成上面这些步骤应该能看到博客了，至于其他的东西你可以慢慢来。</h4>
-<p>两个链接参考</p>
-<p><a href="http://google-ebook.com/blog/2015/12/24/%E4%BD%BF%E7%94%A8org-page%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">1</a></p>
-<p><a href="https://dingmingxin.github.io/blog/2016/05/05/test-org-page/">2</a></p>
+<h2 id="参考链接">参考链接</h2>
+<p><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://dingmingxin.github.io/blog/2016/05/05/test-org-page/">https://dingmingxin.github.io/blog/2016/05/05/test-org-page/</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
     </div>
 
     <div class="post-copyright">
@@ -278,7 +287,7 @@ git push source(这步随便，因为博客本身只需要 html，也就是 mast
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2020-02-09
+        2020-04-04
         
     </span>
   </p>
