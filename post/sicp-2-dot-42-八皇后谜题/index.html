@@ -46,13 +46,13 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://abcdlsj.github.io/post/sicp-2-dot-42-%E5%85%AB%E7%9A%87%E5%90%8E%E8%B0%9C%E9%A2%98/" />
 <meta property="article:published_time" content="2020-02-17T21:25:00+08:00" />
-<meta property="article:modified_time" content="2020-04-04T19:06:38+08:00" />
+<meta property="article:modified_time" content="2020-04-14T12:37:23+08:00" />
 <meta itemprop="name" content="SICP 2.42 八皇后谜题">
 <meta itemprop="description" content="
 去年一月就打算认真读下 SICP 的，但是当时读了第一章就放弃了，因为里面习题太多了！！!所以没坚持下去，今年 2020，刚好学校延迟开学，所以打算专心看一下，我给自己制定了七天 SICP 的任务（打算看完前三章），现在是第三天，第二章也看了一半了，习题真的多，我打算改变策略了，习题跳着做就好了。。。
 ">
 <meta itemprop="datePublished" content="2020-02-17T21:25:00&#43;08:00" />
-<meta itemprop="dateModified" content="2020-04-04T19:06:38&#43;08:00" />
+<meta itemprop="dateModified" content="2020-04-14T12:37:23&#43;08:00" />
 <meta itemprop="wordCount" content="429">
 
 
@@ -215,37 +215,37 @@
 
 <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">filter</span> <span class="nv">predicate</span> <span class="nv">sequence</span><span class="p">)</span>
   <span class="p">(</span><span class="k">cond </span><span class="p">((</span><span class="nb">null? </span><span class="nv">sequence</span><span class="p">)</span> <span class="nv">nil</span><span class="p">)</span>
-	<span class="p">((</span><span class="nf">predicate</span> <span class="p">(</span><span class="nb">car </span><span class="nv">sequence</span><span class="p">))</span>
-	 <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">sequence</span><span class="p">)</span>
-	       <span class="p">(</span><span class="nf">filter</span> <span class="nv">predicate</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">sequence</span><span class="p">))))</span>
-	<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">filter</span> <span class="nv">predicate</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">sequence</span><span class="p">)))))</span>
+		<span class="p">((</span><span class="nf">predicate</span> <span class="p">(</span><span class="nb">car </span><span class="nv">sequence</span><span class="p">))</span>
+		 <span class="p">(</span><span class="nb">cons </span><span class="p">(</span><span class="nb">car </span><span class="nv">sequence</span><span class="p">)</span>
+			   <span class="p">(</span><span class="nf">filter</span> <span class="nv">predicate</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">sequence</span><span class="p">))))</span>
+		<span class="p">(</span><span class="k">else </span><span class="p">(</span><span class="nf">filter</span> <span class="nv">predicate</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">sequence</span><span class="p">)))))</span>
 
 <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">enumerate-interval</span> <span class="nv">low</span> <span class="nv">high</span><span class="p">)</span>
   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">&gt; </span><span class="nv">low</span> <span class="nv">high</span><span class="p">)</span>
-      <span class="nv">nil</span>
-      <span class="p">(</span><span class="nb">cons </span><span class="nv">low</span> <span class="p">(</span><span class="nf">enumerate-interval</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">low</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">high</span><span class="p">))))</span>
+	  <span class="nv">nil</span>
+	  <span class="p">(</span><span class="nb">cons </span><span class="nv">low</span> <span class="p">(</span><span class="nf">enumerate-interval</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">low</span> <span class="mi">1</span><span class="p">)</span> <span class="nv">high</span><span class="p">))))</span>
 
 <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">accumulate</span> <span class="nv">op</span> <span class="nv">initial</span> <span class="nv">sequence</span><span class="p">)</span>
   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">sequence</span><span class="p">)</span>
-      <span class="nv">initial</span>
-      <span class="p">(</span><span class="nf">op</span> <span class="p">(</span><span class="nb">car </span><span class="nv">sequence</span><span class="p">)</span>
-	  <span class="p">(</span><span class="nf">accumulate</span> <span class="nv">op</span> <span class="nv">initial</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">sequence</span><span class="p">)))))</span>
+	  <span class="nv">initial</span>
+	  <span class="p">(</span><span class="nf">op</span> <span class="p">(</span><span class="nb">car </span><span class="nv">sequence</span><span class="p">)</span>
+		  <span class="p">(</span><span class="nf">accumulate</span> <span class="nv">op</span> <span class="nv">initial</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">sequence</span><span class="p">)))))</span>
 
 <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">flatmap</span> <span class="nv">proc</span> <span class="nv">seq</span><span class="p">)</span>
   <span class="p">(</span><span class="nf">accumulate</span> <span class="nv">append</span> <span class="nv">nil</span> <span class="p">(</span><span class="nb">map </span><span class="nv">proc</span> <span class="nv">seq</span><span class="p">)))</span>
 
 <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">queens</span> <span class="nv">board-size</span><span class="p">)</span>
   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">queen-cols</span> <span class="nv">k</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">k</span> <span class="mi">0</span><span class="p">)</span>
-	<span class="p">(</span><span class="nb">list </span><span class="nv">empty-board</span><span class="p">)</span>
-	<span class="p">(</span><span class="nf">filter</span>
-	 <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">positions</span><span class="p">)</span> <span class="p">(</span><span class="nf">safe?</span> <span class="nv">k</span> <span class="nv">positions</span><span class="p">))</span>
-	 <span class="p">(</span><span class="nf">flatmap</span>
-	  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">rest-of-queens</span><span class="p">)</span>
-	    <span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">new-row</span><span class="p">)</span>
-		   <span class="p">(</span><span class="nf">adjoin-position</span> <span class="nv">new-row</span> <span class="nv">k</span> <span class="nv">rest-of-queens</span><span class="p">))</span>
-		 <span class="p">(</span><span class="nf">enumerate-interval</span> <span class="mi">1</span> <span class="nv">board-size</span><span class="p">)))</span>
-	  <span class="p">(</span><span class="nf">queen-cols</span> <span class="p">(</span><span class="nb">- </span><span class="nv">k</span> <span class="mi">1</span><span class="p">))))))</span>
+	<span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">= </span><span class="nv">k</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="p">(</span><span class="nb">list </span><span class="nv">empty-board</span><span class="p">)</span>
+		<span class="p">(</span><span class="nf">filter</span>
+		 <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">positions</span><span class="p">)</span> <span class="p">(</span><span class="nf">safe?</span> <span class="nv">k</span> <span class="nv">positions</span><span class="p">))</span>
+		 <span class="p">(</span><span class="nf">flatmap</span>
+		  <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">rest-of-queens</span><span class="p">)</span>
+			<span class="p">(</span><span class="nb">map </span><span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">new-row</span><span class="p">)</span>
+				   <span class="p">(</span><span class="nf">adjoin-position</span> <span class="nv">new-row</span> <span class="nv">k</span> <span class="nv">rest-of-queens</span><span class="p">))</span>
+				 <span class="p">(</span><span class="nf">enumerate-interval</span> <span class="mi">1</span> <span class="nv">board-size</span><span class="p">)))</span>
+		  <span class="p">(</span><span class="nf">queen-cols</span> <span class="p">(</span><span class="nb">- </span><span class="nv">k</span> <span class="mi">1</span><span class="p">))))))</span>
   <span class="p">(</span><span class="nf">queen-cols</span> <span class="nv">board-size</span><span class="p">))</span>
 
 <span class="p">(</span><span class="k">define </span><span class="nv">empty-board</span> <span class="o">&#39;</span><span class="p">())</span>
@@ -255,14 +255,14 @@
 
 <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">safe?</span> <span class="nv">column</span> <span class="nv">positions</span><span class="p">)</span>
   <span class="p">(</span><span class="k">define </span><span class="p">(</span><span class="nf">next-column-safe?</span> <span class="nv">new-row</span> <span class="nv">positions</span> <span class="nv">row-offset</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">positions</span><span class="p">)</span>
-	<span class="no">#t</span>
-	<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">this-row</span> <span class="p">(</span><span class="nb">car </span><span class="nv">positions</span><span class="p">)))</span>
-	  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="nv">this-row</span> <span class="nv">new-row</span><span class="p">)</span>
-		  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">+ </span><span class="nv">this-row</span> <span class="nv">row-offset</span><span class="p">)</span> <span class="nv">new-row</span><span class="p">)</span>
-		  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">- </span><span class="nv">this-row</span> <span class="nv">row-offset</span><span class="p">)</span> <span class="nv">new-row</span><span class="p">))</span>
-	      <span class="no">#f</span>
-	      <span class="p">(</span><span class="nf">next-column-safe?</span> <span class="nv">new-row</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">positions</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="nv">row-offset</span><span class="p">))))))</span>
+	<span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">null? </span><span class="nv">positions</span><span class="p">)</span>
+		<span class="no">#t</span>
+		<span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">this-row</span> <span class="p">(</span><span class="nb">car </span><span class="nv">positions</span><span class="p">)))</span>
+		  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="k">or </span><span class="p">(</span><span class="nb">= </span><span class="nv">this-row</span> <span class="nv">new-row</span><span class="p">)</span>
+				  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">+ </span><span class="nv">this-row</span> <span class="nv">row-offset</span><span class="p">)</span> <span class="nv">new-row</span><span class="p">)</span>
+				  <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nb">- </span><span class="nv">this-row</span> <span class="nv">row-offset</span><span class="p">)</span> <span class="nv">new-row</span><span class="p">))</span>
+			  <span class="no">#f</span>
+			  <span class="p">(</span><span class="nf">next-column-safe?</span> <span class="nv">new-row</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">positions</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="nv">row-offset</span><span class="p">))))))</span>
   <span class="p">(</span><span class="nf">next-column-safe?</span> <span class="p">(</span><span class="nb">car </span><span class="nv">positions</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr </span><span class="nv">positions</span><span class="p">)</span> <span class="mi">1</span><span class="p">))</span>
 </code></pre></td></tr></table>
 </div>
@@ -277,7 +277,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2020-04-04
+        2020-04-14
         
     </span>
   </p>

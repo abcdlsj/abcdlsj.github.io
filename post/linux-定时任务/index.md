@@ -56,13 +56,13 @@ crontab -e
 ```nil
 $ systemctl status cronie.service
 ● cronie.service - Periodic Command Scheduler
-     Loaded: loaded (/usr/lib/systemd/system/cronie.service; enabled; vendor preset: disabled)
-     Active: active (running) since Wed 2020-01-29 19:37:11 CST; 5min ago
+	 Loaded: loaded (/usr/lib/systemd/system/cronie.service; enabled; vendor preset: disabled)
+	 Active: active (running) since Wed 2020-01-29 19:37:11 CST; 5min ago
    Main PID: 410 (crond)
-      Tasks: 1 (limit: 18994)
-     Memory: 27.5M
-     CGroup: /system.slice/cronie.service
-	     └─410 /usr/bin/crond -n
+	  Tasks: 1 (limit: 18994)
+	 Memory: 27.5M
+	 CGroup: /system.slice/cronie.service
+			 └─410 /usr/bin/crond -n
 
 1月 29 19:40:39 MA CROND[1654]: (abcdlsj) CMDOUT (processing: 104. Maximum Depth of Binary Tree (49/57))
 1月 29 19:40:39 MA CROND[1654]: (abcdlsj) CMDOUT (processing: 88. Merge Sorted Array (50/57))
