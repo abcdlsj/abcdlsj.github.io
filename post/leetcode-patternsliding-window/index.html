@@ -189,10 +189,7 @@
 <p>因为我们必须要<code>实时更新</code>窗口最大值，所以必须<code>保存索引</code>，这道题是需要得到窗口最大值，对于一个值来说，如果它是最大值，则它是一段范围的最大值，相当于其势力范围，只要超过这个范围，它就没“权”了，超过范围就不能保留，因为涉及到范围，这也就是保存索引的原因，那么我们就可以构造一个单调队列，其<code>deque.front()</code>是最大值，后面还有一群<code>小弟</code>，当老大<code>暴毙（超出范围）</code>的时候，小弟就是老大了，如果 <code>i - deque.front() + 1 &gt; k</code> 代表超过<code>deque.front()</code>的势力范围了，则弹出<code>deque.front()</code>，如果当前值比<code>deque.back()</code>大，则可以把<code>deque.back()</code>弹出，直到当前值比<code>deque.back()</code>小，之所以可以弹出比当前值小的<code>deque.back()</code>是因为<code>deque.back()</code>没用了，它不会是最大值了，有一个比它靠后，还比它大的数，当<code>i + 1 &gt;= k</code>的时候，插入最大值<code>nums[deque.front()]</code>。</p>
 <p>拿小弟和大哥来形容还挺形象，老大暴毙（超过范围），小弟上位，新的小弟来篡权（插入新的值）。</p>
 </blockquote>
-<p>$$
-时间复杂度：O(n)\quad
-空间复杂度：O(n)
-$$</p>
+<p>$时间复杂度：O(n)\quad空间复杂度：O(n)$</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
