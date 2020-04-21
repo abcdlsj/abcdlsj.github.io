@@ -69,7 +69,7 @@ public:
 };
 ```
 
-##  [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-wimthout-repeating-characters/)（ [面试题48. 最长不含重复字符的子字符串](https://leetcode-cn.com/problems/zui-chang-bu-han-zhong-fu-zi-fu-de-zi-zi-fu-chuan-lcof/)）
+## [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-wimthout-repeating-characters/)（ [面试题48. 最长不含重复字符的子字符串](https://leetcode-cn.com/problems/zui-chang-bu-han-zhong-fu-zi-fu-de-zi-zi-fu-chuan-lcof/)）
 
 ### 题目内容
 
@@ -102,10 +102,7 @@ public:
 
 #### 无优化
 
-$$
-时间复杂度：O(n^2)\quad
-空间复杂度：O(1)
-$$
+$时间复杂度：O(n^2)\quad空间复杂度：O(1)$
 
 ```cpp
 class Solution {
@@ -128,10 +125,7 @@ public:
 
 #### map 优化
 
-$$
-时间复杂度：O(n)\quad
-空间复杂度：O(n)
-$$
+$时间复杂度：O(n)\quad空间复杂度：O(n)$
 
 ```cpp
 class Solution {
@@ -149,7 +143,43 @@ public:
         return ans;
     }
 };
-
 ```
 
 ## [76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/)
+
+### 解决
+> 滑动窗口题，用两个`unordered_map`分别记录`left => right`窗口中出现的`有效值`和`T`中出现的字符，`T`中出现的字符才是`有效值`，当`window`中包含了全部`needs`值，就可以缩减`left`，当不符合时，又`right`让窗口符合条件。
+
+$M、N分别是S、T的长度，时间复杂度：O(M+N)$
+
+```cpp
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int left = 0, right = 0, match = 0, start = 0, minlen = INT_MAX;
+        unordered_map<char, int> windows, needs;
+        for(auto c : t) needs[c]++;
+        while(right < s.size()) {
+            char cright = s[right];
+            if(needs.count(cright)) {
+                windows[cright]++;
+                if(windows[cright] == needs[cright]) match++;
+            }
+            while(match == needs.size()) {
+                if(right - left + 1 < minlen) {
+                    start = left;
+                    minlen = right - left + 1;
+                }
+                char cleft = s[left];
+                if(needs.count(cleft)) {
+                    windows[cleft]--;
+                    if(windows[cleft] < needs[cleft]) match--;
+                }
+                left++;
+            }
+            right++;
+        }
+        return minlen == INT_MAX ? "" : s.substr(start, minlen);
+    }
+}
+```

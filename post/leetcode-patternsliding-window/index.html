@@ -49,7 +49,7 @@
 <meta itemprop="description" content="LeetCode Pattern Sliding Window">
 <meta itemprop="datePublished" content="2020-04-21T10:07:14&#43;08:00" />
 <meta itemprop="dateModified" content="2020-04-21T10:07:14&#43;08:00" />
-<meta itemprop="wordCount" content="1504">
+<meta itemprop="wordCount" content="1779">
 
 
 
@@ -150,7 +150,11 @@
         <li><a href="#解答-1">解答</a></li>
       </ul>
     </li>
-    <li><a href="#76-最小覆盖子串httpsleetcode-cncomproblemsminimum-window-substring"><a href="https://leetcode-cn.com/problems/minimum-window-substring/">76. 最小覆盖子串</a></a></li>
+    <li><a href="#76-最小覆盖子串httpsleetcode-cncomproblemsminimum-window-substring"><a href="https://leetcode-cn.com/problems/minimum-window-substring/">76. 最小覆盖子串</a></a>
+      <ul>
+        <li><a href="#解决">解决</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -258,10 +262,7 @@
 <h3 id="解答-1">解答</h3>
 <p>这是一道比较简单的滑动窗口，使用<code>map</code>可以更快的找到上次出现的字母的位置</p>
 <h4 id="无优化">无优化</h4>
-<p>$$
-时间复杂度：O(n^2)\quad
-空间复杂度：O(1)
-$$</p>
+<p>$时间复杂度：O(n^2)\quad空间复杂度：O(1)$</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -301,10 +302,49 @@ $$</p>
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="map-优化">map 优化</h4>
-<p>$$
-时间复杂度：O(n)\quad
-空间复杂度：O(n)
-$$</p>
+<p>$时间复杂度：O(n)\quad空间复杂度：O(n)$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">lengthOfLongestSubstring</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">map</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">map</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">!=</span> <span class="n">map</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">map</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">start</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="n">map</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="76-最小覆盖子串httpsleetcode-cncomproblemsminimum-window-substring"><a href="https://leetcode-cn.com/problems/minimum-window-substring/">76. 最小覆盖子串</a></h2>
+<h3 id="解决">解决</h3>
+<blockquote>
+<p>滑动窗口题，用两个<code>unordered_map</code>分别记录<code>left =&gt; right</code>窗口中出现的<code>有效值</code>和<code>T</code>中出现的字符，<code>T</code>中出现的字符才是<code>有效值</code>，当<code>window</code>中包含了全部<code>needs</code>值，就可以缩减<code>left</code>，当不符合时，又<code>right</code>让窗口符合条件。</p>
+</blockquote>
+<p>$M、N分别是S、T的长度，时间复杂度：O(M+N)$</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -323,27 +363,53 @@ $$</p>
 </span><span class="lnt">14
 </span><span class="lnt">15
 </span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-    <span class="kt">int</span> <span class="n">lengthOfLongestSubstring</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">map</span><span class="p">;</span>
-        <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">map</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">!=</span> <span class="n">map</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
-                <span class="n">start</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">map</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">start</span><span class="p">);</span>
+    <span class="n">string</span> <span class="n">minWindow</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">,</span> <span class="n">string</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">match</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">minlen</span> <span class="o">=</span> <span class="n">INT_MAX</span><span class="p">;</span>
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">windows</span><span class="p">,</span> <span class="n">needs</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">c</span> <span class="p">:</span> <span class="n">t</span><span class="p">)</span> <span class="n">needs</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">right</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+            <span class="kt">char</span> <span class="n">cright</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">];</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">needs</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">cright</span><span class="p">))</span> <span class="p">{</span>
+                <span class="n">windows</span><span class="p">[</span><span class="n">cright</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">windows</span><span class="p">[</span><span class="n">cright</span><span class="p">]</span> <span class="o">==</span> <span class="n">needs</span><span class="p">[</span><span class="n">cright</span><span class="p">])</span> <span class="n">match</span><span class="o">++</span><span class="p">;</span>
             <span class="p">}</span>
-            <span class="n">ans</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-            <span class="n">map</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="k">while</span><span class="p">(</span><span class="n">match</span> <span class="o">==</span> <span class="n">needs</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">minlen</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="n">left</span><span class="p">;</span>
+                    <span class="n">minlen</span> <span class="o">=</span> <span class="n">right</span> <span class="o">-</span> <span class="n">left</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="kt">char</span> <span class="n">cleft</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">left</span><span class="p">];</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">needs</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">cleft</span><span class="p">))</span> <span class="p">{</span>
+                    <span class="n">windows</span><span class="p">[</span><span class="n">cleft</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">windows</span><span class="p">[</span><span class="n">cleft</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">needs</span><span class="p">[</span><span class="n">cleft</span><span class="p">])</span> <span class="n">match</span><span class="o">--</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="n">left</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">right</span><span class="o">++</span><span class="p">;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">minlen</span> <span class="o">==</span> <span class="n">INT_MAX</span> <span class="o">?</span> <span class="s">&#34;&#34;</span> <span class="o">:</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">minlen</span><span class="p">);</span>
     <span class="p">}</span>
-<span class="p">};</span>
-
+<span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h2 id="76-最小覆盖子串httpsleetcode-cncomproblemsminimum-window-substring"><a href="https://leetcode-cn.com/problems/minimum-window-substring/">76. 最小覆盖子串</a></h2>
+</div>
     </div>
 
     <div class="post-copyright">
