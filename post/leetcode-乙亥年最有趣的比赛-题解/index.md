@@ -17,7 +17,7 @@ class Solution { public String q() { String s = "class Solution { public String 
 这道题是检测你返回的代码和你提交的代码是否一样
 [wiki Quine](https://en.wikipedia.org/wiki/Quine%5F(computing))
 
-下面是 <a id="org23e7e9b"></a> 中的 java 实现
+下面是 <a id="org09a09d0"></a> 中的 java 实现
 
 ```java
 public class Quine { public static void main(String[] args) { char c=34; System.out.println(s+c+s+c+';'+'}'); } static String s="public class Quine { public static void main(String[] args) { char c=34; System.out.println(s+c+s+c+';'+'}'); } static String s=";}
