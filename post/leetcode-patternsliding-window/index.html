@@ -49,7 +49,7 @@
 <meta itemprop="description" content="LeetCode Pattern Sliding Window">
 <meta itemprop="datePublished" content="2020-04-21T10:07:14&#43;08:00" />
 <meta itemprop="dateModified" content="2020-04-21T10:07:14&#43;08:00" />
-<meta itemprop="wordCount" content="1780">
+<meta itemprop="wordCount" content="1860">
 
 
 
@@ -261,7 +261,49 @@
 </pre>
 <h3 id="解答-1">解答</h3>
 <p>这是一道比较简单的滑动窗口，使用<code>map</code>可以更快的找到上次出现的字母的位置</p>
-<h4 id="无优化">无优化</h4>
+<h4 id="标准解法">标准解法</h4>
+<p>$时间复杂度：O(n)$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">lengthOfLongestSubstring</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">maxlen</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">window</span><span class="p">;</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">right</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">window</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">]]</span><span class="o">++</span><span class="p">;</span>
+            <span class="k">while</span><span class="p">(</span><span class="n">window</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">right</span><span class="p">]]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">window</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">left</span><span class="p">]]</span><span class="o">--</span><span class="p">;</span>
+                <span class="n">left</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">maxlen</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">maxlen</span><span class="p">,</span> <span class="n">right</span> <span class="o">-</span> <span class="n">left</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="n">right</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">maxlen</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="无优化">无优化</h4>
 <p>$时间复杂度：O(n^2)\quad空间复杂度：O(1)$</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
