@@ -6,10 +6,21 @@
     <description>Recent content in LeetCode on ABCDLSJ&#39;S WORLD</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Apr 2020 10:07:14 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 23 Apr 2020 21:41:59 +0800</lastBuildDate>
     
 	<atom:link href="https://abcdlsj.github.io/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>LeetCode Pattern:BackTracking</title>
+      <link>https://abcdlsj.github.io/post/leetcode-patternbacktracking/</link>
+      <pubDate>Thu, 23 Apr 2020 21:41:59 +0800</pubDate>
+      
+      <guid>https://abcdlsj.github.io/post/leetcode-patternbacktracking/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode 刷题总结之：回溯&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>LeetCode Pattern:Sliding Window</title>
@@ -18,7 +29,7 @@
       
       <guid>https://abcdlsj.github.io/post/leetcode-patternsliding-window/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;Leecode 刷题总结之：滑动窗口&lt;/p&gt;
+&lt;p&gt;LeetCode 刷题总结之：滑动窗口&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
