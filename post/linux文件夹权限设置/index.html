@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="abcdlsj" /><meta name="description" content=" 我看到文件夹里面文件权限不一，所以我就 chmod 644 *~然后发现 ~cd 子文件夹没权限
+<meta name="author" content="abcdlsj" /><meta name="description" content=" 我看到文件夹里面文件权限不一，所以我就 chmod 644 * 然后发现 cd 子文件夹没权限
 " /><meta name="keywords" content="Hugo, Org, Emacs, CPP, Python, Developer" />
 
 
@@ -42,7 +42,7 @@
 
 <meta property="og:title" content="Linux 文件夹权限设置" />
 <meta property="og:description" content="
-我看到文件夹里面文件权限不一，所以我就 chmod 644 *~然后发现 ~cd 子文件夹没权限
+我看到文件夹里面文件权限不一，所以我就 chmod 644 * 然后发现 cd 子文件夹没权限
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://abcdlsj.github.io/post/linux%E6%96%87%E4%BB%B6%E5%A4%B9%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AE/" />
@@ -50,18 +50,18 @@
 <meta property="article:modified_time" content="2020-01-13T23:36:41+08:00" />
 <meta itemprop="name" content="Linux 文件夹权限设置">
 <meta itemprop="description" content="
-我看到文件夹里面文件权限不一，所以我就 chmod 644 *~然后发现 ~cd 子文件夹没权限
+我看到文件夹里面文件权限不一，所以我就 chmod 644 * 然后发现 cd 子文件夹没权限
 ">
 <meta itemprop="datePublished" content="2020-01-13T00:00:00&#43;08:00" />
 <meta itemprop="dateModified" content="2020-01-13T23:36:41&#43;08:00" />
-<meta itemprop="wordCount" content="298">
+<meta itemprop="wordCount" content="297">
 
 
 
 <meta itemprop="keywords" content="linux,chmod,os," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux 文件夹权限设置"/>
 <meta name="twitter:description" content="
-我看到文件夹里面文件权限不一，所以我就 chmod 644 *~然后发现 ~cd 子文件夹没权限
+我看到文件夹里面文件权限不一，所以我就 chmod 644 * 然后发现 cd 子文件夹没权限
 "/>
 
 <!--[if lte IE 9]>
@@ -153,7 +153,7 @@
   </div>
     <div class="post-content">
       <blockquote>
-<p>我看到文件夹里面文件权限不一，所以我就 <code>chmod 644 *~然后发现 ~cd</code> 子文件夹没权限</p>
+<p>我看到文件夹里面文件权限不一，所以我就 <code>chmod 644 *</code> 然后发现 <code>cd</code> 子文件夹没权限</p>
 </blockquote>
 <p>网上搜索发现，原来 <code>cd</code> 需要可执行文件权限</p>
 <p>一般来说 <code>$HOME</code> 目录下的文件权限是 644，文件夹权限是 655。</p>

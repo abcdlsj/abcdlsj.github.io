@@ -51,7 +51,7 @@
       
       <guid>https://abcdlsj.github.io/post/linux%E6%96%87%E4%BB%B6%E5%A4%B9%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AE/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;我看到文件夹里面文件权限不一，所以我就 &lt;code&gt;chmod 644 *~然后发现 ~cd&lt;/code&gt; 子文件夹没权限&lt;/p&gt;
+&lt;p&gt;我看到文件夹里面文件权限不一，所以我就 &lt;code&gt;chmod 644 *&lt;/code&gt; 然后发现 &lt;code&gt;cd&lt;/code&gt; 子文件夹没权限&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
