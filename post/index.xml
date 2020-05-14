@@ -6,10 +6,22 @@
     <description>Recent content in Posts on ABCDLSJ&#39;S WORLD</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 27 Apr 2020 20:49:11 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2020 16:17:00 +0800</lastBuildDate>
     
 	<atom:link href="https://abcdlsj.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>std::shared_ptr 循环引用以及检测 C/C&#43;&#43; 内存泄漏</title>
+      <link>https://abcdlsj.github.io/post/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E4%BB%A5%E5%8F%8A%E6%A3%80%E6%B5%8B-c-c-plus-plus-%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Thu, 14 May 2020 16:17:00 +0800</pubDate>
+      
+      <guid>https://abcdlsj.github.io/post/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E4%BB%A5%E5%8F%8A%E6%A3%80%E6%B5%8B-c-c-plus-plus-%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;std::shared_ptr 循环引用
+Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>LeetCode Pattern:Dynamic Programming</title>
@@ -45,7 +57,7 @@
     </item>
     
     <item>
-      <title>using dummy-parameter overload prefix/postfix &#43;&#43;</title>
+      <title>use dummy-parameter overload prefix/postfix &#43;&#43;</title>
       <link>https://abcdlsj.github.io/post/%E4%BD%BF%E7%94%A8%E5%93%91%E5%85%83%E9%87%8D%E8%BD%BD-prefix-postfix-plus-plus/</link>
       <pubDate>Sat, 04 Apr 2020 18:57:00 +0800</pubDate>
       
