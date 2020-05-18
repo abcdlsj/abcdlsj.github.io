@@ -8,7 +8,7 @@
 以 LeetCode 题目中的 `binary tree` 为代表，结构如下
 
 ```cpp
-**
+/**
  * Definition for a binary tree node.
  * struct TreeNode {
  *     int val;
