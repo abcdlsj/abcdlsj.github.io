@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
+<meta name="generator" content="Hugo 0.70.0 with theme even" />
 
 
 <link rel="canonical" href="https://abcdlsj.github.io/post/leetcode-data-structuretree/" />
@@ -49,7 +49,7 @@
 <meta itemprop="description" content="LeetCode Data Structure Tree">
 <meta itemprop="datePublished" content="2020-05-14T21:52:45&#43;08:00" />
 <meta itemprop="dateModified" content="2020-05-14T21:52:45&#43;08:00" />
-<meta itemprop="wordCount" content="912">
+<meta itemprop="wordCount" content="932">
 
 
 
@@ -151,7 +151,7 @@
         <li></li>
       </ul>
     </li>
-    <li><a href="#二叉树中的递归">二叉树中的递归</a></li>
+    <li><a href="#浅谈树的递归">浅谈树的递归</a></li>
   </ul>
 </nav>
   </div>
@@ -322,8 +322,8 @@
 <td class="lntd">
 <pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">;</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">inorderTraversal</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">;</span>
         <span class="n">stack</span><span class="o">&lt;</span><span class="n">TreeNode</span><span class="o">*&gt;</span> <span class="n">stack</span><span class="p">;</span>
         <span class="n">TreeNode</span><span class="o">*</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
         <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">stack</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">cur</span><span class="p">)</span> <span class="p">{</span>
@@ -375,7 +375,6 @@
 </div>
 </div><p><strong>非递归</strong></p>
 <blockquote>
-<p>对于树来说，其实树最大的特点就是一个节点同时是 <code>节点</code> 和 <code>树</code></p>
 <p>对于第一个栈来说，每次都是 <strong>左 =&gt; 右</strong> 入，<strong>右 =&gt; 左</strong> 出</p>
 <p>对于第二个栈来说就刚好是 <strong>右 =&gt; 左</strong> 入，出的话就得到答案了</p>
 </blockquote>
@@ -505,10 +504,10 @@
 <pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="n">TreeNode</span><span class="o">*</span> <span class="n">searchBST</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">,</span> <span class="kt">int</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
-        <span class="k">while</span><span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">!=</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
-            <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">val</span> <span class="o">&gt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">!=</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">&gt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
     <span class="p">}</span>
@@ -569,9 +568,9 @@
 <pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="n">TreeNode</span><span class="o">*</span> <span class="n">lowestCommonAncestor</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">,</span> <span class="n">TreeNode</span><span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">TreeNode</span><span class="o">*</span> <span class="n">q</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&amp;&amp;</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&amp;&amp;</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span>
             <span class="n">root</span> <span class="o">=</span> <span class="n">lowestCommonAncestor</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&gt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&amp;&amp;</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&gt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&gt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&amp;&amp;</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&gt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span>
             <span class="n">root</span> <span class="o">=</span> <span class="n">lowestCommonAncestor</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">);</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
@@ -599,19 +598,21 @@
 <pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="n">TreeNode</span><span class="o">*</span> <span class="n">lowestCommonAncestor</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">,</span> <span class="n">TreeNode</span><span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">TreeNode</span><span class="o">*</span> <span class="n">q</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="n">p</span> <span class="o">==</span> <span class="n">root</span> <span class="o">||</span> <span class="n">q</span> <span class="o">==</span> <span class="n">root</span><span class="p">)</span> <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="n">p</span> <span class="o">==</span> <span class="n">root</span> <span class="o">||</span> <span class="n">q</span> <span class="o">==</span> <span class="n">root</span><span class="p">)</span> <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
         <span class="n">TreeNode</span><span class="o">*</span> <span class="n">leftAncestor</span> <span class="o">=</span> <span class="n">lowestCommonAncestor</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">);</span>
         <span class="n">TreeNode</span><span class="o">*</span> <span class="n">rightAncestor</span> <span class="o">=</span> <span class="n">lowestCommonAncestor</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">);</span>
 
-        <span class="k">if</span><span class="p">(</span><span class="n">leftAncestor</span> <span class="o">&amp;&amp;</span> <span class="n">rightAncestor</span><span class="p">)</span> <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">leftAncestor</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="n">rightAncestor</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">leftAncestor</span> <span class="o">&amp;&amp;</span> <span class="n">rightAncestor</span><span class="p">)</span> <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">leftAncestor</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="n">rightAncestor</span><span class="p">;</span>
         <span class="k">return</span> <span class="n">leftAncestor</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </code></pre></td></tr></table>
 </div>
-</div><h4 id="面试题54-二叉搜索树的第k大节点httpsleetcode-cncomproblemser-cha-sou-suo-shu-de-di-kda-jie-dian-lcof"><a href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/">面试题54. 二叉搜索树的第k大节点</a></h4>
-<h2 id="二叉树中的递归">二叉树中的递归</h2>
+</div><h2 id="浅谈树的递归">浅谈树的递归</h2>
+<blockquote>
+<p>我单独准备总结一下<code>二叉树中的递归</code>，因为在树中的递归过程是很有意思的，因为树最主要的特点就是每一个节点也是一棵树。</p>
+</blockquote>
     </div>
 
     <div class="post-copyright">

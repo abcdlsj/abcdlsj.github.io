@@ -1,7 +1,6 @@
 > LeetCode 刷题总结之：动态规划（WIP）
+
 <!--more-->
-
-
 
 > **动态规划**（英语：Dynamic programming，简称DP）是一种在[数学](https://zh.wikipedia.org/wiki/数学)、[管理科学](https://zh.wikipedia.org/wiki/管理科学)、[计算机科学](https://zh.wikipedia.org/wiki/计算机科学)、[经济学](https://zh.wikipedia.org/wiki/经济学)和[生物信息学](https://zh.wikipedia.org/wiki/生物信息学)中使用的，通过把原问题分解为相对简单的子问题的方式求解复杂问题的方法。
 >
@@ -13,5 +12,37 @@
 
 内容来自 [zh-wiki]([https://zh.wikipedia.org/wiki/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92)
 
-> 动态规划的分类
+## 线性 DP
+
+
+
+### 打家劫舍系列
+
+### 买卖股票系列
+
+## 区间DP
+
+## 背包 DP
+
+## 树形 DP
+
+## 状态压缩 DP
+
+## 数位 DP
+
+## 计数 DP
+
+## 递推型 DP
+
+## 概率型 DP
+
+## 博弈型 DP
+
+## 记忆化搜索
+
+
+
+参考链接：
+
+https://leetcode-cn.com/circle/article/NfHhXD/
 
