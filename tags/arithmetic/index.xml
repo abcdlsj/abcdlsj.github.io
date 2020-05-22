@@ -1,25 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Arithmetic on ABCDLSJ&#39;S WORLD</title>
-    <link>https://abcdlsj.github.io/tags/arithmetic/</link>
+    <link>/tags/arithmetic/</link>
     <description>Recent content in Arithmetic on ABCDLSJ&#39;S WORLD</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    <copyright>©2018-2020 Notepadium.</copyright>
     <lastBuildDate>Mon, 20 May 2019 00:00:00 +0800</lastBuildDate>
     
-	<atom:link href="https://abcdlsj.github.io/tags/arithmetic/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/tags/arithmetic/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>BFS和A*算法解决八数码问题简单代码</title>
-      <link>https://abcdlsj.github.io/post/bfs%E5%92%8Castar%E7%AE%97%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E6%95%B0%E7%A0%81%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%81/</link>
+      <link>/post/bfs%E5%92%8Castar%E7%AE%97%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E6%95%B0%E7%A0%81%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%81/</link>
       <pubDate>Mon, 20 May 2019 00:00:00 +0800</pubDate>
       
-      <guid>https://abcdlsj.github.io/post/bfs%E5%92%8Castar%E7%AE%97%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E6%95%B0%E7%A0%81%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%81/</guid>
+      <guid>/post/bfs%E5%92%8Castar%E7%AE%97%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E6%95%B0%E7%A0%81%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%81/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;多的不写了,具体网上都有,直接代码奉上，代码测试过可以使用，写的不好请见谅。。。&lt;/p&gt;
 &lt;/blockquote&gt;</description>
+      
     </item>
     
   </channel>

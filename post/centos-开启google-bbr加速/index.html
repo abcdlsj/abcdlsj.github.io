@@ -1,170 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Centos开启Google BBR加速 - ABCDLSJ&#39;S WORLD</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="abcdlsj" /><meta name="description" content=" 前天搭建了aria2下载站&amp;amp;h5ai在线播放,虽然在线观看速度不错,但还是不尽人意(我的要求比较高),所以我准备开启BBR加速
-" /><meta name="keywords" content="Hugo, Org, Emacs, CPP, Python, Developer" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.70.0 with theme even" />
-
-
-<link rel="canonical" href="https://abcdlsj.github.io/post/centos-%E5%BC%80%E5%90%AFgoogle-bbr%E5%8A%A0%E9%80%9F/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.863ed36892338bca37f5e15ce1c254c3225d42935a66b060eebee290dc7b0078.css" rel="stylesheet">
-
-
-
-<meta property="og:title" content="Centos开启Google BBR加速" />
-<meta property="og:description" content="
-前天搭建了aria2下载站&amp;h5ai在线播放,虽然在线观看速度不错,但还是不尽人意(我的要求比较高),所以我准备开启BBR加速
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://abcdlsj.github.io/post/centos-%E5%BC%80%E5%90%AFgoogle-bbr%E5%8A%A0%E9%80%9F/" />
-<meta property="article:published_time" content="2018-08-28T00:00:00+08:00" />
-<meta property="article:modified_time" content="2018-08-28T14:51:14+08:00" />
-<meta itemprop="name" content="Centos开启Google BBR加速">
-<meta itemprop="description" content="
-前天搭建了aria2下载站&amp;h5ai在线播放,虽然在线观看速度不错,但还是不尽人意(我的要求比较高),所以我准备开启BBR加速
-">
-<meta itemprop="datePublished" content="2018-08-28T00:00:00&#43;08:00" />
-<meta itemprop="dateModified" content="2018-08-28T14:51:14&#43;08:00" />
-<meta itemprop="wordCount" content="432">
-
-
-
-<meta itemprop="keywords" content="Google bbr," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Centos开启Google BBR加速"/>
-<meta name="twitter:description" content="
-前天搭建了aria2下载站&amp;h5ai在线播放,虽然在线观看速度不错,但还是不尽人意(我的要求比较高),所以我准备开启BBR加速
-"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/about/">About</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">Centos开启Google BBR加速</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2018-08-28 </span>
-        <div class="post-category">
-            <a href="/categories/%E6%8A%98%E8%85%BE/"> 折腾 </a>
-            </div>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#更换内核">更换内核</a>
-      <ul>
-        <li><a href="#查看内核">查看内核</a></li>
-        <li><a href="#更换内核-1">更换内核</a></li>
-        <li><a href="#安装内核">安装内核</a></li>
-      </ul>
-    </li>
-    <li><a href="#安装google-bbr">安装Google BBR</a></li>
-    <li><a href="#检查是否成功">检查是否成功</a></li>
-  </ul>
-</nav>
-  </div>
-</div>
-  <div class="post-outdated">
-    <div class="warn">
-      <p>[NOTE] Updated <span class="timeago" datetime="2018-08-28T14:51:14" title="August 28, 2018">August 28, 2018</span>. This article may have outdated content or subject matter.</p>
-    </div>
-  </div>
-    <div class="post-content">
-      <blockquote>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.70.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Centos开启Google BBR加速&nbsp;&ndash;&nbsp;ABCDLSJ&#39;S WORLD</title><link rel="stylesheet" href="/css/core.min.172440dadff3b0541f66212c426eb882bf8d702a8668d6ce1a8d8e4f8d39cda8e8631458b3cad67c551357741f39b3eb.css" integrity="sha384-FyRA2t/zsFQfZiEsQm64gr&#43;NcCqGaNbOGo2OT405zajoYxRYs8rWfFUTV3QfObPr"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Centos开启Google BBR加速" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">ABCDLSJ'S WORLD</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about/">About</a></nav></div></span></div><div class="site slogan"><span class="title">享受专注</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Centos开启Google BBR加速</h1><p class="article date">Aug 28, 2018</p></section><article class="article markdown-body"><blockquote>
 <p>前天搭建了aria2下载站&amp;h5ai在线播放,虽然在线观看速度不错,但还是不尽人意(我的要求比较高),所以我准备开启BBR加速</p>
 </blockquote>
 <p>前言:
@@ -172,248 +13,56 @@ BBR 加速要求更新内核,所以会出现不可预料的结果&hellip;(别问
 <p>所以建议在新的VPS上搭建,其他东西可以重新安装</p>
 <h2 id="更换内核">更换内核</h2>
 <h3 id="查看内核">查看内核</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">uname -r
-</code></pre></td></tr></table>
-</div>
-</div><p>如果是<code>4.13.0</code>以下是不能安装BBR加速的</p>
+<pre><code>uname -r
+</code></pre><p>如果是<code>4.13.0</code>以下是不能安装BBR加速的</p>
 <h3 id="更换内核-1">更换内核</h3>
 <p>Centos 更换内核代码如下(安装的应该是最新的内核，现在是4.18.5):</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm           #Centos 7
+<pre><code>rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm           #Centos 7
 rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm         #Centos 6
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="安装内核">安装内核</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">yum --enablerepo=elrepo-kernel install kernel-ml -y
-</code></pre></td></tr></table>
-</div>
-</div><p>查看内核是否更新</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">rpm -qa | grep kernel
-</code></pre></td></tr></table>
-</div>
-</div><p><img src="https://graph-bed-1256708472.cos.ap-chengdu.myqcloud.com/20180828202351.png" alt=""></p>
+</code></pre><h3 id="安装内核">安装内核</h3>
+<pre><code>yum --enablerepo=elrepo-kernel install kernel-ml -y
+</code></pre><p>查看内核是否更新</p>
+<pre><code>rpm -qa | grep kernel
+</code></pre><p><img  src="https://graph-bed-1256708472.cos.ap-chengdu.myqcloud.com/20180828202351.png"
+        alt/></p>
 <p>启动内核&amp;重启</p>
 <p>这里看到4.18.5是在第2个,所以是1</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">grub2-set-default 1
+<pre><code>grub2-set-default 1
 shotdown -r now
-</code></pre></td></tr></table>
-</div>
-</div><p>查看当前内核</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">uname -r
-</code></pre></td></tr></table>
-</div>
-</div><p><img src="https://graph-bed-1256708472.cos.ap-chengdu.myqcloud.com/20180828202824.png" alt=""></p>
+</code></pre><p>查看当前内核</p>
+<pre><code>uname -r
+</code></pre><p><img  src="https://graph-bed-1256708472.cos.ap-chengdu.myqcloud.com/20180828202824.png"
+        alt/></p>
 <p>看到已经更换到了最新内核</p>
 <h2 id="安装google-bbr">安装Google BBR</h2>
 <p>直接执行</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">echo &#39;net.core.default_qdisc=fq&#39; | sudo tee -a /etc/sysctl.conf
-echo &#39;net.ipv4.tcp_congestion_control=bbr&#39; | sudo tee -a /etc/sysctl.conf
+<pre><code>echo 'net.core.default_qdisc=fq' | sudo tee -a /etc/sysctl.conf
+echo 'net.ipv4.tcp_congestion_control=bbr' | sudo tee -a /etc/sysctl.conf
 sysctl -p
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="检查是否成功">检查是否成功</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">sysctl net.ipv4.tcp_available_congestion_control
-</code></pre></td></tr></table>
-</div>
-</div><p>看到</p>
-<p><img src="https://graph-bed-1256708472.cos.ap-chengdu.myqcloud.com/20180828203126.png" alt=""></p>
+</code></pre><h2 id="检查是否成功">检查是否成功</h2>
+<pre><code>sysctl net.ipv4.tcp_available_congestion_control
+</code></pre><p>看到</p>
+<p><img  src="https://graph-bed-1256708472.cos.ap-chengdu.myqcloud.com/20180828203126.png"
+        alt/></p>
 <p>输入</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">sysctl -n net.ipv4.tcp_congestion_control
-</code></pre></td></tr></table>
-</div>
-</div><p>看到
-<img src="https://graph-bed-1256708472.cos.ap-chengdu.myqcloud.com/20180828203247.png" alt=""></p>
+<pre><code>sysctl -n net.ipv4.tcp_congestion_control
+</code></pre><p>看到
+<img  src="https://graph-bed-1256708472.cos.ap-chengdu.myqcloud.com/20180828203247.png"
+        alt/></p>
 <p>输入</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">lsmod | grep bbr
-</code></pre></td></tr></table>
-</div>
-</div><p>看到
-<img src="https://graph-bed-1256708472.cos.ap-chengdu.myqcloud.com/20180828203326.png" alt=""></p>
+<pre><code>lsmod | grep bbr
+</code></pre><p>看到
+<img  src="https://graph-bed-1256708472.cos.ap-chengdu.myqcloud.com/20180828203326.png"
+        alt/></p>
 <p>能看到上面提示,就说明BBR安装成功了,失败请多查询谷歌,或者评论,或者多试几遍</p>
-<p>然后我们可以安装其他项目了，速度应该会有明显的提升</p>
-    </div>
+<p>然后我们可以安装其他项目了，速度应该会有明显的提升</p></article><section class="article labels"><a class="category" href=/categories/%E6%8A%98%E8%85%BE/>折腾</a><a class="tag" href=/tags/google-bbr/>Google bbr</a></section></div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/post/%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85-%E4%BD%BF%E7%94%A8ffmpeg%E6%8E%A8%E6%B5%81%E5%AE%9E%E7%8E%B0b%E7%AB%99%E7%9B%B4%E6%92%AD/"><span class="li iconfont icon-article"></span>树莓派系统安装&使用ffmpeg推流实现b站直播</a></p><p><a class="link" href="/post/vps-%E5%AE%89%E8%A3%85aria2%E5%92%8Cwebui%E6%90%AD%E5%BB%BA%E7%A6%BB%E7%BA%BF%E4%B8%8B%E8%BD%BD%E7%A5%9E%E5%99%A8/"><span class="li iconfont icon-article"></span>VPS搭建aria2下载&使用h5ai实现在线播放</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">©2018-2020 Notepadium.</p>
+    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
+        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank">Notepadium</a></p>
+</div></section><script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-e/4/LvThKH1gwzXhdbY2AsjR3rm7LHWyhIG5C0jiRfn8AN2eTN5ILeztWw0H9jmN" crossorigin="anonymous"></script>
+        <script
+            type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script></body>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">abcdlsj</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2018-08-28
-        
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">License</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
-  </p>
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/google-bbr/">Google bbr</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85-%E4%BD%BF%E7%94%A8ffmpeg%E6%8E%A8%E6%B5%81%E5%AE%9E%E7%8E%B0b%E7%AB%99%E7%9B%B4%E6%92%AD/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">树莓派系统安装&amp;使用ffmpeg推流实现b站直播</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/vps-%E5%AE%89%E8%A3%85aria2%E5%92%8Cwebui%E6%90%AD%E5%BB%BA%E7%A6%BB%E7%BA%BF%E4%B8%8B%E8%BD%BD%E7%A5%9E%E5%99%A8/">
-            <span class="next-text nav-default">VPS搭建aria2下载&amp;使用h5ai实现在线播放</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        <div id="disqus_thread"></div>
-    <script type="text/javascript">
-    (function() {
-      
-      
-      if (window.location.hostname === 'localhost') return;
-
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      var disqus_shortname = 'abcdlsj';
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:lisongjianshuai@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/abcdlsj/" class="iconfont icon-github" title="github"></a>
-  <a href="https://abcdlsj.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2018 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">abcdlsj</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  
-    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
-  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
-    var languageCode = "en".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
-    timeago().render(document.querySelectorAll('.timeago'), languageCode);
-    timeago.cancel();  
-  </script>
-
-
-
-<script type="text/javascript" src="/js/main.cddea96674a99fd8cea50d36fb19d9c91f497feea4af5ce4596afd2dbaab9202.js"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
-      showProcessingMessages: false,
-      messageStyle: 'none'
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
-
-
-
-
-
-
-
-
-</body>
 </html>

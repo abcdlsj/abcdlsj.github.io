@@ -1,25 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Arch on ABCDLSJ&#39;S WORLD</title>
-    <link>https://abcdlsj.github.io/tags/arch/</link>
+    <link>/tags/arch/</link>
     <description>Recent content in Arch on ABCDLSJ&#39;S WORLD</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    <copyright>©2018-2020 Notepadium.</copyright>
     <lastBuildDate>Tue, 08 Oct 2019 00:00:00 +0800</lastBuildDate>
     
-	<atom:link href="https://abcdlsj.github.io/tags/arch/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/tags/arch/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Arch 配置双显卡</title>
-      <link>https://abcdlsj.github.io/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/</link>
+      <link>/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/</link>
       <pubDate>Tue, 08 Oct 2019 00:00:00 +0800</pubDate>
       
-      <guid>https://abcdlsj.github.io/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/</guid>
+      <guid>/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;ArchLinux 双显卡配置，应该多数 Linux 系统都适用，可能细节不一样。&lt;/p&gt;
 &lt;/blockquote&gt;</description>
+      
     </item>
     
   </channel>

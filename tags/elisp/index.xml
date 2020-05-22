@@ -1,25 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>elisp on ABCDLSJ&#39;S WORLD</title>
-    <link>https://abcdlsj.github.io/tags/elisp/</link>
+    <link>/tags/elisp/</link>
     <description>Recent content in elisp on ABCDLSJ&#39;S WORLD</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    <copyright>©2018-2020 Notepadium.</copyright>
     <lastBuildDate>Fri, 15 Nov 2019 00:00:00 +0800</lastBuildDate>
     
-	<atom:link href="https://abcdlsj.github.io/tags/elisp/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/tags/elisp/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Learn-elisp-in-sc</title>
-      <link>https://abcdlsj.github.io/post/learn_emacs_in_sc/</link>
+      <link>/post/learn_emacs_in_sc/</link>
       <pubDate>Fri, 15 Nov 2019 00:00:00 +0800</pubDate>
       
-      <guid>https://abcdlsj.github.io/post/learn_emacs_in_sc/</guid>
+      <guid>/post/learn_emacs_in_sc/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;这是learn x in minutes 的elisp教程，跟着做一遍&lt;/p&gt;
 &lt;/blockquote&gt;</description>
+      
     </item>
     
   </channel>

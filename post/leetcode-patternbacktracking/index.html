@@ -1,199 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>LeetCode Pattern:BackTracking - ABCDLSJ&#39;S WORLD</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="abcdlsj" /><meta name="description" content="LeetCode Pattern BackTracking" /><meta name="keywords" content="BackTracking" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.70.0 with theme even" />
-
-
-<link rel="canonical" href="https://abcdlsj.github.io/post/leetcode-patternbacktracking/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.863ed36892338bca37f5e15ce1c254c3225d42935a66b060eebee290dc7b0078.css" rel="stylesheet">
-
-
-
-<meta property="og:title" content="LeetCode Pattern:BackTracking" />
-<meta property="og:description" content="LeetCode Pattern BackTracking" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://abcdlsj.github.io/post/leetcode-patternbacktracking/" />
-<meta property="article:published_time" content="2020-04-23T21:41:59+08:00" />
-<meta property="article:modified_time" content="2020-04-23T21:41:59+08:00" />
-<meta itemprop="name" content="LeetCode Pattern:BackTracking">
-<meta itemprop="description" content="LeetCode Pattern BackTracking">
-<meta itemprop="datePublished" content="2020-04-23T21:41:59&#43;08:00" />
-<meta itemprop="dateModified" content="2020-04-23T21:41:59&#43;08:00" />
-<meta itemprop="wordCount" content="2322">
-
-
-
-<meta itemprop="keywords" content="LeetCode," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="LeetCode Pattern:BackTracking"/>
-<meta name="twitter:description" content="LeetCode Pattern BackTracking"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/about/">About</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">LeetCode Pattern:BackTracking</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2020-04-23 </span>
-        <div class="post-category">
-            <a href="/categories/learn/"> learn </a>
-            </div>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#39-组合总和">39. 组合总和</a>
-      <ul>
-        <li><a href="#题目内容">题目内容</a></li>
-        <li><a href="#解法">解法</a></li>
-      </ul>
-    </li>
-    <li><a href="#40-组合总和-ii">40. 组合总和 II</a>
-      <ul>
-        <li><a href="#题目内容-1">题目内容</a></li>
-        <li><a href="#解法-1">解法</a></li>
-      </ul>
-    </li>
-    <li><a href="#216-组合总和-iii">216. 组合总和 III</a>
-      <ul>
-        <li><a href="#题目内容-2">题目内容</a></li>
-        <li><a href="#解法-2">解法</a></li>
-      </ul>
-    </li>
-    <li><a href="#46-全排列">46. 全排列</a>
-      <ul>
-        <li><a href="#题目内容-3">题目内容</a></li>
-        <li><a href="#解法-3">解法</a></li>
-      </ul>
-    </li>
-    <li><a href="#47-全排列-ii">47. 全排列 II</a>
-      <ul>
-        <li><a href="#题目内容-4">题目内容</a></li>
-        <li><a href="#解法-4">解法</a></li>
-      </ul>
-    </li>
-    <li><a href="#78-子集">78. 子集</a>
-      <ul>
-        <li><a href="#题目内容-5">题目内容</a></li>
-        <li><a href="#解法-5">解法</a></li>
-      </ul>
-    </li>
-    <li><a href="#90-子集-ii">90. 子集 II</a>
-      <ul>
-        <li><a href="#题目内容-6">题目内容</a></li>
-        <li><a href="#解法-6">解法</a></li>
-      </ul>
-    </li>
-    <li><a href="#总结">总结</a></li>
-  </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <blockquote>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.70.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>LeetCode Pattern:BackTracking&nbsp;&ndash;&nbsp;ABCDLSJ&#39;S WORLD</title><link rel="stylesheet" href="/css/core.min.172440dadff3b0541f66212c426eb882bf8d702a8668d6ce1a8d8e4f8d39cda8e8631458b3cad67c551357741f39b3eb.css" integrity="sha384-FyRA2t/zsFQfZiEsQm64gr&#43;NcCqGaNbOGo2OT405zajoYxRYs8rWfFUTV3QfObPr"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="LeetCode Pattern:BackTracking" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">ABCDLSJ'S WORLD</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about/">About</a></nav></div></span></div><div class="site slogan"><span class="title">享受专注</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">LeetCode Pattern:BackTracking</h1><p class="article date">Apr 23, 2020</p></section><article class="article markdown-body"><blockquote>
 <p>LeetCode 刷题总结之：回溯</p>
 </blockquote>
 <blockquote>
 <p>其实按理来说回溯法也只是一种基本方法（穷举法），不应该拿一个专题，但是回溯+剪枝真的非常漂亮，而且代码还是很有套路的。</p>
 </blockquote>
 <h2 id="39-组合总和">39. 组合总和</h2>
-<p><a href="https://leetcode-cn.com/problems/combination-sum/">39. 组合总和</a></p>
+<p><a href="https://leetcode-cn.com/problems/combination-sum/"target="_blank">39. 组合总和</a></p>
 <h3 id="题目内容">题目内容</h3>
 <p>给定一个<strong>无重复元素</strong>的数组 <code>candidates</code> 和一个目标数 <code>target</code> ，找出 <code>candidates</code> 中所有可以使数字和为 <code>target</code> 的组合。</p>
 <p><code>candidates</code> 中的数字可以无限制重复被选取。</p>
@@ -222,31 +41,7 @@
 <blockquote>
 <p>题目说<code>candidates</code>中的数字可以无限制重复被选取，但是不能包含重复的组合，怎么才能不重复组合呢，我们就需要一个<code>start</code>来表明取值的位置，每次取了值让<code>start + 1</code>再递归，但是这样就必须数组是有序的，所以我们要先排序，答案也就出来了。</p>
 </blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">combinationSum</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">candidates</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">sort</span><span class="p">(</span><span class="n">candidates</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">candidates</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
@@ -266,10 +61,8 @@
         <span class="p">}</span>
     <span class="p">}</span>
  <span class="p">};</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="40-组合总和-ii">40. 组合总和 II</h2>
-<p><a href="https://leetcode-cn.com/problems/combination-sum-ii/">40. 组合总和 II</a></p>
+</code></pre></div><h2 id="40-组合总和-ii">40. 组合总和 II</h2>
+<p><a href="https://leetcode-cn.com/problems/combination-sum-ii/"target="_blank">40. 组合总和 II</a></p>
 <h3 id="题目内容-1">题目内容</h3>
 <p>给定一个数组 <code>candidates</code> 和一个目标数 <code>target</code> ，找出 <code>candidates</code> 中所有可以使数字和为 <code>target</code> 的组合。</p>
 <p><code>candidates</code> 中的每个数字在每个组合中只能使用一次。</p>
@@ -299,31 +92,7 @@
 <blockquote>
 <p>对于这道题和上面不同的是每个数字只能取一次，我们还是先排序，然后发现数组为<code>[1,1,2,5,6,7,10]</code>，两个<code>1</code>当然能够同时存在了，但是单独的时候只能算一个组合，对于第二次出现的同一数字，我们直接跳过其计算，但是怎么才能让他们能够同时存在呢，我们不是传入了一个<code>start</code>值吗，这个值代表在某段递归当中（以<code>candidates[start]</code>为初始值），如果大于<code>start</code>并且重复数字（举个例子，第一次的<code>1</code>会回溯，也就是会出现<code>存在</code>和<code>不存在</code>两种状态，当<code>第一次的1</code>不存在的时候递归到<code>第二次的1</code>就会重复），这样就会导致重复，解决办法就是对于每次的递归段初始位置<code>start</code>之后的都进行判断，防止重复。</p>
 </blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">combinationSum2</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">candidates</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">sort</span><span class="p">(</span><span class="n">candidates</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">candidates</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
@@ -343,10 +112,8 @@
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="216-组合总和-iii">216. 组合总和 III</h2>
-<p><a href="https://leetcode-cn.com/problems/combination-sum-iii/">216. 组合总和 III</a></p>
+</code></pre></div><h2 id="216-组合总和-iii">216. 组合总和 III</h2>
+<p><a href="https://leetcode-cn.com/problems/combination-sum-iii/"target="_blank">216. 组合总和 III</a></p>
 <h3 id="题目内容-2">题目内容</h3>
 <p>找出所有相加之和为 <em><strong>n</strong> </em>的 <strong><em>k </em></strong>个数的组合<strong><em>。</em></strong>组合中只允许含有 1 - 9 的正整数，并且每种组合中不存在重复的数字。</p>
 <p><strong>说明：</strong></p>
@@ -366,29 +133,7 @@
 <blockquote>
 <p>一样</p>
 </blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">combinationSum3</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">res</span><span class="p">;</span>
@@ -406,10 +151,8 @@
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="46-全排列">46. 全排列</h2>
-<p><a href="https://leetcode-cn.com/problems/permutations/">46. 全排列</a></p>
+</code></pre></div><h2 id="46-全排列">46. 全排列</h2>
+<p><a href="https://leetcode-cn.com/problems/permutations/"target="_blank">46. 全排列</a></p>
 <h3 id="题目内容-3">题目内容</h3>
 <p>给定一个<strong> 没有重复</strong> 数字的序列，返回其所有可能的全排列。</p>
 <p><strong>示例:</strong></p>
@@ -427,37 +170,7 @@
 <blockquote>
 <p>这道题因为是全排列，每个位置不同都是不同的，所以不能用索引来保证不重复，因为只要保证不重复取一个值就不会重复，所以可以新建一个<code>vis</code>数组来保存取过的值。</p>
 </blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
 </span><span class="c1"></span>
 <span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
@@ -483,10 +196,8 @@
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="47-全排列-ii">47. 全排列 II</h2>
-<p><a href="https://leetcode-cn.com/problems/permutations-ii/">47. 全排列 II</a></p>
+</code></pre></div><h2 id="47-全排列-ii">47. 全排列 II</h2>
+<p><a href="https://leetcode-cn.com/problems/permutations-ii/"target="_blank">47. 全排列 II</a></p>
 <h3 id="题目内容-4">题目内容</h3>
 <p>给定一个可包含重复数字的序列，返回所有不重复的全排列。</p>
 <p><strong>示例:</strong></p>
@@ -501,38 +212,7 @@
 <blockquote>
 <p>这个算是比较复杂的情况了，因为要保证不能重复，其实和之前排列组合2那道差不多，画图就好了，注意看判断的那个地方</p>
 </blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
 </span><span class="c1"></span>
 <span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
@@ -559,10 +239,8 @@
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="78-子集">78. 子集</h2>
-<p><a href="https://leetcode-cn.com/problems/subsets/">78. 子集</a></p>
+</code></pre></div><h2 id="78-子集">78. 子集</h2>
+<p><a href="https://leetcode-cn.com/problems/subsets/"target="_blank">78. 子集</a></p>
 <h3 id="题目内容-5">题目内容</h3>
 <p>给定一组<strong>不含重复元素</strong>的整数数组 <em>nums</em>，返回该数组所有可能的子集（幂集）。</p>
 <p><strong>说明：</strong>解集不能包含重复的子集。</p>
@@ -583,30 +261,7 @@
 <blockquote>
 <p>也是一样的套路，不能重复的子集即是不能重复的<code>组合</code>，只是这个组合没有限制，也不需要排序，只需要索引确保不会重复，保证每个数都有两个状态即可（<code>取</code>与<code>不取</code>）。</p>
 </blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
 </span><span class="c1"></span>
 <span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
@@ -625,10 +280,8 @@
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="90-子集-ii">90. 子集 II</h2>
-<p><a href="https://leetcode-cn.com/problems/subsets-ii/">90. 子集 II</a></p>
+</code></pre></div><h2 id="90-子集-ii">90. 子集 II</h2>
+<p><a href="https://leetcode-cn.com/problems/subsets-ii/"target="_blank">90. 子集 II</a></p>
 <h3 id="题目内容-6">题目内容</h3>
 <p>给定一个可能包含重复元素的整数数组 <em><strong>nums</strong></em>，返回该数组所有可能的子集（幂集）。</p>
 <p><strong>说明：</strong>解集不能包含重复的子集。</p>
@@ -647,35 +300,7 @@
 <blockquote>
 <p>重复的元素，然后不能重复组合，画图之后也就一目了然了。</p>
 </blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
 </span><span class="c1"></span>
 <span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
@@ -699,27 +324,11 @@
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="总结">总结</h2>
+</code></pre></div><h2 id="总结">总结</h2>
 <blockquote>
 <p>能够总结出这一类穷举问题的回溯模板。</p>
 </blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">def</span> <span class="nf">backtrack</span><span class="p">(</span><span class="err">路径</span><span class="p">,</span> <span class="err">选择列表</span><span class="p">):</span>
    <span class="k">if</span> <span class="err">满足结束条件</span><span class="p">:</span>
         <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="err">路径</span><span class="p">)</span>
@@ -729,141 +338,16 @@
         <span class="err">做选择</span>
         <span class="n">backtrack</span><span class="p">(</span><span class="err">路径</span><span class="p">,</span> <span class="err">选择列表</span><span class="p">)</span>
         <span class="err">撤销选择</span>
-</code></pre></td></tr></table>
-</div>
-</div><blockquote>
+</code></pre></div><blockquote>
 <p>回溯法可能开始很难，但是就和<code>BFS DFS</code>一样只要心里面有解决问题的<code>模板</code>，那一般的问题就不算难了，当然一些很困难的回溯也很复杂，毕竟剪枝没有经验也是比较难看出来的。</p>
-</blockquote>
-    </div>
+</blockquote></article><section class="article labels"><a class="category" href=/categories/learn/>learn</a><a class="tag" href=/tags/leetcode/>LeetCode</a></section></div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/post/leetcode-patterndynamic-programming/"><span class="li iconfont icon-article"></span>LeetCode Pattern:Dynamic Programming</a></p><p><a class="link" href="/post/leetcode-patternsliding-window/"><span class="li iconfont icon-article"></span>LeetCode Pattern:Sliding Window</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">©2018-2020 Notepadium.</p>
+    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
+        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank">Notepadium</a></p>
+</div></section><script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-e/4/LvThKH1gwzXhdbY2AsjR3rm7LHWyhIG5C0jiRfn8AN2eTN5ILeztWw0H9jmN" crossorigin="anonymous"></script>
+        <script
+            type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script></body>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">abcdlsj</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2020-04-23
-        
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">License</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
-  </p>
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/leetcode/">LeetCode</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/leetcode-patterndynamic-programming/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">LeetCode Pattern:Dynamic Programming</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/leetcode-patternsliding-window/">
-            <span class="next-text nav-default">LeetCode Pattern:Sliding Window</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        <div id="disqus_thread"></div>
-    <script type="text/javascript">
-    (function() {
-      
-      
-      if (window.location.hostname === 'localhost') return;
-
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      var disqus_shortname = 'abcdlsj';
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:lisongjianshuai@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/abcdlsj/" class="iconfont icon-github" title="github"></a>
-  <a href="https://abcdlsj.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2018 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">abcdlsj</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  
-    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
-  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
-    var languageCode = "en".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
-    timeago().render(document.querySelectorAll('.timeago'), languageCode);
-    timeago.cancel();  
-  </script>
-
-
-
-<script type="text/javascript" src="/js/main.cddea96674a99fd8cea50d36fb19d9c91f497feea4af5ce4596afd2dbaab9202.js"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
-      showProcessingMessages: false,
-      messageStyle: 'none'
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
-
-
-
-
-
-
-
-
-</body>
 </html>

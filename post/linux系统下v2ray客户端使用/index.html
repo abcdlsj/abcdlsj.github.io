@@ -1,250 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Linux系统下v2ray客户端使用 - ABCDLSJ&#39;S WORLD</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="abcdlsj" /><meta name="description" content=" V2Ray是一个优秀的开源网络代理工具，可以帮助你畅爽体验互联网，目前已经全平台支持Windows、Mac、Android、IOS、Linux等操作系统的使用。相对起Shadowsocks来说属于后起之秀，在混淆能力、兼容性、速度上有着独到的优点。在目前Shadowsocks、ShadowsocksR停止更新的情况下，多掌握一个活跃项目工具的使用是完全有必要的.
-" /><meta name="keywords" content="Hugo, Org, Emacs, CPP, Python, Developer" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.70.0 with theme even" />
-
-
-<link rel="canonical" href="https://abcdlsj.github.io/post/linux%E7%B3%BB%E7%BB%9F%E4%B8%8Bv2ray%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BD%BF%E7%94%A8/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.863ed36892338bca37f5e15ce1c254c3225d42935a66b060eebee290dc7b0078.css" rel="stylesheet">
-
-
-
-<meta property="og:title" content="Linux系统下v2ray客户端使用" />
-<meta property="og:description" content="
-V2Ray是一个优秀的开源网络代理工具，可以帮助你畅爽体验互联网，目前已经全平台支持Windows、Mac、Android、IOS、Linux等操作系统的使用。相对起Shadowsocks来说属于后起之秀，在混淆能力、兼容性、速度上有着独到的优点。在目前Shadowsocks、ShadowsocksR停止更新的情况下，多掌握一个活跃项目工具的使用是完全有必要的.
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://abcdlsj.github.io/post/linux%E7%B3%BB%E7%BB%9F%E4%B8%8Bv2ray%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BD%BF%E7%94%A8/" />
-<meta property="article:published_time" content="2018-08-18T00:00:00+08:00" />
-<meta property="article:modified_time" content="2018-08-18T14:51:14+08:00" />
-<meta itemprop="name" content="Linux系统下v2ray客户端使用">
-<meta itemprop="description" content="
-V2Ray是一个优秀的开源网络代理工具，可以帮助你畅爽体验互联网，目前已经全平台支持Windows、Mac、Android、IOS、Linux等操作系统的使用。相对起Shadowsocks来说属于后起之秀，在混淆能力、兼容性、速度上有着独到的优点。在目前Shadowsocks、ShadowsocksR停止更新的情况下，多掌握一个活跃项目工具的使用是完全有必要的.
-">
-<meta itemprop="datePublished" content="2018-08-18T00:00:00&#43;08:00" />
-<meta itemprop="dateModified" content="2018-08-18T14:51:14&#43;08:00" />
-<meta itemprop="wordCount" content="1317">
-
-
-
-<meta itemprop="keywords" content="v2ray," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Linux系统下v2ray客户端使用"/>
-<meta name="twitter:description" content="
-V2Ray是一个优秀的开源网络代理工具，可以帮助你畅爽体验互联网，目前已经全平台支持Windows、Mac、Android、IOS、Linux等操作系统的使用。相对起Shadowsocks来说属于后起之秀，在混淆能力、兼容性、速度上有着独到的优点。在目前Shadowsocks、ShadowsocksR停止更新的情况下，多掌握一个活跃项目工具的使用是完全有必要的.
-"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/about/">About</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">Linux系统下v2ray客户端使用</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2018-08-18 </span>
-        <div class="post-category">
-            <a href="/categories/%E6%8A%98%E8%85%BE/"> 折腾 </a>
-            </div>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#vps上部署">vps上部署</a></li>
-    <li><a href="#使用">使用</a>
-      <ul>
-        <li><a href="#首先我们下载v2ray">首先我们下载v2ray</a></li>
-        <li><a href="#运行">运行</a></li>
-        <li><a href="#代理设置">代理设置</a></li>
-        <li><a href="#设置桌面项">设置桌面项</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div>
-  <div class="post-outdated">
-    <div class="warn">
-      <p>[NOTE] Updated <span class="timeago" datetime="2018-08-18T14:51:14" title="August 18, 2018">August 18, 2018</span>. This article may have outdated content or subject matter.</p>
-    </div>
-  </div>
-    <div class="post-content">
-      <blockquote>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.70.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>Linux系统下v2ray客户端使用&nbsp;&ndash;&nbsp;ABCDLSJ&#39;S WORLD</title><link rel="stylesheet" href="/css/core.min.172440dadff3b0541f66212c426eb882bf8d702a8668d6ce1a8d8e4f8d39cda8e8631458b3cad67c551357741f39b3eb.css" integrity="sha384-FyRA2t/zsFQfZiEsQm64gr&#43;NcCqGaNbOGo2OT405zajoYxRYs8rWfFUTV3QfObPr"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Linux系统下v2ray客户端使用" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">ABCDLSJ'S WORLD</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about/">About</a></nav></div></span></div><div class="site slogan"><span class="title">享受专注</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">Linux系统下v2ray客户端使用</h1><p class="article date">Aug 18, 2018</p></section><article class="article markdown-body"><blockquote>
 <p>V2Ray是一个优秀的开源网络代理工具，可以帮助你畅爽体验互联网，目前已经全平台支持Windows、Mac、Android、IOS、Linux等操作系统的使用。相对起Shadowsocks来说属于后起之秀，在混淆能力、兼容性、速度上有着独到的优点。在目前Shadowsocks、ShadowsocksR停止更新的情况下，多掌握一个活跃项目工具的使用是完全有必要的.</p>
 </blockquote>
 <blockquote>
 <p>到目前为止，V2Ray项目的状况良好，衍生出一系列GUI客户端，而不再是原先单一的命令行工具。项目更名为Project V，而V2Ray则是Project V项目的内核，如果你对项目本身不感兴趣，依然可以按照原先的方式理解.</p>
 </blockquote>
 <p>这里给大家一个链接</p>
-<p><a href="http://briteming.hatenablog.com/entry/2017/10/21/124645">v2ray 的第三方客户端合集</a></p>
+<p><a href="http://briteming.hatenablog.com/entry/2017/10/21/124645"target="_blank">v2ray 的第三方客户端合集</a></p>
 <p>上面都是套话,就是说苦逼的ubuntu没有v2ray的GUI客户端，等我有能力一定开发一个(嘿嘿嘿..)</p>
 <p>但是没有GUI客户端我们一样可以做一个桌面项，双击运行，文末有写如何配置，这是我的</p>
-<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534581153/8.18/2018-08-18_16-31-14%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
+<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534581153/8.18/2018-08-18_16-31-14%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
+        alt/></p>
 <p>好的，开始吧！！</p>
 <h2 id="vps上部署">vps上部署</h2>
 <p>不说了，以前说过的</p>
-<p><a href="https://abcdlsj.github.io/post/%E4%BD%BF%E7%94%A8heroku%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BAv2ray/">使用heroku免费搭建v2ray</a>(<del>很稳，我的现在还没掉，就是速度一般</del> 9月10日实测已经失效了)</p>
-<p><a href="https://abcdlsj.github.io/post/%E6%90%AD%E5%BB%BAv2ray/">搭建v2ray</a></p>
+<p><a href="https://abcdlsj.github.io/post/%E4%BD%BF%E7%94%A8heroku%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BAv2ray/"target="_blank">使用heroku免费搭建v2ray</a>(<del>很稳，我的现在还没掉，就是速度一般</del> 9月10日实测已经失效了)</p>
+<p><a href="https://abcdlsj.github.io/post/%E6%90%AD%E5%BB%BAv2ray/"target="_blank">搭建v2ray</a></p>
 <h2 id="使用">使用</h2>
 <p>我使用的桌面环境是ubuntu18.04 LTS</p>
 <p>非ubuntu仅作参考(其实是一样的。。)</p>
 <h3 id="首先我们下载v2ray">首先我们下载v2ray</h3>
 <p>推荐官方下载
-<a href="https://github.com/v2ray/v2ray-core/releases/">v2ray releases</a>
+<a href="https://github.com/v2ray/v2ray-core/releases/"target="_blank">v2ray releases</a>
 这里记得选择合适的版本
 一般就选这四个</p>
-<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534578444/8.18/2018-08-18_15-43-51%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
+<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534578444/8.18/2018-08-18_15-43-51%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
+        alt/></p>
 <p>cpu是Intel架构使用前两个，ARM架构后两个，一般都是前两个
 可以使用命令行查看</p>
 <p>查看位数</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">getconf LONG_BIT
-</code></pre></td></tr></table>
-</div>
-</div><p>查看CPU型号</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
-</code></pre></td></tr></table>
-</div>
-</div><p>选好之后下载，解压得到<code>v2ray-vx.xx-linux-xx</code>的文件夹</p>
+<pre><code>getconf LONG_BIT
+</code></pre><p>查看CPU型号</p>
+<pre><code>cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
+</code></pre><p>选好之后下载，解压得到<code>v2ray-vx.xx-linux-xx</code>的文件夹</p>
 <h3 id="运行">运行</h3>
-<p>我们需要一个配置文件，这个文件可以自己部署好了之后，使用脚本导出，也可以在Windows 上用软件导出，更可以自己写，对照<a href="https://www.v2ray.com/">官方文档</a></p>
+<p>我们需要一个配置文件，这个文件可以自己部署好了之后，使用脚本导出，也可以在Windows 上用软件导出，更可以自己写，对照<a href="https://www.v2ray.com/"target="_blank">官方文档</a></p>
 <p>配置文件<code>config.json</code>移到刚刚下好的文件夹中，把里面的<code>vpoint_vmess_freedom.json</code>删除了，这是默认的配置文件.
 然后我们在文件夹中打开终端执行</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo ./v2ray
-</code></pre></td></tr></table>
-</div>
-</div><p>这个样子就开启了
-<img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534579248/8.18/2018-08-18_16-00-18%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
+<pre><code>sudo ./v2ray
+</code></pre><p>这个样子就开启了
+<img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534579248/8.18/2018-08-18_16-00-18%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
+        alt/></p>
 <p>这个时候还没完成，我们还需要设定系统代理</p>
 <h3 id="代理设置">代理设置</h3>
 <p>最好使用Chrome和Firefox浏览器，因为我们需要下载插件 SwitchyOmege，Chrome上叫做 Proxy SwichyOmega，应用商店下载就行</p>
 <p>打开拓展</p>
 <p>新建情景模式</p>
-<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580016/8.18/2018-08-18_16-09-07%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
-<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580015/8.18/2018-08-18_16-10-08%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
+<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580016/8.18/2018-08-18_16-09-07%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
+        alt/></p>
+<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580015/8.18/2018-08-18_16-10-08%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
+        alt/></p>
 <p>下面填上这个</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">&#34;local_address&#34;:&#34;127.0.0.1&#34;
-&#34;local_port&#34;:1080
-</code></pre></td></tr></table>
-</div>
-</div><p>新建一个情景模式，这次选择<code>自动切换模式</code></p>
-<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580173/8.18/2018-08-18_16-16-02%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
-<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580015/8.18/2018-08-18_16-11-37%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
+<pre><code>&quot;local_address&quot;:&quot;127.0.0.1&quot;
+&quot;local_port&quot;:1080
+</code></pre><p>新建一个情景模式，这次选择<code>自动切换模式</code></p>
+<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580173/8.18/2018-08-18_16-16-02%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
+        alt/></p>
+<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580015/8.18/2018-08-18_16-11-37%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
+        alt/></p>
 <p>规则列表网站填这个</p>
 <blockquote>
 <p><a href="https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt">https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt</a></p>
@@ -254,39 +73,11 @@ V2Ray是一个优秀的开源网络代理工具，可以帮助你畅爽体验互
 <p>然后就可以开始上网了，你以为这就完了吗，没有，下面还有</p>
 <h3 id="设置桌面项">设置桌面项</h3>
 <p>我们除了像上面那样使用</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo ./v2ray
-</code></pre></td></tr></table>
-</div>
-</div><p>还可以</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">./v2ray --config=/到这个文件夹的路径/config.json
-</code></pre></td></tr></table>
-</div>
-</div><p>我们甚至还可以建立一个桌面项，然后双击启动</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">[Desktop Entry]
+<pre><code>sudo ./v2ray
+</code></pre><p>还可以</p>
+<pre><code>./v2ray --config=/到这个文件夹的路径/config.json
+</code></pre><p>我们甚至还可以建立一个桌面项，然后双击启动</p>
+<pre><code>[Desktop Entry]
 Name=V2Ray
 GenericName=V2Ray Client
 Comment=A platform for building proxies to bypass network restrictions.
@@ -296,146 +87,23 @@ Terminal=true
 Type=Application
 Categories=Network;Internet;
 
-</code></pre></td></tr></table>
-</div>
-</div><p>然后记得勾选<code>允许作为程序执行文件</code>
+</code></pre><p>然后记得勾选<code>允许作为程序执行文件</code>
 就可以双击执行V2Ray了(关闭终端即关闭程序).</p>
 <p>若要想这个桌面项出现在应用程序列表里,那就把 v2ray.desktop 文件复制到 /usr/share/application里即可(需要root)</p>
 <p>这里看我的成果</p>
-<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534581153/8.18/2018-08-18_16-31-14%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
+<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534581153/8.18/2018-08-18_16-31-14%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
+        alt/></p>
 <p>送上一套图标</p>
-<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534581151/8.18/2018-08-18_16-32-04%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
-<p><a href="https://pan.baidu.com/s/1yf4Rkmuy7h65z8XC77SAdg">链接(提取码：hc82 )</a></p>
-    </div>
+<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534581151/8.18/2018-08-18_16-32-04%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
+        alt/></p>
+<p><a href="https://pan.baidu.com/s/1yf4Rkmuy7h65z8XC77SAdg"target="_blank">链接(提取码：hc82 )</a></p></article><section class="article labels"><a class="category" href=/categories/%E6%8A%98%E8%85%BE/>折腾</a><a class="tag" href=/tags/v2ray/>v2ray</a></section></div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/post/nextcloud-%E7%A7%81%E4%BA%BA%E7%BD%91%E7%9B%98%E6%90%AD%E5%BB%BA/"><span class="li iconfont icon-article"></span>NextCloud私人网盘搭建</a></p><p><a class="link" href="/post/linux%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%94%A8%E7%9A%84%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E5%AE%A2%E6%88%B7%E7%AB%AF/"><span class="li iconfont icon-article"></span>Linux好用的百度网盘客户端</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">©2018-2020 Notepadium.</p>
+    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
+        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank">Notepadium</a></p>
+</div></section><script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-e/4/LvThKH1gwzXhdbY2AsjR3rm7LHWyhIG5C0jiRfn8AN2eTN5ILeztWw0H9jmN" crossorigin="anonymous"></script>
+        <script
+            type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script></body>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">abcdlsj</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2018-08-18
-        
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">License</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
-  </p>
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/v2ray/">v2ray</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/nextcloud-%E7%A7%81%E4%BA%BA%E7%BD%91%E7%9B%98%E6%90%AD%E5%BB%BA/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">NextCloud私人网盘搭建</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/linux%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%94%A8%E7%9A%84%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E5%AE%A2%E6%88%B7%E7%AB%AF/">
-            <span class="next-text nav-default">Linux好用的百度网盘客户端</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        <div id="disqus_thread"></div>
-    <script type="text/javascript">
-    (function() {
-      
-      
-      if (window.location.hostname === 'localhost') return;
-
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      var disqus_shortname = 'abcdlsj';
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:lisongjianshuai@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/abcdlsj/" class="iconfont icon-github" title="github"></a>
-  <a href="https://abcdlsj.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2018 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">abcdlsj</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  
-    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
-  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
-    var languageCode = "en".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
-    timeago().render(document.querySelectorAll('.timeago'), languageCode);
-    timeago.cancel();  
-  </script>
-
-
-
-<script type="text/javascript" src="/js/main.cddea96674a99fd8cea50d36fb19d9c91f497feea4af5ce4596afd2dbaab9202.js"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
-      showProcessingMessages: false,
-      messageStyle: 'none'
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
-
-
-
-
-
-
-
-
-</body>
 </html>

@@ -1,374 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>ebuild 初探 - ABCDLSJ&#39;S WORLD</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="abcdlsj" /><meta name="description" content=" ebuild是一套软件组建自动化工具程式，用来让软件套件编译与安装流程可以自动化完成，由一组bash脚本程式构成。这套软件的格式由Gentoo Linux专案研发，是软件包管理系统，Portage，的一部分。工具程式BitBake的设计理念，最早来自于ebuild。
-" /><meta name="keywords" content="Hugo, Org, Emacs, CPP, Python, Developer" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.70.0 with theme even" />
-
-
-<link rel="canonical" href="https://abcdlsj.github.io/post/ebuild%E4%BD%BF%E7%94%A8/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.863ed36892338bca37f5e15ce1c254c3225d42935a66b060eebee290dc7b0078.css" rel="stylesheet">
-
-
-
-<meta property="og:title" content="ebuild 初探" />
-<meta property="og:description" content="
-ebuild是一套软件组建自动化工具程式，用来让软件套件编译与安装流程可以自动化完成，由一组bash脚本程式构成。这套软件的格式由Gentoo Linux专案研发，是软件包管理系统，Portage，的一部分。工具程式BitBake的设计理念，最早来自于ebuild。
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://abcdlsj.github.io/post/ebuild%E4%BD%BF%E7%94%A8/" />
-<meta property="article:published_time" content="2020-01-30T12:00:00+08:00" />
-<meta property="article:modified_time" content="2020-05-14T16:19:28+08:00" />
-<meta itemprop="name" content="ebuild 初探">
-<meta itemprop="description" content="
-ebuild是一套软件组建自动化工具程式，用来让软件套件编译与安装流程可以自动化完成，由一组bash脚本程式构成。这套软件的格式由Gentoo Linux专案研发，是软件包管理系统，Portage，的一部分。工具程式BitBake的设计理念，最早来自于ebuild。
-">
-<meta itemprop="datePublished" content="2020-01-30T12:00:00&#43;08:00" />
-<meta itemprop="dateModified" content="2020-05-14T16:19:28&#43;08:00" />
-<meta itemprop="wordCount" content="911">
-
-
-
-<meta itemprop="keywords" content="linux,package," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="ebuild 初探"/>
-<meta name="twitter:description" content="
-ebuild是一套软件组建自动化工具程式，用来让软件套件编译与安装流程可以自动化完成，由一组bash脚本程式构成。这套软件的格式由Gentoo Linux专案研发，是软件包管理系统，Portage，的一部分。工具程式BitBake的设计理念，最早来自于ebuild。
-"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/about/">About</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">ebuild 初探</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2020-01-30 </span>
-        <div class="post-category">
-            <a href="/categories/learn/"> learn </a>
-            </div>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#基本">基本</a></li>
-    <li><a href="#overlay-建立">Overlay 建立</a></li>
-    <li><a href="#overlay-使用">Overlay 使用</a>
-      <ul>
-        <li><a href="#ebuild-位置">ebuild 位置</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <blockquote>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.70.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>ebuild 初探&nbsp;&ndash;&nbsp;ABCDLSJ&#39;S WORLD</title><link rel="stylesheet" href="/css/core.min.172440dadff3b0541f66212c426eb882bf8d702a8668d6ce1a8d8e4f8d39cda8e8631458b3cad67c551357741f39b3eb.css" integrity="sha384-FyRA2t/zsFQfZiEsQm64gr&#43;NcCqGaNbOGo2OT405zajoYxRYs8rWfFUTV3QfObPr"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="ebuild 初探" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">ABCDLSJ'S WORLD</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about/">About</a></nav></div></span></div><div class="site slogan"><span class="title">享受专注</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">ebuild 初探</h1><p class="article date">Jan 30, 2020<span class="lastmod"> • edited May 22, 2020</span></p></section><article class="article markdown-body"><blockquote>
 <p>ebuild是一套软件组建自动化工具程式，用来让软件套件编译与安装流程可以自动化完成，由一组bash脚本程式构成。这套软件的格式由Gentoo Linux专案研发，是软件包管理系统，Portage，的一部分。工具程式BitBake的设计理念，最早来自于ebuild。</p>
 </blockquote>
 <h2 id="基本">基本</h2>
-<p><a href="https://devmanual.gentoo.org/ebuild-writing/index.html">Ebuild Writing</a></p>
-<p><a href="https://devmanual.gentoo.org/index.html">devmanual index</a></p>
+<p><a href="https://devmanual.gentoo.org/ebuild-writing/index.html"target="_blank">Ebuild Writing</a></p>
+<p><a href="https://devmanual.gentoo.org/index.html"target="_blank">devmanual index</a></p>
 <h2 id="overlay-建立">Overlay 建立</h2>
 <p>在 <code>/usr/local/</code> 目录建立自己的 Overlay</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">sudo mkdir -p /usr/local/portage
-</code></pre></td></tr></table>
-</div>
-</div><p>编辑 <code>/etc/portage/make.conf</code> 文件添加 <code>PORTDIR_OVERLAY=&quot;/usr/local/portage&quot;</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo mkdir -p /usr/local/portage
+</code></pre></div><p>编辑 <code>/etc/portage/make.conf</code> 文件添加 <code>PORTDIR_OVERLAY=&quot;/usr/local/portage&quot;</code></p>
 <p>为 Overlay 添加 <code>metadata</code> 子目录</p>
 <p>然后放置 <code>layout.conf</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">mkdir  /usr/local/portage/metadata
-echo &#34;masters = gentoo&#34; &gt; /usr/local/portage/metadata/layout.conf
-</code></pre></td></tr></table>
-</div>
-</div><p>还需要在 <code>/usr/local/portage/</code> 创建 <code>profiles</code> 目录，添加 <code>repo_name</code> 文件，写入你的 Overlay 名称</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">echo &#34;kfileo&#34; &gt; /usr/local/portage/profiles/repo_name
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="overlay-使用">Overlay 使用</h2>
+<pre><code class="language-nil" data-lang="nil">mkdir  /usr/local/portage/metadata
+echo &quot;masters = gentoo&quot; &gt; /usr/local/portage/metadata/layout.conf
+</code></pre><p>还需要在 <code>/usr/local/portage/</code> 创建 <code>profiles</code> 目录，添加 <code>repo_name</code> 文件，写入你的 Overlay 名称</p>
+<pre><code class="language-nil" data-lang="nil">echo &quot;kfileo&quot; &gt; /usr/local/portage/profiles/repo_name
+</code></pre><h2 id="overlay-使用">Overlay 使用</h2>
 <h3 id="ebuild-位置">ebuild 位置</h3>
 <p>拿 <code>chez-scheme</code> 来示例，这是我之前放置的，如果你是网上找的 <code>ebuild</code> 位置应该知道，放对就行</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">cat /usr/local/portage/dev-scheme/chez-scheme/chez-scheme-9.5.2.ebuild
-</code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">  1
-</span><span class="lnt">  2
-</span><span class="lnt">  3
-</span><span class="lnt">  4
-</span><span class="lnt">  5
-</span><span class="lnt">  6
-</span><span class="lnt">  7
-</span><span class="lnt">  8
-</span><span class="lnt">  9
-</span><span class="lnt"> 10
-</span><span class="lnt"> 11
-</span><span class="lnt"> 12
-</span><span class="lnt"> 13
-</span><span class="lnt"> 14
-</span><span class="lnt"> 15
-</span><span class="lnt"> 16
-</span><span class="lnt"> 17
-</span><span class="lnt"> 18
-</span><span class="lnt"> 19
-</span><span class="lnt"> 20
-</span><span class="lnt"> 21
-</span><span class="lnt"> 22
-</span><span class="lnt"> 23
-</span><span class="lnt"> 24
-</span><span class="lnt"> 25
-</span><span class="lnt"> 26
-</span><span class="lnt"> 27
-</span><span class="lnt"> 28
-</span><span class="lnt"> 29
-</span><span class="lnt"> 30
-</span><span class="lnt"> 31
-</span><span class="lnt"> 32
-</span><span class="lnt"> 33
-</span><span class="lnt"> 34
-</span><span class="lnt"> 35
-</span><span class="lnt"> 36
-</span><span class="lnt"> 37
-</span><span class="lnt"> 38
-</span><span class="lnt"> 39
-</span><span class="lnt"> 40
-</span><span class="lnt"> 41
-</span><span class="lnt"> 42
-</span><span class="lnt"> 43
-</span><span class="lnt"> 44
-</span><span class="lnt"> 45
-</span><span class="lnt"> 46
-</span><span class="lnt"> 47
-</span><span class="lnt"> 48
-</span><span class="lnt"> 49
-</span><span class="lnt"> 50
-</span><span class="lnt"> 51
-</span><span class="lnt"> 52
-</span><span class="lnt"> 53
-</span><span class="lnt"> 54
-</span><span class="lnt"> 55
-</span><span class="lnt"> 56
-</span><span class="lnt"> 57
-</span><span class="lnt"> 58
-</span><span class="lnt"> 59
-</span><span class="lnt"> 60
-</span><span class="lnt"> 61
-</span><span class="lnt"> 62
-</span><span class="lnt"> 63
-</span><span class="lnt"> 64
-</span><span class="lnt"> 65
-</span><span class="lnt"> 66
-</span><span class="lnt"> 67
-</span><span class="lnt"> 68
-</span><span class="lnt"> 69
-</span><span class="lnt"> 70
-</span><span class="lnt"> 71
-</span><span class="lnt"> 72
-</span><span class="lnt"> 73
-</span><span class="lnt"> 74
-</span><span class="lnt"> 75
-</span><span class="lnt"> 76
-</span><span class="lnt"> 77
-</span><span class="lnt"> 78
-</span><span class="lnt"> 79
-</span><span class="lnt"> 80
-</span><span class="lnt"> 81
-</span><span class="lnt"> 82
-</span><span class="lnt"> 83
-</span><span class="lnt"> 84
-</span><span class="lnt"> 85
-</span><span class="lnt"> 86
-</span><span class="lnt"> 87
-</span><span class="lnt"> 88
-</span><span class="lnt"> 89
-</span><span class="lnt"> 90
-</span><span class="lnt"> 91
-</span><span class="lnt"> 92
-</span><span class="lnt"> 93
-</span><span class="lnt"> 94
-</span><span class="lnt"> 95
-</span><span class="lnt"> 96
-</span><span class="lnt"> 97
-</span><span class="lnt"> 98
-</span><span class="lnt"> 99
-</span><span class="lnt">100
-</span><span class="lnt">101
-</span><span class="lnt">102
-</span><span class="lnt">103
-</span><span class="lnt">104
-</span><span class="lnt">105
-</span><span class="lnt">106
-</span><span class="lnt">107
-</span><span class="lnt">108
-</span><span class="lnt">109
-</span><span class="lnt">110
-</span><span class="lnt">111
-</span><span class="lnt">112
-</span><span class="lnt">113
-</span><span class="lnt">114
-</span><span class="lnt">115
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"># Copyright 1999-2016 Gentoo Foundation
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">cat /usr/local/portage/dev-scheme/chez-scheme/chez-scheme-9.5.2.ebuild
+</code></pre></div><pre><code class="language-nil" data-lang="nil"># Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=&#34;6&#34;
+EAPI=&quot;6&quot;
 
 inherit eutils
 
-DESCRIPTION=&#34;Chez Scheme is an implementation of the Revised 6 Report on Scheme (R6RS) with numerous language and programming environment extensions.&#34;
-HOMEPAGE=&#34;https://cisco.github.io/ChezScheme&#34;
+DESCRIPTION=&quot;Chez Scheme is an implementation of the Revised 6 Report on Scheme (R6RS) with numerous language and programming environment extensions.&quot;
+HOMEPAGE=&quot;https://cisco.github.io/ChezScheme&quot;
 
 
-NANOPASS_PV=&#34;1.9&#34;
-NANOPASS_P=&#34;nanopass-framework-scheme-${NANOPASS_PV}&#34;
-NANOPASS_URI=&#34;https://github.com/nanopass/nanopass-framework-scheme/archive/v${NANOPASS_PV}.tar.gz&#34;
+NANOPASS_PV=&quot;1.9&quot;
+NANOPASS_P=&quot;nanopass-framework-scheme-${NANOPASS_PV}&quot;
+NANOPASS_URI=&quot;https://github.com/nanopass/nanopass-framework-scheme/archive/v${NANOPASS_PV}.tar.gz&quot;
 
-ZLIB_PV=&#34;1.2.11&#34;
-ZLIB_P=&#34;zlib-${ZLIB_PV}&#34;
-ZLIB_URI=&#34;https://github.com/madler/zlib/archive/v${PV}.tar.gz&#34;
+ZLIB_PV=&quot;1.2.11&quot;
+ZLIB_P=&quot;zlib-${ZLIB_PV}&quot;
+ZLIB_URI=&quot;https://github.com/madler/zlib/archive/v${PV}.tar.gz&quot;
 
-ZLIB_PV=&#34;1.2.1&#34;
-STEX_P=&#34;stex-${ZLIB_PV}&#34;
-STEX_URI=&#34;https://github.com/dybvig/stex/archive/v1.2.1.tar.gz&#34;
+ZLIB_PV=&quot;1.2.1&quot;
+STEX_P=&quot;stex-${ZLIB_PV}&quot;
+STEX_URI=&quot;https://github.com/dybvig/stex/archive/v1.2.1.tar.gz&quot;
 
-SRC_URI=&#34;https://github.com/cisco/ChezScheme/archive/v${PV}.tar.gz -&gt; ${PF}.tar.gz
+SRC_URI=&quot;https://github.com/cisco/ChezScheme/archive/v${PV}.tar.gz -&gt; ${PF}.tar.gz
 	  ${ZLIB_URI} -&gt; ${ZLIB_P}.tar.gz
 	  ${STEX_URI} -&gt; ${STEX_P}.tar.gz
-	  ${NANOPASS_URI} -&gt; ${NANOPASS_P}.tar.gz&#34;
+	  ${NANOPASS_URI} -&gt; ${NANOPASS_P}.tar.gz&quot;
 
-LICENSE=&#34;Apache-2.0&#34;
-SLOT=&#34;0&#34;
-KEYWORDS=&#34;~x86 ~amd64&#34;
-IUSE=&#34;+threads&#34;
+LICENSE=&quot;Apache-2.0&quot;
+SLOT=&quot;0&quot;
+KEYWORDS=&quot;~x86 ~amd64&quot;
+IUSE=&quot;+threads&quot;
 
-DEPEND=&#34;
-  sys-libs/ncurses &#34;
+DEPEND=&quot;
+  sys-libs/ncurses &quot;
 
-RDEPEND=&#34;${DEPEND}&#34;
+RDEPEND=&quot;${DEPEND}&quot;
 
 src_configure() {
   local para_thread
 
   if use threads ; then
-	 para_thread=&#34;--threads&#34;
+	 para_thread=&quot;--threads&quot;
   fi
 
   ./configure \
@@ -391,7 +91,7 @@ src_unpack() {
   mv ${STEX_P}/* ${PF}/stex
   mv ${ZLIB_P}/* ${PF}/zlib
 
-echo &#39;diff -ur c/Mf-a6le c2/Mf-a6le
+echo 'diff -ur c/Mf-a6le c2/Mf-a6le
 --- c/Mf-a6le	2019-03-22 07:05:24.000000000 +0900
 +++ c2/Mf-a6le	2019-08-26 07:34:29.914948586 +0900
 @@ -16,7 +16,7 @@
@@ -438,66 +138,20 @@ diff -ur c/Mf-ti3le c2/Mf-ti3le
 +mdclib = -lm -ldl -lncurses -lpthread -lrt -luuid -ltinfo
  C = ${CC} ${CPPFLAGS} -m32 -msse2 -Wpointer-arith -Wall -Wextra -Werror -Wno-implicit-fallthrough -O2 -D_REENTRANT -pthread ${CFLAGS}
  o = o
- mdsrc = i3le.c&#39;|patch -p0 -d${PF}
+ mdsrc = i3le.c'|patch -p0 -d${PF}
 }
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="生成签名文件">生成签名文件</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">cd</span> /usr/local/portage/dev-scheme/chez-scheme
+</code></pre><h4 id="生成签名文件">生成签名文件</h4>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">cd</span> /usr/local/portage/dev-scheme/chez-scheme
 ebuild ./chez-scheme-9.5.2.ebuild manifest
-</code></pre></td></tr></table>
-</div>
-</div><p>生成 <code>Manifest</code> 文件，包括了签名信息</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">cat /usr/local/portage/dev-scheme/chez-scheme/Manifest
-</code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">DIST chez-scheme-9.5.2.tar.gz 30153222 BLAKE2B 3e88cf5d1c633febee7b5c4321e79d3ecc4102ede77975483f8f86d8b28348e699f09d8bceaee014e87541c86c4253201eb952417340378bc2852b72a97c7a28 SHA512 0fa826be21372e101a7d906044ec2798649312c9f7363fd5732dd0cfbe2730526695e40becee423ba06aba5cb8dc2e9c003edbe87cedb37d921022cb84f0d9a2
+</code></pre></div><p>生成 <code>Manifest</code> 文件，包括了签名信息</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">cat /usr/local/portage/dev-scheme/chez-scheme/Manifest
+</code></pre></div><pre><code class="language-nil" data-lang="nil">DIST chez-scheme-9.5.2.tar.gz 30153222 BLAKE2B 3e88cf5d1c633febee7b5c4321e79d3ecc4102ede77975483f8f86d8b28348e699f09d8bceaee014e87541c86c4253201eb952417340378bc2852b72a97c7a28 SHA512 0fa826be21372e101a7d906044ec2798649312c9f7363fd5732dd0cfbe2730526695e40becee423ba06aba5cb8dc2e9c003edbe87cedb37d921022cb84f0d9a2
 DIST nanopass-framework-scheme-1.9.tar.gz 3816290 BLAKE2B 2994fa730b8248b292f920eb61ddc2bad3dddd1bc4e27cfbf2edbe0ff33b016e136d2467f0664315b0ebc5429dbd41ce7001854eabc77e1d8da212a6683ff4f5 SHA512 6b11058332b52f6cac08855cd5881ddf7ec12f3c1154ebb2a95e0f44ad4d090f8101f3b68419a65a32a1b6f4ae38f39b204ddfec048bfa30adb4456bae14ab7a
 DIST stex-1.2.1.tar.gz 211011 BLAKE2B ad347a28ab6de02d52c8b101e6a042ab128753684b144692404e502338c851ad0f58d8bb6b1cc7a736796d45386093fe834328216e4034508634978d550db3c1 SHA512 29909a05cd813e5b7918d55dc10f1b2de80dec18ae89a1644261decfd79ac8e5468ac3b50f49c70796bde05ddfad5eaacd879dbadc995ce87f6a74c17b947058
 DIST zlib-1.2.11.tar.gz 607698 BLAKE2B 6bfc4bca5dcadba8a0d4121a2b3ed0bfe440c261003521862c8e6381f1a6f0a72d3fc037351d30afd7ef321e8e8d2ec817c046ac749f2ca0c97fbdc2f7e840b7 SHA512 73fd3fff4adeccd4894084c15ddac89890cd10ef105dd5e1835e1e9bbb6a49ff229713bd197d203edfa17c2727700fce65a2a235f07568212d820dca88b528ae
 EBUILD chez-scheme-9.5.2.ebuild 3215 BLAKE2B 99e324a344d1af0f5464889aac451c38a6d974a256be672eacf164ddf6e9c11220e4387a40ef2dc105ec7f122bf80dcbdfa251c82356b3fe0d72f2727cb9969a SHA512 62e3235a1ea17e96724b3f3bb6be82f014e84a0e660357ab2267ec8d9c60f8c0a024081c9db27417d3c07ac9a4fdb3af67f301e32b3e2ddf01df5e15287592b5
-</code></pre></td></tr></table>
-</div>
-</div><p>然后就可以下载了</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo emerge -a chez-scheme
+</code></pre><p>然后就可以下载了</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo emerge -a chez-scheme
 密码：
 
  * IMPORTANT: <span class="m">10</span> news items need reading <span class="k">for</span> repository <span class="s1">&#39;gentoo&#39;</span>.
@@ -511,140 +165,14 @@ Calculating dependencies... <span class="k">done</span>!
 <span class="o">[</span>ebuild   R    <span class="o">]</span> dev-scheme/chez-scheme-9.5.2
 
 Would you like to merge these packages? <span class="o">[</span>Yes/No<span class="o">]</span>
-</code></pre></td></tr></table>
-</div>
-</div>
-    </div>
+</code></pre></div></article><section class="article labels"><a class="category" href=/categories/learn/>learn</a><a class="tag" href=/tags/linux/>linux</a><a class="tag" href=/tags/package/>package</a></section></div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/post/org-mode-%E4%B8%AD%E7%9A%84-link-%E5%A4%84%E7%90%86/"><span class="li iconfont icon-article"></span>Org-Mode 中的 link 处理</a></p><p><a class="link" href="/post/linux-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"><span class="li iconfont icon-article"></span>Linux 定时任务</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">©2018-2020 Notepadium.</p>
+    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
+        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank">Notepadium</a></p>
+</div></section><script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-e/4/LvThKH1gwzXhdbY2AsjR3rm7LHWyhIG5C0jiRfn8AN2eTN5ILeztWw0H9jmN" crossorigin="anonymous"></script>
+        <script
+            type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script></body>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">abcdlsj</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2020-05-14
-        
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">License</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
-  </p>
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/linux/">linux</a>
-          <a href="/tags/package/">package</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/org-mode-%E4%B8%AD%E7%9A%84-link-%E5%A4%84%E7%90%86/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Org-Mode 中的 link 处理</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/linux-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">
-            <span class="next-text nav-default">Linux 定时任务</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        <div id="disqus_thread"></div>
-    <script type="text/javascript">
-    (function() {
-      
-      
-      if (window.location.hostname === 'localhost') return;
-
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      var disqus_shortname = 'abcdlsj';
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:lisongjianshuai@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/abcdlsj/" class="iconfont icon-github" title="github"></a>
-  <a href="https://abcdlsj.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2018 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">abcdlsj</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  
-    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
-  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
-    var languageCode = "en".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
-    timeago().render(document.querySelectorAll('.timeago'), languageCode);
-    timeago.cancel();  
-  </script>
-
-
-
-<script type="text/javascript" src="/js/main.cddea96674a99fd8cea50d36fb19d9c91f497feea4af5ce4596afd2dbaab9202.js"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
-      showProcessingMessages: false,
-      messageStyle: 'none'
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
-
-
-
-
-
-
-
-
-</body>
 </html>

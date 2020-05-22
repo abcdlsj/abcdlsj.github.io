@@ -1,25 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>CSAPP on ABCDLSJ&#39;S WORLD</title>
-    <link>https://abcdlsj.github.io/tags/csapp/</link>
+    <link>/tags/csapp/</link>
     <description>Recent content in CSAPP on ABCDLSJ&#39;S WORLD</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    <copyright>©2018-2020 Notepadium.</copyright>
     <lastBuildDate>Sun, 13 Oct 2019 00:00:00 +0800</lastBuildDate>
     
-	<atom:link href="https://abcdlsj.github.io/tags/csapp/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/tags/csapp/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Representing-Manipulating-Information</title>
-      <link>https://abcdlsj.github.io/post/representing-manipulating-information/</link>
+      <link>/post/representing-manipulating-information/</link>
       <pubDate>Sun, 13 Oct 2019 00:00:00 +0800</pubDate>
       
-      <guid>https://abcdlsj.github.io/post/representing-manipulating-information/</guid>
+      <guid>/post/representing-manipulating-information/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;CSAPP 第二章阅读笔记&lt;/p&gt;
 &lt;/blockquote&gt;</description>
+      
     </item>
     
   </channel>

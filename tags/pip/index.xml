@@ -1,25 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>pip on ABCDLSJ&#39;S WORLD</title>
-    <link>https://abcdlsj.github.io/tags/pip/</link>
+    <link>/tags/pip/</link>
     <description>Recent content in pip on ABCDLSJ&#39;S WORLD</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    <copyright>©2018-2020 Notepadium.</copyright>
     <lastBuildDate>Mon, 21 Jan 2019 00:00:00 +0800</lastBuildDate>
     
-	<atom:link href="https://abcdlsj.github.io/tags/pip/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/tags/pip/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>pip not found</title>
-      <link>https://abcdlsj.github.io/post/pip-not-found/</link>
+      <link>/post/pip-not-found/</link>
       <pubDate>Mon, 21 Jan 2019 00:00:00 +0800</pubDate>
       
-      <guid>https://abcdlsj.github.io/post/pip-not-found/</guid>
+      <guid>/post/pip-not-found/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;我在linux环境下执行pip intsall xxx 时报错zsh: command not found:pip，当然这应该是切换shell的问题,其实最好解决办法就是不用on-my-zsh&amp;hellip;&amp;hellip;&lt;/p&gt;
 &lt;/blockquote&gt;</description>
+      
     </item>
     
   </channel>

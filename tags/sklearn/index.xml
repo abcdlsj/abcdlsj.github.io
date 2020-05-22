@@ -1,25 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Sklearn on ABCDLSJ&#39;S WORLD</title>
-    <link>https://abcdlsj.github.io/tags/sklearn/</link>
+    <link>/tags/sklearn/</link>
     <description>Recent content in Sklearn on ABCDLSJ&#39;S WORLD</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    <copyright>©2018-2020 Notepadium.</copyright>
     <lastBuildDate>Fri, 26 Oct 2018 00:00:00 +0800</lastBuildDate>
     
-	<atom:link href="https://abcdlsj.github.io/tags/sklearn/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/tags/sklearn/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>sklearn通用学习模式</title>
-      <link>https://abcdlsj.github.io/post/sklearn%E9%80%9A%E7%94%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F/</link>
+      <link>/post/sklearn%E9%80%9A%E7%94%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F/</link>
       <pubDate>Fri, 26 Oct 2018 00:00:00 +0800</pubDate>
       
-      <guid>https://abcdlsj.github.io/post/sklearn%E9%80%9A%E7%94%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F/</guid>
+      <guid>/post/sklearn%E9%80%9A%E7%94%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;sklearn 基础学习&lt;/p&gt;
 &lt;/blockquote&gt;</description>
+      
     </item>
     
   </channel>

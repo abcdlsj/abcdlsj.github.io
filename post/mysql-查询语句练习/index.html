@@ -1,163 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>mysql查询语句练习 - ABCDLSJ&#39;S WORLD</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="abcdlsj" /><meta name="description" content=" 这是mysql 数据库课程的作业题，有些题写法太多了，所以只写一个，可能有错误，如果有，请指出。。。
-" /><meta name="keywords" content="Hugo, Org, Emacs, CPP, Python, Developer" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.70.0 with theme even" />
-
-
-<link rel="canonical" href="https://abcdlsj.github.io/post/mysql-%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/sass/main.min.863ed36892338bca37f5e15ce1c254c3225d42935a66b060eebee290dc7b0078.css" rel="stylesheet">
-
-
-
-<meta property="og:title" content="mysql查询语句练习" />
-<meta property="og:description" content="
-这是mysql 数据库课程的作业题，有些题写法太多了，所以只写一个，可能有错误，如果有，请指出。。。
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://abcdlsj.github.io/post/mysql-%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E7%BB%83%E4%B9%A0/" />
-<meta property="article:published_time" content="2019-06-13T00:00:00+08:00" />
-<meta property="article:modified_time" content="2019-06-13T14:51:14+08:00" />
-<meta itemprop="name" content="mysql查询语句练习">
-<meta itemprop="description" content="
-这是mysql 数据库课程的作业题，有些题写法太多了，所以只写一个，可能有错误，如果有，请指出。。。
-">
-<meta itemprop="datePublished" content="2019-06-13T00:00:00&#43;08:00" />
-<meta itemprop="dateModified" content="2019-06-13T14:51:14&#43;08:00" />
-<meta itemprop="wordCount" content="1275">
-
-
-
-<meta itemprop="keywords" content="Mysql," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="mysql查询语句练习"/>
-<meta name="twitter:description" content="
-这是mysql 数据库课程的作业题，有些题写法太多了，所以只写一个，可能有错误，如果有，请指出。。。
-"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">ABCDLSJ&#39;S WORLD</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/about/">About</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">mysql查询语句练习</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2019-06-13 </span>
-        <div class="post-category">
-            <a href="/categories/learn/"> learn </a>
-            </div>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#表结构">表结构</a></li>
-    <li><a href="#具体查询">具体查询</a></li>
-  </ul>
-</nav>
-  </div>
-</div>
-  <div class="post-outdated">
-    <div class="hint">
-      <p>[NOTE] Updated <span class="timeago" datetime="2019-06-13T14:51:14" title="June 13, 2019">June 13, 2019</span>. This article may have outdated content or subject matter.</p>
-    </div>
-  </div>
-    <div class="post-content">
-      <blockquote>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.70.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>mysql查询语句练习&nbsp;&ndash;&nbsp;ABCDLSJ&#39;S WORLD</title><link rel="stylesheet" href="/css/core.min.172440dadff3b0541f66212c426eb882bf8d702a8668d6ce1a8d8e4f8d39cda8e8631458b3cad67c551357741f39b3eb.css" integrity="sha384-FyRA2t/zsFQfZiEsQm64gr&#43;NcCqGaNbOGo2OT405zajoYxRYs8rWfFUTV3QfObPr"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="mysql查询语句练习" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">ABCDLSJ'S WORLD</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about/">About</a></nav></div></span></div><div class="site slogan"><span class="title">享受专注</span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">mysql查询语句练习</h1><p class="article date">Jun 13, 2019</p></section><article class="article markdown-body"><blockquote>
 <p>这是mysql 数据库课程的作业题，有些题写法太多了，所以只写一个，可能有错误，如果有，请指出。。。</p>
 </blockquote>
 <h2 id="表结构">表结构</h2>
@@ -166,361 +14,63 @@
 <p>course(cno,cname,cpno,ccredit)</p>
 <h2 id="具体查询">具体查询</h2>
 <p>1.查询有3门以上（包含3门）课程是90分以上（包含90分）的学生的学号及（90分以上的）课程数</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select sno,count(*) from sc where grade &gt;=90 group by sno having count(*)&gt;=3;
-</code></pre></td></tr></table>
-</div>
-</div><p>2.查询张三所选修的课程号和成绩。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select cno,grade from sc where sno in (select sno from student where sname =&#34;张三&#34;);
-</code></pre></td></tr></table>
-</div>
-</div><p>3.查询苏三选修的课程名称及学分。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select cname,ccredit from course where cno in (select cno from sc where sno in (select sno from student where sname=&#34;苏三&#34;));
-</code></pre></td></tr></table>
-</div>
-</div><p>4.查询每个学生的学号、姓名、选修的课程名及成绩</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select student.sno,sname,cname,grade from (student left join sc on student.sno=sc.sno) left join course on sc.cno=course.cno;
-</code></pre></td></tr></table>
-</div>
-</div><p>5.查询所有学生的选课情况，列出学号、姓名、课程号、课程名、成绩、学分。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select student.sno,sname,sc.cno,cname,grade,ccredit from (student left join sc on student.sno=sc.sno) left join course on sc.cno=course.cno;
-</code></pre></td></tr></table>
-</div>
-</div><p>6.查询所有低于90分的学生成绩记录，并按学号降序排列，列出学号、姓名、课程号、课程名、成绩。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select student.sno,sname,sc.cno,cname,grade from student,sc,course where student.sno=sc.sno and sc.cno=course.cno and grade&lt;90 order by sno desc;
-</code></pre></td></tr></table>
-</div>
-</div><p>7.查询选修“2”号课程且成绩在90分以上的所有学生的学号、姓名、成绩。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select student.sno,sname,grade from student,sc where student.sno= sc.sno and cno=&#39;2&#39; and grade &gt;90;
-</code></pre></td></tr></table>
-</div>
-</div><p>8.查询“DB_DESIGN”的先行课名称。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select cname from course where cno=(select cpno from course where cname=&#34;DB_DESIGN&#34;);
-</code></pre></td></tr></table>
-</div>
-</div><p>9.查询同时选修了课程号为“1”、“2”的学生学号。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select a.sno from sc a,sc b where a.cno=1 and b.cno=2 and a.sno=b.sno;
-</code></pre></td></tr></table>
-</div>
-</div><p>10.查询计算机系全体学生的“DB_DESIGN”成绩，列出学号、姓名、课程名、成绩，并按成绩降序排列。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select tablea.sno,sname,cname,grade from (select sno,sname from student where sdept=&#34;CS&#34;)as tablea left join (select sno,cname,grade from sc,course where sc.cno=course.cno and cname=&#34;DB_DESIGN&#34;)as tableb on tablea.sno=tableb.sno order by grade desc;
-</code></pre></td></tr></table>
-</div>
-</div><p>11.查询其他系中比信息系所有学生年龄都不小的的学生姓名及年龄。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select sname,sage from student where sdept&lt;&gt;&#34;IS&#34; and sage &gt;=all(select sage from student where sdept=&#34;IS&#34;);
-</code></pre></td></tr></table>
-</div>
-</div><p>12.查询没有选修“1”号课程的学生姓名。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select sname from student where not exists (select * from sc where cno=&#39;1&#39; and sc.sno=student.sno);
-</code></pre></td></tr></table>
-</div>
-</div><p>13.查询有3名以上学生选修的课程号。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select cno from sc group by cno having count(*)&gt;=3;
-</code></pre></td></tr></table>
-</div>
-</div><p>14.查询“DB_DESIGN”课程没有成绩的学生姓名。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select sname from student where exists (select grade from sc where grade is NULL and sc.sno=student.sno and sc.cno=(select cno from course where cname=&#34;DB_DESIGN&#34;));
-</code></pre></td></tr></table>
-</div>
-</div><p>15.查询各门课程的成绩均不低于90分的学生姓名</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select sname from student,sc where student.sno=sc.sno group by sname having min(grade)&gt;=90;
-</code></pre></td></tr></table>
-</div>
-</div><p>16.查询“DB_DESIGN”成绩不低于该门课程平均分的学生姓名</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select sname from student,sc,course where student.sno=sc.sno and course.cno=sc.cno and course.cname=&#34;DB_DESIGN&#34; and grade&gt;=(select avg(grade) from sc,course where course.cname=&#34;DB_DESIGN&#34;);
-</code></pre></td></tr></table>
-</div>
-</div><p>17.查询各个系男女学生的平均年龄和人数。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select sdept,ssex,avg(sage),count(sdept) from student group by sdept,ssex;
-</code></pre></td></tr></table>
-</div>
-</div><p>18.查询计算机系(CS)总平均成绩最高的学生学号和姓名。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select student.sno,sname from student,sc where student.sno=sc.sno and sdept=&#34;CS&#34; group by student.sno,sname having avg(grade)&gt;=all(select avg(grade) from student,sc where student.sno=sc.sno and sdept=&#34;CS&#34;);
-</code></pre></td></tr></table>
-</div>
-</div><p>19.查询总平均成绩大于85的学生人数。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select count(*) as &#34;人数&#34; from (select avg(grade) from sc group by sno having avg(grade)&gt;85)as new_table;
-</code></pre></td></tr></table>
-</div>
-</div><p>20.查询“3”号课成绩比“95002”号同学该门课成绩高的所有学生的学号。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select a.sno from (select sno,grade from sc where cno=&#39;3&#39;)a,(select sno,grade from sc where cno=&#39;3&#39; and sno=&#34;95002&#34;)b where a.grade&gt;b.grade;
-</code></pre></td></tr></table>
-</div>
-</div><p>21.查询“2”号课成绩比“3”号课成绩高的所有学生的学号及其“2”号课和“3”号课的成绩</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select a.sno,a.grade as &#39;2\&#39;grade&#39;,b.grade as &#39;3\&#39;grade&#39; from (select sno,grade from sc where cno=&#39;2&#39;)a,(select sno,grade from sc where cno=&#39;3&#39;)b where a.grade&gt;b.grade and a.sno=b.sno;
-</code></pre></td></tr></table>
-</div>
-</div><p>22.查询有二门以上（含两门）及格课程的学生姓名及其平均成绩。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select sname,avg(grade) from sc,student where student.sno=sc.sno group by sname having count(grade&gt;=60)&gt;=2;
-</code></pre></td></tr></table>
-</div>
-</div><p>23.查询各科成绩最高分和最低分，以如下字段形式显示：课程号，最高分，最低分</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select course.cno,max(grade),min(grade) from course left join sc on course.cno=sc.cno group by cno;
-</code></pre></td></tr></table>
-</div>
-</div><p>24.查询最受欢迎的课程的课程号和选课人数</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select cno,count(*) from sc group by cno order by count(*) desc limit 1;
-</code></pre></td></tr></table>
-</div>
-</div><p>25.查询和“95001”号同学学习的课程完全相同的其他同学的学号和姓名</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select student.sno,sname from student,sc where student.sno=sc.sno and cno in (select cno from sc where sno=&#34;95001&#34;) group by student.sno having count(*)=(select count(*) from sc where sno=&#34;95001&#34;) and sno &lt;&gt;&#34;95001&#34;;
-</code></pre></td></tr></table>
-</div>
-</div>
-    </div>
+<pre><code>select sno,count(*) from sc where grade &gt;=90 group by sno having count(*)&gt;=3;
+</code></pre><p>2.查询张三所选修的课程号和成绩。</p>
+<pre><code>select cno,grade from sc where sno in (select sno from student where sname =&quot;张三&quot;);
+</code></pre><p>3.查询苏三选修的课程名称及学分。</p>
+<pre><code>select cname,ccredit from course where cno in (select cno from sc where sno in (select sno from student where sname=&quot;苏三&quot;));
+</code></pre><p>4.查询每个学生的学号、姓名、选修的课程名及成绩</p>
+<pre><code>select student.sno,sname,cname,grade from (student left join sc on student.sno=sc.sno) left join course on sc.cno=course.cno;
+</code></pre><p>5.查询所有学生的选课情况，列出学号、姓名、课程号、课程名、成绩、学分。</p>
+<pre><code>select student.sno,sname,sc.cno,cname,grade,ccredit from (student left join sc on student.sno=sc.sno) left join course on sc.cno=course.cno;
+</code></pre><p>6.查询所有低于90分的学生成绩记录，并按学号降序排列，列出学号、姓名、课程号、课程名、成绩。</p>
+<pre><code>select student.sno,sname,sc.cno,cname,grade from student,sc,course where student.sno=sc.sno and sc.cno=course.cno and grade&lt;90 order by sno desc;
+</code></pre><p>7.查询选修“2”号课程且成绩在90分以上的所有学生的学号、姓名、成绩。</p>
+<pre><code>select student.sno,sname,grade from student,sc where student.sno= sc.sno and cno='2' and grade &gt;90;
+</code></pre><p>8.查询“DB_DESIGN”的先行课名称。</p>
+<pre><code>select cname from course where cno=(select cpno from course where cname=&quot;DB_DESIGN&quot;);
+</code></pre><p>9.查询同时选修了课程号为“1”、“2”的学生学号。</p>
+<pre><code>select a.sno from sc a,sc b where a.cno=1 and b.cno=2 and a.sno=b.sno;
+</code></pre><p>10.查询计算机系全体学生的“DB_DESIGN”成绩，列出学号、姓名、课程名、成绩，并按成绩降序排列。</p>
+<pre><code>select tablea.sno,sname,cname,grade from (select sno,sname from student where sdept=&quot;CS&quot;)as tablea left join (select sno,cname,grade from sc,course where sc.cno=course.cno and cname=&quot;DB_DESIGN&quot;)as tableb on tablea.sno=tableb.sno order by grade desc;
+</code></pre><p>11.查询其他系中比信息系所有学生年龄都不小的的学生姓名及年龄。</p>
+<pre><code>select sname,sage from student where sdept&lt;&gt;&quot;IS&quot; and sage &gt;=all(select sage from student where sdept=&quot;IS&quot;);
+</code></pre><p>12.查询没有选修“1”号课程的学生姓名。</p>
+<pre><code>select sname from student where not exists (select * from sc where cno='1' and sc.sno=student.sno);
+</code></pre><p>13.查询有3名以上学生选修的课程号。</p>
+<pre><code>select cno from sc group by cno having count(*)&gt;=3;
+</code></pre><p>14.查询“DB_DESIGN”课程没有成绩的学生姓名。</p>
+<pre><code>select sname from student where exists (select grade from sc where grade is NULL and sc.sno=student.sno and sc.cno=(select cno from course where cname=&quot;DB_DESIGN&quot;));
+</code></pre><p>15.查询各门课程的成绩均不低于90分的学生姓名</p>
+<pre><code>select sname from student,sc where student.sno=sc.sno group by sname having min(grade)&gt;=90;
+</code></pre><p>16.查询“DB_DESIGN”成绩不低于该门课程平均分的学生姓名</p>
+<pre><code>select sname from student,sc,course where student.sno=sc.sno and course.cno=sc.cno and course.cname=&quot;DB_DESIGN&quot; and grade&gt;=(select avg(grade) from sc,course where course.cname=&quot;DB_DESIGN&quot;);
+</code></pre><p>17.查询各个系男女学生的平均年龄和人数。</p>
+<pre><code>select sdept,ssex,avg(sage),count(sdept) from student group by sdept,ssex;
+</code></pre><p>18.查询计算机系(CS)总平均成绩最高的学生学号和姓名。</p>
+<pre><code>select student.sno,sname from student,sc where student.sno=sc.sno and sdept=&quot;CS&quot; group by student.sno,sname having avg(grade)&gt;=all(select avg(grade) from student,sc where student.sno=sc.sno and sdept=&quot;CS&quot;);
+</code></pre><p>19.查询总平均成绩大于85的学生人数。</p>
+<pre><code>select count(*) as &quot;人数&quot; from (select avg(grade) from sc group by sno having avg(grade)&gt;85)as new_table;
+</code></pre><p>20.查询“3”号课成绩比“95002”号同学该门课成绩高的所有学生的学号。</p>
+<pre><code>select a.sno from (select sno,grade from sc where cno='3')a,(select sno,grade from sc where cno='3' and sno=&quot;95002&quot;)b where a.grade&gt;b.grade;
+</code></pre><p>21.查询“2”号课成绩比“3”号课成绩高的所有学生的学号及其“2”号课和“3”号课的成绩</p>
+<pre><code>select a.sno,a.grade as '2\'grade',b.grade as '3\'grade' from (select sno,grade from sc where cno='2')a,(select sno,grade from sc where cno='3')b where a.grade&gt;b.grade and a.sno=b.sno;
+</code></pre><p>22.查询有二门以上（含两门）及格课程的学生姓名及其平均成绩。</p>
+<pre><code>select sname,avg(grade) from sc,student where student.sno=sc.sno group by sname having count(grade&gt;=60)&gt;=2;
+</code></pre><p>23.查询各科成绩最高分和最低分，以如下字段形式显示：课程号，最高分，最低分</p>
+<pre><code>select course.cno,max(grade),min(grade) from course left join sc on course.cno=sc.cno group by cno;
+</code></pre><p>24.查询最受欢迎的课程的课程号和选课人数</p>
+<pre><code>select cno,count(*) from sc group by cno order by count(*) desc limit 1;
+</code></pre><p>25.查询和“95001”号同学学习的课程完全相同的其他同学的学号和姓名</p>
+<pre><code>select student.sno,sname from student,sc where student.sno=sc.sno and cno in (select cno from sc where sno=&quot;95001&quot;) group by student.sno having count(*)=(select count(*) from sc where sno=&quot;95001&quot;) and sno &lt;&gt;&quot;95001&quot;;
+</code></pre></article><section class="article labels"><a class="category" href=/categories/learn/>learn</a><a class="tag" href=/tags/mysql/>Mysql</a></section></div>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/post/emacs_operation/"><span class="li iconfont icon-article"></span>Emacs-Operationes</a></p><p><a class="link" href="/post/bfs%E5%92%8Castar%E7%AE%97%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E6%95%B0%E7%A0%81%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%81/"><span class="li iconfont icon-article"></span>BFS和A*算法解决八数码问题简单代码</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">©2018-2020 Notepadium.</p>
+    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
+        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank">Notepadium</a></p>
+</div></section><script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-e/4/LvThKH1gwzXhdbY2AsjR3rm7LHWyhIG5C0jiRfn8AN2eTN5ILeztWw0H9jmN" crossorigin="anonymous"></script>
+        <script
+            type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script></body>
 
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">abcdlsj</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2019-06-13
-        
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">License</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
-  </p>
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/mysql/">Mysql</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/emacs_operation/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Emacs-Operationes</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/bfs%E5%92%8Castar%E7%AE%97%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E6%95%B0%E7%A0%81%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%81/">
-            <span class="next-text nav-default">BFS和A*算法解决八数码问题简单代码</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        <div id="disqus_thread"></div>
-    <script type="text/javascript">
-    (function() {
-      
-      
-      if (window.location.hostname === 'localhost') return;
-
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      var disqus_shortname = 'abcdlsj';
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:lisongjianshuai@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/abcdlsj/" class="iconfont icon-github" title="github"></a>
-  <a href="https://abcdlsj.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
-    <span id="busuanzi_container_site_pv"> site pv: <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-      <span class="division">|</span>
-    <span id="busuanzi_container_site_uv"> site uv: <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> </span>
-  </div>
-
-  <span class="copyright-year">
-    &copy; 
-    2018 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">abcdlsj</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  
-    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
-  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
-    var languageCode = "en".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
-    timeago().render(document.querySelectorAll('.timeago'), languageCode);
-    timeago.cancel();  
-  </script>
-
-
-
-<script type="text/javascript" src="/js/main.cddea96674a99fd8cea50d36fb19d9c91f497feea4af5ce4596afd2dbaab9202.js"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
-      showProcessingMessages: false,
-      messageStyle: 'none'
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
-
-
-
-
-
-
-
-
-</body>
 </html>

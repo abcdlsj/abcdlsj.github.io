@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Categories on ABCDLSJ&#39;S WORLD</title>
+    <link>/categories/</link>
+    <description>Recent content in Categories on ABCDLSJ&#39;S WORLD</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>©2018-2020 Notepadium.</copyright>
+    <lastBuildDate>Thu, 14 May 2020 21:52:45 +0800</lastBuildDate>
+    
+        <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>learn</title>
+      <link>/categories/learn/</link>
+      <pubDate>Thu, 14 May 2020 21:52:45 +0800</pubDate>
+      
+      <guid>/categories/learn/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>折腾</title>
+      <link>/categories/%E6%8A%98%E8%85%BE/</link>
+      <pubDate>Wed, 25 Mar 2020 20:52:00 +0800</pubDate>
+      
+      <guid>/categories/%E6%8A%98%E8%85%BE/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>blog</title>
+      <link>/categories/blog/</link>
+      <pubDate>Mon, 13 Jan 2020 13:23:00 +0800</pubDate>
+      
+      <guid>/categories/blog/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>转载</title>
+      <link>/categories/%E8%BD%AC%E8%BD%BD/</link>
+      <pubDate>Thu, 02 Aug 2018 00:00:00 +0800</pubDate>
+      
+      <guid>/categories/%E8%BD%AC%E8%BD%BD/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

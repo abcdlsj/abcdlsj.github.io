@@ -1,25 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Data Structure on ABCDLSJ&#39;S WORLD</title>
-    <link>https://abcdlsj.github.io/tags/data-structure/</link>
+    <link>/tags/data-structure/</link>
     <description>Recent content in Data Structure on ABCDLSJ&#39;S WORLD</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
+    <copyright>©2018-2020 Notepadium.</copyright>
     <lastBuildDate>Thu, 14 May 2020 21:52:45 +0800</lastBuildDate>
     
-	<atom:link href="https://abcdlsj.github.io/tags/data-structure/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/tags/data-structure/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>LeetCode Data-Structure:Tree</title>
-      <link>https://abcdlsj.github.io/post/leetcode-data-structuretree/</link>
+      <link>/post/leetcode-data-structuretree/</link>
       <pubDate>Thu, 14 May 2020 21:52:45 +0800</pubDate>
       
-      <guid>https://abcdlsj.github.io/post/leetcode-data-structuretree/</guid>
+      <guid>/post/leetcode-data-structuretree/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;LeetCode 刷题总结：树(WIP)&lt;/p&gt;
 &lt;/blockquote&gt;</description>
+      
     </item>
     
   </channel>
