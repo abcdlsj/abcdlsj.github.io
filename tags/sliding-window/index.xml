@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Sliding Window on ABCDLSJ&#39;S WORLD</title>
+    <link>/tags/sliding-window/</link>
+    <description>Recent content in Sliding Window on ABCDLSJ&#39;S WORLD</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>©2018-2020 by abcdlsj</copyright>
+    <lastBuildDate>Tue, 21 Apr 2020 10:07:14 +0800</lastBuildDate>
+    
+        <atom:link href="/tags/sliding-window/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>LeetCode Pattern: Sliding Window</title>
+      <link>/post/leetcode-patternsliding-window/</link>
+      <pubDate>Tue, 21 Apr 2020 10:07:14 +0800</pubDate>
+      
+      <guid>/post/leetcode-patternsliding-window/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode 刷题总结之：滑动窗口&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>

@@ -7,13 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>©2018-2020 by abcdlsj</copyright>
-    <lastBuildDate>Thu, 14 May 2020 21:52:45 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 24 May 2020 20:49:11 +0800</lastBuildDate>
     
         <atom:link href="/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>LeetCode Data-Structure:Tree</title>
+      <title>LeetCode Pattern: Dynamic Programming</title>
+      <link>/post/leetcode-patterndynamic-programming/</link>
+      <pubDate>Sun, 24 May 2020 20:49:11 +0800</pubDate>
+      
+      <guid>/post/leetcode-patterndynamic-programming/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode 刷题总结之：动态规划（WIP）&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>LeetCode Data-Structure: Tree</title>
       <link>/post/leetcode-data-structuretree/</link>
       <pubDate>Thu, 14 May 2020 21:52:45 +0800</pubDate>
       
@@ -25,19 +37,7 @@
     </item>
     
     <item>
-      <title>LeetCode Pattern:Dynamic Programming</title>
-      <link>/post/leetcode-patterndynamic-programming/</link>
-      <pubDate>Mon, 27 Apr 2020 20:49:11 +0800</pubDate>
-      
-      <guid>/post/leetcode-patterndynamic-programming/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;LeetCode 刷题总结之：动态规划（WIP）&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-      
-    </item>
-    
-    <item>
-      <title>LeetCode Pattern:BackTracking</title>
+      <title>LeetCode Pattern: BackTracking</title>
       <link>/post/leetcode-patternbacktracking/</link>
       <pubDate>Thu, 23 Apr 2020 21:41:59 +0800</pubDate>
       
@@ -49,7 +49,7 @@
     </item>
     
     <item>
-      <title>LeetCode Pattern:Sliding Window</title>
+      <title>LeetCode Pattern: Sliding Window</title>
       <link>/post/leetcode-patternsliding-window/</link>
       <pubDate>Tue, 21 Apr 2020 10:07:14 +0800</pubDate>
       
