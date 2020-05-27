@@ -25,6 +25,18 @@
     </item>
     
     <item>
+      <title>MIT-6.824 Lab 1: MapReduce</title>
+      <link>/post/mit-6.824-lab1mapreduce/</link>
+      <pubDate>Wed, 20 May 2020 23:34:41 +0800</pubDate>
+      
+      <guid>/post/mit-6.824-lab1mapreduce/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;6.824 Lab 1: MapReduce&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+      
+    </item>
+    
+    <item>
       <title>LeetCode Data-Structure: Tree</title>
       <link>/post/leetcode-data-structuretree/</link>
       <pubDate>Thu, 14 May 2020 21:52:45 +0800</pubDate>
@@ -176,7 +188,7 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
       
       <guid>/post/conky%E6%98%BE%E7%A4%BAtodo-list/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;作为一个 Emacser，使用 org-agenda 来管理日常是很正常的事情，于是想到在桌面显示自己的 todo-list，查阅资料之后发现很简单。&lt;/p&gt;
+&lt;p&gt;作为一个 Emacser，使用 org-agenda 来管理日常是很正常的事情，于是想到在桌面显示自己的 todo-list，查阅资料之后发现很简单&lt;/p&gt;
 &lt;/blockquote&gt;</description>
       
     </item>

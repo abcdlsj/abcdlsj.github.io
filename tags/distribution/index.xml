@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Distribution on ABCDLSJ&#39;S WORLD</title>
+    <link>/tags/distribution/</link>
+    <description>Recent content in Distribution on ABCDLSJ&#39;S WORLD</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>©2018-2020 by abcdlsj</copyright>
+    <lastBuildDate>Wed, 20 May 2020 23:34:41 +0800</lastBuildDate>
+    
+        <atom:link href="/tags/distribution/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MIT-6.824 Lab 1: MapReduce</title>
+      <link>/post/mit-6.824-lab1mapreduce/</link>
+      <pubDate>Wed, 20 May 2020 23:34:41 +0800</pubDate>
+      
+      <guid>/post/mit-6.824-lab1mapreduce/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;6.824 Lab 1: MapReduce&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+      
+    </item>
+    
+  </channel>
+</rss>
