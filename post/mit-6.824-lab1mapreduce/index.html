@@ -17,6 +17,9 @@
 <p>-- 2020-05-27</p>
 <p>这两天看了大佬的实现，觉得自己软件编程素养有待提高（照着论文思路走&hellip;&hellip;我都写不出来），看了之后，也有点思路了，看来 MIT-6.824 学习之路还很漫长啊（推荐 wakatime，可以看到自己敲代码花费时间，我到现在花了 6 小时在 lab 上&hellip;&hellip;其他时间呢？&hellip;）。</p>
 <p>&ndash; 2020-05-29</p>
+<p>前两天划水去了（无限火力），今天把 lab1 debug 了一下（参照别人思路实现的），也成功通过了测试，准备接下来继续往下做，然后可能会停一段时间了，毕竟我是要秋招的人。。。接下来应该重点会放在两个项目上： webserver and k/v storage，这两个项目可以说是居家必备项目（内卷神器），webserver 的话我应该不会写特别麻烦（4 月初我就拓展了 CS:APP 的 tinyserver，然后发现写得不行删了。。。也就拓展了简单的并发，连 epoll 都没用到。。。），k/v storage 应该大概率是 B/B+ tree + raft 实现，具体看我能力了。。。</p>
+<p>哦，对了，今天 61，祝自己节日快乐！</p>
+<p>-- 2020-06-01</p>
 </blockquote>
 <h2 id="论文阅读笔记">论文阅读笔记</h2>
 <blockquote>
@@ -44,13 +47,12 @@
 </blockquote>
 <p>对于每个 map task 和 reduce task，保存有状态（idle，in-progress，completed），以及 worker machine 的标识（对于具有非空闲任务的机器）。</p>
 <p>master 是 map 和 reduce 之间传递中间存储区域位置信息的管道。对于每个 完成的 map 任务，master 保存了中间文件的位置、大小。当 map 完成的时候，master 接受到位置和大小的更新信息，然后传递给正在执行reduce 任务的 worker。</p>
-<blockquote>
-<p>容错</p>
-</blockquote>
 <h2 id="lab">Lab</h2>
+<p><img  src="/img/mit-6.824-lab1-sc.png"
+        alt="mit-6.824-lab1"/></p>
 <p>参考链接：</p>
 <p><a href="https://xzy57369.github.io/post/3a897789.html">https://xzy57369.github.io/post/3a897789.html</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/132571559">https://zhuanlan.zhihu.com/p/132571559</a></p></article><section class="article labels"><a class="category" href=/categories/learn/>learn</a><a class="tag" href=/tags/mapreduce/>MapReduce</a><a class="tag" href=/tags/distribution/>Distribution</a></section></div>
+<p><a href="https://github.com/holdonbush/Mit-6.824-Lab1-MapReduce">https://github.com/holdonbush/Mit-6.824-Lab1-MapReduce</a></p></article><section class="article labels"><a class="category" href=/categories/learn/>learn</a><a class="tag" href=/tags/mapreduce/>MapReduce</a><a class="tag" href=/tags/distribution/>Distribution</a></section></div>
 <div class="article bottom"><section class="article navigation"><p><a class="link" href="/post/leetcode-patterndynamic-programming/"><span class="li iconfont icon-article"></span>LeetCode Pattern: Dynamic Programming</a></p><p><a class="link" href="/post/leetcode-data-structuretree/"><span class="li iconfont icon-article"></span>LeetCode Data-Structure: Tree</a></p></section></div></section><section id="footer"><div class="footer-wrap">
     <p class="copyright">©2018-2020 by abcdlsj</p>
     <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
