@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>©2018-2020 by abcdlsj</copyright>
-    <lastBuildDate>Sun, 24 May 2020 20:49:11 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2020 22:05:26 +0800</lastBuildDate>
     
         <atom:link href="/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>LeetCode Pattern: Binary Search</title>
+      <link>/post/leetcode-patternbinary-search/</link>
+      <pubDate>Mon, 01 Jun 2020 22:05:26 +0800</pubDate>
+      
+      <guid>/post/leetcode-patternbinary-search/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode 刷题总结之：二分查找（WIP）&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+      
+    </item>
     
     <item>
       <title>LeetCode Pattern: Dynamic Programming</title>

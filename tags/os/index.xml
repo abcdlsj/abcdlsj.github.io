@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>©2018-2020 by abcdlsj</copyright>
-    <lastBuildDate>Mon, 13 Jan 2020 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2020 18:43:29 +0800</lastBuildDate>
     
         <atom:link href="/tags/os/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Operating System Interview</title>
+      <link>/post/operating-system-interview/</link>
+      <pubDate>Mon, 01 Jun 2020 18:43:29 +0800</pubDate>
+      
+      <guid>/post/operating-system-interview/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;操作系统知识点总结（WIP）&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+      
+    </item>
     
     <item>
       <title>Linux 文件夹权限设置</title>
