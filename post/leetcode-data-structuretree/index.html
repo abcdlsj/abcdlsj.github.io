@@ -6,13 +6,15 @@
     <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">ABCDLSJ'S WORLD</span></a></span>
         <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about/">About</a></nav></div></span></div><div class="site slogan"><span class="title">享受专注</span></div></section><section id="content"><div class="article-container"><section class="article header">
     <h1 class="article title">LeetCode Data-Structure: Tree</h1><p class="article date">May 14, 2020</p></section><article class="article markdown-body"><blockquote>
-<p>LeetCode 刷题总结：树(WIP)</p>
+<p>LeetCode 刷题总结：树</p>
 </blockquote>
 <blockquote>
 <p>十几天过去了，懒逼还没写完。。。不就是总结吗，明天一定写完（一定？）</p>
 <p>-- 2020-06-01</p>
 <p>尴尬，这两天考试 + 作业 + 实验报告</p>
 <p>-- 2020-06-05</p>
+<p>唉，接下来还有好多实验报告和课设</p>
+<p>-- 2020-06-08</p>
 </blockquote>
 <h2 id="遍历二叉树">遍历二叉树</h2>
 <p>以 LeetCode 题目中的 <code>binary tree</code> 为代表，结构如下</p>
@@ -137,9 +139,101 @@
         <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</code></pre></div><h3 id="morris-遍历">Morris 遍历</h3>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp">
-</code></pre></div><h2 id="二叉树相关">二叉树相关</h2>
+</code></pre></div><h2 id="生成二叉树">生成二叉树</h2>
+<h4 id="105-从前序与中序遍历序列构造二叉树httpsleetcode-cncomproblemsconstruct-binary-tree-from-preorder-and-inorder-traversal"><a href="https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/"target="_blank">105. 从前序与中序遍历序列构造二叉树</a></h4>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">TreeNode</span><span class="o">*</span> <span class="n">buildTree</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">preorder</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">inorder</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">build</span><span class="p">(</span><span class="n">preorder</span><span class="p">,</span> <span class="n">inorder</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">inorder</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">TreeNode</span><span class="o">*</span> <span class="nf">build</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">preorder</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">inorder</span><span class="p">,</span> <span class="kt">int</span> <span class="n">root</span><span class="p">,</span> <span class="kt">int</span> <span class="n">begin</span><span class="p">,</span> <span class="kt">int</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">begin</span> <span class="o">&gt;</span> <span class="n">end</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+        
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">begin</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">end</span> <span class="o">&amp;&amp;</span> <span class="n">inorder</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">preorder</span><span class="p">[</span><span class="n">root</span><span class="p">])</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">TreeNode</span><span class="o">*</span> <span class="n">rootNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="p">(</span><span class="n">preorder</span><span class="p">[</span><span class="n">root</span><span class="p">]);</span>
+        <span class="n">rootNode</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="n">preorder</span><span class="p">,</span> <span class="n">inorder</span><span class="p">,</span> <span class="n">root</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">rootNode</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="n">preorder</span><span class="p">,</span> <span class="n">inorder</span><span class="p">,</span> <span class="n">root</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="n">begin</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="n">rootNode</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div><h4 id="106-从中序与后序遍历序列构造二叉树httpsleetcode-cncomproblemsconstruct-binary-tree-from-inorder-and-postorder-traversal"><a href="https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/"target="_blank">106. 从中序与后序遍历序列构造二叉树</a></h4>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">TreeNode</span><span class="o">*</span> <span class="n">buildTree</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">inorder</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">postorder</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">buildHelper</span><span class="p">(</span><span class="n">inorder</span><span class="p">,</span> <span class="n">postorder</span><span class="p">,</span> <span class="n">postorder</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">inorder</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">TreeNode</span><span class="o">*</span> <span class="nf">buildHelper</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">inorder</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">postorder</span><span class="p">,</span> <span class="kt">int</span> <span class="n">root</span><span class="p">,</span> <span class="kt">int</span> <span class="n">begin</span><span class="p">,</span> <span class="kt">int</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">begin</span> <span class="o">&gt;</span> <span class="n">end</span><span class="p">)</span> <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">begin</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">inorder</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">inorder</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">postorder</span><span class="p">[</span><span class="n">root</span><span class="p">])</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">TreeNode</span><span class="o">*</span> <span class="n">cur</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="p">(</span><span class="n">postorder</span><span class="p">[</span><span class="n">root</span><span class="p">]);</span>
+        <span class="n">cur</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">buildHelper</span><span class="p">(</span><span class="n">inorder</span><span class="p">,</span> <span class="n">postorder</span><span class="p">,</span> <span class="n">root</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+        <span class="n">cur</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">buildHelper</span><span class="p">(</span><span class="n">inorder</span><span class="p">,</span> <span class="n">postorder</span><span class="p">,</span> <span class="n">root</span> <span class="o">-</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>  
+        <span class="k">return</span> <span class="n">cur</span><span class="p">;</span>
+    <span class="p">}</span> 
+<span class="p">};</span>
+</code></pre></div><h4 id="449-序列化和反序列化二叉搜索树httpsleetcode-cncomproblemsserialize-and-deserialize-bst"><a href="https://leetcode-cn.com/problems/serialize-and-deserialize-bst/"target="_blank">449. 序列化和反序列化二叉搜索树</a></h4>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/**
+</span><span class="cm"> * Definition for a binary tree node.
+</span><span class="cm"> * struct TreeNode {
+</span><span class="cm"> *     int val;
+</span><span class="cm"> *     TreeNode *left;
+</span><span class="cm"> *     TreeNode *right;
+</span><span class="cm"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+</span><span class="cm"> * };
+</span><span class="cm"> */</span>
+<span class="k">class</span> <span class="nc">Codec</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+
+    <span class="c1">// Encodes a tree to a single string.
+</span><span class="c1"></span>    <span class="n">string</span> <span class="n">serialize</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">s</span><span class="p">;</span>
+        <span class="n">stack</span><span class="o">&lt;</span><span class="n">TreeNode</span><span class="o">*&gt;</span> <span class="n">stack</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="n">stack</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+        <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">stack</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">TreeNode</span><span class="o">*</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">stack</span><span class="p">.</span><span class="n">top</span><span class="p">();</span> <span class="n">stack</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">cur</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#34; &#34;</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">cur</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="n">stack</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">cur</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">cur</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="n">stack</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">cur</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">s</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Decodes your encoded data to tree.
+</span><span class="c1"></span>    <span class="n">TreeNode</span><span class="o">*</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">string</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">preorder</span><span class="p">;</span>
+        <span class="n">stringstream</span> <span class="n">ss</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+        <span class="n">string</span> <span class="n">tmp</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">ss</span> <span class="o">&gt;&gt;</span> <span class="n">tmp</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">stoi</span><span class="p">(</span><span class="n">tmp</span><span class="p">);</span>
+            <span class="n">preorder</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">inorder</span><span class="p">(</span><span class="n">preorder</span><span class="p">);</span>
+        <span class="n">sort</span><span class="p">(</span><span class="n">inorder</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">inorder</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+
+        <span class="k">return</span> <span class="n">build</span><span class="p">(</span><span class="n">preorder</span><span class="p">,</span> <span class="n">inorder</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">inorder</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="n">TreeNode</span><span class="o">*</span> <span class="nf">build</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">preorder</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">inorder</span><span class="p">,</span> <span class="kt">int</span> <span class="n">root</span><span class="p">,</span> <span class="kt">int</span> <span class="n">begin</span><span class="p">,</span> <span class="kt">int</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">begin</span> <span class="o">&gt;</span> <span class="n">end</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">begin</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">end</span> <span class="o">&amp;&amp;</span> <span class="n">inorder</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">preorder</span><span class="p">[</span><span class="n">root</span><span class="p">])</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">TreeNode</span><span class="o">*</span> <span class="n">rootNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="p">(</span><span class="n">preorder</span><span class="p">[</span><span class="n">root</span><span class="p">]);</span>
+        <span class="n">rootNode</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="n">preorder</span><span class="p">,</span> <span class="n">inorder</span><span class="p">,</span> <span class="n">root</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">rootNode</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="n">preorder</span><span class="p">,</span> <span class="n">inorder</span><span class="p">,</span> <span class="n">root</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="n">begin</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">rootNode</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// Your Codec object will be instantiated and called as such:
+</span><span class="c1">// Codec codec;
+</span><span class="c1">// codec.deserialize(codec.serialize(root));
+</span></code></pre></div><h2 id="二叉树相关">二叉树相关</h2>
 <blockquote>
 <p>部分是二叉搜索树，部分不是，二叉搜索树只是特殊的二叉树而已；二叉树的方法适用于二叉搜索树，反之则不可以</p>
 </blockquote>
@@ -255,11 +349,113 @@
 <blockquote>
 <p>二叉搜索树的后序遍历</p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp">
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">bool</span> <span class="n">verifyPostorder</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">postorder</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">isVerify</span><span class="p">(</span><span class="n">postorder</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">postorder</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="kt">bool</span> <span class="nf">isVerify</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">postorder</span><span class="p">,</span> <span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="kt">int</span> <span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">left</span> <span class="o">&gt;</span> <span class="n">right</span><span class="p">)</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+
+        <span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">left</span><span class="p">,</span> <span class="n">rootValue</span> <span class="o">=</span> <span class="n">postorder</span><span class="p">[</span><span class="n">right</span><span class="p">];</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">idx</span> <span class="o">&lt;</span> <span class="n">right</span> <span class="o">&amp;&amp;</span> <span class="n">postorder</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rootValue</span><span class="p">)</span> <span class="n">idx</span><span class="o">++</span><span class="p">;</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">idx</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">postorder</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rootValue</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isVerify</span><span class="p">(</span><span class="n">postorder</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">||</span> <span class="o">!</span><span class="n">isVerify</span><span class="p">(</span><span class="n">postorder</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">right</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
 </code></pre></div><h4 id="116-填充每个节点的下一个右侧节点指针httpsleetcode-cncomproblemspopulating-next-right-pointers-in-each-node"><a href="https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/"target="_blank">116. 填充每个节点的下一个右侧节点指针</a></h4>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp">
+<blockquote>
+<p>对于这道题，<code>最小的事情就是连接 node-&gt;left 和 node-&gt;right</code>，但是这样会出现中间的一部分没法连接，所以需要处理一下</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/*
+</span><span class="cm">// Definition for a Node.
+</span><span class="cm">class Node {
+</span><span class="cm">public:
+</span><span class="cm">    int val;
+</span><span class="cm">    Node* left;
+</span><span class="cm">    Node* right;
+</span><span class="cm">    Node* next;
+</span><span class="cm">
+</span><span class="cm">    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+</span><span class="cm">
+</span><span class="cm">    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+</span><span class="cm">
+</span><span class="cm">    Node(int _val, Node* _left, Node* _right, Node* _next)
+</span><span class="cm">        : val(_val), left(_left), right(_right), next(_next) {}
+</span><span class="cm">};
+</span><span class="cm">*/</span>
+
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">Node</span><span class="o">*</span> <span class="n">connect</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+        
+        <span class="n">Node</span><span class="o">*</span> <span class="n">le</span> <span class="o">=</span> <span class="n">connect</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+        <span class="n">Node</span><span class="o">*</span> <span class="n">ri</span> <span class="o">=</span> <span class="n">connect</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">le</span> <span class="o">&amp;&amp;</span> <span class="n">ri</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">le</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">ri</span><span class="p">;</span>
+            <span class="n">le</span> <span class="o">=</span> <span class="n">le</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+            <span class="n">ri</span> <span class="o">=</span> <span class="n">ri</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
 </code></pre></div><h4 id="117-填充每个节点的下一个右侧节点指针-iihttpsleetcode-cncomproblemspopulating-next-right-pointers-in-each-node-ii"><a href="https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node-ii/"target="_blank">117. 填充每个节点的下一个右侧节点指针 II</a></h4>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp">
+<blockquote>
+<p>借助层次遍历能很快的写出来</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/*
+</span><span class="cm">// Definition for a Node.
+</span><span class="cm">class Node {
+</span><span class="cm">public:
+</span><span class="cm">    int val;
+</span><span class="cm">    Node* left;
+</span><span class="cm">    Node* right;
+</span><span class="cm">    Node* next;
+</span><span class="cm">
+</span><span class="cm">    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+</span><span class="cm">
+</span><span class="cm">    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+</span><span class="cm">
+</span><span class="cm">    Node(int _val, Node* _left, Node* _right, Node* _next)
+</span><span class="cm">        : val(_val), left(_left), right(_right), next(_next) {}
+</span><span class="cm">};
+</span><span class="cm">*/</span>
+
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">Node</span><span class="o">*</span> <span class="n">connect</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">queue</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">*&gt;</span> <span class="n">queue</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="n">queue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">queue</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">size</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">Node</span><span class="o">*</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">front</span><span class="p">();</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">Node</span><span class="o">*</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+                    <span class="n">cur</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+                <span class="p">}</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">cur</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="n">queue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">cur</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">cur</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="n">queue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">cur</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
 </code></pre></div><h2 id="浅谈树的递归">浅谈树的递归</h2>
 <blockquote>
 <p>我单独准备总结一下<code>二叉树中的递归</code>，因为在树中的递归过程是很有意思的，因为树最主要的特点就是每一个节点也是一棵树。</p>
@@ -309,7 +505,10 @@
         <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</code></pre></div></article><section class="article labels"><a class="category" href=/categories/learn/>learn</a><a class="tag" href=/tags/tree/>Tree</a><a class="tag" href=/tags/leetcode/>LeetCode</a><a class="tag" href=/tags/data-structure/>Data Structure</a></section></div>
+</code></pre></div><h2 id="总结">总结</h2>
+<blockquote>
+<p>没啥好写的，希望继续努力（少拖延）！</p>
+</blockquote></article><section class="article labels"><a class="category" href=/categories/learn/>learn</a><a class="tag" href=/tags/tree/>Tree</a><a class="tag" href=/tags/leetcode/>LeetCode</a><a class="tag" href=/tags/data-structure/>Data Structure</a></section></div>
 <div class="article bottom"><section class="article navigation"><p><a class="link" href="/post/mit-6.824-lab1mapreduce/"><span class="li iconfont icon-article"></span>MIT-6.824 Lab 1: MapReduce</a></p><p><a class="link" href="/post/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E4%BB%A5%E5%8F%8A%E6%A3%80%E6%B5%8B-c-c-plus-plus-%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/"><span class="li iconfont icon-article"></span>std::shared_ptr 循环引用以及检测 C/C++ 内存泄漏</a></p></section></div></section><section id="footer"><div class="footer-wrap">
     <p class="copyright">©2018-2020 by abcdlsj</p>
     <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
