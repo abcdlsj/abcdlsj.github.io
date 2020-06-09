@@ -176,6 +176,9 @@
     <span class="p">}</span> 
 <span class="p">};</span>
 </code></pre></div><h4 id="449-序列化和反序列化二叉搜索树httpsleetcode-cncomproblemsserialize-and-deserialize-bst"><a href="https://leetcode-cn.com/problems/serialize-and-deserialize-bst/"target="_blank">449. 序列化和反序列化二叉搜索树</a></h4>
+<blockquote>
+<p>先序遍历一遍，然后排序先序遍历，就是中序遍历了，然后就是 n105 题</p>
+</blockquote>
 <div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/**
 </span><span class="cm"> * Definition for a binary tree node.
 </span><span class="cm"> * struct TreeNode {
@@ -227,6 +230,56 @@
         <span class="n">rootNode</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="n">preorder</span><span class="p">,</span> <span class="n">inorder</span><span class="p">,</span> <span class="n">root</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
         <span class="n">rootNode</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="n">preorder</span><span class="p">,</span> <span class="n">inorder</span><span class="p">,</span> <span class="n">root</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="n">begin</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
         <span class="k">return</span> <span class="n">rootNode</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// Your Codec object will be instantiated and called as such:
+</span><span class="c1">// Codec codec;
+</span><span class="c1">// codec.deserialize(codec.serialize(root));
+</span></code></pre></div><h4 id="297-二叉树的序列化与反序列化httpsleetcode-cncomproblemsserialize-and-deserialize-binary-tree"><a href="https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/"target="_blank">297. 二叉树的序列化与反序列化</a></h4>
+<blockquote>
+<p>这个这样写会简单些，用先序遍历来序列化二叉树</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/**
+</span><span class="cm"> * Definition for a binary tree node.
+</span><span class="cm"> * struct TreeNode {
+</span><span class="cm"> *     int val;
+</span><span class="cm"> *     TreeNode *left;
+</span><span class="cm"> *     TreeNode *right;
+</span><span class="cm"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+</span><span class="cm"> * };
+</span><span class="cm"> */</span>
+<span class="k">class</span> <span class="nc">Codec</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+
+    <span class="c1">// Encodes a tree to a single string.
+</span><span class="c1"></span>    <span class="n">string</span> <span class="n">serialize</span><span class="p">(</span><span class="n">TreeNode</span><span class="o">*</span> <span class="n">root</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="k">return</span> <span class="s">&#34;#_&#34;</span><span class="p">;</span>
+
+        <span class="n">string</span> <span class="n">res</span> <span class="o">=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#34;_&#34;</span><span class="p">;</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">serialize</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">serialize</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Decodes your encoded data to tree.
+</span><span class="c1"></span>    <span class="n">TreeNode</span><span class="o">*</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">string</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">stringstream</span> <span class="n">ss</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+        <span class="n">string</span> <span class="n">tmp</span><span class="p">;</span>
+        <span class="n">queue</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">queue</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">getline</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">tmp</span><span class="p">,</span> <span class="sc">&#39;_&#39;</span><span class="p">))</span> <span class="n">queue</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">tmp</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">helper</span><span class="p">(</span><span class="n">queue</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">TreeNode</span><span class="o">*</span> <span class="nf">helper</span><span class="p">(</span><span class="n">queue</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">queue</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">val</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">front</span><span class="p">();</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="s">&#34;#&#34;</span><span class="p">)</span> <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
+        <span class="n">TreeNode</span><span class="o">*</span> <span class="n">head</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="p">(</span><span class="n">stoi</span><span class="p">(</span><span class="n">val</span><span class="p">));</span>
+        <span class="n">head</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">helper</span><span class="p">(</span><span class="n">queue</span><span class="p">);</span>
+        <span class="n">head</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">helper</span><span class="p">(</span><span class="n">queue</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">head</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
