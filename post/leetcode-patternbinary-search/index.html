@@ -9,9 +9,42 @@
 <p>LeetCode 刷题总结之：二分查找（WIP）</p>
 </blockquote>
 <blockquote>
+<p>在<a href="https://zh.wikipedia.org/wiki/%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%a7%91%e5%ad%a6"target="_blank">计算机科学</a>中，<strong>二分查找算法</strong>（英语：binary search algorithm），也称<strong>折半搜索算法</strong>（英语：half-interval search algorithm）[<a href="https://zh.wikipedia.org/wiki/%e4%ba%8c%e5%88%86%e6%90%9c%e5%b0%8b%e6%bc%94%e7%ae%97%e6%b3%95#cite_note-1"target="_blank">1]</a>、<strong>对数搜索算法</strong>（英语：logarithmic search algorithm）[<a href="https://zh.wikipedia.org/wiki/%e4%ba%8c%e5%88%86%e6%90%9c%e5%b0%8b%e6%bc%94%e7%ae%97%e6%b3%95#cite_note-FOOTNOTEKnuth1998%c2%a76.2.1_%28%22Searching_an_ordered_table%22%29,_subsection_%22Binary_search%22-2"target="_blank">2]</a>，是一种在<a href="https://zh.wikipedia.org/wiki/%e6%9c%89%e5%ba%8f%e6%95%b0%e5%af%b9"target="_blank">有序数组</a>中查找某一特定元素的搜索<a href="https://zh.wikipedia.org/wiki/%e7%ae%97%e6%b3%95"target="_blank">算法</a>。搜索过程从数组的中间元素开始，如果中间元素正好是要查找的元素，则搜索过程结束；如果某一特定元素大于或者小于中间元素，则在数组大于或小于中间元素的那一半中查找，而且跟开始一样从中间元素开始比较。如果在某一步骤数组为空，则代表找不到。这种搜索算法每一次比较都使搜索范围缩小一半。</p>
+<p>二分查找算法在情况下的复杂度是对数时间。</p>
+<p>-- wikipedia</p>
+</blockquote>
+<blockquote>
 <p>只有 PUSH，才有 POP</p>
 <p>-- 沃兹基 · 硕德</p>
-</blockquote></article><section class="article labels"><a class="category" href=/categories/learn/>learn</a><a class="tag" href=/tags/leetcode/>LeetCode</a><a class="tag" href=/tags/binary-search/>Binary Search</a></section></div>
+</blockquote>
+<h4 id="287-寻找重复数httpsleetcode-cncomproblemsfind-the-duplicate-number"><a href="https://leetcode-cn.com/problems/find-the-duplicate-number/"target="_blank">287. 寻找重复数</a></h4>
+<blockquote>
+<p>这道题用二分简直了，虽然复杂度就那样，但是思路很牛逼</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">findDuplicate</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">le</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ri</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cnt</span><span class="p">,</span> <span class="n">mid</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">le</span> <span class="o">&lt;</span> <span class="n">ri</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="n">le</span> <span class="o">+</span> <span class="p">(</span><span class="n">ri</span> <span class="o">-</span> <span class="n">le</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">num</span> <span class="p">:</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">num</span> <span class="o">&lt;=</span> <span class="n">mid</span><span class="p">)</span> <span class="n">cnt</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">&gt;</span> <span class="n">mid</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">ri</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">le</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">le</span><span class="p">;</span> 
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></article><section class="article labels"><a class="category" href=/categories/learn/>learn</a><a class="tag" href=/tags/leetcode/>LeetCode</a><a class="tag" href=/tags/binary-search/>Binary Search</a></section></div>
 <div class="article bottom"><section class="article navigation"><p><a class="link" href="/post/operating-system-interview/"><span class="li iconfont icon-article"></span>Operating System Interview</a></p></section></div></section><section id="footer"><div class="footer-wrap">
     <p class="copyright">©2018-2020 by abcdlsj</p>
     <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
