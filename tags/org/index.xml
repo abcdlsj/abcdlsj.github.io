@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Org-Mode 中的 link 处理</title>
+      <title>Org-Mode link</title>
       <link>https://github.abcdlsj.io/post/org-mode-%E4%B8%AD%E7%9A%84-link-%E5%A4%84%E7%90%86/</link>
       <pubDate>Wed, 05 Feb 2020 13:52:00 +0800</pubDate>
       
@@ -23,7 +23,7 @@
     </item>
     
     <item>
-      <title>ox-hugo 搭建 blog</title>
+      <title>use ox-hugo build blog</title>
       <link>https://github.abcdlsj.io/post/ox-hugo-%E6%90%AD%E5%BB%BA-blog/</link>
       <pubDate>Mon, 13 Jan 2020 13:23:00 +0800</pubDate>
       
@@ -34,7 +34,7 @@
     </item>
     
     <item>
-      <title>conky 显示 todo-list</title>
+      <title>use conky display org-agenda todos</title>
       <link>https://github.abcdlsj.io/post/conky%E6%98%BE%E7%A4%BAtodo-list/</link>
       <pubDate>Fri, 13 Dec 2019 23:28:00 +0800</pubDate>
       

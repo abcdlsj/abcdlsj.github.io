@@ -23,7 +23,7 @@
     </item>
     
     <item>
-      <title>Operating System Interview</title>
+      <title>Operating System Notes</title>
       <link>https://github.abcdlsj.io/post/operating-system-interview/</link>
       <pubDate>Mon, 01 Jun 2020 18:43:29 +0800</pubDate>
       
@@ -67,7 +67,7 @@
     </item>
     
     <item>
-      <title>std::shared_ptr 循环引用以及检测 C/C&#43;&#43; 内存泄漏</title>
+      <title>std::shared_ptr circular reference and detect memory leaks</title>
       <link>https://github.abcdlsj.io/post/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E4%BB%A5%E5%8F%8A%E6%A3%80%E6%B5%8B-c-c-plus-plus-%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/</link>
       <pubDate>Thu, 14 May 2020 16:17:00 +0800</pubDate>
       
@@ -123,7 +123,7 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
     </item>
     
     <item>
-      <title>i3wm 截图</title>
+      <title>i3wm screenshot-key</title>
       <link>https://github.abcdlsj.io/post/i3wm-%E6%88%AA%E5%9B%BE/</link>
       <pubDate>Sat, 22 Feb 2020 21:04:00 +0800</pubDate>
       
@@ -156,7 +156,7 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
     </item>
     
     <item>
-      <title>Org-Mode 中的 link 处理</title>
+      <title>Org-Mode link</title>
       <link>https://github.abcdlsj.io/post/org-mode-%E4%B8%AD%E7%9A%84-link-%E5%A4%84%E7%90%86/</link>
       <pubDate>Wed, 05 Feb 2020 13:52:00 +0800</pubDate>
       
@@ -200,7 +200,7 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
     </item>
     
     <item>
-      <title>ox-hugo 搭建 blog</title>
+      <title>use ox-hugo build blog</title>
       <link>https://github.abcdlsj.io/post/ox-hugo-%E6%90%AD%E5%BB%BA-blog/</link>
       <pubDate>Mon, 13 Jan 2020 13:23:00 +0800</pubDate>
       
@@ -222,7 +222,7 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
     </item>
     
     <item>
-      <title>conky 显示 todo-list</title>
+      <title>use conky display org-agenda todos</title>
       <link>https://github.abcdlsj.io/post/conky%E6%98%BE%E7%A4%BAtodo-list/</link>
       <pubDate>Fri, 13 Dec 2019 23:28:00 +0800</pubDate>
       
