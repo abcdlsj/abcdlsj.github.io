@@ -1,27 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tensorflow on ABCDLSJ&#39;S WORLD</title>
-    <link>/tags/tensorflow/</link>
-    <description>Recent content in Tensorflow on ABCDLSJ&#39;S WORLD</description>
+    <title>Tensorflow on The Real World</title>
+    <link>https://github.abcdlsj.io/tags/tensorflow/</link>
+    <description>Recent content in Tensorflow on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>©2018-2020 by abcdlsj</copyright>
+    <copyright>abcdlsj</copyright>
     <lastBuildDate>Sat, 10 Nov 2018 00:00:00 +0800</lastBuildDate>
     
-        <atom:link href="/tags/tensorflow/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://github.abcdlsj.io/tags/tensorflow/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>安装TensorFlow</title>
-      <link>/post/%E5%AE%89%E8%A3%85tensorflow/</link>
+      <link>https://github.abcdlsj.io/post/%E5%AE%89%E8%A3%85tensorflow/</link>
       <pubDate>Sat, 10 Nov 2018 00:00:00 +0800</pubDate>
       
-      <guid>/post/%E5%AE%89%E8%A3%85tensorflow/</guid>
+      <guid>https://github.abcdlsj.io/post/%E5%AE%89%E8%A3%85tensorflow/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;安装TensorFlow&lt;/p&gt;
 &lt;/blockquote&gt;</description>
-      
     </item>
     
   </channel>

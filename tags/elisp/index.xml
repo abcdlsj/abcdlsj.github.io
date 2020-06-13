@@ -1,27 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>elisp on ABCDLSJ&#39;S WORLD</title>
-    <link>/tags/elisp/</link>
-    <description>Recent content in elisp on ABCDLSJ&#39;S WORLD</description>
+    <title>elisp on The Real World</title>
+    <link>https://github.abcdlsj.io/tags/elisp/</link>
+    <description>Recent content in elisp on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>©2018-2020 by abcdlsj</copyright>
+    <copyright>abcdlsj</copyright>
     <lastBuildDate>Fri, 15 Nov 2019 00:00:00 +0800</lastBuildDate>
     
-        <atom:link href="/tags/elisp/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://github.abcdlsj.io/tags/elisp/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Learn-elisp-in-sc</title>
-      <link>/post/learn_emacs_in_sc/</link>
+      <link>https://github.abcdlsj.io/post/learn_emacs_in_sc/</link>
       <pubDate>Fri, 15 Nov 2019 00:00:00 +0800</pubDate>
       
-      <guid>/post/learn_emacs_in_sc/</guid>
+      <guid>https://github.abcdlsj.io/post/learn_emacs_in_sc/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;这是learn x in minutes 的elisp教程，跟着做一遍&lt;/p&gt;
 &lt;/blockquote&gt;</description>
-      
     </item>
     
   </channel>

@@ -1,27 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>gdb on ABCDLSJ&#39;S WORLD</title>
-    <link>/tags/gdb/</link>
-    <description>Recent content in gdb on ABCDLSJ&#39;S WORLD</description>
+    <title>gdb on The Real World</title>
+    <link>https://github.abcdlsj.io/tags/gdb/</link>
+    <description>Recent content in gdb on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>©2018-2020 by abcdlsj</copyright>
+    <copyright>abcdlsj</copyright>
     <lastBuildDate>Mon, 15 Apr 2019 00:00:00 +0800</lastBuildDate>
     
-        <atom:link href="/tags/gdb/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://github.abcdlsj.io/tags/gdb/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>gdb调试方法总结(基础)</title>
-      <link>/post/gdb%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-%E5%9F%BA%E7%A1%80/</link>
+      <link>https://github.abcdlsj.io/post/gdb%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Mon, 15 Apr 2019 00:00:00 +0800</pubDate>
       
-      <guid>/post/gdb%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-%E5%9F%BA%E7%A1%80/</guid>
+      <guid>https://github.abcdlsj.io/post/gdb%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-%E5%9F%BA%E7%A1%80/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;原本早就准备系统学习linux知识的,但是懒惰的本性让我&amp;hellip;.这个原本一月就要学完的知识结果现在四月了还没学到多少&amp;hellip;.打算这段时间好好学习一下技术知识。&lt;/p&gt;
 &lt;/blockquote&gt;</description>
-      
     </item>
     
   </channel>

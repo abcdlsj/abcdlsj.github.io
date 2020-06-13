@@ -1,27 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Interview on ABCDLSJ&#39;S WORLD</title>
-    <link>/tags/interview/</link>
-    <description>Recent content in Interview on ABCDLSJ&#39;S WORLD</description>
+    <title>Interview on The Real World</title>
+    <link>https://github.abcdlsj.io/tags/interview/</link>
+    <description>Recent content in Interview on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>©2018-2020 by abcdlsj</copyright>
+    <copyright>abcdlsj</copyright>
     <lastBuildDate>Mon, 01 Jun 2020 18:43:29 +0800</lastBuildDate>
     
-        <atom:link href="/tags/interview/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://github.abcdlsj.io/tags/interview/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Operating System Interview</title>
-      <link>/post/operating-system-interview/</link>
+      <link>https://github.abcdlsj.io/post/operating-system-interview/</link>
       <pubDate>Mon, 01 Jun 2020 18:43:29 +0800</pubDate>
       
-      <guid>/post/operating-system-interview/</guid>
+      <guid>https://github.abcdlsj.io/post/operating-system-interview/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;操作系统知识点总结（WIP）&lt;/p&gt;
 &lt;/blockquote&gt;</description>
-      
     </item>
     
   </channel>

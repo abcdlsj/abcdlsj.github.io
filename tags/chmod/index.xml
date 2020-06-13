@@ -1,27 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>chmod on ABCDLSJ&#39;S WORLD</title>
-    <link>/tags/chmod/</link>
-    <description>Recent content in chmod on ABCDLSJ&#39;S WORLD</description>
+    <title>chmod on The Real World</title>
+    <link>https://github.abcdlsj.io/tags/chmod/</link>
+    <description>Recent content in chmod on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>©2018-2020 by abcdlsj</copyright>
+    <copyright>abcdlsj</copyright>
     <lastBuildDate>Mon, 13 Jan 2020 00:00:00 +0800</lastBuildDate>
     
-        <atom:link href="/tags/chmod/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://github.abcdlsj.io/tags/chmod/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Linux 文件夹权限设置</title>
-      <link>/post/linux%E6%96%87%E4%BB%B6%E5%A4%B9%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AE/</link>
+      <link>https://github.abcdlsj.io/post/linux%E6%96%87%E4%BB%B6%E5%A4%B9%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AE/</link>
       <pubDate>Mon, 13 Jan 2020 00:00:00 +0800</pubDate>
       
-      <guid>/post/linux%E6%96%87%E4%BB%B6%E5%A4%B9%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AE/</guid>
+      <guid>https://github.abcdlsj.io/post/linux%E6%96%87%E4%BB%B6%E5%A4%B9%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AE/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;我看到文件夹里面文件权限不一，所以我就 &lt;code&gt;chmod 644 *&lt;/code&gt; 然后发现 &lt;code&gt;cd&lt;/code&gt; 子文件夹没权限&lt;/p&gt;
 &lt;/blockquote&gt;</description>
-      
     </item>
     
   </channel>

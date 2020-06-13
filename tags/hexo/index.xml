@@ -1,27 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>hexo on ABCDLSJ&#39;S WORLD</title>
-    <link>/tags/hexo/</link>
-    <description>Recent content in hexo on ABCDLSJ&#39;S WORLD</description>
+    <title>hexo on The Real World</title>
+    <link>https://github.abcdlsj.io/tags/hexo/</link>
+    <description>Recent content in hexo on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>©2018-2020 by abcdlsj</copyright>
+    <copyright>abcdlsj</copyright>
     <lastBuildDate>Sun, 15 Jul 2018 00:00:00 +0800</lastBuildDate>
     
-        <atom:link href="/tags/hexo/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://github.abcdlsj.io/tags/hexo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title> Hexo&amp;Github搭建博客</title>
-      <link>/post/hexo-github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
+      <link>https://github.abcdlsj.io/post/hexo-github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
       <pubDate>Sun, 15 Jul 2018 00:00:00 +0800</pubDate>
       
-      <guid>/post/hexo-github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
+      <guid>https://github.abcdlsj.io/post/hexo-github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;建立博客有三个阶段&lt;/p&gt;
 &lt;/blockquote&gt;</description>
-      
     </item>
     
   </channel>

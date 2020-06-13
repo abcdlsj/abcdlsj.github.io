@@ -1,160 +1,497 @@
 <!DOCTYPE html>
-<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.70.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="color-scheme" content="light dark">
-<meta name="supported-color-schemes" content="light dark"><title>Learn-elisp-in-sc&nbsp;&ndash;&nbsp;ABCDLSJ&#39;S WORLD</title><link rel="stylesheet" href="/css/core.min.bd80a98af3526c1eca41ed19e1b42fd6fdd538120f2cd05124dc8b46165b2ac8fad88ae9b6b04db569a8c119425eb289.css" integrity="sha384-vYCpivNSbB7KQe0Z4bQv1v3VOBIPLNBRJNyLRhZbKsj62IrptrBNtWmowRlCXrKJ"><meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Learn-elisp-in-sc" /><body><section id="header">
-    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">ABCDLSJ'S WORLD</span></a></span>
-        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about/">About</a></nav></div></span></div><div class="site slogan"><span class="title">享受专注</span></div></section><section id="content"><div class="article-container"><section class="article header">
-    <h1 class="article title">Learn-elisp-in-sc</h1><p class="article date">Nov 15, 2019<span class="lastmod"> • edited Jan 13, 2020</span></p></section><article class="article markdown-body"><blockquote>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='
+这是learn x in minutes 的elisp教程，跟着做一遍
+'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Learn-elisp-in-sc • The Real World'>
+<meta property='og:description' content='
+这是learn x in minutes 的elisp教程，跟着做一遍
+'>
+<meta property='og:url' content='https://github.abcdlsj.io/post/learn_emacs_in_sc/'>
+<meta property='og:site_name' content='The Real World'>
+<meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='elisp'><meta property='article:tag' content='Emacs'><meta property='article:published_time' content='2019-11-15T00:00:00&#43;08:00'/><meta property='article:modified_time' content='2020-01-13T22:44:40&#43;08:00'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.70.0" />
+
+  <title>Learn-elisp-in-sc • The Real World</title>
+  <link rel='canonical' href='https://github.abcdlsj.io/post/learn_emacs_in_sc/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-post has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      SongJian Li
+      </a>
+    </h2>
+    <div class='desc'>
+    C/C++ Golang Lisp Python
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/arch/' style='font-size:1em'>Arch</a>
+      </li><li>
+        <a href='/tags/aria2/' style='font-size:1em'>aria2</a>
+      </li><li>
+        <a href='/tags/backtracking/' style='font-size:1em'>BackTracking</a>
+      </li><li>
+        <a href='/tags/baidu/' style='font-size:1em'>baidu</a>
+      </li><li>
+        <a href='/tags/bigdata/' style='font-size:1em'>BigData</a>
+      </li><li>
+        <a href='/tags/binary-search/' style='font-size:1em'>Binary Search</a>
+      </li><li>
+        <a href='/tags/blog/' style='font-size:1.2em'>blog</a>
+      </li><li>
+        <a href='/tags/chmod/' style='font-size:1em'>chmod</a>
+      </li><li>
+        <a href='/tags/cmder/' style='font-size:1em'>Cmder</a>
+      </li><li>
+        <a href='/tags/conky/' style='font-size:1em'>conky</a>
+      </li><li>
+        <a href='/tags/cpp/' style='font-size:1.2em'>CPP</a>
+      </li><li>
+        <a href='/tags/csapp/' style='font-size:1em'>CSAPP</a>
+      </li><li>
+        <a href='/tags/data-structure/' style='font-size:1em'>Data Structure</a>
+      </li><li>
+        <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
+      </li><li>
+        <a href='/tags/dynamic-programming/' style='font-size:1em'>Dynamic Programming</a>
+      </li><li>
+        <a href='/tags/elisp/' style='font-size:1em'>elisp</a>
+      </li><li>
+        <a href='/tags/emacs/' style='font-size:1.4em'>Emacs</a>
+      </li><li>
+        <a href='/tags/ffmepg/' style='font-size:1em'>ffmepg</a>
+      </li><li>
+        <a href='/tags/gdb/' style='font-size:1em'>gdb</a>
+      </li><li>
+        <a href='/tags/google-bbr/' style='font-size:1em'>Google bbr</a>
+      </li><li>
+        <a href='/tags/h5ai/' style='font-size:1em'>h5ai</a>
+      </li><li>
+        <a href='/tags/hexo/' style='font-size:1em'>hexo</a>
+      </li><li>
+        <a href='/tags/hugo/' style='font-size:1.2em'>hugo</a>
+      </li><li>
+        <a href='/tags/interview/' style='font-size:1em'>Interview</a>
+      </li><li>
+        <a href='/tags/keyboard/' style='font-size:1em'>KeyBoard</a>
+      </li><li>
+        <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
+      </li><li>
+        <a href='/tags/linux/' style='font-size:1.8em'>linux</a>
+      </li><li>
+        <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
+      </li><li>
+        <a href='/tags/markdown/' style='font-size:1em'>Markdown</a>
+      </li><li>
+        <a href='/tags/mysql/' style='font-size:1em'>Mysql</a>
+      </li><li>
+        <a href='/tags/nextcloud/' style='font-size:1em'>NextCloud</a>
+      </li><li>
+        <a href='/tags/org/' style='font-size:1.6em'>org</a>
+      </li><li>
+        <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
+      </li><li>
+        <a href='/tags/os/' style='font-size:1.6em'>OS</a>
+      </li><li>
+        <a href='/tags/package/' style='font-size:1em'>package</a>
+      </li><li>
+        <a href='/tags/pip/' style='font-size:1em'>pip</a>
+      </li><li>
+        <a href='/tags/python/' style='font-size:1.6em'>Python</a>
+      </li><li>
+        <a href='/tags/sicp/' style='font-size:1.4em'>SICP</a>
+      </li><li>
+        <a href='/tags/sklearn/' style='font-size:1em'>Sklearn</a>
+      </li><li>
+        <a href='/tags/sliding-window/' style='font-size:1em'>Sliding Window</a>
+      </li><li>
+        <a href='/tags/ssr/' style='font-size:1em'>ssr</a>
+      </li><li>
+        <a href='/tags/tensorflow/' style='font-size:1em'>Tensorflow</a>
+      </li><li>
+        <a href='/tags/tree/' style='font-size:1em'>Tree</a>
+      </li><li>
+        <a href='/tags/v2ray/' style='font-size:1.4em'>v2ray</a>
+      </li><li>
+        <a href='/tags/zsh/' style='font-size:1em'>zsh</a>
+      </li><li>
+        <a href='/tags/%E5%8D%9C%E7%AE%97%E5%AD%90/' style='font-size:1em'>卜算子</a>
+      </li><li>
+        <a href='/tags/%E6%80%9D%E6%83%B3/' style='font-size:1em'>思想</a>
+      </li><li>
+        <a href='/tags/%E6%84%9F%E6%82%9F/' style='font-size:1em'>感悟</a>
+      </li><li>
+        <a href='/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/' style='font-size:1em'>树莓派</a>
+      </li><li>
+        <a href='/tags/%E7%94%9F%E6%B4%BB/' style='font-size:1em'>生活</a>
+      </li><li>
+        <a href='/tags/%E8%BE%93%E5%85%A5%E6%B3%95/' style='font-size:1em'>输入法</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/about'>ABOUT ME</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>The Real World</a></li><li><a href='/post/'>Posts</a></li><li><span>Learn-elisp-in-sc</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>The Real World</p><p class='desc site-desc'>Enjoy Concentration</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Learn-elisp-in-sc</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2019-11-15T00:00:00&#43;08:00'>2019, Nov 15</time>
+</span>
+
+  
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+2 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <blockquote>
 <p>这是learn x in minutes 的elisp教程，跟着做一遍</p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-elisp" data-lang="elisp"><span class="c1">;;use C-x C-e(后面直接写Cxe)</span>
-<span class="c1">;;基本运算符</span>
-<span class="p">(</span><span class="nf">+</span> <span class="mi">3</span> <span class="p">(</span><span class="nf">+</span> <span class="mi">1</span> <span class="mi">3</span><span class="p">))</span>
-<span class="c1">;;setq stores a value into a variable</span>
-<span class="p">(</span><span class="nb">setq</span> <span class="nv">my-name</span> <span class="s">&#34;lsj&#34;</span><span class="p">)</span>
-<span class="c1">;;C-x C-e 就会出现&#34;lsj&#34;在我的mini-buffer中</span>
-<span class="c1">;;insert will insert &#34;hello!&#34; where the cursor is</span>
-<span class="p">(</span><span class="nf">insert</span> <span class="s">&#34;hello!&#34;</span><span class="p">)</span>
-<span class="c1">;;C-x C-e 光标处出现hello!</span>
-<span class="p">(</span><span class="nf">insert</span> <span class="s">&#34;hello!&#34;</span> <span class="s">&#34;world&#34;</span><span class="p">)</span>
-<span class="c1">;;出现hello!world</span>
-<span class="c1">;;也可以这样</span>
-<span class="p">(</span><span class="nf">insert</span> <span class="s">&#34;hello!&#34;</span> <span class="s">&#34;world &#34;</span> <span class="nv">my-name</span><span class="p">)</span>
-<span class="c1">;;hello!world lsj</span>
-<span class="c1">;;也可以定义成一个functions</span>
-<span class="p">(</span><span class="nb">defun</span> <span class="nv">hello</span> <span class="p">()</span> <span class="p">(</span><span class="nf">insert</span> <span class="s">&#34;hello,my name is &#34;</span> <span class="nv">my-name</span><span class="p">))</span>
-<span class="c1">;;Cxe -&gt;hello</span>
-<span class="p">(</span><span class="nv">hello</span><span class="p">)</span>
-<span class="c1">;;hello,my name islsj</span>
-<span class="c1">;;hello()可以接受参数</span>
-<span class="p">(</span><span class="nb">defun</span> <span class="nv">hello</span><span class="p">(</span><span class="nv">name</span><span class="p">)</span> <span class="p">(</span><span class="nf">insert</span> <span class="s">&#34;hello &#34;</span> <span class="nv">name</span><span class="p">))</span>
-<span class="p">(</span><span class="nv">hello</span> <span class="s">&#34;lsj&#34;</span><span class="p">)</span>
-<span class="c1">;;输入</span>
-<span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
-<span class="c1">;;现在光标在*test*中</span>
-<span class="c1">;;C-x o 切换回去</span>
-<span class="c1">;;输入</span>
-<span class="p">(</span><span class="nb">progn</span>
-  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
-  <span class="p">(</span><span class="nv">hello</span> <span class="s">&#34;you&#34;</span> <span class="p">))</span>
-<span class="c1">;;progn 官方解释&#34;progn is a special form that causes each of its arguments to be evaluated in sequence and then returns the value of the last one. The preceding expressions are evaluated only for the side effects they perform. The values produced by them are discarded.&#34;</span>
-<span class="c1">;;翻译过来就是 progn 是一个特殊的过程，只返回最后一个表达式的值，前面表达式会被运行但是产生的值会被丢弃</span>
-<span class="c1">;;所以我们看到*test*中出现hello you</span>
-<span class="c1">;;抹除缓冲区</span>
-<span class="p">(</span><span class="nb">progn</span>
-  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">)</span>
-  <span class="p">(</span><span class="nv">hello</span> <span class="s">&#34;there&#34;</span><span class="p">))</span>
-<span class="c1">;;也可以完成上面同时回到开始的buffer</span>
-<span class="p">(</span><span class="nb">progn</span>
-  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">)</span>
-  <span class="p">(</span><span class="nv">hello</span> <span class="s">&#34;you &#34;</span><span class="p">)</span>
-  <span class="c1">;;C-x o 等价于(other-window)</span>
-  <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">))</span>
-<span class="c1">;;定义局部变量 let</span>
-<span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">local-name</span> <span class="s">&#34;you&#34;</span><span class="p">))</span>
-  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">)</span>
-  <span class="p">(</span><span class="nv">hello</span> <span class="nv">local-name</span><span class="p">)</span>
-  <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">))</span>
-<span class="c1">;;格式化字符串</span>
-<span class="p">(</span><span class="nf">format</span> <span class="s">&#34;hello %s!\n&#34;</span> <span class="s">&#34;visitor&#34;</span><span class="p">)</span>
-<span class="c1">;;%s就跟c语言一样的，visitor替换%s</span>
-<span class="p">(</span><span class="nb">defun</span> <span class="nv">hello</span> <span class="p">(</span><span class="nv">name</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">insert</span> <span class="p">(</span><span class="nf">format</span> <span class="s">&#34;hello %s!\n&#34;</span> <span class="nv">name</span><span class="p">)))</span>
-<span class="p">(</span><span class="nv">hello</span> <span class="s">&#34;you&#34;</span><span class="p">)</span>
-<span class="c1">;;hello you!</span>
-<span class="p">(</span><span class="nb">defun</span> <span class="nv">greeting</span> <span class="p">(</span><span class="nv">name</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">your-name</span> <span class="s">&#34;Bastien&#34;</span><span class="p">))</span>
-    <span class="p">(</span><span class="nf">insert</span> <span class="p">(</span><span class="nf">format</span> <span class="s">&#34;hello %s!\n\nI am %s.&#34;</span> <span class="nv">name</span> <span class="nv">your-name</span><span class="p">))))</span>
-<span class="p">(</span><span class="nv">greeting</span> <span class="s">&#34;you&#34;</span><span class="p">)</span>
-<span class="c1">;;hello you!</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp"><span style="color:#75715e">;;use C-x C-e(后面直接写Cxe)</span>
+<span style="color:#75715e">;;基本运算符</span>
+(<span style="color:#a6e22e">+</span> <span style="color:#ae81ff">3</span> (<span style="color:#a6e22e">+</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">3</span>))
+<span style="color:#75715e">;;setq stores a value into a variable</span>
+(setq my-name <span style="color:#e6db74">&#34;lsj&#34;</span>)
+<span style="color:#75715e">;;C-x C-e 就会出现&#34;lsj&#34;在我的mini-buffer中</span>
+<span style="color:#75715e">;;insert will insert &#34;hello!&#34; where the cursor is</span>
+(<span style="color:#a6e22e">insert</span> <span style="color:#e6db74">&#34;hello!&#34;</span>)
+<span style="color:#75715e">;;C-x C-e 光标处出现hello!</span>
+(<span style="color:#a6e22e">insert</span> <span style="color:#e6db74">&#34;hello!&#34;</span> <span style="color:#e6db74">&#34;world&#34;</span>)
+<span style="color:#75715e">;;出现hello!world</span>
+<span style="color:#75715e">;;也可以这样</span>
+(<span style="color:#a6e22e">insert</span> <span style="color:#e6db74">&#34;hello!&#34;</span> <span style="color:#e6db74">&#34;world &#34;</span> my-name)
+<span style="color:#75715e">;;hello!world lsj</span>
+<span style="color:#75715e">;;也可以定义成一个functions</span>
+(defun hello () (<span style="color:#a6e22e">insert</span> <span style="color:#e6db74">&#34;hello,my name is &#34;</span> my-name))
+<span style="color:#75715e">;;Cxe -&gt;hello</span>
+(hello)
+<span style="color:#75715e">;;hello,my name islsj</span>
+<span style="color:#75715e">;;hello()可以接受参数</span>
+(defun hello(name) (<span style="color:#a6e22e">insert</span> <span style="color:#e6db74">&#34;hello &#34;</span> name))
+(hello <span style="color:#e6db74">&#34;lsj&#34;</span>)
+<span style="color:#75715e">;;输入</span>
+(switch-to-buffer-other-window <span style="color:#e6db74">&#34;*test*&#34;</span>)
+<span style="color:#75715e">;;现在光标在*test*中</span>
+<span style="color:#75715e">;;C-x o 切换回去</span>
+<span style="color:#75715e">;;输入</span>
+(progn
+  (switch-to-buffer-other-window <span style="color:#e6db74">&#34;*test*&#34;</span>)
+  (hello <span style="color:#e6db74">&#34;you&#34;</span> ))
+<span style="color:#75715e">;;progn 官方解释&#34;progn is a special form that causes each of its arguments to be evaluated in sequence and then returns the value of the last one. The preceding expressions are evaluated only for the side effects they perform. The values produced by them are discarded.&#34;</span>
+<span style="color:#75715e">;;翻译过来就是 progn 是一个特殊的过程，只返回最后一个表达式的值，前面表达式会被运行但是产生的值会被丢弃</span>
+<span style="color:#75715e">;;所以我们看到*test*中出现hello you</span>
+<span style="color:#75715e">;;抹除缓冲区</span>
+(progn
+  (switch-to-buffer-other-window <span style="color:#e6db74">&#34;*test*&#34;</span>)
+  (<span style="color:#a6e22e">erase-buffer</span>)
+  (hello <span style="color:#e6db74">&#34;there&#34;</span>))
+<span style="color:#75715e">;;也可以完成上面同时回到开始的buffer</span>
+(progn
+  (switch-to-buffer-other-window <span style="color:#e6db74">&#34;*test*&#34;</span>)
+  (<span style="color:#a6e22e">erase-buffer</span>)
+  (hello <span style="color:#e6db74">&#34;you &#34;</span>)
+  <span style="color:#75715e">;;C-x o 等价于(other-window)</span>
+  (other-window <span style="color:#ae81ff">1</span>))
+<span style="color:#75715e">;;定义局部变量 let</span>
+(let ((local-name <span style="color:#e6db74">&#34;you&#34;</span>))
+  (switch-to-buffer-other-window <span style="color:#e6db74">&#34;*test*&#34;</span>)
+  (<span style="color:#a6e22e">erase-buffer</span>)
+  (hello local-name)
+  (other-window <span style="color:#ae81ff">1</span>))
+<span style="color:#75715e">;;格式化字符串</span>
+(<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;hello %s!\n&#34;</span> <span style="color:#e6db74">&#34;visitor&#34;</span>)
+<span style="color:#75715e">;;%s就跟c语言一样的，visitor替换%s</span>
+(defun hello (name)
+  (<span style="color:#a6e22e">insert</span> (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;hello %s!\n&#34;</span> name)))
+(hello <span style="color:#e6db74">&#34;you&#34;</span>)
+<span style="color:#75715e">;;hello you!</span>
+(defun greeting (name)
+  (let ((your-name <span style="color:#e6db74">&#34;Bastien&#34;</span>))
+    (<span style="color:#a6e22e">insert</span> (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;hello %s!\n\nI am %s.&#34;</span> name your-name))))
+(greeting <span style="color:#e6db74">&#34;you&#34;</span>)
+<span style="color:#75715e">;;hello you!</span>
 
-<span class="c1">;;I am Bastien.</span>
-<span class="c1">;;一些交互</span>
-<span class="p">(</span><span class="nf">read-from-minibuffer</span> <span class="s">&#34;Enter your name: &#34;</span><span class="p">)</span>
-<span class="c1">;;完善greeting()</span>
-<span class="p">(</span><span class="nb">defun</span> <span class="nv">greeting</span> <span class="p">(</span><span class="nv">from-name</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">your-name</span> <span class="p">(</span><span class="nf">read-from-minibuffer</span> <span class="s">&#34;Enter your name:&#34;</span><span class="p">)))</span>
-    <span class="p">(</span><span class="nf">insert</span> <span class="p">(</span><span class="nf">format</span> <span class="s">&#34;hello! I am %s and you are %s.&#34;</span> <span class="nv">from-name</span> <span class="nv">your-name</span><span class="p">))))</span>
-<span class="p">(</span><span class="nv">greeting</span> <span class="s">&#34;Bastien&#34;</span><span class="p">)</span>
-<span class="c1">;;minibuffer-&gt;Enter your name:lsj</span>
-<span class="c1">;;hello! I am Bastien and you are lsj.</span>
-<span class="c1">;;结合前面把内容展示到其他窗口</span>
-<span class="p">(</span><span class="nb">defun</span> <span class="nv">greeting</span><span class="p">(</span><span class="nv">from-name</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">your-name</span> <span class="p">(</span><span class="nf">read-from-minibuffer</span> <span class="s">&#34;Enter your name:&#34;</span><span class="p">)))</span>
-    <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
-    <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">)</span>
-    <span class="p">(</span><span class="nf">insert</span> <span class="p">(</span><span class="nf">format</span> <span class="s">&#34;hello ! i am %s and you are %s&#34;</span> <span class="nv">from-name</span> <span class="nv">your-name</span><span class="p">))</span>
-    <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">)))</span>
-<span class="p">(</span><span class="nv">greeting</span> <span class="s">&#34;Bastien&#34;</span><span class="p">)</span>
-<span class="c1">;;*test*-&gt;hello ! i am Bastien and you are lsj</span>
-<span class="c1">;;创建一个列表</span>
-<span class="p">(</span><span class="nb">setq</span> <span class="nv">list-of-names</span> <span class="o">&#39;</span><span class="p">(</span><span class="s">&#34;Saeah&#34;</span> <span class="s">&#34;Chloe&#34;</span> <span class="s">&#34;Mathilde&#34;</span><span class="p">))</span>
-<span class="c1">;;获取这个列表的第一个元素</span>
-<span class="p">(</span><span class="nf">car</span> <span class="nv">list-of-names</span><span class="p">)</span>
-<span class="c1">;;获取除了第一个元素之外的全部元素</span>
-<span class="p">(</span><span class="nf">cdr</span> <span class="nv">list-of-names</span><span class="p">)</span>
-<span class="c1">;;push</span>
-<span class="p">(</span><span class="nb">push</span> <span class="s">&#34;Stephanie&#34;</span> <span class="nv">list-of-names</span><span class="p">)</span>
-<span class="c1">;;mapcar</span>
-<span class="p">(</span><span class="nf">mapcar</span> <span class="ss">&#39;hello</span> <span class="nv">list-of-names</span><span class="p">)</span>
-<span class="c1">;;</span>
-<span class="p">(</span><span class="nb">defun</span> <span class="nv">greeting</span><span class="p">()</span>
-  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">mapcar</span> <span class="ss">&#39;hello</span> <span class="nv">list-of-names</span><span class="p">)</span>
-  <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">))</span>
-<span class="c1">;;mapcar 调用hello 函数，依次使用&#34;list-of-names&#34;的元素作为参数</span>
-<span class="c1">;;</span>
-<span class="p">(</span><span class="nb">defun</span> <span class="nv">replace-hello-by-bonjour</span><span class="p">()</span>
-  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">goto-char</span> <span class="p">(</span><span class="nf">point-min</span><span class="p">))</span>
-  <span class="p">(</span><span class="nb">while</span> <span class="p">(</span><span class="nf">search-forward</span> <span class="s">&#34;hello&#34;</span><span class="p">)</span>
-    <span class="p">(</span><span class="nf">replace-match</span> <span class="s">&#34;bonjour&#34;</span><span class="p">))</span>
-    <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">))</span>
-<span class="c1">;;goto-char(point-min) 转到缓冲区的开头</span>
-<span class="c1">;;(search-forward &#34;hello&#34;) 搜索&#34;hello&#34;</span>
-<span class="c1">;;elisp中 while x y 代表if x true,y;if x nil,out</span>
-<span class="p">(</span><span class="nv">replace-hello-by-bonjour</span><span class="p">)</span>
-<span class="c1">;;bonjour Stephanie!</span>
-<span class="c1">;;bonjour Saeah!</span>
-<span class="c1">;;bonjour Chloe!</span>
-<span class="c1">;;bonjour Mathilde!</span>
-<span class="c1">;;同时还会出现Search failed: Hello</span>
-<span class="c1">;;可以把(search-forward)替换成(search-forward &#34;Hello&#34; nil t)</span>
-<span class="c1">;;</span>
-<span class="p">(</span><span class="nb">defun</span> <span class="nv">hello-to-bonjour</span><span class="p">()</span>
-  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">mapcar</span> <span class="ss">&#39;hello</span> <span class="nv">list-of-names</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">goto-char</span><span class="p">(</span><span class="nf">point-min</span><span class="p">))</span>
-  <span class="p">(</span><span class="nb">while</span><span class="p">(</span><span class="nf">search-forward</span> <span class="s">&#34;hello&#34;</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)</span>
-    <span class="p">(</span><span class="nf">replace-match</span> <span class="s">&#34;bonjour&#34;</span><span class="p">))</span>
-  <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">))</span>
-<span class="p">(</span><span class="nv">hello-to-bonjour</span><span class="p">)</span>
-<span class="c1">;;</span>
-<span class="p">(</span><span class="nb">defun</span> <span class="nv">boldify-names</span> <span class="p">()</span>
-  <span class="p">(</span><span class="nv">switch-to-buffer-other-window</span> <span class="s">&#34;*test*&#34;</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">goto-char</span> <span class="p">(</span><span class="nf">point-min</span><span class="p">))</span>
-  <span class="p">(</span><span class="nb">while</span> <span class="p">(</span><span class="nf">re-search-forward</span> <span class="s">&#34;bonjour \\(.+\\)!&#34;</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)</span>
-    <span class="p">(</span><span class="nf">add-text-properties</span> <span class="p">(</span><span class="nf">match-beginning</span> <span class="mi">1</span><span class="p">)</span>
-			   <span class="p">(</span><span class="nf">match-end</span> <span class="mi">1</span><span class="p">)</span>
-			   <span class="p">(</span><span class="nf">list</span> <span class="ss">&#39;face</span> <span class="ss">&#39;bold</span><span class="p">)))</span>
-    <span class="p">(</span><span class="nv">other-window</span> <span class="mi">1</span><span class="p">))</span>
-<span class="p">(</span><span class="nv">boldify-names</span><span class="p">)</span>
-<span class="c1">;;re-search-forward 使用正则</span>
-<span class="c1">;;add-text-properties 为文本添加属性</span>
-</code></pre></div></article><section class="article labels"><a class="category" href=/categories/learn/>learn</a><a class="tag" href=/tags/elisp/>elisp</a><a class="tag" href=/tags/emacs/>Emacs</a></section></div>
-<div class="article bottom"><section class="article navigation"><p><a class="link" href="/post/org-page%E6%90%AD%E5%BB%BAblog/"><span class="li iconfont icon-article"></span>org-page 搭建 blog</a></p><p><a class="link" href="/post/bigdata_env/"><span class="li iconfont icon-article"></span>大数据环境搭建示例</a></p></section></div></section><section id="footer"><div class="footer-wrap">
-    <p class="copyright">©2018-2020 by abcdlsj</p>
-    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
-        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
-        target="_blank">Notepadium</a></p>
-</div></section><script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-e/4/LvThKH1gwzXhdbY2AsjR3rm7LHWyhIG5C0jiRfn8AN2eTN5ILeztWw0H9jmN" crossorigin="anonymous"></script>
-        <script
-            type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script></body>
+<span style="color:#75715e">;;I am Bastien.</span>
+<span style="color:#75715e">;;一些交互</span>
+(<span style="color:#a6e22e">read-from-minibuffer</span> <span style="color:#e6db74">&#34;Enter your name: &#34;</span>)
+<span style="color:#75715e">;;完善greeting()</span>
+(defun greeting (from-name)
+  (let ((your-name (<span style="color:#a6e22e">read-from-minibuffer</span> <span style="color:#e6db74">&#34;Enter your name:&#34;</span>)))
+    (<span style="color:#a6e22e">insert</span> (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;hello! I am %s and you are %s.&#34;</span> from-name your-name))))
+(greeting <span style="color:#e6db74">&#34;Bastien&#34;</span>)
+<span style="color:#75715e">;;minibuffer-&gt;Enter your name:lsj</span>
+<span style="color:#75715e">;;hello! I am Bastien and you are lsj.</span>
+<span style="color:#75715e">;;结合前面把内容展示到其他窗口</span>
+(defun greeting(from-name)
+  (let ((your-name (<span style="color:#a6e22e">read-from-minibuffer</span> <span style="color:#e6db74">&#34;Enter your name:&#34;</span>)))
+    (switch-to-buffer-other-window <span style="color:#e6db74">&#34;*test*&#34;</span>)
+    (<span style="color:#a6e22e">erase-buffer</span>)
+    (<span style="color:#a6e22e">insert</span> (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;hello ! i am %s and you are %s&#34;</span> from-name your-name))
+    (other-window <span style="color:#ae81ff">1</span>)))
+(greeting <span style="color:#e6db74">&#34;Bastien&#34;</span>)
+<span style="color:#75715e">;;*test*-&gt;hello ! i am Bastien and you are lsj</span>
+<span style="color:#75715e">;;创建一个列表</span>
+(setq list-of-names <span style="color:#f92672">&#39;</span>(<span style="color:#e6db74">&#34;Saeah&#34;</span> <span style="color:#e6db74">&#34;Chloe&#34;</span> <span style="color:#e6db74">&#34;Mathilde&#34;</span>))
+<span style="color:#75715e">;;获取这个列表的第一个元素</span>
+(<span style="color:#a6e22e">car</span> list-of-names)
+<span style="color:#75715e">;;获取除了第一个元素之外的全部元素</span>
+(<span style="color:#a6e22e">cdr</span> list-of-names)
+<span style="color:#75715e">;;push</span>
+(push <span style="color:#e6db74">&#34;Stephanie&#34;</span> list-of-names)
+<span style="color:#75715e">;;mapcar</span>
+(<span style="color:#a6e22e">mapcar</span> <span style="color:#e6db74">&#39;hello</span> list-of-names)
+<span style="color:#75715e">;;</span>
+(defun greeting()
+  (switch-to-buffer-other-window <span style="color:#e6db74">&#34;*test*&#34;</span>)
+  (<span style="color:#a6e22e">erase-buffer</span>)
+  (<span style="color:#a6e22e">mapcar</span> <span style="color:#e6db74">&#39;hello</span> list-of-names)
+  (other-window <span style="color:#ae81ff">1</span>))
+<span style="color:#75715e">;;mapcar 调用hello 函数，依次使用&#34;list-of-names&#34;的元素作为参数</span>
+<span style="color:#75715e">;;</span>
+(defun replace-hello-by-bonjour()
+  (switch-to-buffer-other-window <span style="color:#e6db74">&#34;*test*&#34;</span>)
+  (<span style="color:#a6e22e">goto-char</span> (<span style="color:#a6e22e">point-min</span>))
+  (while (<span style="color:#a6e22e">search-forward</span> <span style="color:#e6db74">&#34;hello&#34;</span>)
+    (<span style="color:#a6e22e">replace-match</span> <span style="color:#e6db74">&#34;bonjour&#34;</span>))
+    (other-window <span style="color:#ae81ff">1</span>))
+<span style="color:#75715e">;;goto-char(point-min) 转到缓冲区的开头</span>
+<span style="color:#75715e">;;(search-forward &#34;hello&#34;) 搜索&#34;hello&#34;</span>
+<span style="color:#75715e">;;elisp中 while x y 代表if x true,y;if x nil,out</span>
+(replace-hello-by-bonjour)
+<span style="color:#75715e">;;bonjour Stephanie!</span>
+<span style="color:#75715e">;;bonjour Saeah!</span>
+<span style="color:#75715e">;;bonjour Chloe!</span>
+<span style="color:#75715e">;;bonjour Mathilde!</span>
+<span style="color:#75715e">;;同时还会出现Search failed: Hello</span>
+<span style="color:#75715e">;;可以把(search-forward)替换成(search-forward &#34;Hello&#34; nil t)</span>
+<span style="color:#75715e">;;</span>
+(defun hello-to-bonjour()
+  (switch-to-buffer-other-window <span style="color:#e6db74">&#34;*test*&#34;</span>)
+  (<span style="color:#a6e22e">erase-buffer</span>)
+  (<span style="color:#a6e22e">mapcar</span> <span style="color:#e6db74">&#39;hello</span> list-of-names)
+  (<span style="color:#a6e22e">goto-char</span>(<span style="color:#a6e22e">point-min</span>))
+  (while(<span style="color:#a6e22e">search-forward</span> <span style="color:#e6db74">&#34;hello&#34;</span> <span style="color:#66d9ef">nil</span> <span style="color:#66d9ef">t</span>)
+    (<span style="color:#a6e22e">replace-match</span> <span style="color:#e6db74">&#34;bonjour&#34;</span>))
+  (other-window <span style="color:#ae81ff">1</span>))
+(hello-to-bonjour)
+<span style="color:#75715e">;;</span>
+(defun boldify-names ()
+  (switch-to-buffer-other-window <span style="color:#e6db74">&#34;*test*&#34;</span>)
+  (<span style="color:#a6e22e">goto-char</span> (<span style="color:#a6e22e">point-min</span>))
+  (while (<span style="color:#a6e22e">re-search-forward</span> <span style="color:#e6db74">&#34;bonjour \\(.+\\)!&#34;</span> <span style="color:#66d9ef">nil</span> <span style="color:#66d9ef">t</span>)
+    (<span style="color:#a6e22e">add-text-properties</span> (<span style="color:#a6e22e">match-beginning</span> <span style="color:#ae81ff">1</span>)
+			   (<span style="color:#a6e22e">match-end</span> <span style="color:#ae81ff">1</span>)
+			   (<span style="color:#a6e22e">list</span> <span style="color:#e6db74">&#39;face</span> <span style="color:#e6db74">&#39;bold</span>)))
+    (other-window <span style="color:#ae81ff">1</span>))
+(boldify-names)
+<span style="color:#75715e">;;re-search-forward 使用正则</span>
+<span style="color:#75715e">;;add-text-properties 为文本添加属性</span>
+</code></pre></div>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='last-updated'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34" />
+  <polygon points="18 2 22 6 12 16 8 16 8 12 18 2" />
+  
+</svg>
+<span class='screen-reader-text'>Last updated: </span>
+      <time class='entry-date' datetime='2020-01-13T22:44:40&#43;08:00'>2020, Jan 13</time>
+    </div><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/learn/'>learn</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/emacs/'>Emacs</a>, <a class='tag' href='/tags/elisp/'>elisp</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/post/bigdata_env/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>大数据环境搭建示例</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/post/org-page%E6%90%AD%E5%BB%BAblog/'>
+        <span class='screen-reader-text'>Next post: </span>org-page 搭建 blog<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/abcdlsj' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:lisongjianshuai@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p>abcdlsj</p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
 
 </html>
+

@@ -1,11 +1,260 @@
 <!DOCTYPE html>
-<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.70.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="color-scheme" content="light dark">
-<meta name="supported-color-schemes" content="light dark"><title>Representing-Manipulating-Information&nbsp;&ndash;&nbsp;ABCDLSJ&#39;S WORLD</title><link rel="stylesheet" href="/css/core.min.bd80a98af3526c1eca41ed19e1b42fd6fdd538120f2cd05124dc8b46165b2ac8fad88ae9b6b04db569a8c119425eb289.css" integrity="sha384-vYCpivNSbB7KQe0Z4bQv1v3VOBIPLNBRJNyLRhZbKsj62IrptrBNtWmowRlCXrKJ"><meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Representing-Manipulating-Information" /><body><section id="header">
-    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">ABCDLSJ'S WORLD</span></a></span>
-        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about/">About</a></nav></div></span></div><div class="site slogan"><span class="title">享受专注</span></div></section><section id="content"><div class="article-container"><section class="article header">
-    <h1 class="article title">Representing-Manipulating-Information</h1><p class="article date">Oct 13, 2019<span class="lastmod"> • edited Feb 24, 2020</span></p></section><article class="article markdown-body"><blockquote>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='
+CSAPP 第二章阅读笔记
+'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Representing-Manipulating-Information • The Real World'>
+<meta property='og:description' content='
+CSAPP 第二章阅读笔记
+'>
+<meta property='og:url' content='https://github.abcdlsj.io/post/representing-manipulating-information/'>
+<meta property='og:site_name' content='The Real World'>
+<meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='CSAPP'><meta property='article:tag' content='OS'><meta property='article:published_time' content='2019-10-13T00:00:00&#43;08:00'/><meta property='article:modified_time' content='2020-02-24T22:36:59&#43;08:00'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.70.0" />
+
+  <title>Representing-Manipulating-Information • The Real World</title>
+  <link rel='canonical' href='https://github.abcdlsj.io/post/representing-manipulating-information/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-post has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      SongJian Li
+      </a>
+    </h2>
+    <div class='desc'>
+    C/C++ Golang Lisp Python
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/arch/' style='font-size:1em'>Arch</a>
+      </li><li>
+        <a href='/tags/aria2/' style='font-size:1em'>aria2</a>
+      </li><li>
+        <a href='/tags/backtracking/' style='font-size:1em'>BackTracking</a>
+      </li><li>
+        <a href='/tags/baidu/' style='font-size:1em'>baidu</a>
+      </li><li>
+        <a href='/tags/bigdata/' style='font-size:1em'>BigData</a>
+      </li><li>
+        <a href='/tags/binary-search/' style='font-size:1em'>Binary Search</a>
+      </li><li>
+        <a href='/tags/blog/' style='font-size:1.2em'>blog</a>
+      </li><li>
+        <a href='/tags/chmod/' style='font-size:1em'>chmod</a>
+      </li><li>
+        <a href='/tags/cmder/' style='font-size:1em'>Cmder</a>
+      </li><li>
+        <a href='/tags/conky/' style='font-size:1em'>conky</a>
+      </li><li>
+        <a href='/tags/cpp/' style='font-size:1.2em'>CPP</a>
+      </li><li>
+        <a href='/tags/csapp/' style='font-size:1em'>CSAPP</a>
+      </li><li>
+        <a href='/tags/data-structure/' style='font-size:1em'>Data Structure</a>
+      </li><li>
+        <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
+      </li><li>
+        <a href='/tags/dynamic-programming/' style='font-size:1em'>Dynamic Programming</a>
+      </li><li>
+        <a href='/tags/elisp/' style='font-size:1em'>elisp</a>
+      </li><li>
+        <a href='/tags/emacs/' style='font-size:1.4em'>Emacs</a>
+      </li><li>
+        <a href='/tags/ffmepg/' style='font-size:1em'>ffmepg</a>
+      </li><li>
+        <a href='/tags/gdb/' style='font-size:1em'>gdb</a>
+      </li><li>
+        <a href='/tags/google-bbr/' style='font-size:1em'>Google bbr</a>
+      </li><li>
+        <a href='/tags/h5ai/' style='font-size:1em'>h5ai</a>
+      </li><li>
+        <a href='/tags/hexo/' style='font-size:1em'>hexo</a>
+      </li><li>
+        <a href='/tags/hugo/' style='font-size:1.2em'>hugo</a>
+      </li><li>
+        <a href='/tags/interview/' style='font-size:1em'>Interview</a>
+      </li><li>
+        <a href='/tags/keyboard/' style='font-size:1em'>KeyBoard</a>
+      </li><li>
+        <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
+      </li><li>
+        <a href='/tags/linux/' style='font-size:1.8em'>linux</a>
+      </li><li>
+        <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
+      </li><li>
+        <a href='/tags/markdown/' style='font-size:1em'>Markdown</a>
+      </li><li>
+        <a href='/tags/mysql/' style='font-size:1em'>Mysql</a>
+      </li><li>
+        <a href='/tags/nextcloud/' style='font-size:1em'>NextCloud</a>
+      </li><li>
+        <a href='/tags/org/' style='font-size:1.6em'>org</a>
+      </li><li>
+        <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
+      </li><li>
+        <a href='/tags/os/' style='font-size:1.6em'>OS</a>
+      </li><li>
+        <a href='/tags/package/' style='font-size:1em'>package</a>
+      </li><li>
+        <a href='/tags/pip/' style='font-size:1em'>pip</a>
+      </li><li>
+        <a href='/tags/python/' style='font-size:1.6em'>Python</a>
+      </li><li>
+        <a href='/tags/sicp/' style='font-size:1.4em'>SICP</a>
+      </li><li>
+        <a href='/tags/sklearn/' style='font-size:1em'>Sklearn</a>
+      </li><li>
+        <a href='/tags/sliding-window/' style='font-size:1em'>Sliding Window</a>
+      </li><li>
+        <a href='/tags/ssr/' style='font-size:1em'>ssr</a>
+      </li><li>
+        <a href='/tags/tensorflow/' style='font-size:1em'>Tensorflow</a>
+      </li><li>
+        <a href='/tags/tree/' style='font-size:1em'>Tree</a>
+      </li><li>
+        <a href='/tags/v2ray/' style='font-size:1.4em'>v2ray</a>
+      </li><li>
+        <a href='/tags/zsh/' style='font-size:1em'>zsh</a>
+      </li><li>
+        <a href='/tags/%E5%8D%9C%E7%AE%97%E5%AD%90/' style='font-size:1em'>卜算子</a>
+      </li><li>
+        <a href='/tags/%E6%80%9D%E6%83%B3/' style='font-size:1em'>思想</a>
+      </li><li>
+        <a href='/tags/%E6%84%9F%E6%82%9F/' style='font-size:1em'>感悟</a>
+      </li><li>
+        <a href='/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/' style='font-size:1em'>树莓派</a>
+      </li><li>
+        <a href='/tags/%E7%94%9F%E6%B4%BB/' style='font-size:1em'>生活</a>
+      </li><li>
+        <a href='/tags/%E8%BE%93%E5%85%A5%E6%B3%95/' style='font-size:1em'>输入法</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/about'>ABOUT ME</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>The Real World</a></li><li><a href='/post/'>Posts</a></li><li><span>Representing-Manipulating-Information</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>The Real World</p><p class='desc site-desc'>Enjoy Concentration</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Representing-Manipulating-Information</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2019-10-13T00:00:00&#43;08:00'>2019, Oct 13</time>
+</span>
+
+  
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+5 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <blockquote>
 <p>CSAPP 第二章阅读笔记</p>
 </blockquote>
 <h2 id="learn">learn</h2>
@@ -13,262 +262,351 @@
 <p>没啥写的，有点忘了</p>
 </blockquote>
 <h2 id="datalab">datalab</h2>
-<span class="image-container"><span class="link" ><a href="/ox-hugo/lab1test.png" 
-        target="_blank"><img class="img" src="/ox-hugo/lab1test.png" 
-         alt="Figure 1: datalab"/></a></span><span class="caption">
+<figure>
+    <img src="/ox-hugo/lab1test.png"
+         alt="Figure 1: datalab"/> <figcaption>
             <p>Figure 1: datalab</p>
-        </span>
-</span>
+        </figcaption>
+</figure>
+
 <h3 id="datalab-整数">datalab 整数</h3>
 <h4 id="bitxor">bitXor</h4>
 <p>我的思路是：先找出 x y 共同的 <code>1</code> ，然后找出共同的 <code>0</code>  ，然后 &amp; 得到有相同字符的位置，最后取～ ，得到答案</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">//1
-</span><span class="c1"></span><span class="cm">/*
-</span><span class="cm"> * bitXor - x^y using only ~ and &amp;
-</span><span class="cm"> *   Example: bitXor(4, 5) = 1
-</span><span class="cm"> *   Legal ops: ~ &amp;
-</span><span class="cm"> *   Max ops: 14
-</span><span class="cm"> *   Rating: 1
-</span><span class="cm"> */</span>
-<span class="kt">int</span> <span class="nf">bitXor</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="o">~</span><span class="p">(</span><span class="n">x</span><span class="o">&amp;</span><span class="n">y</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="o">~</span><span class="p">(</span><span class="o">~</span><span class="n">x</span><span class="o">&amp;~</span><span class="n">y</span><span class="p">));</span>
-<span class="p">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">//1
+</span><span style="color:#75715e"></span><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * bitXor - x^y using only ~ and &amp;
+</span><span style="color:#75715e"> *   Example: bitXor(4, 5) = 1
+</span><span style="color:#75715e"> *   Legal ops: ~ &amp;
+</span><span style="color:#75715e"> *   Max ops: 14
+</span><span style="color:#75715e"> *   Rating: 1
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">bitXor</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
+  <span style="color:#66d9ef">return</span> <span style="color:#f92672">~</span>(x<span style="color:#f92672">&amp;</span>y)<span style="color:#f92672">&amp;</span>(<span style="color:#f92672">~</span>(<span style="color:#f92672">~</span>x<span style="color:#f92672">&amp;~</span>y));
+}
 </code></pre></div><h4 id="istmax-istmin">isTmax isTmin</h4>
 <p><code>Tmin = 10000000 00000000 00000000 00000000</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/*
-</span><span class="cm"> * tmin - return minimum two&#39;s complement integer
-</span><span class="cm"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
-</span><span class="cm"> *   Max ops: 4
-</span><span class="cm"> *   Rating: 1
-</span><span class="cm"> */</span>
-<span class="kt">int</span> <span class="nf">tmin</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="mh">0x01</span><span class="o">&lt;&lt;</span><span class="mi">31</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * tmin - return minimum two&#39;s complement integer
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 4
+</span><span style="color:#75715e"> *   Rating: 1
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">tmin</span>(<span style="color:#66d9ef">void</span>) {
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0x01</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">31</span>;
+}
 </code></pre></div><h4 id="istmax">isTmax</h4>
 <p>Tmax = ~(Tmax+1)</p>
 <p>Tmin = ~(Tmin+1)</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/*
-</span><span class="cm"> * isTmax - returns 1 if x is the maximum, two&#39;s complement number,
-</span><span class="cm"> *     and 0 otherwise
-</span><span class="cm"> *   Legal ops: ! ~ &amp; ^ | +
-</span><span class="cm"> *   Max ops: 10
-</span><span class="cm"> *   Rating: 1
-</span><span class="cm"> */</span>
-<span class="kt">int</span> <span class="nf">isTmax</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="o">!</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="p">(</span><span class="o">~</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span> <span class="o">&amp;</span> <span class="o">!!</span><span class="p">(</span><span class="o">~</span><span class="n">x</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * isTmax - returns 1 if x is the maximum, two&#39;s complement number,
+</span><span style="color:#75715e"> *     and 0 otherwise
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | +
+</span><span style="color:#75715e"> *   Max ops: 10
+</span><span style="color:#75715e"> *   Rating: 1
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">isTmax</span>(<span style="color:#66d9ef">int</span> x) {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">!</span> (x<span style="color:#f92672">^</span>(<span style="color:#f92672">~</span>(x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>))) <span style="color:#f92672">&amp;</span> <span style="color:#f92672">!!</span>(<span style="color:#f92672">~</span>x);
+}
 </code></pre></div><h4 id="alloddbits">allOddBits</h4>
 <p>x &amp; 0xAAAAAAAA = 0xAAAAAAAA</p>
 <p>构造0xAAAAAAAA</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">allOddBits</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){</span>
-    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mh">0xaa</span><span class="o">|</span><span class="mh">0xaa</span><span class="o">&lt;&lt;</span><span class="mi">8</span><span class="p">;</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">|</span><span class="mh">0xaa</span><span class="o">&lt;&lt;</span><span class="mi">16</span><span class="p">;</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">|</span><span class="mh">0xaa</span><span class="o">&lt;&lt;</span><span class="mi">24</span><span class="p">;</span>
-    <span class="k">return</span> <span class="o">!</span><span class="p">((</span><span class="n">a</span><span class="o">&amp;</span><span class="n">x</span><span class="p">)</span><span class="o">^</span><span class="n">a</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">allOddBits</span>(<span style="color:#66d9ef">int</span> x){
+    <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0xaa</span><span style="color:#f92672">|</span><span style="color:#ae81ff">0xaa</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">8</span>;
+    a <span style="color:#f92672">=</span> a<span style="color:#f92672">|</span><span style="color:#ae81ff">0xaa</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">16</span>;
+    a <span style="color:#f92672">=</span> a<span style="color:#f92672">|</span><span style="color:#ae81ff">0xaa</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">24</span>;
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">!</span>((a<span style="color:#f92672">&amp;</span>x)<span style="color:#f92672">^</span>a);
+}
 </code></pre></div><h4 id="negate">negate</h4>
 <p>负数的补码 = 反码 +1</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/*
-</span><span class="cm"> * negate - return -x
-</span><span class="cm"> *   Example: negate(1) = -1.
-</span><span class="cm"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
-</span><span class="cm"> *   Max ops: 5
-</span><span class="cm"> *   Rating: 2
-</span><span class="cm"> */</span>
-<span class="kt">int</span> <span class="nf">negate</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">(</span><span class="o">~</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * negate - return -x
+</span><span style="color:#75715e"> *   Example: negate(1) = -1.
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 5
+</span><span style="color:#75715e"> *   Rating: 2
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">negate</span>(<span style="color:#66d9ef">int</span> x) {
+  <span style="color:#66d9ef">return</span> (<span style="color:#f92672">~</span>x)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+}
 </code></pre></div><h4 id="isasciidigit">isAsciiDigit</h4>
 <p>计算机加减一个数 = 加上那个数的反码+1</p>
 <p>非负数右移31位==0</p>
 <p>负数右移31位==1</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/*
-</span><span class="cm"> * isAsciiDigit - return 1 if 0x30 &lt;= x &lt;= 0x39 (ASCII codes for characters &#39;0&#39; to &#39;9&#39;)
-</span><span class="cm"> *   Example: isAsciiDigit(0x35) = 1.
-</span><span class="cm"> *            isAsciiDigit(0x3a) = 0.
-</span><span class="cm"> *            isAsciiDigit(0x05) = 0.
-</span><span class="cm"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
-</span><span class="cm"> *   Max ops: 15
-</span><span class="cm"> *   Rating: 3
-</span><span class="cm"> */</span>
-<span class="kt">int</span> <span class="nf">isAsciiDigit</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){</span>
-	<span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="n">x</span><span class="o">+~</span><span class="mh">0x30</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="mh">0x39</span><span class="o">+~</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-	<span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="n">left</span><span class="o">&gt;&gt;</span><span class="mi">31</span><span class="p">)</span><span class="o">&amp;!</span><span class="p">(</span><span class="n">right</span><span class="o">&gt;&gt;</span><span class="mi">31</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * isAsciiDigit - return 1 if 0x30 &lt;= x &lt;= 0x39 (ASCII codes for characters &#39;0&#39; to &#39;9&#39;)
+</span><span style="color:#75715e"> *   Example: isAsciiDigit(0x35) = 1.
+</span><span style="color:#75715e"> *            isAsciiDigit(0x3a) = 0.
+</span><span style="color:#75715e"> *            isAsciiDigit(0x05) = 0.
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 15
+</span><span style="color:#75715e"> *   Rating: 3
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">isAsciiDigit</span>(<span style="color:#66d9ef">int</span> x){
+	<span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> x<span style="color:#f92672">+~</span><span style="color:#ae81ff">0x30</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+	<span style="color:#66d9ef">int</span> right <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x39</span><span style="color:#f92672">+~</span>x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">!</span>(left<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">31</span>)<span style="color:#f92672">&amp;!</span>(right<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">31</span>);
+}
 </code></pre></div><h4 id="conditional">conditional</h4>
 <p>看到题目就知道要构造 <code>0</code> <code>1</code> ，要进行 <code>!</code> 运算又要最后返回 y z，于是想到根据 x 构造 0xffffffff</p>
 <p>0x00000000^anynum = 0xffffffff&amp;anynum;</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/*
-</span><span class="cm"> * conditional - same as x ? y : z
-</span><span class="cm"> *   Example: conditional(2,4,5) = 4
-</span><span class="cm"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
-</span><span class="cm"> *   Max ops: 16
-</span><span class="cm"> *   Rating: 3
-</span><span class="cm"> */</span>
-<span class="kt">int</span> <span class="nf">conditional</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">z</span><span class="p">)</span> <span class="p">{</span>
-	<span class="cm">/*
-</span><span class="cm">    *if x!=0,mask=0x00000000,so y&amp;~mask==y and z&amp;mask==0
-</span><span class="cm">    *if x==0,mask=0xffffffff,so y&amp;~mask = y&amp;0 =0; z&amp;mask=z
-</span><span class="cm">    */</span>
-	<span class="kt">int</span> <span class="n">mask</span><span class="o">=</span> <span class="o">~!</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">y</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">mask</span><span class="p">)</span><span class="o">|</span><span class="p">(</span><span class="n">z</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * conditional - same as x ? y : z
+</span><span style="color:#75715e"> *   Example: conditional(2,4,5) = 4
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 16
+</span><span style="color:#75715e"> *   Rating: 3
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">conditional</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y, <span style="color:#66d9ef">int</span> z) {
+	<span style="color:#75715e">/*
+</span><span style="color:#75715e">    *if x!=0,mask=0x00000000,so y&amp;~mask==y and z&amp;mask==0
+</span><span style="color:#75715e">    *if x==0,mask=0xffffffff,so y&amp;~mask = y&amp;0 =0; z&amp;mask=z
+</span><span style="color:#75715e">    */</span>
+	<span style="color:#66d9ef">int</span> mask<span style="color:#f92672">=</span> <span style="color:#f92672">~!</span>x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">return</span> (y <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span>mask)<span style="color:#f92672">|</span>(z <span style="color:#f92672">&amp;</span> mask);
+}
 </code></pre></div><h4 id="islessorequal">isLessOrEqual</h4>
 <p>分两种情况讨论就行了</p>
 <p>同号时 判断 y-x&gt;=0 就行了</p>
 <p>异号时 判断 x或者y 符号就行了</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/*
-</span><span class="cm"> * isLessOrEqual - if x &lt;= y  then return 1, else return 0
-</span><span class="cm"> *   Example: isLessOrEqual(4,5) = 1.
-</span><span class="cm"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
-</span><span class="cm"> *   Max ops: 24
-</span><span class="cm"> *   Rating: 3
-</span><span class="cm"> */</span>
-<span class="kt">int</span> <span class="nf">isLessOrEqual</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
-	<span class="kt">int</span> <span class="n">signx</span> <span class="o">=</span> <span class="n">x</span><span class="o">&gt;&gt;</span><span class="mi">31</span> <span class="o">&amp;</span> <span class="mh">0x01</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">signy</span> <span class="o">=</span> <span class="n">y</span><span class="o">&gt;&gt;</span><span class="mi">31</span> <span class="o">&amp;</span> <span class="mh">0x01</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">isSameSign</span> <span class="o">=</span> <span class="o">!</span><span class="p">(</span><span class="n">signx</span><span class="o">^</span><span class="n">signy</span><span class="p">);</span> <span class="c1">// 相同符号为1
-</span><span class="c1"></span>	<span class="k">return</span> <span class="p">(</span><span class="n">isSameSign</span> <span class="o">&amp;</span> <span class="o">!</span><span class="p">((</span><span class="n">y</span><span class="o">+~</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">31</span><span class="p">))</span><span class="o">|</span><span class="p">((</span><span class="o">!</span><span class="n">isSameSign</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">signx</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * isLessOrEqual - if x &lt;= y  then return 1, else return 0
+</span><span style="color:#75715e"> *   Example: isLessOrEqual(4,5) = 1.
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 24
+</span><span style="color:#75715e"> *   Rating: 3
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">isLessOrEqual</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
+	<span style="color:#66d9ef">int</span> signx <span style="color:#f92672">=</span> x<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">31</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x01</span>;
+	<span style="color:#66d9ef">int</span> signy <span style="color:#f92672">=</span> y<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">31</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x01</span>;
+	<span style="color:#66d9ef">int</span> isSameSign <span style="color:#f92672">=</span> <span style="color:#f92672">!</span>(signx<span style="color:#f92672">^</span>signy); <span style="color:#75715e">// 相同符号为1
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> (isSameSign <span style="color:#f92672">&amp;</span> <span style="color:#f92672">!</span>((y<span style="color:#f92672">+~</span>x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">31</span>))<span style="color:#f92672">|</span>((<span style="color:#f92672">!</span>isSameSign) <span style="color:#f92672">&amp;</span> signx);
+}
 </code></pre></div><h4 id="logicalneg">logicalNeg</h4>
 <p><code>0</code> 和 <code>-0</code> 的 符号位都为 <code>0</code> 所以判断下 <code>(x|(~x+1))</code> 符号位就行了</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/*
-</span><span class="cm"> * logicalNeg - implement the ! operator, using all of
-</span><span class="cm"> *              the legal operators except !
-</span><span class="cm"> *   Examples: logicalNeg(3) = 0, logicalNeg(0) = 1
-</span><span class="cm"> *   Legal ops: ~ &amp; ^ | + &lt;&lt; &gt;&gt;
-</span><span class="cm"> *   Max ops: 12
-</span><span class="cm"> *   Rating: 4
-</span><span class="cm"> */</span>
-<span class="kt">int</span> <span class="nf">logicalNeg</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="o">~</span><span class="p">((</span><span class="n">x</span><span class="o">|</span><span class="p">(</span><span class="o">~</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">&gt;&gt;</span><span class="mi">31</span><span class="p">)</span><span class="o">&amp;</span><span class="mh">0x01</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * logicalNeg - implement the ! operator, using all of
+</span><span style="color:#75715e"> *              the legal operators except !
+</span><span style="color:#75715e"> *   Examples: logicalNeg(3) = 0, logicalNeg(0) = 1
+</span><span style="color:#75715e"> *   Legal ops: ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 12
+</span><span style="color:#75715e"> *   Rating: 4
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">logicalNeg</span>(<span style="color:#66d9ef">int</span> x) {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">~</span>((x<span style="color:#f92672">|</span>(<span style="color:#f92672">~</span>x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>))<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">31</span>)<span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0x01</span>;
+}
 </code></pre></div><h4 id="howmanybits">HowmanyBits</h4>
 <p>这道题开始完全没想到，后面参考小土刀的博客才做出来,代码不难，走一遍懂了</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/* howManyBits - return the minimum number of bits required to represent x in
-</span><span class="cm"> *             two&#39;s complement
-</span><span class="cm"> *  Examples: howManyBits(12) = 5
-</span><span class="cm"> *            howManyBits(298) = 10
-</span><span class="cm"> *            howManyBits(-5) = 4
-</span><span class="cm"> *            howManyBits(0)  = 1
-</span><span class="cm"> *            howManyBits(-1) = 1
-</span><span class="cm"> *            howManyBits(0x80000000) = 32
-</span><span class="cm"> *  Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
-</span><span class="cm"> *  Max ops: 90
-</span><span class="cm"> *  Rating: 4
-</span><span class="cm"> */</span>
-<span class="kt">int</span> <span class="nf">howManyBits</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-	<span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="p">(</span><span class="n">x</span><span class="o">&gt;&gt;</span><span class="mi">31</span><span class="p">);</span>
-	<span class="kt">int</span> <span class="n">isZero</span> <span class="o">=</span> <span class="o">!</span><span class="n">tmp</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">notZeroMark</span> <span class="o">=</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="o">!</span><span class="n">tmp</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="mi">31</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">31</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">bit_16</span><span class="p">,</span><span class="n">bit_8</span><span class="p">,</span><span class="n">bit_4</span><span class="p">,</span><span class="n">bit_2</span><span class="p">,</span><span class="n">bit_1</span><span class="p">;</span>
-	<span class="n">bit_16</span> <span class="o">=</span> <span class="o">!</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">tmp</span><span class="o">&gt;&gt;</span><span class="mi">16</span><span class="p">))</span><span class="o">&lt;&lt;</span><span class="mi">4</span><span class="p">;</span>
-	<span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">&gt;&gt;</span> <span class="n">bit_16</span><span class="p">;</span>
-	<span class="n">bit_8</span> <span class="o">=</span> <span class="o">!</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">tmp</span><span class="o">&gt;&gt;</span><span class="mi">8</span><span class="p">))</span><span class="o">&lt;&lt;</span><span class="mi">3</span><span class="p">;</span>
-	<span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">&gt;&gt;</span> <span class="n">bit_8</span><span class="p">;</span>
-	<span class="n">bit_4</span> <span class="o">=</span> <span class="o">!</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">tmp</span><span class="o">&gt;&gt;</span><span class="mi">4</span><span class="p">))</span><span class="o">&lt;&lt;</span><span class="mi">2</span><span class="p">;</span>
-	<span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">&gt;&gt;</span> <span class="n">bit_4</span><span class="p">;</span>
-	<span class="n">bit_2</span> <span class="o">=</span> <span class="o">!</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">tmp</span><span class="o">&gt;&gt;</span><span class="mi">2</span><span class="p">))</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">;</span>
-	<span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">&gt;&gt;</span><span class="n">bit_2</span><span class="p">;</span>
-	<span class="n">bit_1</span> <span class="o">=</span> <span class="o">!</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">tmp</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">));</span>
-	<span class="n">tmp</span> <span class="o">=</span> <span class="n">bit_1</span><span class="o">+</span><span class="n">bit_2</span><span class="o">+</span><span class="n">bit_4</span><span class="o">+</span><span class="n">bit_8</span><span class="o">+</span><span class="n">bit_16</span><span class="o">+</span><span class="mi">2</span><span class="p">;</span>
-	<span class="k">return</span> <span class="n">isZero</span><span class="o">|</span><span class="p">(</span><span class="n">tmp</span><span class="o">&amp;</span><span class="n">notZeroMark</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/* howManyBits - return the minimum number of bits required to represent x in
+</span><span style="color:#75715e"> *             two&#39;s complement
+</span><span style="color:#75715e"> *  Examples: howManyBits(12) = 5
+</span><span style="color:#75715e"> *            howManyBits(298) = 10
+</span><span style="color:#75715e"> *            howManyBits(-5) = 4
+</span><span style="color:#75715e"> *            howManyBits(0)  = 1
+</span><span style="color:#75715e"> *            howManyBits(-1) = 1
+</span><span style="color:#75715e"> *            howManyBits(0x80000000) = 32
+</span><span style="color:#75715e"> *  Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *  Max ops: 90
+</span><span style="color:#75715e"> *  Rating: 4
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">howManyBits</span>(<span style="color:#66d9ef">int</span> x) {
+	<span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> x<span style="color:#f92672">^</span>(x<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">31</span>);
+	<span style="color:#66d9ef">int</span> isZero <span style="color:#f92672">=</span> <span style="color:#f92672">!</span>tmp;
+	<span style="color:#66d9ef">int</span> notZeroMark <span style="color:#f92672">=</span> (<span style="color:#f92672">!</span>(<span style="color:#f92672">!</span>tmp)<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">31</span>)<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">31</span>;
+	<span style="color:#66d9ef">int</span> bit_16,bit_8,bit_4,bit_2,bit_1;
+	bit_16 <span style="color:#f92672">=</span> <span style="color:#f92672">!</span>(<span style="color:#f92672">!</span>(tmp<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span>))<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">4</span>;
+	tmp <span style="color:#f92672">=</span> tmp <span style="color:#f92672">&gt;&gt;</span> bit_16;
+	bit_8 <span style="color:#f92672">=</span> <span style="color:#f92672">!</span>(<span style="color:#f92672">!</span>(tmp<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span>))<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">3</span>;
+	tmp <span style="color:#f92672">=</span> tmp <span style="color:#f92672">&gt;&gt;</span> bit_8;
+	bit_4 <span style="color:#f92672">=</span> <span style="color:#f92672">!</span>(<span style="color:#f92672">!</span>(tmp<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">4</span>))<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">2</span>;
+	tmp <span style="color:#f92672">=</span> tmp <span style="color:#f92672">&gt;&gt;</span> bit_4;
+	bit_2 <span style="color:#f92672">=</span> <span style="color:#f92672">!</span>(<span style="color:#f92672">!</span>(tmp<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">2</span>))<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>;
+	tmp <span style="color:#f92672">=</span> tmp <span style="color:#f92672">&gt;&gt;</span>bit_2;
+	bit_1 <span style="color:#f92672">=</span> <span style="color:#f92672">!</span>(<span style="color:#f92672">!</span>(tmp<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>));
+	tmp <span style="color:#f92672">=</span> bit_1<span style="color:#f92672">+</span>bit_2<span style="color:#f92672">+</span>bit_4<span style="color:#f92672">+</span>bit_8<span style="color:#f92672">+</span>bit_16<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>;
+	<span style="color:#66d9ef">return</span> isZero<span style="color:#f92672">|</span>(tmp<span style="color:#f92672">&amp;</span>notZeroMark);
+}
 </code></pre></div><h3 id="datalab-浮点">datalab 浮点</h3>
 <h4 id="floatscale2">floatScale2</h4>
 <p>对于浮点数，首先得到其阶码
 <code>int a = (uf&gt;&gt;23) &amp; 0xff</code></p>
 <p>如果一个数是特殊值，其阶码为0xff，直接返回其值如果其阶码为0，代表是非规范数，则左移之后带上符号位返回即可如果是规范化数把阶码+1，然后带上符号位返回</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/*
-</span><span class="cm"> * floatScale2 - Return bit-level equivalent of expression 2*f for
-</span><span class="cm"> *   floating point argument f.
-</span><span class="cm"> *   Both the argument and result are passed as unsigned int&#39;s, but
-</span><span class="cm"> *   they are to be interpreted as the bit-level representation of
-</span><span class="cm"> *   single-precision floating point values.
-</span><span class="cm"> *   When argument is NaN, return argument
-</span><span class="cm"> *   Legal ops: Any integer/unsigned operations incl. ||, &amp;&amp;. also if, while
-</span><span class="cm"> *   Max ops: 30
-</span><span class="cm"> *   Rating: 4
-</span><span class="cm"> */</span>
-<span class="kt">unsigned</span> <span class="nf">floatScale2</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">uf</span><span class="p">)</span> <span class="p">{</span>
-	<span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">uf</span><span class="o">&gt;&gt;</span><span class="mi">23</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">uf</span><span class="o">&gt;&gt;</span><span class="mi">31</span><span class="o">&lt;&lt;</span><span class="mi">31</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">uf</span><span class="p">;</span>
-	<span class="k">if</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mh">0xff</span><span class="p">)</span>
-		<span class="k">return</span> <span class="n">uf</span><span class="p">;</span>
-	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
-		<span class="n">temp</span> <span class="o">=</span> <span class="n">uf</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">;</span>
-		<span class="k">return</span> <span class="n">temp</span><span class="o">|</span><span class="n">flag</span><span class="p">;</span>
-	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-		<span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span> <span class="o">+</span> <span class="p">(</span><span class="mh">0x01</span><span class="o">&lt;&lt;</span><span class="mi">23</span><span class="p">);</span>
-		<span class="k">return</span> <span class="n">temp</span><span class="o">|</span><span class="n">flag</span><span class="p">;</span>
-	<span class="p">}</span>
-	<span class="k">return</span> <span class="n">temp</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * floatScale2 - Return bit-level equivalent of expression 2*f for
+</span><span style="color:#75715e"> *   floating point argument f.
+</span><span style="color:#75715e"> *   Both the argument and result are passed as unsigned int&#39;s, but
+</span><span style="color:#75715e"> *   they are to be interpreted as the bit-level representation of
+</span><span style="color:#75715e"> *   single-precision floating point values.
+</span><span style="color:#75715e"> *   When argument is NaN, return argument
+</span><span style="color:#75715e"> *   Legal ops: Any integer/unsigned operations incl. ||, &amp;&amp;. also if, while
+</span><span style="color:#75715e"> *   Max ops: 30
+</span><span style="color:#75715e"> *   Rating: 4
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">unsigned</span> <span style="color:#a6e22e">floatScale2</span>(<span style="color:#66d9ef">unsigned</span> uf) {
+	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> (uf<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">23</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xff</span>;
+	<span style="color:#66d9ef">int</span> flag <span style="color:#f92672">=</span> uf<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">31</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">31</span>;
+	<span style="color:#66d9ef">int</span> temp <span style="color:#f92672">=</span> uf;
+	<span style="color:#66d9ef">if</span>(a <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xff</span>)
+		<span style="color:#66d9ef">return</span> uf;
+	<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (a <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+		temp <span style="color:#f92672">=</span> uf <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>;
+		<span style="color:#66d9ef">return</span> temp<span style="color:#f92672">|</span>flag;
+	} <span style="color:#66d9ef">else</span> {
+		temp <span style="color:#f92672">=</span> temp <span style="color:#f92672">+</span> (<span style="color:#ae81ff">0x01</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">23</span>);
+		<span style="color:#66d9ef">return</span> temp<span style="color:#f92672">|</span>flag;
+	}
+	<span style="color:#66d9ef">return</span> temp;
+}
 </code></pre></div><h4 id="floatfloat2int">floatFloat2Int</h4>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/*
-</span><span class="cm"> * floatFloat2Int - Return bit-level equivalent of expression (int) f
-</span><span class="cm"> *   for floating point argument f.
-</span><span class="cm"> *   Argument is passed as unsigned int, but
-</span><span class="cm"> *   it is to be interpreted as the bit-level representation of a
-</span><span class="cm"> *   single-precision floating point value.
-</span><span class="cm"> *   Anything out of range (including NaN and infinity) should return
-</span><span class="cm"> *   0x80000000u.
-</span><span class="cm"> *   Legal ops: Any integer/unsigned operations incl. ||, &amp;&amp;. also if, while
-</span><span class="cm"> *   Max ops: 30
-</span><span class="cm"> *   Rating: 4
-</span><span class="cm"> */</span>
-<span class="kt">int</span> <span class="nf">floatFloat2Int</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">uf</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="p">((</span><span class="n">uf</span> <span class="o">&gt;&gt;</span> <span class="mi">23</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="p">)</span> <span class="o">-</span> <span class="mi">127</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">uf</span> <span class="o">&gt;&gt;</span> <span class="mi">31</span><span class="p">;</span>
-	<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;=</span> <span class="mi">32</span><span class="p">)</span>
-		<span class="k">return</span> <span class="mh">0x80000000u</span><span class="p">;</span>
-	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
-		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-	<span class="k">else</span> <span class="p">{</span>
-		<span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span><span class="n">uf</span> <span class="o">|</span> <span class="mh">0x800000</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xffffff</span><span class="p">;</span>
-		<span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;=</span> <span class="mi">23</span><span class="p">)</span> <span class="p">{</span>
-			<span class="kt">int</span> <span class="n">e</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="mi">23</span><span class="p">;</span>
-			<span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span> <span class="o">&lt;&lt;</span> <span class="n">e</span><span class="p">;</span>
-		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-			<span class="kt">int</span> <span class="n">e</span> <span class="o">=</span> <span class="mi">23</span> <span class="o">-</span> <span class="n">a</span><span class="p">;</span>
-			<span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span> <span class="o">&gt;&gt;</span> <span class="n">e</span><span class="p">;</span>
-		<span class="p">}</span>
-		<span class="k">return</span> <span class="n">flag</span> <span class="o">?</span> <span class="o">-</span><span class="nl">temp</span> <span class="p">:</span> <span class="n">temp</span><span class="p">;</span>
-	<span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * floatFloat2Int - Return bit-level equivalent of expression (int) f
+</span><span style="color:#75715e"> *   for floating point argument f.
+</span><span style="color:#75715e"> *   Argument is passed as unsigned int, but
+</span><span style="color:#75715e"> *   it is to be interpreted as the bit-level representation of a
+</span><span style="color:#75715e"> *   single-precision floating point value.
+</span><span style="color:#75715e"> *   Anything out of range (including NaN and infinity) should return
+</span><span style="color:#75715e"> *   0x80000000u.
+</span><span style="color:#75715e"> *   Legal ops: Any integer/unsigned operations incl. ||, &amp;&amp;. also if, while
+</span><span style="color:#75715e"> *   Max ops: 30
+</span><span style="color:#75715e"> *   Rating: 4
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">floatFloat2Int</span>(<span style="color:#66d9ef">unsigned</span> uf) {
+  <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> ((uf <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">23</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xff</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">127</span>;
+	<span style="color:#66d9ef">int</span> flag <span style="color:#f92672">=</span> uf <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">31</span>;
+	<span style="color:#66d9ef">if</span> (a <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">32</span>)
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0x80000000u</span>;
+	<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (a <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+	<span style="color:#66d9ef">else</span> {
+		<span style="color:#66d9ef">int</span> temp <span style="color:#f92672">=</span> (uf <span style="color:#f92672">|</span> <span style="color:#ae81ff">0x800000</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xffffff</span>;
+		<span style="color:#66d9ef">if</span> (a <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">23</span>) {
+			<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> a <span style="color:#f92672">-</span> <span style="color:#ae81ff">23</span>;
+			temp <span style="color:#f92672">=</span> temp <span style="color:#f92672">&lt;&lt;</span> e;
+		} <span style="color:#66d9ef">else</span> {
+			<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> <span style="color:#ae81ff">23</span> <span style="color:#f92672">-</span> a;
+			temp <span style="color:#f92672">=</span> temp <span style="color:#f92672">&gt;&gt;</span> e;
+		}
+		<span style="color:#66d9ef">return</span> flag <span style="color:#f92672">?</span> <span style="color:#f92672">-</span>temp : temp;
+	}
+}
 </code></pre></div><h4 id="floatpower2">floatPower2</h4>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/*
-</span><span class="cm"> * floatPower2 - Return bit-level equivalent of the expression 2.0^x
-</span><span class="cm"> *   (2.0 raised to the power x) for any 32-bit integer x.
-</span><span class="cm"> *
-</span><span class="cm"> *   The unsigned value that is returned should have the identical bit
-</span><span class="cm"> *   representation as the single-precision floating-point number 2.0^x.
-</span><span class="cm"> *   If the result is too small to be represented as a denorm, return
-</span><span class="cm"> *   0. If too large, return +INF.
-</span><span class="cm"> *
-</span><span class="cm"> *   Legal ops: Any integer/unsigned operations incl. ||, &amp;&amp;. Also if, while
-</span><span class="cm"> *   Max ops: 30
-</span><span class="cm"> *   Rating: 4
-</span><span class="cm"> */</span>
-<span class="kt">unsigned</span> <span class="nf">floatPower2</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">127</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="mh">0x7f800000</span><span class="p">;</span>
-	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">127</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="mh">0x0</span><span class="p">;</span>
-	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">127</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">23</span><span class="p">;</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></article><section class="article labels"><a class="category" href=/categories/learn/>learn</a><a class="tag" href=/tags/csapp/>CSAPP</a><a class="tag" href=/tags/os/>OS</a></section></div>
-<div class="article bottom"><section class="article navigation"><p><a class="link" href="/post/bigdata_env/"><span class="li iconfont icon-article"></span>大数据环境搭建示例</a></p><p><a class="link" href="/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/"><span class="li iconfont icon-article"></span>Arch 配置双显卡</a></p></section></div></section><section id="footer"><div class="footer-wrap">
-    <p class="copyright">©2018-2020 by abcdlsj</p>
-    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
-        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
-        target="_blank">Notepadium</a></p>
-</div></section><script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-e/4/LvThKH1gwzXhdbY2AsjR3rm7LHWyhIG5C0jiRfn8AN2eTN5ILeztWw0H9jmN" crossorigin="anonymous"></script>
-        <script
-            type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script></body>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * floatPower2 - Return bit-level equivalent of the expression 2.0^x
+</span><span style="color:#75715e"> *   (2.0 raised to the power x) for any 32-bit integer x.
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> *   The unsigned value that is returned should have the identical bit
+</span><span style="color:#75715e"> *   representation as the single-precision floating-point number 2.0^x.
+</span><span style="color:#75715e"> *   If the result is too small to be represented as a denorm, return
+</span><span style="color:#75715e"> *   0. If too large, return +INF.
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> *   Legal ops: Any integer/unsigned operations incl. ||, &amp;&amp;. Also if, while
+</span><span style="color:#75715e"> *   Max ops: 30
+</span><span style="color:#75715e"> *   Rating: 4
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">unsigned</span> <span style="color:#a6e22e">floatPower2</span>(<span style="color:#66d9ef">int</span> x) {
+	<span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">127</span>) {
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0x7f800000</span>;
+	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">127</span>) {
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0x0</span>;
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#66d9ef">return</span> (x <span style="color:#f92672">+</span> <span style="color:#ae81ff">127</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">23</span>;
+	}
+}
+</code></pre></div>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='last-updated'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34" />
+  <polygon points="18 2 22 6 12 16 8 16 8 12 18 2" />
+  
+</svg>
+<span class='screen-reader-text'>Last updated: </span>
+      <time class='entry-date' datetime='2020-02-24T22:36:59&#43;08:00'>2020, Feb 24</time>
+    </div><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/learn/'>learn</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/os/'>OS</a>, <a class='tag' href='/tags/csapp/'>CSAPP</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Arch 配置双显卡</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/post/bigdata_env/'>
+        <span class='screen-reader-text'>Next post: </span>大数据环境搭建示例<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/abcdlsj' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:lisongjianshuai@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p>abcdlsj</p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
 
 </html>
+

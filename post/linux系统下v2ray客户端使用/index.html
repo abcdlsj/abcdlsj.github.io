@@ -1,37 +1,284 @@
 <!DOCTYPE html>
-<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.70.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="color-scheme" content="light dark">
-<meta name="supported-color-schemes" content="light dark"><title>Linux系统下v2ray客户端使用&nbsp;&ndash;&nbsp;ABCDLSJ&#39;S WORLD</title><link rel="stylesheet" href="/css/core.min.bd80a98af3526c1eca41ed19e1b42fd6fdd538120f2cd05124dc8b46165b2ac8fad88ae9b6b04db569a8c119425eb289.css" integrity="sha384-vYCpivNSbB7KQe0Z4bQv1v3VOBIPLNBRJNyLRhZbKsj62IrptrBNtWmowRlCXrKJ"><meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux系统下v2ray客户端使用" /><body><section id="header">
-    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">ABCDLSJ'S WORLD</span></a></span>
-        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a><a class="nav item" href="/about/">About</a></nav></div></span></div><div class="site slogan"><span class="title">享受专注</span></div></section><section id="content"><div class="article-container"><section class="article header">
-    <h1 class="article title">Linux系统下v2ray客户端使用</h1><p class="article date">Aug 18, 2018</p></section><article class="article markdown-body"><blockquote>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='
+V2Ray是一个优秀的开源网络代理工具，可以帮助你畅爽体验互联网，目前已经全平台支持Windows、Mac、Android、IOS、Linux等操作系统的使用。相对起Shadowsocks来说属于后起之秀，在混淆能力、兼容性、速度上有着独到的优点。在目前Shadowsocks、ShadowsocksR停止更新的情况下，多掌握一个活跃项目工具的使用是完全有必要的.
+'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Linux系统下v2ray客户端使用 • The Real World'>
+<meta property='og:description' content='
+V2Ray是一个优秀的开源网络代理工具，可以帮助你畅爽体验互联网，目前已经全平台支持Windows、Mac、Android、IOS、Linux等操作系统的使用。相对起Shadowsocks来说属于后起之秀，在混淆能力、兼容性、速度上有着独到的优点。在目前Shadowsocks、ShadowsocksR停止更新的情况下，多掌握一个活跃项目工具的使用是完全有必要的.
+'>
+<meta property='og:url' content='https://github.abcdlsj.io/post/linux%E7%B3%BB%E7%BB%9F%E4%B8%8Bv2ray%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BD%BF%E7%94%A8/'>
+<meta property='og:site_name' content='The Real World'>
+<meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='v2ray'><meta property='article:published_time' content='2018-08-18T00:00:00&#43;08:00'/><meta property='article:modified_time' content='2018-08-18T14:51:14&#43;08:00'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.70.0" />
+
+  <title>Linux系统下v2ray客户端使用 • The Real World</title>
+  <link rel='canonical' href='https://github.abcdlsj.io/post/linux%E7%B3%BB%E7%BB%9F%E4%B8%8Bv2ray%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BD%BF%E7%94%A8/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-post has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      SongJian Li
+      </a>
+    </h2>
+    <div class='desc'>
+    C/C++ Golang Lisp Python
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/arch/' style='font-size:1em'>Arch</a>
+      </li><li>
+        <a href='/tags/aria2/' style='font-size:1em'>aria2</a>
+      </li><li>
+        <a href='/tags/backtracking/' style='font-size:1em'>BackTracking</a>
+      </li><li>
+        <a href='/tags/baidu/' style='font-size:1em'>baidu</a>
+      </li><li>
+        <a href='/tags/bigdata/' style='font-size:1em'>BigData</a>
+      </li><li>
+        <a href='/tags/binary-search/' style='font-size:1em'>Binary Search</a>
+      </li><li>
+        <a href='/tags/blog/' style='font-size:1.2em'>blog</a>
+      </li><li>
+        <a href='/tags/chmod/' style='font-size:1em'>chmod</a>
+      </li><li>
+        <a href='/tags/cmder/' style='font-size:1em'>Cmder</a>
+      </li><li>
+        <a href='/tags/conky/' style='font-size:1em'>conky</a>
+      </li><li>
+        <a href='/tags/cpp/' style='font-size:1.2em'>CPP</a>
+      </li><li>
+        <a href='/tags/csapp/' style='font-size:1em'>CSAPP</a>
+      </li><li>
+        <a href='/tags/data-structure/' style='font-size:1em'>Data Structure</a>
+      </li><li>
+        <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
+      </li><li>
+        <a href='/tags/dynamic-programming/' style='font-size:1em'>Dynamic Programming</a>
+      </li><li>
+        <a href='/tags/elisp/' style='font-size:1em'>elisp</a>
+      </li><li>
+        <a href='/tags/emacs/' style='font-size:1.4em'>Emacs</a>
+      </li><li>
+        <a href='/tags/ffmepg/' style='font-size:1em'>ffmepg</a>
+      </li><li>
+        <a href='/tags/gdb/' style='font-size:1em'>gdb</a>
+      </li><li>
+        <a href='/tags/google-bbr/' style='font-size:1em'>Google bbr</a>
+      </li><li>
+        <a href='/tags/h5ai/' style='font-size:1em'>h5ai</a>
+      </li><li>
+        <a href='/tags/hexo/' style='font-size:1em'>hexo</a>
+      </li><li>
+        <a href='/tags/hugo/' style='font-size:1.2em'>hugo</a>
+      </li><li>
+        <a href='/tags/interview/' style='font-size:1em'>Interview</a>
+      </li><li>
+        <a href='/tags/keyboard/' style='font-size:1em'>KeyBoard</a>
+      </li><li>
+        <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
+      </li><li>
+        <a href='/tags/linux/' style='font-size:1.8em'>linux</a>
+      </li><li>
+        <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
+      </li><li>
+        <a href='/tags/markdown/' style='font-size:1em'>Markdown</a>
+      </li><li>
+        <a href='/tags/mysql/' style='font-size:1em'>Mysql</a>
+      </li><li>
+        <a href='/tags/nextcloud/' style='font-size:1em'>NextCloud</a>
+      </li><li>
+        <a href='/tags/org/' style='font-size:1.6em'>org</a>
+      </li><li>
+        <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
+      </li><li>
+        <a href='/tags/os/' style='font-size:1.6em'>OS</a>
+      </li><li>
+        <a href='/tags/package/' style='font-size:1em'>package</a>
+      </li><li>
+        <a href='/tags/pip/' style='font-size:1em'>pip</a>
+      </li><li>
+        <a href='/tags/python/' style='font-size:1.6em'>Python</a>
+      </li><li>
+        <a href='/tags/sicp/' style='font-size:1.4em'>SICP</a>
+      </li><li>
+        <a href='/tags/sklearn/' style='font-size:1em'>Sklearn</a>
+      </li><li>
+        <a href='/tags/sliding-window/' style='font-size:1em'>Sliding Window</a>
+      </li><li>
+        <a href='/tags/ssr/' style='font-size:1em'>ssr</a>
+      </li><li>
+        <a href='/tags/tensorflow/' style='font-size:1em'>Tensorflow</a>
+      </li><li>
+        <a href='/tags/tree/' style='font-size:1em'>Tree</a>
+      </li><li>
+        <a href='/tags/v2ray/' style='font-size:1.4em'>v2ray</a>
+      </li><li>
+        <a href='/tags/zsh/' style='font-size:1em'>zsh</a>
+      </li><li>
+        <a href='/tags/%E5%8D%9C%E7%AE%97%E5%AD%90/' style='font-size:1em'>卜算子</a>
+      </li><li>
+        <a href='/tags/%E6%80%9D%E6%83%B3/' style='font-size:1em'>思想</a>
+      </li><li>
+        <a href='/tags/%E6%84%9F%E6%82%9F/' style='font-size:1em'>感悟</a>
+      </li><li>
+        <a href='/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/' style='font-size:1em'>树莓派</a>
+      </li><li>
+        <a href='/tags/%E7%94%9F%E6%B4%BB/' style='font-size:1em'>生活</a>
+      </li><li>
+        <a href='/tags/%E8%BE%93%E5%85%A5%E6%B3%95/' style='font-size:1em'>输入法</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/about'>ABOUT ME</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>The Real World</a></li><li><a href='/post/'>Posts</a></li><li><span>Linux系统下v2ray客户端使用</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>The Real World</p><p class='desc site-desc'>Enjoy Concentration</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Linux系统下v2ray客户端使用</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2018-08-18T00:00:00&#43;08:00'>2018, Aug 18</time>
+</span>
+
+  
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+One min read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <blockquote>
 <p>V2Ray是一个优秀的开源网络代理工具，可以帮助你畅爽体验互联网，目前已经全平台支持Windows、Mac、Android、IOS、Linux等操作系统的使用。相对起Shadowsocks来说属于后起之秀，在混淆能力、兼容性、速度上有着独到的优点。在目前Shadowsocks、ShadowsocksR停止更新的情况下，多掌握一个活跃项目工具的使用是完全有必要的.</p>
 </blockquote>
 <blockquote>
 <p>到目前为止，V2Ray项目的状况良好，衍生出一系列GUI客户端，而不再是原先单一的命令行工具。项目更名为Project V，而V2Ray则是Project V项目的内核，如果你对项目本身不感兴趣，依然可以按照原先的方式理解.</p>
 </blockquote>
 <p>这里给大家一个链接</p>
-<p><a href="http://briteming.hatenablog.com/entry/2017/10/21/124645"target="_blank">v2ray 的第三方客户端合集</a></p>
+<p><a href="http://briteming.hatenablog.com/entry/2017/10/21/124645">v2ray 的第三方客户端合集</a></p>
 <p>上面都是套话,就是说苦逼的ubuntu没有v2ray的GUI客户端，等我有能力一定开发一个(嘿嘿嘿..)</p>
 <p>但是没有GUI客户端我们一样可以做一个桌面项，双击运行，文末有写如何配置，这是我的</p>
-<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534581153/8.18/2018-08-18_16-31-14%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
-        alt/></p>
+<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534581153/8.18/2018-08-18_16-31-14%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
 <p>好的，开始吧！！</p>
 <h2 id="vps上部署">vps上部署</h2>
 <p>不说了，以前说过的</p>
-<p><a href="https://abcdlsj.github.io/post/%E4%BD%BF%E7%94%A8heroku%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BAv2ray/"target="_blank">使用heroku免费搭建v2ray</a>(<del>很稳，我的现在还没掉，就是速度一般</del> 9月10日实测已经失效了)</p>
-<p><a href="https://abcdlsj.github.io/post/%E6%90%AD%E5%BB%BAv2ray/"target="_blank">搭建v2ray</a></p>
+<p><a href="https://abcdlsj.github.io/post/%E4%BD%BF%E7%94%A8heroku%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BAv2ray/">使用heroku免费搭建v2ray</a>(<del>很稳，我的现在还没掉，就是速度一般</del> 9月10日实测已经失效了)</p>
+<p><a href="https://abcdlsj.github.io/post/%E6%90%AD%E5%BB%BAv2ray/">搭建v2ray</a></p>
 <h2 id="使用">使用</h2>
 <p>我使用的桌面环境是ubuntu18.04 LTS</p>
 <p>非ubuntu仅作参考(其实是一样的。。)</p>
 <h3 id="首先我们下载v2ray">首先我们下载v2ray</h3>
 <p>推荐官方下载
-<a href="https://github.com/v2ray/v2ray-core/releases/"target="_blank">v2ray releases</a>
+<a href="https://github.com/v2ray/v2ray-core/releases/">v2ray releases</a>
 这里记得选择合适的版本
 一般就选这四个</p>
-<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534578444/8.18/2018-08-18_15-43-51%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
-        alt/></p>
+<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534578444/8.18/2018-08-18_15-43-51%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
 <p>cpu是Intel架构使用前两个，ARM架构后两个，一般都是前两个
 可以使用命令行查看</p>
 <p>查看位数</p>
@@ -40,30 +287,25 @@
 <pre><code>cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
 </code></pre><p>选好之后下载，解压得到<code>v2ray-vx.xx-linux-xx</code>的文件夹</p>
 <h3 id="运行">运行</h3>
-<p>我们需要一个配置文件，这个文件可以自己部署好了之后，使用脚本导出，也可以在Windows 上用软件导出，更可以自己写，对照<a href="https://www.v2ray.com/"target="_blank">官方文档</a></p>
+<p>我们需要一个配置文件，这个文件可以自己部署好了之后，使用脚本导出，也可以在Windows 上用软件导出，更可以自己写，对照<a href="https://www.v2ray.com/">官方文档</a></p>
 <p>配置文件<code>config.json</code>移到刚刚下好的文件夹中，把里面的<code>vpoint_vmess_freedom.json</code>删除了，这是默认的配置文件.
 然后我们在文件夹中打开终端执行</p>
 <pre><code>sudo ./v2ray
 </code></pre><p>这个样子就开启了
-<img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534579248/8.18/2018-08-18_16-00-18%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
-        alt/></p>
+<img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534579248/8.18/2018-08-18_16-00-18%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
 <p>这个时候还没完成，我们还需要设定系统代理</p>
 <h3 id="代理设置">代理设置</h3>
 <p>最好使用Chrome和Firefox浏览器，因为我们需要下载插件 SwitchyOmege，Chrome上叫做 Proxy SwichyOmega，应用商店下载就行</p>
 <p>打开拓展</p>
 <p>新建情景模式</p>
-<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580016/8.18/2018-08-18_16-09-07%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
-        alt/></p>
-<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580015/8.18/2018-08-18_16-10-08%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
-        alt/></p>
+<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580016/8.18/2018-08-18_16-09-07%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
+<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580015/8.18/2018-08-18_16-10-08%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
 <p>下面填上这个</p>
 <pre><code>&quot;local_address&quot;:&quot;127.0.0.1&quot;
 &quot;local_port&quot;:1080
 </code></pre><p>新建一个情景模式，这次选择<code>自动切换模式</code></p>
-<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580173/8.18/2018-08-18_16-16-02%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
-        alt/></p>
-<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580015/8.18/2018-08-18_16-11-37%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
-        alt/></p>
+<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580173/8.18/2018-08-18_16-16-02%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
+<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534580015/8.18/2018-08-18_16-11-37%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
 <p>规则列表网站填这个</p>
 <blockquote>
 <p><a href="https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt">https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt</a></p>
@@ -91,19 +333,105 @@ Categories=Network;Internet;
 就可以双击执行V2Ray了(关闭终端即关闭程序).</p>
 <p>若要想这个桌面项出现在应用程序列表里,那就把 v2ray.desktop 文件复制到 /usr/share/application里即可(需要root)</p>
 <p>这里看我的成果</p>
-<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534581153/8.18/2018-08-18_16-31-14%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
-        alt/></p>
+<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534581153/8.18/2018-08-18_16-31-14%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
 <p>送上一套图标</p>
-<p><img  src="https://res.cloudinary.com/dc15efw34/image/upload/v1534581151/8.18/2018-08-18_16-32-04%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png"
-        alt/></p>
-<p><a href="https://pan.baidu.com/s/1yf4Rkmuy7h65z8XC77SAdg"target="_blank">链接(提取码：hc82 )</a></p></article><section class="article labels"><a class="category" href=/categories/%E6%8A%98%E8%85%BE/>折腾</a><a class="tag" href=/tags/v2ray/>v2ray</a></section></div>
-<div class="article bottom"><section class="article navigation"><p><a class="link" href="/post/nextcloud-%E7%A7%81%E4%BA%BA%E7%BD%91%E7%9B%98%E6%90%AD%E5%BB%BA/"><span class="li iconfont icon-article"></span>NextCloud私人网盘搭建</a></p><p><a class="link" href="/post/linux%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%94%A8%E7%9A%84%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E5%AE%A2%E6%88%B7%E7%AB%AF/"><span class="li iconfont icon-article"></span>Linux好用的百度网盘客户端</a></p></section></div></section><section id="footer"><div class="footer-wrap">
-    <p class="copyright">©2018-2020 by abcdlsj</p>
-    <p class="powerby"><span>Powered by </span><a href="https://gohugo.io" 
-        target="_blank">Hugo</a><span> and the </span><a href="https://themes.gohugo.io/hugo-notepadium/" 
-        target="_blank">Notepadium</a></p>
-</div></section><script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-e/4/LvThKH1gwzXhdbY2AsjR3rm7LHWyhIG5C0jiRfn8AN2eTN5ILeztWw0H9jmN" crossorigin="anonymous"></script>
-        <script
-            type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script></body>
+<p><img src="https://res.cloudinary.com/dc15efw34/image/upload/v1534581151/8.18/2018-08-18_16-32-04%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt=""></p>
+<p><a href="https://pan.baidu.com/s/1yf4Rkmuy7h65z8XC77SAdg">链接(提取码：hc82 )</a></p>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='last-updated'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34" />
+  <polygon points="18 2 22 6 12 16 8 16 8 12 18 2" />
+  
+</svg>
+<span class='screen-reader-text'>Last updated: </span>
+      <time class='entry-date' datetime='2018-08-18T14:51:14&#43;08:00'>2018, Aug 18</time>
+    </div><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/%E6%8A%98%E8%85%BE/'>折腾</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/v2ray/'>v2ray</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/post/linux%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%94%A8%E7%9A%84%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E5%AE%A2%E6%88%B7%E7%AB%AF/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Linux好用的百度网盘客户端</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/post/nextcloud-%E7%A7%81%E4%BA%BA%E7%BD%91%E7%9B%98%E6%90%AD%E5%BB%BA/'>
+        <span class='screen-reader-text'>Next post: </span>NextCloud私人网盘搭建<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/abcdlsj' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:lisongjianshuai@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p>abcdlsj</p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
 
 </html>
+
