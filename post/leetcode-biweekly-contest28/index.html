@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='LeetCode Biweekly Contest 28
+  现在开始每周记录一下周赛的情况，因为到了瓶颈了，现在主要的目的是达到每次周赛稳三题的情况（大半年前 50 题的时候，就可以 2 题，现在还在冲稳三题。。。）
+本周双周赛前面两个比较简单，第三个写了半天还是错的（写出来可以前 300，甚至 200，靠着手速 2 个，都 700&#43;。。。太丢脸了），最后一个当然不用说了（日常放弃）
+周赛放弃了（吃饭去了。。。签了到就溜了）
+这里就记录一下双周赛第三题好了（虽然很不负责任，但是写一道题多爽）
+ 5423. 找两个和为目标值且不重叠的子数组 这道题我当时思路是：
+  首先前缀和。
+  用 map 存储 [当前前缀和][下标 i] ，放入 map[0] = -1; 。
+  遍历 arr，求 map.find(arr[i] - target) 如果找到，那就取子数组首尾下标，map[arr[i] - target] 和 i ，计算长度用 vectot cnt 保存，判断是否重叠，如果当前 map[arr[i] - target] &lt; 上次的 i ，那就重叠跳过（问题在这）。 然后返回 cnt 最小的两个值。
+  我的判断重叠的地方是错误的，比赛时我没仔细想，知道之后时间不太够了（懒），就没继续写。
+举个例子，比如  arr = [3, 1, 1, 1, 1, 1, 2, 1], target = 4 。'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='LeetCode Biweekly Contest: 28 • The Real World'>
+<meta property='og:description' content='LeetCode Biweekly Contest 28
+  现在开始每周记录一下周赛的情况，因为到了瓶颈了，现在主要的目的是达到每次周赛稳三题的情况（大半年前 50 题的时候，就可以 2 题，现在还在冲稳三题。。。）
+本周双周赛前面两个比较简单，第三个写了半天还是错的（写出来可以前 300，甚至 200，靠着手速 2 个，都 700&#43;。。。太丢脸了），最后一个当然不用说了（日常放弃）
+周赛放弃了（吃饭去了。。。签了到就溜了）
+这里就记录一下双周赛第三题好了（虽然很不负责任，但是写一道题多爽）
+ 5423. 找两个和为目标值且不重叠的子数组 这道题我当时思路是：
+  首先前缀和。
+  用 map 存储 [当前前缀和][下标 i] ，放入 map[0] = -1; 。
+  遍历 arr，求 map.find(arr[i] - target) 如果找到，那就取子数组首尾下标，map[arr[i] - target] 和 i ，计算长度用 vectot cnt 保存，判断是否重叠，如果当前 map[arr[i] - target] &lt; 上次的 i ，那就重叠跳过（问题在这）。 然后返回 cnt 最小的两个值。
+  我的判断重叠的地方是错误的，比赛时我没仔细想，知道之后时间不太够了（懒），就没继续写。
+举个例子，比如  arr = [3, 1, 1, 1, 1, 1, 2, 1], target = 4 。'>
+<meta property='og:url' content='https://github.abcdlsj.io/post/leetcode-biweekly-contest28/'>
+<meta property='og:site_name' content='The Real World'>
+<meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='Contest'><meta property='article:tag' content='LeetCode'><meta property='article:published_time' content='2020-06-14T11:16:07&#43;08:00'/><meta property='article:modified_time' content='2020-06-14T11:16:07&#43;08:00'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.70.0" />
+
+  <title>LeetCode Biweekly Contest: 28 • The Real World</title>
+  <link rel='canonical' href='https://github.abcdlsj.io/post/leetcode-biweekly-contest28/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-post has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      SongJian Li
+      </a>
+    </h2>
+    <div class='desc'>
+    C/C++ Golang Lisp Python
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/arch/' style='font-size:1em'>Arch</a>
+      </li><li>
+        <a href='/tags/aria2/' style='font-size:1em'>aria2</a>
+      </li><li>
+        <a href='/tags/backtracking/' style='font-size:1em'>BackTracking</a>
+      </li><li>
+        <a href='/tags/baidu/' style='font-size:1em'>baidu</a>
+      </li><li>
+        <a href='/tags/bigdata/' style='font-size:1em'>BigData</a>
+      </li><li>
+        <a href='/tags/binary-search/' style='font-size:1em'>Binary Search</a>
+      </li><li>
+        <a href='/tags/blog/' style='font-size:1.1666666666666667em'>blog</a>
+      </li><li>
+        <a href='/tags/chmod/' style='font-size:1em'>chmod</a>
+      </li><li>
+        <a href='/tags/cmder/' style='font-size:1em'>Cmder</a>
+      </li><li>
+        <a href='/tags/conky/' style='font-size:1em'>conky</a>
+      </li><li>
+        <a href='/tags/contest/' style='font-size:1em'>Contest</a>
+      </li><li>
+        <a href='/tags/cpp/' style='font-size:1.1666666666666667em'>CPP</a>
+      </li><li>
+        <a href='/tags/csapp/' style='font-size:1em'>CSAPP</a>
+      </li><li>
+        <a href='/tags/data-structure/' style='font-size:1em'>Data Structure</a>
+      </li><li>
+        <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
+      </li><li>
+        <a href='/tags/dynamic-programming/' style='font-size:1em'>Dynamic Programming</a>
+      </li><li>
+        <a href='/tags/elisp/' style='font-size:1em'>elisp</a>
+      </li><li>
+        <a href='/tags/emacs/' style='font-size:1.3333333333333333em'>Emacs</a>
+      </li><li>
+        <a href='/tags/ffmepg/' style='font-size:1em'>ffmepg</a>
+      </li><li>
+        <a href='/tags/gdb/' style='font-size:1em'>gdb</a>
+      </li><li>
+        <a href='/tags/google-bbr/' style='font-size:1em'>Google bbr</a>
+      </li><li>
+        <a href='/tags/h5ai/' style='font-size:1em'>h5ai</a>
+      </li><li>
+        <a href='/tags/hexo/' style='font-size:1em'>hexo</a>
+      </li><li>
+        <a href='/tags/hugo/' style='font-size:1.1666666666666667em'>hugo</a>
+      </li><li>
+        <a href='/tags/interview/' style='font-size:1em'>Interview</a>
+      </li><li>
+        <a href='/tags/keyboard/' style='font-size:1em'>KeyBoard</a>
+      </li><li>
+        <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
+      </li><li>
+        <a href='/tags/linux/' style='font-size:1.6666666666666665em'>linux</a>
+      </li><li>
+        <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
+      </li><li>
+        <a href='/tags/markdown/' style='font-size:1em'>Markdown</a>
+      </li><li>
+        <a href='/tags/mysql/' style='font-size:1em'>Mysql</a>
+      </li><li>
+        <a href='/tags/nextcloud/' style='font-size:1em'>NextCloud</a>
+      </li><li>
+        <a href='/tags/org/' style='font-size:1.5em'>org</a>
+      </li><li>
+        <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
+      </li><li>
+        <a href='/tags/os/' style='font-size:1.5em'>OS</a>
+      </li><li>
+        <a href='/tags/package/' style='font-size:1em'>package</a>
+      </li><li>
+        <a href='/tags/pip/' style='font-size:1em'>pip</a>
+      </li><li>
+        <a href='/tags/python/' style='font-size:1.5em'>Python</a>
+      </li><li>
+        <a href='/tags/sicp/' style='font-size:1.3333333333333333em'>SICP</a>
+      </li><li>
+        <a href='/tags/sklearn/' style='font-size:1em'>Sklearn</a>
+      </li><li>
+        <a href='/tags/sliding-window/' style='font-size:1em'>Sliding Window</a>
+      </li><li>
+        <a href='/tags/ssr/' style='font-size:1em'>ssr</a>
+      </li><li>
+        <a href='/tags/tensorflow/' style='font-size:1em'>Tensorflow</a>
+      </li><li>
+        <a href='/tags/tree/' style='font-size:1em'>Tree</a>
+      </li><li>
+        <a href='/tags/v2ray/' style='font-size:1.3333333333333333em'>v2ray</a>
+      </li><li>
+        <a href='/tags/zsh/' style='font-size:1em'>zsh</a>
+      </li><li>
+        <a href='/tags/%E5%8D%9C%E7%AE%97%E5%AD%90/' style='font-size:1em'>卜算子</a>
+      </li><li>
+        <a href='/tags/%E6%80%9D%E6%83%B3/' style='font-size:1em'>思想</a>
+      </li><li>
+        <a href='/tags/%E6%84%9F%E6%82%9F/' style='font-size:1em'>感悟</a>
+      </li><li>
+        <a href='/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/' style='font-size:1em'>树莓派</a>
+      </li><li>
+        <a href='/tags/%E7%94%9F%E6%B4%BB/' style='font-size:1em'>生活</a>
+      </li><li>
+        <a href='/tags/%E8%BE%93%E5%85%A5%E6%B3%95/' style='font-size:1em'>输入法</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/about'>ABOUT ME</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>The Real World</a></li><li><a href='/post/'>Posts</a></li><li><span>LeetCode Biweekly Contest: 28</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>The Real World</p><p class='desc site-desc'>Enjoy Concentration</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>LeetCode Biweekly Contest: 28</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-06-14T11:16:07&#43;08:00'>2020, Jun 14</time>
+</span>
+
+  
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+2 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <blockquote>
+<p>LeetCode Biweekly Contest 28</p>
+</blockquote>
+<blockquote>
+<p>现在开始每周记录一下周赛的情况，因为到了瓶颈了，现在主要的目的是达到每次周赛稳三题的情况（大半年前 50 题的时候，就可以 2 题，现在还在冲稳三题。。。）</p>
+<p>本周双周赛前面两个比较简单，第三个写了半天还是错的（写出来可以前 300，甚至 200，靠着手速 2 个，都 700+。。。太丢脸了），最后一个当然不用说了（日常放弃）</p>
+<p>周赛放弃了（吃饭去了。。。签了到就溜了）</p>
+<p>这里就记录一下双周赛第三题好了（虽然很不负责任，但是写一道题多爽）</p>
+</blockquote>
+<h4 id="5423-找两个和为目标值且不重叠的子数组httpsleetcode-cncomproblemsfind-two-non-overlapping-sub-arrays-each-with-target-sum"><a href="https://leetcode-cn.com/problems/find-two-non-overlapping-sub-arrays-each-with-target-sum/">5423. 找两个和为目标值且不重叠的子数组</a></h4>
+<p>这道题我当时思路是：</p>
+<ol>
+<li>
+<p>首先前缀和。</p>
+</li>
+<li>
+<p>用 <code>map</code> 存储 <code>[当前前缀和][下标 i]</code> ，放入 <code>map[0] = -1;</code>  。</p>
+</li>
+<li>
+<p>遍历 arr，求 <code>map.find(arr[i] - target)</code> 如果找到，那就取子数组首尾下标，<code>map[arr[i] - target] 和 i</code> ，计算长度用 vectot <code>cnt</code> 保存，判断是否重叠，如果当前 <code>map[arr[i] - target] &lt; 上次的 i </code>，那就重叠跳过（问题在这）。 然后返回 <code>cnt</code> 最小的两个值。</p>
+</li>
+</ol>
+<p>我的判断重叠的地方是错误的，比赛时我没仔细想，知道之后时间不太够了（懒），就没继续写。</p>
+<p>举个例子，比如 <code> arr = [3, 1, 1, 1, 1, 1, 2, 1], target = 4</code> 。</p>
+<p>按照我的写法，会出现下面的错误：</p>
+<p>当计算了 [3, 1 ,(1, 1, 1, 1),  2, 1] 之后，下次出现的  [3, 1 ,1, 1, 1, (1,  2, 1)] 就会被跳过，但是下次的长度 &lt; 上次的长度。</p>
+<p>因为给的 case 比较特殊，发现的比较晚。</p>
+<p>解决办法也有，就是直接存储下标 <code>cnt.push_back({le, ri});</code> ，然后最后处理重叠，会变得比较复杂，所以比赛的时候也没去写，想着后面看下大佬的简单写法。</p>
+<blockquote>
+<p>等我多看点答案综合一下下午继续写</p>
+<p>-- Sunday 11:55</p>
+<p>看了一下，滑动窗口 + <code>multimap</code> 算是比较好的解法了，比较容易理解（其实我就看了这一个答案。。。）</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> minSumOfLengths(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> arr, <span style="color:#66d9ef">int</span> target) {
+        multimap<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> vec;
+        <span style="color:#66d9ef">int</span> le <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, ri <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, ans <span style="color:#f92672">=</span> INT_MAX;
+
+        <span style="color:#66d9ef">while</span> (ri <span style="color:#f92672">&lt;</span> arr.size()) {
+            <span style="color:#75715e">// sum 增加，ri 右移
+</span><span style="color:#75715e"></span>            sum <span style="color:#f92672">+=</span> arr[ri]; ri<span style="color:#f92672">++</span>;
+            <span style="color:#66d9ef">if</span> (sum <span style="color:#f92672">&lt;</span> target) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#75715e">// 收缩 le，直到可以下次递增
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">while</span> (sum <span style="color:#f92672">&gt;</span> target) {
+                sum <span style="color:#f92672">-=</span> arr[le]; le<span style="color:#f92672">++</span>;
+            }
+            <span style="color:#66d9ef">if</span> (sum <span style="color:#f92672">==</span> target) {
+                <span style="color:#75715e">// {长度， 左边界}
+</span><span style="color:#75715e"></span>                vec.insert({ri <span style="color:#f92672">-</span> le, le});
+            }
+        }
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> r1 <span style="color:#f92672">=</span> vec.begin(); r1 <span style="color:#f92672">!=</span> vec.end(); r1<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (r1<span style="color:#f92672">-&gt;</span>first <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&gt;=</span> ans) <span style="color:#66d9ef">break</span>;
+            <span style="color:#66d9ef">auto</span> r2 <span style="color:#f92672">=</span> r1;
+
+            <span style="color:#75715e">// 定 r1，找到合适的第一个 r2
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">while</span> ((<span style="color:#f92672">++</span>r2) <span style="color:#f92672">!=</span> vec.end()) {
+                <span style="color:#75715e">// r1 在 r2 左边，然后 r1 长度大于 r1 r2 之间间隔
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (r1<span style="color:#f92672">-&gt;</span>second <span style="color:#f92672">&lt;</span> r2<span style="color:#f92672">-&gt;</span>second <span style="color:#f92672">&amp;&amp;</span> r1<span style="color:#f92672">-&gt;</span>second <span style="color:#f92672">+</span> r1<span style="color:#f92672">-&gt;</span>first <span style="color:#f92672">&gt;</span> r2<span style="color:#f92672">-&gt;</span>second) <span style="color:#66d9ef">continue</span>;
+                <span style="color:#75715e">// r2 在左边
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (r2<span style="color:#f92672">-&gt;</span>second <span style="color:#f92672">&lt;</span> r1<span style="color:#f92672">-&gt;</span>second <span style="color:#f92672">&amp;&amp;</span> r2<span style="color:#f92672">-&gt;</span>second <span style="color:#f92672">+</span> r2<span style="color:#f92672">-&gt;</span>first <span style="color:#f92672">&gt;</span> r1<span style="color:#f92672">-&gt;</span>second) <span style="color:#66d9ef">continue</span>;
+                ans <span style="color:#f92672">=</span> min(ans, r1<span style="color:#f92672">-&gt;</span>first <span style="color:#f92672">+</span> r2<span style="color:#f92672">-&gt;</span>first);
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
+
+        <span style="color:#66d9ef">return</span> ans <span style="color:#f92672">==</span> INT_MAX <span style="color:#f92672">?</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> ans;
+    }
+};
+</code></pre></div><p>比较容易看懂，我就不写啥了</p>
+<blockquote>
+<p>学会了一手 <code>multimap</code> ，之前一直没有好的方法储存键值对，一直都是傻乎乎的用 <code>vector&lt;pair&lt;int, int&gt;&gt;</code> 。。。</p>
+</blockquote>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/learn/'>learn</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/contest/'>Contest</a>, <a class='tag' href='/tags/leetcode/'>LeetCode</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/post/leetcode-patternbinary-search/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>LeetCode Pattern: Binary Search</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/abcdlsj' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:lisongjianshuai@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p>abcdlsj</p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
