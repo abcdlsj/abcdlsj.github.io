@@ -6,10 +6,28 @@
     <description>Recent content in Tags on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>abcdlsj</copyright>
-    <lastBuildDate>Sun, 14 Jun 2020 11:16:07 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2020 10:43:35 +0800</lastBuildDate>
     
 	<atom:link href="https://github.abcdlsj.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>6.828</title>
+      <link>https://github.abcdlsj.io/tags/6.828/</link>
+      <pubDate>Tue, 16 Jun 2020 10:43:35 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/tags/6.828/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OS</title>
+      <link>https://github.abcdlsj.io/tags/os/</link>
+      <pubDate>Tue, 16 Jun 2020 10:43:35 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/tags/os/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Contest</title>
@@ -44,15 +62,6 @@
       <pubDate>Mon, 01 Jun 2020 18:43:29 +0800</pubDate>
       
       <guid>https://github.abcdlsj.io/tags/interview/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>OS</title>
-      <link>https://github.abcdlsj.io/tags/os/</link>
-      <pubDate>Mon, 01 Jun 2020 18:43:29 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/os/</guid>
       <description></description>
     </item>
     
