@@ -39,7 +39,7 @@ LeetCode 刷题总结之：动态规划（WIP）
     
     <h2 class='title site-title '>
       <a href='/'>
-      SongJian Li
+      ABCDLSJ
       </a>
     </h2>
     <div class='desc'>
@@ -55,6 +55,8 @@ LeetCode 刷题总结之：动态规划（WIP）
 
   <div class='container list-container'>
   <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/6.824/' style='font-size:1em'>6.824</a>
+      </li><li>
         <a href='/tags/arch/' style='font-size:1em'>Arch</a>
       </li><li>
         <a href='/tags/aria2/' style='font-size:1em'>aria2</a>
@@ -412,6 +414,16 @@ LeetCode 刷题总结之：动态规划（WIP）
     }
 };
 </code></pre></div><h3 id="买卖股票系列">买卖股票系列</h3>
+<blockquote>
+<p>通用转移方程，每一道都可以这样写，但是其实简单的没必要这样写，可以这样分析
+<code>dp[i][k][j]</code>：
+i：第几天；
+k：还可以买入的次数；
+j：1 代表持有股票，0 代表没有；</p>
+<p>因为需要自动更新值，所以值一定是前一天同一状态以及前一天不同状态相比</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">dp[i][k][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> max(dp[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][k][<span style="color:#ae81ff">0</span>], dp[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][k][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> prices[i])
+dp[i][k][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> max(dp[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][k][<span style="color:#ae81ff">1</span>], dp[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">-</span> prices[i])
+</code></pre></div></blockquote>
 <h4 id="121-买卖股票的最佳时机httpsleetcode-cncomproblemsbest-time-to-buy-and-sell-stock"><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/">121. 买卖股票的最佳时机</a></h4>
 <p><strong>这里可以讨论一些关于初始值设置的问题</strong></p>
 <blockquote>
@@ -471,26 +483,30 @@ LeetCode 刷题总结之：动态规划（WIP）
 </code></pre></div><h4 id="123-买卖股票的最佳时机-iiihttpsleetcode-cncomproblemsbest-time-to-buy-and-sell-stock-iii"><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/">123. 买卖股票的最佳时机 III</a></h4>
 <blockquote>
 <p>这道题和上面那道基本一致，但是要求最多买卖两次。</p>
+<p>cash1：该天第一次卖出股票获得最大收益</p>
+<p>hlod1：该天第一次买得股票获得最大收益</p>
+<p>cash2：该天第二次卖出股票获得最大收益</p>
+<p>hlod2：该天第二次买得股票获得最大收益</p>
 </blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
     <span style="color:#66d9ef">int</span> maxProfit(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> prices) {
-        <span style="color:#66d9ef">int</span> hold1 <span style="color:#f92672">=</span> INT_MIN, hold2 <span style="color:#f92672">=</span> INT_MIN, release1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, release2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">int</span> cash1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, cash2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, hlod1 <span style="color:#f92672">=</span> INT_MIN, hlod2 <span style="color:#f92672">=</span> INT_MIN;
 
         <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> prices.size(); i<span style="color:#f92672">++</span>) {
-            release1 <span style="color:#f92672">=</span> max(release1, hold1 <span style="color:#f92672">+</span> prices[i]);
-            hold1 <span style="color:#f92672">=</span> max(hold1, <span style="color:#f92672">-</span>prices[i]);
-            
-            release2 <span style="color:#f92672">=</span> max(release2, hold2 <span style="color:#f92672">+</span> prices[i]);
-            hold2 <span style="color:#f92672">=</span> max(hold2, release1 <span style="color:#f92672">-</span> prices[i]);
+            cash1 <span style="color:#f92672">=</span> max(cash1, hlod1 <span style="color:#f92672">+</span> prices[i]);
+            hlod1 <span style="color:#f92672">=</span> max(hlod1, <span style="color:#f92672">-</span>prices[i]);
+
+            cash2 <span style="color:#f92672">=</span> max(cash2, hlod2 <span style="color:#f92672">+</span> prices[i]);
+            hlod2 <span style="color:#f92672">=</span> max(hlod2, cash1 <span style="color:#f92672">-</span> prices[i]);
         }
 
-        <span style="color:#66d9ef">return</span> release2;
+        <span style="color:#66d9ef">return</span> cash2;
     }
 };
 </code></pre></div><h4 id="188-买卖股票的最佳时机-ivhttpsleetcode-cncomproblemsbest-time-to-buy-and-sell-stock-iv"><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/">188. 买卖股票的最佳时机 IV</a></h4>
 <blockquote>
-<p>这道题最多完成 k 笔交易，这时可以总结出一种秒杀所有买卖股票问题的转移方程，具体的分析可以看 labuladong 的题解，在参考链接。</p>
+<p>这道题最多完成 k 笔交易，这时可以总结出一种秒杀所有买卖股票问题的转移方程，方程在开始处，具体的分析可以看 labuladong 的题解，在参考链接。</p>
 </blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
 </code></pre></div><p>参考链接：</p>
@@ -526,7 +542,7 @@ LeetCode 刷题总结之：动态规划（WIP）
 
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
-      <a href='/post/mit-6.824-learning-1mapreduce/'>
+      <a href='/post/mit-6.824-learningmapreduce-paper-and-lab1/'>
         <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="20" y1="12" x2="4" y2="12"/>
@@ -534,7 +550,7 @@ LeetCode 刷题总结之：动态规划（WIP）
   
 </svg>
  Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>MIT 6.824 (1): MapReduce</a>
+        <span class='screen-reader-text'>Previous post: </span>MIT 6.824 Learing: MapReduce Paper Notes &amp; Lab1</a>
     </div><div class='next-entry sep-before'>
       <a href='/post/operating-system-interview/'>
         <span class='screen-reader-text'>Next post: </span>Operating System Notes<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
