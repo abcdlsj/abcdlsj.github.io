@@ -37,6 +37,38 @@
     </item>
     
     <item>
+      <title>BoltDB Analysis and Implementation（WIP）</title>
+      <link>https://github.abcdlsj.io/post/boltdb-analysis-and-implementation/</link>
+      <pubDate>Wed, 17 Jun 2020 23:00:00 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/boltdb-analysis-and-implementation/</guid>
+      <description>BoltDB 分析与实现
+  既然准备写 k/v 数据库，那么肯定要学习开源项目，关于语言的选择（C++ / Golang），我的想法是：语言肯定不是问题，但是语言选择同样很重要（没错，就是看不起 Java！（背地里吹爆）），我很看好 Golang，很多公司也逐渐的抛弃了 C++，转而拥抱了 Golang。就我的日常学习和使用方面来说（实际上 C++ 没有深入，Golang 也是才学不久，我的看法可能会非常浅薄），我觉得 Golang 能够让人更好的去组合，去体会项目的设计和架构，而不是用 C++ 费心的去掌握一切资源（虽然说 RAII 机制能够很好的管理资源，但是同样也增加了难度）。
+我第一次体会程序设计的魅力是 SICP 带给我的，体会到黑盒抽象，也学习到如何降低程序的“复杂度”（看了前三章不到，以后慢慢看），而我学习 C/C++ 的时候并没有体会到类似的感觉，Golang 带给我的感觉和 Scheme 很相似，虽然 Scheme 简单很多（在这里，我要吹一波，SICP 天下第一！等我稳定下来，我一定用自己实现的 lisp 方言来刷 SICP（这 Flag NB！！！））
+既然我选择 Golang 来写 k/v 数据库，那么肯定需要读老少咸宜的 blotDB 啦（好用稳定简单），预计花费十天时间分析源码（3000 + 行，差不多这个月末，希望不要打脸，我还一堆大半个月的坑都没去填，中间还有考试、课设验收、报告，感觉会被打脸打得很惨。。。），与此同时自己的 k/v 数据库也应该开始动工了（参考 blotDB，没有去实习，项目不能少），之前还打算写 SQLite lite 的（C 语言，有 tutorials，可以照着写，虽然不全。。。），应该会过段时间才去试试（也可能不写了。。。），项目可选的其实感觉很多的，但是好几个自己建好 repo，然后就没然后了，一直挂着 WIP （Github 点开，一堆 WIP，不知道的还以为这是啥暗语，笑死。。。）
+-- 06-17 ⏲️ 23:59
+果然。。。这两天着实有点忙（虽然我很划水，但是我还是感觉到了压迫感，很不舒服，什么事情都不想做），下周会更加忙，所以抓紧！！！
+改成 draft: false 了</description>
+    </item>
+    
+    <item>
+      <title>MIT 6.828 Lab 2: Simple xv6 shell</title>
+      <link>https://github.abcdlsj.io/post/mit-6.828-lab2simple-xv6-shell/</link>
+      <pubDate>Wed, 17 Jun 2020 11:43:20 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/mit-6.828-lab2simple-xv6-shell/</guid>
+      <description>Lab: Simple xv6 shell
+  希望两天后写完（不可能！明天考试，后天课设答辩，我都还没开始。。。）
+-- 06-17 ⏲️ 11:50
+赶着补录完成了课设答辩（无力吐槽某专业了，考研率高，上研率低，就业质量差，专业设置真的合理？死堆没用的课程有用？学得越多越好（190 学分）？虽然可能大家心知肚明，但是呵呵）
+-- -06-20 ⏲️ 12:20
+说实话，我竟然无从下手（不是完全不知道怎么做，而是不知道怎么做比较好，看来还是不太熟悉类 Linux 的底层），不知道是我对 xv6 不了解（准备对照 Linux 的底层实现来理解 xv6）还是对 c 语言不熟悉（翻了下 K&amp;amp;R 的 c 语言书，我 c 学的确实不好），翻了别人仓库，也没有看到一个很优雅简洁的实现
+如果有更好的实现，我会来更新的，不能浪费时间了
+-- 06-21 ⏲️ 21:25
+ #include &amp;#34;kernel/fcntl.h&amp;#34;#include &amp;#34;kernel/param.h&amp;#34;#include &amp;#34;kernel/types.h&amp;#34;#include &amp;#34;user/user.h&amp;#34; #define MAXSIZE 128  void redirect(int d, int pd[]) { close(d); dup(pd[d]); close(pd[0]); close(pd[1]); } char *splitpipe(char *cmd) { for (; *cmd &amp;amp;&amp;amp; *cmd != &amp;#39;|&amp;#39;; cmd++) ; if (*cmd == &amp;#39;|&amp;#39;) { *cmd++ = &amp;#39;\0&amp;#39;; return cmd; } return 0; } int isspace(char c) { return c == &amp;#39; &amp;#39; || c == &amp;#39;\t&amp;#39; || c == &amp;#39;\n&amp;#39;; } void execcmd(char *cmd) { char *argv[MAXARG]; int argc = 0, inpos = 0, outpos = 0; for (; *cmd; *cmd++ = &amp;#39;\0&amp;#39;) { if (!</description>
+    </item>
+    
+    <item>
       <title>MIT 6.828 Lab 1: Xv6 and Unix utilities</title>
       <link>https://github.abcdlsj.io/post/mit-6.828-lab1xv6-and-unix-utilities/</link>
       <pubDate>Tue, 16 Jun 2020 10:43:35 +0800</pubDate>
@@ -228,7 +260,7 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
     </item>
     
     <item>
-      <title>LeetCode &#34;乙亥年最有趣的比赛&#34; 题解</title>
+      <title>LeetCode 乙亥年最有趣的比赛题解</title>
       <link>https://github.abcdlsj.io/post/leetcode-%E4%B9%99%E4%BA%A5%E5%B9%B4%E6%9C%80%E6%9C%89%E8%B6%A3%E7%9A%84%E6%AF%94%E8%B5%9B-%E9%A2%98%E8%A7%A3/</link>
       <pubDate>Tue, 21 Jan 2020 01:07:00 +0800</pubDate>
       
@@ -283,7 +315,7 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
     </item>
     
     <item>
-      <title>Representing-Manipulating-Information</title>
+      <title>CS:APP --- Representing Manipulating Information</title>
       <link>https://github.abcdlsj.io/post/representing-manipulating-information/</link>
       <pubDate>Sun, 13 Oct 2019 00:00:00 +0800</pubDate>
       
@@ -316,7 +348,7 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
     </item>
     
     <item>
-      <title>gdb 调试方法总结(基础)</title>
+      <title>gdb 调试方法基础总结</title>
       <link>https://github.abcdlsj.io/post/gdb%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Mon, 15 Apr 2019 00:00:00 +0800</pubDate>
       
@@ -384,7 +416,7 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
     </item>
     
     <item>
-      <title>截图&#43;上传&#43;获取链接自动化小工具</title>
+      <title>截图 &#43; 上传 &#43; 获取链接自动化小工具</title>
       <link>https://github.abcdlsj.io/post/%E4%B8%80%E4%B8%AAmarkdown%E5%B0%8F%E5%B7%A5%E5%85%B7/</link>
       <pubDate>Wed, 15 Aug 2018 00:00:00 +0800</pubDate>
       

@@ -5,10 +5,27 @@
     <link>https://github.abcdlsj.io/tags/6.828/</link>
     <description>Recent content in 6.828 on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 16 Jun 2020 10:43:35 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 17 Jun 2020 11:43:20 +0800</lastBuildDate>
     
 	<atom:link href="https://github.abcdlsj.io/tags/6.828/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MIT 6.828 Lab 2: Simple xv6 shell</title>
+      <link>https://github.abcdlsj.io/post/mit-6.828-lab2simple-xv6-shell/</link>
+      <pubDate>Wed, 17 Jun 2020 11:43:20 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/mit-6.828-lab2simple-xv6-shell/</guid>
+      <description>Lab: Simple xv6 shell
+  希望两天后写完（不可能！明天考试，后天课设答辩，我都还没开始。。。）
+-- 06-17 ⏲️ 11:50
+赶着补录完成了课设答辩（无力吐槽某专业了，考研率高，上研率低，就业质量差，专业设置真的合理？死堆没用的课程有用？学得越多越好（190 学分）？虽然可能大家心知肚明，但是呵呵）
+-- -06-20 ⏲️ 12:20
+说实话，我竟然无从下手（不是完全不知道怎么做，而是不知道怎么做比较好，看来还是不太熟悉类 Linux 的底层），不知道是我对 xv6 不了解（准备对照 Linux 的底层实现来理解 xv6）还是对 c 语言不熟悉（翻了下 K&amp;amp;R 的 c 语言书，我 c 学的确实不好），翻了别人仓库，也没有看到一个很优雅简洁的实现
+如果有更好的实现，我会来更新的，不能浪费时间了
+-- 06-21 ⏲️ 21:25
+ #include &amp;#34;kernel/fcntl.h&amp;#34;#include &amp;#34;kernel/param.h&amp;#34;#include &amp;#34;kernel/types.h&amp;#34;#include &amp;#34;user/user.h&amp;#34; #define MAXSIZE 128  void redirect(int d, int pd[]) { close(d); dup(pd[d]); close(pd[0]); close(pd[1]); } char *splitpipe(char *cmd) { for (; *cmd &amp;amp;&amp;amp; *cmd != &amp;#39;|&amp;#39;; cmd++) ; if (*cmd == &amp;#39;|&amp;#39;) { *cmd++ = &amp;#39;\0&amp;#39;; return cmd; } return 0; } int isspace(char c) { return c == &amp;#39; &amp;#39; || c == &amp;#39;\t&amp;#39; || c == &amp;#39;\n&amp;#39;; } void execcmd(char *cmd) { char *argv[MAXARG]; int argc = 0, inpos = 0, outpos = 0; for (; *cmd; *cmd++ = &amp;#39;\0&amp;#39;) { if (!</description>
+    </item>
     
     <item>
       <title>MIT 6.828 Lab 1: Xv6 and Unix utilities</title>

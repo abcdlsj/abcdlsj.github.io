@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='BoltDB 分析与实现
+  既然准备写 k/v 数据库，那么肯定要学习开源项目，关于语言的选择（C&#43;&#43; / Golang），我的想法是：语言肯定不是问题，但是语言选择同样很重要（没错，就是看不起 Java！（背地里吹爆）），我很看好 Golang，很多公司也逐渐的抛弃了 C&#43;&#43;，转而拥抱了 Golang。就我的日常学习和使用方面来说（实际上 C&#43;&#43; 没有深入，Golang 也是才学不久，我的看法可能会非常浅薄），我觉得 Golang 能够让人更好的去组合，去体会项目的设计和架构，而不是用 C&#43;&#43; 费心的去掌握一切资源（虽然说 RAII 机制能够很好的管理资源，但是同样也增加了难度）。
+我第一次体会程序设计的魅力是 SICP 带给我的，体会到黑盒抽象，也学习到如何降低程序的“复杂度”（看了前三章不到，以后慢慢看），而我学习 C/C&#43;&#43; 的时候并没有体会到类似的感觉，Golang 带给我的感觉和 Scheme 很相似，虽然 Scheme 简单很多（在这里，我要吹一波，SICP 天下第一！等我稳定下来，我一定用自己实现的 lisp 方言来刷 SICP（这 Flag NB！！！））
+既然我选择 Golang 来写 k/v 数据库，那么肯定需要读老少咸宜的 blotDB 啦（好用稳定简单），预计花费十天时间分析源码（3000 &#43; 行，差不多这个月末，希望不要打脸，我还一堆大半个月的坑都没去填，中间还有考试、课设验收、报告，感觉会被打脸打得很惨。。。），与此同时自己的 k/v 数据库也应该开始动工了（参考 blotDB，没有去实习，项目不能少），之前还打算写 SQLite lite 的（C 语言，有 tutorials，可以照着写，虽然不全。。。），应该会过段时间才去试试（也可能不写了。。。），项目可选的其实感觉很多的，但是好几个自己建好 repo，然后就没然后了，一直挂着 WIP （Github 点开，一堆 WIP，不知道的还以为这是啥暗语，笑死。。。）
+-- 06-17 ⏲️ 23:59
+果然。。。这两天着实有点忙（虽然我很划水，但是我还是感觉到了压迫感，很不舒服，什么事情都不想做），下周会更加忙，所以抓紧！！！
+改成 draft: false 了'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='BoltDB Analysis and Implementation（WIP） • The Real World'>
+<meta property='og:description' content='BoltDB 分析与实现
+  既然准备写 k/v 数据库，那么肯定要学习开源项目，关于语言的选择（C&#43;&#43; / Golang），我的想法是：语言肯定不是问题，但是语言选择同样很重要（没错，就是看不起 Java！（背地里吹爆）），我很看好 Golang，很多公司也逐渐的抛弃了 C&#43;&#43;，转而拥抱了 Golang。就我的日常学习和使用方面来说（实际上 C&#43;&#43; 没有深入，Golang 也是才学不久，我的看法可能会非常浅薄），我觉得 Golang 能够让人更好的去组合，去体会项目的设计和架构，而不是用 C&#43;&#43; 费心的去掌握一切资源（虽然说 RAII 机制能够很好的管理资源，但是同样也增加了难度）。
+我第一次体会程序设计的魅力是 SICP 带给我的，体会到黑盒抽象，也学习到如何降低程序的“复杂度”（看了前三章不到，以后慢慢看），而我学习 C/C&#43;&#43; 的时候并没有体会到类似的感觉，Golang 带给我的感觉和 Scheme 很相似，虽然 Scheme 简单很多（在这里，我要吹一波，SICP 天下第一！等我稳定下来，我一定用自己实现的 lisp 方言来刷 SICP（这 Flag NB！！！））
+既然我选择 Golang 来写 k/v 数据库，那么肯定需要读老少咸宜的 blotDB 啦（好用稳定简单），预计花费十天时间分析源码（3000 &#43; 行，差不多这个月末，希望不要打脸，我还一堆大半个月的坑都没去填，中间还有考试、课设验收、报告，感觉会被打脸打得很惨。。。），与此同时自己的 k/v 数据库也应该开始动工了（参考 blotDB，没有去实习，项目不能少），之前还打算写 SQLite lite 的（C 语言，有 tutorials，可以照着写，虽然不全。。。），应该会过段时间才去试试（也可能不写了。。。），项目可选的其实感觉很多的，但是好几个自己建好 repo，然后就没然后了，一直挂着 WIP （Github 点开，一堆 WIP，不知道的还以为这是啥暗语，笑死。。。）
+-- 06-17 ⏲️ 23:59
+果然。。。这两天着实有点忙（虽然我很划水，但是我还是感觉到了压迫感，很不舒服，什么事情都不想做），下周会更加忙，所以抓紧！！！
+改成 draft: false 了'>
+<meta property='og:url' content='https://github.abcdlsj.io/post/boltdb-analysis-and-implementation/'>
+<meta property='og:site_name' content='The Real World'>
+<meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='BoltDB'><meta property='article:tag' content='DataBase'><meta property='article:published_time' content='2020-06-17T23:00:00&#43;08:00'/><meta property='article:modified_time' content='2020-06-17T23:00:00&#43;08:00'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.70.0" />
+
+  <title>BoltDB Analysis and Implementation（WIP） • The Real World</title>
+  <link rel='canonical' href='https://github.abcdlsj.io/post/boltdb-analysis-and-implementation/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-post has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      ABCDLSJ
+      </a>
+    </h2>
+    <div class='desc'>
+    C/C++/Golang/Lisp/Python Emacs/Arch/Gentoo/Google Dog/Cat
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/6.824/' style='font-size:1em'>6.824</a>
+      </li><li>
+        <a href='/tags/6.828/' style='font-size:1.125em'>6.828</a>
+      </li><li>
+        <a href='/tags/arch/' style='font-size:1em'>Arch</a>
+      </li><li>
+        <a href='/tags/aria2/' style='font-size:1em'>aria2</a>
+      </li><li>
+        <a href='/tags/backtracking/' style='font-size:1em'>BackTracking</a>
+      </li><li>
+        <a href='/tags/baidu/' style='font-size:1em'>baidu</a>
+      </li><li>
+        <a href='/tags/bigdata/' style='font-size:1em'>BigData</a>
+      </li><li>
+        <a href='/tags/binary-search/' style='font-size:1em'>Binary Search</a>
+      </li><li>
+        <a href='/tags/blog/' style='font-size:1.125em'>blog</a>
+      </li><li>
+        <a href='/tags/boltdb/' style='font-size:1em'>BoltDB</a>
+      </li><li>
+        <a href='/tags/chmod/' style='font-size:1em'>chmod</a>
+      </li><li>
+        <a href='/tags/cmder/' style='font-size:1em'>Cmder</a>
+      </li><li>
+        <a href='/tags/conky/' style='font-size:1em'>conky</a>
+      </li><li>
+        <a href='/tags/contest/' style='font-size:1.125em'>Contest</a>
+      </li><li>
+        <a href='/tags/cpp/' style='font-size:1.125em'>CPP</a>
+      </li><li>
+        <a href='/tags/csapp/' style='font-size:1em'>CSAPP</a>
+      </li><li>
+        <a href='/tags/data-structure/' style='font-size:1em'>Data Structure</a>
+      </li><li>
+        <a href='/tags/database/' style='font-size:1em'>DataBase</a>
+      </li><li>
+        <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
+      </li><li>
+        <a href='/tags/dynamic-programming/' style='font-size:1em'>Dynamic Programming</a>
+      </li><li>
+        <a href='/tags/elisp/' style='font-size:1em'>elisp</a>
+      </li><li>
+        <a href='/tags/emacs/' style='font-size:1.25em'>Emacs</a>
+      </li><li>
+        <a href='/tags/ffmepg/' style='font-size:1em'>ffmepg</a>
+      </li><li>
+        <a href='/tags/gdb/' style='font-size:1em'>gdb</a>
+      </li><li>
+        <a href='/tags/google-bbr/' style='font-size:1em'>Google bbr</a>
+      </li><li>
+        <a href='/tags/h5ai/' style='font-size:1em'>h5ai</a>
+      </li><li>
+        <a href='/tags/hexo/' style='font-size:1em'>hexo</a>
+      </li><li>
+        <a href='/tags/hugo/' style='font-size:1.125em'>hugo</a>
+      </li><li>
+        <a href='/tags/interview/' style='font-size:1em'>Interview</a>
+      </li><li>
+        <a href='/tags/keyboard/' style='font-size:1em'>KeyBoard</a>
+      </li><li>
+        <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
+      </li><li>
+        <a href='/tags/linux/' style='font-size:1.5em'>linux</a>
+      </li><li>
+        <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
+      </li><li>
+        <a href='/tags/markdown/' style='font-size:1em'>Markdown</a>
+      </li><li>
+        <a href='/tags/mysql/' style='font-size:1em'>Mysql</a>
+      </li><li>
+        <a href='/tags/nextcloud/' style='font-size:1em'>NextCloud</a>
+      </li><li>
+        <a href='/tags/org/' style='font-size:1.375em'>org</a>
+      </li><li>
+        <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
+      </li><li>
+        <a href='/tags/os/' style='font-size:1.625em'>OS</a>
+      </li><li>
+        <a href='/tags/package/' style='font-size:1em'>package</a>
+      </li><li>
+        <a href='/tags/pip/' style='font-size:1em'>pip</a>
+      </li><li>
+        <a href='/tags/python/' style='font-size:1.375em'>Python</a>
+      </li><li>
+        <a href='/tags/sicp/' style='font-size:1.25em'>SICP</a>
+      </li><li>
+        <a href='/tags/sklearn/' style='font-size:1em'>Sklearn</a>
+      </li><li>
+        <a href='/tags/sliding-window/' style='font-size:1em'>Sliding Window</a>
+      </li><li>
+        <a href='/tags/ssr/' style='font-size:1em'>ssr</a>
+      </li><li>
+        <a href='/tags/tensorflow/' style='font-size:1em'>Tensorflow</a>
+      </li><li>
+        <a href='/tags/tree/' style='font-size:1em'>Tree</a>
+      </li><li>
+        <a href='/tags/v2ray/' style='font-size:1.25em'>v2ray</a>
+      </li><li>
+        <a href='/tags/xv6/' style='font-size:1.125em'>xv6</a>
+      </li><li>
+        <a href='/tags/zsh/' style='font-size:1em'>zsh</a>
+      </li><li>
+        <a href='/tags/%E5%8D%9C%E7%AE%97%E5%AD%90/' style='font-size:1em'>卜算子</a>
+      </li><li>
+        <a href='/tags/%E6%80%9D%E6%83%B3/' style='font-size:1em'>思想</a>
+      </li><li>
+        <a href='/tags/%E6%84%9F%E6%82%9F/' style='font-size:1em'>感悟</a>
+      </li><li>
+        <a href='/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/' style='font-size:1em'>树莓派</a>
+      </li><li>
+        <a href='/tags/%E7%94%9F%E6%B4%BB/' style='font-size:1em'>生活</a>
+      </li><li>
+        <a href='/tags/%E8%BE%93%E5%85%A5%E6%B3%95/' style='font-size:1em'>输入法</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/'>Home</a>
+      </li><li class='item'>
+        <a href='/post/'>Archives</a>
+      </li><li class='item'>
+        <a href='/tags/'>Tags</a>
+      </li><li class='item'>
+        <a href='/categories/'>Categories</a>
+      </li><li class='item'>
+        <a href='/about/'>About</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>The Real World</p><p class='desc site-desc'>The stars never rise but I feel the bright eyes.</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>BoltDB Analysis and Implementation（WIP）</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-06-17T23:00:00&#43;08:00'>2020, Jun 17</time>
+</span>
+
+  
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+One min read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+<details class='container entry-toc'>
+  <summary class='title'>
+    <span>Table of Contents</span>
+  </summary>
+  <nav id="TableOfContents"></nav>
+</details>
+
+
+  <div class='container entry-content'>
+  <blockquote>
+<p>BoltDB 分析与实现</p>
+</blockquote>
+<blockquote>
+<p>既然准备写 k/v 数据库，那么肯定要学习开源项目，关于语言的选择（C++ / Golang），我的想法是：语言肯定不是问题，但是语言选择同样很重要（没错，就是看不起 Java！（背地里吹爆）），我很看好 Golang，很多公司也逐渐的抛弃了 C++，转而拥抱了 Golang。就我的日常学习和使用方面来说（实际上 C++ 没有深入，Golang 也是才学不久，我的看法可能会非常浅薄），我觉得 Golang 能够让人更好的去组合，去体会项目的设计和架构，而不是用 C++ 费心的去掌握一切资源（虽然说 RAII 机制能够很好的管理资源，但是同样也增加了难度）。</p>
+<p>我第一次体会程序设计的魅力是 SICP 带给我的，体会到黑盒抽象，也学习到如何降低程序的“复杂度”（看了前三章不到，以后慢慢看），而我学习 C/C++ 的时候并没有体会到类似的感觉，Golang 带给我的感觉和 Scheme 很相似，虽然 Scheme 简单很多（在这里，我要吹一波，SICP 天下第一！等我稳定下来，我一定用自己实现的 lisp 方言来刷 SICP（这 Flag NB！！！））</p>
+<p>既然我选择 Golang 来写 k/v 数据库，那么肯定需要读老少咸宜的 <code>blotDB</code>  啦（好用稳定简单），预计花费十天时间分析源码（3000 + 行，差不多这个月末，希望不要打脸，我还一堆大半个月的坑都没去填，中间还有考试、课设验收、报告，感觉会被打脸打得很惨。。。），与此同时自己的 k/v 数据库也应该开始动工了（参考 blotDB，没有去实习，项目不能少），之前还打算写 SQLite lite 的（C 语言，有 tutorials，可以照着写，虽然不全。。。），应该会过段时间才去试试（也可能不写了。。。），项目可选的其实感觉很多的，但是好几个自己建好 repo，然后就没然后了，一直挂着 WIP （Github 点开，一堆 WIP，不知道的还以为这是啥暗语，笑死。。。）</p>
+<p>-- 06-17 ⏲️ 23:59</p>
+<p>果然。。。这两天着实有点忙（虽然我很划水，但是我还是感觉到了压迫感，很不舒服，什么事情都不想做），下周会更加忙，所以抓紧！！！</p>
+<p>改成  <code>draft: false</code> 了</p>
+<p>-- 06-21 ⏲️ 21:19</p>
+</blockquote>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/learn/'>learn</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/boltdb/'>BoltDB</a>, <a class='tag' href='/tags/database/'>DataBase</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/post/mit-6.828-lab2simple-xv6-shell/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>MIT 6.828 Lab 2: Simple xv6 shell</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/post/leetcode-weekly-contest194/'>
+        <span class='screen-reader-text'>Next post: </span>LeetCode Weekly Contest: 194<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><header>
+    <h4 class='title widget-title'>Catch Me</h4>
+  </header><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/abcdlsj' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:lisongjianshuai@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2018-2020 abcdlsj </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
