@@ -5,10 +5,24 @@
     <link>https://github.abcdlsj.io/tags/leetcode/</link>
     <description>Recent content in LeetCode on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 21 Jun 2020 14:45:25 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 21 Jun 2020 20:42:22 +0800</lastBuildDate>
     
 	<atom:link href="https://github.abcdlsj.io/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>LeetCode Pattern: Other Questions</title>
+      <link>https://github.abcdlsj.io/post/leetcode-patternno-pattern/</link>
+      <pubDate>Sun, 21 Jun 2020 20:42:22 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/leetcode-patternno-pattern/</guid>
+      <description>LeetCode Pattern: Other Questions
+  LeetCode 很多是有套路模板的题，但是也有很多没什么套路，单纯的是技巧以及对数据结构和算法的理解
+开始重刷 LeetCode 之路了，发现很多题之前看了题解去写的，现在去写还是会有点懵逼（其实好很多了，写过的题很多都可以直接看到问题的本质，最后还是熟练度的问题）
+摘取一些无法分类，但是很有意思的题
+-- 06-21 ⏲️ 20:46
+ 5. 最长回文子串 class Solution { public: string longestPalindrome(string s) { int st = 0, ed = 0; for (int i = 0; i &amp;lt; s.size(); i++) { int l1 = expand(s, i, i); int l2 = expand(s, i, i + 1); int len = max(l1, l2); if (len &amp;gt; (ed - st)) { st = i - (len - 1) / 2; ed = i + len / 2; } } return s.</description>
+    </item>
     
     <item>
       <title>LeetCode Weekly Contest: 194</title>
