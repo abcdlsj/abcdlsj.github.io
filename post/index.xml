@@ -23,6 +23,8 @@
 艹，不写了！！！（会不会太水了。。。）
 算了，这次周赛就放弃了，等明天写了补题解吧
 -- Sunday 10:52
+不用明天了。。。
+-- Sunday 15:42
  Biweekly Contest 5434. 删掉一个元素以后全为 1 的最长子数组  这是第三题
 找到 0 的位置，然后扩散到两边，算出长度
  class Solution { public: int longestSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int n = nums.size(), ans = 0; if (accumulate(nums.begin(), nums.end(), 0) == n) return n - 1; for (int i = 0; i &amp;lt; nums.</description>
