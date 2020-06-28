@@ -5,23 +5,49 @@
     <link>https://github.abcdlsj.io/post/</link>
     <description>Recent content in Posts on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 21 Jun 2020 20:42:22 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 28 Jun 2020 07:47:41 +0800</lastBuildDate>
     
 	<atom:link href="https://github.abcdlsj.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>LeetCode Pattern: Other Questions</title>
+      <title>LeetCode Biweekly Contest:29 &amp;&amp; Weekly Contest:195</title>
+      <link>https://github.abcdlsj.io/post/leetcode-biweekly-contest29-weekly-contest195/</link>
+      <pubDate>Sun, 28 Jun 2020 07:47:41 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/leetcode-biweekly-contest29-weekly-contest195/</guid>
+      <description>LeetCode 双周赛 29 + 周赛 195 解题报告
+  两周一次的欢乐双周赛时间，双周赛昨天忘记了，过了半个小时去写的。。前几个没什么难度，第四个状压 dp 恕我无能为力（dp 永远的神！），周赛还没开始，感觉难度应该会难一些，争取 3 题！（实际上，每次如果我卡的时间太久。。我就没写了。。。可能还剩一个小时。。。）
+-- Sunday 08:03
+裂开。。。网络炸了。。。
+艹，不写了！！！（会不会太水了。。。）
+算了，这次周赛就放弃了，等明天写了补题解吧
+-- Sunday 10:52
+ Biweekly Contest 5434. 删掉一个元素以后全为 1 的最长子数组  这是第三题
+找到 0 的位置，然后扩散到两边，算出长度
+ class Solution { public: int longestSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int n = nums.size(), ans = 0; if (accumulate(nums.begin(), nums.end(), 0) == n) return n - 1; for (int i = 0; i &amp;lt; nums.</description>
+    </item>
+    
+    <item>
+      <title>LeetCode Data-Structure: Link List (WIP)</title>
+      <link>https://github.abcdlsj.io/post/leetcode-data-structurelink-list/</link>
+      <pubDate>Mon, 22 Jun 2020 08:52:45 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/leetcode-data-structurelink-list/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode 刷题总结：链表&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>LeetCode Pattern: Other Questions (WIP)</title>
       <link>https://github.abcdlsj.io/post/leetcode-patternno-pattern/</link>
       <pubDate>Sun, 21 Jun 2020 20:42:22 +0800</pubDate>
       
       <guid>https://github.abcdlsj.io/post/leetcode-patternno-pattern/</guid>
-      <description>LeetCode Pattern: Other Questions
-  LeetCode 很多是有套路模板的题，但是也有很多没什么套路，单纯的是技巧以及对数据结构和算法的理解
-开始重刷 LeetCode 之路了，发现很多题之前看了题解去写的，现在去写还是会有点懵逼（其实好很多了，写过的题很多都可以直接看到问题的本质，最后还是熟练度的问题）
-摘取一些无法分类，但是很有意思的题
--- 06-21 ⏲️ 20:46
- 5. 最长回文子串 class Solution { public: string longestPalindrome(string s) { int st = 0, ed = 0; for (int i = 0; i &amp;lt; s.size(); i++) { int l1 = expand(s, i, i); int l2 = expand(s, i, i + 1); int len = max(l1, l2); if (len &amp;gt; (ed - st)) { st = i - (len - 1) / 2; ed = i + len / 2; } } return s.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode 刷题总结之瞎几把总结&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -44,8 +70,8 @@
       <guid>https://github.abcdlsj.io/post/boltdb-analysis-and-implementation/</guid>
       <description>BoltDB 分析与实现
   既然准备写 k/v 数据库，那么肯定要学习开源项目，关于语言的选择（C++ / Golang），我的想法是：语言肯定不是问题，但是语言选择同样很重要（没错，就是看不起 Java！（背地里吹爆）），我很看好 Golang，很多公司也逐渐的抛弃了 C++，转而拥抱了 Golang。就我的日常学习和使用方面来说（实际上 C++ 没有深入，Golang 也是才学不久，我的看法可能会非常浅薄），我觉得 Golang 能够让人更好的去组合，去体会项目的设计和架构，而不是用 C++ 费心的去掌握一切资源（虽然说 RAII 机制能够很好的管理资源，但是同样也增加了难度）。
-我第一次体会程序设计的魅力是 SICP 带给我的，体会到黑盒抽象，也学习到如何降低程序的“复杂度”（看了前三章不到，以后慢慢看），而我学习 C/C++ 的时候并没有体会到类似的感觉，Golang 带给我的感觉和 Scheme 很相似，虽然 Scheme 简单很多（在这里，我要吹一波，SICP 天下第一！等我稳定下来，我一定用自己实现的 lisp 方言来刷 SICP（这 Flag NB！！！））
-既然我选择 Golang 来写 k/v 数据库，那么肯定需要读老少咸宜的 blotDB 啦（好用稳定简单），预计花费十天时间分析源码（3000 + 行，差不多这个月末，希望不要打脸，我还一堆大半个月的坑都没去填，中间还有考试、课设验收、报告，感觉会被打脸打得很惨。。。），与此同时自己的 k/v 数据库也应该开始动工了（参考 blotDB，没有去实习，项目不能少），之前还打算写 SQLite lite 的（C 语言，有 tutorials，可以照着写，虽然不全。。。），应该会过段时间才去试试（也可能不写了。。。），项目可选的其实感觉很多的，但是好几个自己建好 repo，然后就没然后了，一直挂着 WIP （Github 点开，一堆 WIP，不知道的还以为这是啥暗语，笑死。。。）
+我第一次体会程序设计的魅力是 SICP 带给我的，体会到黑盒抽象，也学习到如何降低程序的“复杂度”（看了前三章不到，以后慢慢看），而我学习 C/C++ 的时候并没有体会到类似的感觉，Golang 带给我的感觉和 Scheme 很相似，虽然 Scheme 简单很多（在这里，我要吹一波，SICP 天下第一！等我稳定下来（感觉最好的时间段还是找到工作到入职的那段时间），我一定用自己实现的 lisp 方言来刷 SICP（这 Flag NB！！！））
+既然我选择 Golang 来写 k/v 数据库，那么肯定需要读老少咸宜的 boltDB 啦（好用稳定简单），预计花费十天时间分析源码（3000 + 行，差不多这个月末，希望不要打脸，我还一堆大半个月的坑都没去填，中间还有考试、课设验收、报告，感觉会被打脸打得很惨。。。），与此同时自己的 k/v 数据库也应该开始动工了（参考 boltDB，没有去实习，项目不能少），之前还打算写 SQLite lite 的（C 语言，有 tutorials，可以照着写，虽然不全。。。），应该会过段时间才去试试（也可能不写了。。。），项目可选的其实感觉很多的，但是好几个自己建好 repo，然后就没然后了，一直挂着 WIP （Github 点开，一堆 WIP，不知道的还以为这是啥暗语，笑死。。。）
 -- 06-17 ⏲️ 23:59
 果然。。。这两天着实有点忙（虽然我很划水，但是我还是感觉到了压迫感，很不舒服，什么事情都不想做），下周会更加忙，所以抓紧！！！
 改成 draft: false 了</description>
@@ -105,6 +131,17 @@
     </item>
     
     <item>
+      <title>LeetCode Data-Structure: Tree</title>
+      <link>https://github.abcdlsj.io/post/leetcode-data-structuretree/</link>
+      <pubDate>Mon, 08 Jun 2020 21:52:45 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/leetcode-data-structuretree/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode 刷题总结：树&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
       <title>LeetCode Pattern: Binary Search (WIP)</title>
       <link>https://github.abcdlsj.io/post/leetcode-patternbinary-search/</link>
       <pubDate>Mon, 01 Jun 2020 22:05:26 +0800</pubDate>
@@ -116,13 +153,13 @@
     </item>
     
     <item>
-      <title>Operating System Notes</title>
+      <title>Operating System Notes  (WIP)</title>
       <link>https://github.abcdlsj.io/post/operating-system-interview/</link>
       <pubDate>Mon, 01 Jun 2020 18:43:29 +0800</pubDate>
       
       <guid>https://github.abcdlsj.io/post/operating-system-interview/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;操作系统知识点总结（WIP）&lt;/p&gt;
+&lt;p&gt;操作系统知识点总结&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -145,17 +182,6 @@
       <guid>https://github.abcdlsj.io/post/mit-6.824-learningmapreduce-paper-and-lab1/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;MapReduce Paper &amp;amp; Lab1&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>LeetCode Data-Structure: Tree</title>
-      <link>https://github.abcdlsj.io/post/leetcode-data-structuretree/</link>
-      <pubDate>Thu, 14 May 2020 21:52:45 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/leetcode-data-structuretree/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;LeetCode 刷题总结：树&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
