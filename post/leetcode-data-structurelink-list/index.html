@@ -7,7 +7,7 @@ LeetCode 刷题总结：链表
 '>
 <meta name='theme-color' content='#ffcd00'>
 
-<meta property='og:title' content='LeetCode Data-Structure: Link List (WIP) • The Real World'>
+<meta property='og:title' content='LeetCode Data-Structure: Link List • The Real World'>
 <meta property='og:description' content='
 LeetCode 刷题总结：链表
 '>
@@ -17,7 +17,7 @@ LeetCode 刷题总结：链表
 
 <meta name="generator" content="Hugo 0.72.0" />
 
-  <title>LeetCode Data-Structure: Link List (WIP) • The Real World</title>
+  <title>LeetCode Data-Structure: Link List • The Real World</title>
   <link rel='canonical' href='https://github.abcdlsj.io/post/leetcode-data-structurelink-list/'>
   
   
@@ -205,9 +205,9 @@ LeetCode 刷题总结：链表
       </li><li class='item'>
         <a href='/post/'>Archives</a>
       </li><li class='item'>
-        <a href='/tags/'>Tags</a>
-      </li><li class='item'>
         <a href='/categories/'>Categories</a>
+      </li><li class='item'>
+        <a href='/tags/leetcode'>LeetCode</a>
       </li><li class='item'>
         <a href='/about/'>About</a>
       </li></ul>
@@ -230,7 +230,7 @@ LeetCode 刷题总结：链表
   <header class='header entry-header'>
   <div class='container sep-after'>
     <div class='header-info'>
-      <h1 class='title'>LeetCode Data-Structure: Link List (WIP)</h1>
+      <h1 class='title'>LeetCode Data-Structure: Link List</h1>
       
 
     </div>
@@ -255,7 +255,7 @@ LeetCode 刷题总结：链表
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-2 mins read
+3 mins read
 </span>
 
 
@@ -273,7 +273,8 @@ LeetCode 刷题总结：链表
   </summary>
   <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#浅谈链表的递归">浅谈链表的递归</a></li>
+    <li><a href="#题目">题目</a>
       <ul>
         <li></li>
       </ul>
@@ -290,7 +291,21 @@ LeetCode 刷题总结：链表
 <blockquote>
 <p>看到我 4 月 29 建的博文，我沉默了，把时间改成了今天（敲了很多，发现并没有任何意义，然后删了）</p>
 <p>-- 06-22 ⏲️ 09:22</p>
+<p>再次更新，添加了几个题，也画了反转链表的过程（画得不好看。。。）</p>
+<p>等把 LRU 添加之后，就差不多了，其它的东西之后慢慢遇到再添加</p>
+<p>-- 06-30 ⏲️ 14:05</p>
 </blockquote>
+<h2 id="浅谈链表的递归">浅谈链表的递归</h2>
+<blockquote>
+<p>用反转链表来举例</p>
+</blockquote>
+<p><img src="/img/reverseList.png" alt="reverse list"></p>
+<p>其实也就是<strong>两个点</strong>：</p>
+<ul>
+<li>注意好返回值</li>
+<li>处理最小情况</li>
+</ul>
+<h2 id="题目">题目</h2>
 <h4 id="21-合并两个有序链表httpsleetcode-cncomproblemsmerge-two-sorted-lists"><a href="https://leetcode-cn.com/problems/merge-two-sorted-lists/">21. 合并两个有序链表</a></h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -348,7 +363,54 @@ LeetCode 刷题总结：链表
     }
 };
 </code></pre></div><p><strong>递归解法</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    ListNode<span style="color:#f92672">*</span> reverseList(ListNode<span style="color:#f92672">*</span> head) {
+        <span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> head;
+        ListNode<span style="color:#f92672">*</span> node <span style="color:#f92672">=</span> reverseList(head<span style="color:#f92672">-&gt;</span>next);
+        head<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> head;
+        head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+        <span style="color:#66d9ef">return</span> node;
+    }
+};
+</code></pre></div><h4 id="234-回文链表httpsleetcode-cncomproblemspalindrome-linked-list"><a href="https://leetcode-cn.com/problems/palindrome-linked-list/">234. 回文链表</a></h4>
+<blockquote>
+<p>边快慢指针，边逆序前半部分</p>
+<p>注意：</p>
+<p>如果链表长度为奇数，fast 会停在最后一个元素，slow 会再一半的左边一个位置处</p>
+<p>偶数，则停在空的位置，slow 在中间两个元素之中的左边</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Definition for singly-linked list.
+</span><span style="color:#75715e"> * struct ListNode {
+</span><span style="color:#75715e"> *     int val;
+</span><span style="color:#75715e"> *     ListNode *next;
+</span><span style="color:#75715e"> *     ListNode(int x) : val(x), next(NULL) {}
+</span><span style="color:#75715e"> * };
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">bool</span> isPalindrome(ListNode<span style="color:#f92672">*</span> head) {
+        ListNode<span style="color:#f92672">*</span> pre <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>, <span style="color:#f92672">*</span>slow <span style="color:#f92672">=</span> head, <span style="color:#f92672">*</span>fast <span style="color:#f92672">=</span> head;
+
+        <span style="color:#66d9ef">while</span>(fast <span style="color:#f92672">&amp;&amp;</span> fast<span style="color:#f92672">-&gt;</span>next) {
+            fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+            ListNode<span style="color:#f92672">*</span> nxt <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
+            slow<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> pre;
+            pre <span style="color:#f92672">=</span> slow;
+            slow <span style="color:#f92672">=</span> nxt;
+        }
+        <span style="color:#66d9ef">if</span> (fast <span style="color:#f92672">&amp;&amp;</span> fast<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
+
+        <span style="color:#66d9ef">while</span> (pre <span style="color:#f92672">&amp;&amp;</span> slow) {
+            <span style="color:#66d9ef">if</span> (pre<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">!=</span> slow<span style="color:#f92672">-&gt;</span>val) <span style="color:#66d9ef">return</span> false;
+            pre <span style="color:#f92672">=</span> pre<span style="color:#f92672">-&gt;</span>next;
+            slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
+        }
+
+        <span style="color:#66d9ef">return</span> true;
+    }
+};
 </code></pre></div><h4 id="24-两两交换链表中的节点httpsleetcode-cncomproblemsswap-nodes-in-pairs"><a href="https://leetcode-cn.com/problems/swap-nodes-in-pairs/">24. 两两交换链表中的节点</a></h4>
 <blockquote>
 <p>n25 的简单版，这道题我记得两个月前写，思路都不是很清晰，现在非常清晰（没看自己之前的提交，一口气完成了解答，并且答案和之前写的题解相同，PS. 大多数题我都会提交自己认为最简单快捷的实现）</p>
@@ -412,7 +474,7 @@ LeetCode 刷题总结：链表
         <span style="color:#66d9ef">return</span> pre;
     }
 };
-</code></pre></div>
+</code></pre></div><h4 id="146-lru缓存机制httpsleetcode-cncomproblemslru-cache"><a href="https://leetcode-cn.com/problems/lru-cache/">146. LRU缓存机制</a></h4>
 </div>
 
   
