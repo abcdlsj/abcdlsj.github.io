@@ -475,6 +475,41 @@ LeetCode 刷题总结：链表
     }
 };
 </code></pre></div><h4 id="146-lru缓存机制httpsleetcode-cncomproblemslru-cache"><a href="https://leetcode-cn.com/problems/lru-cache/">146. LRU缓存机制</a></h4>
+<blockquote>
+<p>很重要的东西，但是难度比较低</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LRUCache</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> cap;
+    list<span style="color:#f92672">&lt;</span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> cache;
+    unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, list<span style="color:#f92672">&lt;</span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;::</span>iterator<span style="color:#f92672">&gt;</span> map; 
+    LRUCache(<span style="color:#66d9ef">int</span> capacity) <span style="color:#f92672">:</span> cap(capacity) {}
+    
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">get</span>(<span style="color:#66d9ef">int</span> key) {
+        <span style="color:#66d9ef">auto</span> it <span style="color:#f92672">=</span> map.find(key);
+        <span style="color:#66d9ef">if</span> (it <span style="color:#f92672">!=</span> map.end()) {
+            cache.splice(cache.begin(), cache, it<span style="color:#f92672">-&gt;</span>second);
+            <span style="color:#66d9ef">return</span> it<span style="color:#f92672">-&gt;</span>second<span style="color:#f92672">-&gt;</span>second;
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    }
+    
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">put</span>(<span style="color:#66d9ef">int</span> key, <span style="color:#66d9ef">int</span> value) {
+        <span style="color:#66d9ef">auto</span> it <span style="color:#f92672">=</span> map.find(key);
+        <span style="color:#66d9ef">if</span> (it <span style="color:#f92672">!=</span> map.end()) {
+            cache.erase(map[key]);
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">if</span> (cap <span style="color:#f92672">==</span> cache.size()) {
+                <span style="color:#66d9ef">auto</span> ele <span style="color:#f92672">=</span> cache.back();
+                map.erase(ele.first);
+                cache.pop_back();
+            }
+        }
+        cache.push_front(make_pair(key, value));
+        map[key] <span style="color:#f92672">=</span> cache.begin();
+    }
+};
+</code></pre></div>
 </div>
 
   
