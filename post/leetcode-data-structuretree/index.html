@@ -871,26 +871,85 @@
 };
 </code></pre></div><h4 id="543-二叉树的直径httpsleetcode-cncomproblemsdiameter-of-binary-tree"><a href="https://leetcode-cn.com/problems/diameter-of-binary-tree/">543. 二叉树的直径</a></h4>
 <blockquote>
-<p>这道题真的是简单题吗。。。</p>
+<p>其实就是求任意两个节点之间的最大距离</p>
 </blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
     <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
     <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">diameterOfBinaryTree</span>(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
         helper(root);
+        
         <span style="color:#66d9ef">return</span> ans;
     }
+    
     <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">helper</span>(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">if</span> (root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">&amp;&amp;</span> root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-        <span style="color:#66d9ef">int</span> lesize <span style="color:#f92672">=</span> root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">:</span> helper(root<span style="color:#f92672">-&gt;</span>left) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-        <span style="color:#66d9ef">int</span> risize <span style="color:#f92672">=</span> root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">:</span> helper(root<span style="color:#f92672">-&gt;</span>right) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-        ans <span style="color:#f92672">=</span> max(ans, lesize <span style="color:#f92672">+</span> risize);
+        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        
+        <span style="color:#66d9ef">int</span> leSize <span style="color:#f92672">=</span> helper(root<span style="color:#f92672">-&gt;</span>left);
+        <span style="color:#66d9ef">int</span> riSize <span style="color:#f92672">=</span> helper(root<span style="color:#f92672">-&gt;</span>right);
+        
+        ans <span style="color:#f92672">=</span> max(ans, leSize <span style="color:#f92672">+</span> riSize);
 
-        <span style="color:#66d9ef">return</span> max(lesize, risize);
+        <span style="color:#66d9ef">return</span> max(leSize, riSize) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
     }
 };
 </code></pre></div><h4 id="124-二叉树中的最大路径和httpsleetcode-cncomproblemsbinary-tree-maximum-path-sum"><a href="https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/">124. 二叉树中的最大路径和</a></h4>
+<blockquote>
+<p>和上面那道题基本一样，一个类型，同样的还有 <a href="https://leetcode-cn.com/problems/longest-univalue-path/">687. 最长同值路径</a></p>
+<p>这道题因为节点值可以使负数，所以求的时候应该用 0 来消除负数</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> INT_MIN;
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">maxPathSum</span>(TreeNode<span style="color:#f92672">*</span> root) {
+        helper(root);
+
+        <span style="color:#66d9ef">return</span> ans;
+    }
+
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">helper</span>(TreeNode<span style="color:#f92672">*</span> root) {
+        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+
+        <span style="color:#66d9ef">int</span> leSum <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">0</span>, helper(root<span style="color:#f92672">-&gt;</span>left));
+        <span style="color:#66d9ef">int</span> riSum <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">0</span>, helper(root<span style="color:#f92672">-&gt;</span>right));
+
+        ans <span style="color:#f92672">=</span> max(ans, leSum <span style="color:#f92672">+</span> riSum <span style="color:#f92672">+</span> root<span style="color:#f92672">-&gt;</span>val);
+
+        <span style="color:#66d9ef">return</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">+</span> max(leSum, riSum);
+    }
+};
+</code></pre></div><h4 id="687-最长同值路径httpsleetcode-cncomproblemslongest-univalue-path"><a href="https://leetcode-cn.com/problems/longest-univalue-path/">687. 最长同值路径</a></h4>
+<blockquote>
+<p>相对 n124 实际上还要困难一点</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-CPP" data-lang="CPP"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">longestUnivaluePath</span>(TreeNode<span style="color:#f92672">*</span> root) {
+        helper(root);
+
+        <span style="color:#66d9ef">return</span> ans;
+    }
+
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">helper</span>(TreeNode<span style="color:#f92672">*</span> root) {
+        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        
+        <span style="color:#66d9ef">int</span> tmpLeSize <span style="color:#f92672">=</span> helper(root<span style="color:#f92672">-&gt;</span>left);
+        <span style="color:#66d9ef">int</span> tmpRiSize <span style="color:#f92672">=</span> helper(root<span style="color:#f92672">-&gt;</span>right);
+        <span style="color:#66d9ef">int</span> leSize <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, riSize <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span> (root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">&amp;&amp;</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">==</span> root<span style="color:#f92672">-&gt;</span>left<span style="color:#f92672">-&gt;</span>val) leSize <span style="color:#f92672">=</span> tmpLeSize <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">if</span> (root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">&amp;&amp;</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">==</span> root<span style="color:#f92672">-&gt;</span>right<span style="color:#f92672">-&gt;</span>val) riSize <span style="color:#f92672">=</span> tmpRiSize <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+
+        ans <span style="color:#f92672">=</span> max(ans, leSize <span style="color:#f92672">+</span> riSize);
+
+        <span style="color:#66d9ef">return</span> max(leSize, riSize);
+    }
+};
+</code></pre></div><blockquote>
+<p>三道题的结构都差不多，其实写法很多，但是思想是一样的，我的习惯是传递全局变量，而且习惯在功能不同的地方打一个空行，这样看着会结构清晰？？？</p>
+<p>而且实际上难度也是差不多，而不是两道 easy，一道 hard （n124 是 hard &hellip;&hellip;）</p>
+<p>-- 07-01</p>
+</blockquote>
 <h2 id="总结">总结</h2>
 <blockquote>
 <p>没啥好写的，希望继续努力（少拖延）！</p>
