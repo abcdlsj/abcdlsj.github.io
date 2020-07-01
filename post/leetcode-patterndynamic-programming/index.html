@@ -273,10 +273,15 @@ LeetCode 刷题总结之：动态规划（WIP）
   </summary>
   <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#单串双串">单串/双串</a>
       <ul>
-        <li><a href="#单串双串">单串/双串</a></li>
-        <li><a href="#经典题">经典题</a></li>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#经典题">经典题</a></li>
+    <li><a href="#子数组子序列">子数组/子序列</a>
+      <ul>
+        <li></li>
         <li><a href="#打家劫舍系列">打家劫舍系列</a></li>
         <li><a href="#买卖股票系列">买卖股票系列</a></li>
       </ul>
@@ -302,8 +307,11 @@ LeetCode 刷题总结之：动态规划（WIP）
 <p>-- 06-01</p>
 <p>我是 fw。。。周末补完这个总结（还需要写部分题目，不过感觉很快了，<del>我总结的都是比较简单的动规。</del>）</p>
 <p>-- 06-18 ⏲️ 22:09</p>
+<p>事实是，这几天都没写</p>
+<p>不过，动规的题确实难</p>
+<p>-- 07-01 ⏲️ 18:33</p>
 </blockquote>
-<h3 id="单串双串">单串/双串</h3>
+<h2 id="单串双串">单串/双串</h2>
 <h4 id="300-最长上升子序列httpsleetcode-cncomproblemslongest-increasing-subsequence"><a href="https://leetcode-cn.com/problems/longest-increasing-subsequence/">300. 最长上升子序列</a></h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -320,6 +328,21 @@ LeetCode 刷题总结之：动态规划（WIP）
         }
 
         <span style="color:#66d9ef">return</span> maxlen;
+    }
+};
+</code></pre></div><h4 id="53-最大子序和httpsleetcode-cncomproblemsmaximum-subarray"><a href="https://leetcode-cn.com/problems/maximum-subarray/">53. 最大子序和</a></h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> maxSubArray(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> nums[<span style="color:#ae81ff">0</span>];
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> dp(nums);
+        
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
+            dp[i] <span style="color:#f92672">=</span> max(dp[i], dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> dp[i]);
+            ans <span style="color:#f92672">=</span> max(ans, dp[i]);
+        }
+
+        <span style="color:#66d9ef">return</span> ans;
     }
 };
 </code></pre></div><h4 id="1143-最长公共子序列httpsleetcode-cncomproblemslongest-common-subsequence"><a href="https://leetcode-cn.com/problems/longest-common-subsequence/">1143. 最长公共子序列</a></h4>
@@ -345,17 +368,22 @@ LeetCode 刷题总结之：动态规划（WIP）
         <span style="color:#66d9ef">return</span> dp[n][m];
     }
 };
-</code></pre></div><h3 id="经典题">经典题</h3>
-<h4 id="53-最大子序和httpsleetcode-cncomproblemsmaximum-subarray"><a href="https://leetcode-cn.com/problems/maximum-subarray/">53. 最大子序和</a></h4>
+</code></pre></div><h2 id="经典题">经典题</h2>
+<h2 id="子数组子序列">子数组/子序列</h2>
+<h4 id="718-最长重复子数组httpsleetcode-cncomproblemsmaximum-length-of-repeated-subarray"><a href="https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/">718. 最长重复子数组</a></h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">int</span> maxSubArray(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
-        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> nums[<span style="color:#ae81ff">0</span>];
-        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> dp(nums);
-        
-        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
-            dp[i] <span style="color:#f92672">=</span> max(dp[i], dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> dp[i]);
-            ans <span style="color:#f92672">=</span> max(ans, dp[i]);
+    <span style="color:#66d9ef">int</span> findLength(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> A, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> B) {
+        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> dp(A.size() <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> (B.size() <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> A.size(); i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> B.size(); j<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (A[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> B[j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
+                    dp[i][j] <span style="color:#f92672">=</span> dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+                    ans <span style="color:#f92672">=</span> max(ans, dp[i][j]);
+                }
+            }
         }
 
         <span style="color:#66d9ef">return</span> ans;
@@ -519,7 +547,8 @@ dp[i][k][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</sp
 };
 </code></pre></div><h4 id="188-买卖股票的最佳时机-ivhttpsleetcode-cncomproblemsbest-time-to-buy-and-sell-stock-iv"><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/">188. 买卖股票的最佳时机 IV</a></h4>
 <blockquote>
-<p>这道题最多完成 k 笔交易，这时可以总结出一种秒杀所有买卖股票问题的转移方程，方程在开始处，具体的分析可以看 labuladong 的题解，在参考链接。</p>
+<p>这道题最多完成 k 笔交易，这时可以总结出一种秒杀所有买卖股票问题的转移方程，具体的分析可以看 labuladong 的题解，在参考链接。</p>
+<p>过了 6 天，我的这道题还是没 debug 出来，总是有点问题，离谱，多亏程序不会骗人。。。</p>
 </blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
 </code></pre></div><p>参考链接：</p>

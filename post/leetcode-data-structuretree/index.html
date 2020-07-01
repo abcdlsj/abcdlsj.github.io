@@ -253,7 +253,7 @@
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-8 mins read
+9 mins read
 </span>
 
 
@@ -308,8 +308,10 @@
 <p>-- 2020-06-01</p>
 <p>尴尬，这两天考试 + 作业 + 实验报告</p>
 <p>-- 2020-06-05</p>
-<p>写差不多了，除了一些很难的题，唉，接下来还有好多实验报告和课设（06-22 告诉你，不是”好多“。。。）</p>
+<p>写差不多了，除了一些很难的题，唉，接下来还有好多实验报告和课设（06-22 告诉你，不是 ”好多“）</p>
 <p>-- 2020-06-08</p>
+<p>更新了几道题，半个月没摸树，我又不会了。。。</p>
+<p>-- 2020-07-01</p>
 </blockquote>
 <h2 id="遍历二叉树">遍历二叉树</h2>
 <p>以 LeetCode 题目中的 <code>binary tree</code> 为代表，结构如下</p>
@@ -854,11 +856,45 @@
         <span style="color:#66d9ef">return</span> root;
     }
 };
+</code></pre></div><p><strong>还可以</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    TreeNode<span style="color:#f92672">*</span> invertTree(TreeNode<span style="color:#f92672">*</span> root) {
+        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> root;
+
+        TreeNode<span style="color:#f92672">*</span> rTree <span style="color:#f92672">=</span> root<span style="color:#f92672">-&gt;</span>right;
+        root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> invertTree(root<span style="color:#f92672">-&gt;</span>left);
+        root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> invertTree(rTree);        
+
+        <span style="color:#66d9ef">return</span> root;
+    }
+};
 </code></pre></div><h4 id="543-二叉树的直径httpsleetcode-cncomproblemsdiameter-of-binary-tree"><a href="https://leetcode-cn.com/problems/diameter-of-binary-tree/">543. 二叉树的直径</a></h4>
-<h4 id="124-二叉树中的最大路径和httpsleetcode-cncomproblemsbinary-tree-maximum-path-sum"><a href="https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/">124. 二叉树中的最大路径和</a></h4>
+<blockquote>
+<p>这道题真的是简单题吗。。。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">diameterOfBinaryTree</span>(TreeNode<span style="color:#f92672">*</span> root) {
+        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        helper(root);
+        <span style="color:#66d9ef">return</span> ans;
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">helper</span>(TreeNode<span style="color:#f92672">*</span> root) {
+        <span style="color:#66d9ef">if</span> (root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">&amp;&amp;</span> root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">int</span> lesize <span style="color:#f92672">=</span> root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">:</span> helper(root<span style="color:#f92672">-&gt;</span>left) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">int</span> risize <span style="color:#f92672">=</span> root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">:</span> helper(root<span style="color:#f92672">-&gt;</span>right) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        ans <span style="color:#f92672">=</span> max(ans, lesize <span style="color:#f92672">+</span> risize);
+
+        <span style="color:#66d9ef">return</span> max(lesize, risize);
+    }
+};
+</code></pre></div><h4 id="124-二叉树中的最大路径和httpsleetcode-cncomproblemsbinary-tree-maximum-path-sum"><a href="https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/">124. 二叉树中的最大路径和</a></h4>
 <h2 id="总结">总结</h2>
 <blockquote>
 <p>没啥好写的，希望继续努力（少拖延）！</p>
+<p>（07-01 更新：做得到个屁！）</p>
 </blockquote>
 </div>
 
