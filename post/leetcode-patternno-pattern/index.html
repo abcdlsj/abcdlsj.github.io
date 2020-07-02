@@ -55,7 +55,7 @@ LeetCode 刷题总结之瞎几把总结
 
   <div class='container list-container'>
   <ul class='list taxonomy-cloud'><li>
-        <a href='/tags/6.824/' style='font-size:1em'>6.824</a>
+        <a href='/tags/6.824/' style='font-size:1.1em'>6.824</a>
       </li><li>
         <a href='/tags/6.828/' style='font-size:1.1em'>6.828</a>
       </li><li>
@@ -91,7 +91,7 @@ LeetCode 刷题总结之瞎几把总结
       </li><li>
         <a href='/tags/database/' style='font-size:1em'>DataBase</a>
       </li><li>
-        <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
+        <a href='/tags/distribution/' style='font-size:1.1em'>Distribution</a>
       </li><li>
         <a href='/tags/dynamic-programming/' style='font-size:1em'>Dynamic Programming</a>
       </li><li>
@@ -140,6 +140,8 @@ LeetCode 刷题总结之瞎几把总结
         <a href='/tags/pip/' style='font-size:1em'>pip</a>
       </li><li>
         <a href='/tags/python/' style='font-size:1.3em'>Python</a>
+      </li><li>
+        <a href='/tags/raft/' style='font-size:1em'>Raft</a>
       </li><li>
         <a href='/tags/sicp/' style='font-size:1.2em'>SICP</a>
       </li><li>
@@ -255,7 +257,7 @@ LeetCode 刷题总结之瞎几把总结
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-2 mins read
+3 mins read
 </span>
 
 
@@ -278,9 +280,15 @@ LeetCode 刷题总结之瞎几把总结
         <li></li>
       </ul>
     </li>
-    <li><a href="#other">other</a>
+    <li><a href="#other">Other</a>
       <ul>
         <li></li>
+      </ul>
+    </li>
+    <li><a href="#设计题">设计题</a>
+      <ul>
+        <li><a href="#栈">栈</a></li>
+        <li><a href="#队列">队列</a></li>
       </ul>
     </li>
   </ul>
@@ -297,13 +305,13 @@ LeetCode 刷题总结之瞎几把总结
 </blockquote>
 <blockquote>
 <p>开始重刷 LeetCode 之路了，发现很多题之前看了题解去写的，现在去写还是会有点懵逼（其实好很多了，写过的题很多都可以直接看到问题的本质，最后还是熟练度的问题）</p>
-<p>摘取一些无法分类，但是很有意思的题</p>
+<p>摘取一些设计题，和一些没有特定解法但是很有意思的题</p>
 <p>-- 06-21 ⏲️ 20:46</p>
 </blockquote>
 <h2 id="位运算">位运算</h2>
 <h4 id="136-只出现一次的数字httpsleetcode-cncomproblemssingle-number"><a href="https://leetcode-cn.com/problems/single-number/">136. 只出现一次的数字</a></h4>
 <blockquote>
-<p>应该是去年炒起来的一道题，我想起来我去年第一次写的时候，刚开始就想到了异或做法。。。（因为当时在写 CS:APP Lab1，要是当时坚持好好刷 CS:APP 就好了，我现在都没怎么写 Lab）</p>
+<p>应该是去年炒起来的一道题，我想起来我去年第一次写的时候，刚开始就想到了异或做法。。。（因为当时在写 CS:APP Lab1，要是当时坚持刷 CS:APP Lab 就好了，后面就越来越懒了）</p>
 </blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -320,10 +328,12 @@ LeetCode 刷题总结之瞎几把总结
 </code></pre></div><h4 id="137-只出现一次的数字-iihttpsleetcode-cncomproblemssingle-number-ii"><a href="https://leetcode-cn.com/problems/single-number-ii/">137. 只出现一次的数字 II</a></h4>
 <blockquote>
 <p>构造一个使 x 出现三次时为 0 的式子</p>
-<p>0 ^ x = x, x ^ x = 0
-x &amp; ~x = 0, x &amp; ~0 =x</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#ae81ff">0</span> <span style="color:#f92672">^</span> x <span style="color:#f92672">=</span> x;
+x <span style="color:#f92672">^</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+x <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+x <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">=</span>x;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
     <span style="color:#66d9ef">int</span> singleNumber(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
         <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
@@ -334,7 +344,7 @@ x &amp; ~x = 0, x &amp; ~0 =x</p>
         <span style="color:#66d9ef">return</span> a;
     }
 };
-</code></pre></div><h2 id="other">other</h2>
+</code></pre></div><h2 id="other">Other</h2>
 <h4 id="5-最长回文子串httpsleetcode-cncomproblemslongest-palindromic-substring"><a href="https://leetcode-cn.com/problems/longest-palindromic-substring/">5. 最长回文子串</a></h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -377,6 +387,80 @@ x &amp; ~x = 0, x &amp; ~0 =x</p>
         <span style="color:#66d9ef">return</span> s;
     }
 };
+</code></pre></div><h2 id="设计题">设计题</h2>
+<h3 id="栈">栈</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
+</code></pre></div><h3 id="队列">队列</h3>
+<h4 id="622-设计循环队列httpsleetcode-cncomproblemsdesign-circular-queue"><a href="https://leetcode-cn.com/problems/design-circular-queue/">622. 设计循环队列</a></h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyCircularQueue</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> data;
+    <span style="color:#66d9ef">int</span> head, tail, capacity;
+    <span style="color:#75715e">/** Initialize your data structure here. Set the size of the queue to be k. */</span>
+    MyCircularQueue(<span style="color:#66d9ef">int</span> k) {
+        capacity <span style="color:#f92672">=</span> k;
+        head <span style="color:#f92672">=</span> tail <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        data.resize(capacity);
+    }
+    
+    <span style="color:#75715e">/** Insert an element into the circular queue. Return true if the operation is successful. */</span>
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">enQueue</span>(<span style="color:#66d9ef">int</span> value) {
+        <span style="color:#66d9ef">if</span> (isFull()) <span style="color:#66d9ef">return</span> false;
+        
+        <span style="color:#66d9ef">if</span> (isEmpty()) head <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        tail <span style="color:#f92672">=</span> (tail <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> capacity;
+        data[tail] <span style="color:#f92672">=</span> value;
+
+        <span style="color:#66d9ef">return</span> true;
+    }
+    
+    <span style="color:#75715e">/** Delete an element from the circular queue. Return true if the operation is successful. */</span>
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">deQueue</span>() {
+        <span style="color:#66d9ef">if</span> (isEmpty()) <span style="color:#66d9ef">return</span> false;
+        <span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> tail) {
+            head <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+            tail <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+            <span style="color:#66d9ef">return</span> true;
+        }
+
+        head <span style="color:#f92672">=</span> (head <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> capacity;
+        
+        <span style="color:#66d9ef">return</span> true;
+    }
+    
+    <span style="color:#75715e">/** Get the front item from the queue. */</span>
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">Front</span>() {
+        <span style="color:#66d9ef">if</span> (isEmpty()) <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">return</span> data[head];
+    }
+    
+    <span style="color:#75715e">/** Get the last item from the queue. */</span>
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">Rear</span>() {
+        <span style="color:#66d9ef">if</span> (isEmpty()) <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">return</span> data[tail];
+    }
+    
+    <span style="color:#75715e">/** Checks whether the circular queue is empty or not. */</span>
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isEmpty</span>() {
+        <span style="color:#66d9ef">return</span> head <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    }
+    
+    <span style="color:#75715e">/** Checks whether the circular queue is full or not. */</span>
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isFull</span>() {
+        <span style="color:#66d9ef">return</span> (tail <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> capacity <span style="color:#f92672">==</span> head;
+    }
+};
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Your MyCircularQueue object will be instantiated and called as such:
+</span><span style="color:#75715e"> * MyCircularQueue* obj = new MyCircularQueue(k);
+</span><span style="color:#75715e"> * bool param_1 = obj-&gt;enQueue(value);
+</span><span style="color:#75715e"> * bool param_2 = obj-&gt;deQueue();
+</span><span style="color:#75715e"> * int param_3 = obj-&gt;Front();
+</span><span style="color:#75715e"> * int param_4 = obj-&gt;Rear();
+</span><span style="color:#75715e"> * bool param_5 = obj-&gt;isEmpty();
+</span><span style="color:#75715e"> * bool param_6 = obj-&gt;isFull();
+</span><span style="color:#75715e"> */</span>
 </code></pre></div>
 </div>
 
