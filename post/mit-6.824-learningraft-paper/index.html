@@ -295,11 +295,13 @@ One min read
 <blockquote>
 <p>开始看了。。。（hhhh，拖延了半个月）</p>
 <p>-- 06-30</p>
+<p>今天看了差不多 3 小时，就只看了论文，还很多没看。。。</p>
+<p>-- 07-02</p>
 </blockquote>
 <h2 id="consensus">Consensus</h2>
 <p>分布式系统最重要的抽象之一就是共识（consensus）：就是让所有的节点对某件事达成一致。</p>
 <blockquote>
-<p>raft 论文为了实现一致性（共识），采用了：</p>
+<p>raft 论文为了实现共识，采用了：</p>
 <ol>
 <li>
 <p>Leader Election</p>
@@ -324,7 +326,7 @@ One min read
 <p>分布式的本质是时间问题</p>
 </blockquote>
 <p>不同的 Server 可能会在不同的时间观察到不同的转换，在某些特殊情况下，一个 Server 可能观察不到一次选举或者一整个任期。每个 Server 都用一个变量储存当前任期，并随着时间单调递增。当 Servers 进行通讯的时候，也会交换当前的任期。如果一个 Server 任期小于其它机器，就会更新自己的任期到最大任期。如果是一个候选者（Candidate） 或 Leader 发现自己任期过期，就会转变到 Follower。Server 如果收到过期的请求，就会拒绝该请求。</p>
-<p>Raft 服务之间采用 RPC 进行通信，基础的 Raft 只需要两种类型的 RPC，RequestVote RPCs 由候选者在选举期间使用，AppendEntries RPCs  是 Leader 进行日志复制和发送心跳时使用。</p>
+<p>Raft 服务之间采用 RPC 进行通信，基础的 Raft 只需要两种类型的 RPC，RequestVote RPCs 由候选者在选举期间使用，AppendEntries RPCs  由 Leader 进行日志复制和发送心跳时使用。</p>
 <p><strong>选举过程</strong></p>
 <p>Servers 启动时都是作为参与者。参与者收到来自 Leader 或者候选者的<strong>合法</strong>请求，就会保持参与者状态。Leader 会发送心跳到其它的 Server 来授权延长任期，如果一个参与者的选举定时器超时的时候没有收到任何请求，就会发起新的选举。</p>
 <p>一次选举开始时，参与者增加自己本地存储的当前任期然后转变为候选者状态。这个候选者先选举自己，并行的给集群中的其它机器发送 RequestVote RPCs。候选者将会一直保持候选状态直到下面三件事情中的任意一件发生:</p>

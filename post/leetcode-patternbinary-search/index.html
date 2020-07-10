@@ -257,7 +257,7 @@ LeetCode 刷题总结之：二分查找（WIP）
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-One min read
+2 mins read
 </span>
 
 
@@ -285,6 +285,7 @@ One min read
         <li></li>
       </ul>
     </li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
 </details>
@@ -309,7 +310,6 @@ One min read
 <blockquote>
 <p>这个类型的题基本上都会用到二分搜索</p>
 </blockquote>
-<h4 id="剑指-offer-11-旋转数组的最小数字httpsleetcode-cncomproblemsxuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof"><a href="https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/">剑指 Offer 11. 旋转数组的最小数字</a></h4>
 <h4 id="33-搜索旋转排序数组httpsleetcode-cncomproblemssearch-in-rotated-sorted-array"><a href="https://leetcode-cn.com/problems/search-in-rotated-sorted-array/">33. 搜索旋转排序数组</a></h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -336,6 +336,27 @@ One min read
         }
         
         <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    }
+};
+</code></pre></div><h4 id="154-寻找旋转排序数组中的最小值-iihttpsleetcode-cncomproblemsfind-minimum-in-rotated-sorted-array-ii"><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/">154. 寻找旋转排序数组中的最小值 II</a></h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> findMin(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+        <span style="color:#66d9ef">int</span> le <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, ri <span style="color:#f92672">=</span> nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, mid;
+
+        <span style="color:#66d9ef">while</span> (le <span style="color:#f92672">&lt;</span> ri) {
+            mid <span style="color:#f92672">=</span> le <span style="color:#f92672">+</span> (ri <span style="color:#f92672">-</span> le) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+
+            <span style="color:#66d9ef">if</span> (nums[mid] <span style="color:#f92672">&lt;</span> nums[ri]) {
+                ri <span style="color:#f92672">=</span> mid;
+            } <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (nums[mid] <span style="color:#f92672">&gt;</span> nums[ri]) {
+                le <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+            } <span style="color:#66d9ef">else</span> {
+                ri<span style="color:#f92672">--</span>;
+            }
+        }
+
+        <span style="color:#66d9ef">return</span> nums[le];
     }
 };
 </code></pre></div><h2 id="非常规">非常规</h2>
@@ -366,7 +387,8 @@ One min read
         <span style="color:#66d9ef">return</span> le; 
     }
 };
-</code></pre></div>
+</code></pre></div><h2 id="references">References</h2>
+<p><a href="https://www.liwei.party/2019/06/17/leetcode-solution-new/search-insert-position/#toc-heading-7">https://www.liwei.party/2019/06/17/leetcode-solution-new/search-insert-position/#toc-heading-7</a></p>
 </div>
 
   
