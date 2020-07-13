@@ -5,10 +5,23 @@
     <link>https://github.abcdlsj.io/categories/%E6%8A%98%E8%85%BE/</link>
     <description>Recent content in 折腾 on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 25 Mar 2020 20:52:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 13 Jul 2020 10:38:18 +0800</lastBuildDate>
     
 	<atom:link href="https://github.abcdlsj.io/categories/%E6%8A%98%E8%85%BE/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ArchLinux i3wm Config (Lenovo IdeaPad S540 13ARE)</title>
+      <link>https://github.abcdlsj.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/</link>
+      <pubDate>Mon, 13 Jul 2020 10:38:18 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;上个月末，准备买一台新的笔记本（老神船太傻大黑粗），选了好几天，决定从联想小新 pro 13 2020 AMD R7 4800u 和 yoga14s 同价版本中挑一个，然后看到多多上面 2020 pro 百亿补贴就直接下单了（实际上过程还是非常曲折的，大概折腾了快小半个月），昨天货到了，检查了一遍，没发现什么很大的问题，主要问题是华星屏幕有点色差和漏光，不过，对我来说应该不是很严重的问题（毕竟我之前用的神船，可能随便一台就足够满意了），所以没换货，毕竟浪费了挺多时间了，而且换货多半还是华星屏幕。检查之后直接双系统，系统选我最爱的 Arch，搭配上熟悉的 i3wm，太舒服了，之前老神舟分辨率看 i3wm 简直瞎眼，所以很长一段时间都是一直用的 gnome，但是还是不行，分辨率太低了导致字体总是很糊，现在看着感官完全不一样。16:10 + 2.5k + 4800u 小新真的太适合 Linux 了，续航也非常可以了，而且也可以调野兽模式、节能模式等等。&lt;/p&gt;
+&lt;p&gt;虽然是 AMD CPU，过程还是算比较简单的，wiki 写得很详细，但是比较分散，这里记录一下遇到几个问题，有些是本子特有的，有些是我傻了吧唧的操作导致的。&lt;/p&gt;
+&lt;p&gt;还有就是，安装的时候进界面会出现亮线，之后把 grub 分辨率改了就好，这种一般是电压不稳定造成的&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>一次修复 blog 的过程</title>

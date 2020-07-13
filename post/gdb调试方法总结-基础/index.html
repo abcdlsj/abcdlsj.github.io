@@ -3,13 +3,13 @@
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='description' content='
-原本早就准备系统学习linux知识的,但是懒惰的本性让我&hellip;.这个原本一月就要学完的知识结果现在四月了还没学到多少&hellip;.打算这段时间好好学习一下技术知识。
+原本早就准备系统学习 linux 知识的，但是懒惰的本性让我&hellip;.这个原本一月就要学完的知识结果现在四月了还没学到多少&hellip;.打算这段时间好好学习一下技术知识。
 '>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='gdb 调试方法基础总结 • The Real World'>
 <meta property='og:description' content='
-原本早就准备系统学习linux知识的,但是懒惰的本性让我&hellip;.这个原本一月就要学完的知识结果现在四月了还没学到多少&hellip;.打算这段时间好好学习一下技术知识。
+原本早就准备系统学习 linux 知识的，但是懒惰的本性让我&hellip;.这个原本一月就要学完的知识结果现在四月了还没学到多少&hellip;.打算这段时间好好学习一下技术知识。
 '>
 <meta property='og:url' content='https://github.abcdlsj.io/post/gdb%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93-%E5%9F%BA%E7%A1%80/'>
 <meta property='og:site_name' content='The Real World'>
@@ -59,7 +59,7 @@
       </li><li>
         <a href='/tags/6.828/' style='font-size:1.1em'>6.828</a>
       </li><li>
-        <a href='/tags/arch/' style='font-size:1em'>Arch</a>
+        <a href='/tags/arch/' style='font-size:1.1em'>Arch</a>
       </li><li>
         <a href='/tags/aria2/' style='font-size:1em'>aria2</a>
       </li><li>
@@ -116,6 +116,8 @@
         <a href='/tags/keyboard/' style='font-size:1em'>KeyBoard</a>
       </li><li>
         <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
+      </li><li>
+        <a href='/tags/lenovo/' style='font-size:1em'>Lenovo</a>
       </li><li>
         <a href='/tags/link-list/' style='font-size:1em'>Link List</a>
       </li><li>
@@ -289,10 +291,10 @@
 
   <div class='container entry-content'>
   <blockquote>
-<p>原本早就准备系统学习linux知识的,但是懒惰的本性让我&hellip;.这个原本一月就要学完的知识结果现在四月了还没学到多少&hellip;.打算这段时间好好学习一下技术知识。</p>
+<p>原本早就准备系统学习 linux 知识的，但是懒惰的本性让我&hellip;.这个原本一月就要学完的知识结果现在四月了还没学到多少&hellip;.打算这段时间好好学习一下技术知识。</p>
 </blockquote>
-<p>gdb是linux系统中一个非常强大的调试工具，调试的基本思想是“分析现象-&gt;假设错误原因-&gt;产生新的现象去验证假设”
-这是<code>&lt;&lt;Linux C 编程一站式学习&gt;&gt;</code>中的一个gdb调试例子，非常的简明扼要，正好学习了，所以记录一下(这个例子在书上是给的错误代码，然后一步一步找到错误，但是运行环境不一样，错误不一定一样，所以我直接写正确的代码)</p>
+<p>gdb 是 linux 系统中一个非常强大的调试工具，调试的基本思想是 “分析现象-&gt;假设错误原因-&gt;产生新的现象去验证假设”
+这是 <code>&lt;&lt;Linux C 编程一站式学习&gt;&gt;</code> 中的一个 gdb 调试例子，非常的简明扼要，正好学习了，所以记录一下（这个例子在书上是给的错误代码，然后一步一步找到错误，但是运行环境不一样，错误不一定一样，所以我直接写正确的代码）</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">add_range</span>(<span style="color:#66d9ef">int</span> low,<span style="color:#66d9ef">int</span> high)
 {

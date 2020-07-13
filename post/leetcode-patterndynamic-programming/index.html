@@ -59,7 +59,7 @@ LeetCode 刷题总结之：动态规划（WIP）
       </li><li>
         <a href='/tags/6.828/' style='font-size:1.1em'>6.828</a>
       </li><li>
-        <a href='/tags/arch/' style='font-size:1em'>Arch</a>
+        <a href='/tags/arch/' style='font-size:1.1em'>Arch</a>
       </li><li>
         <a href='/tags/aria2/' style='font-size:1em'>aria2</a>
       </li><li>
@@ -116,6 +116,8 @@ LeetCode 刷题总结之：动态规划（WIP）
         <a href='/tags/keyboard/' style='font-size:1em'>KeyBoard</a>
       </li><li>
         <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
+      </li><li>
+        <a href='/tags/lenovo/' style='font-size:1em'>Lenovo</a>
       </li><li>
         <a href='/tags/link-list/' style='font-size:1em'>Link List</a>
       </li><li>
@@ -257,7 +259,7 @@ LeetCode 刷题总结之：动态规划（WIP）
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-4 mins read
+5 mins read
 </span>
 
 
@@ -523,6 +525,23 @@ dp[i][k][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</sp
         <span style="color:#66d9ef">return</span> cash;
     }
 };
+</code></pre></div><h4 id="309-最佳买卖股票时机含冷冻期httpsleetcode-cncomproblemsbest-time-to-buy-and-sell-stock-with-cooldown"><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/">309. 最佳买卖股票时机含冷冻期</a></h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> maxProfit(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> prices) {
+        <span style="color:#66d9ef">if</span> (prices.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> dp(prices.size(), vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> (<span style="color:#ae81ff">3</span>));
+        dp[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, dp[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>prices[<span style="color:#ae81ff">0</span>], dp[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> prices.size(); i<span style="color:#f92672">++</span>) {
+            dp[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> max(dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>], dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">2</span>]);
+            dp[i][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> max(dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">-</span> prices[i], dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>]);
+            dp[i][<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> prices[i];
+        }
+
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">max</span>(dp[prices.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>], dp[prices.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">2</span>]);
+    }
+};
 </code></pre></div><h4 id="123-买卖股票的最佳时机-iiihttpsleetcode-cncomproblemsbest-time-to-buy-and-sell-stock-iii"><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/">123. 买卖股票的最佳时机 III</a></h4>
 <blockquote>
 <p>这道题和上面那道基本一致，但是要求最多买卖两次。</p>
@@ -549,8 +568,7 @@ dp[i][k][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</sp
 };
 </code></pre></div><h4 id="188-买卖股票的最佳时机-ivhttpsleetcode-cncomproblemsbest-time-to-buy-and-sell-stock-iv"><a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/">188. 买卖股票的最佳时机 IV</a></h4>
 <blockquote>
-<p>这道题最多完成 k 笔交易，这时可以总结出一种秒杀所有买卖股票问题的转移方程，具体的分析可以看 labuladong 的题解，在参考链接。</p>
-<p>过了 6 天，我的这道题还是没 debug 出来，总是有点问题，离谱，多亏程序不会骗人。。。</p>
+<p>这道题最多完成 k 笔交易，这时可以总结出一种秒杀所有买卖股票问题的转移方程，具体的分析可以看 labuladong 的题解，在参考链接</p>
 </blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
 </code></pre></div><p>参考链接：</p>
