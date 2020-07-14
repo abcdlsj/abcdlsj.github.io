@@ -37,12 +37,11 @@ export GDK_DPI_SCALE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0.5
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样就差不多了，更丰富的功能找 wiki&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;fcitx 的主题字体设置：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Skin: aqua (yay -S fcitx-skin-aqua)&lt;/li&gt;
-&lt;li&gt;Font: Noto Sans CJK SC Medium 11, Menu Font: Ubuntu Regular 11&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;fcitx 的字体设置：Noto Sans CJK SC Medium 11，Menu Font: Ubuntu Regular 11&lt;/p&gt;
 &lt;p&gt;亲测这样看着会舒服很多，Linux 中文字体渲染没有 Mac 好，设置 Regular 还是会比较虚，Medium 会舒服很多，Ubuntu Regular 就不虚 Mac 了，非常好看&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果发现渲染重叠，去配置 compton&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;-- 07-14 ⏲️ 12:55&lt;/p&gt;
