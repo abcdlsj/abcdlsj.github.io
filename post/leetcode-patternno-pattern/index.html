@@ -73,8 +73,6 @@ LeetCode 刷题总结之瞎几把总结
       </li><li>
         <a href='/tags/blog/' style='font-size:1.1em'>blog</a>
       </li><li>
-        <a href='/tags/boltdb/' style='font-size:1em'>BoltDB</a>
-      </li><li>
         <a href='/tags/chmod/' style='font-size:1em'>chmod</a>
       </li><li>
         <a href='/tags/cmder/' style='font-size:1em'>Cmder</a>
@@ -88,8 +86,6 @@ LeetCode 刷题总结之瞎几把总结
         <a href='/tags/csapp/' style='font-size:1em'>CSAPP</a>
       </li><li>
         <a href='/tags/data-structure/' style='font-size:1.1em'>Data Structure</a>
-      </li><li>
-        <a href='/tags/database/' style='font-size:1em'>DataBase</a>
       </li><li>
         <a href='/tags/distribution/' style='font-size:1.1em'>Distribution</a>
       </li><li>
@@ -287,6 +283,11 @@ LeetCode 刷题总结之瞎几把总结
         <li></li>
       </ul>
     </li>
+    <li><a href="#抽屉原理达成目的">抽屉原理达成目的</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
     <li><a href="#no-pattern">No Pattern</a>
       <ul>
         <li></li>
@@ -436,7 +437,51 @@ x <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span><
 <blockquote>
 <p>和上面一样的题，但是需要返回数组</p>
 </blockquote>
-<h2 id="no-pattern">No Pattern</h2>
+<h2 id="抽屉原理达成目的">抽屉原理达成目的</h2>
+<blockquote>
+<p>最近在写一些数组的遍历或者计数的时候，抽屉原理遇到很多次</p>
+</blockquote>
+<h4 id="442-数组中重复的数据httpsleetcode-cncomproblemsfind-all-duplicates-in-an-array"><a href="https://leetcode-cn.com/problems/find-all-duplicates-in-an-array/">442. 数组中重复的数据</a></h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> findDuplicates(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res;
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">while</span> (nums[i] <span style="color:#f92672">!=</span> nums[nums[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
+                swap(nums[i], nums[nums[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]);
+            }
+        }
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (nums[i] <span style="color:#f92672">!=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) res.push_back(nums[i]);
+        }
+
+        <span style="color:#66d9ef">return</span> res;        
+    }
+};
+</code></pre></div><h4 id="287-寻找重复数httpsleetcode-cncomproblemsfind-the-duplicate-number"><a href="https://leetcode-cn.com/problems/find-the-duplicate-number/">287. 寻找重复数</a></h4>
+<h4 id="41-缺失的第一个正数httpsleetcode-cncomproblemsfirst-missing-positive"><a href="https://leetcode-cn.com/problems/first-missing-positive/">41. 缺失的第一个正数</a></h4>
+<blockquote>
+<p>也是抽屉原理</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> firstMissingPositive(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">while</span> (nums[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> nums[i] <span style="color:#f92672">&lt;=</span> nums.size() <span style="color:#f92672">&amp;&amp;</span> nums[i] <span style="color:#f92672">!=</span> nums[nums[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
+                swap(nums[i], nums[nums[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]);
+            }
+        }
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">!=</span> nums[i]) <span style="color:#66d9ef">return</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        }
+        
+        <span style="color:#66d9ef">return</span> nums.size() <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    }
+};
+</code></pre></div><h2 id="no-pattern">No Pattern</h2>
 <h4 id="5-最长回文子串httpsleetcode-cncomproblemslongest-palindromic-substring"><a href="https://leetcode-cn.com/problems/longest-palindromic-substring/">5. 最长回文子串</a></h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
