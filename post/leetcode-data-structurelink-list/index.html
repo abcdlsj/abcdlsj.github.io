@@ -255,7 +255,7 @@ LeetCode 刷题总结：链表
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-3 mins read
+4 mins read
 </span>
 
 
@@ -510,6 +510,100 @@ LeetCode 刷题总结：链表
 };
 </code></pre></div><p><strong>带有过期时间的 LRU 算法</strong></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
+</code></pre></div><h4 id="138-复制带随机指针的链表httpsleetcode-cncomproblemscopy-list-with-random-pointer"><a href="https://leetcode-cn.com/problems/copy-list-with-random-pointer/">138. 复制带随机指针的链表</a></h4>
+<blockquote>
+<p>有丝分裂法（？）</p>
+<p>复制一份，然后分裂</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e">// Definition for a Node.
+</span><span style="color:#75715e">class Node {
+</span><span style="color:#75715e">public:
+</span><span style="color:#75715e">    int val;
+</span><span style="color:#75715e">    Node* next;
+</span><span style="color:#75715e">    Node* random;
+</span><span style="color:#75715e">    
+</span><span style="color:#75715e">    Node(int _val) {
+</span><span style="color:#75715e">        val = _val;
+</span><span style="color:#75715e">        next = NULL;
+</span><span style="color:#75715e">        random = NULL;
+</span><span style="color:#75715e">    }
+</span><span style="color:#75715e">};
+</span><span style="color:#75715e">*/</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    Node<span style="color:#f92672">*</span> copyRandomList(Node<span style="color:#f92672">*</span> head) {
+        <span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+        Node<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> head;
+        <span style="color:#66d9ef">while</span> (cur) {
+            Node<span style="color:#f92672">*</span> n <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node(cur<span style="color:#f92672">-&gt;</span>val, cur<span style="color:#f92672">-&gt;</span>next, <span style="color:#66d9ef">nullptr</span>);
+            Node<span style="color:#f92672">*</span> c <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+            cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> n;
+            cur <span style="color:#f92672">=</span> c;
+        }
+
+        cur <span style="color:#f92672">=</span> head;
+        <span style="color:#66d9ef">while</span> (cur) {
+            <span style="color:#66d9ef">if</span> (cur<span style="color:#f92672">-&gt;</span>random) cur<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>random <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>random<span style="color:#f92672">-&gt;</span>next;
+            cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+        }
+
+        cur <span style="color:#f92672">=</span> head;
+        Node<span style="color:#f92672">*</span> ret <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+        
+        <span style="color:#66d9ef">while</span> (cur<span style="color:#f92672">-&gt;</span>next) {
+            Node<span style="color:#f92672">*</span> n <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+            cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+            cur <span style="color:#f92672">=</span> n;
+        }
+
+        <span style="color:#66d9ef">return</span> ret;
+    }
+};
+</code></pre></div><blockquote>
+<p>hashmap 法</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e">// Definition for a Node.
+</span><span style="color:#75715e">class Node {
+</span><span style="color:#75715e">public:
+</span><span style="color:#75715e">    int val;
+</span><span style="color:#75715e">    Node* next;
+</span><span style="color:#75715e">    Node* random;
+</span><span style="color:#75715e">    
+</span><span style="color:#75715e">    Node(int _val) {
+</span><span style="color:#75715e">        val = _val;
+</span><span style="color:#75715e">        next = NULL;
+</span><span style="color:#75715e">        random = NULL;
+</span><span style="color:#75715e">    }
+</span><span style="color:#75715e">};
+</span><span style="color:#75715e">*/</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    Node<span style="color:#f92672">*</span> copyRandomList(Node<span style="color:#f92672">*</span> head) {
+        <span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+
+        unordered_map<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">*</span>, Node<span style="color:#f92672">*&gt;</span> map;
+        Node<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> head;
+        
+        <span style="color:#66d9ef">while</span> (cur) {
+            map[cur] <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node(cur<span style="color:#f92672">-&gt;</span>val);
+            cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+        }
+
+        cur <span style="color:#f92672">=</span> head;
+        
+        <span style="color:#66d9ef">while</span> (cur) {
+            map[cur]<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> map[cur<span style="color:#f92672">-&gt;</span>next];
+            map[cur]<span style="color:#f92672">-&gt;</span>random <span style="color:#f92672">=</span> map[cur<span style="color:#f92672">-&gt;</span>random];
+            cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+        }
+
+        <span style="color:#66d9ef">return</span> map[head];
+    }
+};
 </code></pre></div>
 </div>
 
