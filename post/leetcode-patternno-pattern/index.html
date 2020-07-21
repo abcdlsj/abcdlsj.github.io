@@ -255,7 +255,7 @@ LeetCode 刷题总结之瞎几把总结
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-5 mins read
+6 mins read
 </span>
 
 
@@ -284,6 +284,11 @@ LeetCode 刷题总结之瞎几把总结
       </ul>
     </li>
     <li><a href="#抽屉原理达成目的">抽屉原理达成目的</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#前缀和--哈希表">前缀和 + 哈希表</a>
       <ul>
         <li></li>
       </ul>
@@ -479,6 +484,53 @@ x <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span><
         }
         
         <span style="color:#66d9ef">return</span> nums.size() <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    }
+};
+</code></pre></div><h2 id="前缀和--哈希表">前缀和 + 哈希表</h2>
+<blockquote>
+<p>写了好几道了，应该记录一下</p>
+</blockquote>
+<h4 id="560-和为k的子数组httpsleetcode-cncomproblemssubarray-sum-equals-k"><a href="https://leetcode-cn.com/problems/subarray-sum-equals-k/">560. 和为K的子数组</a></h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> subarraySum(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> k) {
+        <span style="color:#66d9ef">int</span> count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> map;
+
+        map[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; 
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> item : nums) {
+            sum <span style="color:#f92672">+=</span> item;
+            <span style="color:#66d9ef">if</span> (map.find(sum <span style="color:#f92672">-</span> k) <span style="color:#f92672">!=</span> map.end()) {
+                count <span style="color:#f92672">+=</span> map[sum <span style="color:#f92672">-</span> k];
+            }
+
+            map[sum]<span style="color:#f92672">++</span>;
+        }
+
+        <span style="color:#66d9ef">return</span> count;
+    }
+};
+
+</code></pre></div><h4 id="1248-统计优美子数组httpsleetcode-cncomproblemscount-number-of-nice-subarrays"><a href="https://leetcode-cn.com/problems/count-number-of-nice-subarrays/">1248. 统计「优美子数组」</a></h4>
+<blockquote>
+<p>和上面那道完全一样</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> numberOfSubarrays(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> k) {
+        <span style="color:#66d9ef">int</span> sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> map;
+        map[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> num : nums) {
+            sum <span style="color:#f92672">+=</span> num <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span>;
+            <span style="color:#66d9ef">if</span> (map.find(sum <span style="color:#f92672">-</span> k) <span style="color:#f92672">!=</span> map.end()) {
+                ans <span style="color:#f92672">+=</span> map[sum <span style="color:#f92672">-</span> k];
+            }
+            map[sum]<span style="color:#f92672">++</span>;
+        }
+
+        <span style="color:#66d9ef">return</span> ans;
     }
 };
 </code></pre></div><h2 id="no-pattern">No Pattern</h2>

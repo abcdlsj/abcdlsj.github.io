@@ -356,15 +356,16 @@ One min read
 <p>一旦一个候选者成为 Leader，它将开始处理客户端的请求。每个请求包含一个需要由复制状态机执行的命令，Leader 将该命令作为一个新的条目添加到日志中，然后通过 AppendEntries RPCs 并行发送到其它 Servers 来进行条目复制。</p>
 <p>当日志安全复制之后，Leader 将日志应用到自己的状态机并将结果返回给客户端。如果集群中有参与者宕机、处理速度慢、丢包等，Leader 会重试 AppendEntries RPCs 请求直到日志被安全复制。</p>
 <p><img src="/img/image-20200702153759613.png" alt="Log entrys"></p>
+<p>日志的格式如上：</p>
 <p><img src="/img/image-20200702153519693.png" alt="Log indexs"></p>
+<p>![Figure 3](/img/Figure 3.png)</p>
 <h2 id="raft">Raft</h2>
 <h2 id="references">References</h2>
-<p>《数据库系统内幕》</p>
-<p><a href="https://www.gitbook.com/book/vonng/ddia-cn">https://www.gitbook.com/book/vonng/ddia-cn</a> （ddia-zh）</p>
+<p><a href="https://www.gitbook.com/book/vonng/ddia-cn">https://www.gitbook.com/book/vonng/ddia-cn</a></p>
 <p><a href="https://thesquareplanet.com/blog/students-guide-to-raft/">https://thesquareplanet.com/blog/students-guide-to-raft/</a></p>
 <p><a href="http://thesecretlivesofdata.com/raft/">http://thesecretlivesofdata.com/raft/</a> （可视化网站，很有帮助）</p>
 <p><a href="https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md">https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md</a> （raft 中文翻译，适合对照着看）</p>
-<p><a href="https://time.geekbang.org/column/article/218938">https://time.geekbang.org/column/article/218938</a> （极客时间课程）</p>
+<p><a href="https://izualzhy.cn/notes-on-raft">https://izualzhy.cn/notes-on-raft</a></p>
 </div>
 
   

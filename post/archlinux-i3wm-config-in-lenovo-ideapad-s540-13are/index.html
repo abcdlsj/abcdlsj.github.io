@@ -33,13 +33,15 @@ fcitx 的字体设置：Noto Sans CJK SC Medium 11，Menu Font: Ubuntu Regular 1
 
 
 -- 07-14 ⏲️ 12:55
-托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决
+托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决（个人感觉是主题缩放的问题）（07-21 破案了，是字体大小限制的）
 还有就是内存最好划分 2G 给显卡，4G 如果有高级显示需求是需要的，主要不给 2G 我开 Emacs、Goland 太慢，不打游戏 2G 够了
 -- 07-16 ⏲️ 07:07
 刚刚看了一下 Manjaro Gnome 20 的效果，发现不行，所以最好还是推荐装 i3wm
 实测自己创建 gtk 的缩放主题很麻烦，很不推荐，浪费时间
 如果发现 vlc 打开视频闪烁，去配置 compton，wiki 写了解决方案，但是对我没用，因为只有开全屏才会出现，所以我设置 vlc 为浮动了，而且 mpv 不会闪烁
 -- 07-17 ⏲️ 19:37
+又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）
+-- 07-19 ⏲️ 22:43
 '>
 <meta name='theme-color' content='#ffcd00'>
 
@@ -75,13 +77,15 @@ fcitx 的字体设置：Noto Sans CJK SC Medium 11，Menu Font: Ubuntu Regular 1
 
 
 -- 07-14 ⏲️ 12:55
-托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决
+托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决（个人感觉是主题缩放的问题）（07-21 破案了，是字体大小限制的）
 还有就是内存最好划分 2G 给显卡，4G 如果有高级显示需求是需要的，主要不给 2G 我开 Emacs、Goland 太慢，不打游戏 2G 够了
 -- 07-16 ⏲️ 07:07
 刚刚看了一下 Manjaro Gnome 20 的效果，发现不行，所以最好还是推荐装 i3wm
 实测自己创建 gtk 的缩放主题很麻烦，很不推荐，浪费时间
 如果发现 vlc 打开视频闪烁，去配置 compton，wiki 写了解决方案，但是对我没用，因为只有开全屏才会出现，所以我设置 vlc 为浮动了，而且 mpv 不会闪烁
 -- 07-17 ⏲️ 19:37
+又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）
+-- 07-19 ⏲️ 22:43
 '>
 <meta property='og:url' content='https://github.abcdlsj.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/'>
 <meta property='og:site_name' content='The Real World'>
@@ -390,13 +394,15 @@ export GDK_DPI_SCALE<span style="color:#f92672">=</span>0.5
 </li>
 </ul>
 <p>-- 07-14 ⏲️ 12:55</p>
-<p>托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决</p>
+<p>托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决（个人感觉是主题缩放的问题）（07-21 破案了，是字体大小限制的）</p>
 <p>还有就是内存最好划分 2G 给显卡，4G 如果有高级显示需求是需要的，主要不给 2G 我开 Emacs、Goland 太慢，不打游戏 2G 够了</p>
 <p>-- 07-16 ⏲️ 07:07</p>
 <p>刚刚看了一下 Manjaro Gnome 20 的效果，发现不行，所以最好还是推荐装 i3wm</p>
 <p>实测自己创建 gtk 的缩放主题很麻烦，很不推荐，浪费时间</p>
 <p>如果发现 vlc 打开视频闪烁，去配置 compton，wiki 写了解决方案，但是对我没用，因为只有开全屏才会出现，所以我设置 vlc 为浮动了，而且 mpv 不会闪烁</p>
 <p>-- 07-17 ⏲️ 19:37</p>
+<p>又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）</p>
+<p>-- 07-19 ⏲️ 22:43</p>
 </blockquote>
 <h2 id="时间时间">时间时间</h2>
 <blockquote>
@@ -418,7 +424,7 @@ export GDK_DPI_SCALE<span style="color:#f92672">=</span>0.5
 <p>于是需要导入 keys 的时候出现：</p>
 <p>Signature from &ldquo;User <a href="mailto:email@example.org">email@example.org</a>&rdquo; is unknown trust, installation failed</p>
 <p>这种错误如果一直出现，别怀疑了，就是时间错了</p>
-<p>我遇到了之后，弄到失去耐心直接重装需要（昨天晚上 10 点开始重装，搞了两个小时，虽然之后一直熬夜玩到凌晨 5 点）</p>
+<p>我遇到了之后，弄到失去耐心直接重装（弄了好几个小时，各种方法都没啥效果，于是昨天晚上 10 点开始重装，2 个小时不到装好，虽然之后一直熬夜玩到凌晨 5 点）</p>
 <h2 id="python-module-的错误">Python Module 的错误</h2>
 <p>具体报错没了，可以试试：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo pacman -S python3 python-pip python-setuptools
@@ -431,7 +437,7 @@ export GDK_DPI_SCALE<span style="color:#f92672">=</span>0.5
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#ae81ff">70</span> &gt; /sys/class/backlight/amdgpu_bl0/brightness
 </code></pre></div><h2 id="bios">Bios</h2>
 <blockquote>
-<p>这个。。。真的有问题</p>
+<p>最好还是自己设置一下</p>
 </blockquote>
 <p>最好还是在 bios 中关闭：</p>
 <ul>
@@ -476,7 +482,7 @@ GRUB_GFXMODE<span style="color:#f92672">=</span>1280x960
 <p>找评测，看评测，纠结，选好型号，发现没钱，等电脑，中间退货，然后继续等，到货，装系统、重装</p>
 </blockquote>
 <p>的过程还是很愉快的，算是放松了一段时间吧（PS. 一直都在放松）</p>
-<p>续航也不错，用的时候也基本听不到任何风扇的声音（开 IDE 都不转（响）的。。。开两三个好像就可以转）</p>
+<p>续航也不错，用的时候也基本听不到任何风扇的声音</p>
 </blockquote>
 <p>ArchWiki 页面：</p>
 <p><a href="https://wiki.archlinux.org/index.php/Lenovo_IdeaPad_S540_13ARE">https://wiki.archlinux.org/index.php/Lenovo_IdeaPad_S540_13ARE</a></p>

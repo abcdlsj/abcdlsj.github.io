@@ -47,13 +47,15 @@ export GDK_DPI_SCALE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0.5
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;-- 07-14 ⏲️ 12:55&lt;/p&gt;
-&lt;p&gt;托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决&lt;/p&gt;
+&lt;p&gt;托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决（个人感觉是主题缩放的问题）（07-21 破案了，是字体大小限制的）&lt;/p&gt;
 &lt;p&gt;还有就是内存最好划分 2G 给显卡，4G 如果有高级显示需求是需要的，主要不给 2G 我开 Emacs、Goland 太慢，不打游戏 2G 够了&lt;/p&gt;
 &lt;p&gt;-- 07-16 ⏲️ 07:07&lt;/p&gt;
 &lt;p&gt;刚刚看了一下 Manjaro Gnome 20 的效果，发现不行，所以最好还是推荐装 i3wm&lt;/p&gt;
 &lt;p&gt;实测自己创建 gtk 的缩放主题很麻烦，很不推荐，浪费时间&lt;/p&gt;
 &lt;p&gt;如果发现 vlc 打开视频闪烁，去配置 compton，wiki 写了解决方案，但是对我没用，因为只有开全屏才会出现，所以我设置 vlc 为浮动了，而且 mpv 不会闪烁&lt;/p&gt;
 &lt;p&gt;-- 07-17 ⏲️ 19:37&lt;/p&gt;
+&lt;p&gt;又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）&lt;/p&gt;
+&lt;p&gt;-- 07-19 ⏲️ 22:43&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
