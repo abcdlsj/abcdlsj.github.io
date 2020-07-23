@@ -255,7 +255,7 @@ LeetCode 刷题总结之：回溯
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-3 mins read
+4 mins read
 </span>
 
 
@@ -328,19 +328,40 @@ LeetCode 刷题总结之：回溯
 <blockquote>
 <p>其实按理来说回溯法也只是一种基本方法（穷举法），不应该拿一个专题，但是回溯+剪枝真的非常漂亮，而且代码还是很有套路的。</p>
 </blockquote>
+<blockquote>
+<p>距离我写这个博文过去了 3 个月，写完这篇博文之后的 3 个月我收获了什么？</p>
+<p>收获了遇到同类型题目（回溯取子集，元素重复或者不重复）就能秒杀的能力，所有的回溯取子集的题目都逃不出下面的解法，但是有些回溯题目还是不能够 Pattern Matching，遇到变体，就想不到怎么解。</p>
+<p>因为并没有总结出方法论，这也是我刷题的弊端，没有以点到面，而是零散的去刷不同的题目，总是回头刷之前的题，但是下一次遇到，也不能很快的写出来。</p>
+<p>截至刚刚，总刷题量为 500，个人觉得真的理解并且解法没有重复的题目也就 100 不到，也就是说刷题效率其实非常低，到了这个程度，了解并且拓展一道题远远比刷 2、3 道题所获得还要多，接下来的刷题应该会采取多方法刷题，希望养成自己解题的思维模式，多训练自己解题的能力。</p>
+<p>看来要把正确率刷低一点了（</p>
+<p>简历不敢投，基础不会，这咋找工作啊。。。我是 FW 。。。</p>
+<p>话说为啥 hugo 不支持内嵌 html block 啊。。。我才发现我从爬虫中复制的题目内容全部失效的。。。算了，下次不放题目了。。。</p>
+<p>-- 07-23 ⏲️ 17:43</p>
+</blockquote>
 <h2 id="39-组合总和">39. 组合总和</h2>
 <p><a href="https://leetcode-cn.com/problems/combination-sum/">39. 组合总和</a></p>
 <h3 id="题目内容">题目内容</h3>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<p>给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。</p>
+<p>candidates 中的数字可以无限制重复被选取。</p>
+<p>说明：所有数字（包括 target）都是正整数。
+解集不能包含重复的组合。</p>
+<p>示例 1：输入：candidates = [2,3,6,7], target = 7,
+所求解集为：
+[
+[7],
+[2,2,3]
+]</p>
+<p>示例 2：输入：candidates = [2,3,5], target = 8,
+所求解集为：
+[
+[2,2,2,2],
+[2,3,3],
+[3,5]
+]</p>
+<p>提示：1 &lt;= candidates.length &lt;= 30
+1 &lt;= candidates[i] &lt;= 200
+candidate 中的每个元素都是独一无二的。
+1 &lt;= target &lt;= 500</p>
 <h3 id="解法">解法</h3>
 <blockquote>
 <p>题目说<code>candidates</code>中的数字可以无限制重复被选取，但是不能包含重复的组合，怎么才能不重复组合呢，我们就需要一个<code>start</code>来表明取值的位置，每次取了值让<code>start + 1</code>再递归，但是这样就必须数组是有序的，所以我们要先排序，答案也就出来了。</p>
@@ -368,16 +389,24 @@ LeetCode 刷题总结之：回溯
 </code></pre></div><h2 id="40-组合总和-ii">40. 组合总和 II</h2>
 <p><a href="https://leetcode-cn.com/problems/combination-sum-ii/">40. 组合总和 II</a></p>
 <h3 id="题目内容-1">题目内容</h3>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<p>给定一个数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。</p>
+<p>candidates 中的每个数字在每个组合中只能使用一次。</p>
+<p>说明：所有数字（包括目标数）都是正整数。
+解集不能包含重复的组合。</p>
+<p>示例 1:输入: candidates = [10,1,2,7,6,1,5], target = 8,
+所求解集为:
+[
+[1, 7],
+[1, 2, 5],
+[2, 6],
+[1, 1, 6]
+]</p>
+<p>示例 2:输入: candidates = [2,5,2,1,2], target = 5,
+所求解集为:
+[
+[1,2,2],
+[5]
+]</p>
 <h3 id="解法-1">解法</h3>
 <blockquote>
 <p>对于这道题和上面不同的是每个数字只能取一次，我们还是先排序，然后发现数组为<code>[1,1,2,5,6,7,10]</code>，两个<code>1</code>当然能够同时存在了，但是单独的时候只能算一个组合，对于第二次出现的同一数字，我们直接跳过其计算，但是怎么才能让他们能够同时存在呢，我们不是传入了一个<code>start</code>值吗，这个值代表在某段递归当中（以<code>candidates[start]</code>为初始值），如果大于<code>start</code>并且重复数字（举个例子，第一次的<code>1</code>会回溯，也就是会出现<code>存在</code>和<code>不存在</code>两种状态，当<code>第一次的1</code>不存在的时候递归到<code>第二次的1</code>就会重复），这样就会导致重复，解决办法就是对于每次的递归段初始位置<code>start</code>之后的都进行判断，防止重复。</p>
@@ -405,15 +434,13 @@ LeetCode 刷题总结之：回溯
 </code></pre></div><h2 id="216-组合总和-iii">216. 组合总和 III</h2>
 <p><a href="https://leetcode-cn.com/problems/combination-sum-iii/">216. 组合总和 III</a></p>
 <h3 id="题目内容-2">题目内容</h3>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<p>找出所有相加之和为 n 的 k 个数的组合。组合中只允许含有 1 - 9 的正整数，并且每种组合中不存在重复的数字。</p>
+<p>说明：所有数字都是正整数。
+解集不能包含重复的组合。</p>
+<p>示例 1:输入: k = 3, n = 7
+输出: [[1,2,4]]</p>
+<p>示例 2:输入: k = 3, n = 9
+输出: [[1,2,6], [1,3,5], [2,3,4]]</p>
 <h3 id="解法-2">解法</h3>
 <blockquote>
 <p>一样</p>
@@ -439,10 +466,17 @@ LeetCode 刷题总结之：回溯
 </code></pre></div><h2 id="46-全排列">46. 全排列</h2>
 <p><a href="https://leetcode-cn.com/problems/permutations/">46. 全排列</a></p>
 <h3 id="题目内容-3">题目内容</h3>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<p>给定一个 没有重复 数字的序列，返回其所有可能的全排列。</p>
+<p>示例:输入: [1,2,3]
+输出:
+[
+[1,2,3],
+[1,3,2],
+[2,1,3],
+[2,3,1],
+[3,1,2],
+[3,2,1]
+]</p>
 <h3 id="解法-3">解法</h3>
 <blockquote>
 <p>这道题因为是全排列，每个位置不同都是不同的，所以不能用索引来保证不重复，因为只要保证不重复取一个值就不会重复，所以可以新建一个<code>vis</code>数组来保存取过的值。</p>
@@ -476,10 +510,14 @@ LeetCode 刷题总结之：回溯
 </code></pre></div><h2 id="47-全排列-ii">47. 全排列 II</h2>
 <p><a href="https://leetcode-cn.com/problems/permutations-ii/">47. 全排列 II</a></p>
 <h3 id="题目内容-4">题目内容</h3>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<p>给定一个可包含重复数字的序列，返回所有不重复的全排列。</p>
+<p>示例:输入: [1,1,2]
+输出:
+[
+[1,1,2],
+[1,2,1],
+[2,1,1]
+]</p>
 <h3 id="解法-4">解法</h3>
 <blockquote>
 <p>这个算是比较复杂的情况了，因为要保证不能重复，其实和之前排列组合2那道差不多，画图就好了，注意看判断的那个地方</p>
@@ -514,11 +552,20 @@ LeetCode 刷题总结之：回溯
 </code></pre></div><h2 id="78-子集">78. 子集</h2>
 <p><a href="https://leetcode-cn.com/problems/subsets/">78. 子集</a></p>
 <h3 id="题目内容-5">题目内容</h3>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<p>给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。</p>
+<p>说明：解集不能包含重复的子集。</p>
+<p>示例:输入: nums = [1,2,3]
+输出:
+[
+[3],
+[1],
+[2],
+[1,2,3],
+[1,3],
+[2,3],
+[1,2],
+[]
+]</p>
 <h3 id="解法-5">解法</h3>
 <blockquote>
 <p>也是一样的套路，不能重复的子集即是不能重复的<code>组合</code>，只是这个组合没有限制，也不需要排序，只需要索引确保不会重复，保证每个数都有两个状态即可（<code>取</code>与<code>不取</code>）。</p>
@@ -545,11 +592,18 @@ LeetCode 刷题总结之：回溯
 </code></pre></div><h2 id="90-子集-ii">90. 子集 II</h2>
 <p><a href="https://leetcode-cn.com/problems/subsets-ii/">90. 子集 II</a></p>
 <h3 id="题目内容-6">题目内容</h3>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<p>给定一个可能包含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。</p>
+<p>说明：解集不能包含重复的子集。</p>
+<p>示例:输入: [1,2,2]
+输出:
+[
+[2],
+[1],
+[1,2,2],
+[2,2],
+[1,2],
+[]
+]</p>
 <h3 id="解法-6">解法</h3>
 <blockquote>
 <p>重复的元素，然后不能重复组合，画图之后也就一目了然了。</p>
@@ -593,7 +647,7 @@ LeetCode 刷题总结之：回溯
         backtrack(<span style="color:#960050;background-color:#1e0010">路径</span>, <span style="color:#960050;background-color:#1e0010">选择列表</span>)
         <span style="color:#960050;background-color:#1e0010">撤销选择</span>
 </code></pre></div><blockquote>
-<p>回溯法可能开始很难，但是就和<code>BFS DFS</code>一样只要心里面有解决问题的<code>模板</code>，那一般的问题就不算难了，当然一些很困难的回溯也很复杂，毕竟剪枝没有经验也是比较难看出来的。</p>
+<p>回溯法可能开始很难，但是就和<code>BFS / DFS</code>一样只要心里面有解决问题的<code>模板</code>，那一般的问题就不算难了，当然一些很困难的回溯也很复杂，毕竟剪枝没有经验也是比较难看出来的。</p>
 </blockquote>
 </div>
 
