@@ -30,6 +30,10 @@
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;缩放问题，最好的还是 144，然后 gtk3.0 缩放 2，字体缩放 0.5，保证字体不变（PS. gtk2.0 没法缩放，但是可以用创建缩放后的主题解决，具体看 wiki，我觉得复杂就没用，144 缩放下，差不多也可以看，也不会太大）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;vim .Xresources&lt;/code&gt; （PS. 实测鼠标这样设置大小会好一点点）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;Xft.dpi: &lt;span style=&#34;color:#ae81ff&#34;&gt;144&lt;/span&gt;
+Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &lt;span style=&#34;color:#ae81ff&#34;&gt;48&lt;/span&gt; or &lt;span style=&#34;color:#ae81ff&#34;&gt;64&lt;/span&gt; may also be good values
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;vim .zshrc&lt;/code&gt;（随便放哪，只要生效就可以了，&lt;code&gt;.bashrc / .xinitrc / .xprofile&lt;/code&gt; 都可以）&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;export GDK_SCALE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
 export GDK_DPI_SCALE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0.5
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
@@ -56,6 +60,9 @@ export GDK_DPI_SCALE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0.5
 &lt;p&gt;-- 07-17 ⏲️ 19:37&lt;/p&gt;
 &lt;p&gt;又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）&lt;/p&gt;
 &lt;p&gt;-- 07-19 ⏲️ 22:43&lt;/p&gt;
+&lt;p&gt;i3wm 也可以设置主题的，具体可以 Github 找，我用的是 &lt;code&gt;base16-google-dark&lt;/code&gt;，之前一直用的 &lt;code&gt;base16-default-dark&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;镜面屏还是适合对自己颜值有自信的人（不适合我。。。hhh，Emacs 被迫放弃暗色主题）&lt;/p&gt;
+&lt;p&gt;-- 07-23 ⏲️ 20:22&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

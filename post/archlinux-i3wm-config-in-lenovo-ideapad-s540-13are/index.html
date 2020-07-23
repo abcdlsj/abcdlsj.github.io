@@ -16,6 +16,10 @@ https://wiki.archlinux.org/index.php/Lenovo_IdeaPad_S540_13ARE
 
 
 缩放问题，最好的还是 144，然后 gtk3.0 缩放 2，字体缩放 0.5，保证字体不变（PS. gtk2.0 没法缩放，但是可以用创建缩放后的主题解决，具体看 wiki，我觉得复杂就没用，144 缩放下，差不多也可以看，也不会太大）
+vim .Xresources （PS. 实测鼠标这样设置大小会好一点点）
+Xft.dpi: 144
+Xcursor.size:  32 ! 32, 48 or 64 may also be good values
+vim .zshrc（随便放哪，只要生效就可以了，.bashrc / .xinitrc / .xprofile 都可以）
 export GDK_SCALE=2
 export GDK_DPI_SCALE=0.5
 
@@ -42,6 +46,9 @@ fcitx 的字体设置：Noto Sans CJK SC Medium 11，Menu Font: Ubuntu Regular 1
 -- 07-17 ⏲️ 19:37
 又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）
 -- 07-19 ⏲️ 22:43
+i3wm 也可以设置主题的，具体可以 Github 找，我用的是 base16-google-dark，之前一直用的 base16-default-dark
+镜面屏还是适合对自己颜值有自信的人（不适合我。。。hhh，Emacs 被迫放弃暗色主题）
+-- 07-23 ⏲️ 20:22
 '>
 <meta name='theme-color' content='#ffcd00'>
 
@@ -60,6 +67,10 @@ https://wiki.archlinux.org/index.php/Lenovo_IdeaPad_S540_13ARE
 
 
 缩放问题，最好的还是 144，然后 gtk3.0 缩放 2，字体缩放 0.5，保证字体不变（PS. gtk2.0 没法缩放，但是可以用创建缩放后的主题解决，具体看 wiki，我觉得复杂就没用，144 缩放下，差不多也可以看，也不会太大）
+vim .Xresources （PS. 实测鼠标这样设置大小会好一点点）
+Xft.dpi: 144
+Xcursor.size:  32 ! 32, 48 or 64 may also be good values
+vim .zshrc（随便放哪，只要生效就可以了，.bashrc / .xinitrc / .xprofile 都可以）
 export GDK_SCALE=2
 export GDK_DPI_SCALE=0.5
 
@@ -86,6 +97,9 @@ fcitx 的字体设置：Noto Sans CJK SC Medium 11，Menu Font: Ubuntu Regular 1
 -- 07-17 ⏲️ 19:37
 又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）
 -- 07-19 ⏲️ 22:43
+i3wm 也可以设置主题的，具体可以 Github 找，我用的是 base16-google-dark，之前一直用的 base16-default-dark
+镜面屏还是适合对自己颜值有自信的人（不适合我。。。hhh，Emacs 被迫放弃暗色主题）
+-- 07-23 ⏲️ 20:22
 '>
 <meta property='og:url' content='https://github.abcdlsj.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/'>
 <meta property='og:site_name' content='The Real World'>
@@ -377,6 +391,10 @@ fcitx 的字体设置：Noto Sans CJK SC Medium 11，Menu Font: Ubuntu Regular 1
 </li>
 <li>
 <p>缩放问题，最好的还是 144，然后 gtk3.0 缩放 2，字体缩放 0.5，保证字体不变（PS. gtk2.0 没法缩放，但是可以用创建缩放后的主题解决，具体看 wiki，我觉得复杂就没用，144 缩放下，差不多也可以看，也不会太大）</p>
+<p><code>vim .Xresources</code> （PS. 实测鼠标这样设置大小会好一点点）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">Xft.dpi: <span style="color:#ae81ff">144</span>
+Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#ae81ff">48</span> or <span style="color:#ae81ff">64</span> may also be good values
+</code></pre></div><p><code>vim .zshrc</code>（随便放哪，只要生效就可以了，<code>.bashrc / .xinitrc / .xprofile</code> 都可以）</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">export GDK_SCALE<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
 export GDK_DPI_SCALE<span style="color:#f92672">=</span>0.5
 </code></pre></div></li>
@@ -403,6 +421,9 @@ export GDK_DPI_SCALE<span style="color:#f92672">=</span>0.5
 <p>-- 07-17 ⏲️ 19:37</p>
 <p>又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）</p>
 <p>-- 07-19 ⏲️ 22:43</p>
+<p>i3wm 也可以设置主题的，具体可以 Github 找，我用的是 <code>base16-google-dark</code>，之前一直用的 <code>base16-default-dark</code></p>
+<p>镜面屏还是适合对自己颜值有自信的人（不适合我。。。hhh，Emacs 被迫放弃暗色主题）</p>
+<p>-- 07-23 ⏲️ 20:22</p>
 </blockquote>
 <h2 id="时间时间">时间时间</h2>
 <blockquote>
@@ -450,7 +471,7 @@ export GDK_DPI_SCALE<span style="color:#f92672">=</span>0.5
 <p>wiki: <a href="https://wiki.archlinux.org/index.php/Advanced_Linux_Sound_Architecture">ALSA</a></p>
 <p>音频是开箱即用的，但是还是需要稍微配置一下，指定一下输出，遇到问题就看官方 wiki 吧，写得不错的</p>
 <p>我基本就配置了一个文件</p>
-<p><code>.asoundrc</code></p>
+<p><code>sudo vim ~/.asoundrc</code></p>
 <pre><code>defaults.pcm.card 1
 defaults.pcm.device 0
 defaults.ctl.card 1
@@ -476,7 +497,7 @@ GRUB_GFXMODE<span style="color:#f92672">=</span>1280x960
 <p>截图就不放了，反正分辨率真舒服啊，有点像 Mac 上面一样细腻，但是中文字体还是没找到比较适合的，暂时用的还是 Noto Sans，Ubuntu 字体强烈推荐，Ubuntu Mono 不输 Mac，同时 Ubuntu Regular 也非常好看</p>
 <h2 id="end">End</h2>
 <blockquote>
-<p>这篇 blog 就是用小新的键盘敲的（发现 fcitx 有时候会没法输入中文，重新部署了 4、5 次，垃圾 fcitx），键盘不舒服，也不算特别差，至少比罗技 k380 强</p>
+<p>这篇 blog 就是用小新的键盘敲的（发现 fcitx 有时候会没法输入中文，重新部署了 4、5 次，垃圾 fcitx），键盘不舒服，也不算特别差，至少比罗技 k380  <del>强</del>（并没有）</p>
 <p>这段时间</p>
 <blockquote>
 <p>找评测，看评测，纠结，选好型号，发现没钱，等电脑，中间退货，然后继续等，到货，装系统、重装</p>
