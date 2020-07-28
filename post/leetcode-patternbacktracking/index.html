@@ -255,7 +255,7 @@ LeetCode 刷题总结之：回溯
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-4 mins read
+5 mins read
 </span>
 
 
@@ -337,6 +337,8 @@ LeetCode 刷题总结之：回溯
 <p>简历不敢投，基础不会，这咋找工作啊。。。我是 FW 。。。</p>
 <p>话说为啥 hugo 不支持内嵌 html block 啊。。。我才发现我从爬虫中复制的题目内容全部失效的。。。算了，下次不放题目了。。。</p>
 <p>-- 07-23 ⏲️ 17:43</p>
+<p>时隔 3 个月，一样可以学习到新东西，希望可以一直保持对算法的兴趣，唉</p>
+<p>-- 07-28 ⏲️ 12:00</p>
 </blockquote>
 <h2 id="39-组合总和">39. 组合总和</h2>
 <p><a href="https://leetcode-cn.com/problems/combination-sum/">39. 组合总和</a></p>
@@ -358,13 +360,13 @@ LeetCode 刷题总结之：回溯
 [2,3,3],
 [3,5]
 ]</p>
-<p>提示：1 &lt;= candidates.length &lt;= 30
-1 &lt;= candidates[i] &lt;= 200
-candidate 中的每个元素都是独一无二的。
-1 &lt;= target &lt;= 500</p>
+<p>提示：1 &lt;= candidates.length &lt;= 30</p>
+<p>1 &lt;= candidates[i] &lt;= 200</p>
+<p>candidate 中的每个元素都是独一无二的。</p>
+<p>1 &lt;= target &lt;= 500</p>
 <h3 id="解法">解法</h3>
 <blockquote>
-<p>题目说<code>candidates</code>中的数字可以无限制重复被选取，但是不能包含重复的组合，怎么才能不重复组合呢，我们就需要一个<code>start</code>来表明取值的位置，每次取了值让<code>start + 1</code>再递归，但是这样就必须数组是有序的，所以我们要先排序，答案也就出来了。</p>
+<p>题目说<code>candidates</code>中的数字可以无限制重复被选取，但是不能包含重复的组合，怎么才能不重复组合呢，我们就需要一个<code>start</code>来表明取值的位置，每次取了值从 <code>start</code> 再递归，这样就可以无限次选取，但是重复的数字只能够向之后取，保证不包含重复的组合，但是这样就必须数组是有序的，所以我们要先排序，为什么需要有序，因为我们假设的是向左取会出现重复组合，如果不排序，这个假设不会必然成立，答案也就出来了。</p>
 </blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -409,7 +411,7 @@ candidate 中的每个元素都是独一无二的。
 ]</p>
 <h3 id="解法-1">解法</h3>
 <blockquote>
-<p>对于这道题和上面不同的是每个数字只能取一次，我们还是先排序，然后发现数组为<code>[1,1,2,5,6,7,10]</code>，两个<code>1</code>当然能够同时存在了，但是单独的时候只能算一个组合，对于第二次出现的同一数字，我们直接跳过其计算，但是怎么才能让他们能够同时存在呢，我们不是传入了一个<code>start</code>值吗，这个值代表在某段递归当中（以<code>candidates[start]</code>为初始值），如果大于<code>start</code>并且重复数字（举个例子，第一次的<code>1</code>会回溯，也就是会出现<code>存在</code>和<code>不存在</code>两种状态，当<code>第一次的1</code>不存在的时候递归到<code>第二次的1</code>就会重复），这样就会导致重复，解决办法就是对于每次的递归段初始位置<code>start</code>之后的都进行判断，防止重复。</p>
+<p>对于这道题和上面不同的是每个数字只能取一次，我们还是先排序，然后发现数组为<code>[1,1,2,5,6,7,10]</code>，两个<code>1</code>当然能够同时存在了，但是单独的时候只能算一个组合，对于第二次出现的同一数字，我们直接跳过其计算，但是怎么才能让他们能够同时存在呢，我们不是传入了一个<code>start</code>值吗，这个值代表在某段递归当中（以<code>candidates[start]</code>为初始值），如果大于<code>start</code>并且重复数字（举个例子，第一次的<code>1</code>会回溯，也就是会出现<code>存在</code>和<code>不存在</code>两种状态，当<code>第一次的 1</code>不存在的时候递归到<code>第二次的 1</code>就会重复，因为这个时候向下递归会取到之前的 1），这样就会导致重复，解决办法就是对于每次的递归段初始位置<code>start</code>之后的都进行判断，防止重复。</p>
 </blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -520,7 +522,17 @@ candidate 中的每个元素都是独一无二的。
 ]</p>
 <h3 id="解法-4">解法</h3>
 <blockquote>
-<p>这个算是比较复杂的情况了，因为要保证不能重复，其实和之前排列组合2那道差不多，画图就好了，注意看判断的那个地方</p>
+<p>这个算是比较复杂的情况了，因为要保证不能重复，其实和之前排列组合 2 那道差不多，画图就好了，注意看判断的那个地方</p>
+<hr>
+<p>这道题和之前的 <code>组合总和 II</code> 很像，甚至这道题的做法，一样可以放到那道题，也可以运行，结果正确</p>
+<p>但是这道题用之前的做法却不正确</p>
+<p>因为之前那道题是 <code>求和</code>，代表每个数字只是 <code>值</code>，相同数字的 <code>值</code>，不管任何位置，没有区别</p>
+<p>但是这个地方是全排列，每个不同位置都是不同的，就算数字一样也是不同的，所以，不能够用 <code>start</code> 盲目的跳过，而是应该用 <code>vis</code> 标记，并且判断会重复的情况</p>
+<p><code>vis[i] == true</code>  代表这个值已经用过了，是在当前的 <code>path</code> 中，所以跳过</p>
+<p><code>vis[i - 1] == false &amp;&amp; nums[i - 1] == nums[i]</code> 代表之前的相同数字以及进行过递归回溯了，那么这种情况就要放弃，因为如果继续下去，会取到之前的值，和之前的不久重复了吗</p>
+<p>画出递归树，可以非常明显的看到，或者懒得画，可以去评论区看 <code>weiwei</code> 的题解，很清晰</p>
+<p>全排列应该使用 <code>vis</code> 数组 ，因为它们每次递归都需要从第一个元素开始，但是不能够重复</p>
+<p>-- 07-28 ⏲️ 12:00</p>
 </blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
 </span><span style="color:#75715e"></span>

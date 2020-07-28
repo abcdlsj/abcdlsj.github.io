@@ -273,6 +273,16 @@ LeetCode 刷题总结之：动态规划（WIP）
   </summary>
   <nav id="TableOfContents">
   <ul>
+    <li><a href="#经典问题">经典问题</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#最优子结构">最优子结构</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
     <li><a href="#单串双串">单串/双串</a>
       <ul>
         <li></li>
@@ -314,7 +324,62 @@ LeetCode 刷题总结之：动态规划（WIP）
 <p>佛了，爷又不会了，爷是废物</p>
 <p>唉。。。</p>
 <p>-- 07-18 ⏲️ 00:21</p>
+<p>准备参照 weiwei 的整理来重刷分类一下</p>
+<p>-- 07-24 ⏲️ 22:26</p>
 </blockquote>
+<h2 id="经典问题">经典问题</h2>
+<h4 id="509-斐波那契数httpsleetcode-cncomproblemsfibonacci-number"><a href="https://leetcode-cn.com/problems/fibonacci-number/">509. 斐波那契数</a></h4>
+<p>递归自上向下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> fib(<span style="color:#66d9ef">int</span> N) {
+        <span style="color:#66d9ef">if</span> (N <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> N;
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fib</span>(N <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> fib(N <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+    }
+};
+</code></pre></div><p>递归带缓存</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> fibMemo(<span style="color:#66d9ef">int</span> N, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> mem) {
+        <span style="color:#66d9ef">if</span> (N <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> N;
+        <span style="color:#66d9ef">if</span> (mem[N] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+            mem[N] <span style="color:#f92672">=</span> fibMemo(N <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, mem) <span style="color:#f92672">+</span> fibMemo(N <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, mem);
+        }
+
+        <span style="color:#66d9ef">return</span> mem[N];
+    }
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">fib</span>(<span style="color:#66d9ef">int</span> N) {
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mem(N <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+
+        <span style="color:#66d9ef">return</span> fibMemo(N, mem);
+    }
+};
+</code></pre></div><p>迭代自底向上</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> fib(<span style="color:#66d9ef">int</span> N) {
+        <span style="color:#66d9ef">if</span> (N <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> N;
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> vec(N <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+        vec[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, vec[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> N; i<span style="color:#f92672">++</span>) {
+            vec[i] <span style="color:#f92672">=</span> vec[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> vec[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>];
+        }
+
+        <span style="color:#66d9ef">return</span> vec[N];
+    }
+};
+</code></pre></div><h4 id="70-爬楼梯httpsleetcode-cncomproblemsclimbing-stairs"><a href="https://leetcode-cn.com/problems/climbing-stairs/">70. 爬楼梯</a></h4>
+<blockquote>
+<p>和上面一模一样</p>
+</blockquote>
+<h2 id="最优子结构">最优子结构</h2>
+<h4 id="279-完全平方数httpsleetcode-cncomproblemsperfect-squares"><a href="https://leetcode-cn.com/problems/perfect-squares/">279. 完全平方数</a></h4>
+<blockquote>
+<p>尽可能拆分成为 3，数学推导不会，就是式子求导后极点为 e，因为是整数取 3</p>
+</blockquote>
+<h4 id="322-零钱兑换httpsleetcode-cncomproblemscoin-change"><a href="https://leetcode-cn.com/problems/coin-change/">322. 零钱兑换</a></h4>
+<h4 id="343-整数拆分httpsleetcode-cncomproblemsinteger-break"><a href="https://leetcode-cn.com/problems/integer-break/">343. 整数拆分</a></h4>
 <h2 id="单串双串">单串/双串</h2>
 <h4 id="300-最长上升子序列httpsleetcode-cncomproblemslongest-increasing-subsequence"><a href="https://leetcode-cn.com/problems/longest-increasing-subsequence/">300. 最长上升子序列</a></h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {

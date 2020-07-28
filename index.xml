@@ -60,9 +60,11 @@ export GDK_DPI_SCALE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0.5
 &lt;p&gt;-- 07-17 ⏲️ 19:37&lt;/p&gt;
 &lt;p&gt;又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）&lt;/p&gt;
 &lt;p&gt;-- 07-19 ⏲️ 22:43&lt;/p&gt;
-&lt;p&gt;i3wm 也可以设置主题的，具体可以 Github 找，我用的是 &lt;code&gt;base16-google-dark&lt;/code&gt;，之前一直用的 &lt;code&gt;base16-default-dark&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;i3wm 也可以设置主题的，虽然其实没啥用，和默认比也没啥变化，具体可以 Github 找，我用的是 &lt;code&gt;base16-google-dark&lt;/code&gt;，之前一直用的 &lt;code&gt;base16-default-dark&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;镜面屏还是适合对自己颜值有自信的人（不适合我。。。hhh，Emacs 被迫放弃暗色主题）&lt;/p&gt;
-&lt;p&gt;-- 07-23 ⏲️ 20:22&lt;/p&gt;
+&lt;p&gt;Typora 推荐使用 Next 主题，自带的中文字体非常适合 Typora&lt;/p&gt;
+&lt;p&gt;Linux 中文字体渲染真的垃圾，其实有个方法可以适当改善，就是 &lt;code&gt;lxappearance&lt;/code&gt; 中修改字体为 &lt;code&gt;Noto Sans CJK SC Medium&lt;/code&gt;，一定是 Medium，这样某些软件界面中文就不会发虚了（也只是某些软件，比如 Typora。。。）&lt;/p&gt;
+&lt;p&gt;-- 07-24 ⏲️ 17:22&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
