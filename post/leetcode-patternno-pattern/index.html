@@ -576,6 +576,44 @@ x <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span><
         <span style="color:#66d9ef">return</span> s;
     }
 };
+</code></pre></div><h4 id="48-旋转图像httpsleetcode-cncomproblemsrotate-image"><a href="https://leetcode-cn.com/problems/rotate-image/">48. 旋转图像</a></h4>
+<blockquote>
+<p>一定要保证交换没有相交，<code>row</code> 和 <code>col</code> 取值需要关注</p>
+<p><code>M x N</code>  和 <code>N x N</code> 修改一下 <code>row</code> 和 <code>col</code> 取值就可以了</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">void</span> rotate(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> matrix) {
+        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> matrix.size();
+        <span style="color:#66d9ef">int</span> row <span style="color:#f92672">=</span> (n <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>, col <span style="color:#f92672">=</span> (n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> row; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> col; j<span style="color:#f92672">++</span>) {
+                swap(matrix[i][j], matrix[j][n <span style="color:#f92672">-</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]);
+                swap(matrix[i][j], matrix[n <span style="color:#f92672">-</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][n <span style="color:#f92672">-</span> j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]);
+                swap(matrix[i][j], matrix[n <span style="color:#f92672">-</span> j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][i]);
+            }
+        }
+    }
+};
+</code></pre></div><p>还可以直接转置之后翻转每一层</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">void</span> rotate(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> matrix) {
+        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> matrix.size();
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i; j <span style="color:#f92672">&lt;</span> n; j<span style="color:#f92672">++</span>) {
+                swap(matrix[i][j], matrix[j][i]);
+            }
+        }
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>; j<span style="color:#f92672">++</span>) {
+                swap(matrix[i][j], matrix[i][n <span style="color:#f92672">-</span> j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]);
+            }
+        }
+    }
+};e
 </code></pre></div><h2 id="设计题">设计题</h2>
 <h3 id="栈">栈</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
