@@ -29,13 +29,10 @@
 &lt;p&gt;合盖会冻结，具体表现为输入设备没法使用（i3wm 键盘失效，鼠标可以移动，点击失效），换 linux-zen 内核后解决&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;缩放问题，最好的还是 144，然后 gtk3.0 缩放 2，字体缩放 0.5，保证字体不变（PS. gtk2.0 没法缩放，但是可以用创建缩放后的主题解决，具体看 wiki，我觉得复杂就没用，144 缩放下，差不多也可以看，也不会太大）&lt;/p&gt;
+&lt;p&gt;缩放问题，最好的还是 144&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;vim .Xresources&lt;/code&gt; （PS. 实测鼠标这样设置大小会好一点点）&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;Xft.dpi: &lt;span style=&#34;color:#ae81ff&#34;&gt;144&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;Xft.dpi: &lt;span style=&#34;color:#ae81ff&#34;&gt;144&lt;/span&gt;
 Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &lt;span style=&#34;color:#ae81ff&#34;&gt;48&lt;/span&gt; or &lt;span style=&#34;color:#ae81ff&#34;&gt;64&lt;/span&gt; may also be good values
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;vim .zshrc&lt;/code&gt;（随便放哪，只要生效就可以了，&lt;code&gt;.bashrc / .xinitrc / .xprofile&lt;/code&gt; 都可以）&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;export GDK_SCALE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
-export GDK_DPI_SCALE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0.5
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;触控板设置问题，原来是没有手势，比如单击之类的，只能够用触控板本来的点击，感觉不舒服，如果想要简单的就可以像我一样：&lt;/p&gt;
@@ -65,6 +62,10 @@ export GDK_DPI_SCALE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0.5
 &lt;p&gt;Typora 推荐使用 Next 主题，自带的中文字体非常适合 Typora&lt;/p&gt;
 &lt;p&gt;Linux 中文字体渲染真的垃圾，其实有个方法可以适当改善，就是 &lt;code&gt;lxappearance&lt;/code&gt; 中修改字体为 &lt;code&gt;Noto Sans CJK SC Medium&lt;/code&gt;，一定是 Medium，这样某些软件界面中文就不会发虚了（也只是某些软件，比如 Typora。。。）&lt;/p&gt;
 &lt;p&gt;-- 07-24 ⏲️ 17:22&lt;/p&gt;
+&lt;p&gt;更新 bios 之后是可以用 fn + 功能键的（有音量加减很方便。。。），但是我的背光调节不可以。。。&lt;/p&gt;
+&lt;p&gt;经过我的不懈努力，终于找到了究极的字体和 hidpi 配置了&lt;/p&gt;
+&lt;p&gt;看文末就可以了&lt;/p&gt;
+&lt;p&gt;-- 08-31 ⏲️ 09:25&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
