@@ -36,10 +36,9 @@
       <pubDate>Sun, 21 Jun 2020 14:45:25 +0800</pubDate>
       
       <guid>https://github.abcdlsj.io/post/leetcode-weekly-contest194/</guid>
-      <description>LeetCode Weekly Contest: 194
-  丢脸！我才写了一道。。。（t2 t3 都不难，思路都很正确，主要还是 stl 熟练度问题，还有就是吃饭时间比较奇葩，每次写到 11 点，就要准备吃饭了。。。）
- 5441. 保证文件名唯一  比较简单的一道，当时比赛时懵了，没写出来（有点离谱了）
- class Solution { public: vector&amp;lt;string&amp;gt; getFolderNames(vector&amp;lt;string&amp;gt;&amp;amp; names) { unordered_map&amp;lt;string, int&amp;gt; m; vector&amp;lt;string&amp;gt; res(names.size()); for (int i = 0; i &amp;lt; names.size(); i++) { if (!m.count(names[i])) { m[names[i]]++; res[i] = names[i]; } else { int num = m[names[i]]; while (m.count(names[i] + &amp;#34;(&amp;#34; + to_string(num) + &amp;#34;)&amp;#34;)) { num++; } res[i] = names[i] + &amp;#34;(&amp;#34; + to_string(num) + &amp;#34;)&amp;#34;; m[names[i]] = num + 1; m[res[i]]++; } } return res; } }; 5442.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode Weekly Contest: 194&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
