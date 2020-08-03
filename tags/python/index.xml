@@ -5,7 +5,7 @@
     <link>https://github.abcdlsj.io/tags/python/</link>
     <description>Recent content in Python on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 21 Jan 2019 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 21 Sep 2018 00:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://github.abcdlsj.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,11 +13,11 @@
     <item>
       <title>pip not found</title>
       <link>https://github.abcdlsj.io/post/pip-not-found/</link>
-      <pubDate>Mon, 21 Jan 2019 00:00:00 +0800</pubDate>
+      <pubDate>Fri, 21 Sep 2018 00:00:00 +0800</pubDate>
       
       <guid>https://github.abcdlsj.io/post/pip-not-found/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;我在linux环境下执行pip intsall xxx 时报错zsh: command not found:pip，当然这应该是切换shell的问题,其实最好解决办法就是不用on-my-zsh&amp;hellip;&amp;hellip;&lt;/p&gt;
+&lt;p&gt;我在linux环境下执行pip intsall xxx 时报错 zsh: command not found:pip，当然这应该是切换shell的问题,其实最好解决办法就是不用on-my-zsh &amp;hellip;&amp;hellip;&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

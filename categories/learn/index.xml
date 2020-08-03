@@ -5,10 +5,21 @@
     <link>https://github.abcdlsj.io/categories/learn/</link>
     <description>Recent content in learn on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 28 Jun 2020 07:47:41 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 24 Jul 2020 13:45:06 +0800</lastBuildDate>
     
 	<atom:link href="https://github.abcdlsj.io/categories/learn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ZuoChengYun Algorithm Notes (WIP)</title>
+      <link>https://github.abcdlsj.io/post/zuosheng-algorithm-notes/</link>
+      <pubDate>Fri, 24 Jul 2020 13:45:06 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/zuosheng-algorithm-notes/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;程序员代码面试指南刷题总结&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
     
     <item>
       <title>LeetCode Biweekly Contest:29 &amp;&amp; Weekly Contest:195</title>
@@ -70,14 +81,7 @@
       
       <guid>https://github.abcdlsj.io/post/mit-6.828-lab2simple-xv6-shell/</guid>
       <description>Lab: Simple xv6 shell
-  希望两天后写完（不可能！明天考试，后天课设答辩，我都还没开始。。。）
--- 06-17 ⏲️ 11:50
-赶着补录完成了课设答辩（无力吐槽某专业了，考研率高，上研率低，就业质量差，专业设置真的合理？死堆没用的课程有用？学得越多越好（190 学分）？虽然可能大家心知肚明，但是呵呵）
--- -06-20 ⏲️ 12:20
-说实话，我竟然无从下手（不是完全不知道怎么做，而是不知道怎么做比较好，看来还是不太熟悉类 Linux 的底层），不知道是我对 xv6 不了解（准备对照 Linux 的底层实现来理解 xv6）还是对 c 语言不熟悉（翻了下 K&amp;amp;R 的 c 语言书，我 c 学的确实不好），翻了别人仓库，也没有看到一个很优雅简洁的实现
-如果有更好的实现，我会来更新的，不能浪费时间了
--- 06-21 ⏲️ 21:25
- #include &amp;#34;kernel/fcntl.h&amp;#34;#include &amp;#34;kernel/param.h&amp;#34;#include &amp;#34;kernel/types.h&amp;#34;#include &amp;#34;user/user.h&amp;#34; #define MAXSIZE 128  void redirect(int d, int pd[]) { close(d); dup(pd[d]); close(pd[0]); close(pd[1]); } char *splitpipe(char *cmd) { for (; *cmd &amp;amp;&amp;amp; *cmd != &amp;#39;|&amp;#39;; cmd++) ; if (*cmd == &amp;#39;|&amp;#39;) { *cmd++ = &amp;#39;\0&amp;#39;; return cmd; } return 0; } int isspace(char c) { return c == &amp;#39; &amp;#39; || c == &amp;#39;\t&amp;#39; || c == &amp;#39;\n&amp;#39;; } void execcmd(char *cmd) { char *argv[MAXARG]; int argc = 0, inpos = 0, outpos = 0; for (; *cmd; *cmd++ = &amp;#39;\0&amp;#39;) { if (!</description>
+   #include &amp;#34;kernel/fcntl.h&amp;#34;#include &amp;#34;kernel/param.h&amp;#34;#include &amp;#34;kernel/types.h&amp;#34;#include &amp;#34;user/user.h&amp;#34; #define MAXSIZE 128  void redirect(int d, int pd[]) { close(d); dup(pd[d]); close(pd[0]); close(pd[1]); } char *splitpipe(char *cmd) { for (; *cmd &amp;amp;&amp;amp; *cmd != &amp;#39;|&amp;#39;; cmd++) ; if (*cmd == &amp;#39;|&amp;#39;) { *cmd++ = &amp;#39;\0&amp;#39;; return cmd; } return 0; } int isspace(char c) { return c == &amp;#39; &amp;#39; || c == &amp;#39;\t&amp;#39; || c == &amp;#39;\n&amp;#39;; } void execcmd(char *cmd) { char *argv[MAXARG]; int argc = 0, inpos = 0, outpos = 0; for (; *cmd; *cmd++ = &amp;#39;\0&amp;#39;) { if (!</description>
     </item>
     
     <item>
@@ -87,25 +91,12 @@
       
       <guid>https://github.abcdlsj.io/post/mit-6.828-lab1xv6-and-unix-utilities/</guid>
       <description>Lab: Xv6 and Unix utilities
-  最近小半个月，很多事情都不想做，于是索性全部时间看动漫去了（花了半个月把一直想看的火影看得差不多了）。一方面，我要秋招，很多知识点掌握得不够牢固，牢固了也不一定说得出来；另一方面，学校事情非常多（我认为很多，一堆课设、实验、作业，偶尔还要交些垃圾东西，我都准备课设找代写，可惜，还没找到，学校要求还是挺高的，单片机课设竟然要求 20% 汇编。。。），根本不想去看书，写代码。但是看到很多人找到很好的实习，秋招也很快开始了，然后又觉得自己好像从放假回来没有太大的长进（感觉我就像在原地转圈一样）。所以，我想要从 圈 中出来，放弃不切实际的想法，多看书，多总结，多写 lab。我现在对自己非常清楚，只要没东西限制我，我真的没有自制力！
--- 06-16
-基本完成实验了，但是一些细节自己还是没处理好，有的地方也不是特别清晰（对，就是 primes），明天应该会再看下别人的实现，然后多完善一下 lab1
+  基本完成实验了，但是一些细节自己还是没处理好，有的地方也不是特别清晰（对，就是 primes），明天应该会再看下别人的实现，然后多完善一下 lab1
 -- 06-17 ⏲️ 01:30
 又看了会并行素数筛，go 版本很好理解，至于实验，嗯，我是 fw。。。
 继续看，继续学（今天原本要停电，都做好看一天动漫的准备了。。。然后早上起床发现不停了。。。）
 -- 06-17 ⏲️ 11:30
  xv6 System Call    system call description     fork() Create a process   exit(xstatus) Terminate the current process with xstatus indicating success or failure   wait(*xstatus) Wait for a child process to exit and copy the child’s exit status to xstatus   kill(pid) Terminate process pid   getpid() Return the current process’s pid   sleep(n) Sleep for n clock ticks   exec(filename, *argv) Load an executable file and execute it   sbrk(n) Grow process’s memory by n bytes   open(filename, flags) Open a file; the flags indicate read/write   read(fd, buf, n) Read n bytes from an open file into buf   write(fd, buf, n) Write n bytes to an open file   close(fd) Release open file fd   dup(fd) Duplicate fd   pipe(p) Create a pipe and return fd’s in p   chdir(dirname) Change the current directory   mkdir(dirname) Create a new directory   mknod(name, major, minor) Create a device file   fstat(fd) Return info about an open file   link(f1, f2) Create another name (f2) for the file f1   unlink(filename) Remove a file    sleep Implement the UNIX program sleep for xv6; your sleep should pause for a user-specified number of ticks.</description>
-    </item>
-    
-    <item>
-      <title>MIT 6.824 Learning: Raft Paper Reading Notes (WIP)</title>
-      <link>https://github.abcdlsj.io/post/mit-6.824-learningraft-paper/</link>
-      <pubDate>Sun, 14 Jun 2020 17:42:58 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/mit-6.824-learningraft-paper/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Raft 论文阅读笔记&lt;/p&gt;
-&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -146,17 +137,6 @@
       <guid>https://github.abcdlsj.io/post/leetcode-patternbinary-search/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;LeetCode 刷题总结之：二分查找&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Operating System Notes  (WIP)</title>
-      <link>https://github.abcdlsj.io/post/operating-system-interview/</link>
-      <pubDate>Mon, 01 Jun 2020 18:43:29 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/operating-system-interview/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;操作系统知识点总结&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -223,7 +203,7 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
       
       <guid>https://github.abcdlsj.io/post/%E4%BD%BF%E7%94%A8%E5%93%91%E5%85%83%E9%87%8D%E8%BD%BD-prefix-postfix-plus-plus/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;最近因为选择找工作的原因，在准备春招实习面试的知识，好多东西不太会，之前看过的书有些都忘了（自闭了），希望我能够找到一个好的实习，前段时间粗略的复习了一下 C++，现在准备好好的复习一下 C++ 比较繁琐的方面，写博文记录一下我认为网上写的比较少的点。&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -245,7 +225,7 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
       
       <guid>https://github.abcdlsj.io/post/sicp-2-dot-42-%E5%85%AB%E7%9A%87%E5%90%8E%E8%B0%9C%E9%A2%98/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;去年一月就打算认真读下 SICP 的，但是当时读了第一章就放弃了，因为里面习题太多了！！!所以没坚持下去，今年 2020，刚好学校延迟开学，所以打算专心看一下，我给自己制定了七天 SICP 的任务（打算看完前三章），现在是第三天，第二章也看了一半了，习题真的多，我打算改变策略了，习题跳着做就好了。。。&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -334,6 +314,7 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
       <guid>https://github.abcdlsj.io/post/bigdata_env/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;上学期参加了联想杯大数据比赛的校内选拔，“领阵磨枪”的我竟然拿了第二（选拔三人），开学这几天基本上就是配置环境。感觉没啥意思，应用层面又不会，初赛我们队因为队友都有事，所以就花了半天。。最后果然没进。&lt;/p&gt;
+&lt;p&gt;自己练习写了点爬虫，写了点 Python 可视化就没其他的了&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -395,17 +376,6 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
     </item>
     
     <item>
-      <title>pip not found</title>
-      <link>https://github.abcdlsj.io/post/pip-not-found/</link>
-      <pubDate>Mon, 21 Jan 2019 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/pip-not-found/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;我在linux环境下执行pip intsall xxx 时报错zsh: command not found:pip，当然这应该是切换shell的问题,其实最好解决办法就是不用on-my-zsh&amp;hellip;&amp;hellip;&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>安装 TensorFlow</title>
       <link>https://github.abcdlsj.io/post/%E5%AE%89%E8%A3%85tensorflow/</link>
       <pubDate>Sat, 10 Nov 2018 00:00:00 +0800</pubDate>
@@ -424,6 +394,17 @@ Linux 检测 C/C++ 内存泄漏两种方法&lt;/p&gt;
       <guid>https://github.abcdlsj.io/post/sklearn%E9%80%9A%E7%94%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;sklearn 基础学习&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>pip not found</title>
+      <link>https://github.abcdlsj.io/post/pip-not-found/</link>
+      <pubDate>Fri, 21 Sep 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/pip-not-found/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;我在linux环境下执行pip intsall xxx 时报错 zsh: command not found:pip，当然这应该是切换shell的问题,其实最好解决办法就是不用on-my-zsh &amp;hellip;&amp;hellip;&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
