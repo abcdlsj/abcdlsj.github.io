@@ -305,15 +305,15 @@ LeetCode 刷题总结之：二分查找
 <p>-- wikipedia</p>
 </blockquote>
 <blockquote>
-<p>只有 PUSH，才有 POP</p>
-<p>-- 沃兹基 · 硕德（06-01）</p>
-<p>咕咕！咕咕咕咕（神啊！救救我吧）</p>
-<p>-- 06-22 ⏲️ 09:55</p>
-<p>还是要面对的。。。。</p>
-<p>-- 07-28 ⏲️ 22:30</p>
-<p>弄了半天，晕了。。。。</p>
-<p>不管了，暂时不写了，等下次温故知新</p>
-<p>-- 07-30 ⏲️ 17:47</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
 </blockquote>
 <h2 id="浅谈二分查找">浅谈二分查找</h2>
 <blockquote>
@@ -386,27 +386,33 @@ LeetCode 刷题总结之：二分查找
 
         <span style="color:#66d9ef">while</span> (le <span style="color:#f92672">&lt;=</span> ri) {
             <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> le <span style="color:#f92672">+</span> (ri <span style="color:#f92672">-</span> le) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
-            <span style="color:#66d9ef">if</span> (nums[mid] <span style="color:#f92672">==</span> target) <span style="color:#66d9ef">return</span> mid;
 
-            <span style="color:#66d9ef">if</span> (nums[mid] <span style="color:#f92672">&gt;=</span> nums[le]) {
-                <span style="color:#66d9ef">if</span> (nums[le] <span style="color:#f92672">&lt;=</span> target <span style="color:#f92672">&amp;&amp;</span> target <span style="color:#f92672">&lt;</span> nums[mid]) {
+            <span style="color:#66d9ef">if</span> (nums[mid] <span style="color:#f92672">==</span> target) <span style="color:#66d9ef">return</span> mid; 
+            <span style="color:#75715e">// 发生这个条件的时候，肯定代表 [le, mid] 之间是有序的，我们只能判断有序部分
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (nums[mid] <span style="color:#f92672">&gt;=</span> nums[le]) {
+                <span style="color:#75715e">// 为什么要 nums[le] &lt;= target;
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// 注意查找区间
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (nums[mid] <span style="color:#f92672">&gt;</span> target <span style="color:#f92672">&amp;&amp;</span> nums[le] <span style="color:#f92672">&lt;=</span> target) {
                     ri <span style="color:#f92672">=</span> mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
                 } <span style="color:#66d9ef">else</span> {
                     le <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
                 }
-            } <span style="color:#66d9ef">else</span> {
-                <span style="color:#66d9ef">if</span> (nums[ri] <span style="color:#f92672">&gt;=</span> target <span style="color:#f92672">&amp;&amp;</span> target <span style="color:#f92672">&gt;</span> nums[mid]) {
+            } <span style="color:#66d9ef">else</span> { <span style="color:#75715e">// [mid, ri] 之间有序
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (nums[mid] <span style="color:#f92672">&lt;</span> target <span style="color:#f92672">&amp;&amp;</span> nums[ri] <span style="color:#f92672">&gt;=</span> target) {
                     le <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
                 } <span style="color:#66d9ef">else</span> {
                     ri <span style="color:#f92672">=</span> mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
                 }
             }
-        }
-        
+        }  
+
         <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
     }
 };
 </code></pre></div><h4 id="153-寻找旋转排序数组中的最小值httpsleetcode-cncomproblemsfind-minimum-in-rotated-sorted-array"><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/">153. 寻找旋转排序数组中的最小值</a></h4>
+<blockquote>
+<p>有个评论写得很很好，“前面一堆０，后面一堆１，然后寻找第一个１的二分问题”</p>
+</blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
     <span style="color:#66d9ef">int</span> findMin(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {

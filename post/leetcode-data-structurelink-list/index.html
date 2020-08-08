@@ -413,8 +413,9 @@ LeetCode 刷题总结：链表
 </code></pre></div><h4 id="24-两两交换链表中的节点httpsleetcode-cncomproblemsswap-nodes-in-pairs"><a href="https://leetcode-cn.com/problems/swap-nodes-in-pairs/">24. 两两交换链表中的节点</a></h4>
 <blockquote>
 <p>n25 的简单版，这道题我记得两个月前写，思路都不是很清晰，现在非常清晰（没看自己之前的提交，一口气完成了解答，并且答案和之前写的题解相同，PS. 大多数题我都会提交自己认为最简单快捷的实现）</p>
-<p>链表的题，一定一定要自己画下过程，和回溯一样，知道流程之后基本大多数题都会有思路</p>
+<p>链表的题，一定一定要自己画下过程，知道流程之后基本大多数题都会有思路</p>
 </blockquote>
+<p><strong>递归和非递归</strong></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
 </span><span style="color:#75715e"> * Definition for singly-linked list.
 </span><span style="color:#75715e"> * struct ListNode {
@@ -431,6 +432,24 @@ LeetCode 刷题总结：链表
         head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> swapPairs(node<span style="color:#f92672">-&gt;</span>next);
         node<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> head;
         <span style="color:#66d9ef">return</span> node;
+    }
+};
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    ListNode<span style="color:#f92672">*</span> swapPairs(ListNode<span style="color:#f92672">*</span> head) {
+        <span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> head;
+        ListNode<span style="color:#f92672">*</span> pre <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>), <span style="color:#f92672">*</span>cur <span style="color:#f92672">=</span> head, <span style="color:#f92672">*</span>nhead <span style="color:#f92672">=</span> pre;
+
+        <span style="color:#66d9ef">while</span> (cur <span style="color:#f92672">&amp;&amp;</span> cur<span style="color:#f92672">-&gt;</span>next) {
+            ListNode<span style="color:#f92672">*</span> nxt <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+            cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> nxt<span style="color:#f92672">-&gt;</span>next;
+            nxt<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> cur;
+            pre<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> nxt;
+            pre <span style="color:#f92672">=</span> cur;
+            cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+        }
+
+        <span style="color:#66d9ef">return</span> nhead<span style="color:#f92672">-&gt;</span>next;
     }
 };
 </code></pre></div><h4 id="25-k-个一组翻转链表httpsleetcode-cncomproblemsreverse-nodes-in-k-group"><a href="https://leetcode-cn.com/problems/reverse-nodes-in-k-group/">25. K 个一组翻转链表</a></h4>
