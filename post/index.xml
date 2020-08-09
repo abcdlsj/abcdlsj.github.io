@@ -5,10 +5,21 @@
     <link>https://github.abcdlsj.io/post/</link>
     <description>Recent content in Posts on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 03 Aug 2020 09:18:28 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 09 Aug 2020 00:01:37 +0800</lastBuildDate>
     
 	<atom:link href="https://github.abcdlsj.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>LeetCode Biweekly Contest:32 &amp;&amp; Weekly Contest: 201</title>
+      <link>https://github.abcdlsj.io/post/leetcode-biweekly-contest32-weekly-contest201/</link>
+      <pubDate>Sun, 09 Aug 2020 00:01:37 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/leetcode-biweekly-contest32-weekly-contest201/</guid>
+      <description>LeetCode 双周赛 32 + 周赛 201 解题报告
+ 双周赛 K 次操作转变字符串  我最开始用的每次 +26，导致 tle 了好几次（下次千万不要刷新了，刷新之前的错误都没了，导致改了代码我以为我又可以了，结果提交就 tle），之后换成 map，就没啥问题了
+ class Solution { public: bool canConvertString(string s, string t, int k) { if (s.size() != t.size()) return false; map&amp;lt;int, int&amp;gt; map; for (int i = 0; i &amp;lt; s.size(); i++) { int x = t[i] - s[i]; x = x &amp;lt; 0 ? x + 26 : x; map[x]++; } for (auto ele : map) { if (ele.</description>
+    </item>
     
     <item>
       <title>Think About This Blog</title>

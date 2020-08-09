@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='LeetCode 双周赛 32 &#43; 周赛 201 解题报告
+ 双周赛 K 次操作转变字符串  我最开始用的每次 &#43;26，导致 tle 了好几次（下次千万不要刷新了，刷新之前的错误都没了，导致改了代码我以为我又可以了，结果提交就 tle），之后换成 map，就没啥问题了
+ class Solution { public: bool canConvertString(string s, string t, int k) { if (s.size() != t.size()) return false; map&lt;int, int&gt; map; for (int i = 0; i &lt; s.size(); i&#43;&#43;) { int x = t[i] - s[i]; x = x &lt; 0 ? x &#43; 26 : x; map[x]&#43;&#43;; } for (auto ele : map) { if (ele.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='LeetCode Biweekly Contest:32 &amp;&amp; Weekly Contest: 201 • The Real World'>
+<meta property='og:description' content='LeetCode 双周赛 32 &#43; 周赛 201 解题报告
+ 双周赛 K 次操作转变字符串  我最开始用的每次 &#43;26，导致 tle 了好几次（下次千万不要刷新了，刷新之前的错误都没了，导致改了代码我以为我又可以了，结果提交就 tle），之后换成 map，就没啥问题了
+ class Solution { public: bool canConvertString(string s, string t, int k) { if (s.size() != t.size()) return false; map&lt;int, int&gt; map; for (int i = 0; i &lt; s.size(); i&#43;&#43;) { int x = t[i] - s[i]; x = x &lt; 0 ? x &#43; 26 : x; map[x]&#43;&#43;; } for (auto ele : map) { if (ele.'>
+<meta property='og:url' content='https://github.abcdlsj.io/post/leetcode-biweekly-contest32-weekly-contest201/'>
+<meta property='og:site_name' content='The Real World'>
+<meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='Contest'><meta property='article:tag' content='LeetCode'><meta property='article:published_time' content='2020-08-09T00:01:37&#43;08:00'/><meta property='article:modified_time' content='2020-08-09T00:01:37&#43;08:00'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.72.0" />
+
+  <title>LeetCode Biweekly Contest:32 &amp;&amp; Weekly Contest: 201 • The Real World</title>
+  <link rel='canonical' href='https://github.abcdlsj.io/post/leetcode-biweekly-contest32-weekly-contest201/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-post has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      ABCDLSJ
+      </a>
+    </h2>
+    <div class='desc'>
+    C/C++/Golang/Lisp/Python Emacs/Arch/Gentoo/Google Dog/Cat
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/6.824/' style='font-size:1em'>6.824</a>
+      </li><li>
+        <a href='/tags/6.828/' style='font-size:1.0833333333333333em'>6.828</a>
+      </li><li>
+        <a href='/tags/algorithm/' style='font-size:1em'>Algorithm</a>
+      </li><li>
+        <a href='/tags/arch/' style='font-size:1.0833333333333333em'>Arch</a>
+      </li><li>
+        <a href='/tags/aria2/' style='font-size:1em'>aria2</a>
+      </li><li>
+        <a href='/tags/backtracking/' style='font-size:1em'>BackTracking</a>
+      </li><li>
+        <a href='/tags/baidu/' style='font-size:1em'>baidu</a>
+      </li><li>
+        <a href='/tags/bigdata/' style='font-size:1em'>BigData</a>
+      </li><li>
+        <a href='/tags/binary-search/' style='font-size:1em'>Binary Search</a>
+      </li><li>
+        <a href='/tags/blog/' style='font-size:1.1666666666666667em'>blog</a>
+      </li><li>
+        <a href='/tags/chmod/' style='font-size:1em'>chmod</a>
+      </li><li>
+        <a href='/tags/cmder/' style='font-size:1em'>Cmder</a>
+      </li><li>
+        <a href='/tags/conky/' style='font-size:1em'>conky</a>
+      </li><li>
+        <a href='/tags/contest/' style='font-size:1.25em'>Contest</a>
+      </li><li>
+        <a href='/tags/cpp/' style='font-size:1.0833333333333333em'>CPP</a>
+      </li><li>
+        <a href='/tags/csapp/' style='font-size:1em'>CSAPP</a>
+      </li><li>
+        <a href='/tags/data-structure/' style='font-size:1.0833333333333333em'>Data Structure</a>
+      </li><li>
+        <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
+      </li><li>
+        <a href='/tags/dynamic-programming/' style='font-size:1em'>Dynamic Programming</a>
+      </li><li>
+        <a href='/tags/elisp/' style='font-size:1em'>elisp</a>
+      </li><li>
+        <a href='/tags/emacs/' style='font-size:1.1666666666666667em'>Emacs</a>
+      </li><li>
+        <a href='/tags/ffmepg/' style='font-size:1em'>ffmepg</a>
+      </li><li>
+        <a href='/tags/gdb/' style='font-size:1em'>gdb</a>
+      </li><li>
+        <a href='/tags/google-bbr/' style='font-size:1em'>Google bbr</a>
+      </li><li>
+        <a href='/tags/h5ai/' style='font-size:1em'>h5ai</a>
+      </li><li>
+        <a href='/tags/hexo/' style='font-size:1em'>hexo</a>
+      </li><li>
+        <a href='/tags/hugo/' style='font-size:1.0833333333333333em'>hugo</a>
+      </li><li>
+        <a href='/tags/interview/' style='font-size:1em'>Interview</a>
+      </li><li>
+        <a href='/tags/keyboard/' style='font-size:1em'>KeyBoard</a>
+      </li><li>
+        <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
+      </li><li>
+        <a href='/tags/lenovo/' style='font-size:1em'>Lenovo</a>
+      </li><li>
+        <a href='/tags/link-list/' style='font-size:1em'>Link List</a>
+      </li><li>
+        <a href='/tags/linux/' style='font-size:1.3333333333333333em'>linux</a>
+      </li><li>
+        <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
+      </li><li>
+        <a href='/tags/markdown/' style='font-size:1em'>Markdown</a>
+      </li><li>
+        <a href='/tags/mysql/' style='font-size:1em'>Mysql</a>
+      </li><li>
+        <a href='/tags/nextcloud/' style='font-size:1em'>NextCloud</a>
+      </li><li>
+        <a href='/tags/org/' style='font-size:1.25em'>org</a>
+      </li><li>
+        <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
+      </li><li>
+        <a href='/tags/os/' style='font-size:1.3333333333333333em'>OS</a>
+      </li><li>
+        <a href='/tags/package/' style='font-size:1em'>package</a>
+      </li><li>
+        <a href='/tags/pip/' style='font-size:1em'>pip</a>
+      </li><li>
+        <a href='/tags/python/' style='font-size:1.25em'>Python</a>
+      </li><li>
+        <a href='/tags/sicp/' style='font-size:1.1666666666666667em'>SICP</a>
+      </li><li>
+        <a href='/tags/sklearn/' style='font-size:1em'>Sklearn</a>
+      </li><li>
+        <a href='/tags/sliding-window/' style='font-size:1em'>Sliding Window</a>
+      </li><li>
+        <a href='/tags/ssr/' style='font-size:1em'>ssr</a>
+      </li><li>
+        <a href='/tags/tensorflow/' style='font-size:1em'>Tensorflow</a>
+      </li><li>
+        <a href='/tags/tree/' style='font-size:1em'>Tree</a>
+      </li><li>
+        <a href='/tags/v2ray/' style='font-size:1.1666666666666667em'>v2ray</a>
+      </li><li>
+        <a href='/tags/xv6/' style='font-size:1.0833333333333333em'>xv6</a>
+      </li><li>
+        <a href='/tags/zsh/' style='font-size:1em'>zsh</a>
+      </li><li>
+        <a href='/tags/%E5%8D%9C%E7%AE%97%E5%AD%90/' style='font-size:1em'>卜算子</a>
+      </li><li>
+        <a href='/tags/%E6%80%9D%E6%83%B3/' style='font-size:1em'>思想</a>
+      </li><li>
+        <a href='/tags/%E6%84%9F%E6%82%9F/' style='font-size:1em'>感悟</a>
+      </li><li>
+        <a href='/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/' style='font-size:1em'>树莓派</a>
+      </li><li>
+        <a href='/tags/%E7%94%9F%E6%B4%BB/' style='font-size:1em'>生活</a>
+      </li><li>
+        <a href='/tags/%E8%BE%93%E5%85%A5%E6%B3%95/' style='font-size:1em'>输入法</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/'>Home</a>
+      </li><li class='item'>
+        <a href='/post/'>Archives</a>
+      </li><li class='item'>
+        <a href='/categories/'>Categories</a>
+      </li><li class='item'>
+        <a href='/tags/leetcode'>LeetCode</a>
+      </li><li class='item'>
+        <a href='/about/'>About</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>The Real World</p><p class='desc site-desc'>The stars never rise but I feel the bright eyes.</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>LeetCode Biweekly Contest:32 &amp;&amp; Weekly Contest: 201</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-08-09T00:01:37&#43;08:00'>2020, Aug 09</time>
+</span>
+
+  
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+3 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+<details class='container entry-toc'>
+  <summary class='title'>
+    <span>Table of Contents</span>
+  </summary>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#双周赛">双周赛</a>
+      <ul>
+        <li><a href="#k-次操作转变字符串">K 次操作转变字符串</a></li>
+        <li><a href="#平衡括号字符串的最少插入次数">平衡括号字符串的最少插入次数</a></li>
+      </ul>
+    </li>
+    <li><a href="#周赛">周赛</a>
+      <ul>
+        <li><a href="#整理字符串">整理字符串</a></li>
+        <li><a href="#找出第-n-个二进制字符串中的第-k-位">找出第 N 个二进制字符串中的第 K 位</a></li>
+        <li><a href="#和为目标值的最大数目不重叠非空子数组数目">和为目标值的最大数目不重叠非空子数组数目</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</details>
+
+
+  <div class='container entry-content'>
+  <blockquote>
+<p>LeetCode 双周赛 32 + 周赛 201 解题报告</p>
+</blockquote>
+<h2 id="双周赛">双周赛</h2>
+<h3 id="k-次操作转变字符串">K 次操作转变字符串</h3>
+<blockquote>
+<p>我最开始用的每次 +26，导致 tle 了好几次（下次千万不要刷新了，刷新之前的错误都没了，导致改了代码我以为我又可以了，结果提交就 tle），之后换成 map，就没啥问题了</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">bool</span> canConvertString(string s, string t, <span style="color:#66d9ef">int</span> k) {
+        <span style="color:#66d9ef">if</span> (s.size() <span style="color:#f92672">!=</span> t.size()) <span style="color:#66d9ef">return</span> false;
+        map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> map;
+        
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> s.size(); i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> t[i] <span style="color:#f92672">-</span> s[i];
+            x <span style="color:#f92672">=</span> x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">26</span> <span style="color:#f92672">:</span> x;
+            map[x]<span style="color:#f92672">++</span>;
+        }
+        
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> ele : map) {
+            <span style="color:#66d9ef">if</span> (ele.first <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> ele.first, y <span style="color:#f92672">=</span> ele.second;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> y <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+                <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">+</span> i <span style="color:#f92672">*</span> <span style="color:#ae81ff">26</span> <span style="color:#f92672">&gt;</span> k) <span style="color:#66d9ef">return</span> false;
+            }
+        }  
+        <span style="color:#66d9ef">return</span> true;
+    }
+};
+</code></pre></div><p><strong>赛后发现这样简单点</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">bool</span> canConvertString(string s, string t, <span style="color:#66d9ef">int</span> k) {
+        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.size(), m <span style="color:#f92672">=</span> t.size();
+        <span style="color:#66d9ef">if</span> (m <span style="color:#f92672">!=</span> n) <span style="color:#66d9ef">return</span> false;
+        unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> umap;
+        
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (s[i] <span style="color:#f92672">==</span> t[i]) <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> (t[i] <span style="color:#f92672">-</span> s[i] <span style="color:#f92672">+</span> <span style="color:#ae81ff">26</span>) <span style="color:#f92672">%</span> <span style="color:#ae81ff">26</span>;
+            umap[tmp]<span style="color:#f92672">++</span>;
+            <span style="color:#66d9ef">if</span> (tmp <span style="color:#f92672">+</span> (umap[tmp] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">26</span> <span style="color:#f92672">&gt;</span> k) <span style="color:#66d9ef">return</span> false;
+        }
+        
+        <span style="color:#66d9ef">return</span> true;
+    }
+};
+</code></pre></div><h3 id="平衡括号字符串的最少插入次数">平衡括号字符串的最少插入次数</h3>
+<blockquote>
+<p>写的时候开始想复杂了，没写出来（脑袋一直萦绕奇怪的解法），赛后发现我是傻逼，直接处理不就好了。。。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> minInsertions(string s) {
+        <span style="color:#66d9ef">int</span> le <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> s.size(); i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (s[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;(&#39;</span>) {
+                le<span style="color:#f92672">++</span>;
+            } <span style="color:#66d9ef">else</span> {
+                <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> s.size() <span style="color:#f92672">&amp;&amp;</span> s[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;)&#39;</span>) {
+                    <span style="color:#66d9ef">if</span> (le <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+                        ans<span style="color:#f92672">++</span>;
+                    } <span style="color:#66d9ef">else</span> {
+                        le<span style="color:#f92672">--</span>;
+                    }
+                    i<span style="color:#f92672">++</span>;
+                } <span style="color:#66d9ef">else</span> {
+                    ans<span style="color:#f92672">++</span>;
+                    <span style="color:#66d9ef">if</span> (le <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+                        ans<span style="color:#f92672">++</span>;
+                    } <span style="color:#66d9ef">else</span> {
+                        le<span style="color:#f92672">--</span>;
+                    }
+                }
+            }
+        }
+        
+        <span style="color:#66d9ef">return</span> ans <span style="color:#f92672">+</span> le <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>;
+    }
+};
+</code></pre></div><h2 id="周赛">周赛</h2>
+<blockquote>
+<p>提交前三道，比较简单，但是排名低，写得比较慢</p>
+<p>不去看大佬的题解了，就不优化了（好想 AK 一次周赛</p>
+</blockquote>
+<h3 id="整理字符串">整理字符串</h3>
+<blockquote>
+<p>直接处理就好了</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    string makeGood(string s) {
+        string res;
+        stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> stack;
+        
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> s.size(); i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>stack.empty() <span style="color:#f92672">&amp;&amp;</span> (stack.top() <span style="color:#f92672">==</span> (s[i] <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span>) <span style="color:#f92672">||</span> (stack.top() <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span>) <span style="color:#f92672">==</span> s[i])) {
+                stack.pop();
+            } <span style="color:#66d9ef">else</span> {
+                stack.push(s[i]);
+            }
+        }
+            
+        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>stack.empty()) {
+            res <span style="color:#f92672">+=</span> stack.top();
+            stack.pop();
+        }
+        
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">string</span>(res.rbegin(), res.rend());
+    }
+};
+</code></pre></div><h3 id="找出第-n-个二进制字符串中的第-k-位">找出第 N 个二进制字符串中的第 K 位</h3>
+<blockquote>
+<p>查找规律就知道，每次把 <code>K</code> 定位到上一个 <code>S</code> 的位置，然后记录下中间翻转的次数 <code>cnt</code>，最后一次翻转就好了</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">char</span> findKthBit(<span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> k) {
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> lens(n, <span style="color:#ae81ff">1</span>);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+            lens[i] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> lens[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+        }
+        
+        <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">char</span> c;
+        
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> (lens[i] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> ) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+            <span style="color:#66d9ef">if</span> (tmp <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> k <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+                c <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0&#39;</span>;
+                <span style="color:#66d9ef">break</span>;
+            } 
+            <span style="color:#66d9ef">if</span> (k <span style="color:#f92672">==</span> tmp) {
+                c <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;1&#39;</span>;
+                <span style="color:#66d9ef">break</span>;
+            } <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (k <span style="color:#f92672">&lt;</span> tmp) {
+                <span style="color:#66d9ef">continue</span>;
+            } <span style="color:#66d9ef">else</span> {
+                <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> k <span style="color:#f92672">-</span> tmp;
+                k <span style="color:#f92672">=</span> tmp <span style="color:#f92672">-</span> x;
+                cnt<span style="color:#f92672">++</span>;
+            }
+        }
+        
+        <span style="color:#75715e">// cout &lt;&lt; cnt &lt;&lt; endl;
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">while</span> (cnt<span style="color:#f92672">--</span>) {
+            <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;1&#39;</span>) c <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0&#39;</span>;
+            <span style="color:#66d9ef">else</span> c <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;1&#39;</span>;
+        }
+        
+        <span style="color:#66d9ef">return</span> c;
+    }
+};
+</code></pre></div><h3 id="和为目标值的最大数目不重叠非空子数组数目">和为目标值的最大数目不重叠非空子数组数目</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> maxNonOverlapping(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> target) {
+        unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> map;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
+            nums[i] <span style="color:#f92672">+=</span> nums[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+        }
+        
+        map[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        
+        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, le <span style="color:#f92672">=</span> INT_MAX, ri <span style="color:#f92672">=</span> INT_MIN;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nums.size(); i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> (map.find(nums[i] <span style="color:#f92672">-</span> target) <span style="color:#f92672">!=</span> map.end()) {
+                <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> map[nums[i] <span style="color:#f92672">-</span> target] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">=</span> i;     
+                <span style="color:#66d9ef">if</span> (y <span style="color:#f92672">&lt;</span> le <span style="color:#f92672">||</span> x <span style="color:#f92672">&gt;</span> ri) {
+                    ans<span style="color:#f92672">++</span>;
+                    le <span style="color:#f92672">=</span> min(le, x);
+                    ri <span style="color:#f92672">=</span> max(ri, y);
+                }
+            }
+            map[nums[i]] <span style="color:#f92672">=</span> i;
+        }
+        
+        <span style="color:#66d9ef">return</span> ans;
+    }
+};
+</code></pre></div>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/learn/'>learn</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/contest/'>Contest</a>, <a class='tag' href='/tags/leetcode/'>LeetCode</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/post/think-about-this-blog/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Think About This Blog</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><header>
+    <h4 class='title widget-title'>Catch Me</h4>
+  </header><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/abcdlsj' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:lisongjianshuai@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2018-2020 abcdlsj </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
