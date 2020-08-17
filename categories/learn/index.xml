@@ -5,10 +5,22 @@
     <link>https://github.abcdlsj.io/categories/learn/</link>
     <description>Recent content in learn on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 09 Aug 2020 00:01:37 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 16 Aug 2020 11:58:06 +0800</lastBuildDate>
     
 	<atom:link href="https://github.abcdlsj.io/categories/learn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>LeetCode-Weekly-Contest:202</title>
+      <link>https://github.abcdlsj.io/post/leetcode-weekly-contest202/</link>
+      <pubDate>Sun, 16 Aug 2020 11:58:06 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/leetcode-weekly-contest202/</guid>
+      <description>LeetCode Weekly Contest: 202
+  这周差点忘记了，过了十分钟才参加的（当时都有点不想参加了），然后解决了前三题，花了 35 min（PS. 第三题比第四题难），然后看着第四题懵逼了，其实一点不难（当时在别人家把电脑放在膝盖上写的。。），最后排名也一般 500 +（没有内推资格。。。），这周难度不大，很有机会 AK 的，没把握好机会，希望下次排名好点吧（想去面试微软，但是我感觉怎么着也得稳前 200 才有机会）
+ 5489. 两球之间的磁力  二分，主要是 间隔 = 小球数 - 1
+ class Solution { public: int maxDistance(vector&amp;lt;int&amp;gt;&amp;amp; position, int m) { sort(position.begin(), position.end()); int le = 0, ri = position[position.size() - 1] - position[0]; while (le &amp;lt;= ri) { int mid = le + (ri - le) / 2; if (check(position, m, mid)) { le = mid + 1; } else { ri = mid - 1; } } return le - 1; } bool check(const vector&amp;lt;int&amp;gt;&amp;amp; position, int m, int dis) { int count = 0, prepos = position[0]; for (int i = 1; i &amp;lt; position.</description>
+    </item>
     
     <item>
       <title>LeetCode Biweekly Contest:32 &amp;&amp; Weekly Contest: 201</title>
@@ -19,6 +31,17 @@
       <description>LeetCode 双周赛 32 + 周赛 201 解题报告
  双周赛 K 次操作转变字符串  我最开始用的每次 +26，导致 tle 了好几次（下次千万不要刷新了，刷新之前的错误都没了，导致改了代码我以为我又可以了，结果提交就 tle），之后换成 map，就没啥问题了
  class Solution { public: bool canConvertString(string s, string t, int k) { if (s.size() != t.size()) return false; map&amp;lt;int, int&amp;gt; map; for (int i = 0; i &amp;lt; s.size(); i++) { int x = t[i] - s[i]; x = x &amp;lt; 0 ? x + 26 : x; map[x]++; } for (auto ele : map) { if (ele.</description>
+    </item>
+    
+    <item>
+      <title>LeetCode Weekly Contest: 200</title>
+      <link>https://github.abcdlsj.io/post/leetcode-weekly-contest200/</link>
+      <pubDate>Sun, 02 Aug 2020 13:38:32 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/leetcode-weekly-contest200/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode Weekly Contest: 200&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
