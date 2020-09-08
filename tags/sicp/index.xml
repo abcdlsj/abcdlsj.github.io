@@ -32,18 +32,5 @@
 &lt;/blockquote&gt;</description>
     </item>
     
-    <item>
-      <title>Macos 配置 SICP 环境</title>
-      <link>https://github.abcdlsj.io/post/sicp%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</link>
-      <pubDate>Mon, 21 Jan 2019 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/sicp%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;最近想学习一下&amp;laquo;计算机程序的构造和解释&amp;raquo;，毕竟是“魔法书”
-但是安装 Scheme过程还是很复杂，对于我们来说，老的 MIT-Scheme非常不友好，而且在 win上需要修改一下才能安装上，所以还是还是安装新的 Scheme版本吧(逃。。)
-但是有一句话&lt;code&gt;只要思想不滑坡，方法总比困难多&lt;/code&gt;，所以我还是想改造下我的 MIT-Scheme，win上我没装，所以只能在 macOS上演示了(黑苹果就是好)，实际上学习的话还是推荐安装 Racket,毕竟比较新&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
   </channel>
 </rss>

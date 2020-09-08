@@ -209,15 +209,6 @@
     </item>
     
     <item>
-      <title>linux</title>
-      <link>https://github.abcdlsj.io/tags/linux/</link>
-      <pubDate>Sat, 22 Feb 2020 21:04:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>SICP</title>
       <link>https://github.abcdlsj.io/tags/sicp/</link>
       <pubDate>Wed, 19 Feb 2020 15:27:00 +0800</pubDate>
@@ -229,27 +220,9 @@
     <item>
       <title>org</title>
       <link>https://github.abcdlsj.io/tags/org/</link>
-      <pubDate>Wed, 05 Feb 2020 13:52:00 +0800</pubDate>
+      <pubDate>Mon, 13 Jan 2020 13:23:00 +0800</pubDate>
       
       <guid>https://github.abcdlsj.io/tags/org/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>package</title>
-      <link>https://github.abcdlsj.io/tags/package/</link>
-      <pubDate>Thu, 30 Jan 2020 12:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/package/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>chmod</title>
-      <link>https://github.abcdlsj.io/tags/chmod/</link>
-      <pubDate>Mon, 13 Jan 2020 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/chmod/</guid>
       <description></description>
     </item>
     
@@ -263,7 +236,7 @@
     </item>
     
     <item>
-      <title>Emacs</title>
+      <title>emacs</title>
       <link>https://github.abcdlsj.io/tags/emacs/</link>
       <pubDate>Sat, 23 Nov 2019 00:00:00 +0800</pubDate>
       
@@ -281,254 +254,11 @@
     </item>
     
     <item>
-      <title>elisp</title>
-      <link>https://github.abcdlsj.io/tags/elisp/</link>
-      <pubDate>Fri, 15 Nov 2019 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/elisp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>BigData</title>
-      <link>https://github.abcdlsj.io/tags/bigdata/</link>
-      <pubDate>Wed, 13 Nov 2019 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/bigdata/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>CSAPP</title>
       <link>https://github.abcdlsj.io/tags/csapp/</link>
       <pubDate>Sun, 13 Oct 2019 00:00:00 +0800</pubDate>
       
       <guid>https://github.abcdlsj.io/tags/csapp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Mysql</title>
-      <link>https://github.abcdlsj.io/tags/mysql/</link>
-      <pubDate>Thu, 13 Jun 2019 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/mysql/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>gdb</title>
-      <link>https://github.abcdlsj.io/tags/gdb/</link>
-      <pubDate>Mon, 15 Apr 2019 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/gdb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>KeyBoard</title>
-      <link>https://github.abcdlsj.io/tags/keyboard/</link>
-      <pubDate>Tue, 19 Mar 2019 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/keyboard/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tensorflow</title>
-      <link>https://github.abcdlsj.io/tags/tensorflow/</link>
-      <pubDate>Sat, 10 Nov 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/tensorflow/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Sklearn</title>
-      <link>https://github.abcdlsj.io/tags/sklearn/</link>
-      <pubDate>Fri, 26 Oct 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/sklearn/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>卜算子</title>
-      <link>https://github.abcdlsj.io/tags/%E5%8D%9C%E7%AE%97%E5%AD%90/</link>
-      <pubDate>Sat, 13 Oct 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/%E5%8D%9C%E7%AE%97%E5%AD%90/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>pip</title>
-      <link>https://github.abcdlsj.io/tags/pip/</link>
-      <pubDate>Fri, 21 Sep 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/pip/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
-      <link>https://github.abcdlsj.io/tags/python/</link>
-      <pubDate>Fri, 21 Sep 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>zsh</title>
-      <link>https://github.abcdlsj.io/tags/zsh/</link>
-      <pubDate>Fri, 21 Sep 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/zsh/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ffmepg</title>
-      <link>https://github.abcdlsj.io/tags/ffmepg/</link>
-      <pubDate>Mon, 10 Sep 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/ffmepg/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>树莓派</title>
-      <link>https://github.abcdlsj.io/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/</link>
-      <pubDate>Mon, 10 Sep 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Google bbr</title>
-      <link>https://github.abcdlsj.io/tags/google-bbr/</link>
-      <pubDate>Tue, 28 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/google-bbr/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>aria2</title>
-      <link>https://github.abcdlsj.io/tags/aria2/</link>
-      <pubDate>Sun, 26 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/aria2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>h5ai</title>
-      <link>https://github.abcdlsj.io/tags/h5ai/</link>
-      <pubDate>Sun, 26 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/h5ai/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>NextCloud</title>
-      <link>https://github.abcdlsj.io/tags/nextcloud/</link>
-      <pubDate>Wed, 22 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/nextcloud/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>v2ray</title>
-      <link>https://github.abcdlsj.io/tags/v2ray/</link>
-      <pubDate>Sat, 18 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/v2ray/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>baidu</title>
-      <link>https://github.abcdlsj.io/tags/baidu/</link>
-      <pubDate>Wed, 15 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/baidu/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Markdown</title>
-      <link>https://github.abcdlsj.io/tags/markdown/</link>
-      <pubDate>Wed, 15 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/markdown/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>输入法</title>
-      <link>https://github.abcdlsj.io/tags/%E8%BE%93%E5%85%A5%E6%B3%95/</link>
-      <pubDate>Tue, 14 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/%E8%BE%93%E5%85%A5%E6%B3%95/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>思想</title>
-      <link>https://github.abcdlsj.io/tags/%E6%80%9D%E6%83%B3/</link>
-      <pubDate>Thu, 02 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/%E6%80%9D%E6%83%B3/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>感悟</title>
-      <link>https://github.abcdlsj.io/tags/%E6%84%9F%E6%82%9F/</link>
-      <pubDate>Thu, 02 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/%E6%84%9F%E6%82%9F/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>生活</title>
-      <link>https://github.abcdlsj.io/tags/%E7%94%9F%E6%B4%BB/</link>
-      <pubDate>Thu, 02 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/%E7%94%9F%E6%B4%BB/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ssr</title>
-      <link>https://github.abcdlsj.io/tags/ssr/</link>
-      <pubDate>Sat, 21 Jul 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/ssr/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>hexo</title>
-      <link>https://github.abcdlsj.io/tags/hexo/</link>
-      <pubDate>Sun, 15 Jul 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/hexo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Cmder</title>
-      <link>https://github.abcdlsj.io/tags/cmder/</link>
-      <pubDate>Sun, 03 Jun 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/tags/cmder/</guid>
       <description></description>
     </item>
     

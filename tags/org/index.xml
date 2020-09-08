@@ -5,21 +5,10 @@
     <link>https://github.abcdlsj.io/tags/org/</link>
     <description>Recent content in org on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 05 Feb 2020 13:52:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 13 Jan 2020 13:23:00 +0800</lastBuildDate>
     
 	<atom:link href="https://github.abcdlsj.io/tags/org/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Org-Mode link</title>
-      <link>https://github.abcdlsj.io/post/org-mode-%E4%B8%AD%E7%9A%84-link-%E5%A4%84%E7%90%86/</link>
-      <pubDate>Wed, 05 Feb 2020 13:52:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/org-mode-%E4%B8%AD%E7%9A%84-link-%E5%A4%84%E7%90%86/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Org-Mode link 处理&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
     
     <item>
       <title>use ox-hugo build blog</title>

@@ -17,9 +17,9 @@
       
       <guid>https://github.abcdlsj.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;上个月末，准备买一台新的笔记本（神船太傻大黑粗），选了好几天，决定从联想小新 13 pro 2020 AMD R7 4800u （代号 Lenovo IdeaPad S540 13ARE）和 yoga14s 4800u 同价版本中挑一个，最后选择了 pro 13（实际上过程还是非常曲折的，大概折腾了快小半个月），昨天货到了，检查了一遍，没发现什么很大的问题，主要问题是华星屏幕有点色差和漏光，不过，对我来说应该不是很严重的问题（毕竟我之前用的神船，可能随便一台就足够满意了），所以没换货，毕竟浪费了挺多时间了，而且换货多半还是华星屏幕。检查之后直接双系统，系统选我最爱的 Arch，搭配上熟悉的 i3wm，太舒服了，之前神舟分辨率（1920x1080）简直瞎眼，gnome 也一样字体总是很糊，现在看着感官完全不一样。16:10 + 2.5k + 4800u，续航也非常可以了（超过 6 个小时），而且也可以调野兽模式、节能模式等等。&lt;/p&gt;
+&lt;p&gt;上个月末，准备买一台新的笔记本，选了好几天，决定从联想小新 13 pro 2020 AMD R7 4800u （代号 Lenovo IdeaPad S540 13ARE）和 yoga14s 4800u 同价版本中挑一个，最后选择了 pro 13（实际上过程还是非常曲折的，大概折腾了快小半个月），昨天货到了，检查了一遍，没发现什么很大的问题，主要问题是华星屏幕有点色差和漏光，然后放在桌子上有点不平，不过，对我来说应该不是很严重的问题，所以没换货。检查之后直接双系统，系统选我最爱的 Arch，搭配上熟悉的 i3wm，之前神舟分辨率（1920x1080）简直瞎眼，gnome 也一样字体总是很糊，现在看着感官完全不一样。16:10 + 2.5k + 4800u，续航也非常可以了（超过 6 个小时），而且也可以调野兽模式、节能模式等等。&lt;/p&gt;
 &lt;p&gt;虽然是 AMD CPU，过程还是算比较简单的，wiki 写得很详细，但是比较分散，这里记录一下遇到几个问题，有些是本子特有的，有些是我傻了吧唧的操作导致的。&lt;/p&gt;
-&lt;p&gt;还有就是，安装的时候进界面会出现亮线，之后把 grub 分辨率改了就好，这种一般是电压不稳定造成的&lt;/p&gt;
+&lt;p&gt;还有就是，安装的时候进界面会出现亮线，之后把 grub 分辨率改了就好（猜的，不过有效），这种一般是电压不稳定造成的&lt;/p&gt;
 &lt;p&gt;本款 ArchWiki 页面：&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://wiki.archlinux.org/index.php/Lenovo_IdeaPad_S540_13ARE&#34;&gt;https://wiki.archlinux.org/index.php/Lenovo_IdeaPad_S540_13ARE&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;-- 07-12&lt;/p&gt;
@@ -72,6 +72,8 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
 &lt;p&gt;-- 08-29 ⏲️ 14:21&lt;/p&gt;
 &lt;p&gt;好了，折腾一天，发现一堆问题，还不如重装前。。。&lt;/p&gt;
 &lt;p&gt;-- 08-29 ⏲️ 21:03&lt;/p&gt;
+&lt;p&gt;回 Arch 了。。Manjaro 发行版很适合一些日常图安装快速，配置简单的用户，但是不适合想要深度定制的用户，而且小问题非常多，比如各种 &lt;code&gt;hang on tlp system start/shutdown&lt;/code&gt;，&lt;code&gt;hang on XXX scheduler&lt;/code&gt; 等等&lt;/p&gt;
+&lt;p&gt;-- 09-08 ⏲️ 15:34&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -83,17 +85,6 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
       <guid>https://github.abcdlsj.io/post/%E4%B8%80%E6%AC%A1%E4%BF%AE%E5%A4%8Dblog%E7%9A%84%E8%BF%87%E7%A8%8B/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记一次修复 Blog 的过程&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>i3wm screenshot-key</title>
-      <link>https://github.abcdlsj.io/post/i3wm-%E6%88%AA%E5%9B%BE/</link>
-      <pubDate>Sat, 22 Feb 2020 21:04:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/i3wm-%E6%88%AA%E5%9B%BE/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;i3wm 截图如果是选中区域截取的话，是没法使用的。。查询官方文档后，发现加入 &amp;ndash;release 即可&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -116,161 +107,6 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
       <guid>https://github.abcdlsj.io/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;ArchLinux 双显卡配置，应该多数 Linux 系统都适用，可能细节不一样。&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>2-3月日常</title>
-      <link>https://github.abcdlsj.io/post/2-3%E6%9C%88%E6%97%A5%E5%B8%B8/</link>
-      <pubDate>Tue, 19 Mar 2019 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/2-3%E6%9C%88%E6%97%A5%E5%B8%B8/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;最近没怎么看技术书和写代码，因为迷上了剪线键盘&amp;hellip;现在又想自己去画 pcb 了&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>关于不蒜子计数新域名修改</title>
-      <link>https://github.abcdlsj.io/post/%E5%85%B3%E4%BA%8E%E4%B8%8D%E8%92%9C%E5%AD%90%E8%AE%A1%E6%95%B0%E6%96%B0%E5%9F%9F%E5%90%8D%E4%BF%AE%E6%94%B9/</link>
-      <pubDate>Sat, 13 Oct 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/%E5%85%B3%E4%BA%8E%E4%B8%8D%E8%92%9C%E5%AD%90%E8%AE%A1%E6%95%B0%E6%96%B0%E5%9F%9F%E5%90%8D%E4%BF%AE%E6%94%B9/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;如下&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>树莓派系统安装 &amp;&amp; 使用 ffmpeg 推流实现 b 站直播</title>
-      <link>https://github.abcdlsj.io/post/%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85-%E4%BD%BF%E7%94%A8ffmpeg%E6%8E%A8%E6%B5%81%E5%AE%9E%E7%8E%B0b%E7%AB%99%E7%9B%B4%E6%92%AD/</link>
-      <pubDate>Mon, 10 Sep 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85-%E4%BD%BF%E7%94%A8ffmpeg%E6%8E%A8%E6%B5%81%E5%AE%9E%E7%8E%B0b%E7%AB%99%E7%9B%B4%E6%92%AD/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;树莓派买回来快半个月了,期间实现了很多好玩的玩法,现在才想起来可以写一篇博客记录一下&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Centos 开启 Google BBR 加速</title>
-      <link>https://github.abcdlsj.io/post/centos-%E5%BC%80%E5%90%AFgoogle-bbr%E5%8A%A0%E9%80%9F/</link>
-      <pubDate>Tue, 28 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/centos-%E5%BC%80%E5%90%AFgoogle-bbr%E5%8A%A0%E9%80%9F/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;前天搭建了aria2下载站&amp;amp;h5ai在线播放,虽然在线观看速度不错,但还是不尽人意(我的要求比较高),所以我准备开启BBR加速&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>VPS 搭建 aria2 下载 &amp;&amp; 使用 h5ai 实现在线播放</title>
-      <link>https://github.abcdlsj.io/post/vps-%E5%AE%89%E8%A3%85aria2%E5%92%8Cwebui%E6%90%AD%E5%BB%BA%E7%A6%BB%E7%BA%BF%E4%B8%8B%E8%BD%BD%E7%A5%9E%E5%99%A8/</link>
-      <pubDate>Sun, 26 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/vps-%E5%AE%89%E8%A3%85aria2%E5%92%8Cwebui%E6%90%AD%E5%BB%BA%E7%A6%BB%E7%BA%BF%E4%B8%8B%E8%BD%BD%E7%A5%9E%E5%99%A8/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;好久没有更新博客了,原因是最近到了一个&amp;quot;小玩具&amp;rdquo; &amp;ndash; 树莓派,现在正在研究当中&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>NextCloud 私人网盘搭建</title>
-      <link>https://github.abcdlsj.io/post/nextcloud-%E7%A7%81%E4%BA%BA%E7%BD%91%E7%9B%98%E6%90%AD%E5%BB%BA/</link>
-      <pubDate>Wed, 22 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/nextcloud-%E7%A7%81%E4%BA%BA%E7%BD%91%E7%9B%98%E6%90%AD%E5%BB%BA/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;NextCloud搭建&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Linux 系统下 v2ray 客户端使用</title>
-      <link>https://github.abcdlsj.io/post/linux%E7%B3%BB%E7%BB%9F%E4%B8%8Bv2ray%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BD%BF%E7%94%A8/</link>
-      <pubDate>Sat, 18 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/linux%E7%B3%BB%E7%BB%9F%E4%B8%8Bv2ray%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BD%BF%E7%94%A8/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;V2Ray是一个优秀的开源网络代理工具，可以帮助你畅爽体验互联网，目前已经全平台支持Windows、Mac、Android、IOS、Linux等操作系统的使用。相对起Shadowsocks来说属于后起之秀，在混淆能力、兼容性、速度上有着独到的优点。在目前Shadowsocks、ShadowsocksR停止更新的情况下，多掌握一个活跃项目工具的使用是完全有必要的.&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Linux 好用的百度网盘客户端</title>
-      <link>https://github.abcdlsj.io/post/linux%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%94%A8%E7%9A%84%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E5%AE%A2%E6%88%B7%E7%AB%AF/</link>
-      <pubDate>Wed, 15 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/linux%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%94%A8%E7%9A%84%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E5%AE%A2%E6%88%B7%E7%AB%AF/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;网盘下载每个人都是必不可少的&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>神级输入法 RIME 安装 &amp;&amp; 基本配置</title>
-      <link>https://github.abcdlsj.io/post/%E7%A5%9E%E7%BA%A7%E8%BE%93%E5%85%A5%E6%B3%95rime-%E5%AE%89%E8%A3%85-%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/</link>
-      <pubDate>Tue, 14 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/%E7%A5%9E%E7%BA%A7%E8%BE%93%E5%85%A5%E6%B3%95rime-%E5%AE%89%E8%A3%85-%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;上回说我在我的笔记本上安装了黑苹果，这几天熟悉了一下 OS X系统,但是我发现苹果的自带输入法切换中英文的时候会卡顿(｡í _ ì｡)所以需要选择一个好的输入法。&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>使用 heroku 免费搭建 v2ray</title>
-      <link>https://github.abcdlsj.io/post/%E4%BD%BF%E7%94%A8heroku%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BAv2ray/</link>
-      <pubDate>Fri, 03 Aug 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/%E4%BD%BF%E7%94%A8heroku%E5%85%8D%E8%B4%B9%E6%90%AD%E5%BB%BAv2ray/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;HeroKu 免费搭建 V2Ray&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>ubuntu 系统优化 &amp;&amp; 问题解决(内容丰富)</title>
-      <link>https://github.abcdlsj.io/post/ubuntu%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96-%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3-%E5%86%85%E5%AE%B9%E4%B8%B0%E5%AF%8C/</link>
-      <pubDate>Sun, 29 Jul 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/ubuntu%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96-%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3-%E5%86%85%E5%AE%B9%E4%B8%B0%E5%AF%8C/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Ubuntu（国际音标：/ʊˈbʊntuː/，uu-buun-too)是以桌面应用为主的Linux发行版，Ubuntu由Canonical公司发布，他们提供商业支持。它是基于自由软件，其名称来自非洲南部祖鲁语或科萨语的“ubuntu”一词（译为乌班图），意思是“人性”、“我的存在是因为大家的存在”,是非洲传统的一种价值观。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;来源.维基百科&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>搭建 v2ray</title>
-      <link>https://github.abcdlsj.io/post/%E6%90%AD%E5%BB%BAv2ray/</link>
-      <pubDate>Thu, 26 Jul 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/%E6%90%AD%E5%BB%BAv2ray/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;前段时间分享了ssr的搭建方法,现在想做一下搭建v2ray的教程.碰巧do开了一台没被墙的新加坡vps.延迟80左右,用来搭v2ray速度应该可以.&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>酸酸乳搭建</title>
-      <link>https://github.abcdlsj.io/post/%E9%85%B8%E9%85%B8%E4%B9%B3%E6%90%AD%E5%BB%BA/</link>
-      <pubDate>Sat, 21 Jul 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/%E9%85%B8%E9%85%B8%E4%B9%B3%E6%90%AD%E5%BB%BA/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;现在ssr是主流翻墙代理.类似的还有v2ray,ss.&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>Cmder 出现 MacType 问题解决</title>
-      <link>https://github.abcdlsj.io/post/cmder-%E5%87%BA%E7%8E%B0mactype-%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</link>
-      <pubDate>Sun, 03 Jun 2018 00:00:00 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/cmder-%E5%87%BA%E7%8E%B0mactype-%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;MacType 出现问题解决&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
