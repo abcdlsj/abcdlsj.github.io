@@ -109,6 +109,20 @@
     </item>
     
     <item>
+      <title>BoltDB Analysis and Implementation（WIP）</title>
+      <link>https://github.abcdlsj.io/post/boltdb-analysis-and-implementation/</link>
+      <pubDate>Wed, 17 Jun 2020 23:00:00 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/boltdb-analysis-and-implementation/</guid>
+      <description>BoltDB 分析与实现
+   boltDB 介绍  特点就是简单（
+ 特点：
+ 单机数据库 k/v 存储，B+ 树索引 支持事务 mmap 缓存，逻辑简单  源码结构：
+ 存储和缓存：page.go, freelist.go, blot_xxx.go 数据和索引：node.go 桶：bucket.go, cursor.go 事务：tx.go API：db.go  存储与缓存 page 在 bolt 当中，文件被组织成 PAGE_SIZE 大小的 page，结构是：
+// page size(4096 bytes) type page struct { id pgid // page id 	flags uint16 // 区分 page 类型的标识 	count uint16 // page data 中的数据个数 	overflow uint32 // 如果单个 page 大小不够，会分配多个 page，overflow 记录溢出 	ptr uintptr // 指向 page 数据的内存地址 } page 有四种类型</description>
+    </item>
+    
+    <item>
       <title>MIT 6.828 Lab 2: Simple xv6 shell</title>
       <link>https://github.abcdlsj.io/post/mit-6.828-lab2simple-xv6-shell/</link>
       <pubDate>Wed, 17 Jun 2020 11:43:20 +0800</pubDate>
