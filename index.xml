@@ -421,11 +421,11 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
     </item>
     
     <item>
-      <title>use conky display org-agenda todos</title>
-      <link>https://github.abcdlsj.io/post/conky%E6%98%BE%E7%A4%BAtodo-list/</link>
+      <title>use conky to display org-agenda todos</title>
+      <link>https://github.abcdlsj.io/post/use-conky-to-tdisplay-todo-list/</link>
       <pubDate>Fri, 13 Dec 2019 23:28:00 +0800</pubDate>
       
-      <guid>https://github.abcdlsj.io/post/conky%E6%98%BE%E7%A4%BAtodo-list/</guid>
+      <guid>https://github.abcdlsj.io/post/use-conky-to-tdisplay-todo-list/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;作为一个 Emacser，使用 org-agenda 来管理日常是很正常的事情，于是想到在桌面显示自己的 todo-list，查阅资料之后发现很简单&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -433,10 +433,10 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
     
     <item>
       <title>org-page 搭建 blog</title>
-      <link>https://github.abcdlsj.io/post/org-page%E6%90%AD%E5%BB%BAblog/</link>
+      <link>https://github.abcdlsj.io/post/org-page-%E6%90%AD%E5%BB%BA-blog/</link>
       <pubDate>Sat, 23 Nov 2019 00:00:00 +0800</pubDate>
       
-      <guid>https://github.abcdlsj.io/post/org-page%E6%90%AD%E5%BB%BAblog/</guid>
+      <guid>https://github.abcdlsj.io/post/org-page-%E6%90%AD%E5%BB%BA-blog/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;最近把 org-page 配置好了，大概今年五月份开始，就迷上了 emacs，期间爱上了配置 emacs，然后现在也开始使用 org-capture 做日常的笔记，我期间也写了挺多 org 笔记，所以才会想拿 org 来搭建 blog，搞了挺长时间，最开始的 EGO，到现在的 org-page，我终于弄好了，因为 org-page 太久没人修了，加上文档写的不全，对于小白不友好，所以我准备简单记录一下怎么搭建成功的&lt;/p&gt;
 &lt;/blockquote&gt;</description>

@@ -103,7 +103,11 @@ LeetCode 刷题总结之：回溯
       </li><li>
         <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
       </li><li>
-        <a href='/tags/org/' style='font-size:1.1428571428571428em'>org</a>
+        <a href='/tags/org/' style='font-size:1.0714285714285714em'>org</a>
+      </li><li>
+        <a href='/tags/org-agenda/' style='font-size:1em'>org-agenda</a>
+      </li><li>
+        <a href='/tags/org-mode/' style='font-size:1em'>org mode</a>
       </li><li>
         <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
       </li><li>
@@ -593,16 +597,16 @@ LeetCode 刷题总结之：回溯
 </code></pre></div><h2 id="总结">总结</h2>
 <blockquote>
 <p>能够总结出这一类穷举问题的回溯模板。</p>
-<p>result = []
-def backtrack(路径, 选择列表):
-if 满足结束条件:
-result.add(路径)
-return
-for 选择 in 选择列表:
-做选择
-backtrack(路径, 选择列表)
-撤销选择</p>
-</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">result <span style="color:#f92672">=</span> []
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">backtrack</span>(<span style="color:#960050;background-color:#1e0010">路径</span>, <span style="color:#960050;background-color:#1e0010">选择列表</span>):
+<span style="color:#66d9ef">if</span> <span style="color:#960050;background-color:#1e0010">满足结束条件</span>:
+     result<span style="color:#f92672">.</span>add(<span style="color:#960050;background-color:#1e0010">路径</span>)
+     <span style="color:#66d9ef">return</span>
+<span style="color:#66d9ef">for</span> <span style="color:#960050;background-color:#1e0010">选择</span> <span style="color:#f92672">in</span> <span style="color:#960050;background-color:#1e0010">选择列表</span>:
+ <span style="color:#960050;background-color:#1e0010">做选择</span>
+ backtrack(<span style="color:#960050;background-color:#1e0010">路径</span>, <span style="color:#960050;background-color:#1e0010">选择列表</span>)
+ <span style="color:#960050;background-color:#1e0010">撤销选择</span>
+</code></pre></div></blockquote>
 <blockquote>
 <p>回溯法可能开始很难，但是就和<code>BFS/DFS</code>一样只要心里面有解决问题的<code>模板</code>，那一般的问题就不算难了，当然一些很困难的回溯也很复杂，回溯的节点不好找，还有就是时间复杂度要求严格的题，毕竟巧妙的剪枝没有经验也是比较难看出来的。</p>
 </blockquote>

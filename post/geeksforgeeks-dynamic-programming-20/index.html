@@ -119,7 +119,11 @@ Longest Common Subsequence
       </li><li>
         <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
       </li><li>
-        <a href='/tags/org/' style='font-size:1.1428571428571428em'>org</a>
+        <a href='/tags/org/' style='font-size:1.0714285714285714em'>org</a>
+      </li><li>
+        <a href='/tags/org-agenda/' style='font-size:1em'>org-agenda</a>
+      </li><li>
+        <a href='/tags/org-mode/' style='font-size:1em'>org mode</a>
       </li><li>
         <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
       </li><li>
@@ -217,7 +221,7 @@ Longest Common Subsequence
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-5 mins read
+7 mins read
 </span>
 
 
@@ -243,6 +247,9 @@ Longest Common Subsequence
         <li><a href="#minimum-partition">Minimum Partition</a></li>
         <li><a href="#longest-path-in-matrix">Longest Path In Matrix</a></li>
         <li><a href="#subset-sum-problem">subset Sum Problem</a></li>
+        <li><a href="#0-1-knapsack-problem">0-1 Knapsack Problem</a></li>
+        <li><a href="#boolean-parenthesization-problem">Boolean Parenthesization Problem</a></li>
+        <li><a href="#shortest-common-supersequence">Shortest Common Supersequence</a></li>
       </ul>
     </li>
   </ul>
@@ -477,8 +484,50 @@ Longest Common Subsequence
 }
 </code></pre></div><h3 id="longest-path-in-matrix">Longest Path In Matrix</h3>
 <p><a href="https://www.geeksforgeeks.org/find-the-longest-path-in-a-matrix-with-given-constraints/">Longest Path In Matrix</a></p>
-<h4 id="329-矩阵中的最长递增路径httpsleetcode-cncomproblemslongest-increasing-path-in-a-matrix"><a href="https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix/">329. 矩阵中的最长递增路径</a></h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
+<h4 id="leetcode-329-矩阵中的最长递增路径httpsleetcode-cncomproblemslongest-increasing-path-in-a-matrix"><a href="https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix/">LeetCode 329. 矩阵中的最长递增路径</a></h4>
+<blockquote>
+<p>排序 + 动态规划</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span>{
+    <span style="color:#66d9ef">int</span> _x, _y, _v;
+    Node(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y, <span style="color:#66d9ef">int</span> v) <span style="color:#f92672">:</span> _x(x), _y(y), _v(v){};
+};
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> longestIncreasingPath(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> matrix) {
+        <span style="color:#66d9ef">if</span> (matrix.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> matrix[<span style="color:#ae81ff">0</span>].size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>; 
+        <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> matrix.size(), n <span style="color:#f92672">=</span> matrix[<span style="color:#ae81ff">0</span>].size();
+        vector<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span> vecNodes;
+        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> dp(m, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(n, <span style="color:#ae81ff">1</span>));
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cntx <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>};
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> cnty <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>};
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> m; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> n; j<span style="color:#f92672">++</span>) {
+                vecNodes.push_back(Node(i, j, matrix[i][j]));
+            }
+        }
+
+        sort(vecNodes.begin(), vecNodes.end(), [](Node a, Node b) {
+            <span style="color:#66d9ef">return</span> a._v <span style="color:#f92672">&lt;</span> b._v;
+        });
+
+        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> e : vecNodes) {
+            <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> e._x, y <span style="color:#f92672">=</span> e._y, v <span style="color:#f92672">=</span> e._v;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>; i<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">int</span> xx <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> cntx[i], yy <span style="color:#f92672">=</span> y <span style="color:#f92672">+</span> cnty[i];
+                <span style="color:#66d9ef">if</span> (xx <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> xx <span style="color:#f92672">&gt;=</span> m <span style="color:#f92672">||</span> yy <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> yy <span style="color:#f92672">&gt;=</span> n) <span style="color:#66d9ef">continue</span>;
+                <span style="color:#66d9ef">if</span> (matrix[xx][yy] <span style="color:#f92672">&lt;</span> v) {
+                    dp[x][y] <span style="color:#f92672">=</span> max(dp[x][y], dp[xx][yy] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+                }
+            }
+            ans <span style="color:#f92672">=</span> max(ans, dp[x][y]);
+        }
+
+        <span style="color:#66d9ef">return</span> ans;
+    }
+};
 </code></pre></div><h3 id="subset-sum-problem">subset Sum Problem</h3>
 <blockquote>
 <p><strong>子集和问题</strong>（英语：<strong>Subset sum problem</strong>），又称<strong>子集合加总问题</strong>，是<a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E5%BA%A6%E7%90%86%E8%AE%BA">计算复杂度理论</a>和<a href="https://zh.wikipedia.org/wiki/%E5%AF%86%E7%A2%BC%E5%AD%B8">密码学</a>中一个很重要的问题。问题可以描述为：给一个整数<a href="https://zh.wikipedia.org/wiki/%E9%9B%86%E5%90%88">集合</a>，问是否存在某个非空<a href="https://zh.wikipedia.org/wiki/%E5%AD%90%E9%9B%86">子集</a>，使得子集内中的数字和为某个特定数值。例：给定集合{−7, −3, −2, 5, 8}，是否存在子集和为0的集合?答案是YES，因为<a href="https://zh.wikipedia.org/wiki/%E5%AD%90%E9%9B%86">子集</a>{−3, −2, 5}的数字和是0。这个问题是<a href="https://zh.wikipedia.org/wiki/NP%E5%AE%8C%E5%85%A8">NP完全</a>问题，且或许是最容易描述的NP完全问题。</p>
@@ -516,6 +565,45 @@ Longest Common Subsequence
     <span style="color:#66d9ef">return</span> dp[n][sum];
   }
 };
+</code></pre></div><h3 id="0-1-knapsack-problem">0-1 Knapsack Problem</h3>
+<h4 id="lintcode-125-背包问题-ii">LintCode 125. 背包问题 II</h4>
+<blockquote>
+<p><a href="https://www.lintcode.com/problem/backpack-ii/description">https://www.lintcode.com/problem/backpack-ii/description</a></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * @param m: An integer m denotes the size of a backpack
+</span><span style="color:#75715e">     * @param A: Given n items with size A[i]
+</span><span style="color:#75715e">     * @param V: Given n items with value V[i]
+</span><span style="color:#75715e">     * @return: The maximum value
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">int</span> backPackII(<span style="color:#66d9ef">int</span> m, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>A, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>V) {
+        <span style="color:#75715e">// write your code here
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> A.size();
+        
+        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> dp(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(m <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>));
+        
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j<span style="color:#f92672">++</span>) {
+                <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&lt;</span> A[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
+                    dp[i][j] <span style="color:#f92672">=</span> dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j];
+                } <span style="color:#66d9ef">else</span> {
+                    dp[i][j] <span style="color:#f92672">=</span> max(dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j], dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">-</span> A[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]] <span style="color:#f92672">+</span> V[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]);
+                }
+            }
+        }
+        
+        <span style="color:#66d9ef">return</span> dp[n][m];
+    }
+};
+</code></pre></div><h3 id="boolean-parenthesization-problem">Boolean Parenthesization Problem</h3>
+<p><a href="https://www.geeksforgeeks.org/dynamic-programming-set-37-boolean-parenthesization-problem/">Boolean Parenthesization Problem</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
+</code></pre></div><h3 id="shortest-common-supersequence">Shortest Common Supersequence</h3>
+<p><a href="https://www.geeksforgeeks.org/shortest-common-supersequence/">Shortest Common Supersequence</a></p>
+<h4 id="leetcode-1092-最短公共超序列httpsleetcode-cncomproblemsshortest-common-s-upersequence">[LeetCode 1092. 最短公共超序列](<a href="https://leetcode-cn.com/problems/shortest-common-s">https://leetcode-cn.com/problems/shortest-common-s</a> upersequence/)</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
 </code></pre></div>
 </div>
 
