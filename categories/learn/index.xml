@@ -5,10 +5,23 @@
     <link>https://github.abcdlsj.io/categories/learn/</link>
     <description>Recent content in learn on The Real World</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 16 Sep 2020 14:49:46 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 20 Sep 2020 11:59:38 +0800</lastBuildDate>
     
 	<atom:link href="https://github.abcdlsj.io/categories/learn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>LeetCode-Biweekly-Contest:35-Weekly-Contest:207</title>
+      <link>https://github.abcdlsj.io/post/leetcode-biweekly-contest35-weekly-contest207/</link>
+      <pubDate>Sun, 20 Sep 2020 11:59:38 +0800</pubDate>
+      
+      <guid>https://github.abcdlsj.io/post/leetcode-biweekly-contest35-weekly-contest207/</guid>
+      <description>LeetCode 双周赛 35 + 周赛 207 解题报告
+  本周的我太菜了，双周赛 1 题，周赛 2 题。。。
+虽然都有思路（除第四题），但是细节错误太多，导致思路基本正确，代码结构也正确，但是会有错误
+ 双周赛 5505. 所有排列中的最大和  直接统计，会爆，需要使用差分（PS. 现在才开始学习差分，可想而知我之前刷题质量多低）
+ class Solution { public: const int e = 1e9 + 7; int maxSumRangeQuery(vector&amp;lt;int&amp;gt;&amp;amp; nums, vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt;&amp;amp; requests) { vector&amp;lt;int&amp;gt; cnt(nums.size() + 1, 0); for (auto &amp;amp;e : requests) { cnt[e[0]] += 1; cnt[e[1] + 1] -= 1; } for (int i = 1; i &amp;lt; cnt.size(); i++) { cnt[i] += cnt[i - 1]; } long long ans = 0; sort(cnt.</description>
+    </item>
     
     <item>
       <title>LeetCode-Pattern: Union Find</title>
