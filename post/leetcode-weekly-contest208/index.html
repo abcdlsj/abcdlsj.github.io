@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='LeetCode Weekly Contest: 208
+  还没结束，但是只能三道题了。。。，最后一道有点点思路（多半想多了），但是不太会写，我的想法是并查集（判断连通） &#43; 判定交换次数 ，但是写了一下，没写出来；
+结束了。 rank: 499 / 3580
+499 还可以吧。。。。。。。
+差点最后一道刚出来了。。。等会看大佬怎么写的了。。（看了下，果然，我想多了）
+-- 09-27 ⏲️ 12:05
+ 5524. 经营摩天轮的最大利润  写得很仓促。。。
+ class Solution { public: int minOperationsMaxProfit(vector&lt;int&gt;&amp; c, int b, int r) { int time = 0, ans = INT_MIN, cur = 0, sum = 0, anstime = 0; for (int i = 0; i &lt; c.size(); i&#43;&#43;) { sum &#43;= c[i]; time&#43;&#43;; if (sum &gt;= 4) { cur &#43;= 4; sum -= 4; } else { cur &#43;= sum; sum = 0; } if (cur * b - r * time &gt; ans) { ans = cur * b - r * time; anstime = time; } } while (sum) { time&#43;&#43;; if (sum &gt;= 4) { cur &#43;= 4; sum -= 4; } else { cur &#43;= sum; sum = 0; } if (cur * b - r * time &gt; ans) { ans = cur * b - r * time; anstime = time; } } return ans &lt;= 0 ?'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='LeetCode-Weekly-Contest:208 • The Real World'>
+<meta property='og:description' content='LeetCode Weekly Contest: 208
+  还没结束，但是只能三道题了。。。，最后一道有点点思路（多半想多了），但是不太会写，我的想法是并查集（判断连通） &#43; 判定交换次数 ，但是写了一下，没写出来；
+结束了。 rank: 499 / 3580
+499 还可以吧。。。。。。。
+差点最后一道刚出来了。。。等会看大佬怎么写的了。。（看了下，果然，我想多了）
+-- 09-27 ⏲️ 12:05
+ 5524. 经营摩天轮的最大利润  写得很仓促。。。
+ class Solution { public: int minOperationsMaxProfit(vector&lt;int&gt;&amp; c, int b, int r) { int time = 0, ans = INT_MIN, cur = 0, sum = 0, anstime = 0; for (int i = 0; i &lt; c.size(); i&#43;&#43;) { sum &#43;= c[i]; time&#43;&#43;; if (sum &gt;= 4) { cur &#43;= 4; sum -= 4; } else { cur &#43;= sum; sum = 0; } if (cur * b - r * time &gt; ans) { ans = cur * b - r * time; anstime = time; } } while (sum) { time&#43;&#43;; if (sum &gt;= 4) { cur &#43;= 4; sum -= 4; } else { cur &#43;= sum; sum = 0; } if (cur * b - r * time &gt; ans) { ans = cur * b - r * time; anstime = time; } } return ans &lt;= 0 ?'>
+<meta property='og:url' content='https://github.abcdlsj.io/post/leetcode-weekly-contest208/'>
+<meta property='og:site_name' content='The Real World'>
+<meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='Contest'><meta property='article:tag' content='LeetCode'><meta property='article:published_time' content='2020-09-27T10:29:16&#43;08:00'/><meta property='article:modified_time' content='2020-09-27T10:29:16&#43;08:00'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.72.0" />
+
+  <title>LeetCode-Weekly-Contest:208 • The Real World</title>
+  <link rel='canonical' href='https://github.abcdlsj.io/post/leetcode-weekly-contest208/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-post has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      ABCDLSJ
+      </a>
+    </h2>
+    <div class='desc'>
+    C/C++/Golang/Lisp/Python Emacs/Arch/Gentoo/Google Dog/Cat
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/6.824/' style='font-size:1em'>6.824</a>
+      </li><li>
+        <a href='/tags/6.828/' style='font-size:1.0588235294117647em'>6.828</a>
+      </li><li>
+        <a href='/tags/algorithm/' style='font-size:1em'>Algorithm</a>
+      </li><li>
+        <a href='/tags/arch/' style='font-size:1.0588235294117647em'>Arch</a>
+      </li><li>
+        <a href='/tags/backtracking/' style='font-size:1em'>BackTracking</a>
+      </li><li>
+        <a href='/tags/binary-search/' style='font-size:1em'>Binary Search</a>
+      </li><li>
+        <a href='/tags/blog/' style='font-size:1.1176470588235294em'>blog</a>
+      </li><li>
+        <a href='/tags/boltdb/' style='font-size:1em'>BoltDB</a>
+      </li><li>
+        <a href='/tags/conky/' style='font-size:1em'>conky</a>
+      </li><li>
+        <a href='/tags/contest/' style='font-size:1.4117647058823528em'>Contest</a>
+      </li><li>
+        <a href='/tags/cpp/' style='font-size:1.0588235294117647em'>CPP</a>
+      </li><li>
+        <a href='/tags/csapp/' style='font-size:1em'>CSAPP</a>
+      </li><li>
+        <a href='/tags/data-structure/' style='font-size:1.0588235294117647em'>Data Structure</a>
+      </li><li>
+        <a href='/tags/database/' style='font-size:1em'>DataBase</a>
+      </li><li>
+        <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
+      </li><li>
+        <a href='/tags/dynamic-programming/' style='font-size:1.0588235294117647em'>Dynamic Programming</a>
+      </li><li>
+        <a href='/tags/emacs/' style='font-size:1em'>emacs</a>
+      </li><li>
+        <a href='/tags/geeksforgeeks/' style='font-size:1em'>GeeksforGeeks</a>
+      </li><li>
+        <a href='/tags/hugo/' style='font-size:1.0588235294117647em'>hugo</a>
+      </li><li>
+        <a href='/tags/interview/' style='font-size:1em'>Interview</a>
+      </li><li>
+        <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
+      </li><li>
+        <a href='/tags/lenovo/' style='font-size:1em'>Lenovo</a>
+      </li><li>
+        <a href='/tags/link-list/' style='font-size:1em'>Link List</a>
+      </li><li>
+        <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
+      </li><li>
+        <a href='/tags/org/' style='font-size:1.0588235294117647em'>org</a>
+      </li><li>
+        <a href='/tags/org-agenda/' style='font-size:1em'>org-agenda</a>
+      </li><li>
+        <a href='/tags/org-mode/' style='font-size:1em'>org mode</a>
+      </li><li>
+        <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
+      </li><li>
+        <a href='/tags/os/' style='font-size:1.1764705882352942em'>OS</a>
+      </li><li>
+        <a href='/tags/sicp/' style='font-size:1.0588235294117647em'>SICP</a>
+      </li><li>
+        <a href='/tags/sliding-window/' style='font-size:1em'>Sliding Window</a>
+      </li><li>
+        <a href='/tags/tree/' style='font-size:1em'>Tree</a>
+      </li><li>
+        <a href='/tags/union-find/' style='font-size:1em'>Union Find</a>
+      </li><li>
+        <a href='/tags/xv6/' style='font-size:1.0588235294117647em'>xv6</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/'>Home</a>
+      </li><li class='item'>
+        <a href='/post/'>Archives</a>
+      </li><li class='item'>
+        <a href='/categories/'>Categories</a>
+      </li><li class='item'>
+        <a href='/tags/leetcode'>LeetCode</a>
+      </li><li class='item'>
+        <a href='/about/'>About</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>The Real World</p><p class='desc site-desc'>The stars never rise but I feel the bright eyes.</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>LeetCode-Weekly-Contest:208</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-09-27T10:29:16&#43;08:00'>2020, Sep 27</time>
+</span>
+
+  
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+2 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+<details class='container entry-toc'>
+  <summary class='title'>
+    <span>Table of Contents</span>
+  </summary>
+  <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#5524-经营摩天轮的最大利润">5524. 经营摩天轮的最大利润</a></li>
+        <li><a href="#5525-皇位继承顺序">5525. 皇位继承顺序</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</details>
+
+
+  <div class='container entry-content'>
+  <blockquote>
+<p>LeetCode Weekly Contest: 208</p>
+</blockquote>
+<blockquote>
+<p>还没结束，但是只能三道题了。。。，最后一道有点点思路（多半想多了），但是不太会写，我的想法是<code>并查集（判断连通） + 判定交换次数 </code>，但是写了一下，没写出来；</p>
+<p>结束了。 <code>rank: 499 / 3580</code></p>
+<p>499 还可以吧。。。。。。。</p>
+<p>差点最后一道刚出来了。。。等会看大佬怎么写的了。。（看了下，果然，我想多了）</p>
+<p>-- 09-27 ⏲️ 12:05</p>
+</blockquote>
+<h3 id="5524-经营摩天轮的最大利润">5524. 经营摩天轮的最大利润</h3>
+<blockquote>
+<p>写得很仓促。。。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">int</span> minOperationsMaxProfit(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> c, <span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span> r) {
+        <span style="color:#66d9ef">int</span> time <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, ans <span style="color:#f92672">=</span> INT_MIN, cur <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, anstime <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> c.size(); i<span style="color:#f92672">++</span>) {
+            sum <span style="color:#f92672">+=</span> c[i];
+            time<span style="color:#f92672">++</span>;
+            <span style="color:#66d9ef">if</span> (sum <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">4</span>) {
+                cur <span style="color:#f92672">+=</span> <span style="color:#ae81ff">4</span>;
+                sum <span style="color:#f92672">-=</span> <span style="color:#ae81ff">4</span>;
+            } <span style="color:#66d9ef">else</span> {
+                cur <span style="color:#f92672">+=</span> sum;
+                sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            }
+            <span style="color:#66d9ef">if</span> (cur <span style="color:#f92672">*</span> b <span style="color:#f92672">-</span> r <span style="color:#f92672">*</span> time <span style="color:#f92672">&gt;</span> ans) {
+                ans <span style="color:#f92672">=</span> cur <span style="color:#f92672">*</span> b <span style="color:#f92672">-</span> r <span style="color:#f92672">*</span> time;
+                anstime <span style="color:#f92672">=</span> time;
+            }
+        }
+        <span style="color:#66d9ef">while</span> (sum) {
+            time<span style="color:#f92672">++</span>;
+            <span style="color:#66d9ef">if</span> (sum <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">4</span>) {
+                cur <span style="color:#f92672">+=</span> <span style="color:#ae81ff">4</span>;
+                sum <span style="color:#f92672">-=</span> <span style="color:#ae81ff">4</span>;
+            } <span style="color:#66d9ef">else</span> {
+                cur <span style="color:#f92672">+=</span> sum;
+                sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            }
+            <span style="color:#66d9ef">if</span> (cur <span style="color:#f92672">*</span> b <span style="color:#f92672">-</span> r <span style="color:#f92672">*</span> time <span style="color:#f92672">&gt;</span> ans) {
+                ans <span style="color:#f92672">=</span> cur <span style="color:#f92672">*</span> b <span style="color:#f92672">-</span> r <span style="color:#f92672">*</span> time;
+                anstime <span style="color:#f92672">=</span> time;
+            }
+        }
+        
+        <span style="color:#66d9ef">return</span> ans <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> anstime;
+    }
+};
+</code></pre></div><h3 id="5525-皇位继承顺序">5525. 皇位继承顺序</h3>
+<blockquote>
+<p>写得很仓促。。。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Node</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">bool</span> isalive;
+    string name;
+    vector<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">*&gt;</span> childs;
+    Node(string _name) <span style="color:#f92672">:</span> name(_name), isalive(true) {};
+};
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ThroneInheritance</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    Node<span style="color:#f92672">*</span> fam;
+    unordered_map<span style="color:#f92672">&lt;</span>string, Node<span style="color:#f92672">*&gt;</span> map;
+    string king;
+    ThroneInheritance(string kingName) {
+        fam <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node(kingName);
+        map[kingName] <span style="color:#f92672">=</span> fam;
+        king <span style="color:#f92672">=</span> kingName;
+    }
+    
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">birth</span>(string parentName, string childName) {
+        Node<span style="color:#f92672">*</span> c <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node(childName);
+        map[parentName]<span style="color:#f92672">-&gt;</span>childs.push_back(c);
+        map[childName] <span style="color:#f92672">=</span> map[parentName]<span style="color:#f92672">-&gt;</span>childs.back();
+    }
+    
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">death</span>(string name) {
+        map[name]<span style="color:#f92672">-&gt;</span>isalive <span style="color:#f92672">=</span> false;
+    }
+    vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> res;
+    vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> getInheritanceOrder() {
+        res.clear();
+        midorder(map[king]);
+        <span style="color:#66d9ef">return</span> res;
+    }
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">midorder</span>(Node<span style="color:#f92672">*</span> root) {
+        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> ;
+        <span style="color:#66d9ef">if</span> (map[root<span style="color:#f92672">-&gt;</span>name]<span style="color:#f92672">-&gt;</span>isalive) {
+            res.push_back(root<span style="color:#f92672">-&gt;</span>name);
+        }
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> c : root<span style="color:#f92672">-&gt;</span>childs) midorder(c); 
+    }
+};
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Your ThroneInheritance object will be instantiated and called as such:
+</span><span style="color:#75715e"> * ThroneInheritance* obj = new ThroneInheritance(kingName);
+</span><span style="color:#75715e"> * obj-&gt;birth(parentName,childName);
+</span><span style="color:#75715e"> * obj-&gt;death(name);
+</span><span style="color:#75715e"> * vector&lt;string&gt; param_3 = obj-&gt;getInheritanceOrder();
+</span><span style="color:#75715e"> */</span>
+</code></pre></div>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/learn/'>learn</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/contest/'>Contest</a>, <a class='tag' href='/tags/leetcode/'>LeetCode</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/post/leetcode-biweekly-contest35-weekly-contest207/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>LeetCode-Biweekly-Contest:35-Weekly-Contest:207</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><header>
+    <h4 class='title widget-title'>Catch Me</h4>
+  </header><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/abcdlsj' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:lisongjianshuai@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2018-2020 abcdlsj </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
