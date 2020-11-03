@@ -15,7 +15,7 @@ Longest Common Subsequence
  int lcs(string s, string t, int m, int n) { if (m == 0 || n == 0) { return 0; } if (s[m - 1] == t[n - 1]) { return 1 &#43; lcs(s, t, m - 1, n - 1); } return max(lcs(s, t, m, n - 1), lcs(s, t, m - 1, n)); } // dp int lcs_dp(string s, string t) { int m = s.'>
 <meta name='theme-color' content='#ffcd00'>
 
-<meta property='og:title' content='GeeksforGeeks-Dynamic-Programming-20 • The Real World'>
+<meta property='og:title' content='GeeksforGeeks Dynamic-Programming (WIP) • The Real World'>
 <meta property='og:description' content='https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/
   缩进格式可能会不统一。。。不想修改了（有些是 LeetCode 网页写的，有些是本地写的，我的本地 C style 是 Google，所以缩进是 2）。。。尽量本地 format 之后放上来
 直接放的题目链接就是 GeeksforGeeks 的链接，LeetCode 会在链接的地方加上 LeetCode
@@ -33,7 +33,7 @@ Longest Common Subsequence
 
 <meta name="generator" content="Hugo 0.72.0" />
 
-  <title>GeeksforGeeks-Dynamic-Programming-20 • The Real World</title>
+  <title>GeeksforGeeks Dynamic-Programming (WIP) • The Real World</title>
   <link rel='canonical' href='https://github.abcdlsj.io/post/geeksforgeeks-dynamic-programming-20/'>
   
   
@@ -73,41 +73,37 @@ Longest Common Subsequence
   <ul class='list taxonomy-cloud'><li>
         <a href='/tags/6.824/' style='font-size:1em'>6.824</a>
       </li><li>
-        <a href='/tags/6.828/' style='font-size:1.0588235294117647em'>6.828</a>
+        <a href='/tags/6.s081/' style='font-size:1.0625em'>6.S081</a>
       </li><li>
-        <a href='/tags/algorithm/' style='font-size:1em'>Algorithm</a>
-      </li><li>
-        <a href='/tags/arch/' style='font-size:1.0588235294117647em'>Arch</a>
+        <a href='/tags/arch/' style='font-size:1.0625em'>Arch</a>
       </li><li>
         <a href='/tags/backtracking/' style='font-size:1em'>BackTracking</a>
       </li><li>
         <a href='/tags/binary-search/' style='font-size:1em'>Binary Search</a>
       </li><li>
-        <a href='/tags/blog/' style='font-size:1.1176470588235294em'>blog</a>
+        <a href='/tags/blog/' style='font-size:1.125em'>blog</a>
       </li><li>
         <a href='/tags/boltdb/' style='font-size:1em'>BoltDB</a>
       </li><li>
         <a href='/tags/conky/' style='font-size:1em'>conky</a>
       </li><li>
-        <a href='/tags/contest/' style='font-size:1.4117647058823528em'>Contest</a>
+        <a href='/tags/contest/' style='font-size:1.4375em'>Contest</a>
       </li><li>
-        <a href='/tags/cpp/' style='font-size:1.0588235294117647em'>CPP</a>
+        <a href='/tags/cpp/' style='font-size:1.0625em'>CPP</a>
       </li><li>
-        <a href='/tags/data-structure/' style='font-size:1.0588235294117647em'>Data Structure</a>
+        <a href='/tags/data-structure/' style='font-size:1.0625em'>Data Structure</a>
       </li><li>
         <a href='/tags/database/' style='font-size:1em'>DataBase</a>
       </li><li>
         <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
       </li><li>
-        <a href='/tags/dynamic-programming/' style='font-size:1.0588235294117647em'>Dynamic Programming</a>
+        <a href='/tags/dynamic-programming/' style='font-size:1.0625em'>Dynamic Programming</a>
       </li><li>
         <a href='/tags/emacs/' style='font-size:1em'>emacs</a>
       </li><li>
         <a href='/tags/geeksforgeeks/' style='font-size:1em'>GeeksforGeeks</a>
       </li><li>
-        <a href='/tags/hugo/' style='font-size:1.0588235294117647em'>hugo</a>
-      </li><li>
-        <a href='/tags/interview/' style='font-size:1em'>Interview</a>
+        <a href='/tags/hugo/' style='font-size:1.0625em'>hugo</a>
       </li><li>
         <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
       </li><li>
@@ -117,7 +113,7 @@ Longest Common Subsequence
       </li><li>
         <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
       </li><li>
-        <a href='/tags/org/' style='font-size:1.0588235294117647em'>org</a>
+        <a href='/tags/org/' style='font-size:1.0625em'>org</a>
       </li><li>
         <a href='/tags/org-agenda/' style='font-size:1em'>org-agenda</a>
       </li><li>
@@ -125,9 +121,9 @@ Longest Common Subsequence
       </li><li>
         <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
       </li><li>
-        <a href='/tags/os/' style='font-size:1.1176470588235294em'>OS</a>
+        <a href='/tags/os/' style='font-size:1.125em'>OS</a>
       </li><li>
-        <a href='/tags/sicp/' style='font-size:1.0588235294117647em'>SICP</a>
+        <a href='/tags/sicp/' style='font-size:1.0625em'>SICP</a>
       </li><li>
         <a href='/tags/sliding-window/' style='font-size:1em'>Sliding Window</a>
       </li><li>
@@ -135,7 +131,7 @@ Longest Common Subsequence
       </li><li>
         <a href='/tags/union-find/' style='font-size:1em'>Union Find</a>
       </li><li>
-        <a href='/tags/xv6/' style='font-size:1.0588235294117647em'>xv6</a>
+        <a href='/tags/xv6/' style='font-size:1.0625em'>xv6</a>
       </li></ul>
 </div>
 
@@ -196,7 +192,7 @@ Longest Common Subsequence
   <header class='header entry-header'>
   <div class='container sep-after'>
     <div class='header-info'>
-      <h1 class='title'>GeeksforGeeks-Dynamic-Programming-20</h1>
+      <h1 class='title'>GeeksforGeeks Dynamic-Programming (WIP)</h1>
       
 
     </div>
@@ -642,7 +638,7 @@ Longest Common Subsequence
         <span class='screen-reader-text'>Previous post: </span>LeetCode-Weekly-Contest:202</a>
     </div><div class='next-entry sep-before'>
       <a href='/post/leetcode-patternunion-find/'>
-        <span class='screen-reader-text'>Next post: </span>LeetCode-Pattern: Union Find<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+        <span class='screen-reader-text'>Next post: </span>LeetCode-Pattern: Union Find (WIP)<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="4" y1="12" x2="20" y2="12"/>
   <polyline points="14 6 20 12 14 18"/>

@@ -40,7 +40,7 @@
     </item>
     
     <item>
-      <title>LeetCode-Pattern: Union Find</title>
+      <title>LeetCode-Pattern: Union Find (WIP)</title>
       <link>https://github.abcdlsj.io/post/leetcode-patternunion-find/</link>
       <pubDate>Wed, 16 Sep 2020 14:49:46 +0800</pubDate>
       
@@ -51,7 +51,7 @@
     </item>
     
     <item>
-      <title>GeeksforGeeks-Dynamic-Programming-20</title>
+      <title>GeeksforGeeks Dynamic-Programming (WIP)</title>
       <link>https://github.abcdlsj.io/post/geeksforgeeks-dynamic-programming-20/</link>
       <pubDate>Mon, 07 Sep 2020 10:44:09 +0800</pubDate>
       
@@ -98,9 +98,7 @@ Longest Common Subsequence
       <pubDate>Mon, 03 Aug 2020 09:18:28 +0800</pubDate>
       
       <guid>https://github.abcdlsj.io/post/think-about-this-blog/</guid>
-      <description>初次提交
--- 08-03
-归档了一些无意义的博文
+      <description>归档了一些无意义的博文
 -- 09-08
  把一些博文的“时间线”注释了（记录的每篇博文的修改和更新时间，有些当时的想法，因为很多吐槽和抱怨，不适合放在这里）
 写博客不能为了写博客而写博客
@@ -123,17 +121,6 @@ Longest Common Subsequence
       <guid>https://github.abcdlsj.io/post/leetcode-weekly-contest200/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;LeetCode Weekly Contest: 200&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>ZuoChengYun Algorithm Notes (WIP)</title>
-      <link>https://github.abcdlsj.io/post/zuosheng-algorithm-notes/</link>
-      <pubDate>Fri, 24 Jul 2020 13:45:06 +0800</pubDate>
-      
-      <guid>https://github.abcdlsj.io/post/zuosheng-algorithm-notes/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;程序员代码面试指南刷题总结&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -273,21 +260,21 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
     </item>
     
     <item>
-      <title>MIT 6.828 Lab 2: Simple xv6 shell</title>
-      <link>https://github.abcdlsj.io/post/mit-6.828-lab2simple-xv6-shell/</link>
+      <title>MIT 6.S081-2019 Lab 2: Simple xv6 shell</title>
+      <link>https://github.abcdlsj.io/post/mit-6.s081-2019-lab2simple-xv6-shell/</link>
       <pubDate>Wed, 17 Jun 2020 11:43:20 +0800</pubDate>
       
-      <guid>https://github.abcdlsj.io/post/mit-6.828-lab2simple-xv6-shell/</guid>
+      <guid>https://github.abcdlsj.io/post/mit-6.s081-2019-lab2simple-xv6-shell/</guid>
       <description>Lab: Simple xv6 shell
    #include &amp;#34;kernel/fcntl.h&amp;#34;#include &amp;#34;kernel/param.h&amp;#34;#include &amp;#34;kernel/types.h&amp;#34;#include &amp;#34;user/user.h&amp;#34; #define MAXSIZE 128  void redirect(int d, int pd[]) { close(d); dup(pd[d]); close(pd[0]); close(pd[1]); } char *splitpipe(char *cmd) { for (; *cmd &amp;amp;&amp;amp; *cmd != &amp;#39;|&amp;#39;; cmd++) ; if (*cmd == &amp;#39;|&amp;#39;) { *cmd++ = &amp;#39;\0&amp;#39;; return cmd; } return 0; } int isspace(char c) { return c == &amp;#39; &amp;#39; || c == &amp;#39;\t&amp;#39; || c == &amp;#39;\n&amp;#39;; } void execcmd(char *cmd) { char *argv[MAXARG]; int argc = 0, inpos = 0, outpos = 0; for (; *cmd; *cmd++ = &amp;#39;\0&amp;#39;) { if (!</description>
     </item>
     
     <item>
-      <title>MIT 6.828 Lab 1: Xv6 and Unix utilities</title>
-      <link>https://github.abcdlsj.io/post/mit-6.828-lab1xv6-and-unix-utilities/</link>
+      <title>MIT 6.S081-2019 Lab 1: Xv6 and Unix utilities</title>
+      <link>https://github.abcdlsj.io/post/mit-6.s081-2019-lab1xv6-and-unix-utilities/</link>
       <pubDate>Tue, 16 Jun 2020 10:43:35 +0800</pubDate>
       
-      <guid>https://github.abcdlsj.io/post/mit-6.828-lab1xv6-and-unix-utilities/</guid>
+      <guid>https://github.abcdlsj.io/post/mit-6.s081-2019-lab1xv6-and-unix-utilities/</guid>
       <description>Lab: Xv6 and Unix utilities
   基本完成实验了，但是一些细节自己还是没处理好，有的地方也不是特别清晰（对，就是 primes），明天应该会再看下别人的实现，然后多完善一下 lab1
 -- 06-17 ⏲️ 01:30
