@@ -1,0 +1,1826 @@
+<html><head><style>body {
+   color: black;
+}
+</style></head><body><ul>
+<li><a href="#-----">知识点整理</a><ul>
+<li><a href="#cpp">CPP</a><ul>
+<li><a href="#-------">指针和引用区别</a></li>
+<li><a href="#------">堆和栈的区别</a></li>
+<li><a href="#new---delete--------new---malloc-----">new 和 delete 是如何实现的，new 与 malloc 的异同处</a><ul>
+<li><a href="#qa">QA</a><ul>
+<li><a href="#-----">分配在堆中</a></li>
+<li><a href="#delete-this----">delete this 合法吗</a></li>
+<li><a href="#----------------------">如何定义一个只能在堆上（栈上）生成对象的类？</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#c---c-----">C / C++ 区别</a></li>
+<li><a href="#c-----java----">C++ 和 Java 的区别</a></li>
+<li><a href="#struct-----">struct 内存对齐</a></li>
+<li><a href="#class----wip-">class 大小（WIP）</a></li>
+<li><a href="#define---const---">define 和 const 区别</a></li>
+<li><a href="#const---static------">const 和 static 的一般用法</a><ul>
+<li><a href="#const">const</a></li>
+<li><a href="#static">static</a></li>
+</ul>
+</li>
+<li><a href="#struct---class---">struct / class 区别</a></li>
+<li><a href="#const---static-------">const / static 在类中的用法</a><ul>
+<li><a href="#static---const---">static 和 const 区别</a></li>
+<li><a href="#static-----">static 静态成员</a></li>
+<li><a href="#const---">const 成员</a></li>
+<li><a href="#qa-1">QA</a><ul>
+<li><a href="#------static-const---------">能不能同时用static和const修饰类的成员函数？</a></li>
+<li><a href="#----------------------------------">以下几种情况时必须使用初始化列表（除去少调用一次构造函数的性能优势）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#---------">基类，子类调用关系</a></li>
+<li><a href="#c-c-------">c/c++ 内存分配</a><ul>
+<li><a href="#-----------------">静态与动态内存分配的主要区别如下：</a></li>
+</ul>
+</li>
+<li><a href="#c-c-------">c/c++ 内存布局</a></li>
+<li><a href="#----">重载重写</a></li>
+<li><a href="#----">三大特性</a><ul>
+<li><a href="#--">封装</a><ul>
+<li><a href="#c-----------">C++中类成员的访问权限</a></li>
+</ul>
+</li>
+<li><a href="#--">继承</a></li>
+<li><a href="#--">多态</a><ul>
+<li><a href="#-------------">静态多态（编译期/早绑定）</a></li>
+<li><a href="#-------------">动态多态（运行期/晚绑定）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#------">多态和虚函数</a><ul>
+<li><a href="#----">纯虚函数</a></li>
+<li><a href="#----------">纯虚函数和虚函数区别</a></li>
+<li><a href="#---------------">虚函数表，虚函数指针，实现原理</a></li>
+<li><a href="#-----------">实现编译器处理虚函数表</a></li>
+<li><a href="#---">虚继承</a></li>
+<li><a href="#-------">虚继承和虚函数</a></li>
+<li><a href="#------------">模板类、成员模板与虚函数</a></li>
+<li><a href="#----------------------------------------">析构函数定义成虚函数，构造函数不能定义成虚函数析构和构造函数中调用虚函数会怎么样</a></li>
+</ul>
+</li>
+<li><a href="#---------">静态绑定和动态绑定</a><ul>
+<li><a href="#qa-2">QA</a></li>
+</ul>
+</li>
+<li><a href="#-----------------------">深拷贝和浅拷贝的区别（举例说明深拷贝的安全性）</a></li>
+<li><a href="#--c---------">介绍C++所有的构造函数</a><ul>
+<li><a href="#qa-3">QA</a></li>
+</ul>
+</li>
+<li><a href="#---------------------">结构体内存对齐方式和为什么要进行内存对齐？</a></li>
+<li><a href="#----------------">内存泄露的定义，如何检测与避免？</a><ul>
+<li><a href="#--">定义</a></li>
+<li><a href="#--">检测</a></li>
+<li><a href="#--">避免</a></li>
+</ul>
+</li>
+<li><a href="#----">智能指针</a></li>
+<li><a href="#--------------------------------">成员初始化列表的概念，为什么用成员初始化列表会快一些（性能优势）</a></li>
+<li><a href="#c-------">C++的调用过程</a></li>
+</ul>
+</li>
+<li><a href="#c11">C11</a><ul>
+<li><a href="#-----1">智能指针</a><ul>
+<li><a href="#shared-ptr">shared_ptr</a></li>
+<li><a href="#weak-ptr">weak_ptr</a></li>
+<li><a href="#unique-ptr">unique_ptr</a></li>
+<li><a href="#auto-ptr">auto_ptr</a></li>
+<li><a href="#auto-ptr---unique-ptr---">auto_ptr 与 unique_ptr 比较</a></li>
+</ul>
+</li>
+<li><a href="#------">强制类型转换</a><ul>
+<li><a href="#static-cast">static_cast</a></li>
+<li><a href="#dynamic-cast">dynamic_cast</a></li>
+<li><a href="#const-cast">const_cast</a></li>
+<li><a href="#reinterpret-cast">reinterpret_cast</a></li>
+<li><a href="#bad-cast">bad_cast</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#stl">STL</a><ul>
+<li><a href="#stl-hashtable">STL hashtable</a></li>
+<li><a href="#stl-unordered-map---map---">STL unordered_map 和 map 区别</a><ul>
+<li><a href="#qa-4">QA</a></li>
+</ul>
+</li>
+<li><a href="#stl-vector">STL vector</a><ul>
+<li><a href="#reserve---resize">reserve / resize</a></li>
+<li><a href="#vector---list------">vector / list 区别和联系</a></li>
+<li><a href="#vector---push-back------------">vector 中 push_back 的时间复杂度：均摊分析</a></li>
+<li><a href="#vector--------">vector 使用的注意事项</a></li>
+</ul>
+</li>
+<li><a href="#stl------------------">STL中迭代器的作用，有指针为何还要迭代器</a></li>
+<li><a href="#stl----------------">STL 删除元素（顺带阐述迭代器失效）</a></li>
+</ul>
+</li>
+<li><a href="#golang">Golang</a></li>
+<li><a href="#network">NetWork</a><ul>
+<li><a href="#osi---">OSI 模型</a></li>
+<li><a href="#tcp">TCP</a></li>
+<li><a href="#udp">UDP</a></li>
+<li><a href="#tcp---udp---">TCP 和 UDP 区别</a></li>
+<li><a href="#tcp----------">TCP 三次握手和四次挥手</a><ul>
+<li><a href="#----">三次握手</a></li>
+<li><a href="#----">四次挥手</a></li>
+<li><a href="#--------">为什么是三次握手</a></li>
+<li><a href="#--------">为什么是四次挥手</a></li>
+</ul>
+</li>
+<li><a href="#---fin-wait-2-close-wait-----time-wait----">解释 FIN_WAIT_2，CLOSE_WAIT 状态和 TIME_WAIT 状态?</a></li>
+<li><a href="#---rto-rtt-------">解释 RTO，RTT 和超时重传？</a></li>
+<li><a href="#tcp------">TCP 有限状态机</a></li>
+<li><a href="#tcp-------">TCP 可靠传输原理</a><ul>
+<li><a href="#udp--------">UDP  实现可靠传输</a></li>
+</ul>
+</li>
+<li><a href="#tcp-----">TCP 黏包问题</a><ul>
+<li><a href="#--">解决</a></li>
+</ul>
+</li>
+<li><a href="#tcp-----">TCP 流量控制</a></li>
+<li><a href="#tcp-----">TCP 拥塞控制</a><ul>
+<li><a href="#--------------">如何区分流量控制和拥塞控制？</a></li>
+</ul>
+</li>
+<li><a href="#tcp-------">TCP 超时重传机制</a></li>
+<li><a href="#tcp------">TCP 四个定时器</a><ul>
+<li><a href="#------">重传计时器：</a></li>
+<li><a href="#------persistent-timer">坚持计时器：persistent timer</a></li>
+<li><a href="#------keeplive-timer">保活计时器：keeplive timer</a></li>
+<li><a href="#--------time-wait-timer">时间等待计时器：Time_Wait Timer</a></li>
+</ul>
+</li>
+<li><a href="#http----">HTTP 状态码</a></li>
+<li><a href="#http------cookie-session">HTTP 会话机制：Cookie/Session</a></li>
+<li><a href="#socket-----">Socket 系统调用</a></li>
+<li><a href="#socket---tcp----------">Socket 中 TCP 的三次握手建立连接</a><ul>
+<li><a href="#socket---tcp----------">Socket 中 TCP 的四次握手释放连接</a></li>
+</ul>
+</li>
+<li><a href="#http-2">HTTP/2</a></li>
+</ul>
+</li>
+<li><a href="#os">OS</a><ul>
+<li><a href="#-----------">进程与线程的区别和联系</a></li>
+<li><a href="#---------------">进程通信方法 / 线程通信方法</a></li>
+<li><a href="#----------">进程调度方法详细介绍</a><ul>
+<li><a href="#-----">批处理系统</a></li>
+<li><a href="#---">交互式</a></li>
+<li><a href="#----">实时系统</a></li>
+</ul>
+</li>
+<li><a href="#----------">页面置换方法详细介绍</a><ul>
+<li><a href="#--">分类</a></li>
+<li><a href="#--">算法</a></li>
+</ul>
+</li>
+<li><a href="#---------------------">死锁的必要条件，怎么检测死锁，解决死锁问题</a><ul>
+<li><a href="#----">必要条件</a></li>
+<li><a href="#----">死锁检测</a></li>
+<li><a href="#----">解决死锁</a></li>
+</ul>
+</li>
+<li><a href="#----">资源管理</a><ul>
+<li><a href="#--">复用</a></li>
+<li><a href="#--">虚拟</a></li>
+<li><a href="#--">抽象</a></li>
+<li><a href="#----------">组合使用资源管理技术</a></li>
+</ul>
+</li>
+<li><a href="#--------------">对象复用的了解，零拷贝的了解</a></li>
+<li><a href="#--------">多线程同步和互斥</a></li>
+<li><a href="#---------------------------------">哲学家就餐，银行家，读者写者，生产者消费者（怎么加锁解锁，伪代码）</a></li>
+<li><a href="#---io-----io">同步 IO 和异步 IO</a><ul>
+<li><a href="#----">如何区分</a></li>
+</ul>
+</li>
+<li><a href="#-----------">文件读写使用的系统调用</a><ul>
+<li><a href="#-----">文件描述符</a></li>
+<li><a href="#open--">open()</a></li>
+<li><a href="#create--">create()</a></li>
+<li><a href="#read--">read()</a></li>
+<li><a href="#write--">write()</a></li>
+<li><a href="#close--">close()</a></li>
+</ul>
+</li>
+<li><a href="#--------------------------">线程池的了解、优点、调度处理方式和保护任务队列的方式</a></li>
+<li><a href="#---">多线程</a></li>
+</ul>
+</li>
+<li><a href="#linux">Linux</a><ul>
+<li><a href="#linux-i-o------------------------">Linux的I/O模型介绍以及同步异步阻塞非阻塞的区别（超级重要）</a><ul>
+<li><a href="#----">信号驱动</a></li>
+</ul>
+</li>
+<li><a href="#--------ext4-xfs-btrfs-">文件系统的理解（EXT4，XFS，BTRFS）</a></li>
+<li><a href="#io--------select-poll-epoll-------------------">IO复用的三种方法（select，poll，epoll）深入理解，包括三者区别，内部原理实现</a><ul>
+<li><a href="#select">select</a></li>
+<li><a href="#poll">poll</a></li>
+<li><a href="#epoll">epoll</a></li>
+</ul>
+</li>
+<li><a href="#epoll-et---lt--">epoll的ET模式和LT模式</a></li>
+<li><a href="#----">惊群问题</a></li>
+<li><a href="#linux---">Linux 命令</a><ul>
+<li><a href="#linux---------------------------">Linux监控网络带宽的命令，查看特定进程的占用网络资源情况命令</a></li>
+<li><a href="#------cpu----------used-buf-cache------">查询进程占用CPU的命令（注意要了解到used，buf，cache 代表意义）</a></li>
+<li><a href="#linux------kill-find-cp--">linux的常见命令（kill，find，cp ...）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#db">DB</a><ul>
+<li><a href="#--------------------">关系型和非关系型数据库的区别（各自优点）</a></li>
+<li><a href="#--sql---ddl-dml-dcl-tcl-">常用SQL语句（DDL,DML,DCL,TCL）</a></li>
+<li><a href="#--">索引</a><ul>
+<li><a href="#-------">数据库索引类型</a></li>
+<li><a href="#----------------------">聚集索引和非聚集索引的区别（叶节点存储内容）</a></li>
+<li><a href="#-------------">唯一性索引和主码索引的区别</a></li>
+<li><a href="#------------------------------">索引的优缺点，什么时候使用索引，什么时候不能使用索引（重点）</a></li>
+<li><a href="#--------b------------b--">索引的底层实现（B+树，为何不采用红黑树，B树）</a></li>
+</ul>
+</li>
+<li><a href="#b-b--tree-----">B/B+ Tree 具体实现</a></li>
+<li><a href="#-------acid">数据库中事务的ACID</a></li>
+</ul>
+</li>
+<li><a href="#------">海量数据处理</a><ul>
+<li><a href="#bitmap">bitmap</a></li>
+<li><a href="#-----">布隆过滤器</a></li>
+</ul>
+</li>
+<li><a href="#redis">Redis</a><ul>
+<li><a href="#redis----------------">Redis的数据类型有哪些，底层怎么实现?</a></li>
+</ul>
+</li>
+<li><a href="#----">工程类型</a><ul>
+<li><a href="#----------">系统如何提高并发性？</a></li>
+</ul>
+</li>
+<li><a href="#algo----ds">Algo &amp;&amp; DS</a><ul>
+<li><a href="#analysis-of-algorithms------">Analysis of Algorithms（算法分析）</a><ul>
+<li><a href="#amortized-analysis------">Amortized Analysis（摊还分析）</a></li>
+<li><a href="#time-complexity-of-building-a-heap--------">Time Complexity of building a heap（建堆的复杂度）</a></li>
+</ul>
+</li>
+<li><a href="#data-structrues">Data-Structrues</a><ul>
+<li><a href="#stack">Stack</a></li>
+<li><a href="#heap">Heap</a></li>
+<li><a href="#queue">Queue</a></li>
+<li><a href="#skiplist">SkipList</a></li>
+<li><a href="#bst">BST</a></li>
+<li><a href="#avl">AVL</a></li>
+<li><a href="#rb-tree">RB Tree</a></li>
+</ul>
+</li>
+<li><a href="#algorithm">Algorithm</a><ul>
+<li><a href="#sort">Sort</a></li>
+<li><a href="#lca--------">LCA（最近公共祖先）</a></li>
+<li><a href="#lcs---------">LCS（最长公共子序列）</a></li>
+<li><a href="#dfs">DFS</a></li>
+<li><a href="#bfs">BFS</a></li>
+<li><a href="#dp------">DP（动态规划）</a></li>
+<li><a href="#binary-search------">Binary Search（二分搜索）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#----------">手撕代码（非算法题）</a><ul>
+<li><a href="#design-pattern">Design-Pattern</a><ul>
+<li><a href="#-----------------------">写单例模式（饿汉模式和懒汉模式），线程安全版本</a></li>
+</ul>
+</li>
+<li><a href="#----">操作系统</a></li>
+<li><a href="#c-c-------">c/c++ 结构实现</a><ul>
+<li><a href="#vector">vector</a></li>
+<li><a href="#string">string</a></li>
+<li><a href="#strcpy">strcpy</a></li>
+<li><a href="#memcpy">memcpy</a></li>
+<li><a href="#shared-ptr-1">shared_ptr</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small></p>
+<h1 id="-">知识点整理</h1>
+<h2 id="cpp">CPP</h2>
+<p>指针、引用、数组、内存</p>
+<p>引用与指针区别</p>
+<p>C 和 C++ 的一些区别，比如 new、delete 和 malloc、free 的区别</p>
+<p>虚机制：虚函数、虚函数表、纯虚函数</p>
+<p>继承、虚继承、菱形继承等</p>
+<p>智能指针原理：引用计数、RAII（资源获取即初始化）思想</p>
+<p>智能指针使用：shared_ptr、weak_ptr、unique_ptr等</p>
+<p>一些关键字的作用：static、const、volatile、extern</p>
+<p>多态： 动态绑定，静态多态</p>
+<p>重写、重载</p>
+<p>四种类型转换：static_cast, dynamic_cast, const_cast, reinterpret_cast</p>
+<p>STL部分容器的实现原理，如 vector、deque、map、hashmap</p>
+<p>模板特化、偏特化，萃取 traits 技巧</p>
+<p>编译链接机制、内存布局（memory layout）、对象模型</p>
+<p>C++11 部分新特性，比如右值引用、完美转发等</p>
+<h3 id="-">指针和引用区别</h3>
+<p>同：都实现了对其他对象的间接访问</p>
+<ul>
+<li>指针本身是一个对象，引用不是，允许对指针赋值和拷贝，可以定义指针的引用，而不是指向引用的指针</li>
+<li>指针无需在定义时赋初值，如果没被初始化，会拥有一个不确定值。引用必须初始化，对象不能为空，不能定引用的引用（有指针的指针）</li>
+<li>指针在指针生命周期内可以指向不同的对象，而引用对象不能更换</li>
+</ul>
+<h3 id="-">堆和栈的区别</h3>
+<ol>
+<li>申请方式不同
+栈由系统自动分配。
+堆由程序员手动分配。</li>
+<li>申请大小限制不同
+栈顶和栈底是之前预设好的，大小固定，可以通过 <code>ulimit -a</code> 查看，由 <code>ulimit -s</code> 修改。
+堆向高地址拓展，是不连续的内存区域，大小可以灵活调整</li>
+<li>申请效率不同
+栈由系统分配，速度快，不会有碎片。
+堆由程序员分配，速度慢，且会有碎片。 </li>
+<li>增长方向不同
+栈从高到低拓展
+堆从低到高拓展</li>
+</ol>
+<h3 id="new-delete-new-malloc-">new 和 delete 是如何实现的，new 与 malloc 的异同处</h3>
+<p>new：内存的分配 -&gt; 构造函数的调用</p>
+<p>delete：析构函数的调用 -&gt; 内存的销毁</p>
+<p>不同之处：</p>
+<ul>
+<li><p>申请的内存所在位置</p>
+<p>new操作符从自由存储区（free store）上为对象动态分配内存空间，而malloc函数从堆上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用malloc从堆上分配内存，使用free释放已分配的对应内存。</p>
+</li>
+<li><p>返回类型安全性</p>
+<p>new操作符内存分配成功时，返回的是对象类型的指针，类型严格与对象匹配，无须进行类型转换，故new是符合类型安全性的操作符。而malloc内存分配成功则是返回void <em> ，需要通过强制类型转换将void</em>指针转换成我们需要的类型。</p>
+</li>
+<li><p>是否需要制定内存大小</p>
+<p>使用new操作符申请内存分配时无须指定内存块的大小，编译器会根据类型信息自行计算，而malloc则需要显式地指出所需内存的尺寸。</p>
+</li>
+<li><p>调用构造/析构函数</p>
+<p>使用new操作符来分配对象内存时会经历三个步骤：</p>
+<ul>
+<li>第一步：调用operator new 函数（对于数组是operator new[]）分配一块足够大的，原始的，未命名的内存空间以便存储特定类型的对象。</li>
+<li>第二步：编译器运行相应的构造函数以构造对象，并为其传入初值。</li>
+<li>第三部：对象构造完成后，返回一个指向该对象的指针。</li>
+</ul>
+<p>使用delete操作符来释放对象内存时会经历两个步骤：</p>
+<ul>
+<li>第一步：调用对象的析构函数。</li>
+<li>第二步：编译器调用operator delete(或operator delete[])函数释放内存空间。</li>
+</ul>
+</li>
+<li><p>对数组的处理</p>
+<p>new对数组的支持体现在它会分别调用构造函数函数初始化每一个数组元素，释放对象时为每个对象调用析构函数。注意delete[]要与new[]配套使用，不然会找出数组对象部分释放的现象，造成内存泄漏。</p>
+<p>至于malloc，它并知道你在这块内存上要放的数组还是啥别的东西，反正它就给你一块原始的内存，在给你个内存的地址就完事。所以如果要动态分配一个数组的内存，还需要我们手动自定数组的大小：</p>
+</li>
+<li><p>相互调用</p>
+<p>operator new /operator delete的实现可以基于malloc，而malloc的实现不可以去调用new。下面是编写operator new /operator delete 的一种简单方式，其他版本也与之类似：</p>
+<pre><code class="lang-cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> * <span class="hljs-keyword">operator</span> <span class="hljs-title">new</span> <span class="hljs-params">(<span class="hljs-keyword">sieze_t</span> size)</span>
+</span>{
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">void</span> * mem = <span class="hljs-built_in">malloc</span>(size)
+        <span class="hljs-keyword">return</span> mem;
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">throw</span> bad_alloc();
+}
+<span class="hljs-keyword">void</span> <span class="hljs-keyword">operator</span> <span class="hljs-keyword">delete</span>(<span class="hljs-keyword">void</span> *mem) <span class="hljs-keyword">noexcept</span>
+{
+    <span class="hljs-built_in">free</span>(mem);
+}
+</code></pre>
+</li>
+<li><p>是否可以被重载</p>
+<p>malloc 和 free 是标准库函数，支持覆盖；new 和 delete 是运算符，并且支持重载。</p>
+</li>
+<li><p>直观的重新分配内存</p>
+<p>使用 malloc 分配的内存后，如果在使用过程中发现内存不足，可以使用 realloc 函数进行内存重新分配实现内存的扩充。realloc 先判断当前的指针所指内存是否有足够的连续空间，如果有，原地扩大可分配的内存地址，并且返回原来的地址指针；如果空间不够，先按照新指定的大小分配空间，将原有数据从头到尾拷贝到新分配的内存区域，而后释放原来的内存区域。</p>
+<p>new 没有这样直观的配套设施来扩充内存。</p>
+</li>
+</ul>
+<h4 id="qa">QA</h4>
+<h5 id="-">分配在堆中</h5>
+<p>malloc 根据用户要求从堆里动态分配内存空间。为减少内存碎片降低内存开销，采用内存池的方式。 首先分配较大内存为堆，分为大小不同的内存块进行管理。</p>
+<p>malloc 利用隐式链表，在分配时遍历整个链表，选择大小合适的内存块分配。 </p>
+<p>内存分配时会调用 brk 或 mmap 系统，小于 128K 时调用 brk 在堆中分配，大于 128K 时调用 mmap 在映射区分配</p>
+<h5 id="delete-this-">delete this 合法吗</h5>
+<p>合法，但：</p>
+<ol>
+<li>必须保证 this 对象是通过 <code>new</code>（不是 <code>new[]</code>、不是 placement new、不是栈上、不是全局、不是其他对象成员）分配的</li>
+<li>必须保证调用 <code>delete this</code> 的成员函数是最后一个调用 this 的成员函数</li>
+<li>必须保证成员函数的 <code>delete this</code> 后面没有调用 this 了</li>
+<li>必须保证 <code>delete this</code> 后没有人使用了</li>
+</ol>
+<h5 id="-">如何定义一个只能在堆上（栈上）生成对象的类？</h5>
+<p><strong>只能在堆上</strong></p>
+<p>方法：将析构函数设置为私有</p>
+<p>原因：C++ 是静态绑定语言，编译器管理栈上对象的生命周期，编译器在为类对象分配栈空间时，会先检查类的析构函数的访问性。若析构函数不可访问，则不能在栈上创建对象。</p>
+<p><strong>只能在栈上</strong></p>
+<p>方法：将 new 和 delete 重载为私有</p>
+<p>原因：在堆上生成对象，使用 new 关键词操作，其过程分为两阶段：第一阶段，使用 new 在堆上寻找可用内存，分配给对象；第二阶段，调用构造函数生成对象。将 new 操作设置为私有，那么第一阶段就无法完成，就不能够在堆上生成对象。</p>
+<h3 id="c-c-">C / C++ 区别</h3>
+<ul>
+<li><p>面向对象，和面向过程</p>
+</li>
+<li><p>函数重载：c 没有，c++ 有</p>
+</li>
+<li><p>参数列表：在 C 语言中，函数没有指定参数列表时，默认可以接收任意多个参数；但在 C++中，因为严格的参数类型检测，没有参数列表的函数，默认为 void，不接收任何参数。</p>
+</li>
+<li><p>返回值</p>
+<p>c 不指定返回值，默认为 int，c++ 如果函数没有返回值，必须指定为 void</p>
+</li>
+<li><p>关键字差别</p>
+<p>（1）struct：在 C 语言中 struct 定义的变量中不能有函数，而在 C++ 中可以有函数。
+（2）malloc ：malloc 函数的返回值为 void*，在 C 语言中可以赋值给任意类型的指针，在 C++ 中必须强制类型转换，否则报错。
+（3）struct 和 class：class 是对 struct 的扩展，struct 默认的访问权限是 public，而 class 默认的访问权限是 private。</p>
+</li>
+</ul>
+<h3 id="c-java-">C++ 和 Java 的区别</h3>
+<p>Java 运行在 jvm 中，适合全平台，C++ 多平台代码实现不同</p>
+<p>垃圾回收机制的区别。<strong>C++用析构函数回收垃圾，Java自动回收（GC算法）</strong>,写C和C++程序时一定要注意内存的申请和释放。</p>
+<p><strong>Java用接口(Interface)技术取代C++程序中的多继承性</strong></p>
+<p>C++ 用指针操作内存，Java 不可以</p>
+<h3 id="struct-">struct 内存对齐</h3>
+<pre><code class="lang-c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
+
+<span class="hljs-comment">// 8 + 8 + 4 + 2 + 2</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> Double {
+  <span class="hljs-keyword">char</span> c;
+  <span class="hljs-keyword">double</span> b;
+  <span class="hljs-keyword">int</span> f;
+  <span class="hljs-keyword">short</span> a;
+  <span class="hljs-keyword">char</span> e;
+} DOUBLEAREA;
+
+<span class="hljs-comment">// 8 + 4 + 2 + 1 + 1</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> DoubleNew {
+  <span class="hljs-keyword">double</span> b;
+  <span class="hljs-keyword">int</span> f;
+  <span class="hljs-keyword">short</span> a;
+  <span class="hljs-keyword">char</span> c;
+  <span class="hljs-keyword">char</span> e;
+} DOUBLEAREANEW;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">int</span> lenDouble, lenDoubleNew;
+  DOUBLEAREA DoubleArea;
+  DOUBLEAREANEW DoubleAreaN;
+  lenDouble = <span class="hljs-keyword">sizeof</span>(DoubleArea);
+  lenDoubleNew = <span class="hljs-keyword">sizeof</span>(DoubleAreaN);
+  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"DoubleArea len is %d DoubleAreaN len is %d \n"</span>, lenDouble,
+         lenDoubleNew);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<h3 id="class-wip-">class 大小（WIP）</h3>
+<p>与类大小有关的因素：普通成员变量，虚函数，继承（单一继承，多重继承，重复继承，虚拟继承）</p>
+<p>与类大小无关的因素：静态成员变量，静态成员函数及普通成员函数</p>
+<ol>
+<li><p>空类</p>
+<p>在 C++ 中空类会占一个字节，这是为了让对象的实例能够相互区别。具体来说，空类同样可以被实例化，并且每个实例在内存中都有独一无二的地址，因此，编译器会给空类隐含加上一个字节，这样空类实例化之后就会拥有独一无二的内存地址。如果没有这一个字节的占位，那么空类就无所谓实例化了，因为实例化的过程就是在内存中分配一块地址。</p>
+<p>注意：当该空白类作为基类时，该类的大小就优化为0了，这就是所谓的空白基类最优化。</p>
+</li>
+<li><p>一般类，注意内存对齐</p>
+<ul>
+<li>char: 1 字节</li>
+<li>short: 2 字节</li>
+<li>int: 4 字节</li>
+<li>float: 4 字节</li>
+<li>double: 8 字节</li>
+</ul>
+</li>
+<li><p>含虚函数的单一继承</p>
+</li>
+<li><p>含虚函数的多重继承</p>
+</li>
+</ol>
+<h3 id="define-const-">define 和 const 区别</h3>
+<p>编译阶段，安全性，内存占用三个方面，可以先简单阐述一下 define 和 const</p>
+<ol>
+<li><p>define 发生在编译阶段之前，属于文本插入替换；const 发生再编译过程之中</p>
+</li>
+<li><p>define 不检查类型；const 会检查数据类型</p>
+</li>
+<li><p>define 定义的数据结构没有分配内存空间，只是插入替换掉；const 定义的变量分配内存空间</p>
+</li>
+</ol>
+<h3 id="const-static-">const 和 static 的一般用法</h3>
+<p>定义、用途</p>
+<p>const 定义的常量在超出其作用域之后其空间会被释放，而 static 定义的静态常量在函数执行后不会释放其存储空间。</p>
+<h4 id="const">const</h4>
+<ul>
+<li><p>顶层 const</p>
+<p>指针本身是一个常量，不可以通过改指针改变所指的值</p>
+</li>
+<li><p>底层 const</p>
+<p>指针所指的对象是一个常量</p>
+</li>
+</ul>
+<h4 id="static">static</h4>
+<ul>
+<li><p>修饰全局变量</p>
+<p>存储在静态区</p>
+<p>本质：static 并不能够改变其存储位置（全局变量存储也在静态区），但是，static 限制了其链接属性，被 static 修饰的全局变量只能够被包含该定义的文件访问（改变了作用域）</p>
+<p>好处：全局变量会带来全局空间的命名污染，使用 static 修饰全局变量既保留了全局变量的使用便利性，又不会造成全局空间的命名污染</p>
+</li>
+<li><p>修饰局部变量</p>
+<p>static 修饰局部变量的时候，使得被修饰的变量成为静态变量，存储在静态存储区，存储在静态区的数据生命周期与程序相同，在 main 函数之前初始化，在程序退出时销毁（局部静态和全局静态）</p>
+</li>
+<li><p>修饰函数</p>
+<p>修饰的函数只能够在包含该定义的文件中调用，对于静态函数，声明和定义需要在同一个文件夹当中</p>
+</li>
+<li><p>修饰成员函数</p>
+<p>用 static 修饰成员函数，使这个类只存在这一份函数，所有对象共享该函数，不含有 this 指针，所以 static 成员函数只能访问类的 static 成员变量。静态成员是可以独立访问的，无需创建任何对象实例就可以访问。可以用来封装某些算法，比如数学函数，如 sin，tan 等，这些函数不需要属于任何一个对象，从类调用更好，比如，定义一个数学类 Math，调用 Math::sin(3.14)，还可以实现某些特殊的设计模式（PS. Singleton）</p>
+</li>
+</ul>
+<p>static 的 “隐藏性“</p>
+<ol>
+<li>我们知道，当同时编译多个文件时，所有未加 static 的全局变量和函数都具有全局可见性，但加上 static 后的变量，只在当前文件可见；</li>
+<li>另外，static 变量和全局变量虽然都存在静态存储区，但是 static 可以控制变量的可见范围，这也体现了它的隐藏性；</li>
+</ol>
+<h3 id="struct-class-">struct / class 区别</h3>
+<ul>
+<li>使用 class 时，类中的成员默认都是 private 属性的；而使用 struct 时，结构体中的成员默认都是 public 属性的。</li>
+<li>class 继承默认是 private 继承，而 struct 继承默认是 public 继承</li>
+<li>class 可以使用模板，而 struct 不能</li>
+</ul>
+<h3 id="const-static-">const / static 在类中的用法</h3>
+<p><strong>定义、初始化、使用</strong></p>
+<p>const定义的常量在超出其作用域之后其空间会被释放，而static定义的静态常量在函数执行后不会释放其存储空间。</p>
+<p>在 C++ 中，static 静态成员变量不能在类的内部初始化。在类的内部只是声明，定义必须在类定义体的外部，通常在类的实现文件中初始化，如：<strong>double Account::Rate = 2.25;</strong></p>
+<p>static 关键字只能用于类定义体内部的声明中，定义时不能标示为 static。</p>
+<p>在 C++ 中，const 成员变量也不能在类定义处初始化，只能通过构造函数初始化列表进行，并且必须有构造函数。</p>
+<p>const 数据成员只在某个对象生存期内是常量，而对于整个类而言却是可变的。因为类可以创建多个对象，不同的对象其 const 数据成员的值可以不同。所以不能在类的声明中初始化 const 数据成员，因为类的对象没被创建时，编译器不知道 const 数据成员的值是什么。</p>
+<p>const 数据成员的初始化只能在类的构造函数的初始化列表中进行。要想建立在整个类中都恒定的常量，应该用类中的枚举常量来实现，或者 static const。</p>
+<h4 id="static-const-">static 和 const 区别</h4>
+<p><strong>定义</strong>：</p>
+<p>static 主要作用是：作为类作用域的全局函数，不能访问类的非静态数据成员。</p>
+<p>类的静态成员函数没有 this 指针，这导致：</p>
+<ol>
+<li>不能直接存取类的非静态成员变量，调用非静态成员函数</li>
+<li>不能被声明为 virtual</li>
+</ol>
+<p>cosnt 成员函数主要目的是防止成员函数修改对象的内容。即 const 成员函数不能修改成员变量的值，但可以访问成员变量。当方法成员函数时，该函数只能是 const 成员函数。</p>
+<p><strong>初始化：</strong></p>
+<p>const 建立时，不能给他初值（需要使用构造函数列表初始化）</p>
+<p>类中的static变量是属于类的，不属于某个对象，它在整个程序的运行过程中只有一个副本，因此不能在定义对象时对变量进行初始化，就是不能用构造函数进行初始化，其正确的初始化方法是：</p>
+<p>数据类型 类名::静态数据成员名=值；</p>
+<h4 id="static-">static 静态成员</h4>
+<p>如果某个属性为整个类所共有，不属于任何一个具体对象，则采用 static 关键字来声明静态成员。由于静态数据成员不属于任何一个对象，因此可以通过类名对它进行访问。使用方法----- &quot;类名::标识符“ （注意：static 数据成员的初始化要在类定义之外在加以定义）</p>
+<ul>
+<li><p><strong>静态数据成员</strong></p>
+<ol>
+<li>共享 ：static 成员变量实现了同族类对象间信息共享;</li>
+<li>初始化：static 成员使用时必须初始化，且只能类外初始化。声明与实现分离时;只能初始化在实现部分(cpp 部分);</li>
+<li>类大小：static 成员类外存储，求类大小，并不包含在内;</li>
+<li>存储 ：static 成员是命名空间属于类的全局变量，存储在 data 区 rw 段;</li>
+<li>访问 ：可以通过类名访问(无对象生成时亦可)，也可以通过对象访问。</li>
+</ol>
+</li>
+<li><p><strong>静态成员函数</strong></p>
+<ol>
+<li>静态成员函数的意义，不在于信息共享，数据沟通，而在于管理静态数据成员， 完成对静态数据成员的封装。</li>
+<li>staitc 修饰成员函数，仅出现在声明处，不可在定义处。</li>
+<li>静态成员函数只能访问静态数据成员。原因：非静态成员函数在调用时 this 指针被当作参数传进。而静态成员函数是属于类，不属于对象，没有 this 指针。</li>
+</ol>
+</li>
+</ul>
+<h4 id="const-">const 成员</h4>
+<p>const 对象，只能调用 const 成员函数。</p>
+<ul>
+<li><p><strong>变量</strong></p>
+<ol>
+<li><p>const 修饰数据成员，称为常数据成员。常数据成员可被普通成员函数和常成员函数来使用，不可以更改。</p>
+</li>
+<li><p>const 常数据成员在使用前必须被初始化。也就是定义的同时就要初始化，之后不能再去赋值，使用初始化参数列表中(这是在类对象生成之前唯一一次改变 const 成员的值的机会了)。</p>
+<p><strong>初始化</strong></p>
+<ul>
+<li><p>初始化列表先与本对象的构造函数执行</p>
+</li>
+<li><p>初始化列表与成员的声明顺序相同的。</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><strong>函数</strong></p>
+<ol>
+<li>const 修饰函数放在声明之后，实现体之前。</li>
+<li>const 修饰函数不能修改类内的数据成员变量。</li>
+<li>const 修饰函数只能调用 const 函数。非 const 函数可以调用 const 函数。</li>
+<li>const 修饰的全局函数在定义和声明处都需要 const 修饰符。</li>
+</ol>
+</li>
+</ul>
+<h4 id="qa">QA</h4>
+<h5 id="-static-const-">能不能同时用static和const修饰类的成员函数？</h5>
+<p>答案是不可以。C++ 编译器在实现const的成员函数的时候为了确保该函数不能修改类的实例的状态，会在函数中添加一个隐式的参数 const this*。但当一个成员为 static 的时候，该函数是没有 this 指针的（ 静态函数是存放在内存中的数据段里，this 调用的是堆空间里的应用对象，不能调用数据段区域里的数据，因此不能用 this）。也就是说此时 const 的用法和 static 是冲突的。</p>
+<p>我们也可以这样理解：两者的语意是矛盾的。static 的作用是表示该函数只作用在类型的静态变量上，与类的实例没有关系；而 const 的作用是确保函数不能修改类的实例的状态，与类型的静态变量没有关系。因此不能同时用它们。</p>
+<h5 id="-">以下几种情况时必须使用初始化列表（除去少调用一次构造函数的性能优势）</h5>
+<ol>
+<li><p>常量成员，因为常量只能初始化不能赋值，所以必须放在初始化列表里面</p>
+</li>
+<li><p>引用类型，引用必须在定义的时候初始化，并且不能重新赋值，所以也要写在初始化列表里面</p>
+</li>
+<li><p>没有默认构造函数的类类型，因为使用初始化列表可以不必调用默认构造函数来初始化，而是直接调用拷贝构造函数初始化。</p>
+</li>
+</ol>
+<h3 id="-">基类，子类调用关系</h3>
+<h3 id="c-c-">c/c++ 内存分配</h3>
+<p>在 c/c++ 语言中，对象可以使用静态或动态的方式分配内存空间</p>
+<p><strong>静态分配</strong>：编译器在处理程序源代码时分配，由于是在程序执行之前进行所以效率比较高</p>
+<p><strong>动态分配</strong>：程序在执行时调用 malloc 库函数申请分配，可以灵活的处理未知数目的对象</p>
+<h4 id="-">静态与动态内存分配的主要区别如下：</h4>
+<p>静态对象是有名字的变量，可以直接对其进行操作；</p>
+<p>动态对象是没有名字的变量，需要通过指针间接地对它进行操作。</p>
+<p>静态对象的分配与释放由编译器自动处理；</p>
+<p>动态对象的分配与释放必须由程序员显式地管理，它通过malloc()和free两个函数（C++中为new和delete运算符）来完成。</p>
+<h3 id="c-c-">c/c++ 内存布局</h3>
+<ol>
+<li>局部变量存储在栈中</li>
+<li>全局变量、静态变量（全局和局部静态变量都是）存储在静态存储区</li>
+<li>new 申请的内存是在堆中</li>
+<li>字符串常量也是存储在静态存储区</li>
+</ol>
+<p><strong>在操作系统中的布局</strong></p>
+<p><img src="img/image-20200805224215952.png" alt="image-20200805224215952"></p>
+<pre><code class="lang-cpp"><span class="hljs-comment">//main.cpp</span>
+<span class="hljs-keyword">int</span> a = <span class="hljs-number">0</span>; <span class="hljs-comment">// 数据段</span>
+<span class="hljs-keyword">char</span> *p1; <span class="hljs-comment">// BSS 段</span>
+
+main() {
+<span class="hljs-keyword">int</span> b; <span class="hljs-comment">// 栈</span>
+<span class="hljs-keyword">char</span> s[] = <span class="hljs-string">"abc"</span>;<span class="hljs-comment">// 栈</span>
+<span class="hljs-keyword">char</span> *p2;<span class="hljs-comment">// 栈</span>
+<span class="hljs-keyword">char</span> *p3 = <span class="hljs-string">"123456"</span>; <span class="hljs-comment">// 123456\0在常量区，p3 在栈上。</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> c =<span class="hljs-number">0</span>； <span class="hljs-comment">// BSS 段</span>
+<span class="hljs-keyword">Class</span> c1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">Class</span>();<span class="hljs-comment">//new 出的对象就在堆区</span>
+strcpy(p1, <span class="hljs-string">"123456"</span>); <span class="hljs-comment">//123456\0 放在常量区，编译器可能会将它与 p3 所指向的"123456"优化成一个地方。</span>
+}
+</code></pre>
+<h3 id="-">重载重写</h3>
+<p>（1）范围区别：重写和被重写的函数在不同的类中，重载和被重载的函数在同一类中。</p>
+<p>（2）参数区别：重写与被重写的函数参数列表一定相同，重载和被重载的函数参数列表一定不同。</p>
+<p>（3）virtual的区别：重写的基类必须要有virtual修饰，重载函数和被重载函数可以被virtual修饰，也可以没有。</p>
+<h3 id="-">三大特性</h3>
+<h4 id="-">封装</h4>
+<h5 id="c-">C++中类成员的访问权限</h5>
+<p>把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的进行信息隐藏。关键字：public, protected, private。不写默认为 private。</p>
+<ul>
+<li><code>public</code> 成员：可以被任意实体访问</li>
+<li><code>protected</code> 成员：只允许被子类及本类的成员函数访问</li>
+<li><code>private</code> 成员：只允许被本类的成员函数、友元类或友元函数访问</li>
+</ul>
+<p><strong>友元类和友元函数可通过对象访问任意成员</strong>。</p>
+<p>protected 对象有点特殊，它的可访问性比 private 大但比 public 小。前者是因为，派生类的成员函数可以访问基类中的保护成员；而后者是因为类实例无法访问这些被保护的成员</p>
+<h4 id="-">继承</h4>
+<p>基类（父类）——&gt; 派生类（子类）</p>
+<h4 id="-">多态</h4>
+<p>多态，即多种状态（形态）。简单来说，我们可以将多态定义为消息以多种形式显示的能力。</p>
+<p>多态是以封装和继承为基础的。</p>
+<p>C++ 多态分类及实现：</p>
+<ol>
+<li>重载多态（Ad-hoc Polymorphism，编译期）：函数重载、运算符重载</li>
+<li>子类型多态（Subtype Polymorphism，运行期）：虚函数</li>
+<li>参数多态性（Parametric Polymorphism，编译期）：类模板、函数模板</li>
+<li>强制多态（Coercion Polymorphism，编译期/运行期）：基本类型转换、自定义类型转换</li>
+</ol>
+<h5 id="-">静态多态（编译期/早绑定）</h5>
+<p>函数重载</p>
+<h5 id="-">动态多态（运行期/晚绑定）</h5>
+<p>虚函数：用 virtual 修饰成员函数，使其成为虚函数</p>
+<p><strong>注意</strong></p>
+<ul>
+<li>普通函数（非类成员函数）不能是虚函数</li>
+<li>静态函数（static）不能是虚函数（因为没有 this 指针）</li>
+<li>构造函数不能是虚函数（因为在调用构造函数时，虚表指针并没有在对象的内存空间中，必须要构造函数调用完成后才会形成虚表指针）</li>
+<li>内联函数不能是表现多态性时的虚函数，解释见：<a href="https://github.com/huihut/interview#虚函数virtual可以是内联函数inline吗">虚函数（virtual）可以是内联函数（inline）吗？</a></li>
+</ul>
+<h3 id="-">多态和虚函数</h3>
+<h4 id="-">纯虚函数</h4>
+<p>纯虚函数是一种特殊的虚函数，在基类中不能对虚函数给出有意义的实现，而把它声明为纯虚函数，它的实现留给该基类的派生类去做。</p>
+<h4 id="-">纯虚函数和虚函数区别</h4>
+<ul>
+<li>类里如果声明了虚函数，这个函数是实现的，哪怕是空实现，它的作用就是为了能让这个函数在它的子类里面可以被覆盖（override），这样的话，编译器就可以使用后期绑定来达到多态了。纯虚函数只是一个接口，是个函数的声明而已，它要留到子类里去实现。</li>
+<li>虚函数在子类里面可以不重写；但纯虚函数必须在子类实现才可以实例化子类。</li>
+<li>虚函数的类用于 “实作继承”，继承接口的同时也继承了父类的实现。纯虚函数关注的是接口的统一性，实现由子类完成。</li>
+<li>带纯虚函数的类叫抽象类，这种类不能直接生成对象，而只有被继承，并重写其虚函数后，才能使用。抽象类被继承后，子类可以继续是抽象类，也可以是普通类。</li>
+<li>虚基类是虚继承中的基类，具体见下文虚继承。</li>
+</ul>
+<h4 id="-">虚函数表，虚函数指针，实现原理</h4>
+<h4 id="-">实现编译器处理虚函数表</h4>
+<h4 id="-">虚继承</h4>
+<p>虚继承用于解决多继承条件下的菱形继承问题（浪费存储空间、存在二义性）。</p>
+<p>底层实现原理与编译器相关，一般通过<strong>虚基类指针</strong>和<strong>虚基类表</strong>实现，每个虚继承的子类都有一个虚基类指针（占用一个指针的存储空间，4字节）和虚基类表（不占用类对象的存储空间）（需要强调的是，虚基类依旧会在子类里面存在拷贝，只是仅仅最多存在一份而已，并不是不在子类里面了）；当虚继承的子类被当做父类继承时，虚基类指针也会被继承。</p>
+<p>实际上，vbptr 指的是虚基类表指针（virtual base table pointer），该指针指向了一个虚基类表（virtual table），虚表中记录了虚基类与本类的偏移地址；通过偏移地址，这样就找到了虚基类成员，而虚继承也不用像普通多继承那样维持着公共基类（虚基类）的两份同样的拷贝，节省了存储空间。</p>
+<h4 id="-">虚继承和虚函数</h4>
+<p>相同之处：都利用了虚指针（均占用类的存储空间）和虚表（均不占用类的存储空间）</p>
+<p>不同之处：</p>
+<ul>
+<li>虚继承<ul>
+<li>虚基类依旧存在继承类中，只占用存储空间</li>
+<li>虚基类表存储的是虚基类相对直接继承类的偏移</li>
+</ul>
+</li>
+<li>虚函数<ul>
+<li>虚函数不占用存储空间</li>
+<li>虚函数表存储的是虚函数地址</li>
+</ul>
+</li>
+</ul>
+<h4 id="-">模板类、成员模板与虚函数</h4>
+<ul>
+<li>模板类中可以使用虚函数</li>
+<li>一个类（无论是普通类还是类模板）的成员模板（本身是模板的成员函数）不能是虚函数</li>
+</ul>
+<h4 id="-">析构函数定义成虚函数，构造函数不能定义成虚函数析构和构造函数中调用虚函数会怎么样</h4>
+<h3 id="-">静态绑定和动态绑定</h3>
+<h4 id="qa">QA</h4>
+<p>引用是否能实现动态绑定，为什么引用可以实现</p>
+<h3 id="-">深拷贝和浅拷贝的区别（举例说明深拷贝的安全性）</h3>
+<h3 id="-c-">介绍C++所有的构造函数</h3>
+<ol>
+<li>默认构造函数、一般构造函数、拷贝构造函数</li>
+<li>默认构造函数（无参数）：如果创建一个类你没有写任何构造函数,则系统会自动生成默认的构造函数，或者写了一个不带任何形参的构造函数</li>
+<li>一般构造函数：一般构造函数可以有各种参数形式,一个类可以有多个一般构造函数，前提是参数的个数或者类型不同（基于c++的重载函数原理）</li>
+<li>拷贝构造函数参数为类对象本身的引用，用于根据一个已存在的对象复制出一个新的该类的对象，一般在函数中会将已存在对象的数据成员的值复制一份到新创建的对象中。参数（对象的引用）是不可变的（const类型）。此函数经常用在函数调用时用户定义类型的值传递及返回。</li>
+</ol>
+<h4 id="qa">QA</h4>
+<p>什么情况下会调用拷贝构造函数（三种情况）</p>
+<h3 id="-">结构体内存对齐方式和为什么要进行内存对齐？</h3>
+<h3 id="-">内存泄露的定义，如何检测与避免？</h3>
+<h4 id="-">定义</h4>
+<p>在编写应用程序的时候，程序分配了一块内存，但已经不再持有引用这块内存的对象（通常是指针），虽然这些内存被分配出去，但是无法收回，将无法被其他的进程所使用，被泄漏的内存将在整个程序声明周期内都不可使用。</p>
+<h4 id="-">检测</h4>
+<p>valgrind</p>
+<p>gcc asan</p>
+<h4 id="-">避免</h4>
+<ol>
+<li>使用 RAII（ResourceAcquisition Is Initialization，资源获取即初始化）技法，以构造函数获取资源（内存），析构函数释放</li>
+<li>使用智能指针</li>
+<li>注意 delete 和 delete[] 用法</li>
+<li></li>
+</ol>
+<h3 id="-">智能指针</h3>
+<h3 id="-">成员初始化列表的概念，为什么用成员初始化列表会快一些（性能优势）</h3>
+<h3 id="c-">C++的调用过程</h3>
+<h2 id="c11">C11</h2>
+<h3 id="-">智能指针</h3>
+<p>Class shared_ptr 实现共享式拥有（shared ownership）概念。多个智能指针指向相同对象，该对象和其相关资源会在 “最后一个 reference 被销毁” 时被释放。为了在结构较复杂的情景中执行上述工作，标准库提供 weak_ptr、bad_weak_ptr 和 enable_shared_from_this 等辅助类。</p>
+<p>Class unique_ptr 实现独占式拥有（exclusive ownership）或严格拥有（strict ownership）概念，保证同一时间内只有一个智能指针可以指向该对象。你可以移交拥有权。它对于避免内存泄漏（resource leak）——如 new 后忘记 delete ——特别有用。</p>
+<h4 id="shared_ptr">shared_ptr</h4>
+<p>多个智能指针可以共享同一个对象，对象的最末一个拥有着有责任销毁对象，并清理与该对象相关的所有资源。</p>
+<ul>
+<li>支持定制型删除器（custom deleter），可防范 Cross-DLL 问题（对象在动态链接库（DLL）中被 new 创建，却在另一个 DLL 内被 delete 销毁）、自动解除互斥锁</li>
+</ul>
+<h4 id="weak_ptr">weak_ptr</h4>
+<p>weak_ptr 允许你共享但不拥有某对象，一旦最末一个拥有该对象的智能指针失去了所有权，任何 weak_ptr 都会自动成空（empty）。因此，在 default 和 copy 构造函数之外，weak_ptr 只提供 “接受一个 shared_ptr” 的构造函数。</p>
+<ul>
+<li>可打破环状引用（cycles of references，两个其实已经没有被使用的对象彼此互指，使之看似还在 “被使用” 的状态）的问题</li>
+</ul>
+<h4 id="unique_ptr">unique_ptr</h4>
+<p>unique_ptr 是 C++11 才开始提供的类型，是一种在异常时可以帮助避免资源泄漏的智能指针。采用独占式拥有，意味着可以确保一个对象和其相应的资源同一时间只被一个 pointer 拥有。一旦拥有着被销毁或编程 empty，或开始拥有另一个对象，先前拥有的那个对象就会被销毁，其任何相应资源亦会被释放。</p>
+<ul>
+<li>unique_ptr 用于取代 auto_ptr</li>
+</ul>
+<h4 id="auto_ptr">auto_ptr</h4>
+<p>被 c++11 弃用，原因是缺乏语言特性如 “针对构造和赋值” 的 <code>std::move</code> 语义，以及其他瑕疵。</p>
+<h4 id="auto_ptr-unique_ptr-">auto_ptr 与 unique_ptr 比较</h4>
+<ul>
+<li>auto_ptr 可以赋值拷贝，复制拷贝后所有权转移；unqiue_ptr 无拷贝赋值语义，但实现了<code>move</code> 语义；</li>
+<li>auto_ptr 对象不能管理数组（析构调用 <code>delete</code>），unique_ptr 可以管理数组（析构调用 <code>delete[]</code> ）；</li>
+</ul>
+<h3 id="-">强制类型转换</h3>
+<h4 id="static_cast">static_cast</h4>
+<ul>
+<li>用于非多态类型的转换</li>
+<li>不执行运行时类型检查（转换安全性不如 dynamic_cast）</li>
+<li>通常用于转换数值数据类型（如 float -&gt; int）</li>
+<li>可以在整个类层次结构中移动指针，子类转化为父类安全（向上转换），父类转化为子类不安全（因为子类可能有不在父类的字段或方法）</li>
+</ul>
+<blockquote>
+<p>向上转换是一种隐式转换。</p>
+</blockquote>
+<h4 id="dynamic_cast">dynamic_cast</h4>
+<ul>
+<li>用于多态类型的转换</li>
+<li>执行行运行时类型检查</li>
+<li>只适用于指针或引用</li>
+<li>对不明确的指针的转换将失败（返回 nullptr），但不引发异常</li>
+<li>可以在整个类层次结构中移动指针，包括向上转换、向下转换</li>
+</ul>
+<h4 id="const_cast">const_cast</h4>
+<ul>
+<li>用于删除 const、volatile 和 __unaligned 特性（如将 const int 类型转换为 int 类型 ）</li>
+</ul>
+<h4 id="reinterpret_cast">reinterpret_cast</h4>
+<ul>
+<li>用于位的简单重新解释</li>
+<li>滥用 reinterpret_cast 运算符可能很容易带来风险。 除非所需转换本身是低级别的，否则应使用其他强制转换运算符之一。</li>
+<li>允许将任何指针转换为任何其他指针类型（如 <code>char*</code> 到 <code>int*</code> 或 <code>One_class*</code> 到 <code>Unrelated_class*</code> 之类的转换，但其本身并不安全）</li>
+<li>也允许将任何整数类型转换为任何指针类型以及反向转换。</li>
+<li>reinterpret_cast 运算符不能丢掉 const、volatile 或 __unaligned 特性。</li>
+<li>reinterpret_cast 的一个实际用途是在哈希函数中，即，通过让两个不同的值几乎不以相同的索引结尾的方式将值映射到索引。</li>
+</ul>
+<h4 id="bad_cast">bad_cast</h4>
+<ul>
+<li>由于强制转换为引用类型失败，dynamic_cast 运算符引发 bad_cast 异常。</li>
+</ul>
+<p>bad_cast 使用</p>
+<pre><code class="lang-cpp"><span class="hljs-keyword">try</span> {  
+    Circle&amp; ref_circle = <span class="hljs-keyword">dynamic_cast</span>&lt;Circle&amp;&gt;(ref_shape);   
+}  
+<span class="hljs-keyword">catch</span> (bad_cast b) {  
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"Caught: "</span> &lt;&lt; b.what();  
+}
+</code></pre>
+<h2 id="stl">STL</h2>
+<h3 id="stl-hashtable">STL hashtable</h3>
+<h3 id="stl-unordered_map-map-">STL unordered_map 和 map 区别</h3>
+<p>  1、构造函数 hash_map 需要 hash 函数，等于函数；map 只需要比较函数（小于函数）。
+ 2、存储结构 hash_map 采用 hash 表存储，map 一般采用红黑树实现（红黑树可以遍历，所以 map 可以遍历）。因此内存数据结构是不一样的。
+ 3、STL 的 map 底层是用红黑树实现的，查找时间复杂度是 log(n)；
+ 4、STL 的 hash_map 底层是用 hashtable 存储的，查询时间复杂度是 O(1)；</p>
+<h4 id="qa">QA</h4>
+<p>Hashmap 产生冲突如何处理，如何优化？</p>
+<ul>
+<li>链地址法：key 相同的用单链表链接</li>
+<li>开放定址法<ul>
+<li>线性探测法：key 相同 -&gt; 放到 key 的下一个位置，<code>Hi = (H(key) + i) % m</code></li>
+<li>二次探测法：key 相同 -&gt; 放到 <code>Di = 1^2, -1^2, ..., ±（k)^2,(k &lt;= m/2）</code></li>
+<li>随机探测法：<code>H = (H(key) + 伪随机数) % m</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="stl-vector">STL vector</h3>
+<h4 id="reserve-resize">reserve / resize</h4>
+<p>vector 的reserve增加了vector的capacity，但是它的size没有改变！而resize改变了vector的capacity同时也增加了它的size！</p>
+<p>reserve是容器预留空间，但在空间内不真正创建元素对象，所以在没有添加新的对象之前，不能引用容器内的元素。加入新的元素时，要调用push_back()/insert()函数。</p>
+<p> resize是改变容器的大小，且在创建对象，因此，调用这个函数之后，就可以引用容器内的对象了，因此当加入新的元素时，用operator[]操作符，或者用迭代器来引用元素对象。此时再调用push_back()函数，是加在这个新的空间后面的。</p>
+<p><img src="img/2020-07-23-231323_1874x1120_scrot.png" alt="vector"></p>
+<h4 id="vector-list-">vector / list 区别和联系</h4>
+<p>1） <strong>vector， 连续存储的容器，动态数组，在堆上分配空间 ；</strong></p>
+<p>底层实现：<strong>数组</strong>。</p>
+<p><strong>如果没有剩余空间了，则会重新配置原有元素个数的两倍空间，然后将原空间元素通过复制的方式初始化新空间，再向新空间增加元素</strong>。</p>
+<p>适用场景：<strong>经常随机访问，且不经常对非尾节点进行插入删除。</strong></p>
+<p>2）<strong>list，动态链表，在堆上分配空间，每插入一个元素都会分配空间，每删除一个元素都会释放空间。</strong></p>
+<p>底层：<strong>双向链表</strong></p>
+<p>访问：<strong>随机访问性能很差，只能快速访问头尾节点</strong>。</p>
+<p>适用场景：<strong>经常插入删除大量数据</strong></p>
+<p>3）vector在中间节点进行插入删除会导致内存拷贝，list不会。</p>
+<p>4）vector一次性分配好内存，不够时才进行2倍扩容；list每次插入新节点都会进行内存申请。</p>
+<p>5）ve<strong>ctor拥有一段连续的内存空间，因此支持随机访问，如果需要高效的随即访问，而不在乎插入和删除的效率，使用vector。</strong></p>
+<p><strong>list拥有一段不连续的内存空间，如果需要高效的插入和删除，而不关心随机访问，则应使用list。</strong></p>
+<h4 id="vector-push_back-">vector 中 push_back 的时间复杂度：均摊分析</h4>
+<p>m 的成长因子，n 次 push_back，扩容次数 = <code>logm(n)</code>，求和 <code>m ^ i ([1, logm(n)])</code></p>
+<p>算出时间花费为：<code>n * m / (m - 1)</code></p>
+<p>除以 n 之后为常数，所以时间花费为常数时间。</p>
+<p><strong>为什么成倍增加，而不是直接固定增加，为什么是 2 倍，而不是更大</strong></p>
+<p>固定增加 k，<code>ki ([1, n / k])</code>，算出来并不是常数的复杂度</p>
+<p>2 倍是空间和时间的权衡。简单来说， 空间分配的多，平摊时间复杂度低，但浪费空间也多</p>
+<p>设计成 1.5 也有利于重用之前的内存，缓存友好</p>
+<h4 id="vector-">vector 使用的注意事项</h4>
+<ul>
+<li><p>用 swap() 释放 vector 占用的内存，clear() 或 erase() 不会释放内存。</p>
+</li>
+<li><p>在填充或者拷贝到 vector 的时候，应该使用赋值而不是 insert() 或push_back()</p>
+<p>赋值非常有效率，因为它知道要拷贝的 vector 有多大，然后只需要通过内存管理一次性拷贝 vector 内部的缓存。</p>
+<p>所以，想高效填充 vector，首先应尝试使用 assignment，然后再考虑基于迭代器的 insert()，最后考虑 push_back。当然，如果你需要从其它类型的容器拷贝元素到 vector 中，赋值的方式不可行。这种情况下，只好考虑基于迭代器的 insert()。</p>
+</li>
+<li><p>遍历 std::vector 元素的时候，避免使用 std::vector::at() 函数。</p>
+<ul>
+<li>迭代器</li>
+<li>[] 下标</li>
+<li>std::vector::at()</li>
+</ul>
+</li>
+<li><p>避免在 vector 前部插入元素</p>
+<p>任何在 vetor 前部插入操作其复杂度都是 O(n) 的。</p>
+</li>
+<li><p>emplace_back() 和 push_back()</p>
+<p>emplace_back() 和 push_back() 的区别，就在于底层实现的机制不同。push_back() 向容器尾部添加元素时，首先会创建这个元素，然后再将这个元素拷贝或者移动到容器中（如果是拷贝的话，事后会自行销毁先前创建的这个元素）；而 emplace_back() 在实现时，则是直接在容器尾部创建这个元素，省去了拷贝或移动元素的过程。</p>
+</li>
+</ul>
+<h3 id="stl-">STL中迭代器的作用，有指针为何还要迭代器</h3>
+<ol>
+<li><p>迭代器</p>
+<p>Iterator（迭代器）模式又称 Cursor（游标）模式，用于提供一种方法顺序访问一个聚合对象中各个元素, 而又不需暴露该对象的内部表示。或者这样说可能更容易理解：Iterator 模式是运用于聚合对象的一种模式，通过运用该模式，使得我们可以在不知道对象内部表示的情况下，按照一定顺序（由 iterator 提供的方法）访问聚合对象中的各个元素。</p>
+<p>由于 Iterator 模式的以上特性：与聚合对象耦合，在一定程度上限制了它的广泛运用，一般仅用于底层聚合支持类，如 STL 的 list、vector、stack 等容器类及 ostream_iterator 等扩展 iterator。</p>
+</li>
+<li><p>迭代器和指针的区别</p>
+<p>迭代器不是指针，是类模板，表现的像指针。他只是模拟了指针的一些功能，通过重载了指针的一些操作符 -&gt;、*、++、-- 等。迭代器封装了指针，是一个“可遍历 STL（ Standard Template Library）容器内全部或部分元素”的对象， 本质是封装了原生指针，是指针概念的一种提升（lift），提供了比指针更高级的行为，相当于一种智能指针，他可以根据不同类型的数据结构来实现不同的++，-- 等操作。</p>
+<p>迭代器返回的是对象引用而不是对象的值，所以cout只能输出迭代器使用*取值后的值而不能直接输出其自身。</p>
+</li>
+<li><p>迭代器产生原因</p>
+<p>Iterator类的访问方式就是把不同集合类的访问逻辑抽象出来，使得不用暴露集合内部的结构而达到循环遍历集合的效果。</p>
+</li>
+</ol>
+<h3 id="stl-">STL 删除元素（顺带阐述迭代器失效）</h3>
+<p>这个主要考察的是迭代器失效的问题。</p>
+<ol>
+<li><p>对于序列容器 vector、deque来说，使用 erase(itertor)后，后边的每个元素的迭代器都会失效，但是后边每个元素都会往前移动一个位置，但是 erase 会返回下一个有效的迭代器；</p>
+</li>
+<li><p>对于关联容器 map、set 来说，使用了erase(iterator) 后，当前元素的迭代器失效，但是其结构是红黑树，删除当前元素，不会影响到下一个元素的迭代器，所以在调用 erase 之前，记录下一个元素的迭代器即可。</p>
+</li>
+<li><p>对于list来说，它使用了不连续分配的内存，并且它的erase方法也会返回下一个有效的iterator，因此上面两种正确的方法都可以使用。</p>
+</li>
+</ol>
+<h2 id="golang">Golang</h2>
+<h2 id="network">NetWork</h2>
+<h3 id="osi-">OSI 模型</h3>
+<h3 id="tcp">TCP</h3>
+<p>TCP（Transmission Control Protocol，传输控制协议）是一种面向连接的、可靠的、基于字节流的传输层通信协议，其传输的单位是报文段。</p>
+<p><img src="img/TCP报文.png" alt="TCP报文"></p>
+<p><img src="img/TCP首部.png" alt="TCP首部"></p>
+<p>TCP：状态控制码（Code，Control Flag），占 6 比特，含义如下：</p>
+<ul>
+<li>URG：紧急比特（urgent），当 <code>URG＝1</code> 时，表明紧急指针字段有效，代表该封包为紧急封包。它告诉系统此报文段中有紧急数据，应尽快传送(相当于高优先级的数据)， 且上图中的 Urgent Pointer 字段也会被启用。</li>
+<li>ACK：确认比特（Acknowledge）。只有当 <code>ACK＝1</code> 时确认号字段才有效，代表这个封包为确认封包。当 <code>ACK＝0</code> 时，确认号无效。</li>
+<li>PSH：（Push function）若为 1 时，代表要求对方立即传送缓冲区内的其他对应封包，而无需等缓冲满了才送。</li>
+<li>RST：复位比特(Reset)，当 <code>RST＝1</code> 时，表明 TCP 连接中出现严重差错（如由于主机崩溃或其他原因），必须释放连接，然后再重新建立运输连接。</li>
+<li>SYN：同步比特(Synchronous)，SYN 置为 1，就表示这是一个连接请求或连接接受报文，通常带有 SYN 标志的封包表示『主动』要连接到对方的意思。</li>
+<li>FIN：终止比特(Final)，用来释放一个连接。当 <code>FIN＝1</code> 时，表明此报文段的发送端的数据已发送完毕，并要求释放运输连接。</li>
+</ul>
+<h3 id="udp">UDP</h3>
+<p><img src="img/UDP报文.png" alt=""></p>
+<p><img src="img/UDP首部.png" alt=""></p>
+<h3 id="tcp-udp-">TCP 和 UDP 区别</h3>
+<ol>
+<li>TCP 面向连接，UDP 是无连接的；</li>
+<li>TCP 提供可靠的服务，也就是说，通过 TCP 连接传送的数据，无差错，不丢失，不重复，且按序到达；UDP 尽最大努力交付，即不保证可靠交付</li>
+<li>TCP 的逻辑通信信道是全双工的可靠信道；UDP 则是不可靠信道（也是全双工的）</li>
+<li>每一条 TCP 连接只能是点到点的；UDP 支持一对一，一对多，多对一和多对多的交互通信</li>
+<li>TCP 面向字节流（可能出现黏包问题），实际上是 TCP 把数据看成一连串无结构的字节流；UDP 是面向报文的（不会出现黏包问题）</li>
+<li>UDP 没有拥塞控制，因此网络出现拥塞不会使源主机的发送速率降低（对实时应用很有用，如 IP 电话，实时视频会议等）</li>
+<li>TCP 首部开销20字节；UDP 的首部开销小，只有 8 个字节</li>
+</ol>
+<h3 id="tcp-">TCP 三次握手和四次挥手</h3>
+<h4 id="-">三次握手</h4>
+<p><img src="img/TCP三次握手建立连接.png" alt="UDP 报文"></p>
+<ol>
+<li>第一次：客户端发含SYN位，SEQ_NUM = S的包到服务器。（客 -&gt; SYN_SEND）</li>
+<li>第二次：服务器发含ACK，SYN位且ACK_NUM = S + 1，SEQ_NUM = P的包到客户机。（服 -&gt; SYN_RECV）</li>
+<li>第三次：客户机发送含ACK位，ACK_NUM = P + 1的包到服务器。（客 -&gt; ESTABLISH，服 -&gt; ESTABLISH）</li>
+</ol>
+<h4 id="-">四次挥手</h4>
+<p><img src="img/TCP四次挥手释放连接.png" alt="TCP四次挥手释放连接"></p>
+<ul>
+<li><p>第一次：客户机发含FIN位，SEQ = Q的包到服务器。（客 -&gt; FIN_WAIT_1）</p>
+</li>
+<li><p>第二次：服务器发送含ACK且ACK_NUM = Q + 1的包到服务器。（服 -&gt; CLOSE_WAIT，客 -&gt; FIN_WAIT_2）</p>
+<ul>
+<li><strong>此处有等待</strong></li>
+</ul>
+</li>
+<li>第三次：服务器发送含FIN且SEQ_NUM = R的包到客户机。（服 -&gt; LAST_ACK，客 -&gt; TIME_WAIT）<ul>
+<li><strong>此处有等待</strong></li>
+</ul>
+</li>
+<li>第四次：客户机发送最后一个含有ACK位且ACK_NUM = R + 1的包到客户机。（服 -&gt; CLOSED）</li>
+</ul>
+<h4 id="-">为什么是三次握手</h4>
+<p>因为信道不可靠，而 TCP 想在不可靠信道上建立可靠地传输，那么三次通信是理论上的最小值。（而 UDP 则不需建立可靠传输，因此 UDP 不需要三次握手。）</p>
+<p>握手只需要确认双方通信时的初始化序号，保证通信不会乱序。（第三次握手必要性：假设服务端的确认丢失，连接并未断开，客户机超时重发连接请求，这样服务器会对同一个客户机保持多个连接，造成资源浪费。）</p>
+<h4 id="-">为什么是四次挥手</h4>
+<p>【问题一】TCP 为什么要进行四次挥手？ / 为什么 TCP 建立连接需要三次，而释放连接则需要四次？</p>
+<p>【答案一】因为 TCP 是全双工模式，客户端请求关闭连接后，客户端向服务端的连接关闭（一二次挥手），服务端继续传输之前没传完的数据给客户端（数据传输），服务端向客户端的连接关闭（三四次挥手）。所以 TCP 释放连接时服务器的 ACK 和 FIN 是分开发送的（中间隔着数据传输），而 TCP 建立连接时服务器的 ACK 和 SYN 是一起发送的（第二次握手），所以 TCP 建立连接需要三次，而释放连接则需要四次。</p>
+<p>【问题二】为什么 TCP 连接时可以 ACK 和 SYN 一起发送，而释放时则 ACK 和 FIN 分开发送呢？（ACK 和 FIN 分开是指第二次和第三次挥手）</p>
+<p>【答案二】因为客户端请求释放时，服务器可能还有数据需要传输给客户端，因此服务端要先响应客户端 FIN 请求（服务端发送 ACK），然后数据传输，传输完成后，服务端再提  出 FIN 请求（服务端发送 FIN）；而连接时则没有中间的数据传输，因此连接时可以 ACK 和 SYN 一起发送。</p>
+<p>【问题三】为什么客户端释放最后需要 TIME-WAIT 等待 2MSL 呢？</p>
+<p>【答案三】</p>
+<ol>
+<li>为了保证客户端发送的最后一个 ACK 报文能够到达服务端。若未成功到达，则服务端超时重传 FIN+ACK 报文段，客户端再重传 ACK，并重新计时。</li>
+<li>防止已失效的连接请求报文段出现在本连接中。TIME-WAIT 持续 2MSL 可使本连接持续的时间内所产生的所有报文段都从网络中消失，这样可使下次连接中不会出现旧的连接报文段。</li>
+</ol>
+<h3 id="-fin_wait_2-close_wait-time_wait-">解释 FIN_WAIT_2，CLOSE_WAIT 状态和 TIME_WAIT 状态?</h3>
+<ul>
+<li>FIN_WAIT_2：<ul>
+<li>半关闭状态。</li>
+<li>发送断开请求一方还有接收数据能力，但已经没有发送数据能力。</li>
+</ul>
+</li>
+<li>CLOSE_WAIT 状态：<ul>
+<li>被动关闭连接一方接收到 FIN 包会立即回应 ACK 包表示已接收到断开请求。</li>
+<li>被动关闭连接一方如果还有剩余数据要发送就会进入CLOSED_WAIT 状态。</li>
+</ul>
+</li>
+<li>TIME_WAIT 状态：<ul>
+<li>又叫 2MSL 等待状态。</li>
+<li>如果客户端直接进入 CLOSED 状态，如果服务端没有接收到最后一次 ACK 包会在超时之后重新再发 FIN包，此时因为客户端已经 CLOSED，所以服务端就不会收到 ACK 而是收到 RST。所以 TIME_WAIT 状态目的是防止最后一次握手数据没有到达对方而触发重传 FIN 准备的。</li>
+<li>在 2MSL 时间内，同一个 socket 不能再被使用，否则有可能会和旧连接数据混淆（如果新连接和旧连接的 socket 相同的话）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="-rto-rtt-">解释 RTO，RTT 和超时重传？</h3>
+<ul>
+<li>超时重传：发送端发送报文后若长时间未收到确认的报文则需要重发该报文。可能有以下几种情况：<ul>
+<li>发送的数据没能到达接收端，所以对方没有响应。</li>
+<li>接收端接收到数据，但是ACK报文在返回过程中丢失。</li>
+<li>接收端拒绝或丢弃数据。</li>
+</ul>
+</li>
+<li>RTO：从上一次发送数据，因为长期没有收到ACK响应，到下一次重发之间的时间。就是重传间隔。<ul>
+<li>通常每次重传RTO是前一次重传间隔的两倍，计量单位通常是RTT。例：1RTT，2RTT，4RTT，8RTT......</li>
+<li>重传次数到达上限之后停止重传。</li>
+</ul>
+</li>
+<li>RTT：数据从发送到接收到对方响应之间的时间间隔，即数据报在网络中一个往返用时。大小不稳定。</li>
+</ul>
+<h3 id="tcp-">TCP 有限状态机</h3>
+<p><img src="img/TCP的有限状态机.png" alt="TCP的有限状态机"></p>
+<h3 id="tcp-">TCP 可靠传输原理</h3>
+<p>（UDP 如何实现可靠传输）</p>
+<ul>
+<li>建立连接（标志位）：通信前确认通信实体存在。</li>
+<li>序号机制（序号、确认号）：确保了数据是按序、完整到达。</li>
+<li>数据校验（校验和）：CRC校验全部数据。</li>
+<li>超时重传（定时器）：保证因链路故障未能到达数据能够被多次重发。</li>
+<li>窗口机制（窗口）：提供流量控制，避免过量发送。</li>
+<li>拥塞控制：同上。</li>
+</ul>
+<h4 id="udp-">UDP  实现可靠传输</h4>
+<p>UDP 不属于连接协议，具有资源消耗少，处理速度快的优点，所以通常音频，视频和普通数据在传送时，使用 UDP 较多，因为即使丢失少量的包，也不会对接受结果产生较大的影响。</p>
+<p>传输层无法保证数据的可靠传输，只能通过应用层来实现了。实现的方式可以参照 tcp 可靠性传输的方式，只是实现不在传输层，实现转移到了应用层。</p>
+<p>最简单的方式是在应用层模仿传输层 TCP 的可靠性传输。下面不考虑拥塞处理，可靠 UDP的简单设计。</p>
+<ol>
+<li><p>添加 seq/ack 机制，确保数据发送到对端</p>
+<pre><code>      <span class="hljs-number">2.</span> 添加发送和接收缓冲区，主要是用户超时重传
+                    <span class="hljs-number">3.</span> 添加超时重传机制。
+</code></pre></li>
+</ol>
+<p>详细说明：送端发送数据时，生成一个随机 seq=x，然后每一片按照数据大小分配 seq。数据到达接收端后接收端放入缓存，并发送一个 ack=x 的包，表示对方已经收到了数据。发送端收到了 ack 包后，删除缓冲区对应的数据。时间到后，定时任务检查是否需要重传数据。</p>
+<h3 id="tcp-">TCP 黏包问题</h3>
+<p>TCP 是一个基于字节流的传输服务（UDP 基于报文的），“流” 意味着 TCP 所传输的数据是没有边界的。所以可能会出现两个数据包黏在一起的情况。</p>
+<h4 id="-">解决</h4>
+<ul>
+<li>发送定长包。如果每个消息的大小都是一样的，那么在接收对等方只要累计接收数据，直到数据等于一个定长的数值就将它作为一个消息。</li>
+<li>包头加上包体长度。包头是定长的 4 个字节，说明了包体的长度。接收对等方先接收包头长度，依据包头长度来接收包体。</li>
+<li>在数据包之间设置边界，如添加特殊符号 <code>\r\n</code> 标记。FTP 协议正是这么做的。但问题在于如果数据正文中也含有 <code>\r\n</code>，则会误判为消息的边界。</li>
+<li>使用更加复杂的应用层协议。</li>
+</ul>
+<h3 id="tcp-">TCP 流量控制</h3>
+<ul>
+<li>目的是接收方通过 TCP 头窗口字段告知发送方本方可接收的最大数据量，用以解决发送速率过快导致接收方不能接收的问题。所以流量控制是点对点控制。</li>
+<li>TCP 是双工协议，双方可以同时通信，所以发送方接收方各自维护一个发送窗和接收窗。<ul>
+<li>发送窗：用来限制发送方可以发送的数据大小，其中发送窗口的大小由接收端返回的 TCP 报文段中窗口字段来控制，接收方通过此字段告知发送方自己的缓冲（受系统、硬件等限制）大小。</li>
+<li>接收窗：用来标记可以接收的数据大小。</li>
+</ul>
+</li>
+<li>TCP 是流数据，发送出去的数据流可以被分为以下四部分：已发送且被确认部分 | 已发送未被确认部分 | 未发送但可发送部分 | 不可发送部分，其中发送窗 = 已发送未确认部分 + 未发但可发送部分。接收到的数据流可分为：已接收 | 未接收但准备接收 | 未接收不准备接收。接收窗 = 未接收但准备接收部分。</li>
+<li>发送窗内数据只有当接收到接收端某段发送数据的ACK响应时才移动发送窗，左边缘紧贴刚被确认的数据。接收窗也只有接收到数据且最左侧连续时才移动接收窗口。</li>
+</ul>
+<h3 id="tcp-">TCP 拥塞控制</h3>
+<p>拥塞控制目的是防止数据被过多注入网络中导致网络资源（路由器、交换机等）过载。因为拥塞控制涉及网络链路全局，所以属于全局控制。控制拥塞使用拥塞窗口。</p>
+<p><strong>最终拥塞窗口会收敛于稳定值</strong></p>
+<p>TCP拥塞控制算法：</p>
+<ul>
+<li>慢开始 &amp; 拥塞避免：先试探网络拥塞程度再逐渐增大拥塞窗口。每次收到确认后拥塞窗口翻倍，直到达到阀值 ssthresh，这部分是慢开始过程。达到阀值后每次以一个 MSS 为单位增长拥塞窗口大小，当发生拥塞（超时未收到确认），将阀值减为原先一半，继续执行线性增加，这个过程为拥塞避免。</li>
+<li>快速重传 &amp; 快速恢复：</li>
+</ul>
+<p><img src="img/TCP拥塞窗口cwnd在拥塞控制时的变化情况.png" alt="TCP拥塞窗口cwnd在拥塞控制时的变化情况"></p>
+<p><img src="img/快重传示意图.png" alt="快重传示意图"></p>
+<p><img src="img/TCP的拥塞控制流程图.png" alt="TCP的拥塞控制流程图"></p>
+<h4 id="-">如何区分流量控制和拥塞控制？</h4>
+<ul>
+<li>流量控制属于通信双方协商；拥塞控制涉及通信链路全局。</li>
+<li>流量控制需要通信双方各维护一个发送窗、一个接收窗，对任意一方，接收窗大小由自身决定，发送窗大小由接收方响应的TCP报文段中窗口值确定；拥塞控制的拥塞窗口大小变化由试探性发送一定数据量数据探查网络状况后而自适应调整。</li>
+<li>实际最终发送窗口 = min{流控发送窗口，拥塞窗口}。</li>
+</ul>
+<h3 id="tcp-">TCP 超时重传机制</h3>
+<ol>
+<li><p>滑动窗口机制，确立收发的边界，能让发送方知道已经发送了多少、尚未确认的字节数、尚待发送的字节数；让接收方知道已经确认收到的字节数。</p>
+</li>
+<li><p>选择重传，用于对传输出错的序列进行重传。</p>
+</li>
+</ol>
+<h3 id="tcp-">TCP 四个定时器</h3>
+<p>TCP使用四种定时器（Timer，也称为“计时器”）：
+重传计时器：Retransmission Timer
+坚持计时器：Persistent Timer
+保活计时器：Keeplive Timer
+时间等待计时器：Time_Wait Timer。</p>
+<h4 id="-">重传计时器：</h4>
+<p>重传定时器：为了控制丢失的报文段或丢弃的报文段，也就是对报文段确认的等待时间。当TCP发送报文段时，就创建这个特定报文段的重传计时器，可能发生两种情况：若在计时器超时之前收到对报文段的确认，则撤销计时器；若在收到对特定报文段的确认之前计时器超时，则重传该报文，并把计时器复位；</p>
+<p>重传时间=2*RTT；</p>
+<p>RTT的值应该动态计算。常用的公式是：RTT=previous RTT<em>i + （1-i）</em>current RTT。i的值通常取90%，即新的RTT是以前的RTT值的90%加上当前RTT值的10%.</p>
+<p>Karn 算法：对重传报文，在计算新的RTT时，不考虑重传报文的RTT。因为无法推理出：发送端所收到的确认是对上一次报文段的确认还是对重传报文段的确认。干脆不计入。</p>
+<h4 id="-persistent-timer">坚持计时器：persistent timer</h4>
+<p>专门为对付零窗口通知而设立的。</p>
+<p>当发送端收到零窗口的确认时，就启动坚持计时器，当坚持计时器截止期到时，发送端TCP就发送一个特殊的报文段，叫探测报文段，这个报文段只有一个字节的数据。探测报文段有序号，但序号永远不需要确认，甚至在计算对其他部分数据的确认时这个序号也被忽略。探测报文段提醒接收端TCP，确认已丢失，必须重传。</p>
+<p>坚持计时器的截止期设置为重传时间的值，但若没有收到从接收端来的响应，则发送另一个探测报文段，并将坚持计时器的值加倍和并复位，发送端继续发送探测报文段，将坚持计时器的值加倍和复位，知道这个值增大到阈值为止（通常为60秒）。之后，发送端每隔60s就发送一个报文段，直到窗口重新打开为止；</p>
+<h4 id="-keeplive-timer">保活计时器：keeplive timer</h4>
+<p>每当服务器收到客户的信息，就将keeplive timer复位，超时通常设置2小时，若服务器超过2小时还没有收到来自客户的信息，就发送探测报文段，若发送了10个探测报文段（没75秒发送一个）还没收到响应，则终止连接。</p>
+<h4 id="-time_wait-timer">时间等待计时器：Time_Wait Timer</h4>
+<p>在连接终止期使用，当TCP关闭连接时，并不认为这个连接就真正关闭了，在时间等待期间，连接还处于一种中间过度状态。这样就可以时重复的fin报文段在到达终点后被丢弃，这个计时器的值通常设置为一格报文段寿命期望值的两倍。</p>
+<h3 id="http-">HTTP 状态码</h3>
+<ul>
+<li>1xx：表示通知信息，如请求收到了或正在进行处理<ul>
+<li>100 Continue：继续，客户端应继续其请求</li>
+<li>101 Switching Protocols 切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到 HTTP 的新版本协议</li>
+</ul>
+</li>
+<li>2xx：表示成功，如接收或知道了<ul>
+<li>200 OK: 请求成功</li>
+</ul>
+</li>
+<li>3xx：表示重定向，如要完成请求还必须采取进一步的行动<ul>
+<li>301 Moved Permanently: 永久移动。请求的资源已被永久的移动到新 URL，返回信息会包括新的 URL，浏览器会自动定向到新 URL。今后任何新的请求都应使用新的 URL 代替</li>
+</ul>
+</li>
+<li>4xx：表示客户的差错，如请求中有错误的语法或不能完成<ul>
+<li>400 Bad Request: 客户端请求的语法错误，服务器无法理解</li>
+<li>401 Unauthorized: 请求要求用户的身份认证</li>
+<li>403 Forbidden: 服务器理解请求客户端的请求，但是拒绝执行此请求（权限不够）</li>
+<li>404 Not Found: 服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置 “您所请求的资源无法找到” 的个性页面</li>
+<li>408 Request Timeout: 服务器等待客户端发送的请求时间过长，超时</li>
+</ul>
+</li>
+<li>5xx：表示服务器的差错，如服务器失效无法完成请求<ul>
+<li>500 Internal Server Error: 服务器内部错误，无法完成请求</li>
+<li>503 Service Unavailable: 由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的 Retry-After 头信息中</li>
+<li>504 Gateway Timeout: 充当网关或代理的服务器，未及时从远端服务器获取请求</li>
+</ul>
+</li>
+</ul>
+<h3 id="http-cookie-session">HTTP 会话机制：Cookie/Session</h3>
+<p>HTTP作为无状态协议，必然需要在某种方式保持连接状态。这里简要介绍一下Cookie 和Session。</p>
+<ul>
+<li><p>Cookie</p>
+<p>  Cookie是客户端保持状态的方法。</p>
+<p>  Cookie简单的理解就是存储由服务器发至客户端并由客户端保存的一段字符串。为了保持会话，服务器可以在响应客户端请求时将Cookie字符串放在Set-Cookie下，客户机收到Cookie之后保存这段字符串，之后再请求时候带上Cookie就可以被识别。</p>
+<p>  除了上面提到的这些，Cookie在客户端的保存形式可以有两种，一种是会话Cookie一种是持久Cookie，会话Cookie就是将服务器返回的Cookie字符串保持在内存中，关闭浏览器之后自动销毁，持久Cookie则是存储在客户端磁盘上，其有效时间在服务器响应头中被指定，在有效期内，客户端再次请求服务器时都可以直接从本地取出。需要说明的是，存储在磁盘中的Cookie是可以被多个浏览器代理所共享的。</p>
+</li>
+<li><p>Session</p>
+<p>  Session是服务器保持状态的方法。</p>
+<p>  首先需要明确的是，Session保存在服务器上，可以保存在数据库、文件或内存中，每个用户有独立的Session用户在客户端上记录用户的操作。我们可以理解为每个用户有一个独一无二的Session ID作为Session文件的Hash键，通过这个值可以锁定具体的Session结构的数据，这个Session结构中存储了用户操作行为。</p>
+</li>
+</ul>
+<p>当服务器需要识别客户端时就需要结合Cookie了。每次HTTP请求的时候，客户端都会发送相应的Cookie信息到服务端。实际上大多数的应用都是用Cookie来实现Session跟踪的，第一次创建Session的时候，服务端会在HTTP协议中告诉客户端，需要在Cookie里面记录一个Session ID，以后每次请求把这个会话ID发送到服务器，我就知道你是谁了。如果客户端的浏览器禁用了Cookie，会使用一种叫做URL重写的技术来进行会话跟踪，即每次HTTP交互，URL后面都会被附加上一个诸如sid=xxxxx这样的参数，服务端据此来识别用户，这样就可以帮用户完成诸如用户名等信息自动填入的操作了。</p>
+<h3 id="socket-">Socket 系统调用</h3>
+<ul>
+<li><p>socket()</p>
+<p>服务端和客户端用来创建一个套接字描述符</p>
+</li>
+<li><p>connect()</p>
+<p>客户端用来建立和服务器的连接</p>
+</li>
+<li><p>bind()</p>
+<p>绑定 IP 地址和端口，一般是服务端主动绑定，客户端不需要，因为客户端发送连接的时候，内核会自动分配一个端口号</p>
+</li>
+<li><p>listen()</p>
+<p>监听是否有客户端连接额</p>
+</li>
+<li><p>accept()</p>
+<p>阻塞进程，等待客户端接入，接入之后产生用于收发的另外一个套接字，客户端的地址和端口号是在 accept() 接受到的参数中</p>
+</li>
+<li><p>close()</p>
+<p>关闭连接</p>
+</li>
+</ul>
+<p><img src="img/2020-07-29-212211_1264x1193_scrot.png" alt="socket-functions"></p>
+<h3 id="socket-tcp-">Socket 中 TCP 的三次握手建立连接</h3>
+<p>我们知道 TCP 建立连接要进行 “三次握手”，即交换三个分组。大致流程如下：</p>
+<ol>
+<li>客户端向服务器发送一个 SYN J</li>
+<li>服务器向客户端响应一个 SYN K，并对 SYN J 进行确认 ACK J+1</li>
+<li>客户端再想服务器发一个确认 ACK K+1</li>
+</ol>
+<p>只有就完了三次握手，但是这个三次握手发生在 Socket 的那几个函数中呢？请看下图：</p>
+<p><img src="img/socket中TCP三次握手.png" alt=""></p>
+<p>从图中可以看出：</p>
+<ol>
+<li>当客户端调用 connect 时，触发了连接请求，向服务器发送了 SYN J 包，这时 connect 进入阻塞状态；</li>
+<li>服务器监听到连接请求，即收到 SYN J 包，调用 accept 函数接收请求向客户端发送 SYN K ，ACK J+1，这时 accept 进入阻塞状态；</li>
+<li>客户端收到服务器的 SYN K ，ACK J+1 之后，这时 connect 返回，并对 SYN K 进行确认；</li>
+<li>服务器收到 ACK K+1 时，accept 返回，至此三次握手完毕，连接建立。</li>
+</ol>
+<h4 id="socket-tcp-">Socket 中 TCP 的四次握手释放连接</h4>
+<p>上面介绍了 socket 中 TCP 的三次握手建立过程，及其涉及的 socket 函数。现在我们介绍 socket 中的四次握手释放连接的过程，请看下图：</p>
+<p><img src="img/socket中TCP四次挥手.png" alt=""></p>
+<p>图示过程如下：</p>
+<ol>
+<li>某个应用进程首先调用 close 主动关闭连接，这时 TCP 发送一个 FIN M；</li>
+<li>另一端接收到 FIN M 之后，执行被动关闭，对这个 FIN 进行确认。它的接收也作为文件结束符传递给应用进程，因为 FIN 的接收意味着应用进程在相应的连接上再也接收不到额外数据；</li>
+<li>一段时间之后，接收到文件结束符的应用进程调用 close 关闭它的 socket。这导致它的 TCP 也发送一个 FIN N；</li>
+<li>接收到这个 FIN 的源发送端 TCP 对它进行确认。</li>
+</ol>
+<p>这样每个方向上都有一个 FIN 和 ACK。</p>
+<h3 id="http-2">HTTP/2</h3>
+<ul>
+<li><p>多路复用的单一长连接</p>
+<ul>
+<li><p>单一长连接</p>
+<p>在HTTP/2中，客户端向某个域名的服务器请求页面的过程中，只会创建一条TCP连接，即使这页面可能包含上百个资源。  单一的连接应该是 HTTP2 的主要优势，单一的连接能减少TCP握手带来的时延 。HTTP2中用一条单一的长连接，避免了创建多个TCP连接带来的网络开销，提高了吞吐量。</p>
+</li>
+<li><p>多路复用 </p>
+<p>HTTP2 虽然只有一条TCP连接，但是在逻辑上分成了很多stream。 </p>
+<p>HTTP2 把要传输的信息分割成一个个二进制帧，首部信息会被封装到HEADER Frame，相应的request body就放到DATA Frame,一个帧你可以看成路上的一辆车,只要给这些车编号，让1号车都走1号门出，2号车都走2号门出，就把不同的 http 请求或者响应区分开来了。但是，这里要求同一个请求或者响应的帧必须是有有序的，要保证FIFO的，但是不同的请求或者响应帧可以互相穿插。这就是 HTTP2 的多路复用，是不是充分利用了网络带宽，是不是提高了并发度？ </p>
+</li>
+</ul>
+</li>
+<li><p>头部压缩和二进制格式</p>
+<p>http1.x 一直都是plain text,对此我只能想到一个优点，便于阅读和debug。但是，现在很多都走 https，SSL 也把plain text变成了二进制，那这个优点也没了。于是 HTTP2 搞了个 HPACK 压缩来压缩头部，减少报文大小(调试这样的协议将需要curl这样的工具，要进一步地分析网络数据流需要类似 Wireshark 的 http2 解析器)。</p>
+</li>
+</ul>
+<h2 id="os">OS</h2>
+<h3 id="-">进程与线程的区别和联系</h3>
+<h3 id="-">进程通信方法 / 线程通信方法</h3>
+<h3 id="-">进程调度方法详细介绍</h3>
+<h4 id="-">批处理系统</h4>
+<p>批处理系统没有太多的用户操作，在该系统中，调度算法目标是保证吞吐量和周转时间（从提交到终止的时间）。</p>
+<ul>
+<li><p>先来先服务 first-come first-serverd（FCFS）
+非抢占式的调度算法，按照请求的顺序进行调度。
+有利于长作业，但不利于短作业，因为短作业必须一直等待前面的长作业执行完毕才能执行，而长作业又需要执行很长时间，造成了短作业等待时间过长。</p>
+</li>
+<li><p>短作业优先 shortest job first（SJF）
+非抢占式的调度算法，按估计运行时间最短的顺序进行调度。
+长作业有可能会饿死，处于一直等待短作业执行完毕的状态。因为如果一直有短作业到来，那么长作业永远得不到调度。</p>
+</li>
+<li>最短剩余时间优先 shortest remaining time next（SRTN） 
+最短作业优先的抢占式版本，按剩余运行时间的顺序进行调度。 当一个新的作业到达时，其整个运行时间与当前进程的剩余时间作比较。如果新的进程需要的时间更少，则挂起当前进程，运行新的进程。否则新的进程等待。</li>
+</ul>
+<h4 id="-">交互式</h4>
+<p>交互式系统有大量的用户交互操作，在该系统中调度算法的目标是快速地进行响应。</p>
+<ul>
+<li><p>时间片轮转
+将所有就绪进程按 FCFS 的原则排成一个队列，每次调度时，把 CPU 时间分配给队首进程，该进程可以执行一个时间片。当时间片用完时，由计时器发出时钟中断，调度程序便停止该进程的执行，并将它送往就绪队列的末尾，同时继续把 CPU 时间分配给队首的进程。</p>
+<p>时间片轮转算法的效率和时间片的大小有很大关系：</p>
+<ul>
+<li>因为进程切换都要保存进程的信息并且载入新进程的信息，如果时间片太小，会导致进程切换得太频繁，在进程切换上就会花过多时间。</li>
+<li>而如果时间片过长，那么实时性就不能得到保证。</li>
+</ul>
+</li>
+<li><p>优先级调度
+为每个进程分配一个优先级，按优先级进行调度。
+为了防止低优先级的进程永远等不到调度，可以随着时间的推移增加等待进程的优先级。</p>
+</li>
+<li><p>多级反馈队列
+一个进程需要执行 100 个时间片，如果采用时间片轮转调度算法，那么需要交换 100 次。
+多级队列是为这种需要连续执行多个时间片的进程考虑，它设置了多个队列，每个队列时间片大小都不同，例如 1,2,4,8,..。进程在第一个队列没执行完，就会被移到下一个队列。这种方式下，之前的进程只需要交换 7 次。
+每个队列优先权也不同，最上面的优先权最高。因此只有上一个队列没有进程在排队，才能调度当前队列上的进程。
+可以将这种调度算法看成是时间片轮转调度算法和优先级调度算法的结合。</p>
+</li>
+</ul>
+<h4 id="-">实时系统</h4>
+<p>实时系统要求一个请求在一个确定时间内得到响应。
+分为硬实时和软实时，前者必须满足绝对的截止时间，后者可以容忍一定的超时。</p>
+<h3 id="-">页面置换方法详细介绍</h3>
+<p>在地址映射过程中，若在页面中发现所要访问的页面不在内存中，则产生缺页中断。当发生缺页中断时，如果操作系统内存中没有空闲页面，则操作系统必须在内存选择一个页面将其移出内存，以便为即将调入的页面让出空间。而用来选择淘汰哪一页的规则叫做页面置换算法。</p>
+<h4 id="-">分类</h4>
+<ul>
+<li>全局置换：在整个内存空间置换</li>
+<li>局部置换：在本进程中进行置换</li>
+</ul>
+<h4 id="-">算法</h4>
+<p>全局：</p>
+<ul>
+<li>工作集算法</li>
+<li>缺页率置换算法</li>
+</ul>
+<p>局部：</p>
+<ul>
+<li>最佳置换算法（OPT）</li>
+<li>先进先出置换算法（FIFO）</li>
+<li>最近最久未使用（LRU）算法</li>
+<li>时钟（Clock）置换算法</li>
+</ul>
+<h3 id="-">死锁的必要条件，怎么检测死锁，解决死锁问题</h3>
+<h4 id="-">必要条件</h4>
+<ol>
+<li>互斥条件：进程要求对所分配的资源进行排它性控制，即在一段时间内某资源仅为一进程所占用。</li>
+<li>请求和保持条件：当进程因请求资源而阻塞时，对已获得的资源保持不放。</li>
+<li>不剥夺条件：进程已获得的资源在未使用完之前，不能剥夺，只能在使用完时由自己释放。</li>
+<li>环路等待条件：在发生死锁时，必然存在一个进程--资源的环形链。</li>
+</ol>
+<p><strong>这四个条件是死锁的必要条件，只要系统发生死锁，这些条件必然成立，而只要上述条件之一不满足，就不会发生死锁。</strong></p>
+<h4 id="-">死锁检测</h4>
+<ol>
+<li>首先为每个进程和每个资源指定一个唯一的号码；</li>
+<li>然后建立资源分配表和进程等待表。</li>
+</ol>
+<h4 id="-">解决死锁</h4>
+<ul>
+<li><p>虚拟资源：改造独占性资源为虚拟资源，但是大部分资源已经无法改造（破坏互斥条件）</p>
+<p>（这边可以提一下操作系统的<strong>资源管理</strong>，是如何实现资源共享的）</p>
+</li>
+<li><p>采用资源预先分配策略，即进程运行前申请全部资源，满足则运行，不然就等待，这样就不会占有且申请。（破坏请求和保持条件）</p>
+</li>
+<li>当一进程占有一独占性资源后又申请一独占性资源而无法满足，则退出原占有的资源。（破坏不可剥夺条件）</li>
+<li>有序资源分配法，实现资源有序分配策略，对所有设备实现分类编号，所有进程只能采用按序号递增的形式申请资源。（破坏循环等待条件）</li>
+<li>银行家算法</li>
+</ul>
+<h3 id="-">资源管理</h3>
+<h4 id="-">复用</h4>
+<p>资源复用：物理资源宝贵而稀有，多个进程竞争使用资源，操作系统让众多进程共享物理资源，此种共享即为资源复用；</p>
+<p>进程通过<strong>空分复用内存资源</strong>，其映像装入不同内存区域，各有各的地址空间并通过硬件存储保护机制隔离；</p>
+<p>进程通过<strong>时分复用共享物理处理器</strong>，使得可以执行已装入到不同物理地址区域中的程序代码；</p>
+<ul>
+<li>空分复用</li>
+</ul>
+<p>　　空分复用即将资源的不同单位同时分配给不同进程；</p>
+<p>　　例如：多个进程可以同时进入内存，在内存中存放若干进程的运行效率比仅存单个进程的运行效率要高；</p>
+<ul>
+<li>时分复用</li>
+</ul>
+<p>　　时分复用指可以轮流使用资源，每个进程获得这类资源后会占用一段时间，多个进程则分时地共享这类资源；</p>
+<p>　　独占式：进程获得独占式资源后，对资源执行多个操作，通常使用一个<strong>完整周期</strong>后才会释放；</p>
+<p>　　共享式：进程获得共享式资源后，很可能<strong>随时被剥夺</strong>，被另一个进程抢占使用；</p>
+<h4 id="-">虚拟</h4>
+<p>虚拟：转化、模拟、整合资源，<strong>把一个物理资源转变成多个逻辑上的对应物，或把多个物理资源转变成单个逻辑上的对应物</strong>；</p>
+<ol>
+<li>用于外部设备：例如，文件形式的输出信息写至虚拟打印机，待输出信息全部汇集后才送到物理打印机上打印，这样，物理上的一台独占设备转化为逻辑上的多台虚拟独占设备，每个进程都有自己的虚拟打印机；</li>
+<li>用于存储资源：例如，某程序的运行空间超出分给它的可用物理内存空间大小，操作系统便在内存和磁盘之间自动传送与当前计算有关的程序段/数据段，实现了把多个物理资源（内存+外存）转化成了单个逻辑对应物（虚拟内存）；</li>
+<li>用于文件系统：例如，操作系统在虚拟文件系统 VFS 控制下同时支持多种具体文件系统；</li>
+</ol>
+<h4 id="-">抽象</h4>
+<p>资源抽象：创建软件来<strong>屏蔽硬件资源的物理特性和实现细节</strong>，简化对硬件资源的操作、控制、使用，在硬件接口基础上，把按特定方式操作的底层指令序列和数据结构<strong>打包成函数以作为单一的高级操作被调用</strong>；</p>
+<p><strong>复用和虚拟</strong></p>
+<p>复用：分割实际存在的物理资源</p>
+<p>虚拟：实现假想的虚拟同类资源</p>
+<p><strong>物理资源和抽象</strong></p>
+<p>复用、虚拟：解决物理资源不足</p>
+<p>抽象：处理系统复杂性</p>
+<h4 id="-">组合使用资源管理技术</h4>
+<ul>
+<li><p>打印机（抽象+虚拟）</p>
+<p>配置“打印函数”设备驱动程序，通过打印函数抽象隐蔽打印机动作细节；</p>
+<p>创建虚拟设备，实施 spooling 虚拟技术扩充物理打印机数量，使得每个用户都可以使用方便的虚拟打印机；</p>
+</li>
+<li><p>内存资源（复用+虚拟）</p>
+<p>采用空分复用，能有效提高内存空间利用率；</p>
+<p>引入虚拟存储技术，从逻辑上扩大内存容量；</p>
+</li>
+</ul>
+<h3 id="-">对象复用的了解，零拷贝的了解</h3>
+<p>对象复用指得是设计模式，对象可以采用不同的设计模式达到复用的目的，最常见的就是继承和组合模式了。</p>
+<p>零拷贝：零拷贝主要的任务就是避免CPU将数据从一块存储拷贝到另外一块存储，主要就是利用各种零拷贝技术，避免让 CPU 做大量的数据拷贝任务，减少不必要的拷贝，或者让别的组件来做这一类简单的数据传输任务，让CPU解脱出来专注于别的任务。这样就可以让系统资源的利用更加有效。</p>
+<p>零拷贝技术常见 linux 中，例如用户空间到内核空间的拷贝，这个是没有必要的，我们可以采用零拷贝技术，这个技术就是通过 mmap，直接将内核空间的数据通过映射的方法映射到用户空间上，即物理上共用这段数据。</p>
+<h3 id="-">多线程同步和互斥</h3>
+<p>线程同步是指线程之间所具有的一种制约关系，一个线程的执行依赖另一个线程的消息，当它没有得到另一个线程的消息时应等待，直到消息到达时才被唤醒。
+线程互斥是指对于共享的进程系统资源，在各单个线程访问时的排它性。当有若干个线程都要使用某一共享资源时，任何时刻最多只允许一个线程去使用，其它要使用该资源的线程必须等待，直到占用资源者释放该资源。线程互斥可以看成是一种特殊的线程同步（下文统称为同步）。</p>
+<h3 id="-">哲学家就餐，银行家，读者写者，生产者消费者（怎么加锁解锁，伪代码）</h3>
+<h3 id="-io-io">同步 IO 和异步 IO</h3>
+<h4 id="-">如何区分</h4>
+<p>判断 &quot;执行IO操作&quot;是否阻塞</p>
+<p>当请求被阻塞，就是同步IO，否则就是异步IO</p>
+<p><strong>同步IO的特点：</strong></p>
+<blockquote>
+<p>同步IO指的是用户进程触发I/O操作并等待或者轮询的去查看I/O操作是否就绪。
+同步IO的执行者是IO操作的发起者。
+同步IO需要发起者进行内核态到用户态的数据拷贝过程，所以这里必须由个阻塞</p>
+</blockquote>
+<p><strong>异步IO的特点：</strong></p>
+<blockquote>
+<p>异步IO是指用户进程触发I/O操作以后就立即返回，继续开始做自己的事情，而当I/O操作已经完成的时候会得到I/O完成的通知。
+异步IO的执行者是内核线程，内核线程将数据从内核态拷贝到用户态，所以这里没有阻塞</p>
+</blockquote>
+<h3 id="-">文件读写使用的系统调用</h3>
+<h4 id="-">文件描述符</h4>
+<p>进程每打开一个文件的时候，会获得该文件的<strong>文件描述符</strong>，而后续的读写操作都把文件描述符作为参数。在用户空间或者内核空间，都是通过文件描述符来唯一地索引一个打开的文件。文件描述符使用 int 类型表示，文件描述符的范围从 0 开始，到上限值 -1，默认情况下，上限值为 1024，也就是说，进程默认情况下最多可以打开 1024 个文件。负数是不合法的文件描述符，当函数调用出错时，返回的文件描述符为 -1。</p>
+<p>每个进程都至少包含三个文件描述符：</p>
+<table>
+<thead>
+<tr>
+<th>文件描述符</th>
+<th style="text-align:left">表示</th>
+<th>宏</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td style="text-align:left">标准输入（stdin）</td>
+<td>STDIN_FILENO</td>
+</tr>
+<tr>
+<td>1</td>
+<td style="text-align:left">标准输出（stdout）</td>
+<td>STDOUT_FINENO</td>
+</tr>
+<tr>
+<td>2</td>
+<td style="text-align:left">标准错误（stderr）</td>
+<td>STDERR_FILENO</td>
+</tr>
+</tbody>
+</table>
+<p>遵循Linux一切皆文件的概念，文件描述符除了访问普通文件外，几乎能够访问任何能够读写的东西。包括设备文件、管道、先进先出缓冲区、套接字等。</p>
+<h4 id="open-">open()</h4>
+<h4 id="create-">create()</h4>
+<h4 id="read-">read()</h4>
+<h4 id="write-">write()</h4>
+<h4 id="close-">close()</h4>
+<h3 id="-">线程池的了解、优点、调度处理方式和保护任务队列的方式</h3>
+<p>当有很多任务需要采用线程执行的时候，而且有时可能会创建很多线程的时候，最好使用下线程池。
+不使用线程池的话，所创建的线程数无法控制，比如一下子创建了几百几千个线程，电脑一下子就崩溃了。创建销毁线程，消耗资源较多。
+优点：</p>
+<ol>
+<li>提高效率创建好一定数量的线程放在池中，等需要使用的时候就从池中拿一个，这要比需要的时候创建一个线程对象要快的多</li>
+<li>方便管理可以编写线程池管理代码对池中的线程统一进行管理，比如说系统启动时由该程序创建 100 个线程，每当有请求的时候，就分配一个线程去工作， 如果刚好并发有 101 个请求，那多出的这一个请求可以排队等候，避免因无休止的创建线程导致系统崩溃</li>
+</ol>
+<h3 id="-">多线程</h3>
+<h2 id="linux">Linux</h2>
+<h3 id="linux-i-o-">Linux的I/O模型介绍以及同步异步阻塞非阻塞的区别（超级重要）</h3>
+<p>（IO过程包括两个阶段：（1）内核从IO设备读写数据和（2）进程从内核复制数据）</p>
+<ul>
+<li>阻塞：调用IO操作的时候，如果缓冲区空或者满了，调用的进程或者线程就会处于阻塞状态直到IO可用并完成数据拷贝。</li>
+<li>非阻塞：调用IO操作的时候，内核会马上返回结果，如果IO不可用，会返回错误，这种方式下进程需要不断轮询直到IO可用为止，但是当进程从内核拷贝数据时是阻塞的。</li>
+<li>IO多路复用就是同时监听多个描述符，一旦某个描述符IO就绪（读就绪或者写就绪），就能够通知进程进行相应的IO操作，否则就将进程阻塞在select或者epoll语句上。</li>
+</ul>
+<ul>
+<li>同步IO：同步IO模型包括阻塞IO，非阻塞IO和IO多路复用。特点就是当进程从内核复制数据的时候都是阻塞的。</li>
+<li>异步IO：在检测IO是否可用和进程拷贝数据的两个阶段都是不阻塞的，进程可以做其他事情，当IO完成后内核会给进程发送一个信号。</li>
+</ul>
+<h4 id="-">信号驱动</h4>
+<h3 id="-ext4-xfs-btrfs-">文件系统的理解（EXT4，XFS，BTRFS）</h3>
+<h3 id="io-select-poll-epoll-">IO复用的三种方法（select，poll，epoll）深入理解，包括三者区别，内部原理实现</h3>
+<h4 id="select">select</h4>
+<ol>
+<li>用户将自己所关心的文件描述符添加进描述符集中，并且明确关心的是读，写，还是异常事件</li>
+<li>select 通过轮询的方式不断扫描所有被关心的文件描述符，具体时间由参数<code>timeout</code>决定</li>
+<li>执行成功则返回文件描述符状态已改变的个数</li>
+<li>具体哪一个或哪几个文件描述符就绪，则需要文件描述符集传出，它既是输入型参数，又是输出型参数</li>
+<li>fd_set 是用位图存储文件描述符的，因为文件描述符是唯一且递增的整数</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>单个进程能够监视的文件描述符的数量存在最大限制，通常是1024。由于select采用轮询的方式扫描文件描述符，文件描述符数量越多，性能越差；</li>
+<li>内核/用户空间内存拷贝，select需要大量的句柄数据结构，产生巨大开销；</li>
+<li>select 返回的是含有整个句柄的数组，应用程序需要遍历整个数组才能发现哪些句柄发生事件；</li>
+<li>select 的触发方式为水平触发，应用程序如果没有完成对一个已经就绪的文件描述符进行 IO 操作，那么下次 select调用还会将这些文件描述符通知进程；</li>
+</ol>
+<h4 id="poll">poll</h4>
+<p>首先创建一个pollfd结构体变量的数组fd_list，然后将我们关心的fd放置在数组中的结构体变量中，并添加我们所关心的事件,调用poll函数，函数返回后我们再通过遍历的方式去查看数组中那些文件描述符上的事件就绪了。</p>
+<p><strong>特点（相对与select来说）</strong></p>
+<ol>
+<li>每次调用poll之前不需要手动设置文件描述符集</li>
+<li>poll将用户关心的事件和发生的事件进行了分离</li>
+<li>支持的文件描述符数量理论上是无上限的，其实也有，因为一个进程能打开的文件数量是有上限的 ulimit -n 查看进程可打开的最大文件数</li>
+</ol>
+<p><strong>缺点</strong></p>
+<ol>
+<li>poll返回后，也需要轮询pollfd来获取就绪的描述符</li>
+<li>同时连接的大量客户端可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降</li>
+</ol>
+<h4 id="epoll">epoll</h4>
+<p><strong>工作原理</strong></p>
+<ol>
+<li>创建一个epoll对象，向epoll对象中添加文件描述符以及我们所关心的在该文件描述符上发生的事件</li>
+<li>通过epoll_ctl向我们需要关心的文件描述符中注册事件(读，写，异常等)，操作系统将该事件和对应的文件描述符作为一个节点插入到底层建立的红黑树中</li>
+<li>添加到文件描述符上的事件都会与网卡建立回调机制，也就是事件发生时会自主调用一个回调方法，将事件所在的文件描述符插入到就绪队列中</li>
+<li>应用程序调用epoll_wait就可以直接从就绪队列中将所有就绪的文件描述符拿到，可以说时间复杂度是O(1)</li>
+</ol>
+<p>epoll 没有最大并发连接的限制，上限是最大可以打开文件的数目</p>
+<p>效率提升，epoll 对于句柄事件的选择不是遍历的，是事件响应的，就是句柄上事件来就马上选择出来，不需要遍历整个句柄链表，因此效率非常高，内核将句柄用红黑树保存的，IO效率不随 FD 数目增加而线性下降。</p>
+<p>内存拷贝， select 让内核把 FD 消息通知给用户空间的时候使用了内存拷贝的方式，开销较大，但是 epoll 在这点上使用了共享内存的方式，这个内存拷贝也省略了。</p>
+<p><strong>epoll 编程基本模型</strong></p>
+<pre><code class="lang-cpp">
+epollfd = epoll_create(...)                     <span class="hljs-comment">//创建epoll描述符</span>
+listenfd = socket(...)                          <span class="hljs-comment">//创建用于端口监听的socket</span>
+<span class="hljs-function"><span class="hljs-title">bind</span><span class="hljs-params">(listenfd ...)</span></span>                              <span class="hljs-comment">//绑定</span>
+<span class="hljs-function"><span class="hljs-title">listen</span><span class="hljs-params">(listenfd ...)</span></span>                            <span class="hljs-comment">//开始在端口监听</span>
+<span class="hljs-function"><span class="hljs-title">epoll_ctl</span><span class="hljs-params">(epollfd, EPOLL_CTL_ADD, listenfd...)</span></span>  <span class="hljs-comment">//将listenfd加入epoll描述符监听</span>
+<span class="hljs-function"><span class="hljs-title">for</span><span class="hljs-params">(;;)</span></span>                                         <span class="hljs-comment">//无限循环</span>
+{
+    n = epoll_wait(...)                         <span class="hljs-comment">//等待epoll描述符的事件发生</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-number">0</span> ~ n)                                  <span class="hljs-comment">//可能有多个读写事件发生，遍历所有事件</span>
+    {
+        <span class="hljs-keyword">if</span>(events[i]<span class="hljs-selector-class">.data</span><span class="hljs-selector-class">.fd</span> == listenfd)       <span class="hljs-comment">//通过发生事件的socket描述符确认有新链接，</span>
+        {                                       <span class="hljs-comment">//而非已经打开的socket的读写事件</span>
+            connfd = accpet(...)                <span class="hljs-comment">//accept新连接为connfd</span>
+            epoll_ctl(...)                      <span class="hljs-comment">//connfd加入epoll监听,像上面listenfd一样</span>
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(events[i]<span class="hljs-selector-class">.events</span> &amp; EPOLLIN)     <span class="hljs-comment">//发生事件的socket不是listenfd而是connfd</span>
+        {                                       <span class="hljs-comment">//且事件集里有EPOLLIN表明有数据要读取</span>
+            n = read(...)                       <span class="hljs-comment">//读取数据</span>
+            <span class="hljs-keyword">if</span>(n == <span class="hljs-number">0</span>)                          <span class="hljs-comment">//读到0字节，需要关闭socket</span>
+                close(connfd)                   <span class="hljs-comment">//close会自动将connfd从epoll监听中删除</span>
+        }                                       <span class="hljs-comment">//无需调用epoll_ctl(..EPOLL_CTL_DEL..)</span>
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(...)                            <span class="hljs-comment">//其他各种事件处理依次处理</span>
+        ...    }                                            
+}
+</code></pre>
+<h3 id="epoll-et-lt-">epoll的ET模式和LT模式</h3>
+<p>epoll中ET和LT模式的区别与实现原理？</p>
+<ul>
+<li>LT：默认工作方式，同时支持阻塞I/O和非阻塞I/O，LT模式下，内核告知某一文件描述符读、写是否就绪了，然后你可以对这个就绪的文件描述符进行I/O操作。如果不作任何操作，内核还是会继续通知。这种模式编程出错误可能性较小但由于重复提醒，效率相对较低。传统的select、poll都是这种模型的代表。</li>
+<li>ET：高速工作方式（因为减少了epoll_wait触发次数），适合高并发，只支持非阻塞I/O，ET模式下，内核告知某一文件描述符读、写是否就绪了，然后他假设已经知道该文件描述符是否已经就绪，内核不会再为这个文件描述符发更多的就绪通知（epoll_wait不会返回），直到某些操作导致文件描述符状态不再就绪。</li>
+</ul>
+<p><strong>ET 模式需要注意什么</strong></p>
+<ul>
+<li>对于读操作，如果read没有一次读完buff数据，下一次将得不到就绪通知（ET特性），造成buff中数据无法读出，除非有新数据到达。<ul>
+<li>解决方法：将套接字设置为非阻塞，用while循环包住read，只要buff中有数据，就一直读。一直读到产生EAGIN错误。</li>
+</ul>
+</li>
+<li>对于写操作主要因为ET模式下非阻塞需要我们考虑如何将用户要求写的数据写完。<ul>
+<li>解决方法：只要buff还有空间且用户请求写的数据还未写完，就一直写。</li>
+</ul>
+</li>
+</ul>
+<h3 id="-">惊群问题</h3>
+<p>当有多个子进程在阻塞等待同一个文件描述符上的某事件时，如果该事件发生，那么所有的子进程都会被唤醒
+进程被唤醒，需要进行内核重新调度，这样每个进程同时去响应这一个事件，而最终只有一个进程能处理事件成功，其他的进程在处理该事件失败后重新休眠或其他。会造成性能浪费
+早期版本中，Linux中采用全部唤醒的机制，极大浪费性能，目前版本中，采用的是只唤醒等待队列上的第一个进程或线程，但是selec、poll和epoll中还存在部分的惊群问题</p>
+<p><strong>惊群问题解决方法</strong>
+Nginx中使用mutex互斥锁解决这个问题，具体措施有使用全局互斥锁，每个子进程在epoll_wait()之前先去申请锁，申请到则继续处理，获取不到则等待，并设置了一个负载均衡的算法（当某一个子进程的任务量达到总设置量的7/8时，则不会再尝试去申请锁）来均衡各个进程的任务量。</p>
+<h3 id="linux-">Linux 命令</h3>
+<h4 id="linux-">Linux监控网络带宽的命令，查看特定进程的占用网络资源情况命令</h4>
+<h4 id="-cpu-used-buf-cache-">查询进程占用CPU的命令（注意要了解到used，buf，cache 代表意义）</h4>
+<h4 id="linux-kill-find-cp-">linux的常见命令（kill，find，cp ...）</h4>
+<h2 id="db">DB</h2>
+<h3 id="-">关系型和非关系型数据库的区别（各自优点）</h3>
+<h3 id="-sql-ddl-dml-dcl-tcl-">常用SQL语句（DDL,DML,DCL,TCL）</h3>
+<h3 id="-">索引</h3>
+<h4 id="-">数据库索引类型</h4>
+<h4 id="-">聚集索引和非聚集索引的区别（叶节点存储内容）</h4>
+<h4 id="-">唯一性索引和主码索引的区别</h4>
+<h4 id="-">索引的优缺点，什么时候使用索引，什么时候不能使用索引（重点）</h4>
+<h4 id="-b-b-">索引的底层实现（B+树，为何不采用红黑树，B树）</h4>
+<h3 id="b-b-tree-">B/B+ Tree 具体实现</h3>
+<h3 id="-acid">数据库中事务的ACID</h3>
+<p>四大特性都要能够举例说明，理解透彻，比如原子性和一致性的关联，隔离性不好会出现的问题</p>
+<h2 id="-">海量数据处理</h2>
+<h3 id="bitmap">bitmap</h3>
+<h3 id="-">布隆过滤器</h3>
+<h2 id="redis">Redis</h2>
+<h3 id="redis-">Redis的数据类型有哪些，底层怎么实现?</h3>
+<p>1）字符串：整数值、embstr编码的简单动态字符串、简单动态字符串（SDS)</p>
+<p>2）列表：压缩列表、双端链表</p>
+<p>3）哈希：压缩列表、字典</p>
+<p>4）集合：整数集合、字典</p>
+<p>5）有序集合：压缩列表、跳跃表和字典</p>
+<h2 id="-">工程类型</h2>
+<h3 id="-">系统如何提高并发性？</h3>
+<ol>
+<li><p>物理层：很多博客里面提到服务器本身的性能，比如提高机器的CPU，增加硬盘，增加内存，升级网卡。还有提到的就是服务器的网络带宽；</p>
+</li>
+<li><p>系统操作层
+（1）多线程多核编程，消除CPU瓶颈
+（2）采用 epoll，利用状态检测和通知方式，消除网络I/O阻塞瓶颈
+（3）采用事件驱动或者时异步消息机制，可以消除不必要的等待操作
+（4）部分采用共享内存的方式进行IPC通信，可以大大提高性能
+（5）系统分层</p>
+</li>
+<li><p>业务处理
+（1）优化数据库性能
+（2）采用缓存 rdis 或者 memcached</p>
+</li>
+</ol>
+<h2 id="algo-ds">Algo &amp;&amp; DS</h2>
+<h3 id="analysis-of-algorithms-">Analysis of Algorithms（算法分析）</h3>
+<h4 id="amortized-analysis-">Amortized Analysis（摊还分析）</h4>
+<h4 id="time-complexity-of-building-a-heap-">Time Complexity of building a heap（建堆的复杂度）</h4>
+<h3 id="data-structrues">Data-Structrues</h3>
+<h4 id="stack">Stack</h4>
+<h4 id="heap">Heap</h4>
+<h4 id="queue">Queue</h4>
+<h4 id="skiplist">SkipList</h4>
+<h4 id="bst">BST</h4>
+<h4 id="avl">AVL</h4>
+<h4 id="rb-tree">RB Tree</h4>
+<p>红黑树是每个节点都带有颜色属性的二叉查找树，颜色或红色或黑色。在二叉查找树强制一般要求以外，对于任何有效的红黑树我们增加了如下的额外要求：</p>
+<ol>
+<li><p>节点是红色或黑色</p>
+</li>
+<li><p>根节点是黑色</p>
+</li>
+<li><p>每个叶节点是黑色的</p>
+</li>
+<li><p>每个红色节点的两个子节点都是黑色(从每个叶子到根的所有路径上不能有两个连续的红色节点)</p>
+</li>
+<li><p>从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点</p>
+</li>
+</ol>
+<h3 id="algorithm">Algorithm</h3>
+<h4 id="sort">Sort</h4>
+<h4 id="lca-">LCA（最近公共祖先）</h4>
+<h4 id="lcs-">LCS（最长公共子序列）</h4>
+<h4 id="dfs">DFS</h4>
+<h4 id="bfs">BFS</h4>
+<h4 id="dp-">DP（动态规划）</h4>
+<h4 id="binary-search-">Binary Search（二分搜索）</h4>
+<h2 id="-">手撕代码（非算法题）</h2>
+<h3 id="design-pattern">Design-Pattern</h3>
+<h4 id="-">写单例模式（饿汉模式和懒汉模式），线程安全版本</h4>
+<p>Singleton 模式代码：</p>
+<h3 id="-">操作系统</h3>
+<h3 id="c-c-">c/c++ 结构实现</h3>
+<h4 id="vector">vector</h4>
+<h4 id="string">string</h4>
+<blockquote>
+<p>来源于 <a href="https://coolshell.cn/articles/10478.html">https://coolshell.cn/articles/10478.html</a></p>
+</blockquote>
+<pre><code class="lang-cpp">#include &lt;bits/stdc++.h&gt;
+
+class <span class="hljs-built_in">String</span> {
+public:
+  <span class="hljs-built_in">String</span>() : _<span class="hljs-keyword">str</span>(new <span class="hljs-keyword">char</span>[<span class="hljs-number">1</span>]) { *_<span class="hljs-keyword">str</span> = <span class="hljs-string">'\0'</span>; };
+  <span class="hljs-built_in">String</span>(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *<span class="hljs-keyword">str</span>) : _<span class="hljs-keyword">str</span>(new <span class="hljs-keyword">char</span>[strlen(<span class="hljs-keyword">str</span>) + <span class="hljs-number">1</span>]) {
+    strcpy(_<span class="hljs-keyword">str</span>, <span class="hljs-keyword">str</span>);
+  };
+  <span class="hljs-built_in">String</span>(<span class="hljs-keyword">const</span> <span class="hljs-built_in">String</span> &amp;<span class="hljs-keyword">str</span>) : _<span class="hljs-keyword">str</span>(new <span class="hljs-keyword">char</span>[<span class="hljs-keyword">str</span>.size() + <span class="hljs-number">1</span>]) {
+    strcpy(_<span class="hljs-keyword">str</span>, <span class="hljs-keyword">str</span>.c_str());
+  };
+
+  <span class="hljs-built_in">String</span> &amp;operator=(<span class="hljs-built_in">String</span> rhs) {
+    swap(rhs);
+    <span class="hljs-keyword">return</span> *this;
+  }
+  ~<span class="hljs-built_in">String</span>() { delete[] _<span class="hljs-keyword">str</span>; }
+
+  <span class="hljs-comment">//</span>
+  size_t size() <span class="hljs-keyword">const</span> { <span class="hljs-keyword">return</span> strlen(_<span class="hljs-keyword">str</span>); }
+  void swap(<span class="hljs-built_in">String</span> &amp;rhs) { std::swap(_<span class="hljs-keyword">str</span>, rhs._<span class="hljs-keyword">str</span>); }
+  <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *c_str() <span class="hljs-keyword">const</span> { <span class="hljs-keyword">return</span> _<span class="hljs-keyword">str</span>; }
+private:
+  <span class="hljs-keyword">char</span> *_<span class="hljs-keyword">str</span>;
+};
+
+void foo(<span class="hljs-built_in">String</span> x) {}
+void bar(<span class="hljs-keyword">const</span> <span class="hljs-built_in">String</span> &amp;x) {}
+<span class="hljs-built_in">String</span> baz() {
+  <span class="hljs-built_in">String</span> ret(<span class="hljs-string">"world"</span>);
+  <span class="hljs-keyword">return</span> ret;
+}
+<span class="hljs-keyword">int</span> main() {
+  <span class="hljs-built_in">String</span> s0;
+  <span class="hljs-built_in">String</span> s1(<span class="hljs-string">"hello"</span>);
+  <span class="hljs-built_in">String</span> s2(s0);
+  <span class="hljs-built_in">String</span> s3 = s1;
+  s2 = s1;
+  foo(s1);
+  bar(s1);
+  foo(<span class="hljs-string">"temporary"</span>);
+  bar(<span class="hljs-string">"temporary"</span>);
+  <span class="hljs-built_in">String</span> s4 = baz();
+  std::vector&lt;<span class="hljs-built_in">String</span>&gt; svec;
+  svec.push_back(s0);
+  svec.push_back(s1);
+  svec.push_back(baz());
+  svec.push_back(<span class="hljs-string">"good job"</span>);
+}
+</code></pre>
+<h4 id="strcpy">strcpy</h4>
+<h4 id="memcpy">memcpy</h4>
+<pre><code class="lang-cpp"><span class="hljs-keyword">void</span> *myMemcpy(<span class="hljs-keyword">void</span> *dst, <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *src, size_t <span class="hljs-built_in">size</span>) {
+  <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *psrc = (<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *)src;
+  <span class="hljs-keyword">char</span> *pdst = (<span class="hljs-keyword">char</span> *)dst;
+  <span class="hljs-built_in">if</span> (NULL == psrc || NULL == pdst || <span class="hljs-built_in">size</span> &lt;= <span class="hljs-number">0</span>) <span class="hljs-built_in">return</span> NULL;
+  <span class="hljs-built_in">if</span> (src &lt; dst) {
+    psrc += <span class="hljs-built_in">size</span> - <span class="hljs-number">1</span>;
+    pdst += <span class="hljs-built_in">size</span> - <span class="hljs-number">1</span>;
+    <span class="hljs-built_in">while</span> (<span class="hljs-built_in">size</span>--) {
+      *pdst-- = *psrc--;
+    }
+  } <span class="hljs-built_in">else</span> {
+    <span class="hljs-built_in">while</span> (<span class="hljs-built_in">size</span>--) {
+      *pdst++ = *psrc++;
+    }
+  }
+  <span class="hljs-built_in">return</span> dst;
+}
+</code></pre>
+<h4 id="shared_ptr">shared_ptr</h4>
+<pre><code class="lang-cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">class</span> Shared_ptr {
+<span class="hljs-keyword">public</span>:
+  Shared_ptr() : _counter(<span class="hljs-number">0</span>), _ptr(<span class="hljs-literal">nullptr</span>) {}
+  Shared_ptr(T *p) : _counter(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">1</span>)), _ptr(p) {}
+  Shared_ptr(Shared_ptr&lt;T&gt; &amp;sptr)
+      : _counter(&amp;(++*sptr._counter)), _ptr(sptr._ptr) {}
+
+  T *<span class="hljs-keyword">operator</span>-&gt;() { <span class="hljs-keyword">return</span> _ptr; }
+  T &amp;<span class="hljs-keyword">operator</span>*() { <span class="hljs-keyword">return</span> *_ptr; }
+  Shared_ptr&lt;T&gt; &amp;<span class="hljs-keyword">operator</span>=(Shared_ptr&lt;T&gt; &amp;sptr) {
+    ++sptr._counter;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>-&gt;_ptr &amp;&amp; <span class="hljs-number">0</span> == --*<span class="hljs-keyword">this</span>-&gt;_counter) {
+      <span class="hljs-keyword">delete</span> _counter;
+      <span class="hljs-keyword">delete</span> _ptr;
+    }
+    <span class="hljs-keyword">this</span>-&gt;_ptr = sptr._ptr;
+    <span class="hljs-keyword">this</span>-&gt;_counter = sptr._counter;
+    <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;
+  }
+
+  ~Shared_ptr() {
+    <span class="hljs-keyword">if</span> (--*_counter == <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">delete</span> _counter;
+      <span class="hljs-keyword">delete</span> _ptr;
+    }
+  }
+
+  <span class="hljs-keyword">friend</span> <span class="hljs-built_in">std</span>::ostream &amp;<span class="hljs-keyword">operator</span>&lt;&lt;(<span class="hljs-built_in">std</span>::ostream &amp;os, Shared_ptr&lt;T&gt; &amp;sp) {
+    os &lt;&lt; <span class="hljs-string">"Address pointed : "</span> &lt;&lt; sp._counter &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; *(sp._counter) &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+  }
+
+<span class="hljs-keyword">private</span>:
+  <span class="hljs-keyword">int</span> *_counter;
+  T *_ptr;
+};
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-comment">// ptr1 pointing to an integer.</span>
+  Shared_ptr&lt;<span class="hljs-keyword">int</span>&gt; ptr1(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">151</span>));
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"--- Shared pointers ptr1 ---\n"</span>;
+  *ptr1 = <span class="hljs-number">100</span>;
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">" ptr1's value now: "</span> &lt;&lt; *ptr1 &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; ptr1;
+
+  {
+    <span class="hljs-comment">// ptr2 pointing to same integer</span>
+    <span class="hljs-comment">// which ptr1 is pointing to</span>
+    <span class="hljs-comment">// Shared pointer reference counter</span>
+    <span class="hljs-comment">// should have increased now to 2.</span>
+    Shared_ptr&lt;<span class="hljs-keyword">int</span>&gt; ptr2 = ptr1;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"--- Shared pointers ptr1, ptr2 ---\n"</span>;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; ptr1;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; ptr2;
+
+    {
+      <span class="hljs-comment">// ptr3 pointing to same integer</span>
+      <span class="hljs-comment">// which ptr1 and ptr2 are pointing to.</span>
+      <span class="hljs-comment">// Shared pointer reference counter</span>
+      <span class="hljs-comment">// should have increased now to 3.</span>
+      Shared_ptr&lt;<span class="hljs-keyword">int</span>&gt; ptr3(ptr2);
+      <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"--- Shared pointers ptr1, ptr2, ptr3 ---\n"</span>;
+      <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; ptr1;
+      <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; ptr2;
+      <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; ptr3;
+    }
+
+    <span class="hljs-comment">// ptr3 is out of scope.</span>
+    <span class="hljs-comment">// It would have been destructed.</span>
+    <span class="hljs-comment">// So shared pointer reference counter</span>
+    <span class="hljs-comment">// should have decreased now to 2.</span>
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"--- Shared pointers ptr1, ptr2 ---\n"</span>;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; ptr1;
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; ptr2;
+<span class="hljs-keyword">class</span> Solution {
+<span class="hljs-keyword">public</span>:
+<span class="hljs-keyword">class</span> Solution {
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">possibleBipartition</span><span class="hljs-params">(<span class="hljs-keyword">int</span> N, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt;&amp; dislikes)</span> </span>{
+<span class="hljs-keyword">class</span> Solution {
+<span class="hljs-keyword">public</span>:
+<span class="hljs-keyword">class</span> Solution {
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">possibleBipartition</span><span class="hljs-params">(<span class="hljs-keyword">int</span> N, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt;&amp; dislikes)</span> </span>{
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; G(N + <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; e :  dislikes) {
+            <span class="hljs-keyword">int</span> a= e[<span class="hljs-number">0</span>], b = e[<span class="hljs-number">1</span>];
+            G[a].push_back(b);
+            G[b].push_back(a);
+        }
+
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">possibleBipartition</span><span class="hljs-params">(<span class="hljs-keyword">int</span> N, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt;&amp; dislikes)</span> </span>{
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; G(N + <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; e :  dislikes) {
+            <span class="hljs-keyword">int</span> a= e[<span class="hljs-number">0</span>], b = e[<span class="hljs-number">1</span>];
+            G[a].push_back(b);
+            G[b].push_back(a);
+        }
+
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; G(N + <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; e :  dislikes) {
+            <span class="hljs-keyword">int</span> a= e[<span class="hljs-number">0</span>], b = e[<span class="hljs-number">1</span>];
+            G[a].push_back(b);
+            G[b].push_back(a);
+        }
+
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">possibleBipartition</span><span class="hljs-params">(<span class="hljs-keyword">int</span> N, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt;&amp; dislikes)</span> </span>{
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; G(N + <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; e :  dislikes) {
+            <span class="hljs-keyword">int</span> a= e[<span class="hljs-number">0</span>], b = e[<span class="hljs-number">1</span>];
+            G[a].push_back(b);
+            G[b].push_back(a);
+        }
+
+  }
+
+  <span class="hljs-comment">// ptr2 is out of scope.</span>
+  <span class="hljs-comment">// It would have been destructed.</span>
+  <span class="hljs-comment">// So shared pointer reference counter</span>
+  <span class="hljs-comment">// should have decreased now to 1.</span>
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"--- Shared pointers ptr1 ---\n"</span>;
+  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; ptr1;
+
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+</body></html>
