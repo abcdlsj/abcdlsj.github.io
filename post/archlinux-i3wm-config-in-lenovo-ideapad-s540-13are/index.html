@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang='en' dir='auto'><head>
-  <meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>ArchLinux i3wm Config (联想小新 pro 13, Lenovo IdeaPad S540 13ARE) &middot; </title>
+        <meta name="description" content="
 上个月末，准备买一台新的笔记本，选了好几天，决定从联想小新 13 pro 2020 AMD R7 4800u （代号 Lenovo IdeaPad S540 13ARE）和 yoga14s 4800u 同价版本中挑一个，最后选择了 pro 13（实际上过程还是非常曲折的，大概折腾了快小半个月），昨天货到了，检查了一遍，没发现什么很大的问题，主要问题是华星屏幕有点色差和漏光，然后放在桌子上有点不平，不过，对我来说应该不是很严重的问题，所以没换货。检查之后直接双系统，系统选我最爱的 Arch，搭配上熟悉的 i3wm，之前神舟分辨率（1920x1080）简直瞎眼，gnome 也一样字体总是很糊，现在看着感官完全不一样。16:10 &#43; 2.5k &#43; 4800u，续航也非常可以了（超过 6 个小时），而且也可以调野兽模式、节能模式等等。
 虽然是 AMD CPU，过程还是算比较简单的，wiki 写得很详细，但是比较分散，这里记录一下遇到几个问题，有些是本子特有的，有些是我傻了吧唧的操作导致的。
 还有就是，安装的时候进界面会出现亮线，之后把 grub 分辨率改了就好（猜的，不过实测有效），这种一般是电压不稳定造成的
@@ -33,39 +35,42 @@ fcitx 的字体设置：Noto Sans CJK SC Medium 11，Menu Font: Ubuntu Regular 1
 如果发现渲染重叠，去配置 compton（现在叫 picom）
 
 
--- 07-14 ⏲️ 12:55
+-- 07-14 :timer_clock: 12:55
 托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决（个人感觉是主题缩放的问题）（07-21 破案了，是字体大小限制的）
 还有就是内存最好划分 2G 给显卡，4G 如果有高级显示需求是需要的，主要不给 2G 我开 Emacs、Goland 太慢，不打游戏 2G 够了
--- 07-16 ⏲️ 07:07
+-- 07-16 :timer_clock: 07:07
 刚刚看了一下 Manjaro Gnome 20 的效果，发现不行，所以最好还是推荐装 i3wm
 实测自己创建 gtk 的缩放主题很麻烦，很不推荐，浪费时间
 如果发现 vlc 打开视频闪烁，去配置 picom，wiki 写了解决方案，但是对我没用，因为只有开全屏才会出现，所以我设置 vlc 为浮动了，而且 mpv 不会闪烁
 如果发现 chrome 滚动撕裂，去配置 picom 垂直同步就好了
--- 07-17 ⏲️ 19:37
+-- 07-17 :timer_clock: 19:37
 又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）
--- 07-19 ⏲️ 22:43
+-- 07-19 :timer_clock: 22:43
 i3wm 也可以设置主题的，虽然其实没啥用，和默认比也没啥变化，具体可以 Github 找，我用的是 base16-google-dark，之前一直用的 base16-default-dark
 镜面屏还是适合对自己颜值有自信的人（不适合我。。。hhh，Emacs 被迫放弃暗色主题）
 Typora 推荐使用 Next 主题，自带的中文字体非常适合 Typora
 Linux 中文字体渲染真的垃圾，配置 fontconfig 可以适当改善
--- 07-24 ⏲️ 17:22
+-- 07-24 :timer_clock: 17:22
 更新 bios 之后是可以用 fn &#43; 功能键的（有音量加减很方便。。。），但是我的背光调节不可以。。。
 经过我的不懈努力，终于找到了究极的字体和 hidpi 配置了
 看文末就可以了
--- 08-01 ⏲️ 09:25
+-- 08-01 :timer_clock: 09:25
 好了，现在换成 Windows 的 Linux 子系统，完结撒花
--- 08-28 ⏲️ 17:15
+-- 08-28 :timer_clock: 17:15
 好了，windows 太难用了，为了图安装快换成 manjaro 了
--- 08-29 ⏲️ 14:21
+-- 08-29 :timer_clock: 14:21
 好了，折腾一天，发现一堆问题，还不如重装前。。。
--- 08-29 ⏲️ 21:03
+-- 08-29 :timer_clock: 21:03
 回 Arch 了。。Manjaro 发行版很适合一些日常图安装快速，配置简单的用户，但是不适合想要深度定制的用户，而且小问题非常多，比如各种 hang on tlp system start/shutdown，hang on XXX scheduler 等等，反而 Arch 装好，小问题就非常非常少！
--- 09-08 ⏲️ 15:34
-'>
-<meta name='theme-color' content='#ffcd00'>
-
-<meta property='og:title' content='ArchLinux i3wm Config (联想小新 pro 13, Lenovo IdeaPad S540 13ARE) • ~'>
-<meta property='og:description' content='
+-- 09-08 :timer_clock: 15:34
+">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.80.0" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="ArchLinux i3wm Config (联想小新 pro 13, Lenovo IdeaPad S540 13ARE)">
+<meta property="og:description" content="
 上个月末，准备买一台新的笔记本，选了好几天，决定从联想小新 13 pro 2020 AMD R7 4800u （代号 Lenovo IdeaPad S540 13ARE）和 yoga14s 4800u 同价版本中挑一个，最后选择了 pro 13（实际上过程还是非常曲折的，大概折腾了快小半个月），昨天货到了，检查了一遍，没发现什么很大的问题，主要问题是华星屏幕有点色差和漏光，然后放在桌子上有点不平，不过，对我来说应该不是很严重的问题，所以没换货。检查之后直接双系统，系统选我最爱的 Arch，搭配上熟悉的 i3wm，之前神舟分辨率（1920x1080）简直瞎眼，gnome 也一样字体总是很糊，现在看着感官完全不一样。16:10 &#43; 2.5k &#43; 4800u，续航也非常可以了（超过 6 个小时），而且也可以调野兽模式、节能模式等等。
 虽然是 AMD CPU，过程还是算比较简单的，wiki 写得很详细，但是比较分散，这里记录一下遇到几个问题，有些是本子特有的，有些是我傻了吧唧的操作导致的。
 还有就是，安装的时候进界面会出现亮线，之后把 grub 分辨率改了就好（猜的，不过实测有效），这种一般是电压不稳定造成的
@@ -96,282 +101,109 @@ fcitx 的字体设置：Noto Sans CJK SC Medium 11，Menu Font: Ubuntu Regular 1
 如果发现渲染重叠，去配置 compton（现在叫 picom）
 
 
--- 07-14 ⏲️ 12:55
+-- 07-14 :timer_clock: 12:55
 托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决（个人感觉是主题缩放的问题）（07-21 破案了，是字体大小限制的）
 还有就是内存最好划分 2G 给显卡，4G 如果有高级显示需求是需要的，主要不给 2G 我开 Emacs、Goland 太慢，不打游戏 2G 够了
--- 07-16 ⏲️ 07:07
+-- 07-16 :timer_clock: 07:07
 刚刚看了一下 Manjaro Gnome 20 的效果，发现不行，所以最好还是推荐装 i3wm
 实测自己创建 gtk 的缩放主题很麻烦，很不推荐，浪费时间
 如果发现 vlc 打开视频闪烁，去配置 picom，wiki 写了解决方案，但是对我没用，因为只有开全屏才会出现，所以我设置 vlc 为浮动了，而且 mpv 不会闪烁
 如果发现 chrome 滚动撕裂，去配置 picom 垂直同步就好了
--- 07-17 ⏲️ 19:37
+-- 07-17 :timer_clock: 19:37
 又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）
--- 07-19 ⏲️ 22:43
+-- 07-19 :timer_clock: 22:43
 i3wm 也可以设置主题的，虽然其实没啥用，和默认比也没啥变化，具体可以 Github 找，我用的是 base16-google-dark，之前一直用的 base16-default-dark
 镜面屏还是适合对自己颜值有自信的人（不适合我。。。hhh，Emacs 被迫放弃暗色主题）
 Typora 推荐使用 Next 主题，自带的中文字体非常适合 Typora
 Linux 中文字体渲染真的垃圾，配置 fontconfig 可以适当改善
--- 07-24 ⏲️ 17:22
+-- 07-24 :timer_clock: 17:22
 更新 bios 之后是可以用 fn &#43; 功能键的（有音量加减很方便。。。），但是我的背光调节不可以。。。
 经过我的不懈努力，终于找到了究极的字体和 hidpi 配置了
 看文末就可以了
--- 08-01 ⏲️ 09:25
+-- 08-01 :timer_clock: 09:25
 好了，现在换成 Windows 的 Linux 子系统，完结撒花
--- 08-28 ⏲️ 17:15
+-- 08-28 :timer_clock: 17:15
 好了，windows 太难用了，为了图安装快换成 manjaro 了
--- 08-29 ⏲️ 14:21
+-- 08-29 :timer_clock: 14:21
 好了，折腾一天，发现一堆问题，还不如重装前。。。
--- 08-29 ⏲️ 21:03
+-- 08-29 :timer_clock: 21:03
 回 Arch 了。。Manjaro 发行版很适合一些日常图安装快速，配置简单的用户，但是不适合想要深度定制的用户，而且小问题非常多，比如各种 hang on tlp system start/shutdown，hang on XXX scheduler 等等，反而 Arch 装好，小问题就非常非常少！
--- 09-08 ⏲️ 15:34
-'>
-<meta property='og:url' content='https://abcdlsj.github.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/'>
-<meta property='og:site_name' content='~'>
-<meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='Lenovo'><meta property='article:tag' content='Arch'><meta property='article:published_time' content='2020-07-13T10:38:18&#43;08:00'/><meta property='article:modified_time' content='2020-07-13T10:38:18&#43;08:00'/><meta name='twitter:card' content='summary'>
+-- 09-08 :timer_clock: 15:34
+">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://abcdlsj.github.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/">
+        <link rel="stylesheet" href="https://abcdlsj.github.iodist/site.css">
+        <link rel="stylesheet" href="https://abcdlsj.github.iodist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        
+        
+        
+        
 
-<meta name="generator" content="Hugo 0.80.0" />
+    </head>
+    <body>
+        
 
-  <title>ArchLinux i3wm Config (联想小新 pro 13, Lenovo IdeaPad S540 13ARE) • ~</title>
-  <link rel='canonical' href='https://abcdlsj.github.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/'>
-  
-  
-  <link rel='icon' href='/favicon.ico'>
-<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/custom.css'><style>
-:root{--color-accent:#ffcd00;}
-</style>
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://abcdlsj.github.io">My Blog</a>
+                            </h1>
+                        
+                        
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/abcdlsj" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:lisongjianshuai@gmail.com">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
 
-  
+                    <ul class="site-nav">
+                        
 
-</head>
-<body class='page type-post has-sidebar'>
+                    </ul>
+                </div>
+            </header>
 
-  <div class='site'><div id='sidebar' class='sidebar'>
-  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+            <div id="container">
 
-  <div class='container'><section class='widget widget-about sep-after'>
-  <header>
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">ArchLinux i3wm Config (联想小新 pro 13, Lenovo IdeaPad S540 13ARE)</h1>
     
-    <div class='logo'>
-      <a href='/'>
-        <img src='/images/logo.png'>
-      </a>
-    </div>
+    <p class="post-date post-line">
+        <span>Published <time datetime="2020-07-13" itemprop="datePublished">Mon, Jul 13, 2020</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="#" itemprop="url" rel="author"></a>
+            </span>
+        </span>
+    </p>
     
-    <h2 class='title site-title '>
-      <a href='/'>
-      ~
-      </a>
-    </h2>
-    <div class='desc'>
-    Enjoy The Focus.
-    </div>
-  </header>
-
-</section>
-<section class='widget widget-taxonomy_cloud sep-after'>
-  <header>
-    <h4 class='title widget-title'>Tags</h4>
-  </header>
-
-  <div class='container list-container'>
-  <ul class='list taxonomy-cloud'><li>
-        <a href='/tags/6.824/' style='font-size:1em'>6.824</a>
-      </li><li>
-        <a href='/tags/6.828/' style='font-size:1.0666666666666667em'>6.828</a>
-      </li><li>
-        <a href='/tags/algorithm/' style='font-size:1em'>Algorithm</a>
-      </li><li>
-        <a href='/tags/arch/' style='font-size:1.0666666666666667em'>Arch</a>
-      </li><li>
-        <a href='/tags/backtracking/' style='font-size:1em'>BackTracking</a>
-      </li><li>
-        <a href='/tags/binary-search/' style='font-size:1em'>Binary Search</a>
-      </li><li>
-        <a href='/tags/blog/' style='font-size:1.1333333333333333em'>blog</a>
-      </li><li>
-        <a href='/tags/boltdb/' style='font-size:1em'>BoltDB</a>
-      </li><li>
-        <a href='/tags/conky/' style='font-size:1em'>conky</a>
-      </li><li>
-        <a href='/tags/contest/' style='font-size:1.3333333333333333em'>Contest</a>
-      </li><li>
-        <a href='/tags/cpp/' style='font-size:1.0666666666666667em'>CPP</a>
-      </li><li>
-        <a href='/tags/csapp/' style='font-size:1em'>CSAPP</a>
-      </li><li>
-        <a href='/tags/data-structure/' style='font-size:1.0666666666666667em'>Data Structure</a>
-      </li><li>
-        <a href='/tags/database/' style='font-size:1em'>DataBase</a>
-      </li><li>
-        <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
-      </li><li>
-        <a href='/tags/dynamic-programming/' style='font-size:1.0666666666666667em'>Dynamic Programming</a>
-      </li><li>
-        <a href='/tags/emacs/' style='font-size:1em'>emacs</a>
-      </li><li>
-        <a href='/tags/geeksforgeeks/' style='font-size:1em'>GeeksforGeeks</a>
-      </li><li>
-        <a href='/tags/hugo/' style='font-size:1.0666666666666667em'>hugo</a>
-      </li><li>
-        <a href='/tags/interview/' style='font-size:1em'>Interview</a>
-      </li><li>
-        <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
-      </li><li>
-        <a href='/tags/lenovo/' style='font-size:1em'>Lenovo</a>
-      </li><li>
-        <a href='/tags/link-list/' style='font-size:1em'>Link List</a>
-      </li><li>
-        <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
-      </li><li>
-        <a href='/tags/org/' style='font-size:1.0666666666666667em'>org</a>
-      </li><li>
-        <a href='/tags/org-agenda/' style='font-size:1em'>org-agenda</a>
-      </li><li>
-        <a href='/tags/org-mode/' style='font-size:1em'>org mode</a>
-      </li><li>
-        <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
-      </li><li>
-        <a href='/tags/os/' style='font-size:1.2em'>OS</a>
-      </li><li>
-        <a href='/tags/sicp/' style='font-size:1.0666666666666667em'>SICP</a>
-      </li><li>
-        <a href='/tags/sliding-window/' style='font-size:1em'>Sliding Window</a>
-      </li><li>
-        <a href='/tags/tree/' style='font-size:1em'>Tree</a>
-      </li><li>
-        <a href='/tags/union-find/' style='font-size:1em'>Union Find</a>
-      </li><li>
-        <a href='/tags/xv6/' style='font-size:1.0666666666666667em'>xv6</a>
-      </li></ul>
-</div>
-
-
-</section>
-</div>
-
-  <div class='sidebar-overlay'></div>
-</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
-  <div class='container'>
-    <a class='screen-reader-text' href='#content'>Skip to Content</a>
-
-<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
-  <span class='screen-reader-text'>Toggle Sidebar</span>
-  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="3" y1="12" x2="21" y2="12" />
-  <line x1="3" y1="6" x2="21" y2="6" />
-  <line x1="3" y1="18" x2="21" y2="18" />
-
-</svg>
-</span>
-  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="18" y1="6" x2="6" y2="18" />
-  <line x1="6" y1="6" x2="18" y2="18" />
-
-</svg>
-</span>
-</button>
-    <ul><li class='item'>
-        <a href='/'>Home</a>
-      </li><li class='item'>
-        <a href='/post/'>Archives</a>
-      </li><li class='item'>
-        <a href='/categories/'>Categories</a>
-      </li><li class='item'>
-        <a href='/tags/leetcode'>LeetCode</a>
-      </li><li class='item'>
-        <a href='/about/'>About</a>
-      </li></ul>
-  </div>
-</nav><div class='header-widgets'>
-        <div class='container'>
-    
-    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
-  <section class='widget widget-breadcrumbs sep-after'>
-    <nav id='breadcrumbs'>
-      <ol><li><a href='/'>~</a></li><li><a href='/post/'>Posts</a></li><li><span>ArchLinux i3wm Config (联想小新 pro 13, Lenovo IdeaPad S540 13ARE)</span></li></ol>
-    </nav>
-  </section></div>
-      </div>
-
-      <header id='header' class='header site-header'>
-        <div class='container sep-after'>
-          <div class='header-info'><p class='site-title title'>~</p><p class='desc site-desc'>Enjoy The Focus.</p>
-          </div>
-        </div>
-      </header>
-
-      <main id='content'>
-
-
-<article lang='en' class='entry'>
-  <header class='header entry-header'>
-  <div class='container sep-after'>
-    <div class='header-info'>
-      <h1 class='title'>ArchLinux i3wm Config (联想小新 pro 13, Lenovo IdeaPad S540 13ARE)</h1>
-      
-
-    </div>
-    <div class='entry-meta'>
-  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-  <line x1="16" y1="2" x2="16" y2="6"/>
-  <line x1="8" y1="2" x2="8" y2="6"/>
-  <line x1="3" y1="10" x2="21" y2="10"/>
-
-</svg>
-<span class='screen-reader-text'>Posted on </span>
-  <time class='entry-date' datetime='2020-07-13T10:38:18&#43;08:00'>2020, Jul 13</time>
-</span>
-
-  
-  
-<span class='reading-time'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <circle cx="12" cy="12" r="10"/>
-  <polyline points="12 6 12 12 15 15"/>
-
-</svg>
-4 mins read
-</span>
-
-
-</div>
-
-
-  </div>
 </header>
 
-  
-  
-<details class='container entry-toc'>
-  <summary class='title'>
-    <span>Table of Contents</span>
-  </summary>
-  <nav id="TableOfContents">
-  <ul>
-    <li><a href="#时间时间">时间时间</a></li>
-    <li><a href="#python-module-的错误">Python Module 的错误</a></li>
-    <li><a href="#backlight">BackLight</a></li>
-    <li><a href="#bios">Bios</a></li>
-    <li><a href="#alsa">ALSA</a></li>
-    <li><a href="#grub-分辨率">grub 分辨率</a></li>
-    <li><a href="#一些优化">一些优化</a></li>
-    <li><a href="#美化设置i3wm主要是字体和缩放">美化设置（i3wm，主要是字体和缩放）</a></li>
-    <li><a href="#end">End</a></li>
-  </ul>
-</nav>
-</details>
+        <div class="post-content clearfix" itemprop="articleBody">
+    
 
-
-  <div class='container entry-content'>
-  <blockquote>
+    <blockquote>
 <p>上个月末，准备买一台新的笔记本，选了好几天，决定从联想小新 13 pro 2020 AMD R7 4800u （代号 Lenovo IdeaPad S540 13ARE）和 yoga14s 4800u 同价版本中挑一个，最后选择了 pro 13（实际上过程还是非常曲折的，大概折腾了快小半个月），昨天货到了，检查了一遍，没发现什么很大的问题，主要问题是华星屏幕有点色差和漏光，然后放在桌子上有点不平，不过，对我来说应该不是很严重的问题，所以没换货。检查之后直接双系统，系统选我最爱的 Arch，搭配上熟悉的 i3wm，之前神舟分辨率（1920x1080）简直瞎眼，gnome 也一样字体总是很糊，现在看着感官完全不一样。16:10 + 2.5k + 4800u，续航也非常可以了（超过 6 个小时），而且也可以调野兽模式、节能模式等等。</p>
 <p>虽然是 AMD CPU，过程还是算比较简单的，wiki 写得很详细，但是比较分散，这里记录一下遇到几个问题，有些是本子特有的，有些是我傻了吧唧的操作导致的。</p>
 <p>还有就是，安装的时候进界面会出现亮线，之后把 grub 分辨率改了就好（猜的，不过实测有效），这种一般是电压不稳定造成的</p>
@@ -386,12 +218,12 @@ Linux 中文字体渲染真的垃圾，配置 fontconfig 可以适当改善
 <li>
 <p>缩放问题，最好的还是 144</p>
 <p><code>vim .Xresources</code> （PS. 实测鼠标这样设置大小会好一点点）</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">Xft.dpi: <span style="color:#ae81ff">144</span>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">Xft.dpi: <span style="color:#ae81ff">144</span>
 Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#ae81ff">48</span> or <span style="color:#ae81ff">64</span> may also be good values
 </code></pre></div></li>
 <li>
 <p>触控板设置问题，原来是没有手势，比如单击之类的，只能够用触控板本来的点击，感觉不舒服，如果想要简单的就可以像我一样：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ synclient TapButton1<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> TapButton2<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> TapButton3<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ synclient <span style="color:#111">TapButton1</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#111">TapButton2</span><span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> <span style="color:#111">TapButton3</span><span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
 </code></pre></div><p>这样就差不多了，更丰富的功能找 wiki</p>
 </li>
 <li>
@@ -402,34 +234,34 @@ Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#a
 <p>如果发现渲染重叠，去配置 compton（现在叫 picom）</p>
 </li>
 </ul>
-<p>-- 07-14 ⏲️ 12:55</p>
+<p>-- 07-14 :timer_clock: 12:55</p>
 <p>托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决（个人感觉是主题缩放的问题）（07-21 破案了，是字体大小限制的）</p>
 <p>还有就是内存最好划分 2G 给显卡，4G 如果有高级显示需求是需要的，主要不给 2G 我开 Emacs、Goland 太慢，不打游戏 2G 够了</p>
-<p>-- 07-16 ⏲️ 07:07</p>
+<p>-- 07-16 :timer_clock: 07:07</p>
 <p>刚刚看了一下 Manjaro Gnome 20 的效果，发现不行，所以最好还是推荐装 i3wm</p>
 <p>实测自己创建 gtk 的缩放主题很麻烦，很不推荐，浪费时间</p>
 <p>如果发现 vlc 打开视频闪烁，去配置 picom，wiki 写了解决方案，但是对我没用，因为只有开全屏才会出现，所以我设置 vlc 为浮动了，而且 mpv 不会闪烁</p>
 <p>如果发现 chrome 滚动撕裂，去配置 picom 垂直同步就好了</p>
-<p>-- 07-17 ⏲️ 19:37</p>
+<p>-- 07-17 :timer_clock: 19:37</p>
 <p>又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）</p>
-<p>-- 07-19 ⏲️ 22:43</p>
+<p>-- 07-19 :timer_clock: 22:43</p>
 <p>i3wm 也可以设置主题的，虽然其实没啥用，和默认比也没啥变化，具体可以 Github 找，我用的是 <code>base16-google-dark</code>，之前一直用的 <code>base16-default-dark</code></p>
 <p>镜面屏还是适合对自己颜值有自信的人（不适合我。。。hhh，Emacs 被迫放弃暗色主题）</p>
 <p>Typora 推荐使用 Next 主题，自带的中文字体非常适合 Typora</p>
 <p>Linux 中文字体渲染真的垃圾，配置 <code>fontconfig</code> 可以适当改善</p>
-<p>-- 07-24 ⏲️ 17:22</p>
+<p>-- 07-24 :timer_clock: 17:22</p>
 <p>更新 bios 之后是可以用 fn + 功能键的（有音量加减很方便。。。），但是我的背光调节不可以。。。</p>
 <p>经过我的不懈努力，终于找到了究极的字体和 hidpi 配置了</p>
 <p>看文末就可以了</p>
-<p>-- 08-01 ⏲️ 09:25</p>
+<p>-- 08-01 :timer_clock: 09:25</p>
 <p>好了，现在换成 Windows 的 Linux 子系统，完结撒花</p>
-<p>-- 08-28 ⏲️ 17:15</p>
+<p>-- 08-28 :timer_clock: 17:15</p>
 <p>好了，windows 太难用了，为了图安装快换成 manjaro 了</p>
-<p>-- 08-29 ⏲️ 14:21</p>
+<p>-- 08-29 :timer_clock: 14:21</p>
 <p>好了，折腾一天，发现一堆问题，还不如重装前。。。</p>
-<p>-- 08-29 ⏲️ 21:03</p>
+<p>-- 08-29 :timer_clock: 21:03</p>
 <p>回 Arch 了。。Manjaro 发行版很适合一些日常图安装快速，配置简单的用户，但是不适合想要深度定制的用户，而且小问题非常多，比如各种 <code>hang on tlp system start/shutdown</code>，<code>hang on XXX scheduler</code> 等等，反而 Arch 装好，小问题就非常非常少！</p>
-<p>-- 09-08 ⏲️ 15:34</p>
+<p>-- 09-08 :timer_clock: 15:34</p>
 </blockquote>
 <h2 id="时间时间">时间时间</h2>
 <blockquote>
@@ -454,7 +286,7 @@ Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#a
 <p>我遇到了之后，弄到失去耐心直接重装（弄了好几个小时，各种方法都没啥效果，于是昨天晚上 10 点开始重装，2 个小时不到装好，虽然之后一直熬夜玩到凌晨 5 点）</p>
 <h2 id="python-module-的错误">Python Module 的错误</h2>
 <p>具体报错没了，可以试试：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo pacman -S python3 python-pip python-setuptools
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo pacman -S python3 python-pip python-setuptools
 </code></pre></div><p>差不多就可以解决了</p>
 <h2 id="backlight">BackLight</h2>
 <blockquote>
@@ -464,7 +296,7 @@ Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#a
 <p>-- 09-09</p>
 </blockquote>
 <p>和 intel 差不多：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#ae81ff">70</span> &gt; /sys/class/backlight/amdgpu_bl0/brightness
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#111">echo</span> <span style="color:#ae81ff">70</span> &gt; /sys/class/backlight/amdgpu_bl0/brightness
 </code></pre></div><h2 id="bios">Bios</h2>
 <blockquote>
 <p>最好还是自己设置一下</p>
@@ -491,9 +323,9 @@ defaults.ctl.card 1
 <blockquote>
 <p>不改会出现亮线，因为那一瞬间分辨率变化太快了（我是自己这样想的，实测也是这个问题），改成 1280x960 就好</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo vim /etc/default/grub
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo vim /etc/default/grub
 
-GRUB_GFXMODE<span style="color:#f92672">=</span>1280x960
+<span style="color:#111">GRUB_GFXMODE</span><span style="color:#f92672">=</span>1280x960
 </code></pre></div><p>记得重新生成 grub.cfg</p>
 <h2 id="一些优化">一些优化</h2>
 <p>修改 icons theme，系统托盘会好看一点</p>
@@ -510,7 +342,7 @@ GRUB_GFXMODE<span style="color:#f92672">=</span>1280x960
 <h2 id="美化设置i3wm主要是字体和缩放">美化设置（i3wm，主要是字体和缩放）</h2>
 <p><code>i3wm</code> 配置随意，我用的基本是默认</p>
 <p><code>vim .Xresources</code> 设置缩放 144，鼠标大小 32</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">Xft.dpi: <span style="color:#ae81ff">144</span>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">Xft.dpi: <span style="color:#ae81ff">144</span>
 Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#ae81ff">48</span> or <span style="color:#ae81ff">64</span> may also be good values
 </code></pre></div><p><code>qt5ct</code> 设置 qt 程序字体和图标</p>
 <p><code>lxappearance</code> 设置 gtk3 程序，看自己喜好，图标我用 <code>Papirus</code>，字体用 <code>Noto Sans CJK SC Medium 10</code></p>
@@ -525,7 +357,7 @@ Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#a
 <p>-- 2020-09-08 更新</p>
 <p><code>~/.config/fontconfig/fonts.conf</code></p>
 <p>复制修改的别人的，具体出处找不到了。。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">&lt;?xml version=&#39;1.0&#39;?&gt;
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">&lt;?xml version=&#39;1.0&#39;?&gt;
 &lt;!DOCTYPE fontconfig SYSTEM &#39;fonts.dtd&#39;&gt;
 &lt;fontconfig&gt;
 
@@ -645,94 +477,51 @@ Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#a
 <p><a href="https://wiki.archlinux.org/index.php/Lenovo_IdeaPad_S540_13ARE">https://wiki.archlinux.org/index.php/Lenovo_IdeaPad_S540_13ARE</a></p>
 </div>
 
-  
-<footer class='entry-footer'>
-  <div class='container sep-before'><div class='categories'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-    <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
-
-</svg>
-<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/%E6%8A%98%E8%85%BE/'>折腾</a></div>
-<div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
-  <line x1="7" y1="7" x2="7" y2="7"/>
-
-</svg>
-<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/lenovo/'>Lenovo</a>, <a class='tag' href='/tags/arch/'>Arch</a></div>
-
-  </div>
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/lenovo/">Lenovo</a>, 
+                <a href="/tags/arch/">Arch</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=ArchLinux%20i3wm%20Config%20%28%e8%81%94%e6%83%b3%e5%b0%8f%e6%96%b0%20pro%2013%2c%20Lenovo%20IdeaPad%20S540%2013ARE%29&url=https%3a%2f%2fabcdlsj.github.io%2fpost%2farchlinux-i3wm-config-in-lenovo-ideapad-s540-13are%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+    </div>
 </footer>
 
-
-</article>
-
-<nav class='entry-nav'>
-  <div class='container'><div class='prev-entry sep-before'>
-      <a href='/post/leetcode-biweekly-contest29-weekly-contest195/'>
-        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="20" y1="12" x2="4" y2="12"/>
-  <polyline points="10 18 4 12 10 6"/>
-
-</svg>
- Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>LeetCode Biweekly Contest:29 &amp;&amp; Weekly Contest:195</a>
-    </div><div class='next-entry sep-before'>
-      <a href='/post/zuosheng-algorithm-notes/'>
-        <span class='screen-reader-text'>Next post: </span>ZuoChengYun Algorithm Notes (WIP)<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="4" y1="12" x2="20" y2="12"/>
-  <polyline points="14 6 20 12 14 18"/>
-
-</svg>
-</span>
-      </a>
-    </div></div>
-</nav>
-
-
-
-
-      </main>
-
-      <footer id='footer' class='footer'>
-        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
-    <ul><li>
-        <a href='https://github.com/abcdlsj' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-
-</svg>
-</a>
-      </li><li>
-        <a href='mailto:lisongjianshuai@gmail.com' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
-</svg>
-</a>
-      </li></ul>
-  </nav>
-</section><div class='copyright'>
-  <p> &copy; 2018-2021 abcdlsj </p>
+        
+    </article>
 </div>
 
+            </div>
         </div>
-      </footer>
 
-    </div>
-  </div><script>window.__assets_js_src="/assets/js/"</script>
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://abcdlsj.github.io">My Blog</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
 
-<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+                <p class="footer-copyright">
+                    <span>&copy; 2020 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
 
-</body>
-
+        <script src="https://abcdlsj.github.iojs/jquery-1.11.3.min.js"></script>
+        <script src="https://abcdlsj.github.iojs/jquery.fitvids.js"></script>
+        <script src="https://abcdlsj.github.iojs/scripts.js"></script>
+    </body>
 </html>
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>learn on ~</title>
+    <title>learn on My Blog</title>
     <link>https://abcdlsj.github.io/categories/learn/</link>
-    <description>Recent content in learn on ~</description>
+    <description>Recent content in learn on My Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Wed, 16 Sep 2020 14:49:46 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/categories/learn/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -26,7 +26,7 @@
       <description>https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/
   缩进格式可能会不统一。。。不想修改了（有些是 LeetCode 网页写的，有些是本地写的，我的本地 C style 是 Google，所以缩进是 2）。。。尽量本地 format 之后放上来
 直接放的题目链接就是 GeeksforGeeks 的链接，LeetCode 会在链接的地方加上 LeetCode
--- 09-08 ⏲️ 21:17
+-- 09-08 :timer_clock: 21:17
 一些简单的题就不写了，比如 爬楼梯 这种
 -- 09-10
  Longest Common Subsequence  最长公共子序列（LCS）是一个在一个序列集合中（通常为两个序列）用来查找所有序列中最长子序列的问题。这与查找最长公共子串的问题不同的地方是：子序列不需要在原序列中占用连续的位置 。最长公共子序列问题是一个经典的计算机科学问题，也是数据比较程序，比如Diff工具，和生物信息学应用的基础。它也被广泛地应用在版本控制，比如Git用来调和文件之间的改变。
@@ -166,10 +166,10 @@ Longest Common Subsequence
       <guid>https://abcdlsj.github.io/post/mit-6.828-lab1xv6-and-unix-utilities/</guid>
       <description>Lab: Xv6 and Unix utilities
   基本完成实验了，但是一些细节自己还是没处理好，有的地方也不是特别清晰（对，就是 primes），明天应该会再看下别人的实现，然后多完善一下 lab1
--- 06-17 ⏲️ 01:30
+-- 06-17 :timer_clock: 01:30
 又看了会并行素数筛，go 版本很好理解，至于实验，嗯，我是 fw。。。
 继续看，继续学（今天原本要停电，都做好看一天动漫的准备了。。。然后早上起床发现不停了。。。）
--- 06-17 ⏲️ 11:30
+-- 06-17 :timer_clock: 11:30
  xv6 System Call    system call description     fork() Create a process   exit(xstatus) Terminate the current process with xstatus indicating success or failure   wait(*xstatus) Wait for a child process to exit and copy the child’s exit status to xstatus   kill(pid) Terminate process pid   getpid() Return the current process’s pid   sleep(n) Sleep for n clock ticks   exec(filename, *argv) Load an executable file and execute it   sbrk(n) Grow process’s memory by n bytes   open(filename, flags) Open a file; the flags indicate read/write   read(fd, buf, n) Read n bytes from an open file into buf   write(fd, buf, n) Write n bytes to an open file   close(fd) Release open file fd   dup(fd) Duplicate fd   pipe(p) Create a pipe and return fd’s in p   chdir(dirname) Change the current directory   mkdir(dirname) Create a new directory   mknod(name, major, minor) Create a device file   fstat(fd) Return info about an open file   link(f1, f2) Create another name (f2) for the file f1   unlink(filename) Remove a file    sleep Implement the UNIX program sleep for xv6; your sleep should pause for a user-specified number of ticks.</description>
     </item>
     

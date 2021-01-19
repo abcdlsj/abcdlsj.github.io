@@ -1,279 +1,113 @@
 <!DOCTYPE html>
-<html lang='en' dir='auto'><head>
-  <meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='Lab: Xv6 and Unix utilities
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>MIT 6.828 Lab 1: Xv6 and Unix utilities &middot; </title>
+        <meta name="description" content="Lab: Xv6 and Unix utilities
   基本完成实验了，但是一些细节自己还是没处理好，有的地方也不是特别清晰（对，就是 primes），明天应该会再看下别人的实现，然后多完善一下 lab1
--- 06-17 ⏲️ 01:30
+-- 06-17 :timer_clock: 01:30
 又看了会并行素数筛，go 版本很好理解，至于实验，嗯，我是 fw。。。
 继续看，继续学（今天原本要停电，都做好看一天动漫的准备了。。。然后早上起床发现不停了。。。）
--- 06-17 ⏲️ 11:30
- xv6 System Call    system call description     fork() Create a process   exit(xstatus) Terminate the current process with xstatus indicating success or failure   wait(*xstatus) Wait for a child process to exit and copy the child’s exit status to xstatus   kill(pid) Terminate process pid   getpid() Return the current process’s pid   sleep(n) Sleep for n clock ticks   exec(filename, *argv) Load an executable file and execute it   sbrk(n) Grow process’s memory by n bytes   open(filename, flags) Open a file; the flags indicate read/write   read(fd, buf, n) Read n bytes from an open file into buf   write(fd, buf, n) Write n bytes to an open file   close(fd) Release open file fd   dup(fd) Duplicate fd   pipe(p) Create a pipe and return fd’s in p   chdir(dirname) Change the current directory   mkdir(dirname) Create a new directory   mknod(name, major, minor) Create a device file   fstat(fd) Return info about an open file   link(f1, f2) Create another name (f2) for the file f1   unlink(filename) Remove a file    sleep Implement the UNIX program sleep for xv6; your sleep should pause for a user-specified number of ticks.'>
-<meta name='theme-color' content='#ffcd00'>
-
-<meta property='og:title' content='MIT 6.828 Lab 1: Xv6 and Unix utilities • ~'>
-<meta property='og:description' content='Lab: Xv6 and Unix utilities
+-- 06-17 :timer_clock: 11:30
+ xv6 System Call    system call description     fork() Create a process   exit(xstatus) Terminate the current process with xstatus indicating success or failure   wait(*xstatus) Wait for a child process to exit and copy the child’s exit status to xstatus   kill(pid) Terminate process pid   getpid() Return the current process’s pid   sleep(n) Sleep for n clock ticks   exec(filename, *argv) Load an executable file and execute it   sbrk(n) Grow process’s memory by n bytes   open(filename, flags) Open a file; the flags indicate read/write   read(fd, buf, n) Read n bytes from an open file into buf   write(fd, buf, n) Write n bytes to an open file   close(fd) Release open file fd   dup(fd) Duplicate fd   pipe(p) Create a pipe and return fd’s in p   chdir(dirname) Change the current directory   mkdir(dirname) Create a new directory   mknod(name, major, minor) Create a device file   fstat(fd) Return info about an open file   link(f1, f2) Create another name (f2) for the file f1   unlink(filename) Remove a file    sleep Implement the UNIX program sleep for xv6; your sleep should pause for a user-specified number of ticks.">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.80.0" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="MIT 6.828 Lab 1: Xv6 and Unix utilities">
+<meta property="og:description" content="Lab: Xv6 and Unix utilities
   基本完成实验了，但是一些细节自己还是没处理好，有的地方也不是特别清晰（对，就是 primes），明天应该会再看下别人的实现，然后多完善一下 lab1
--- 06-17 ⏲️ 01:30
+-- 06-17 :timer_clock: 01:30
 又看了会并行素数筛，go 版本很好理解，至于实验，嗯，我是 fw。。。
 继续看，继续学（今天原本要停电，都做好看一天动漫的准备了。。。然后早上起床发现不停了。。。）
--- 06-17 ⏲️ 11:30
- xv6 System Call    system call description     fork() Create a process   exit(xstatus) Terminate the current process with xstatus indicating success or failure   wait(*xstatus) Wait for a child process to exit and copy the child’s exit status to xstatus   kill(pid) Terminate process pid   getpid() Return the current process’s pid   sleep(n) Sleep for n clock ticks   exec(filename, *argv) Load an executable file and execute it   sbrk(n) Grow process’s memory by n bytes   open(filename, flags) Open a file; the flags indicate read/write   read(fd, buf, n) Read n bytes from an open file into buf   write(fd, buf, n) Write n bytes to an open file   close(fd) Release open file fd   dup(fd) Duplicate fd   pipe(p) Create a pipe and return fd’s in p   chdir(dirname) Change the current directory   mkdir(dirname) Create a new directory   mknod(name, major, minor) Create a device file   fstat(fd) Return info about an open file   link(f1, f2) Create another name (f2) for the file f1   unlink(filename) Remove a file    sleep Implement the UNIX program sleep for xv6; your sleep should pause for a user-specified number of ticks.'>
-<meta property='og:url' content='https://abcdlsj.github.io/post/mit-6.828-lab1xv6-and-unix-utilities/'>
-<meta property='og:site_name' content='~'>
-<meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='6.828'><meta property='article:tag' content='OS'><meta property='article:tag' content='xv6'><meta property='article:published_time' content='2020-06-16T10:43:35&#43;08:00'/><meta property='article:modified_time' content='2020-06-16T10:43:35&#43;08:00'/><meta name='twitter:card' content='summary'>
+-- 06-17 :timer_clock: 11:30
+ xv6 System Call    system call description     fork() Create a process   exit(xstatus) Terminate the current process with xstatus indicating success or failure   wait(*xstatus) Wait for a child process to exit and copy the child’s exit status to xstatus   kill(pid) Terminate process pid   getpid() Return the current process’s pid   sleep(n) Sleep for n clock ticks   exec(filename, *argv) Load an executable file and execute it   sbrk(n) Grow process’s memory by n bytes   open(filename, flags) Open a file; the flags indicate read/write   read(fd, buf, n) Read n bytes from an open file into buf   write(fd, buf, n) Write n bytes to an open file   close(fd) Release open file fd   dup(fd) Duplicate fd   pipe(p) Create a pipe and return fd’s in p   chdir(dirname) Change the current directory   mkdir(dirname) Create a new directory   mknod(name, major, minor) Create a device file   fstat(fd) Return info about an open file   link(f1, f2) Create another name (f2) for the file f1   unlink(filename) Remove a file    sleep Implement the UNIX program sleep for xv6; your sleep should pause for a user-specified number of ticks.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://abcdlsj.github.io/post/mit-6.828-lab1xv6-and-unix-utilities/">
+        <link rel="stylesheet" href="https://abcdlsj.github.iodist/site.css">
+        <link rel="stylesheet" href="https://abcdlsj.github.iodist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        
+        
+        
+        
 
-<meta name="generator" content="Hugo 0.80.0" />
+    </head>
+    <body>
+        
 
-  <title>MIT 6.828 Lab 1: Xv6 and Unix utilities • ~</title>
-  <link rel='canonical' href='https://abcdlsj.github.io/post/mit-6.828-lab1xv6-and-unix-utilities/'>
-  
-  
-  <link rel='icon' href='/favicon.ico'>
-<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/custom.css'><style>
-:root{--color-accent:#ffcd00;}
-</style>
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://abcdlsj.github.io">My Blog</a>
+                            </h1>
+                        
+                        
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/abcdlsj" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:lisongjianshuai@gmail.com">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
 
-  
+                    <ul class="site-nav">
+                        
 
-</head>
-<body class='page type-post has-sidebar'>
+                    </ul>
+                </div>
+            </header>
 
-  <div class='site'><div id='sidebar' class='sidebar'>
-  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+            <div id="container">
 
-  <div class='container'><section class='widget widget-about sep-after'>
-  <header>
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">MIT 6.828 Lab 1: Xv6 and Unix utilities</h1>
     
-    <div class='logo'>
-      <a href='/'>
-        <img src='/images/logo.png'>
-      </a>
-    </div>
+    <p class="post-date post-line">
+        <span>Published <time datetime="2020-06-16" itemprop="datePublished">Tue, Jun 16, 2020</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="#" itemprop="url" rel="author"></a>
+            </span>
+        </span>
+    </p>
     
-    <h2 class='title site-title '>
-      <a href='/'>
-      ~
-      </a>
-    </h2>
-    <div class='desc'>
-    Enjoy The Focus.
-    </div>
-  </header>
-
-</section>
-<section class='widget widget-taxonomy_cloud sep-after'>
-  <header>
-    <h4 class='title widget-title'>Tags</h4>
-  </header>
-
-  <div class='container list-container'>
-  <ul class='list taxonomy-cloud'><li>
-        <a href='/tags/6.824/' style='font-size:1em'>6.824</a>
-      </li><li>
-        <a href='/tags/6.828/' style='font-size:1.0666666666666667em'>6.828</a>
-      </li><li>
-        <a href='/tags/algorithm/' style='font-size:1em'>Algorithm</a>
-      </li><li>
-        <a href='/tags/arch/' style='font-size:1.0666666666666667em'>Arch</a>
-      </li><li>
-        <a href='/tags/backtracking/' style='font-size:1em'>BackTracking</a>
-      </li><li>
-        <a href='/tags/binary-search/' style='font-size:1em'>Binary Search</a>
-      </li><li>
-        <a href='/tags/blog/' style='font-size:1.1333333333333333em'>blog</a>
-      </li><li>
-        <a href='/tags/boltdb/' style='font-size:1em'>BoltDB</a>
-      </li><li>
-        <a href='/tags/conky/' style='font-size:1em'>conky</a>
-      </li><li>
-        <a href='/tags/contest/' style='font-size:1.3333333333333333em'>Contest</a>
-      </li><li>
-        <a href='/tags/cpp/' style='font-size:1.0666666666666667em'>CPP</a>
-      </li><li>
-        <a href='/tags/csapp/' style='font-size:1em'>CSAPP</a>
-      </li><li>
-        <a href='/tags/data-structure/' style='font-size:1.0666666666666667em'>Data Structure</a>
-      </li><li>
-        <a href='/tags/database/' style='font-size:1em'>DataBase</a>
-      </li><li>
-        <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
-      </li><li>
-        <a href='/tags/dynamic-programming/' style='font-size:1.0666666666666667em'>Dynamic Programming</a>
-      </li><li>
-        <a href='/tags/emacs/' style='font-size:1em'>emacs</a>
-      </li><li>
-        <a href='/tags/geeksforgeeks/' style='font-size:1em'>GeeksforGeeks</a>
-      </li><li>
-        <a href='/tags/hugo/' style='font-size:1.0666666666666667em'>hugo</a>
-      </li><li>
-        <a href='/tags/interview/' style='font-size:1em'>Interview</a>
-      </li><li>
-        <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
-      </li><li>
-        <a href='/tags/lenovo/' style='font-size:1em'>Lenovo</a>
-      </li><li>
-        <a href='/tags/link-list/' style='font-size:1em'>Link List</a>
-      </li><li>
-        <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
-      </li><li>
-        <a href='/tags/org/' style='font-size:1.0666666666666667em'>org</a>
-      </li><li>
-        <a href='/tags/org-agenda/' style='font-size:1em'>org-agenda</a>
-      </li><li>
-        <a href='/tags/org-mode/' style='font-size:1em'>org mode</a>
-      </li><li>
-        <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
-      </li><li>
-        <a href='/tags/os/' style='font-size:1.2em'>OS</a>
-      </li><li>
-        <a href='/tags/sicp/' style='font-size:1.0666666666666667em'>SICP</a>
-      </li><li>
-        <a href='/tags/sliding-window/' style='font-size:1em'>Sliding Window</a>
-      </li><li>
-        <a href='/tags/tree/' style='font-size:1em'>Tree</a>
-      </li><li>
-        <a href='/tags/union-find/' style='font-size:1em'>Union Find</a>
-      </li><li>
-        <a href='/tags/xv6/' style='font-size:1.0666666666666667em'>xv6</a>
-      </li></ul>
-</div>
-
-
-</section>
-</div>
-
-  <div class='sidebar-overlay'></div>
-</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
-  <div class='container'>
-    <a class='screen-reader-text' href='#content'>Skip to Content</a>
-
-<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
-  <span class='screen-reader-text'>Toggle Sidebar</span>
-  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="3" y1="12" x2="21" y2="12" />
-  <line x1="3" y1="6" x2="21" y2="6" />
-  <line x1="3" y1="18" x2="21" y2="18" />
-
-</svg>
-</span>
-  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="18" y1="6" x2="6" y2="18" />
-  <line x1="6" y1="6" x2="18" y2="18" />
-
-</svg>
-</span>
-</button>
-    <ul><li class='item'>
-        <a href='/'>Home</a>
-      </li><li class='item'>
-        <a href='/post/'>Archives</a>
-      </li><li class='item'>
-        <a href='/categories/'>Categories</a>
-      </li><li class='item'>
-        <a href='/tags/leetcode'>LeetCode</a>
-      </li><li class='item'>
-        <a href='/about/'>About</a>
-      </li></ul>
-  </div>
-</nav><div class='header-widgets'>
-        <div class='container'>
-    
-    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
-  <section class='widget widget-breadcrumbs sep-after'>
-    <nav id='breadcrumbs'>
-      <ol><li><a href='/'>~</a></li><li><a href='/post/'>Posts</a></li><li><span>MIT 6.828 Lab 1: Xv6 and Unix utilities</span></li></ol>
-    </nav>
-  </section></div>
-      </div>
-
-      <header id='header' class='header site-header'>
-        <div class='container sep-after'>
-          <div class='header-info'><p class='site-title title'>~</p><p class='desc site-desc'>Enjoy The Focus.</p>
-          </div>
-        </div>
-      </header>
-
-      <main id='content'>
-
-
-<article lang='en' class='entry'>
-  <header class='header entry-header'>
-  <div class='container sep-after'>
-    <div class='header-info'>
-      <h1 class='title'>MIT 6.828 Lab 1: Xv6 and Unix utilities</h1>
-      
-
-    </div>
-    <div class='entry-meta'>
-  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-  <line x1="16" y1="2" x2="16" y2="6"/>
-  <line x1="8" y1="2" x2="8" y2="6"/>
-  <line x1="3" y1="10" x2="21" y2="10"/>
-
-</svg>
-<span class='screen-reader-text'>Posted on </span>
-  <time class='entry-date' datetime='2020-06-16T10:43:35&#43;08:00'>2020, Jun 16</time>
-</span>
-
-  
-  
-<span class='reading-time'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <circle cx="12" cy="12" r="10"/>
-  <polyline points="12 6 12 12 15 15"/>
-
-</svg>
-9 mins read
-</span>
-
-
-</div>
-
-
-  </div>
 </header>
 
-  
-  
-<details class='container entry-toc'>
-  <summary class='title'>
-    <span>Table of Contents</span>
-  </summary>
-  <nav id="TableOfContents">
-  <ul>
-    <li><a href="#xv6-system-call">xv6 System Call</a></li>
-    <li><a href="#sleep">sleep</a></li>
-    <li><a href="#pingpong">pingpong</a></li>
-    <li><a href="#primes">primes</a></li>
-    <li><a href="#find">find</a></li>
-    <li><a href="#xargs">xargs</a></li>
-    <li><a href="#end">End</a></li>
-  </ul>
-</nav>
-</details>
+        <div class="post-content clearfix" itemprop="articleBody">
+    
 
-
-  <div class='container entry-content'>
-  <blockquote>
+    <blockquote>
 <p>Lab: Xv6 and Unix utilities</p>
 </blockquote>
 <blockquote>
 <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
 <p>基本完成实验了，但是一些细节自己还是没处理好，有的地方也不是特别清晰（对，就是 <code>primes</code>），明天应该会再看下别人的实现，然后多完善一下 lab1</p>
-<p>-- 06-17 ⏲️ 01:30</p>
+<p>-- 06-17 :timer_clock: 01:30</p>
 <p>又看了会并行素数筛，go 版本很好理解，至于实验，嗯，我是 fw。。。</p>
 <p>继续看，继续学（今天原本要停电，都做好看一天动漫的准备了。。。然后早上起床发现不停了。。。）</p>
-<p>-- 06-17 ⏲️ 11:30</p>
+<p>-- 06-17 :timer_clock: 11:30</p>
 </blockquote>
 <h2 id="xv6-system-call">xv6 System Call</h2>
 <table>
@@ -376,18 +210,18 @@
 <li>Add the program to <code>UPROGS</code> in Makefile and compile user programs by typing <code>make fs.img</code>.</li>
 <li>Look at Kernighan and Ritchie&rsquo;s book <em>The C programming language (second edition)</em> (K&amp;R) to learn about C.</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/types.h&#34;</span><span style="color:#75715e">
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/types.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/stat.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;user/user.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span> (<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[]) {
-  <span style="color:#66d9ef">if</span> (argc <span style="color:#f92672">!=</span> <span style="color:#ae81ff">2</span>) {
-    write(<span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;Error Message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, strlen(<span style="color:#e6db74">&#34;Error Message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>));
-  }
-  <span style="color:#66d9ef">int</span> ticks <span style="color:#f92672">=</span> atoi(argv[<span style="color:#ae81ff">1</span>]);
-  sleep(ticks);
-  exit();
-}
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">argc</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">argv</span><span style="color:#111">[])</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">argc</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">2</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+    <span style="color:#111">write</span><span style="color:#111">(</span><span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;Error Message</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">,</span> <span style="color:#111">strlen</span><span style="color:#111">(</span><span style="color:#d88200">&#34;Error Message</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">));</span>
+  <span style="color:#111">}</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">ticks</span> <span style="color:#f92672">=</span> <span style="color:#111">atoi</span><span style="color:#111">(</span><span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">]);</span>
+  <span style="color:#111">sleep</span><span style="color:#111">(</span><span style="color:#111">ticks</span><span style="color:#111">);</span>
+  <span style="color:#111">exit</span><span style="color:#111">();</span>
+<span style="color:#111">}</span>
 </code></pre></div><p>添加 <code>	$U/_sleep\</code> 到 <code>UPROGS</code> ，然后 <code>make fs.img</code> ，<code>make qemu</code> 运行</p>
 <h2 id="pingpong">pingpong</h2>
 <p>Write a program that uses UNIX system calls to <code>ping-pong</code> a byte between two processes over a pair of pipes, one for each direction. The parent sends by writing a byte to <code>parent_fd[1]</code> and the child receives it by reading from <code>parent_fd[0]</code>. After receiving a byte from parent, the child responds with its own byte by writing to <code>child_fd[1]</code>, which the parent then reads. Your solution should be in the file <code>user/pingpong.c</code>.</p>
@@ -400,31 +234,31 @@
 <p>A pipe is a small kernel buffer exposed to processes as a pair of file descriptors, one for reading
 and one for writing. Writing data to one end of the pipe makes that data available for reading from
 the other end of the pipe. Pipes provide a way for processes to communicate.</p>
-<p>--  📚 1.3 Pipes</p>
+<p>--  :books: 1.3 Pipes</p>
 <p>文件描述符对，从一个写入，另一个可以读取</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/types.h&#34;</span><span style="color:#75715e">
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/types.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/stat.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;user/user.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span> (<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[]) {
-  <span style="color:#66d9ef">char</span> buf[<span style="color:#ae81ff">64</span>];
-  <span style="color:#66d9ef">int</span> parent_fd[<span style="color:#ae81ff">2</span>], child_fd[<span style="color:#ae81ff">2</span>];
-  pipe(parent_fd);
-  pipe(child_fd);
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">argc</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">argv</span><span style="color:#111">[])</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">char</span> <span style="color:#111">buf</span><span style="color:#111">[</span><span style="color:#ae81ff">64</span><span style="color:#111">];</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">parent_fd</span><span style="color:#111">[</span><span style="color:#ae81ff">2</span><span style="color:#111">],</span> <span style="color:#111">child_fd</span><span style="color:#111">[</span><span style="color:#ae81ff">2</span><span style="color:#111">];</span>
+  <span style="color:#111">pipe</span><span style="color:#111">(</span><span style="color:#111">parent_fd</span><span style="color:#111">);</span>
+  <span style="color:#111">pipe</span><span style="color:#111">(</span><span style="color:#111">child_fd</span><span style="color:#111">);</span>
 
-  <span style="color:#66d9ef">if</span> (fork()) {
-    write(parent_fd[<span style="color:#ae81ff">1</span>], <span style="color:#e6db74">&#34;ping&#34;</span>, strlen(<span style="color:#e6db74">&#34;ping&#34;</span>));
-    read(child_fd[<span style="color:#ae81ff">0</span>], buf, <span style="color:#ae81ff">4</span>);
-    printf(<span style="color:#e6db74">&#34;%d: received %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid(), buf);
-  } <span style="color:#66d9ef">else</span> {
-    read(parent_fd[<span style="color:#ae81ff">0</span>], buf, <span style="color:#ae81ff">4</span>);
-    printf(<span style="color:#e6db74">&#34;%d: received %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid(), buf);
-    write(child_fd[<span style="color:#ae81ff">1</span>], <span style="color:#e6db74">&#34;pong&#34;</span>, strlen(<span style="color:#e6db74">&#34;pong&#34;</span>));
-  }
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">fork</span><span style="color:#111">())</span> <span style="color:#111">{</span>
+    <span style="color:#111">write</span><span style="color:#111">(</span><span style="color:#111">parent_fd</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">],</span> <span style="color:#d88200">&#34;ping&#34;</span><span style="color:#111">,</span> <span style="color:#111">strlen</span><span style="color:#111">(</span><span style="color:#d88200">&#34;ping&#34;</span><span style="color:#111">));</span>
+    <span style="color:#111">read</span><span style="color:#111">(</span><span style="color:#111">child_fd</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">],</span> <span style="color:#111">buf</span><span style="color:#111">,</span> <span style="color:#ae81ff">4</span><span style="color:#111">);</span>
+    <span style="color:#111">printf</span><span style="color:#111">(</span><span style="color:#d88200">&#34;%d: received %s</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">,</span> <span style="color:#111">getpid</span><span style="color:#111">(),</span> <span style="color:#111">buf</span><span style="color:#111">);</span>
+  <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+    <span style="color:#111">read</span><span style="color:#111">(</span><span style="color:#111">parent_fd</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">],</span> <span style="color:#111">buf</span><span style="color:#111">,</span> <span style="color:#ae81ff">4</span><span style="color:#111">);</span>
+    <span style="color:#111">printf</span><span style="color:#111">(</span><span style="color:#d88200">&#34;%d: received %s</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">,</span> <span style="color:#111">getpid</span><span style="color:#111">(),</span> <span style="color:#111">buf</span><span style="color:#111">);</span>
+    <span style="color:#111">write</span><span style="color:#111">(</span><span style="color:#111">child_fd</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">],</span> <span style="color:#d88200">&#34;pong&#34;</span><span style="color:#111">,</span> <span style="color:#111">strlen</span><span style="color:#111">(</span><span style="color:#d88200">&#34;pong&#34;</span><span style="color:#111">));</span>
+  <span style="color:#111">}</span>
 
-  exit();
-}
+  <span style="color:#111">exit</span><span style="color:#111">();</span>
+<span style="color:#111">}</span>
 </code></pre></div><p>结果：</p>
 <pre><code>$ pingpong 
 4: received ping
@@ -455,42 +289,42 @@ loop:
 <p>然后还有理解图：</p>
 <p><a href="https://divan.dev/demos/primesieve/">https://divan.dev/demos/primesieve/</a></p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// A concurrent prime sieve
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// A concurrent prime sieve
 </span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<span style="color:#f92672">package</span> <span style="color:#75af00">main</span>
 
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+<span style="color:#f92672">import</span> <span style="color:#d88200">&#34;fmt&#34;</span>
 
 <span style="color:#75715e">// Send the sequence 2, 3, 4, ... to channel &#39;ch&#39;.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Generate</span>(<span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span><span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">int</span>) {
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">2</span>; ; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span> <span style="color:#75715e">// Send &#39;i&#39; to channel &#39;ch&#39;.
-</span><span style="color:#75715e"></span>	}
-}
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">func</span> <span style="color:#75af00">Generate</span><span style="color:#111">(</span><span style="color:#75af00">ch</span> <span style="color:#00a8c8">chan</span><span style="color:#f92672">&lt;-</span> <span style="color:#00a8c8">int</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+	<span style="color:#00a8c8">for</span> <span style="color:#75af00">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span> <span style="color:#111">;</span> <span style="color:#75af00">i</span><span style="color:#f92672">++</span> <span style="color:#111">{</span>
+		<span style="color:#75af00">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#75af00">i</span> <span style="color:#75715e">// Send &#39;i&#39; to channel &#39;ch&#39;.
+</span><span style="color:#75715e"></span>	<span style="color:#111">}</span>
+<span style="color:#111">}</span>
 
 <span style="color:#75715e">// Copy the values from channel &#39;in&#39; to channel &#39;out&#39;,
 </span><span style="color:#75715e">// removing those divisible by &#39;prime&#39;.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Filter</span>(<span style="color:#a6e22e">in</span> <span style="color:#f92672">&lt;-</span><span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">out</span> <span style="color:#66d9ef">chan</span><span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">prime</span> <span style="color:#66d9ef">int</span>) {
-	<span style="color:#66d9ef">for</span> {
-		<span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">in</span> <span style="color:#75715e">// Receive value from &#39;in&#39;.
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">%</span><span style="color:#a6e22e">prime</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
-			<span style="color:#a6e22e">out</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span> <span style="color:#75715e">// Send &#39;i&#39; to &#39;out&#39;.
-</span><span style="color:#75715e"></span>		}
-	}
-}
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">func</span> <span style="color:#75af00">Filter</span><span style="color:#111">(</span><span style="color:#75af00">in</span> <span style="color:#f92672">&lt;-</span><span style="color:#00a8c8">chan</span> <span style="color:#00a8c8">int</span><span style="color:#111">,</span> <span style="color:#75af00">out</span> <span style="color:#00a8c8">chan</span><span style="color:#f92672">&lt;-</span> <span style="color:#00a8c8">int</span><span style="color:#111">,</span> <span style="color:#75af00">prime</span> <span style="color:#00a8c8">int</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+	<span style="color:#00a8c8">for</span> <span style="color:#111">{</span>
+		<span style="color:#75af00">i</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#75af00">in</span> <span style="color:#75715e">// Receive value from &#39;in&#39;.
+</span><span style="color:#75715e"></span>		<span style="color:#00a8c8">if</span> <span style="color:#75af00">i</span><span style="color:#f92672">%</span><span style="color:#75af00">prime</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#111">{</span>
+			<span style="color:#75af00">out</span> <span style="color:#f92672">&lt;-</span> <span style="color:#75af00">i</span> <span style="color:#75715e">// Send &#39;i&#39; to &#39;out&#39;.
+</span><span style="color:#75715e"></span>		<span style="color:#111">}</span>
+	<span style="color:#111">}</span>
+<span style="color:#111">}</span>
 
 <span style="color:#75715e">// The prime sieve: Daisy-chain Filter processes.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) <span style="color:#75715e">// Create a new channel.
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">Generate</span>(<span style="color:#a6e22e">ch</span>)      <span style="color:#75715e">// Launch Generate goroutine.
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">prime</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ch</span>
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">prime</span>)
-		<span style="color:#a6e22e">ch1</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
-		<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">Filter</span>(<span style="color:#a6e22e">ch</span>, <span style="color:#a6e22e">ch1</span>, <span style="color:#a6e22e">prime</span>)
-		<span style="color:#a6e22e">ch</span> = <span style="color:#a6e22e">ch1</span>
-	}
-}
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">func</span> <span style="color:#75af00">main</span><span style="color:#111">()</span> <span style="color:#111">{</span>
+	<span style="color:#75af00">ch</span> <span style="color:#f92672">:=</span> <span style="color:#111">make</span><span style="color:#111">(</span><span style="color:#00a8c8">chan</span> <span style="color:#00a8c8">int</span><span style="color:#111">)</span> <span style="color:#75715e">// Create a new channel.
+</span><span style="color:#75715e"></span>	<span style="color:#00a8c8">go</span> <span style="color:#75af00">Generate</span><span style="color:#111">(</span><span style="color:#75af00">ch</span><span style="color:#111">)</span>      <span style="color:#75715e">// Launch Generate goroutine.
+</span><span style="color:#75715e"></span>	<span style="color:#00a8c8">for</span> <span style="color:#75af00">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#75af00">i</span> <span style="color:#111">&lt;</span> <span style="color:#ae81ff">10</span><span style="color:#111">;</span> <span style="color:#75af00">i</span><span style="color:#f92672">++</span> <span style="color:#111">{</span>
+		<span style="color:#75af00">prime</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#75af00">ch</span>
+		<span style="color:#75af00">fmt</span><span style="color:#111">.</span><span style="color:#75af00">Println</span><span style="color:#111">(</span><span style="color:#75af00">prime</span><span style="color:#111">)</span>
+		<span style="color:#75af00">ch1</span> <span style="color:#f92672">:=</span> <span style="color:#111">make</span><span style="color:#111">(</span><span style="color:#00a8c8">chan</span> <span style="color:#00a8c8">int</span><span style="color:#111">)</span>
+		<span style="color:#00a8c8">go</span> <span style="color:#75af00">Filter</span><span style="color:#111">(</span><span style="color:#75af00">ch</span><span style="color:#111">,</span> <span style="color:#75af00">ch1</span><span style="color:#111">,</span> <span style="color:#75af00">prime</span><span style="color:#111">)</span>
+		<span style="color:#75af00">ch</span> <span style="color:#111">=</span> <span style="color:#75af00">ch1</span>
+	<span style="color:#111">}</span>
+<span style="color:#111">}</span>
 </code></pre></div><blockquote>
 <p>代码实现（这是看别人的。。。自己写我感觉写不出来。。。）</p>
 <p>-- 06-17</p>
@@ -500,64 +334,64 @@ loop:
 <p><a href="https://www.cs.dartmouth.edu/~doug/sieve/sieve.pdf">https://www.cs.dartmouth.edu/~doug/sieve/sieve.pdf</a></p>
 <p>-- 06-19 添加</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/stat.h&#34;</span><span style="color:#75715e">
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/stat.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/types.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;user/user.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cull</span>(<span style="color:#66d9ef">int</span> p) {
-  <span style="color:#66d9ef">int</span> n;
+<span style="color:#00a8c8">void</span> <span style="color:#75af00">cull</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">p</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">n</span><span style="color:#111">;</span>
 
-  <span style="color:#66d9ef">while</span> (read(<span style="color:#ae81ff">0</span>, <span style="color:#f92672">&amp;</span>n, <span style="color:#66d9ef">sizeof</span>(n))) {
+  <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">read</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">n</span><span style="color:#111">,</span> <span style="color:#00a8c8">sizeof</span><span style="color:#111">(</span><span style="color:#111">n</span><span style="color:#111">)))</span> <span style="color:#111">{</span>
     <span style="color:#75715e">// n is not prime
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">%</span> p <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
-      write(<span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>n, <span style="color:#66d9ef">sizeof</span>(n));
-    }
-  }
-}
+</span><span style="color:#75715e"></span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">n</span> <span style="color:#f92672">%</span> <span style="color:#111">p</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+      <span style="color:#111">write</span><span style="color:#111">(</span><span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">n</span><span style="color:#111">,</span> <span style="color:#00a8c8">sizeof</span><span style="color:#111">(</span><span style="color:#111">n</span><span style="color:#111">));</span>
+    <span style="color:#111">}</span>
+  <span style="color:#111">}</span>
+<span style="color:#111">}</span>
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">redirect</span>(<span style="color:#66d9ef">int</span> k, <span style="color:#66d9ef">int</span> pd[]) {
-  close(k);
-  dup(pd[k]);
-  close(pd[<span style="color:#ae81ff">0</span>]);
-  close(pd[<span style="color:#ae81ff">1</span>]);
-}
+<span style="color:#00a8c8">void</span> <span style="color:#75af00">redirect</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">k</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">pd</span><span style="color:#111">[])</span> <span style="color:#111">{</span>
+  <span style="color:#111">close</span><span style="color:#111">(</span><span style="color:#111">k</span><span style="color:#111">);</span>
+  <span style="color:#111">dup</span><span style="color:#111">(</span><span style="color:#111">pd</span><span style="color:#111">[</span><span style="color:#111">k</span><span style="color:#111">]);</span>
+  <span style="color:#111">close</span><span style="color:#111">(</span><span style="color:#111">pd</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]);</span>
+  <span style="color:#111">close</span><span style="color:#111">(</span><span style="color:#111">pd</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">]);</span>
+<span style="color:#111">}</span>
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">right</span>() {
-  <span style="color:#66d9ef">int</span> pd[<span style="color:#ae81ff">2</span>], p;
+<span style="color:#00a8c8">void</span> <span style="color:#75af00">right</span><span style="color:#111">()</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">pd</span><span style="color:#111">[</span><span style="color:#ae81ff">2</span><span style="color:#111">],</span> <span style="color:#111">p</span><span style="color:#111">;</span>
 
   <span style="color:#75715e">// read p
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (read(<span style="color:#ae81ff">0</span>, <span style="color:#f92672">&amp;</span>p, <span style="color:#66d9ef">sizeof</span>(p))) {
-    printf(<span style="color:#e6db74">&#34;prime %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, p);
+</span><span style="color:#75715e"></span>  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">read</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#00a8c8">sizeof</span><span style="color:#111">(</span><span style="color:#111">p</span><span style="color:#111">)))</span> <span style="color:#111">{</span>
+    <span style="color:#111">printf</span><span style="color:#111">(</span><span style="color:#d88200">&#34;prime %d</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">,</span> <span style="color:#111">p</span><span style="color:#111">);</span>
 
-    pipe(pd);
+    <span style="color:#111">pipe</span><span style="color:#111">(</span><span style="color:#111">pd</span><span style="color:#111">);</span>
 
-    <span style="color:#66d9ef">if</span> (fork()) {
+    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">fork</span><span style="color:#111">())</span> <span style="color:#111">{</span>
       <span style="color:#75715e">// parent
-</span><span style="color:#75715e"></span>      redirect(<span style="color:#ae81ff">0</span>, pd);
-      right();
-    } <span style="color:#66d9ef">else</span> {
-      redirect(<span style="color:#ae81ff">1</span>, pd);
-      cull(p);
-    }
-  }
-}
+</span><span style="color:#75715e"></span>      <span style="color:#111">redirect</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">pd</span><span style="color:#111">);</span>
+      <span style="color:#111">right</span><span style="color:#111">();</span>
+    <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+      <span style="color:#111">redirect</span><span style="color:#111">(</span><span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">pd</span><span style="color:#111">);</span>
+      <span style="color:#111">cull</span><span style="color:#111">(</span><span style="color:#111">p</span><span style="color:#111">);</span>
+    <span style="color:#111">}</span>
+  <span style="color:#111">}</span>
+<span style="color:#111">}</span>
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[]) {
-  <span style="color:#66d9ef">int</span> pd[<span style="color:#ae81ff">2</span>];
-  pipe(pd);
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">argc</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">argv</span><span style="color:#111">[])</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">pd</span><span style="color:#111">[</span><span style="color:#ae81ff">2</span><span style="color:#111">];</span>
+  <span style="color:#111">pipe</span><span style="color:#111">(</span><span style="color:#111">pd</span><span style="color:#111">);</span>
 
-  <span style="color:#66d9ef">if</span> (fork()) {
-    redirect(<span style="color:#ae81ff">0</span>, pd);
-    right();
-  } <span style="color:#66d9ef">else</span> {
-    redirect(<span style="color:#ae81ff">1</span>, pd);
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">36</span>; i<span style="color:#f92672">++</span>) {
-      write(<span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>i, <span style="color:#66d9ef">sizeof</span>(i));
-    }
-  }
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">fork</span><span style="color:#111">())</span> <span style="color:#111">{</span>
+    <span style="color:#111">redirect</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">pd</span><span style="color:#111">);</span>
+    <span style="color:#111">right</span><span style="color:#111">();</span>
+  <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+    <span style="color:#111">redirect</span><span style="color:#111">(</span><span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">pd</span><span style="color:#111">);</span>
+    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">36</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+      <span style="color:#111">write</span><span style="color:#111">(</span><span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">i</span><span style="color:#111">,</span> <span style="color:#00a8c8">sizeof</span><span style="color:#111">(</span><span style="color:#111">i</span><span style="color:#111">));</span>
+    <span style="color:#111">}</span>
+  <span style="color:#111">}</span>
 
-  exit();
-}
+  <span style="color:#111">exit</span><span style="color:#111">();</span>
+<span style="color:#111">}</span>
 
 </code></pre></div><h2 id="find">find</h2>
 <p>Write a simple version of the UNIX find program: find all the files in a directory tree whose name matches a string. Your solution should be in the file <code>user/find.c</code>.</p>
@@ -573,131 +407,131 @@ loop:
 <p>支持 <code>re</code> 需要复制 <code>user/grep.c</code> 中的 <code>matchhere matchstar match</code></p>
 <p>可以看下 <code>user/ls.c</code> ，只需要修改为递归实现就可以了</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/types.h&#34;</span><span style="color:#75715e">
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/types.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/fs.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/stat.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;user/user.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e"></span>
 <span style="color:#75715e">// ------ form user/ls.c ------
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">fmtname</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>path) {
-  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">char</span> buf[DIRSIZ <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
-  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>p;
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#75af00">fmtname</span><span style="color:#111">(</span><span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">path</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">static</span> <span style="color:#00a8c8">char</span> <span style="color:#111">buf</span><span style="color:#111">[</span><span style="color:#111">DIRSIZ</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">];</span>
+  <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">p</span><span style="color:#111">;</span>
 
-  <span style="color:#66d9ef">for</span> (p <span style="color:#f92672">=</span> path <span style="color:#f92672">+</span> strlen(path); p <span style="color:#f92672">&gt;=</span> path <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">*</span>p <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;/&#39;</span>; p<span style="color:#f92672">--</span>)
-    ;
-  p<span style="color:#f92672">++</span>;
+  <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">p</span> <span style="color:#f92672">=</span> <span style="color:#111">path</span> <span style="color:#f92672">+</span> <span style="color:#111">strlen</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">);</span> <span style="color:#111">p</span> <span style="color:#f92672">&gt;=</span> <span style="color:#111">path</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">*</span><span style="color:#111">p</span> <span style="color:#f92672">!=</span> <span style="color:#d88200">&#39;/&#39;</span><span style="color:#111">;</span> <span style="color:#111">p</span><span style="color:#f92672">--</span><span style="color:#111">)</span>
+    <span style="color:#111">;</span>
+  <span style="color:#111">p</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
 
-  <span style="color:#66d9ef">if</span> (strlen(p) <span style="color:#f92672">&gt;=</span> DIRSIZ)
-    <span style="color:#66d9ef">return</span> p;
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">strlen</span><span style="color:#111">(</span><span style="color:#111">p</span><span style="color:#111">)</span> <span style="color:#f92672">&gt;=</span> <span style="color:#111">DIRSIZ</span><span style="color:#111">)</span>
+    <span style="color:#00a8c8">return</span> <span style="color:#111">p</span><span style="color:#111">;</span>
 
-  memmove(buf, p, strlen(p));
-  memset(buf <span style="color:#f92672">+</span> strlen(p), <span style="color:#e6db74">&#39; &#39;</span>, DIRSIZ <span style="color:#f92672">-</span> strlen(p));
-  <span style="color:#66d9ef">return</span> buf;
-}
+  <span style="color:#111">memmove</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">,</span> <span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">strlen</span><span style="color:#111">(</span><span style="color:#111">p</span><span style="color:#111">));</span>
+  <span style="color:#111">memset</span><span style="color:#111">(</span><span style="color:#111">buf</span> <span style="color:#f92672">+</span> <span style="color:#111">strlen</span><span style="color:#111">(</span><span style="color:#111">p</span><span style="color:#111">),</span> <span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#111">DIRSIZ</span> <span style="color:#f92672">-</span> <span style="color:#111">strlen</span><span style="color:#111">(</span><span style="color:#111">p</span><span style="color:#111">));</span>
+  <span style="color:#00a8c8">return</span> <span style="color:#111">buf</span><span style="color:#111">;</span>
+<span style="color:#111">}</span>
 
 <span style="color:#75715e">// ------ form user/grep.c ------
 </span><span style="color:#75715e"></span>
 <span style="color:#75715e">// Regexp matcher from Kernighan &amp; Pike,
 </span><span style="color:#75715e">// The Practice of Programming, Chapter 9.
 </span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">matchhere</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">matchstar</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">matchhere</span><span style="color:#111">(</span><span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">);</span>
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">matchstar</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">);</span>
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">match</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>re, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>text) {
-  <span style="color:#66d9ef">if</span> (re[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;^&#39;</span>)
-    <span style="color:#66d9ef">return</span> matchhere(re <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, text);
-  <span style="color:#66d9ef">do</span> { <span style="color:#75715e">// must look at empty string
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (matchhere(re, text))
-      <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
-  } <span style="color:#66d9ef">while</span> (<span style="color:#f92672">*</span>text<span style="color:#f92672">++</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;\0&#39;</span>);
-  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">match</span><span style="color:#111">(</span><span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">re</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">text</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">re</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;^&#39;</span><span style="color:#111">)</span>
+    <span style="color:#00a8c8">return</span> <span style="color:#111">matchhere</span><span style="color:#111">(</span><span style="color:#111">re</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">text</span><span style="color:#111">);</span>
+  <span style="color:#00a8c8">do</span> <span style="color:#111">{</span> <span style="color:#75715e">// must look at empty string
+</span><span style="color:#75715e"></span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">matchhere</span><span style="color:#111">(</span><span style="color:#111">re</span><span style="color:#111">,</span> <span style="color:#111">text</span><span style="color:#111">))</span>
+      <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+  <span style="color:#111">}</span> <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">text</span><span style="color:#f92672">++</span> <span style="color:#f92672">!=</span> <span style="color:#d88200">&#39;\0&#39;</span><span style="color:#111">);</span>
+  <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+<span style="color:#111">}</span>
 
 <span style="color:#75715e">// matchhere: search for re at beginning of text
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">matchhere</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>re, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>text) {
-  <span style="color:#66d9ef">if</span> (re[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;\0&#39;</span>)
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
-  <span style="color:#66d9ef">if</span> (re[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;*&#39;</span>)
-    <span style="color:#66d9ef">return</span> matchstar(re[<span style="color:#ae81ff">0</span>], re <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>, text);
-  <span style="color:#66d9ef">if</span> (re[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;$&#39;</span> <span style="color:#f92672">&amp;&amp;</span> re[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;\0&#39;</span>)
-    <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>text <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;\0&#39;</span>;
-  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">*</span>text <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;\0&#39;</span> <span style="color:#f92672">&amp;&amp;</span> (re[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;.&#39;</span> <span style="color:#f92672">||</span> re[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#f92672">*</span>text))
-    <span style="color:#66d9ef">return</span> matchhere(re <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, text <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
-  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">int</span> <span style="color:#75af00">matchhere</span><span style="color:#111">(</span><span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">re</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">text</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">re</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;\0&#39;</span><span style="color:#111">)</span>
+    <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">re</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;*&#39;</span><span style="color:#111">)</span>
+    <span style="color:#00a8c8">return</span> <span style="color:#111">matchstar</span><span style="color:#111">(</span><span style="color:#111">re</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">],</span> <span style="color:#111">re</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#111">text</span><span style="color:#111">);</span>
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">re</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;$&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">re</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;\0&#39;</span><span style="color:#111">)</span>
+    <span style="color:#00a8c8">return</span> <span style="color:#f92672">*</span><span style="color:#111">text</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;\0&#39;</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">text</span> <span style="color:#f92672">!=</span> <span style="color:#d88200">&#39;\0&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">(</span><span style="color:#111">re</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;.&#39;</span> <span style="color:#f92672">||</span> <span style="color:#111">re</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#f92672">*</span><span style="color:#111">text</span><span style="color:#111">))</span>
+    <span style="color:#00a8c8">return</span> <span style="color:#111">matchhere</span><span style="color:#111">(</span><span style="color:#111">re</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">text</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">);</span>
+  <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+<span style="color:#111">}</span>
 
 <span style="color:#75715e">// matchstar: search for c*re at beginning of text
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">matchstar</span>(<span style="color:#66d9ef">int</span> c, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>re, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>text) {
-  <span style="color:#66d9ef">do</span> { <span style="color:#75715e">// a * matches zero or more instances
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (matchhere(re, text))
-      <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
-  } <span style="color:#66d9ef">while</span> (<span style="color:#f92672">*</span>text <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;\0&#39;</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#f92672">*</span>text<span style="color:#f92672">++</span> <span style="color:#f92672">==</span> c <span style="color:#f92672">||</span> c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;.&#39;</span>));
-  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">int</span> <span style="color:#75af00">matchstar</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">c</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">re</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">text</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">do</span> <span style="color:#111">{</span> <span style="color:#75715e">// a * matches zero or more instances
+</span><span style="color:#75715e"></span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">matchhere</span><span style="color:#111">(</span><span style="color:#111">re</span><span style="color:#111">,</span> <span style="color:#111">text</span><span style="color:#111">))</span>
+      <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+  <span style="color:#111">}</span> <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">text</span> <span style="color:#f92672">!=</span> <span style="color:#d88200">&#39;\0&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">text</span><span style="color:#f92672">++</span> <span style="color:#f92672">==</span> <span style="color:#111">c</span> <span style="color:#f92672">||</span> <span style="color:#111">c</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;.&#39;</span><span style="color:#111">));</span>
+  <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+<span style="color:#111">}</span>
 
 <span style="color:#75715e">// ----- find implementation -----
 </span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">find</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>path, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>re) {
-  <span style="color:#66d9ef">char</span> buf[<span style="color:#ae81ff">512</span>], <span style="color:#f92672">*</span>p;
-  <span style="color:#66d9ef">int</span> fd;
-  <span style="color:#66d9ef">struct</span> dirent de;
-  <span style="color:#66d9ef">struct</span> stat st;
+<span style="color:#00a8c8">void</span> <span style="color:#75af00">find</span><span style="color:#111">(</span><span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">re</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">char</span> <span style="color:#111">buf</span><span style="color:#111">[</span><span style="color:#ae81ff">512</span><span style="color:#111">],</span> <span style="color:#f92672">*</span><span style="color:#111">p</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">fd</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">struct</span> <span style="color:#111">dirent</span> <span style="color:#111">de</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">struct</span> <span style="color:#111">stat</span> <span style="color:#111">st</span><span style="color:#111">;</span>
 
-  <span style="color:#66d9ef">if</span> ((fd <span style="color:#f92672">=</span> open(path, <span style="color:#ae81ff">0</span>)) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-    fprintf(<span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;find: cannot open %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, path);
-    <span style="color:#66d9ef">return</span>;
-  }
+  <span style="color:#00a8c8">if</span> <span style="color:#111">((</span><span style="color:#111">fd</span> <span style="color:#f92672">=</span> <span style="color:#111">open</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">))</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+    <span style="color:#111">fprintf</span><span style="color:#111">(</span><span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;find: cannot open %s</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">);</span>
+    <span style="color:#00a8c8">return</span><span style="color:#111">;</span>
+  <span style="color:#111">}</span>
 
-  <span style="color:#66d9ef">if</span> (fstat(fd, <span style="color:#f92672">&amp;</span>st) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-    fprintf(<span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;find: cannot open %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, path);
-    close(fd);
-    <span style="color:#66d9ef">return</span>;
-  }
-  <span style="color:#66d9ef">switch</span> (st.type) {
-  <span style="color:#66d9ef">case</span> T_FILE:
-    <span style="color:#66d9ef">if</span> (match(re, fmtname(path)))
-      printf(<span style="color:#e6db74">&#34;%s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, path);
-    <span style="color:#66d9ef">break</span>;
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">fstat</span><span style="color:#111">(</span><span style="color:#111">fd</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">st</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+    <span style="color:#111">fprintf</span><span style="color:#111">(</span><span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;find: cannot open %s</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">);</span>
+    <span style="color:#111">close</span><span style="color:#111">(</span><span style="color:#111">fd</span><span style="color:#111">);</span>
+    <span style="color:#00a8c8">return</span><span style="color:#111">;</span>
+  <span style="color:#111">}</span>
+  <span style="color:#00a8c8">switch</span> <span style="color:#111">(</span><span style="color:#111">st</span><span style="color:#111">.</span><span style="color:#111">type</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">case</span> <span style="color:#111">T_FILE</span><span style="color:#111">:</span>
+    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">match</span><span style="color:#111">(</span><span style="color:#111">re</span><span style="color:#111">,</span> <span style="color:#111">fmtname</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">)))</span>
+      <span style="color:#111">printf</span><span style="color:#111">(</span><span style="color:#d88200">&#34;%s</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">);</span>
+    <span style="color:#00a8c8">break</span><span style="color:#111">;</span>
 
-  <span style="color:#66d9ef">case</span> T_DIR:
-    <span style="color:#66d9ef">if</span> (strlen(path) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> DIRSIZ <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">sizeof</span> buf) {
-      printf(<span style="color:#e6db74">&#34;find: path too lang</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-      <span style="color:#66d9ef">break</span>;
-    }
+  <span style="color:#00a8c8">case</span> <span style="color:#111">T_DIR</span><span style="color:#111">:</span>
+    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">strlen</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#111">DIRSIZ</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&gt;</span> <span style="color:#00a8c8">sizeof</span> <span style="color:#111">buf</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+      <span style="color:#111">printf</span><span style="color:#111">(</span><span style="color:#d88200">&#34;find: path too lang</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">);</span>
+      <span style="color:#00a8c8">break</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
 
-    strcpy(buf, path);
-    p <span style="color:#f92672">=</span> buf <span style="color:#f92672">+</span> strlen(buf);
-    <span style="color:#f92672">*</span>p<span style="color:#f92672">++</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/&#39;</span>;
-    <span style="color:#66d9ef">while</span> (read(fd, <span style="color:#f92672">&amp;</span>de, <span style="color:#66d9ef">sizeof</span>(de)) <span style="color:#f92672">==</span> <span style="color:#66d9ef">sizeof</span>(de)) {
-      <span style="color:#66d9ef">if</span> (de.inum <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
-        <span style="color:#66d9ef">continue</span>;
-      memmove(p, de.name, DIRSIZ);
-      p[DIRSIZ] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-      <span style="color:#66d9ef">if</span> (stat(buf, <span style="color:#f92672">&amp;</span>st) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-        printf(<span style="color:#e6db74">&#34;find: cannot stat %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, buf);
-        <span style="color:#66d9ef">continue</span>;
-      }
+    <span style="color:#111">strcpy</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">);</span>
+    <span style="color:#111">p</span> <span style="color:#f92672">=</span> <span style="color:#111">buf</span> <span style="color:#f92672">+</span> <span style="color:#111">strlen</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">);</span>
+    <span style="color:#f92672">*</span><span style="color:#111">p</span><span style="color:#f92672">++</span> <span style="color:#f92672">=</span> <span style="color:#d88200">&#39;/&#39;</span><span style="color:#111">;</span>
+    <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">read</span><span style="color:#111">(</span><span style="color:#111">fd</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">de</span><span style="color:#111">,</span> <span style="color:#00a8c8">sizeof</span><span style="color:#111">(</span><span style="color:#111">de</span><span style="color:#111">))</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">sizeof</span><span style="color:#111">(</span><span style="color:#111">de</span><span style="color:#111">))</span> <span style="color:#111">{</span>
+      <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">de</span><span style="color:#111">.</span><span style="color:#111">inum</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span>
+        <span style="color:#00a8c8">continue</span><span style="color:#111">;</span>
+      <span style="color:#111">memmove</span><span style="color:#111">(</span><span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">de</span><span style="color:#111">.</span><span style="color:#111">name</span><span style="color:#111">,</span> <span style="color:#111">DIRSIZ</span><span style="color:#111">);</span>
+      <span style="color:#111">p</span><span style="color:#111">[</span><span style="color:#111">DIRSIZ</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+      <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">stat</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">,</span> <span style="color:#f92672">&amp;</span><span style="color:#111">st</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">printf</span><span style="color:#111">(</span><span style="color:#d88200">&#34;find: cannot stat %s</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">,</span> <span style="color:#111">buf</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">continue</span><span style="color:#111">;</span>
+      <span style="color:#111">}</span>
 
-      <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>strcmp(de.name, <span style="color:#e6db74">&#34;.&#34;</span>) <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>strcmp(de.name, <span style="color:#e6db74">&#34;..&#34;</span>))
-        <span style="color:#66d9ef">continue</span>;
+      <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">strcmp</span><span style="color:#111">(</span><span style="color:#111">de</span><span style="color:#111">.</span><span style="color:#111">name</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;.&#34;</span><span style="color:#111">)</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!</span><span style="color:#111">strcmp</span><span style="color:#111">(</span><span style="color:#111">de</span><span style="color:#111">.</span><span style="color:#111">name</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;..&#34;</span><span style="color:#111">))</span>
+        <span style="color:#00a8c8">continue</span><span style="color:#111">;</span>
 
       <span style="color:#75715e">// 递归实现
-</span><span style="color:#75715e"></span>      find(buf, re);
-    }
-    <span style="color:#66d9ef">break</span>;
-  }
+</span><span style="color:#75715e"></span>      <span style="color:#111">find</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">,</span> <span style="color:#111">re</span><span style="color:#111">);</span>
+    <span style="color:#111">}</span>
+    <span style="color:#00a8c8">break</span><span style="color:#111">;</span>
+  <span style="color:#111">}</span>
 
-  close(fd);
-}
+  <span style="color:#111">close</span><span style="color:#111">(</span><span style="color:#111">fd</span><span style="color:#111">);</span>
+<span style="color:#111">}</span>
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[]) {
-  <span style="color:#66d9ef">if</span> (argc <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span>) {
-    fprintf(<span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;usage: find &lt;path&gt; &lt;expression&gt;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-  }
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">argc</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">argv</span><span style="color:#111">[])</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">argc</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">2</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+    <span style="color:#111">fprintf</span><span style="color:#111">(</span><span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;usage: find &lt;path&gt; &lt;expression&gt;</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">);</span>
+  <span style="color:#111">}</span>
 
-  find(argv[<span style="color:#ae81ff">1</span>], argv[<span style="color:#ae81ff">2</span>]);
-  exit();
-}
+  <span style="color:#111">find</span><span style="color:#111">(</span><span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">],</span> <span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#ae81ff">2</span><span style="color:#111">]);</span>
+  <span style="color:#111">exit</span><span style="color:#111">();</span>
+<span style="color:#111">}</span>
 </code></pre></div><h2 id="xargs">xargs</h2>
 <p>Write a simple version of the UNIX xargs program: read lines from standard input and run a command for each line, supplying the line as arguments to the command. Your solution should be in the file <code>user/xargs.c</code>.</p>
 <ul>
@@ -709,59 +543,59 @@ loop:
 <blockquote>
 <p>用标准输入代替命令的参数</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/types.h&#34;</span><span style="color:#75715e">
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/types.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/param.h&#34; // MAXARG</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/stat.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;user/user.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[]) {
-  <span style="color:#66d9ef">int</span> argv_len;
-  <span style="color:#66d9ef">char</span> buf[<span style="color:#ae81ff">128</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
-  <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>max_args[MAXARG];
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">argc</span><span style="color:#111">,</span> <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">argv</span><span style="color:#111">[])</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">argv_len</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">char</span> <span style="color:#111">buf</span><span style="color:#111">[</span><span style="color:#ae81ff">128</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">{</span><span style="color:#ae81ff">0</span><span style="color:#111">};</span>
+  <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">max_args</span><span style="color:#111">[</span><span style="color:#111">MAXARG</span><span style="color:#111">];</span>
 
-  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> argc; i<span style="color:#f92672">++</span>) {
-    max_args[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> argv[i];
-  }
+  <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">argc</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+    <span style="color:#111">max_args</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">];</span>
+  <span style="color:#111">}</span>
 
-  <span style="color:#66d9ef">while</span> (gets(buf, <span style="color:#66d9ef">sizeof</span>(buf))) {
-    <span style="color:#66d9ef">int</span> buf_len <span style="color:#f92672">=</span> strlen(buf);
-    <span style="color:#66d9ef">if</span> (buf_len <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span>)
-      <span style="color:#66d9ef">break</span>;
-    buf[buf_len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+  <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">gets</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">,</span> <span style="color:#00a8c8">sizeof</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">)))</span> <span style="color:#111">{</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#111">buf_len</span> <span style="color:#f92672">=</span> <span style="color:#111">strlen</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">);</span>
+    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">buf_len</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span><span style="color:#111">)</span>
+      <span style="color:#00a8c8">break</span><span style="color:#111">;</span>
+    <span style="color:#111">buf</span><span style="color:#111">[</span><span style="color:#111">buf_len</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
 
-    argv_len <span style="color:#f92672">=</span> argc <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
-    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> buf;
+    <span style="color:#111">argv_len</span> <span style="color:#f92672">=</span> <span style="color:#111">argc</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+    <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">p</span> <span style="color:#f92672">=</span> <span style="color:#111">buf</span><span style="color:#111">;</span>
 
-    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">*</span>p) {
-      <span style="color:#66d9ef">while</span> (<span style="color:#f92672">*</span>p <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#f92672">*</span>p <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39; &#39;</span>))
-        <span style="color:#f92672">*</span>p<span style="color:#f92672">++</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-      <span style="color:#66d9ef">if</span> (<span style="color:#f92672">*</span>p)
-        max_args[argv_len<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> p;
-      <span style="color:#66d9ef">while</span> (<span style="color:#f92672">*</span>p <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#f92672">*</span>p <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39; &#39;</span>))
-        p<span style="color:#f92672">++</span>;
-    }
+    <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">p</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+      <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">p</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">p</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39; &#39;</span><span style="color:#111">))</span>
+        <span style="color:#f92672">*</span><span style="color:#111">p</span><span style="color:#f92672">++</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+      <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">p</span><span style="color:#111">)</span>
+        <span style="color:#111">max_args</span><span style="color:#111">[</span><span style="color:#111">argv_len</span><span style="color:#f92672">++</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">p</span><span style="color:#111">;</span>
+      <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">p</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">p</span> <span style="color:#f92672">!=</span> <span style="color:#d88200">&#39; &#39;</span><span style="color:#111">))</span>
+        <span style="color:#111">p</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
 
-    <span style="color:#66d9ef">if</span> (argv_len <span style="color:#f92672">&gt;=</span> MAXARG) {
-      printf(<span style="color:#e6db74">&#34;Too many args</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-      exit();
-    }
+    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">argv_len</span> <span style="color:#f92672">&gt;=</span> <span style="color:#111">MAXARG</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+      <span style="color:#111">printf</span><span style="color:#111">(</span><span style="color:#d88200">&#34;Too many args</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">);</span>
+      <span style="color:#111">exit</span><span style="color:#111">();</span>
+    <span style="color:#111">}</span>
 
-    <span style="color:#66d9ef">if</span> (argv_len <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span>) {
-      printf(<span style="color:#e6db74">&#34;Too few args</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-      exit();
-    }
+    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">argv_len</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+      <span style="color:#111">printf</span><span style="color:#111">(</span><span style="color:#d88200">&#34;Too few args</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">);</span>
+      <span style="color:#111">exit</span><span style="color:#111">();</span>
+    <span style="color:#111">}</span>
 
-    max_args[argv_len] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#111">max_args</span><span style="color:#111">[</span><span style="color:#111">argv_len</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
 
-    <span style="color:#66d9ef">if</span> (fork()) {
-      wait();
-    } <span style="color:#66d9ef">else</span> {
-      exec(max_args[<span style="color:#ae81ff">0</span>], max_args);
-      exit();
-    }
-  }
-  exit();
-}
+    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">fork</span><span style="color:#111">())</span> <span style="color:#111">{</span>
+      <span style="color:#111">wait</span><span style="color:#111">();</span>
+    <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+      <span style="color:#111">exec</span><span style="color:#111">(</span><span style="color:#111">max_args</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">],</span> <span style="color:#111">max_args</span><span style="color:#111">);</span>
+      <span style="color:#111">exit</span><span style="color:#111">();</span>
+    <span style="color:#111">}</span>
+  <span style="color:#111">}</span>
+  <span style="color:#111">exit</span><span style="color:#111">();</span>
+<span style="color:#111">}</span>
 </code></pre></div><h2 id="end">End</h2>
 <blockquote>
 <p>多去尝试，体会不一样的东西！</p>
@@ -769,94 +603,52 @@ loop:
 
 </div>
 
-  
-<footer class='entry-footer'>
-  <div class='container sep-before'><div class='categories'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-    <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
-
-</svg>
-<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/learn/'>learn</a></div>
-<div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
-  <line x1="7" y1="7" x2="7" y2="7"/>
-
-</svg>
-<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/6.828/'>6.828</a>, <a class='tag' href='/tags/os/'>OS</a>, <a class='tag' href='/tags/xv6/'>xv6</a></div>
-
-  </div>
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/6.828/">6.828</a>, 
+                <a href="/tags/os/">OS</a>, 
+                <a href="/tags/xv6/">xv6</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=MIT%206.828%20Lab%201%3a%20Xv6%20and%20Unix%20utilities&url=https%3a%2f%2fabcdlsj.github.io%2fpost%2fmit-6.828-lab1xv6-and-unix-utilities%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+    </div>
 </footer>
 
-
-</article>
-
-<nav class='entry-nav'>
-  <div class='container'><div class='prev-entry sep-before'>
-      <a href='/post/leetcode-biweekly-contest28/'>
-        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="20" y1="12" x2="4" y2="12"/>
-  <polyline points="10 18 4 12 10 6"/>
-
-</svg>
- Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>LeetCode Biweekly Contest: 28</a>
-    </div><div class='next-entry sep-before'>
-      <a href='/post/mit-6.828-lab2simple-xv6-shell/'>
-        <span class='screen-reader-text'>Next post: </span>MIT 6.828 Lab 2: Simple xv6 shell<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="4" y1="12" x2="20" y2="12"/>
-  <polyline points="14 6 20 12 14 18"/>
-
-</svg>
-</span>
-      </a>
-    </div></div>
-</nav>
-
-
-
-
-      </main>
-
-      <footer id='footer' class='footer'>
-        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
-    <ul><li>
-        <a href='https://github.com/abcdlsj' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-
-</svg>
-</a>
-      </li><li>
-        <a href='mailto:lisongjianshuai@gmail.com' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
-</svg>
-</a>
-      </li></ul>
-  </nav>
-</section><div class='copyright'>
-  <p> &copy; 2018-2021 abcdlsj </p>
+        
+    </article>
 </div>
 
+            </div>
         </div>
-      </footer>
 
-    </div>
-  </div><script>window.__assets_js_src="/assets/js/"</script>
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://abcdlsj.github.io">My Blog</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
 
-<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+                <p class="footer-copyright">
+                    <span>&copy; 2020 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
 
-</body>
-
+        <script src="https://abcdlsj.github.iojs/jquery-1.11.3.min.js"></script>
+        <script src="https://abcdlsj.github.iojs/jquery.fitvids.js"></script>
+        <script src="https://abcdlsj.github.iojs/scripts.js"></script>
+    </body>
 </html>
 

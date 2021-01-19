@@ -1,275 +1,93 @@
 <!DOCTYPE html>
-<html lang='en' dir='auto'><head>
-  <meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='LeetCode Data Structure Tree'>
-<meta name='theme-color' content='#ffcd00'>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>LeetCode Data-Structure: Tree &middot; </title>
+        <meta name="description" content="LeetCode Data Structure Tree">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.80.0" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="LeetCode Data-Structure: Tree">
+<meta property="og:description" content="LeetCode Data Structure Tree">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://abcdlsj.github.io/post/leetcode-data-structuretree/">
+        <link rel="stylesheet" href="https://abcdlsj.github.iodist/site.css">
+        <link rel="stylesheet" href="https://abcdlsj.github.iodist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        
+        
+        
+        
 
-<meta property='og:title' content='LeetCode Data-Structure: Tree • ~'>
-<meta property='og:description' content='LeetCode Data Structure Tree'>
-<meta property='og:url' content='https://abcdlsj.github.io/post/leetcode-data-structuretree/'>
-<meta property='og:site_name' content='~'>
-<meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='Tree'><meta property='article:tag' content='LeetCode'><meta property='article:tag' content='Data Structure'><meta property='article:published_time' content='2020-06-08T21:52:45&#43;08:00'/><meta property='article:modified_time' content='2020-06-08T21:52:45&#43;08:00'/><meta name='twitter:card' content='summary'>
+    </head>
+    <body>
+        
 
-<meta name="generator" content="Hugo 0.80.0" />
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://abcdlsj.github.io">My Blog</a>
+                            </h1>
+                        
+                        
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/abcdlsj" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:lisongjianshuai@gmail.com">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
 
-  <title>LeetCode Data-Structure: Tree • ~</title>
-  <link rel='canonical' href='https://abcdlsj.github.io/post/leetcode-data-structuretree/'>
-  
-  
-  <link rel='icon' href='/favicon.ico'>
-<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/custom.css'><style>
-:root{--color-accent:#ffcd00;}
-</style>
+                    <ul class="site-nav">
+                        
 
-  
+                    </ul>
+                </div>
+            </header>
 
-</head>
-<body class='page type-post has-sidebar'>
+            <div id="container">
 
-  <div class='site'><div id='sidebar' class='sidebar'>
-  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
 
-  <div class='container'><section class='widget widget-about sep-after'>
-  <header>
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">LeetCode Data-Structure: Tree</h1>
     
-    <div class='logo'>
-      <a href='/'>
-        <img src='/images/logo.png'>
-      </a>
-    </div>
+        <p class="post-description" itemprop="description">LeetCode Data Structure Tree</p>
     
-    <h2 class='title site-title '>
-      <a href='/'>
-      ~
-      </a>
-    </h2>
-    <div class='desc'>
-    Enjoy The Focus.
-    </div>
-  </header>
-
-</section>
-<section class='widget widget-taxonomy_cloud sep-after'>
-  <header>
-    <h4 class='title widget-title'>Tags</h4>
-  </header>
-
-  <div class='container list-container'>
-  <ul class='list taxonomy-cloud'><li>
-        <a href='/tags/6.824/' style='font-size:1em'>6.824</a>
-      </li><li>
-        <a href='/tags/6.828/' style='font-size:1.0666666666666667em'>6.828</a>
-      </li><li>
-        <a href='/tags/algorithm/' style='font-size:1em'>Algorithm</a>
-      </li><li>
-        <a href='/tags/arch/' style='font-size:1.0666666666666667em'>Arch</a>
-      </li><li>
-        <a href='/tags/backtracking/' style='font-size:1em'>BackTracking</a>
-      </li><li>
-        <a href='/tags/binary-search/' style='font-size:1em'>Binary Search</a>
-      </li><li>
-        <a href='/tags/blog/' style='font-size:1.1333333333333333em'>blog</a>
-      </li><li>
-        <a href='/tags/boltdb/' style='font-size:1em'>BoltDB</a>
-      </li><li>
-        <a href='/tags/conky/' style='font-size:1em'>conky</a>
-      </li><li>
-        <a href='/tags/contest/' style='font-size:1.3333333333333333em'>Contest</a>
-      </li><li>
-        <a href='/tags/cpp/' style='font-size:1.0666666666666667em'>CPP</a>
-      </li><li>
-        <a href='/tags/csapp/' style='font-size:1em'>CSAPP</a>
-      </li><li>
-        <a href='/tags/data-structure/' style='font-size:1.0666666666666667em'>Data Structure</a>
-      </li><li>
-        <a href='/tags/database/' style='font-size:1em'>DataBase</a>
-      </li><li>
-        <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
-      </li><li>
-        <a href='/tags/dynamic-programming/' style='font-size:1.0666666666666667em'>Dynamic Programming</a>
-      </li><li>
-        <a href='/tags/emacs/' style='font-size:1em'>emacs</a>
-      </li><li>
-        <a href='/tags/geeksforgeeks/' style='font-size:1em'>GeeksforGeeks</a>
-      </li><li>
-        <a href='/tags/hugo/' style='font-size:1.0666666666666667em'>hugo</a>
-      </li><li>
-        <a href='/tags/interview/' style='font-size:1em'>Interview</a>
-      </li><li>
-        <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
-      </li><li>
-        <a href='/tags/lenovo/' style='font-size:1em'>Lenovo</a>
-      </li><li>
-        <a href='/tags/link-list/' style='font-size:1em'>Link List</a>
-      </li><li>
-        <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
-      </li><li>
-        <a href='/tags/org/' style='font-size:1.0666666666666667em'>org</a>
-      </li><li>
-        <a href='/tags/org-agenda/' style='font-size:1em'>org-agenda</a>
-      </li><li>
-        <a href='/tags/org-mode/' style='font-size:1em'>org mode</a>
-      </li><li>
-        <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
-      </li><li>
-        <a href='/tags/os/' style='font-size:1.2em'>OS</a>
-      </li><li>
-        <a href='/tags/sicp/' style='font-size:1.0666666666666667em'>SICP</a>
-      </li><li>
-        <a href='/tags/sliding-window/' style='font-size:1em'>Sliding Window</a>
-      </li><li>
-        <a href='/tags/tree/' style='font-size:1em'>Tree</a>
-      </li><li>
-        <a href='/tags/union-find/' style='font-size:1em'>Union Find</a>
-      </li><li>
-        <a href='/tags/xv6/' style='font-size:1.0666666666666667em'>xv6</a>
-      </li></ul>
-</div>
-
-
-</section>
-</div>
-
-  <div class='sidebar-overlay'></div>
-</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
-  <div class='container'>
-    <a class='screen-reader-text' href='#content'>Skip to Content</a>
-
-<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
-  <span class='screen-reader-text'>Toggle Sidebar</span>
-  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    <p class="post-date post-line">
+        <span>Published <time datetime="2020-06-08" itemprop="datePublished">Mon, Jun 8, 2020</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="#" itemprop="url" rel="author">abcdlsj</a>
+            </span>
+        </span>
+    </p>
     
-    
-  <line x1="3" y1="12" x2="21" y2="12" />
-  <line x1="3" y1="6" x2="21" y2="6" />
-  <line x1="3" y1="18" x2="21" y2="18" />
-
-</svg>
-</span>
-  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="18" y1="6" x2="6" y2="18" />
-  <line x1="6" y1="6" x2="18" y2="18" />
-
-</svg>
-</span>
-</button>
-    <ul><li class='item'>
-        <a href='/'>Home</a>
-      </li><li class='item'>
-        <a href='/post/'>Archives</a>
-      </li><li class='item'>
-        <a href='/categories/'>Categories</a>
-      </li><li class='item'>
-        <a href='/tags/leetcode'>LeetCode</a>
-      </li><li class='item'>
-        <a href='/about/'>About</a>
-      </li></ul>
-  </div>
-</nav><div class='header-widgets'>
-        <div class='container'>
-    
-    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
-  <section class='widget widget-breadcrumbs sep-after'>
-    <nav id='breadcrumbs'>
-      <ol><li><a href='/'>~</a></li><li><a href='/post/'>Posts</a></li><li><span>LeetCode Data-Structure: Tree</span></li></ol>
-    </nav>
-  </section></div>
-      </div>
-
-      <header id='header' class='header site-header'>
-        <div class='container sep-after'>
-          <div class='header-info'><p class='site-title title'>~</p><p class='desc site-desc'>Enjoy The Focus.</p>
-          </div>
-        </div>
-      </header>
-
-      <main id='content'>
-
-
-<article lang='en' class='entry'>
-  <header class='header entry-header'>
-  <div class='container sep-after'>
-    <div class='header-info'>
-      <h1 class='title'>LeetCode Data-Structure: Tree</h1>
-      
-<p class='desc'>LeetCode Data Structure Tree</p>
-
-
-    </div>
-    <div class='entry-meta'>
-  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-  <line x1="16" y1="2" x2="16" y2="6"/>
-  <line x1="8" y1="2" x2="8" y2="6"/>
-  <line x1="3" y1="10" x2="21" y2="10"/>
-
-</svg>
-<span class='screen-reader-text'>Posted on </span>
-  <time class='entry-date' datetime='2020-06-08T21:52:45&#43;08:00'>2020, Jun 08</time>
-</span>
-
-  
-  
-<span class='reading-time'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <circle cx="12" cy="12" r="10"/>
-  <polyline points="12 6 12 12 15 15"/>
-
-</svg>
-9 mins read
-</span>
-
-
-</div>
-
-
-  </div>
 </header>
 
-  
-  
-<details class='container entry-toc'>
-  <summary class='title'>
-    <span>Table of Contents</span>
-  </summary>
-  <nav id="TableOfContents">
-  <ul>
-    <li><a href="#遍历二叉树">遍历二叉树</a>
-      <ul>
-        <li><a href="#先序遍历">先序遍历</a></li>
-        <li><a href="#中序遍历">中序遍历</a></li>
-        <li><a href="#后序遍历">后序遍历</a></li>
-      </ul>
-    </li>
-    <li><a href="#生成二叉树">生成二叉树</a>
-      <ul>
-        <li></li>
-      </ul>
-    </li>
-    <li><a href="#二叉树相关">二叉树相关</a>
-      <ul>
-        <li></li>
-      </ul>
-    </li>
-    <li><a href="#浅谈树的递归">浅谈树的递归</a>
-      <ul>
-        <li></li>
-      </ul>
-    </li>
-    <li><a href="#总结">总结</a></li>
-  </ul>
-</nav>
-</details>
+        <div class="post-content clearfix" itemprop="articleBody">
+    
 
-
-  <div class='container entry-content'>
-  <blockquote>
+    <blockquote>
 <p>LeetCode 刷题总结：树</p>
 </blockquote>
 <blockquote>
@@ -284,7 +102,7 @@
 </blockquote>
 <h2 id="遍历二叉树">遍历二叉树</h2>
 <p>以 LeetCode 题目中的 <code>binary tree</code> 为代表，结构如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
 </span><span style="color:#75715e"> * Definition for a binary tree node.
 </span><span style="color:#75715e"> * struct TreeNode {
 </span><span style="color:#75715e"> *     int val;
@@ -296,156 +114,156 @@
 </code></pre></div><h3 id="先序遍历">先序遍历</h3>
 <h4 id="144-二叉树的前序遍历httpsleetcode-cncomproblemsbinary-tree-preorder-traversal"><a href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/">144. 二叉树的前序遍历</a></h4>
 <p><strong>递归</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ans;
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> preorderTraversal(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">if</span> (root) {
-            ans.push_back(root<span style="color:#f92672">-&gt;</span>val);
-            preorderTraversal(root<span style="color:#f92672">-&gt;</span>left);
-            preorderTraversal(root<span style="color:#f92672">-&gt;</span>right);
-        }
-        <span style="color:#66d9ef">return</span> ans;
-    }
-};
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">ans</span><span style="color:#111">;</span>
+    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">preorderTraversal</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#111">ans</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">);</span>
+            <span style="color:#111">preorderTraversal</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+            <span style="color:#111">preorderTraversal</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
+        <span style="color:#111">}</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">ans</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><p><strong>非递归</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res;
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> preorderTraversal(TreeNode<span style="color:#f92672">*</span> root) {
-        stack<span style="color:#f92672">&lt;</span>TreeNode<span style="color:#f92672">*&gt;</span> stack;
-        <span style="color:#66d9ef">if</span> (root) {
-            stack.push(root);
-        } <span style="color:#66d9ef">else</span> {
-            <span style="color:#66d9ef">return</span> res;
-        }
-        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>stack.empty()) {
-            TreeNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> stack.top(); stack.pop();
-            res.push_back(cur<span style="color:#f92672">-&gt;</span>val);
-            <span style="color:#66d9ef">if</span> (cur<span style="color:#f92672">-&gt;</span>right) stack.push(cur<span style="color:#f92672">-&gt;</span>right);
-            <span style="color:#66d9ef">if</span> (cur<span style="color:#f92672">-&gt;</span>left) stack.push(cur<span style="color:#f92672">-&gt;</span>left);
-        }
-        <span style="color:#66d9ef">return</span> res;
-    }
-};
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">preorderTraversal</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">stack</span><span style="color:#f92672">&lt;</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*&gt;</span> <span style="color:#111">stack</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">);</span>
+        <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+            <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+        <span style="color:#111">}</span>
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">empty</span><span style="color:#111">())</span> <span style="color:#111">{</span>
+            <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">cur</span> <span style="color:#f92672">=</span> <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">top</span><span style="color:#111">();</span> <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">pop</span><span style="color:#111">();</span>
+            <span style="color:#111">res</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">);</span>
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">)</span> <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">)</span> <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+        <span style="color:#111">}</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h3 id="中序遍历">中序遍历</h3>
 <h4 id="94-二叉树的中序遍历httpsleetcode-cncomproblemsbinary-tree-inorder-traversal"><a href="https://leetcode-cn.com/problems/binary-tree-inorder-traversal/">94. 二叉树的中序遍历</a></h4>
 <p><strong>递归</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res;
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> inorderTraversal(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">if</span> (root) {
-            inorderTraversal(root<span style="color:#f92672">-&gt;</span>left);
-            res.push_back(root<span style="color:#f92672">-&gt;</span>val);
-            inorderTraversal(root<span style="color:#f92672">-&gt;</span>right);
-        }
-        <span style="color:#66d9ef">return</span> res;
-    }
-};
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">inorderTraversal</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#111">inorderTraversal</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+            <span style="color:#111">res</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">);</span>
+            <span style="color:#111">inorderTraversal</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
+        <span style="color:#111">}</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><p><strong>非递归</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res;
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> inorderTraversal(TreeNode<span style="color:#f92672">*</span> root) {
-        stack<span style="color:#f92672">&lt;</span>TreeNode<span style="color:#f92672">*&gt;</span> stack;
-        TreeNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> root;
-        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>stack.empty() <span style="color:#f92672">||</span> cur) {
-            <span style="color:#66d9ef">while</span> (cur) {
-                stack.push(cur);
-                cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>left;
-            }
-            TreeNode <span style="color:#f92672">*</span>node <span style="color:#f92672">=</span> stack.top(); stack.pop();
-            res.push_back(node<span style="color:#f92672">-&gt;</span>val);
-            <span style="color:#66d9ef">if</span> (node<span style="color:#f92672">-&gt;</span>right) cur <span style="color:#f92672">=</span> node<span style="color:#f92672">-&gt;</span>right;
-        }
-        <span style="color:#66d9ef">return</span> res;
-    }
-};
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">inorderTraversal</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">stack</span><span style="color:#f92672">&lt;</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*&gt;</span> <span style="color:#111">stack</span><span style="color:#111">;</span>
+        <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">cur</span> <span style="color:#f92672">=</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">empty</span><span style="color:#111">()</span> <span style="color:#f92672">||</span> <span style="color:#111">cur</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+                <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#111">);</span>
+                <span style="color:#111">cur</span> <span style="color:#f92672">=</span> <span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">;</span>
+            <span style="color:#111">}</span>
+            <span style="color:#111">TreeNode</span> <span style="color:#f92672">*</span><span style="color:#111">node</span> <span style="color:#f92672">=</span> <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">top</span><span style="color:#111">();</span> <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">pop</span><span style="color:#111">();</span>
+            <span style="color:#111">res</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">node</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">);</span>
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">node</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">)</span> <span style="color:#111">cur</span> <span style="color:#f92672">=</span> <span style="color:#111">node</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">;</span>
+        <span style="color:#111">}</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h3 id="后序遍历">后序遍历</h3>
 <h4 id="145-二叉树的后序遍历httpsleetcode-cncomproblemsbinary-tree-postorder-traversal"><a href="https://leetcode-cn.com/problems/binary-tree-postorder-traversal/">145. 二叉树的后序遍历</a></h4>
 <p><strong>递归</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res;
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> postorderTraversal(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">if</span> (root) {
-            postorderTraversal(root<span style="color:#f92672">-&gt;</span>left);
-            postorderTraversal(root<span style="color:#f92672">-&gt;</span>right);
-            res.push_back(root<span style="color:#f92672">-&gt;</span>val);
-        }
-        <span style="color:#66d9ef">return</span> res;
-    }
-};
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">postorderTraversal</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#111">postorderTraversal</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+            <span style="color:#111">postorderTraversal</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
+            <span style="color:#111">res</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">);</span>
+        <span style="color:#111">}</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><p><strong>非递归</strong></p>
 <blockquote>
 <p>对于第一个栈来说，每次都是 <strong>左 =&gt; 右</strong> 入，<strong>右 =&gt; 左</strong> 出</p>
 <p>对于第二个栈来说就刚好是 <strong>右 =&gt; 左</strong> 入，出的话就得到答案了</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res;
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> postorderTraversal(TreeNode<span style="color:#f92672">*</span> root) {
-        stack<span style="color:#f92672">&lt;</span>TreeNode<span style="color:#f92672">*&gt;</span> stack1, stack2;
-        <span style="color:#66d9ef">if</span> (root) {
-            stack1.push(root);
-        } <span style="color:#66d9ef">else</span> {
-            <span style="color:#66d9ef">return</span> res;
-        }
-        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>stack1.empty()) {
-            TreeNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> stack1.top(); stack1.pop();
-            stack2.push(cur);
-            <span style="color:#66d9ef">if</span> (cur<span style="color:#f92672">-&gt;</span>left) stack1.push(cur<span style="color:#f92672">-&gt;</span>left);
-            <span style="color:#66d9ef">if</span> (cur<span style="color:#f92672">-&gt;</span>right) stack1.push(cur<span style="color:#f92672">-&gt;</span>right);
-        }
-        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>stack2.empty()) {
-            res.push_back(stack2.top()<span style="color:#f92672">-&gt;</span>val);
-            stack2.pop();
-        }
-        <span style="color:#66d9ef">return</span> res;
-    }
-};
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">postorderTraversal</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">stack</span><span style="color:#f92672">&lt;</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*&gt;</span> <span style="color:#111">stack1</span><span style="color:#111">,</span> <span style="color:#111">stack2</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#111">stack1</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">);</span>
+        <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+            <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+        <span style="color:#111">}</span>
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">stack1</span><span style="color:#111">.</span><span style="color:#111">empty</span><span style="color:#111">())</span> <span style="color:#111">{</span>
+            <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">cur</span> <span style="color:#f92672">=</span> <span style="color:#111">stack1</span><span style="color:#111">.</span><span style="color:#111">top</span><span style="color:#111">();</span> <span style="color:#111">stack1</span><span style="color:#111">.</span><span style="color:#111">pop</span><span style="color:#111">();</span>
+            <span style="color:#111">stack2</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#111">);</span>
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">)</span> <span style="color:#111">stack1</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">)</span> <span style="color:#111">stack1</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
+        <span style="color:#111">}</span>
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">stack2</span><span style="color:#111">.</span><span style="color:#111">empty</span><span style="color:#111">())</span> <span style="color:#111">{</span>
+            <span style="color:#111">res</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">stack2</span><span style="color:#111">.</span><span style="color:#111">top</span><span style="color:#111">()</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">);</span>
+            <span style="color:#111">stack2</span><span style="color:#111">.</span><span style="color:#111">pop</span><span style="color:#111">();</span>
+        <span style="color:#111">}</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h2 id="生成二叉树">生成二叉树</h2>
 <h4 id="105-从前序与中序遍历序列构造二叉树httpsleetcode-cncomproblemsconstruct-binary-tree-from-preorder-and-inorder-traversal"><a href="https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/">105. 从前序与中序遍历序列构造二叉树</a></h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    TreeNode<span style="color:#f92672">*</span> buildTree(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> preorder, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> inorder) {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">build</span>(preorder, inorder, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, inorder.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
-    }
-    TreeNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">build</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> preorder, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> inorder, <span style="color:#66d9ef">int</span> root, <span style="color:#66d9ef">int</span> begin, <span style="color:#66d9ef">int</span> end) {
-        <span style="color:#66d9ef">if</span> (begin <span style="color:#f92672">&gt;</span> end) <span style="color:#66d9ef">return</span> NULL;
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">buildTree</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">preorder</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">inorder</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#75af00">build</span><span style="color:#111">(</span><span style="color:#111">preorder</span><span style="color:#111">,</span> <span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">inorder</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">);</span>
+    <span style="color:#111">}</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#75af00">build</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">preorder</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">root</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">begin</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">end</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">begin</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">end</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
         
-        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> begin;
-        <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> end <span style="color:#f92672">&amp;&amp;</span> inorder[i] <span style="color:#f92672">!=</span> preorder[root]) i<span style="color:#f92672">++</span>;
-        TreeNode<span style="color:#f92672">*</span> rootNode <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeNode(preorder[root]);
-        rootNode<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> build(preorder, inorder, root <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, begin, i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
-        rootNode<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> build(preorder, inorder, root <span style="color:#f92672">+</span> i <span style="color:#f92672">-</span> begin <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, end);
+        <span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">begin</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">end</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">inorder</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">!=</span> <span style="color:#111">preorder</span><span style="color:#111">[</span><span style="color:#111">root</span><span style="color:#111">])</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
+        <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">rootNode</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">TreeNode</span><span style="color:#111">(</span><span style="color:#111">preorder</span><span style="color:#111">[</span><span style="color:#111">root</span><span style="color:#111">]);</span>
+        <span style="color:#111">rootNode</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span> <span style="color:#f92672">=</span> <span style="color:#111">build</span><span style="color:#111">(</span><span style="color:#111">preorder</span><span style="color:#111">,</span> <span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#111">root</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">begin</span><span style="color:#111">,</span> <span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">);</span>
+        <span style="color:#111">rootNode</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span> <span style="color:#f92672">=</span> <span style="color:#111">build</span><span style="color:#111">(</span><span style="color:#111">preorder</span><span style="color:#111">,</span> <span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#111">root</span> <span style="color:#f92672">+</span> <span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#111">begin</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">end</span><span style="color:#111">);</span>
 
-        <span style="color:#66d9ef">return</span> rootNode;
-    }
-};
+        <span style="color:#00a8c8">return</span> <span style="color:#111">rootNode</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h4 id="106-从中序与后序遍历序列构造二叉树httpsleetcode-cncomproblemsconstruct-binary-tree-from-inorder-and-postorder-traversal"><a href="https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/">106. 从中序与后序遍历序列构造二叉树</a></h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    TreeNode<span style="color:#f92672">*</span> buildTree(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> inorder, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> postorder) {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">buildHelper</span>(inorder, postorder, postorder.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, inorder.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
-    }
-    TreeNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">buildHelper</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> inorder, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> postorder, <span style="color:#66d9ef">int</span> root, <span style="color:#66d9ef">int</span> begin, <span style="color:#66d9ef">int</span> end) {
-        <span style="color:#66d9ef">if</span> (begin <span style="color:#f92672">&gt;</span> end) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">buildTree</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">postorder</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#75af00">buildHelper</span><span style="color:#111">(</span><span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#111">postorder</span><span style="color:#111">,</span> <span style="color:#111">postorder</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">inorder</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">);</span>
+    <span style="color:#111">}</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#75af00">buildHelper</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">postorder</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">root</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">begin</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">end</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">begin</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">end</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">;</span>
 
-        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> begin;
-        <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> inorder.size() <span style="color:#f92672">&amp;&amp;</span> inorder[i] <span style="color:#f92672">!=</span> postorder[root]) i<span style="color:#f92672">++</span>;
-        TreeNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeNode(postorder[root]);
-        cur<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> buildHelper(inorder, postorder, root <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, end);
-        cur<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> buildHelper(inorder, postorder, root <span style="color:#f92672">-</span> (end <span style="color:#f92672">-</span> i) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, begin, i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);  
-        <span style="color:#66d9ef">return</span> cur;
-    } 
-};
+        <span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">begin</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">inorder</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">inorder</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">!=</span> <span style="color:#111">postorder</span><span style="color:#111">[</span><span style="color:#111">root</span><span style="color:#111">])</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
+        <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">cur</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">TreeNode</span><span style="color:#111">(</span><span style="color:#111">postorder</span><span style="color:#111">[</span><span style="color:#111">root</span><span style="color:#111">]);</span>
+        <span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span> <span style="color:#f92672">=</span> <span style="color:#111">buildHelper</span><span style="color:#111">(</span><span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#111">postorder</span><span style="color:#111">,</span> <span style="color:#111">root</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">end</span><span style="color:#111">);</span>
+        <span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span> <span style="color:#f92672">=</span> <span style="color:#111">buildHelper</span><span style="color:#111">(</span><span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#111">postorder</span><span style="color:#111">,</span> <span style="color:#111">root</span> <span style="color:#f92672">-</span> <span style="color:#111">(</span><span style="color:#111">end</span> <span style="color:#f92672">-</span> <span style="color:#111">i</span><span style="color:#111">)</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">begin</span><span style="color:#111">,</span> <span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">);</span>  
+        <span style="color:#00a8c8">return</span> <span style="color:#111">cur</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span> 
+<span style="color:#111">};</span>
 </code></pre></div><h4 id="449-序列化和反序列化二叉搜索树httpsleetcode-cncomproblemsserialize-and-deserialize-bst"><a href="https://leetcode-cn.com/problems/serialize-and-deserialize-bst/">449. 序列化和反序列化二叉搜索树</a></h4>
 <blockquote>
 <p>先序遍历一遍，然后排序先序遍历，就是中序遍历了，然后就是 n105 题</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
 </span><span style="color:#75715e"> * Definition for a binary tree node.
 </span><span style="color:#75715e"> * struct TreeNode {
 </span><span style="color:#75715e"> *     int val;
@@ -454,50 +272,50 @@
 </span><span style="color:#75715e"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 </span><span style="color:#75715e"> * };
 </span><span style="color:#75715e"> */</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Codec</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+<span style="color:#00a8c8">class</span> <span style="color:#75af00">Codec</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
 
     <span style="color:#75715e">// Encodes a tree to a single string.
-</span><span style="color:#75715e"></span>    string serialize(TreeNode<span style="color:#f92672">*</span> root) {
-        string s;
-        stack<span style="color:#f92672">&lt;</span>TreeNode<span style="color:#f92672">*&gt;</span> stack;
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) stack.push(root);
-        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>stack.empty()) {
-            TreeNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> stack.top(); stack.pop();
-            s <span style="color:#f92672">+=</span> to_string(cur<span style="color:#f92672">-&gt;</span>val) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span>;
-            <span style="color:#66d9ef">if</span> (cur<span style="color:#f92672">-&gt;</span>right) stack.push(cur<span style="color:#f92672">-&gt;</span>right);
-            <span style="color:#66d9ef">if</span> (cur<span style="color:#f92672">-&gt;</span>left) stack.push(cur<span style="color:#f92672">-&gt;</span>left);
-        }
-        s <span style="color:#f92672">=</span> s.substr(<span style="color:#ae81ff">0</span>, s.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
-        <span style="color:#66d9ef">return</span> s;
-    }
+</span><span style="color:#75715e"></span>    <span style="color:#111">string</span> <span style="color:#111">serialize</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">string</span> <span style="color:#111">s</span><span style="color:#111">;</span>
+        <span style="color:#111">stack</span><span style="color:#f92672">&lt;</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*&gt;</span> <span style="color:#111">stack</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">!=</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">)</span> <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">empty</span><span style="color:#111">())</span> <span style="color:#111">{</span>
+            <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">cur</span> <span style="color:#f92672">=</span> <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">top</span><span style="color:#111">();</span> <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">pop</span><span style="color:#111">();</span>
+            <span style="color:#111">s</span> <span style="color:#f92672">+=</span> <span style="color:#111">to_string</span><span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#f92672">+</span> <span style="color:#d88200">&#34; &#34;</span><span style="color:#111">;</span>
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">)</span> <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">)</span> <span style="color:#111">stack</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+        <span style="color:#111">}</span>
+        <span style="color:#111">s</span> <span style="color:#f92672">=</span> <span style="color:#111">s</span><span style="color:#111">.</span><span style="color:#111">substr</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">s</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">s</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
 
     <span style="color:#75715e">// Decodes your encoded data to tree.
-</span><span style="color:#75715e"></span>    TreeNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">deserialize</span>(string data) {
-        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> preorder;
-        stringstream ss(data);
-        string tmp;
-        <span style="color:#66d9ef">while</span> (ss <span style="color:#f92672">&gt;&gt;</span> tmp) {
-            <span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> stoi(tmp);
-            preorder.push_back(t);
-        }
+</span><span style="color:#75715e"></span>    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#75af00">deserialize</span><span style="color:#111">(</span><span style="color:#111">string</span> <span style="color:#111">data</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">preorder</span><span style="color:#111">;</span>
+        <span style="color:#111">stringstream</span> <span style="color:#111">ss</span><span style="color:#111">(</span><span style="color:#111">data</span><span style="color:#111">);</span>
+        <span style="color:#111">string</span> <span style="color:#111">tmp</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">ss</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">tmp</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#00a8c8">int</span> <span style="color:#111">t</span> <span style="color:#f92672">=</span> <span style="color:#111">stoi</span><span style="color:#111">(</span><span style="color:#111">tmp</span><span style="color:#111">);</span>
+            <span style="color:#111">preorder</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">t</span><span style="color:#111">);</span>
+        <span style="color:#111">}</span>
 
-        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> inorder(preorder);
-        sort(inorder.begin(), inorder.end());
+        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">inorder</span><span style="color:#111">(</span><span style="color:#111">preorder</span><span style="color:#111">);</span>
+        <span style="color:#111">sort</span><span style="color:#111">(</span><span style="color:#111">inorder</span><span style="color:#111">.</span><span style="color:#111">begin</span><span style="color:#111">(),</span> <span style="color:#111">inorder</span><span style="color:#111">.</span><span style="color:#111">end</span><span style="color:#111">());</span>
 
-        <span style="color:#66d9ef">return</span> build(preorder, inorder, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, inorder.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
-    }
+        <span style="color:#00a8c8">return</span> <span style="color:#111">build</span><span style="color:#111">(</span><span style="color:#111">preorder</span><span style="color:#111">,</span> <span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">inorder</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">);</span>
+    <span style="color:#111">}</span>
     
-    TreeNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">build</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> preorder, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> inorder, <span style="color:#66d9ef">int</span> root, <span style="color:#66d9ef">int</span> begin, <span style="color:#66d9ef">int</span> end) {
-        <span style="color:#66d9ef">if</span> (begin <span style="color:#f92672">&gt;</span> end) <span style="color:#66d9ef">return</span> NULL;
-        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> begin;
-        <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> end <span style="color:#f92672">&amp;&amp;</span> inorder[i] <span style="color:#f92672">!=</span> preorder[root]) i<span style="color:#f92672">++</span>;
-        TreeNode<span style="color:#f92672">*</span> rootNode <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeNode(preorder[root]);
-        rootNode<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> build(preorder, inorder, root <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, begin, i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
-        rootNode<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> build(preorder, inorder, root <span style="color:#f92672">+</span> i <span style="color:#f92672">-</span> begin <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, end);
-        <span style="color:#66d9ef">return</span> rootNode;
-    }
-};
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#75af00">build</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">preorder</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">root</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">begin</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">end</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">begin</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">end</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">begin</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">end</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">inorder</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">!=</span> <span style="color:#111">preorder</span><span style="color:#111">[</span><span style="color:#111">root</span><span style="color:#111">])</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
+        <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">rootNode</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">TreeNode</span><span style="color:#111">(</span><span style="color:#111">preorder</span><span style="color:#111">[</span><span style="color:#111">root</span><span style="color:#111">]);</span>
+        <span style="color:#111">rootNode</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span> <span style="color:#f92672">=</span> <span style="color:#111">build</span><span style="color:#111">(</span><span style="color:#111">preorder</span><span style="color:#111">,</span> <span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#111">root</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">begin</span><span style="color:#111">,</span> <span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">);</span>
+        <span style="color:#111">rootNode</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span> <span style="color:#f92672">=</span> <span style="color:#111">build</span><span style="color:#111">(</span><span style="color:#111">preorder</span><span style="color:#111">,</span> <span style="color:#111">inorder</span><span style="color:#111">,</span> <span style="color:#111">root</span> <span style="color:#f92672">+</span> <span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#111">begin</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">end</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">rootNode</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 
 <span style="color:#75715e">// Your Codec object will be instantiated and called as such:
 </span><span style="color:#75715e">// Codec codec;
@@ -506,7 +324,7 @@
 <blockquote>
 <p>这个这样写会简单些，用先序遍历来序列化二叉树</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
 </span><span style="color:#75715e"> * Definition for a binary tree node.
 </span><span style="color:#75715e"> * struct TreeNode {
 </span><span style="color:#75715e"> *     int val;
@@ -515,39 +333,39 @@
 </span><span style="color:#75715e"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 </span><span style="color:#75715e"> * };
 </span><span style="color:#75715e"> */</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Codec</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+<span style="color:#00a8c8">class</span> <span style="color:#75af00">Codec</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
 
     <span style="color:#75715e">// Encodes a tree to a single string.
-</span><span style="color:#75715e"></span>    string serialize(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;#_&#34;</span>;
+</span><span style="color:#75715e"></span>    <span style="color:#111">string</span> <span style="color:#111">serialize</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#d88200">&#34;#_&#34;</span><span style="color:#111">;</span>
 
-        string res <span style="color:#f92672">=</span> to_string(root<span style="color:#f92672">-&gt;</span>val) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;_&#34;</span>;
-        res <span style="color:#f92672">+=</span> serialize(root<span style="color:#f92672">-&gt;</span>left);
-        res <span style="color:#f92672">+=</span> serialize(root<span style="color:#f92672">-&gt;</span>right);
-        <span style="color:#66d9ef">return</span> res;
-    }
+        <span style="color:#111">string</span> <span style="color:#111">res</span> <span style="color:#f92672">=</span> <span style="color:#111">to_string</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#f92672">+</span> <span style="color:#d88200">&#34;_&#34;</span><span style="color:#111">;</span>
+        <span style="color:#111">res</span> <span style="color:#f92672">+=</span> <span style="color:#111">serialize</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+        <span style="color:#111">res</span> <span style="color:#f92672">+=</span> <span style="color:#111">serialize</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
 
     <span style="color:#75715e">// Decodes your encoded data to tree.
-</span><span style="color:#75715e"></span>    TreeNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">deserialize</span>(string data) {
-        stringstream ss(data);
-        string tmp;
-        queue<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> queue;
+</span><span style="color:#75715e"></span>    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#75af00">deserialize</span><span style="color:#111">(</span><span style="color:#111">string</span> <span style="color:#111">data</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">stringstream</span> <span style="color:#111">ss</span><span style="color:#111">(</span><span style="color:#111">data</span><span style="color:#111">);</span>
+        <span style="color:#111">string</span> <span style="color:#111">tmp</span><span style="color:#111">;</span>
+        <span style="color:#111">queue</span><span style="color:#f92672">&lt;</span><span style="color:#111">string</span><span style="color:#f92672">&gt;</span> <span style="color:#111">queue</span><span style="color:#111">;</span>
 
-        <span style="color:#66d9ef">while</span> (getline(ss, tmp, <span style="color:#e6db74">&#39;_&#39;</span>)) queue.push(tmp);
-        <span style="color:#66d9ef">return</span> helper(queue);
-    }
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">getline</span><span style="color:#111">(</span><span style="color:#111">ss</span><span style="color:#111">,</span> <span style="color:#111">tmp</span><span style="color:#111">,</span> <span style="color:#d88200">&#39;_&#39;</span><span style="color:#111">))</span> <span style="color:#111">queue</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">tmp</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">helper</span><span style="color:#111">(</span><span style="color:#111">queue</span><span style="color:#111">);</span>
+    <span style="color:#111">}</span>
 
-    TreeNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">helper</span>(queue<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&amp;</span> queue) {
-        string val <span style="color:#f92672">=</span> queue.front(); queue.pop();
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#75af00">helper</span><span style="color:#111">(</span><span style="color:#111">queue</span><span style="color:#f92672">&lt;</span><span style="color:#111">string</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">queue</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">string</span> <span style="color:#111">val</span> <span style="color:#f92672">=</span> <span style="color:#111">queue</span><span style="color:#111">.</span><span style="color:#111">front</span><span style="color:#111">();</span> <span style="color:#111">queue</span><span style="color:#111">.</span><span style="color:#111">pop</span><span style="color:#111">();</span>
 
-        <span style="color:#66d9ef">if</span> (val <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;#&#34;</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
-        TreeNode<span style="color:#f92672">*</span> head <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeNode(stoi(val));
-        head<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> helper(queue);
-        head<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> helper(queue);
-        <span style="color:#66d9ef">return</span> head;
-    }
-};
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">val</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#34;#&#34;</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">;</span>
+        <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">head</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">TreeNode</span><span style="color:#111">(</span><span style="color:#111">stoi</span><span style="color:#111">(</span><span style="color:#111">val</span><span style="color:#111">));</span>
+        <span style="color:#111">head</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span> <span style="color:#f92672">=</span> <span style="color:#111">helper</span><span style="color:#111">(</span><span style="color:#111">queue</span><span style="color:#111">);</span>
+        <span style="color:#111">head</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span> <span style="color:#f92672">=</span> <span style="color:#111">helper</span><span style="color:#111">(</span><span style="color:#111">queue</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">head</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 
 <span style="color:#75715e">// Your Codec object will be instantiated and called as such:
 </span><span style="color:#75715e">// Codec codec;
@@ -558,7 +376,7 @@
 <p>一个方法或者思路，如果它在二叉搜索树这种特定情况下不起作用，那么对于一般二叉树来说它肯定不起作用</p>
 </blockquote>
 <p>定义</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/**
 </span><span style="color:#75715e"> * Definition for a binary tree node.
 </span><span style="color:#75715e"> * struct TreeNode {
 </span><span style="color:#75715e"> *     int val;
@@ -569,135 +387,135 @@
 </span><span style="color:#75715e"> */</span>
 </code></pre></div><h4 id="700-二叉搜索树中的搜索httpsleetcode-cncomproblemssearch-in-a-binary-search-tree"><a href="https://leetcode-cn.com/problems/search-in-a-binary-search-tree/">700. 二叉搜索树中的搜索</a></h4>
 <p><strong>递归</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    TreeNode<span style="color:#f92672">*</span> searchBST(TreeNode<span style="color:#f92672">*</span> root, <span style="color:#66d9ef">int</span> val) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> NULL) <span style="color:#66d9ef">return</span> root;
-        <span style="color:#66d9ef">if</span> (val <span style="color:#f92672">&lt;</span> root<span style="color:#f92672">-&gt;</span>val) <span style="color:#66d9ef">return</span> searchBST(root<span style="color:#f92672">-&gt;</span>left, val);
-        <span style="color:#66d9ef">if</span> (val <span style="color:#f92672">&gt;</span> root<span style="color:#f92672">-&gt;</span>val) <span style="color:#66d9ef">return</span> searchBST(root<span style="color:#f92672">-&gt;</span>right, val);
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">searchBST</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">val</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">searchBST</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">,</span> <span style="color:#111">val</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">val</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">searchBST</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">,</span> <span style="color:#111">val</span><span style="color:#111">);</span>
 
-        <span style="color:#66d9ef">return</span> root;
-    }
-};
+        <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><p><strong>非递归</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    TreeNode<span style="color:#f92672">*</span> searchBST(TreeNode<span style="color:#f92672">*</span> root, <span style="color:#66d9ef">int</span> val) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> NULL) <span style="color:#66d9ef">return</span> root;
-        <span style="color:#66d9ef">while</span> (root <span style="color:#f92672">!=</span> NULL <span style="color:#f92672">&amp;&amp;</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">!=</span> val) {
-            <span style="color:#66d9ef">if</span> (val <span style="color:#f92672">&lt;</span> root<span style="color:#f92672">-&gt;</span>val) root <span style="color:#f92672">=</span> root<span style="color:#f92672">-&gt;</span>left;
-            <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (val <span style="color:#f92672">&gt;</span> root<span style="color:#f92672">-&gt;</span>val) root <span style="color:#f92672">=</span> root<span style="color:#f92672">-&gt;</span>right;
-        }
-        <span style="color:#66d9ef">return</span> root;
-    }
-};
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">searchBST</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">!=</span> <span style="color:#111">NULL</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span> <span style="color:#f92672">!=</span> <span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">val</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#111">root</span> <span style="color:#f92672">=</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">;</span>
+            <span style="color:#00a8c8">else</span> <span style="color:#75af00">if</span> <span style="color:#111">(</span><span style="color:#111">val</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#111">root</span> <span style="color:#f92672">=</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">;</span>
+        <span style="color:#111">}</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><p><strong>拓展，非二叉搜索树</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    TreeNode<span style="color:#f92672">*</span> searchBST(TreeNode<span style="color:#f92672">*</span> root, <span style="color:#66d9ef">int</span> val) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> NULL <span style="color:#f92672">||</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">==</span> val) <span style="color:#66d9ef">return</span> root;
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">searchBST</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#111">NULL</span> <span style="color:#f92672">||</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span> <span style="color:#f92672">==</span> <span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
 
-        TreeNode<span style="color:#f92672">*</span> snodeLeft <span style="color:#f92672">=</span> searchBST(root<span style="color:#f92672">-&gt;</span>left, val);
-        TreeNode<span style="color:#f92672">*</span> snodeRight <span style="color:#f92672">=</span> searchBST(root<span style="color:#f92672">-&gt;</span>right, val);
+        <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">snodeLeft</span> <span style="color:#f92672">=</span> <span style="color:#111">searchBST</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">,</span> <span style="color:#111">val</span><span style="color:#111">);</span>
+        <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">snodeRight</span> <span style="color:#f92672">=</span> <span style="color:#111">searchBST</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">,</span> <span style="color:#111">val</span><span style="color:#111">);</span>
 
-        <span style="color:#66d9ef">if</span> (snodeLeft <span style="color:#f92672">!=</span> NULL) <span style="color:#66d9ef">return</span> snodeLeft;
-        <span style="color:#66d9ef">if</span> (snodeRight <span style="color:#f92672">!=</span> NULL) <span style="color:#66d9ef">return</span> snodeRight;  
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">snodeLeft</span> <span style="color:#f92672">!=</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">snodeLeft</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">snodeRight</span> <span style="color:#f92672">!=</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">snodeRight</span><span style="color:#111">;</span>  
 
-        <span style="color:#66d9ef">return</span> NULL;
-    }
-};
+        <span style="color:#00a8c8">return</span> <span style="color:#111">NULL</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h4 id="235-二叉搜索树的最近公共祖先httpsleetcode-cncomproblemslowest-common-ancestor-of-a-binary-search-tree"><a href="https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/">235. 二叉搜索树的最近公共祖先</a></h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    TreeNode<span style="color:#f92672">*</span> lowestCommonAncestor(TreeNode<span style="color:#f92672">*</span> root, TreeNode<span style="color:#f92672">*</span> p, TreeNode<span style="color:#f92672">*</span> q) {
-        <span style="color:#66d9ef">if</span> (p<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&lt;</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&amp;&amp;</span> q<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&lt;</span> root<span style="color:#f92672">-&gt;</span>val) {
-            root <span style="color:#f92672">=</span> lowestCommonAncestor(root<span style="color:#f92672">-&gt;</span>left, p, q);
-        } <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (p<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&gt;</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&amp;&amp;</span> q<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&gt;</span> root<span style="color:#f92672">-&gt;</span>val) {
-            root <span style="color:#f92672">=</span> lowestCommonAncestor(root<span style="color:#f92672">-&gt;</span>right, p, q);
-        }
-        <span style="color:#66d9ef">return</span> root;
-    }
-};
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">lowestCommonAncestor</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">,</span> <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">q</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">p</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">q</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#111">root</span> <span style="color:#f92672">=</span> <span style="color:#111">lowestCommonAncestor</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">,</span> <span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">q</span><span style="color:#111">);</span>
+        <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#75af00">if</span> <span style="color:#111">(</span><span style="color:#111">p</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">q</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#111">root</span> <span style="color:#f92672">=</span> <span style="color:#111">lowestCommonAncestor</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">,</span> <span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">q</span><span style="color:#111">);</span>
+        <span style="color:#111">}</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><p><strong>公共祖先的拓展，非二叉搜索树 <a href="https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/">236. 二叉树的最近公共祖先</a></strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    TreeNode<span style="color:#f92672">*</span> lowestCommonAncestor(TreeNode<span style="color:#f92672">*</span> root, TreeNode<span style="color:#f92672">*</span> p, TreeNode<span style="color:#f92672">*</span> q) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> NULL <span style="color:#f92672">||</span> p <span style="color:#f92672">==</span> root <span style="color:#f92672">||</span> q <span style="color:#f92672">==</span> root) <span style="color:#66d9ef">return</span> root;
-        TreeNode<span style="color:#f92672">*</span> leftAncestor <span style="color:#f92672">=</span> lowestCommonAncestor(root<span style="color:#f92672">-&gt;</span>left, p, q);
-        TreeNode<span style="color:#f92672">*</span> rightAncestor <span style="color:#f92672">=</span> lowestCommonAncestor(root<span style="color:#f92672">-&gt;</span>right, p, q);
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">lowestCommonAncestor</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">,</span> <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">q</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#111">NULL</span> <span style="color:#f92672">||</span> <span style="color:#111">p</span> <span style="color:#f92672">==</span> <span style="color:#111">root</span> <span style="color:#f92672">||</span> <span style="color:#111">q</span> <span style="color:#f92672">==</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+        <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">leftAncestor</span> <span style="color:#f92672">=</span> <span style="color:#111">lowestCommonAncestor</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">,</span> <span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">q</span><span style="color:#111">);</span>
+        <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">rightAncestor</span> <span style="color:#f92672">=</span> <span style="color:#111">lowestCommonAncestor</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">,</span> <span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">q</span><span style="color:#111">);</span>
 
-        <span style="color:#66d9ef">if</span> (leftAncestor <span style="color:#f92672">&amp;&amp;</span> rightAncestor) <span style="color:#66d9ef">return</span> root;
-        <span style="color:#66d9ef">if</span> (leftAncestor <span style="color:#f92672">==</span> NULL) <span style="color:#66d9ef">return</span> rightAncestor;
-        <span style="color:#66d9ef">return</span> leftAncestor;
-    }
-};
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">leftAncestor</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">rightAncestor</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">leftAncestor</span> <span style="color:#f92672">==</span> <span style="color:#111">NULL</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">rightAncestor</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">leftAncestor</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h4 id="面试题-0406-后继者httpsleetcode-cncomproblemssuccessor-lcci"><a href="https://leetcode-cn.com/problems/successor-lcci/">面试题 04.06. 后继者</a></h4>
 <blockquote>
 <p>二叉搜索树的后继者，也就是找中序遍历的后一个节点</p>
 </blockquote>
 <p><strong>易懂写法</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    TreeNode<span style="color:#f92672">*</span> inorderSuccessor(TreeNode<span style="color:#f92672">*</span> root, TreeNode<span style="color:#f92672">*</span> p) {
-        TreeNode <span style="color:#f92672">*</span>res <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>, <span style="color:#f92672">*</span>pre <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
-        inorderTraversal(root, pre, p, res);
-        <span style="color:#66d9ef">return</span> res;
-    }
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">inorderSuccessor</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">,</span> <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">p</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">TreeNode</span> <span style="color:#f92672">*</span><span style="color:#111">res</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">,</span> <span style="color:#f92672">*</span><span style="color:#111">pre</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">;</span>
+        <span style="color:#111">inorderTraversal</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">,</span> <span style="color:#111">pre</span><span style="color:#111">,</span> <span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">res</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
 
-    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">inorderTraversal</span>(TreeNode<span style="color:#f92672">*</span> root, TreeNode<span style="color:#f92672">*&amp;</span> pre, TreeNode<span style="color:#f92672">*</span> p, TreeNode<span style="color:#f92672">*&amp;</span> res) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> res <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span>;
-        inorderTraversal(root<span style="color:#f92672">-&gt;</span>left, pre, p, res);
-        <span style="color:#66d9ef">if</span> (pre <span style="color:#f92672">==</span> p) res <span style="color:#f92672">=</span> root;
-        pre <span style="color:#f92672">=</span> root;
-        inorderTraversal(root<span style="color:#f92672">-&gt;</span>right, pre, p, res);
-    }
-};
+    <span style="color:#00a8c8">void</span> <span style="color:#75af00">inorderTraversal</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">,</span> <span style="color:#111">TreeNode</span><span style="color:#f92672">*&amp;</span> <span style="color:#111">pre</span><span style="color:#111">,</span> <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">TreeNode</span><span style="color:#f92672">*&amp;</span> <span style="color:#111">res</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">nullptr</span> <span style="color:#f92672">||</span> <span style="color:#111">res</span> <span style="color:#f92672">!=</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span><span style="color:#111">;</span>
+        <span style="color:#111">inorderTraversal</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">,</span> <span style="color:#111">pre</span><span style="color:#111">,</span> <span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">res</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">pre</span> <span style="color:#f92672">==</span> <span style="color:#111">p</span><span style="color:#111">)</span> <span style="color:#111">res</span> <span style="color:#f92672">=</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+        <span style="color:#111">pre</span> <span style="color:#f92672">=</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+        <span style="color:#111">inorderTraversal</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">,</span> <span style="color:#111">pre</span><span style="color:#111">,</span> <span style="color:#111">p</span><span style="color:#111">,</span> <span style="color:#111">res</span><span style="color:#111">);</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><p><strong>简洁写法</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    TreeNode<span style="color:#f92672">*</span> inorderSuccessor(TreeNode<span style="color:#f92672">*</span> root, TreeNode<span style="color:#f92672">*</span> p) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
-        TreeNode<span style="color:#f92672">*</span> res <span style="color:#f92672">=</span> inorderSuccessor(root<span style="color:#f92672">-&gt;</span>left, p);
-        <span style="color:#66d9ef">if</span> (res <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> res;
-        <span style="color:#66d9ef">if</span> (root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&gt;</span> p<span style="color:#f92672">-&gt;</span>val) <span style="color:#66d9ef">return</span> root;
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">inorderSuccessor</span>(root<span style="color:#f92672">-&gt;</span>right, p);
-    }
-};
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">inorderSuccessor</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">,</span> <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">p</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">;</span>
+        <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">res</span> <span style="color:#f92672">=</span> <span style="color:#111">inorderSuccessor</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">,</span> <span style="color:#111">p</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">res</span> <span style="color:#f92672">!=</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">p</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#75af00">inorderSuccessor</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">,</span> <span style="color:#111">p</span><span style="color:#111">);</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><p>其中 <code>root</code> 节点相当于遍历了整个树的节点，所以只要找到大于 <code>p-&gt;val</code> 的节点，就返回，就有 <code>res != nullptr</code>，之后的遍历全部都会返回 <code>res</code>；</p>
 <p>这个方法非常巧妙的用了递归</p>
 <h4 id="面试题33-二叉搜索树的后序遍历序列httpsleetcode-cncomproblemser-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof"><a href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/">面试题33. 二叉搜索树的后序遍历序列</a></h4>
 <blockquote>
 <p>二叉搜索树的后序遍历</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">bool</span> verifyPostorder(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> postorder) {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">isVerify</span>(postorder, <span style="color:#ae81ff">0</span>, postorder.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
-    }
-    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isVerify</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> postorder, <span style="color:#66d9ef">int</span> left, <span style="color:#66d9ef">int</span> right) {
-        <span style="color:#66d9ef">if</span> (left <span style="color:#f92672">&gt;</span> right) <span style="color:#66d9ef">return</span> true;
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#00a8c8">bool</span> <span style="color:#111">verifyPostorder</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">postorder</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#75af00">isVerify</span><span style="color:#111">(</span><span style="color:#111">postorder</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">postorder</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">);</span>
+    <span style="color:#111">}</span>
+    <span style="color:#00a8c8">bool</span> <span style="color:#75af00">isVerify</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">postorder</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">left</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">right</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">left</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">right</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">true</span><span style="color:#111">;</span>
 
-        <span style="color:#66d9ef">int</span> idx <span style="color:#f92672">=</span> left, rootValue <span style="color:#f92672">=</span> postorder[right];
-        <span style="color:#66d9ef">while</span> (idx <span style="color:#f92672">&lt;</span> right <span style="color:#f92672">&amp;&amp;</span> postorder[idx] <span style="color:#f92672">&lt;</span> rootValue) idx<span style="color:#f92672">++</span>;
+        <span style="color:#00a8c8">int</span> <span style="color:#111">idx</span> <span style="color:#f92672">=</span> <span style="color:#111">left</span><span style="color:#111">,</span> <span style="color:#111">rootValue</span> <span style="color:#f92672">=</span> <span style="color:#111">postorder</span><span style="color:#111">[</span><span style="color:#111">right</span><span style="color:#111">];</span>
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">idx</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">right</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">postorder</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">rootValue</span><span style="color:#111">)</span> <span style="color:#111">idx</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
 
-        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> idx; i <span style="color:#f92672">&lt;</span> right; i<span style="color:#f92672">++</span>) {
-            <span style="color:#66d9ef">if</span> (postorder[i] <span style="color:#f92672">&lt;</span> rootValue) {
-                <span style="color:#66d9ef">return</span> false;
-            }
-        }
+        <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">idx</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">right</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">postorder</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">rootValue</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+                <span style="color:#00a8c8">return</span> <span style="color:#111">false</span><span style="color:#111">;</span>
+            <span style="color:#111">}</span>
+        <span style="color:#111">}</span>
 
-        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>isVerify(postorder, left, idx <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>isVerify(postorder, idx, right <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)) {
-            <span style="color:#66d9ef">return</span> false;
-        }
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">isVerify</span><span style="color:#111">(</span><span style="color:#111">postorder</span><span style="color:#111">,</span> <span style="color:#111">left</span><span style="color:#111">,</span> <span style="color:#111">idx</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!</span><span style="color:#111">isVerify</span><span style="color:#111">(</span><span style="color:#111">postorder</span><span style="color:#111">,</span> <span style="color:#111">idx</span><span style="color:#111">,</span> <span style="color:#111">right</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">))</span> <span style="color:#111">{</span>
+            <span style="color:#00a8c8">return</span> <span style="color:#111">false</span><span style="color:#111">;</span>
+        <span style="color:#111">}</span>
 
-        <span style="color:#66d9ef">return</span> true;
-    }
-};
+        <span style="color:#00a8c8">return</span> <span style="color:#111">true</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h4 id="116-填充每个节点的下一个右侧节点指针httpsleetcode-cncomproblemspopulating-next-right-pointers-in-each-node"><a href="https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/">116. 填充每个节点的下一个右侧节点指针</a></h4>
 <blockquote>
 <p>对于这道题，<code>最小的事情就是连接 node-&gt;left 和 node-&gt;right</code>，但是这样会出现中间的一部分没法连接，所以需要处理一下</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
 </span><span style="color:#75715e">// Definition for a Node.
 </span><span style="color:#75715e">class Node {
 </span><span style="color:#75715e">public:
@@ -715,27 +533,27 @@
 </span><span style="color:#75715e">};
 </span><span style="color:#75715e">*/</span>
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    Node<span style="color:#f92672">*</span> connect(Node<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+<span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">Node</span><span style="color:#f92672">*</span> <span style="color:#111">connect</span><span style="color:#111">(</span><span style="color:#111">Node</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">;</span>
         
-        Node<span style="color:#f92672">*</span> le <span style="color:#f92672">=</span> connect(root<span style="color:#f92672">-&gt;</span>left);
-        Node<span style="color:#f92672">*</span> ri <span style="color:#f92672">=</span> connect(root<span style="color:#f92672">-&gt;</span>right);
-        <span style="color:#66d9ef">while</span> (le <span style="color:#f92672">&amp;&amp;</span> ri) {
-            le<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> ri;
-            le <span style="color:#f92672">=</span> le<span style="color:#f92672">-&gt;</span>right;
-            ri <span style="color:#f92672">=</span> ri<span style="color:#f92672">-&gt;</span>left;
-        }
+        <span style="color:#111">Node</span><span style="color:#f92672">*</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">connect</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+        <span style="color:#111">Node</span><span style="color:#f92672">*</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">connect</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#111">le</span><span style="color:#f92672">-&gt;</span><span style="color:#111">next</span> <span style="color:#f92672">=</span> <span style="color:#111">ri</span><span style="color:#111">;</span>
+            <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">;</span>
+            <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">ri</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">;</span>
+        <span style="color:#111">}</span>
         
-        <span style="color:#66d9ef">return</span> root;
-    }
-};
+        <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h4 id="117-填充每个节点的下一个右侧节点指针-iihttpsleetcode-cncomproblemspopulating-next-right-pointers-in-each-node-ii"><a href="https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node-ii/">117. 填充每个节点的下一个右侧节点指针 II</a></h4>
 <blockquote>
 <p>借助层次遍历能很快的写出来</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
 </span><span style="color:#75715e">// Definition for a Node.
 </span><span style="color:#75715e">class Node {
 </span><span style="color:#75715e">public:
@@ -753,29 +571,29 @@
 </span><span style="color:#75715e">};
 </span><span style="color:#75715e">*/</span>
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    Node<span style="color:#f92672">*</span> connect(Node<span style="color:#f92672">*</span> root) {
-        queue<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">*&gt;</span> queue;
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) queue.push(root);
+<span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">Node</span><span style="color:#f92672">*</span> <span style="color:#111">connect</span><span style="color:#111">(</span><span style="color:#111">Node</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">queue</span><span style="color:#f92672">&lt;</span><span style="color:#111">Node</span><span style="color:#f92672">*&gt;</span> <span style="color:#111">queue</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">!=</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">)</span> <span style="color:#111">queue</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">);</span>
 
-        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>queue.empty()) {
-            <span style="color:#66d9ef">int</span> size <span style="color:#f92672">=</span> queue.size();
-            <span style="color:#66d9ef">while</span> (size<span style="color:#f92672">--</span>) {
-                Node<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> queue.front(); queue.pop();
-                <span style="color:#66d9ef">if</span> (size) {
-                    Node<span style="color:#f92672">*</span> tmp <span style="color:#f92672">=</span> queue.front();
-                    cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> tmp;
-                }
+        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">queue</span><span style="color:#111">.</span><span style="color:#111">empty</span><span style="color:#111">())</span> <span style="color:#111">{</span>
+            <span style="color:#00a8c8">int</span> <span style="color:#111">size</span> <span style="color:#f92672">=</span> <span style="color:#111">queue</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">();</span>
+            <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">size</span><span style="color:#f92672">--</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+                <span style="color:#111">Node</span><span style="color:#f92672">*</span> <span style="color:#111">cur</span> <span style="color:#f92672">=</span> <span style="color:#111">queue</span><span style="color:#111">.</span><span style="color:#111">front</span><span style="color:#111">();</span> <span style="color:#111">queue</span><span style="color:#111">.</span><span style="color:#111">pop</span><span style="color:#111">();</span>
+                <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">size</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+                    <span style="color:#111">Node</span><span style="color:#f92672">*</span> <span style="color:#111">tmp</span> <span style="color:#f92672">=</span> <span style="color:#111">queue</span><span style="color:#111">.</span><span style="color:#111">front</span><span style="color:#111">();</span>
+                    <span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">next</span> <span style="color:#f92672">=</span> <span style="color:#111">tmp</span><span style="color:#111">;</span>
+                <span style="color:#111">}</span>
 
-                <span style="color:#66d9ef">if</span> (cur<span style="color:#f92672">-&gt;</span>left) queue.push(cur<span style="color:#f92672">-&gt;</span>left);
-                <span style="color:#66d9ef">if</span> (cur<span style="color:#f92672">-&gt;</span>right) queue.push(cur<span style="color:#f92672">-&gt;</span>right);
-            }
-        }
+                <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">)</span> <span style="color:#111">queue</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+                <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">)</span> <span style="color:#111">queue</span><span style="color:#111">.</span><span style="color:#111">push</span><span style="color:#111">(</span><span style="color:#111">cur</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
+            <span style="color:#111">}</span>
+        <span style="color:#111">}</span>
 
-        <span style="color:#66d9ef">return</span> root;
-    }
-};
+        <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h2 id="浅谈树的递归">浅谈树的递归</h2>
 <blockquote>
 <p>我单独准备总结一下<code>二叉树中的递归</code>，因为在树中的递归过程是很有意思的，因为树最主要的特点就是每一个节点也是一棵树。</p>
@@ -788,132 +606,132 @@
 <blockquote>
 <p>浅显易懂</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">int</span> maxDepth(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">return</span> root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span><span style="color:#f92672">?</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">:</span> max(maxDepth(root<span style="color:#f92672">-&gt;</span>left), maxDepth(root<span style="color:#f92672">-&gt;</span>right)) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-    }
-};
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#111">maxDepth</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">nullptr</span><span style="color:#f92672">?</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">:</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#111">maxDepth</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">),</span> <span style="color:#111">maxDepth</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">))</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><p>拓展 <a href="https://leetcode-cn.com/problems/balanced-binary-tree/">110. 平衡二叉树</a></p>
 <blockquote>
 <p>题目中判断平衡二叉树的条件是：一个二叉树<em>每个节点</em> 的左右两个子树的高度差的绝对值不超过1</p>
 <p>前面知道了怎么求树高度，那么这道题要做的<code>最小的事情</code>可以变成判断 <code>abs(Depth(LeftTree) - Depth(RightTree)) &lt;= 1</code> ，然后呢？单独这样是不行的，因为还要依次判断每个子树</p>
 <p>代码如下：</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">bool</span> isBalanced(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">return</span> root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span><span style="color:#f92672">?</span> true <span style="color:#f92672">:</span> abs(getDepth(root<span style="color:#f92672">-&gt;</span>left) <span style="color:#f92672">-</span> getDepth(root<span style="color:#f92672">-&gt;</span>right)) <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> isBalanced(root<span style="color:#f92672">-&gt;</span>left) <span style="color:#f92672">&amp;&amp;</span> isBalanced(root<span style="color:#f92672">-&gt;</span>right);
-    }
-    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getDepth</span>(TreeNode<span style="color:#f92672">*</span> node) {
-        <span style="color:#66d9ef">return</span> node <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span><span style="color:#f92672">?</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">:</span> max(getDepth(node<span style="color:#f92672">-&gt;</span>left), getDepth(node<span style="color:#f92672">-&gt;</span>right)) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-    }
-};
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#00a8c8">bool</span> <span style="color:#111">isBalanced</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">nullptr</span><span style="color:#f92672">?</span> <span style="color:#111">true</span> <span style="color:#f92672">:</span> <span style="color:#111">abs</span><span style="color:#111">(</span><span style="color:#111">getDepth</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">)</span> <span style="color:#f92672">-</span> <span style="color:#111">getDepth</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">))</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">isBalanced</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">isBalanced</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
+    <span style="color:#111">}</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#75af00">getDepth</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">node</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">node</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">nullptr</span><span style="color:#f92672">?</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">:</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#111">getDepth</span><span style="color:#111">(</span><span style="color:#111">node</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">),</span> <span style="color:#111">getDepth</span><span style="color:#111">(</span><span style="color:#111">node</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">))</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h4 id="226-翻转二叉树httpsleetcode-cncomproblemsinvert-binary-tree"><a href="https://leetcode-cn.com/problems/invert-binary-tree/">226. 翻转二叉树</a></h4>
 <blockquote>
 <p>目的是为了翻转这棵树，那么核心就是交换节点的左右子树，那么就能写出下面代码了。</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    TreeNode<span style="color:#f92672">*</span> invertTree(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">invertTree</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">;</span>
 
-        swap(root<span style="color:#f92672">-&gt;</span>left, root<span style="color:#f92672">-&gt;</span>right);
-        root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> invertTree(root<span style="color:#f92672">-&gt;</span>left);
-        root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> invertTree(root<span style="color:#f92672">-&gt;</span>right);
+        <span style="color:#111">swap</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">,</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
+        <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span> <span style="color:#f92672">=</span> <span style="color:#111">invertTree</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+        <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span> <span style="color:#f92672">=</span> <span style="color:#111">invertTree</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
 
-        <span style="color:#66d9ef">return</span> root;
-    }
-};
+        <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><p><strong>还可以</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    TreeNode<span style="color:#f92672">*</span> invertTree(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> root;
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">invertTree</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
 
-        TreeNode<span style="color:#f92672">*</span> rTree <span style="color:#f92672">=</span> root<span style="color:#f92672">-&gt;</span>right;
-        root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> invertTree(root<span style="color:#f92672">-&gt;</span>left);
-        root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> invertTree(rTree);        
+        <span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">rTree</span> <span style="color:#f92672">=</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">;</span>
+        <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span> <span style="color:#f92672">=</span> <span style="color:#111">invertTree</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+        <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span> <span style="color:#f92672">=</span> <span style="color:#111">invertTree</span><span style="color:#111">(</span><span style="color:#111">rTree</span><span style="color:#111">);</span>        
 
-        <span style="color:#66d9ef">return</span> root;
-    }
-};
+        <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h4 id="543-二叉树的直径httpsleetcode-cncomproblemsdiameter-of-binary-tree"><a href="https://leetcode-cn.com/problems/diameter-of-binary-tree/">543. 二叉树的直径</a></h4>
 <blockquote>
 <p>其实就是求任意两个节点之间的最大距离</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">diameterOfBinaryTree</span>(TreeNode<span style="color:#f92672">*</span> root) {
-        helper(root);
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#111">ans</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#75af00">diameterOfBinaryTree</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">helper</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">);</span>
         
-        <span style="color:#66d9ef">return</span> ans;
-    }
+        <span style="color:#00a8c8">return</span> <span style="color:#111">ans</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
     
-    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">helper</span>(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#00a8c8">int</span> <span style="color:#75af00">helper</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
         
-        <span style="color:#66d9ef">int</span> leSize <span style="color:#f92672">=</span> helper(root<span style="color:#f92672">-&gt;</span>left);
-        <span style="color:#66d9ef">int</span> riSize <span style="color:#f92672">=</span> helper(root<span style="color:#f92672">-&gt;</span>right);
+        <span style="color:#00a8c8">int</span> <span style="color:#111">leSize</span> <span style="color:#f92672">=</span> <span style="color:#111">helper</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">int</span> <span style="color:#111">riSize</span> <span style="color:#f92672">=</span> <span style="color:#111">helper</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
         
-        ans <span style="color:#f92672">=</span> max(ans, leSize <span style="color:#f92672">+</span> riSize);
+        <span style="color:#111">ans</span> <span style="color:#f92672">=</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#111">ans</span><span style="color:#111">,</span> <span style="color:#111">leSize</span> <span style="color:#f92672">+</span> <span style="color:#111">riSize</span><span style="color:#111">);</span>
 
-        <span style="color:#66d9ef">return</span> max(leSize, riSize) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-    }
-};
+        <span style="color:#00a8c8">return</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#111">leSize</span><span style="color:#111">,</span> <span style="color:#111">riSize</span><span style="color:#111">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h4 id="124-二叉树中的最大路径和httpsleetcode-cncomproblemsbinary-tree-maximum-path-sum"><a href="https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/">124. 二叉树中的最大路径和</a></h4>
 <blockquote>
 <p>和上面那道题基本一样，一个类型，同样的还有 <a href="https://leetcode-cn.com/problems/longest-univalue-path/">687. 最长同值路径</a></p>
 <p>这道题因为节点值可以使负数，所以求的时候应该用 0 来消除负数</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> INT_MIN;
-    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">maxPathSum</span>(TreeNode<span style="color:#f92672">*</span> root) {
-        helper(root);
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#111">ans</span> <span style="color:#f92672">=</span> <span style="color:#111">INT_MIN</span><span style="color:#111">;</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#75af00">maxPathSum</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">helper</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">);</span>
 
-        <span style="color:#66d9ef">return</span> ans;
-    }
+        <span style="color:#00a8c8">return</span> <span style="color:#111">ans</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
 
-    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">helper</span>(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#00a8c8">int</span> <span style="color:#75af00">helper</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
 
-        <span style="color:#66d9ef">int</span> leSum <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">0</span>, helper(root<span style="color:#f92672">-&gt;</span>left));
-        <span style="color:#66d9ef">int</span> riSum <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">0</span>, helper(root<span style="color:#f92672">-&gt;</span>right));
+        <span style="color:#00a8c8">int</span> <span style="color:#111">leSum</span> <span style="color:#f92672">=</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">helper</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">));</span>
+        <span style="color:#00a8c8">int</span> <span style="color:#111">riSum</span> <span style="color:#f92672">=</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">helper</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">));</span>
 
-        ans <span style="color:#f92672">=</span> max(ans, leSum <span style="color:#f92672">+</span> riSum <span style="color:#f92672">+</span> root<span style="color:#f92672">-&gt;</span>val);
+        <span style="color:#111">ans</span> <span style="color:#f92672">=</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#111">ans</span><span style="color:#111">,</span> <span style="color:#111">leSum</span> <span style="color:#f92672">+</span> <span style="color:#111">riSum</span> <span style="color:#f92672">+</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">);</span>
 
-        <span style="color:#66d9ef">return</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">+</span> max(leSum, riSum);
-    }
-};
+        <span style="color:#00a8c8">return</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span> <span style="color:#f92672">+</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#111">leSum</span><span style="color:#111">,</span> <span style="color:#111">riSum</span><span style="color:#111">);</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><h4 id="687-最长同值路径httpsleetcode-cncomproblemslongest-univalue-path"><a href="https://leetcode-cn.com/problems/longest-univalue-path/">687. 最长同值路径</a></h4>
 <blockquote>
 <p>相对 n124 实际上还要困难一点</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-CPP" data-lang="CPP"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">longestUnivaluePath</span>(TreeNode<span style="color:#f92672">*</span> root) {
-        helper(root);
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-CPP" data-lang="CPP"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#111">ans</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#75af00">longestUnivaluePath</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#111">helper</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#111">);</span>
 
-        <span style="color:#66d9ef">return</span> ans;
-    }
+        <span style="color:#00a8c8">return</span> <span style="color:#111">ans</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
 
-    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">helper</span>(TreeNode<span style="color:#f92672">*</span> root) {
-        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#00a8c8">int</span> <span style="color:#75af00">helper</span><span style="color:#111">(</span><span style="color:#111">TreeNode</span><span style="color:#f92672">*</span> <span style="color:#111">root</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">nullptr</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
         
-        <span style="color:#66d9ef">int</span> tmpLeSize <span style="color:#f92672">=</span> helper(root<span style="color:#f92672">-&gt;</span>left);
-        <span style="color:#66d9ef">int</span> tmpRiSize <span style="color:#f92672">=</span> helper(root<span style="color:#f92672">-&gt;</span>right);
-        <span style="color:#66d9ef">int</span> leSize <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, riSize <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-        <span style="color:#66d9ef">if</span> (root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">&amp;&amp;</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">==</span> root<span style="color:#f92672">-&gt;</span>left<span style="color:#f92672">-&gt;</span>val) leSize <span style="color:#f92672">=</span> tmpLeSize <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
-        <span style="color:#66d9ef">if</span> (root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">&amp;&amp;</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">==</span> root<span style="color:#f92672">-&gt;</span>right<span style="color:#f92672">-&gt;</span>val) riSize <span style="color:#f92672">=</span> tmpRiSize <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+        <span style="color:#00a8c8">int</span> <span style="color:#111">tmpLeSize</span> <span style="color:#f92672">=</span> <span style="color:#111">helper</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">int</span> <span style="color:#111">tmpRiSize</span> <span style="color:#f92672">=</span> <span style="color:#111">helper</span><span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#111">);</span>
+        <span style="color:#00a8c8">int</span> <span style="color:#111">leSize</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">riSize</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span> <span style="color:#f92672">==</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">left</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#111">leSize</span> <span style="color:#f92672">=</span> <span style="color:#111">tmpLeSize</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span> <span style="color:#f92672">==</span> <span style="color:#111">root</span><span style="color:#f92672">-&gt;</span><span style="color:#111">right</span><span style="color:#f92672">-&gt;</span><span style="color:#111">val</span><span style="color:#111">)</span> <span style="color:#111">riSize</span> <span style="color:#f92672">=</span> <span style="color:#111">tmpRiSize</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
 
-        ans <span style="color:#f92672">=</span> max(ans, leSize <span style="color:#f92672">+</span> riSize);
+        <span style="color:#111">ans</span> <span style="color:#f92672">=</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#111">ans</span><span style="color:#111">,</span> <span style="color:#111">leSize</span> <span style="color:#f92672">+</span> <span style="color:#111">riSize</span><span style="color:#111">);</span>
 
-        <span style="color:#66d9ef">return</span> max(leSize, riSize);
-    }
-};
+        <span style="color:#00a8c8">return</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#111">leSize</span><span style="color:#111">,</span> <span style="color:#111">riSize</span><span style="color:#111">);</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
 </code></pre></div><blockquote>
 <p>三道题的结构都差不多，其实写法很多，但是思想是一样的，我的习惯是传递全局变量，而且习惯在功能不同的地方打一个空行，这样看着会结构清晰？？？</p>
 <p>感觉空行应该写点注释的，唉，还是不喜欢写注释</p>
@@ -927,94 +745,52 @@
 </blockquote>
 </div>
 
-  
-<footer class='entry-footer'>
-  <div class='container sep-before'><div class='categories'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-    <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
-
-</svg>
-<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/learn/'>learn</a></div>
-<div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
-  <line x1="7" y1="7" x2="7" y2="7"/>
-
-</svg>
-<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/tree/'>Tree</a>, <a class='tag' href='/tags/leetcode/'>LeetCode</a>, <a class='tag' href='/tags/data-structure/'>Data Structure</a></div>
-
-  </div>
+        <footer class="post-footer clearfix">
+        <p class="post-tags">
+            <span>Tagged:</span>
+                <a href="/tags/tree/">Tree</a>, 
+                <a href="/tags/leetcode/">LeetCode</a>, 
+                <a href="/tags/data-structure/">Data Structure</a>
+        </p>
+    <div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=LeetCode%20Data-Structure%3a%20Tree&url=https%3a%2f%2fabcdlsj.github.io%2fpost%2fleetcode-data-structuretree%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+    </div>
 </footer>
 
-
-</article>
-
-<nav class='entry-nav'>
-  <div class='container'><div class='prev-entry sep-before'>
-      <a href='/post/leetcode-patternbinary-search/'>
-        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="20" y1="12" x2="4" y2="12"/>
-  <polyline points="10 18 4 12 10 6"/>
-
-</svg>
- Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>LeetCode Pattern: Binary Search</a>
-    </div><div class='next-entry sep-before'>
-      <a href='/post/leetcode-biweekly-contest28/'>
-        <span class='screen-reader-text'>Next post: </span>LeetCode Biweekly Contest: 28<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="4" y1="12" x2="20" y2="12"/>
-  <polyline points="14 6 20 12 14 18"/>
-
-</svg>
-</span>
-      </a>
-    </div></div>
-</nav>
-
-
-
-
-      </main>
-
-      <footer id='footer' class='footer'>
-        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
-    <ul><li>
-        <a href='https://github.com/abcdlsj' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-
-</svg>
-</a>
-      </li><li>
-        <a href='mailto:lisongjianshuai@gmail.com' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
-</svg>
-</a>
-      </li></ul>
-  </nav>
-</section><div class='copyright'>
-  <p> &copy; 2018-2021 abcdlsj </p>
+        
+    </article>
 </div>
 
+            </div>
         </div>
-      </footer>
 
-    </div>
-  </div><script>window.__assets_js_src="/assets/js/"</script>
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://abcdlsj.github.io">My Blog</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
 
-<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+                <p class="footer-copyright">
+                    <span>&copy; 2020 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
 
-</body>
-
+        <script src="https://abcdlsj.github.iojs/jquery-1.11.3.min.js"></script>
+        <script src="https://abcdlsj.github.iojs/jquery.fitvids.js"></script>
+        <script src="https://abcdlsj.github.iojs/scripts.js"></script>
+    </body>
 </html>
 
