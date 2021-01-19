@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>GeeksforGeeks on The Real World</title>
-    <link>https://github.abcdlsj.io/tags/geeksforgeeks/</link>
-    <description>Recent content in GeeksforGeeks on The Real World</description>
+    <title>GeeksforGeeks on ~</title>
+    <link>https://abcdlsj.github.io/tags/geeksforgeeks/</link>
+    <description>Recent content in GeeksforGeeks on ~</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 07 Sep 2020 10:44:09 +0800</lastBuildDate>
-    
-	<atom:link href="https://github.abcdlsj.io/tags/geeksforgeeks/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 07 Sep 2020 10:44:09 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/tags/geeksforgeeks/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>GeeksforGeeks Dynamic-Programming (WIP)</title>
-      <link>https://github.abcdlsj.io/post/geeksforgeeks-dynamic-programming-20/</link>
+      <title>GeeksforGeeks-Dynamic-Programming-20</title>
+      <link>https://abcdlsj.github.io/post/geeksforgeeks-dynamic-programming-20/</link>
       <pubDate>Mon, 07 Sep 2020 10:44:09 +0800</pubDate>
       
-      <guid>https://github.abcdlsj.io/post/geeksforgeeks-dynamic-programming-20/</guid>
+      <guid>https://abcdlsj.github.io/post/geeksforgeeks-dynamic-programming-20/</guid>
       <description>https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/
   缩进格式可能会不统一。。。不想修改了（有些是 LeetCode 网页写的，有些是本地写的，我的本地 C style 是 Google，所以缩进是 2）。。。尽量本地 format 之后放上来
 直接放的题目链接就是 GeeksforGeeks 的链接，LeetCode 会在链接的地方加上 LeetCode

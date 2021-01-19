@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>think on The Real World</title>
-    <link>https://github.abcdlsj.io/categories/think/</link>
-    <description>Recent content in think on The Real World</description>
+    <title>think on ~</title>
+    <link>https://abcdlsj.github.io/categories/think/</link>
+    <description>Recent content in think on ~</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 03 Aug 2020 09:18:28 +0800</lastBuildDate>
-    
-	<atom:link href="https://github.abcdlsj.io/categories/think/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 03 Aug 2020 09:18:28 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/categories/think/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Think About This Blog</title>
-      <link>https://github.abcdlsj.io/post/think-about-this-blog/</link>
+      <link>https://abcdlsj.github.io/post/think-about-this-blog/</link>
       <pubDate>Mon, 03 Aug 2020 09:18:28 +0800</pubDate>
       
-      <guid>https://github.abcdlsj.io/post/think-about-this-blog/</guid>
-      <description>归档了一些无意义的博文
+      <guid>https://abcdlsj.github.io/post/think-about-this-blog/</guid>
+      <description>初次提交
+-- 08-03
+归档了一些无意义的博文
 -- 09-08
  把一些博文的“时间线”注释了（记录的每篇博文的修改和更新时间，有些当时的想法，因为很多吐槽和抱怨，不适合放在这里）
 写博客不能为了写博客而写博客

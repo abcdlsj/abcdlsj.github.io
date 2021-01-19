@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Algorithm on The Real World</title>
-    <link>https://github.abcdlsj.io/tags/algorithm/</link>
-    <description>Recent content in Algorithm on The Real World</description>
+    <title>Algorithm on ~</title>
+    <link>https://abcdlsj.github.io/tags/algorithm/</link>
+    <description>Recent content in Algorithm on ~</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 24 Jul 2020 13:45:06 +0800</lastBuildDate>
-    
-	<atom:link href="https://github.abcdlsj.io/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 24 Jul 2020 13:45:06 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ZuoChengYun Algorithm Notes (WIP)</title>
-      <link>https://github.abcdlsj.io/post/zuosheng-algorithm-notes/</link>
+      <link>https://abcdlsj.github.io/post/zuosheng-algorithm-notes/</link>
       <pubDate>Fri, 24 Jul 2020 13:45:06 +0800</pubDate>
       
-      <guid>https://github.abcdlsj.io/post/zuosheng-algorithm-notes/</guid>
+      <guid>https://abcdlsj.github.io/post/zuosheng-algorithm-notes/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;程序员代码面试指南刷题总结&lt;/p&gt;
 &lt;/blockquote&gt;</description>

@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>org-agenda on The Real World</title>
-    <link>https://github.abcdlsj.io/tags/org-agenda/</link>
-    <description>Recent content in org-agenda on The Real World</description>
+    <title>org-agenda on ~</title>
+    <link>https://abcdlsj.github.io/tags/org-agenda/</link>
+    <description>Recent content in org-agenda on ~</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 13 Dec 2019 23:28:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://github.abcdlsj.io/tags/org-agenda/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 13 Dec 2019 23:28:00 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/tags/org-agenda/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>use conky to display org-agenda todos</title>
-      <link>https://github.abcdlsj.io/post/use-conky-to-tdisplay-todo-list/</link>
+      <link>https://abcdlsj.github.io/post/use-conky-to-tdisplay-todo-list/</link>
       <pubDate>Fri, 13 Dec 2019 23:28:00 +0800</pubDate>
       
-      <guid>https://github.abcdlsj.io/post/use-conky-to-tdisplay-todo-list/</guid>
+      <guid>https://abcdlsj.github.io/post/use-conky-to-tdisplay-todo-list/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;作为一个 Emacser，使用 org-agenda 来管理日常是很正常的事情，于是想到在桌面显示自己的 todo-list，查阅资料之后发现很简单&lt;/p&gt;
 &lt;/blockquote&gt;</description>

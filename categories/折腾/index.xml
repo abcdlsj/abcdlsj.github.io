@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>折腾 on The Real World</title>
-    <link>https://github.abcdlsj.io/categories/%E6%8A%98%E8%85%BE/</link>
-    <description>Recent content in 折腾 on The Real World</description>
+    <title>折腾 on ~</title>
+    <link>https://abcdlsj.github.io/categories/%E6%8A%98%E8%85%BE/</link>
+    <description>Recent content in 折腾 on ~</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 13 Jul 2020 10:38:18 +0800</lastBuildDate>
-    
-	<atom:link href="https://github.abcdlsj.io/categories/%E6%8A%98%E8%85%BE/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 13 Jul 2020 10:38:18 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/categories/%E6%8A%98%E8%85%BE/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ArchLinux i3wm Config (联想小新 pro 13, Lenovo IdeaPad S540 13ARE)</title>
-      <link>https://github.abcdlsj.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/</link>
+      <link>https://abcdlsj.github.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/</link>
       <pubDate>Mon, 13 Jul 2020 10:38:18 +0800</pubDate>
       
-      <guid>https://github.abcdlsj.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/</guid>
+      <guid>https://abcdlsj.github.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;上个月末，准备买一台新的笔记本，选了好几天，决定从联想小新 13 pro 2020 AMD R7 4800u （代号 Lenovo IdeaPad S540 13ARE）和 yoga14s 4800u 同价版本中挑一个，最后选择了 pro 13（实际上过程还是非常曲折的，大概折腾了快小半个月），昨天货到了，检查了一遍，没发现什么很大的问题，主要问题是华星屏幕有点色差和漏光，然后放在桌子上有点不平，不过，对我来说应该不是很严重的问题，所以没换货。检查之后直接双系统，系统选我最爱的 Arch，搭配上熟悉的 i3wm，之前神舟分辨率（1920x1080）简直瞎眼，gnome 也一样字体总是很糊，现在看着感官完全不一样。16:10 + 2.5k + 4800u，续航也非常可以了（超过 6 个小时），而且也可以调野兽模式、节能模式等等。&lt;/p&gt;
 &lt;p&gt;虽然是 AMD CPU，过程还是算比较简单的，wiki 写得很详细，但是比较分散，这里记录一下遇到几个问题，有些是本子特有的，有些是我傻了吧唧的操作导致的。&lt;/p&gt;
@@ -80,10 +76,10 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
     
     <item>
       <title>一次修复 blog 的过程</title>
-      <link>https://github.abcdlsj.io/post/%E4%B8%80%E6%AC%A1%E4%BF%AE%E5%A4%8Dblog%E7%9A%84%E8%BF%87%E7%A8%8B/</link>
+      <link>https://abcdlsj.github.io/post/%E4%B8%80%E6%AC%A1%E4%BF%AE%E5%A4%8Dblog%E7%9A%84%E8%BF%87%E7%A8%8B/</link>
       <pubDate>Wed, 25 Mar 2020 20:52:00 +0800</pubDate>
       
-      <guid>https://github.abcdlsj.io/post/%E4%B8%80%E6%AC%A1%E4%BF%AE%E5%A4%8Dblog%E7%9A%84%E8%BF%87%E7%A8%8B/</guid>
+      <guid>https://abcdlsj.github.io/post/%E4%B8%80%E6%AC%A1%E4%BF%AE%E5%A4%8Dblog%E7%9A%84%E8%BF%87%E7%A8%8B/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;记一次修复 Blog 的过程&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -91,10 +87,10 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
     
     <item>
       <title>use conky to display org-agenda todos</title>
-      <link>https://github.abcdlsj.io/post/use-conky-to-tdisplay-todo-list/</link>
+      <link>https://abcdlsj.github.io/post/use-conky-to-tdisplay-todo-list/</link>
       <pubDate>Fri, 13 Dec 2019 23:28:00 +0800</pubDate>
       
-      <guid>https://github.abcdlsj.io/post/use-conky-to-tdisplay-todo-list/</guid>
+      <guid>https://abcdlsj.github.io/post/use-conky-to-tdisplay-todo-list/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;作为一个 Emacser，使用 org-agenda 来管理日常是很正常的事情，于是想到在桌面显示自己的 todo-list，查阅资料之后发现很简单&lt;/p&gt;
 &lt;/blockquote&gt;</description>
@@ -102,10 +98,10 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
     
     <item>
       <title>Arch 配置双显卡</title>
-      <link>https://github.abcdlsj.io/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/</link>
+      <link>https://abcdlsj.github.io/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/</link>
       <pubDate>Tue, 08 Oct 2019 00:00:00 +0800</pubDate>
       
-      <guid>https://github.abcdlsj.io/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/</guid>
+      <guid>https://abcdlsj.github.io/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;ArchLinux 双显卡配置，应该多数 Linux 系统都适用，可能细节不一样。&lt;/p&gt;
 &lt;/blockquote&gt;</description>

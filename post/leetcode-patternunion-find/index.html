@@ -7,18 +7,18 @@ LeetCode 刷题总结之：并查集
 '>
 <meta name='theme-color' content='#ffcd00'>
 
-<meta property='og:title' content='LeetCode-Pattern: Union Find (WIP) • The Real World'>
+<meta property='og:title' content='LeetCode-Pattern: Union Find • ~'>
 <meta property='og:description' content='
 LeetCode 刷题总结之：并查集
 '>
-<meta property='og:url' content='https://github.abcdlsj.io/post/leetcode-patternunion-find/'>
-<meta property='og:site_name' content='The Real World'>
+<meta property='og:url' content='https://abcdlsj.github.io/post/leetcode-patternunion-find/'>
+<meta property='og:site_name' content='~'>
 <meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='LeetCode'><meta property='article:tag' content='Union Find'><meta property='article:published_time' content='2020-09-16T14:49:46&#43;08:00'/><meta property='article:modified_time' content='2020-09-16T14:49:46&#43;08:00'/><meta name='twitter:card' content='summary'>
 
-<meta name="generator" content="Hugo 0.72.0" />
+<meta name="generator" content="Hugo 0.80.0" />
 
-  <title>LeetCode-Pattern: Union Find (WIP) • The Real World</title>
-  <link rel='canonical' href='https://github.abcdlsj.io/post/leetcode-patternunion-find/'>
+  <title>LeetCode-Pattern: Union Find • ~</title>
+  <link rel='canonical' href='https://abcdlsj.github.io/post/leetcode-patternunion-find/'>
   
   
   <link rel='icon' href='/favicon.ico'>
@@ -37,13 +37,19 @@ LeetCode 刷题总结之：并查集
   <div class='container'><section class='widget widget-about sep-after'>
   <header>
     
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
     <h2 class='title site-title '>
       <a href='/'>
-      ABCDLSJ
+      ~
       </a>
     </h2>
     <div class='desc'>
-    C/C++/Golang/Lisp/Python Emacs/Arch/Gentoo/Google Dog/Cat
+    Enjoy The Focus.
     </div>
   </header>
 
@@ -57,37 +63,43 @@ LeetCode 刷题总结之：并查集
   <ul class='list taxonomy-cloud'><li>
         <a href='/tags/6.824/' style='font-size:1em'>6.824</a>
       </li><li>
-        <a href='/tags/6.s081/' style='font-size:1.0625em'>6.S081</a>
+        <a href='/tags/6.828/' style='font-size:1.0666666666666667em'>6.828</a>
       </li><li>
-        <a href='/tags/arch/' style='font-size:1.0625em'>Arch</a>
+        <a href='/tags/algorithm/' style='font-size:1em'>Algorithm</a>
+      </li><li>
+        <a href='/tags/arch/' style='font-size:1.0666666666666667em'>Arch</a>
       </li><li>
         <a href='/tags/backtracking/' style='font-size:1em'>BackTracking</a>
       </li><li>
         <a href='/tags/binary-search/' style='font-size:1em'>Binary Search</a>
       </li><li>
-        <a href='/tags/blog/' style='font-size:1.125em'>blog</a>
+        <a href='/tags/blog/' style='font-size:1.1333333333333333em'>blog</a>
       </li><li>
         <a href='/tags/boltdb/' style='font-size:1em'>BoltDB</a>
       </li><li>
         <a href='/tags/conky/' style='font-size:1em'>conky</a>
       </li><li>
-        <a href='/tags/contest/' style='font-size:1.4375em'>Contest</a>
+        <a href='/tags/contest/' style='font-size:1.3333333333333333em'>Contest</a>
       </li><li>
-        <a href='/tags/cpp/' style='font-size:1.0625em'>CPP</a>
+        <a href='/tags/cpp/' style='font-size:1.0666666666666667em'>CPP</a>
       </li><li>
-        <a href='/tags/data-structure/' style='font-size:1.0625em'>Data Structure</a>
+        <a href='/tags/csapp/' style='font-size:1em'>CSAPP</a>
+      </li><li>
+        <a href='/tags/data-structure/' style='font-size:1.0666666666666667em'>Data Structure</a>
       </li><li>
         <a href='/tags/database/' style='font-size:1em'>DataBase</a>
       </li><li>
         <a href='/tags/distribution/' style='font-size:1em'>Distribution</a>
       </li><li>
-        <a href='/tags/dynamic-programming/' style='font-size:1.0625em'>Dynamic Programming</a>
+        <a href='/tags/dynamic-programming/' style='font-size:1.0666666666666667em'>Dynamic Programming</a>
       </li><li>
         <a href='/tags/emacs/' style='font-size:1em'>emacs</a>
       </li><li>
         <a href='/tags/geeksforgeeks/' style='font-size:1em'>GeeksforGeeks</a>
       </li><li>
-        <a href='/tags/hugo/' style='font-size:1.0625em'>hugo</a>
+        <a href='/tags/hugo/' style='font-size:1.0666666666666667em'>hugo</a>
+      </li><li>
+        <a href='/tags/interview/' style='font-size:1em'>Interview</a>
       </li><li>
         <a href='/tags/leetcode/' style='font-size:2em'>LeetCode</a>
       </li><li>
@@ -97,7 +109,7 @@ LeetCode 刷题总结之：并查集
       </li><li>
         <a href='/tags/mapreduce/' style='font-size:1em'>MapReduce</a>
       </li><li>
-        <a href='/tags/org/' style='font-size:1.0625em'>org</a>
+        <a href='/tags/org/' style='font-size:1.0666666666666667em'>org</a>
       </li><li>
         <a href='/tags/org-agenda/' style='font-size:1em'>org-agenda</a>
       </li><li>
@@ -105,9 +117,9 @@ LeetCode 刷题总结之：并查集
       </li><li>
         <a href='/tags/org-page/' style='font-size:1em'>org-page</a>
       </li><li>
-        <a href='/tags/os/' style='font-size:1.125em'>OS</a>
+        <a href='/tags/os/' style='font-size:1.2em'>OS</a>
       </li><li>
-        <a href='/tags/sicp/' style='font-size:1.0625em'>SICP</a>
+        <a href='/tags/sicp/' style='font-size:1.0666666666666667em'>SICP</a>
       </li><li>
         <a href='/tags/sliding-window/' style='font-size:1em'>Sliding Window</a>
       </li><li>
@@ -115,7 +127,7 @@ LeetCode 刷题总结之：并查集
       </li><li>
         <a href='/tags/union-find/' style='font-size:1em'>Union Find</a>
       </li><li>
-        <a href='/tags/xv6/' style='font-size:1.0625em'>xv6</a>
+        <a href='/tags/xv6/' style='font-size:1.0666666666666667em'>xv6</a>
       </li></ul>
 </div>
 
@@ -130,19 +142,21 @@ LeetCode 刷题总结之：并查集
 
 <button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
   <span class='screen-reader-text'>Toggle Sidebar</span>
-  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
   <line x1="3" y1="12" x2="21" y2="12" />
   <line x1="3" y1="6" x2="21" y2="6" />
   <line x1="3" y1="18" x2="21" y2="18" />
-  
+
 </svg>
 </span>
-  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
   <line x1="18" y1="6" x2="6" y2="18" />
   <line x1="6" y1="6" x2="18" y2="18" />
-  
+
 </svg>
 </span>
 </button>
@@ -159,12 +173,19 @@ LeetCode 刷题总结之：并查集
       </li></ul>
   </div>
 </nav><div class='header-widgets'>
-        <div class='container'></div>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>~</a></li><li><a href='/post/'>Posts</a></li><li><span>LeetCode-Pattern: Union Find</span></li></ol>
+    </nav>
+  </section></div>
       </div>
 
       <header id='header' class='header site-header'>
         <div class='container sep-after'>
-          <div class='header-info'><p class='site-title title'>The Real World</p><p class='desc site-desc'>The stars never rise but I feel the bright eyes.</p>
+          <div class='header-info'><p class='site-title title'>~</p><p class='desc site-desc'>Enjoy The Focus.</p>
           </div>
         </div>
       </header>
@@ -176,18 +197,19 @@ LeetCode 刷题总结之：并查集
   <header class='header entry-header'>
   <div class='container sep-after'>
     <div class='header-info'>
-      <h1 class='title'>LeetCode-Pattern: Union Find (WIP)</h1>
+      <h1 class='title'>LeetCode-Pattern: Union Find</h1>
       
 
     </div>
     <div class='entry-meta'>
-  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
   <line x1="16" y1="2" x2="16" y2="6"/>
   <line x1="8" y1="2" x2="8" y2="6"/>
   <line x1="3" y1="10" x2="21" y2="10"/>
-  
+
 </svg>
 <span class='screen-reader-text'>Posted on </span>
   <time class='entry-date' datetime='2020-09-16T14:49:46&#43;08:00'>2020, Sep 16</time>
@@ -195,11 +217,12 @@ LeetCode 刷题总结之：并查集
 
   
   
-<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
+<span class='reading-time'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
   <circle cx="12" cy="12" r="10"/>
   <polyline points="12 6 12 12 15 15"/>
-  
+
 </svg>
 6 mins read
 </span>
@@ -521,17 +544,19 @@ vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</sp
 
   
 <footer class='entry-footer'>
-  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
-  
+  <div class='container sep-before'><div class='categories'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+    <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+
 </svg>
 <span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/learn/'>learn</a></div>
-<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
+<div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
   <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
   <line x1="7" y1="7" x2="7" y2="7"/>
-  
+
 </svg>
 <span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/leetcode/'>LeetCode</a>, <a class='tag' href='/tags/union-find/'>Union Find</a></div>
 
@@ -544,24 +569,15 @@ vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</sp
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
       <a href='/post/geeksforgeeks-dynamic-programming-20/'>
-        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
   <line x1="20" y1="12" x2="4" y2="12"/>
   <polyline points="10 18 4 12 10 6"/>
-  
+
 </svg>
  Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>GeeksforGeeks Dynamic-Programming (WIP)</a>
-    </div><div class='next-entry sep-before'>
-      <a href='/post/leetcode-biweekly-contest35-weekly-contest207/'>
-        <span class='screen-reader-text'>Next post: </span>LeetCode-Biweekly-Contest:35-Weekly-Contest:207<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <line x1="4" y1="12" x2="20" y2="12"/>
-  <polyline points="14 6 20 12 14 18"/>
-  
-</svg>
-</span>
-      </a>
+        <span class='screen-reader-text'>Previous post: </span>GeeksforGeeks-Dynamic-Programming-20</a>
     </div></div>
 </nav>
 
@@ -571,30 +587,27 @@ vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</sp
       </main>
 
       <footer id='footer' class='footer'>
-        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><header>
-    <h4 class='title widget-title'>Catch Me</h4>
-  </header><nav aria-label='Social Menu'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
     <ul><li>
-        <a href='https://github.com/abcdlsj' target='_blank' rel='noopener'>
-          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-  
+        <a href='https://github.com/abcdlsj' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
 </svg>
 </a>
       </li><li>
-        <a href='mailto:lisongjianshuai@gmail.com' target='_blank' rel='noopener'>
-          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-  <polyline points="22,6 12,13 2,6"/>
-  
+        <a href='mailto:lisongjianshuai@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
 </svg>
 </a>
       </li></ul>
   </nav>
 </section><div class='copyright'>
-  <p> &copy; 2018-2020 abcdlsj </p>
+  <p> &copy; 2018-2021 abcdlsj </p>
 </div>
 
         </div>
