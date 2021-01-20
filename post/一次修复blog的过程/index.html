@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>一次修复 blog 的过程 - Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="一次修复 blog 的过程" />
+<meta property="og:description" content="
+记一次修复 Blog 的过程
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://abcdlsj.github.io/post/%E4%B8%80%E6%AC%A1%E4%BF%AE%E5%A4%8Dblog%E7%9A%84%E8%BF%87%E7%A8%8B/" />
+<meta property="article:published_time" content="2020-03-25T20:52:00+08:00" />
+<meta property="article:modified_time" content="2020-06-13T22:20:57+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="一次修复 blog 的过程"/>
+<meta name="twitter:description" content="
+记一次修复 Blog 的过程
+"/>
+<script src="https://abcdlsj.github.iojs/feather.min.js"></script>
+	
+	<link href="https://abcdlsj.github.iocss/fonts.css" rel="stylesheet">
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://abcdlsj.github.iocss/main.css" /><link rel="stylesheet" type="text/css" href="https://abcdlsj.github.iocss/dark.css" media="(prefers-color-scheme: dark)" />
+	
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://abcdlsj.github.io">Blog</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/post/">Archives</a>
+		
+		<a href="/categories/">Categories</a>
+		
+		<a href="/tags/leetcode">LeetCode</a>
+		
+		<a href="/about/">About</a>
+		
+	</nav>
+</header>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">一次修复 blog 的过程</h1>
+			<div class="meta">Posted on Mar 25, 2020</div>
+		</div>
+		
+
+		<section class="body">
+			<blockquote>
+<p>记一次修复 Blog 的过程</p>
+</blockquote>
+<blockquote>
+<p>博客前两天突然挂了，显示 deploy to github page failing
+网上查了下，当时没解决，我还以为是 Hugo 的版本的问题（按理来说我没更新过应该不会出错的），我于是自己编译了一下 Hugo。发现没用。。。
+于是我删了 Repository，新建，重新部署，还是不行
+然后查到了这个</p>
+</blockquote>
+<figure>
+    <img src="/ox-hugo/githubPageBuildFaild.png"
+         alt="Figure 1: githubPageBuildFaild"/> <figcaption>
+            <p>Figure 1: githubPageBuildFaild</p>
+        </figcaption>
+</figure>
+
+<p>这也太坑了，原来 Github Pages 对 hugo 的支持不好，但是我不信邪，我的是静态文档，应该无所谓是什么生成的</p>
+<p>于是我去查了下文档，找到了这个</p>
+<figure>
+    <img src="/ox-hugo/nojekyllImage.png"
+         alt="Figure 2: Nojekyll"/> <figcaption>
+            <p>Figure 2: Nojekyll</p>
+        </figcaption>
+</figure>
+
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#111">cd</span> public <span style="color:#f92672">&amp;&amp;</span> touch .nojekyll
+</code></pre></div><p>就解决了！</p>
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/hugo">hugo</a></li>
+					
+					<li><a href="/tags/blog">blog</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+	</article>
+</main>
+<footer>
+<hr><a class="soc" href="https://github.com/abcdlsj" title="GitHub"><i data-feather="github"></i></a>|<a class="soc" href="lisongjianshuai@gmail.com" title="Email"><i data-feather="mail"></i></a>|⚡️
+	2021  © Copyright By ABCDLSJ |  <a href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+</footer>
+
+
+<script>
+      feather.replace()
+</script></div>
+    </body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>CS:APP --- Representing Manipulating Information - Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="CS:APP --- Representing Manipulating Information" />
+<meta property="og:description" content="
+CSAPP 第二章阅读笔记
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://abcdlsj.github.io/post/representing-manipulating-information/" />
+<meta property="article:published_time" content="2019-10-13T00:00:00+08:00" />
+<meta property="article:modified_time" content="2020-06-20T16:13:30+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CS:APP --- Representing Manipulating Information"/>
+<meta name="twitter:description" content="
+CSAPP 第二章阅读笔记
+"/>
+<script src="https://abcdlsj.github.iojs/feather.min.js"></script>
+	
+	<link href="https://abcdlsj.github.iocss/fonts.css" rel="stylesheet">
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://abcdlsj.github.iocss/main.css" /><link rel="stylesheet" type="text/css" href="https://abcdlsj.github.iocss/dark.css" media="(prefers-color-scheme: dark)" />
+	
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://abcdlsj.github.io">Blog</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/post/">Archives</a>
+		
+		<a href="/categories/">Categories</a>
+		
+		<a href="/tags/leetcode">LeetCode</a>
+		
+		<a href="/about/">About</a>
+		
+	</nav>
+</header>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">CS:APP --- Representing Manipulating Information</h1>
+			<div class="meta">Posted on Oct 13, 2019</div>
+		</div>
+		
+
+		<section class="body">
+			<blockquote>
+<p>CSAPP 第二章阅读笔记</p>
+</blockquote>
+<h2 id="learn">learn</h2>
+<blockquote>
+<p>没啥写的，有点忘了</p>
+</blockquote>
+<h2 id="datalab">datalab</h2>
+<figure>
+    <img src="/ox-hugo/lab1test.png"
+         alt="Figure 1: datalab"/> <figcaption>
+            <p>Figure 1: datalab</p>
+        </figcaption>
+</figure>
+
+<h3 id="datalab-整数">datalab 整数</h3>
+<h4 id="bitxor">bitXor</h4>
+<p>我的思路是：
+先找出 x y 共同的 <code>1</code> ，然后找出共同的 <code>0</code>  ，然后 &amp; 得到有相同字符的位置，最后取～ ，得到答案</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * bitXor - x^y using only ~ and &amp;
+</span><span style="color:#75715e"> *   Example: bitXor(4, 5) = 1
+</span><span style="color:#75715e"> *   Legal ops: ~ &amp;
+</span><span style="color:#75715e"> *   Max ops: 14
+</span><span style="color:#75715e"> *   Rating: 1
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">bitXor</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">x</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">y</span><span style="color:#111">)</span> <span style="color:#111">{</span> <span style="color:#00a8c8">return</span> <span style="color:#f92672">~</span><span style="color:#111">(</span><span style="color:#111">x</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">y</span><span style="color:#111">)</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">(</span><span style="color:#f92672">~</span><span style="color:#111">(</span><span style="color:#f92672">~</span><span style="color:#111">x</span> <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span><span style="color:#111">y</span><span style="color:#111">));</span> <span style="color:#111">}</span>
+</code></pre></div><h4 id="istmax-istmin">isTmax isTmin</h4>
+<p>Tmin = 10000000 00000000 00000000 00000000</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * tmin - return minimum two&#39;s complement integer
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 4
+</span><span style="color:#75715e"> *   Rating: 1
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">tmin</span><span style="color:#111">(</span><span style="color:#00a8c8">void</span><span style="color:#111">)</span> <span style="color:#111">{</span> <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0x01</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">31</span><span style="color:#111">;</span> <span style="color:#111">}</span>
+</code></pre></div><h4 id="istmax">isTmax</h4>
+<p>Tmax = ~(Tmax+1)</p>
+<p>Tmin = ~(Tmin+1)</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * isTmax - returns 1 if x is the maximum, two&#39;s complement number,
+</span><span style="color:#75715e"> *     and 0 otherwise
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | +
+</span><span style="color:#75715e"> *   Max ops: 10
+</span><span style="color:#75715e"> *   Rating: 1
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">isTmax</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">x</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+	<span style="color:#00a8c8">return</span> <span style="color:#f92672">!</span> <span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">^</span><span style="color:#111">(</span><span style="color:#f92672">~</span><span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#111">)))</span> <span style="color:#f92672">&amp;</span> <span style="color:#f92672">!!</span><span style="color:#111">(</span><span style="color:#f92672">~</span><span style="color:#111">x</span><span style="color:#111">);</span>
+<span style="color:#111">}</span>
+</code></pre></div><h4 id="alloddbits">allOddBits</h4>
+<p>x &amp; 0xAAAAAAAA = 0xAAAAAAAA</p>
+<p>构造 0xAAAAAAAA</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * allOddBits - return 1 if all odd-numbered bits in word set to 1
+</span><span style="color:#75715e"> *   where bits are numbered from 0 (least significant) to 31 (most significant)
+</span><span style="color:#75715e"> *   Examples allOddBits(0xFFFFFFFD) = 0, allOddBits(0xAAAAAAAA) = 1
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 12
+</span><span style="color:#75715e"> *   Rating: 2
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">allOddBits</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">x</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">a</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0xaa</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0xaa</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span><span style="color:#111">;</span>
+  <span style="color:#111">a</span> <span style="color:#f92672">=</span> <span style="color:#111">a</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0xaa</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">16</span><span style="color:#111">;</span>
+  <span style="color:#111">a</span> <span style="color:#f92672">=</span> <span style="color:#111">a</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0xaa</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">24</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">return</span> <span style="color:#f92672">!</span><span style="color:#111">((</span><span style="color:#111">a</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">x</span><span style="color:#111">)</span> <span style="color:#f92672">^</span> <span style="color:#111">a</span><span style="color:#111">);</span>
+  <span style="color:#75715e">/*return !!((x | (x &gt;&gt; 8) | (x &gt;&gt; 16) | (x &gt;&gt; 24)) &amp; 0xaa);*/</span>
+<span style="color:#111">}</span>
+</code></pre></div><h4 id="negate">negate</h4>
+<p>负数的补码 = 反码 +1</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * negate - return -x
+</span><span style="color:#75715e"> *   Example: negate(1) = -1.
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 5
+</span><span style="color:#75715e"> *   Rating: 2
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">negate</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">x</span><span style="color:#111">)</span> <span style="color:#111">{</span> <span style="color:#00a8c8">return</span> <span style="color:#111">(</span><span style="color:#f92672">~</span><span style="color:#111">x</span><span style="color:#111">)</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#111">}</span>
+</code></pre></div><h4 id="isasciidigit">isAsciiDigit</h4>
+<p>计算机加减一个数 = 加上那个数的反码+1</p>
+<p>非负数右移31位==0</p>
+<p>负数右移31位==1</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * isAsciiDigit - return 1 if 0x30 &lt;= x &lt;= 0x39 (ASCII codes for characters &#39;0&#39;
+</span><span style="color:#75715e"> * to &#39;9&#39;) Example: isAsciiDigit(0x35) = 1. isAsciiDigit(0x3a) = 0.
+</span><span style="color:#75715e"> *            isAsciiDigit(0x05) = 0.
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 15
+</span><span style="color:#75715e"> *   Rating: 3
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">isAsciiDigit</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">x</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">left</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span> <span style="color:#f92672">+</span> <span style="color:#f92672">~</span><span style="color:#ae81ff">0x30</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">right</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x39</span> <span style="color:#f92672">+</span> <span style="color:#f92672">~</span><span style="color:#111">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">return</span> <span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#111">left</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">31</span><span style="color:#111">)</span> <span style="color:#f92672">&amp;</span> <span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#111">right</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">31</span><span style="color:#111">);</span>
+<span style="color:#111">}</span>
+</code></pre></div><h4 id="conditional">conditional</h4>
+<p>看到题目就知道要构造 <code>0</code> <code>1</code> ，要进行 <code>!</code> 运算又要最后返回 y z，于是想到根据 x 构造 0xffffffff</p>
+<p>0x00000000 ^ anynum = 0xffffffff &amp; anynum;</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * conditional - same as x ? y : z
+</span><span style="color:#75715e"> *   Example: conditional(2,4,5) = 4
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 16
+</span><span style="color:#75715e"> *   Rating: 3
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">conditional</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">x</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">y</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">z</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#75715e">/*
+</span><span style="color:#75715e">   *if x!=0,mask=0x00000000,so y&amp;~mask==y and z&amp;mask==0
+</span><span style="color:#75715e">   *if x==0,mask=0xffffffff,so y&amp;~mask = y&amp;0 =0; z&amp;mask=z
+</span><span style="color:#75715e">   */</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">mask</span> <span style="color:#f92672">=</span> <span style="color:#f92672">~!</span><span style="color:#111">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">return</span> <span style="color:#111">(</span><span style="color:#111">y</span> <span style="color:#f92672">&amp;</span> <span style="color:#f92672">~</span><span style="color:#111">mask</span><span style="color:#111">)</span> <span style="color:#f92672">|</span> <span style="color:#111">(</span><span style="color:#111">z</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">mask</span><span style="color:#111">);</span>
+<span style="color:#111">}</span>
+</code></pre></div><h4 id="islessorequal">isLessOrEqual</h4>
+<p>分两种情况讨论就行了</p>
+<p>同号时 判断 y-x&gt;=0 就行了</p>
+<p>异号时 判断 x或者y 符号就行了</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * isLessOrEqual - if x &lt;= y  then return 1, else return 0
+</span><span style="color:#75715e"> *   Example: isLessOrEqual(4,5) = 1.
+</span><span style="color:#75715e"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 24
+</span><span style="color:#75715e"> *   Rating: 3
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">isLessOrEqual</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">x</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">y</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">signx</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">31</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x01</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">signy</span> <span style="color:#f92672">=</span> <span style="color:#111">y</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">31</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x01</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">isSameSign</span> <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#111">signx</span> <span style="color:#f92672">^</span> <span style="color:#111">signy</span><span style="color:#111">);</span> <span style="color:#75715e">// 相同符号为1
+</span><span style="color:#75715e"></span>  <span style="color:#00a8c8">return</span> <span style="color:#111">(</span><span style="color:#111">isSameSign</span> <span style="color:#f92672">&amp;</span> <span style="color:#f92672">!</span><span style="color:#111">((</span><span style="color:#111">y</span> <span style="color:#f92672">+</span> <span style="color:#f92672">~</span><span style="color:#111">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">31</span><span style="color:#111">))</span> <span style="color:#f92672">|</span> <span style="color:#111">((</span><span style="color:#f92672">!</span><span style="color:#111">isSameSign</span><span style="color:#111">)</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">signx</span><span style="color:#111">);</span>
+<span style="color:#111">}</span>
+</code></pre></div><h4 id="logicalneg">logicalNeg</h4>
+<p><code>0</code> 和 <code>-0</code> 的 符号位都为 <code>0</code> 所以判断下 <code>(x | (~x + 1))</code> 符号位就行了</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * logicalNeg - implement the ! operator, using all of
+</span><span style="color:#75715e"> *              the legal operators except !
+</span><span style="color:#75715e"> *   Examples: logicalNeg(3) = 0, logicalNeg(0) = 1
+</span><span style="color:#75715e"> *   Legal ops: ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *   Max ops: 12
+</span><span style="color:#75715e"> *   Rating: 4
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">logicalNeg</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">x</span><span style="color:#111">)</span> <span style="color:#111">{</span> <span style="color:#00a8c8">return</span> <span style="color:#f92672">~</span><span style="color:#111">((</span><span style="color:#111">x</span> <span style="color:#f92672">|</span> <span style="color:#111">(</span><span style="color:#f92672">~</span><span style="color:#111">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">))</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">31</span><span style="color:#111">)</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x01</span><span style="color:#111">;</span> <span style="color:#111">}</span>
+</code></pre></div><h4 id="howmanybits">HowmanyBits</h4>
+<p>这道题开始完全没想到，后面参考小土刀的博客才做出来,代码不难，走一遍懂了</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/* howManyBits - return the minimum number of bits required to represent x in
+</span><span style="color:#75715e"> *             two&#39;s complement
+</span><span style="color:#75715e"> *  Examples: howManyBits(12) = 5
+</span><span style="color:#75715e"> *            howManyBits(298) = 10
+</span><span style="color:#75715e"> *            howManyBits(-5) = 4
+</span><span style="color:#75715e"> *            howManyBits(0)  = 1
+</span><span style="color:#75715e"> *            howManyBits(-1) = 1
+</span><span style="color:#75715e"> *            howManyBits(0x80000000) = 32
+</span><span style="color:#75715e"> *  Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;
+</span><span style="color:#75715e"> *  Max ops: 90
+</span><span style="color:#75715e"> *  Rating: 4
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">howManyBits</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">x</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">tmp</span> <span style="color:#f92672">=</span> <span style="color:#111">x</span> <span style="color:#f92672">^</span> <span style="color:#111">(</span><span style="color:#111">x</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">31</span><span style="color:#111">);</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">isZero</span> <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#111">tmp</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">notZeroMark</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">tmp</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">31</span><span style="color:#111">)</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">31</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">bit_16</span><span style="color:#111">,</span> <span style="color:#111">bit_8</span><span style="color:#111">,</span> <span style="color:#111">bit_4</span><span style="color:#111">,</span> <span style="color:#111">bit_2</span><span style="color:#111">,</span> <span style="color:#111">bit_1</span><span style="color:#111">;</span>
+  <span style="color:#111">bit_16</span> <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#111">tmp</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">16</span><span style="color:#111">))</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">4</span><span style="color:#111">;</span>
+  <span style="color:#111">tmp</span> <span style="color:#f92672">=</span> <span style="color:#111">tmp</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">bit_16</span><span style="color:#111">;</span>
+  <span style="color:#111">bit_8</span> <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#111">tmp</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">8</span><span style="color:#111">))</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">3</span><span style="color:#111">;</span>
+  <span style="color:#111">tmp</span> <span style="color:#f92672">=</span> <span style="color:#111">tmp</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">bit_8</span><span style="color:#111">;</span>
+  <span style="color:#111">bit_4</span> <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#111">tmp</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">4</span><span style="color:#111">))</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
+  <span style="color:#111">tmp</span> <span style="color:#f92672">=</span> <span style="color:#111">tmp</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">bit_4</span><span style="color:#111">;</span>
+  <span style="color:#111">bit_2</span> <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#111">tmp</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">2</span><span style="color:#111">))</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+  <span style="color:#111">tmp</span> <span style="color:#f92672">=</span> <span style="color:#111">tmp</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">bit_2</span><span style="color:#111">;</span>
+  <span style="color:#111">bit_1</span> <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#111">tmp</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span><span style="color:#111">));</span>
+  <span style="color:#111">tmp</span> <span style="color:#f92672">=</span> <span style="color:#111">bit_1</span> <span style="color:#f92672">+</span> <span style="color:#111">bit_2</span> <span style="color:#f92672">+</span> <span style="color:#111">bit_4</span> <span style="color:#f92672">+</span> <span style="color:#111">bit_8</span> <span style="color:#f92672">+</span> <span style="color:#111">bit_16</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">return</span> <span style="color:#111">isZero</span> <span style="color:#f92672">|</span> <span style="color:#111">(</span><span style="color:#111">tmp</span> <span style="color:#f92672">&amp;</span> <span style="color:#111">notZeroMark</span><span style="color:#111">);</span>
+<span style="color:#111">}</span>
+</code></pre></div><h3 id="datalab-浮点">datalab 浮点</h3>
+<h4 id="floatscale2">floatScale2</h4>
+<p>对于浮点数，首先得到其阶码 <code>int a = (uf &gt;&gt; 23) &amp; 0xff</code></p>
+<p>如果一个数是特殊值，其阶码为 0xff，直接返回其值</p>
+<p>如果其阶码为 0，代表是非规范数，则左移之后带上符号位返回即可</p>
+<p>如果是规范化数把阶码 +1，然后带上符号位返回</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * floatScale2 - Return bit-level equivalent of expression 2*f for
+</span><span style="color:#75715e"> *   floating point argument f.
+</span><span style="color:#75715e"> *   Both the argument and result are passed as unsigned int&#39;s, but
+</span><span style="color:#75715e"> *   they are to be interpreted as the bit-level representation of
+</span><span style="color:#75715e"> *   single-precision floating point values.
+</span><span style="color:#75715e"> *   When argument is NaN, return argument
+</span><span style="color:#75715e"> *   Legal ops: Any integer/unsigned operations incl. ||, &amp;&amp;. also if, while
+</span><span style="color:#75715e"> *   Max ops: 30
+</span><span style="color:#75715e"> *   Rating: 4
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">unsigned</span> <span style="color:#75af00">floatScale2</span><span style="color:#111">(</span><span style="color:#00a8c8">unsigned</span> <span style="color:#111">uf</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">a</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span><span style="color:#111">uf</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">23</span><span style="color:#111">)</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xff</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">flag</span> <span style="color:#f92672">=</span> <span style="color:#111">uf</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">31</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">31</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">temp</span> <span style="color:#f92672">=</span> <span style="color:#111">uf</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">a</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xff</span><span style="color:#111">)</span>
+	<span style="color:#00a8c8">return</span> <span style="color:#111">uf</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">a</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+	<span style="color:#111">temp</span> <span style="color:#f92672">=</span> <span style="color:#111">uf</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+	<span style="color:#00a8c8">return</span> <span style="color:#111">temp</span> <span style="color:#f92672">|</span> <span style="color:#111">flag</span><span style="color:#111">;</span>
+  <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+	<span style="color:#111">temp</span> <span style="color:#f92672">=</span> <span style="color:#111">temp</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#ae81ff">0x01</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">23</span><span style="color:#111">);</span>
+	<span style="color:#00a8c8">return</span> <span style="color:#111">temp</span> <span style="color:#f92672">|</span> <span style="color:#111">flag</span><span style="color:#111">;</span>
+  <span style="color:#111">}</span>
+  <span style="color:#00a8c8">return</span> <span style="color:#111">temp</span><span style="color:#111">;</span>
+<span style="color:#111">}</span>
+</code></pre></div><h4 id="floatfloat2int">floatFloat2Int</h4>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * floatFloat2Int - Return bit-level equivalent of expression (int) f
+</span><span style="color:#75715e"> *   for floating point argument f.
+</span><span style="color:#75715e"> *   Argument is passed as unsigned int, but
+</span><span style="color:#75715e"> *   it is to be interpreted as the bit-level representation of a
+</span><span style="color:#75715e"> *   single-precision floating point value.
+</span><span style="color:#75715e"> *   Anything out of range (including NaN and infinity) should return
+</span><span style="color:#75715e"> *   0x80000000u.
+</span><span style="color:#75715e"> *   Legal ops: Any integer/unsigned operations incl. ||, &amp;&amp;. also if, while
+</span><span style="color:#75715e"> *   Max ops: 30
+</span><span style="color:#75715e"> *   Rating: 4
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">floatFloat2Int</span><span style="color:#111">(</span><span style="color:#00a8c8">unsigned</span> <span style="color:#111">uf</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">a</span> <span style="color:#f92672">=</span> <span style="color:#111">((</span><span style="color:#111">uf</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">23</span><span style="color:#111">)</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xff</span><span style="color:#111">)</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">127</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">int</span> <span style="color:#111">flag</span> <span style="color:#f92672">=</span> <span style="color:#111">uf</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">31</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">a</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">32</span><span style="color:#111">)</span>
+	<span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0x80000000u</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">a</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span>
+	<span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+  <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+	<span style="color:#00a8c8">int</span> <span style="color:#111">temp</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span><span style="color:#111">uf</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">0x800000</span><span style="color:#111">)</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xffffff</span><span style="color:#111">;</span>
+	<span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">a</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">23</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+	  <span style="color:#00a8c8">int</span> <span style="color:#111">e</span> <span style="color:#f92672">=</span> <span style="color:#111">a</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">23</span><span style="color:#111">;</span>
+	  <span style="color:#111">temp</span> <span style="color:#f92672">=</span> <span style="color:#111">temp</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">e</span><span style="color:#111">;</span>
+	<span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+	  <span style="color:#00a8c8">int</span> <span style="color:#111">e</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">23</span> <span style="color:#f92672">-</span> <span style="color:#111">a</span><span style="color:#111">;</span>
+	  <span style="color:#111">temp</span> <span style="color:#f92672">=</span> <span style="color:#111">temp</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">e</span><span style="color:#111">;</span>
+	<span style="color:#111">}</span>
+	<span style="color:#00a8c8">return</span> <span style="color:#111">flag</span> <span style="color:#f92672">?</span> <span style="color:#f92672">-</span><span style="color:#111">temp</span> <span style="color:#111">:</span> <span style="color:#111">temp</span><span style="color:#111">;</span>
+  <span style="color:#111">}</span>
+<span style="color:#111">}</span>
+</code></pre></div><h4 id="floatpower2">floatPower2</h4>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * floatPower2 - Return bit-level equivalent of the expression 2.0^x
+</span><span style="color:#75715e"> *   (2.0 raised to the power x) for any 32-bit integer x.
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> *   The unsigned value that is returned should have the identical bit
+</span><span style="color:#75715e"> *   representation as the single-precision floating-point number 2.0^x.
+</span><span style="color:#75715e"> *   If the result is too small to be represented as a denorm, return
+</span><span style="color:#75715e"> *   0. If too large, return +INF.
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> *   Legal ops: Any integer/unsigned operations incl. ||, &amp;&amp;. Also if, while
+</span><span style="color:#75715e"> *   Max ops: 30
+</span><span style="color:#75715e"> *   Rating: 4
+</span><span style="color:#75715e"> */</span>
+<span style="color:#00a8c8">unsigned</span> <span style="color:#75af00">floatPower2</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">x</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">x</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">127</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+	<span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0x7f800000</span><span style="color:#111">;</span>
+  <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">x</span> <span style="color:#f92672">&lt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">127</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+	<span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0x0</span><span style="color:#111">;</span>
+  <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
+	<span style="color:#00a8c8">return</span> <span style="color:#111">(</span><span style="color:#111">x</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">127</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">23</span><span style="color:#111">;</span>
+  <span style="color:#111">}</span>
+<span style="color:#111">}</span>
+</code></pre></div>
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/csapp">CSAPP</a></li>
+					
+					<li><a href="/tags/os">OS</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+	</article>
+</main>
+<footer>
+<hr><a class="soc" href="https://github.com/abcdlsj" title="GitHub"><i data-feather="github"></i></a>|<a class="soc" href="lisongjianshuai@gmail.com" title="Email"><i data-feather="mail"></i></a>|⚡️
+	2021  © Copyright By ABCDLSJ |  <a href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+</footer>
+
+
+<script>
+      feather.replace()
+</script></div>
+    </body>
+</html>

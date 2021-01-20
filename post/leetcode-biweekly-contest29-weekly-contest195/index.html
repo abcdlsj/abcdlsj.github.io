@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>LeetCode Biweekly Contest:29 &amp;&amp; Weekly Contest:195 - Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="LeetCode Biweekly Contest:29 &amp;&amp; Weekly Contest:195" />
+<meta property="og:description" content="
+LeetCode 双周赛 29 &#43; 周赛 195 解题报告
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://abcdlsj.github.io/post/leetcode-biweekly-contest29-weekly-contest195/" />
+<meta property="article:published_time" content="2020-06-28T07:47:41+08:00" />
+<meta property="article:modified_time" content="2020-06-28T07:47:41+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="LeetCode Biweekly Contest:29 &amp;&amp; Weekly Contest:195"/>
+<meta name="twitter:description" content="
+LeetCode 双周赛 29 &#43; 周赛 195 解题报告
+"/>
+<script src="https://abcdlsj.github.iojs/feather.min.js"></script>
+	
+	<link href="https://abcdlsj.github.iocss/fonts.css" rel="stylesheet">
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://abcdlsj.github.iocss/main.css" /><link rel="stylesheet" type="text/css" href="https://abcdlsj.github.iocss/dark.css" media="(prefers-color-scheme: dark)" />
+	
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://abcdlsj.github.io">Blog</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/post/">Archives</a>
+		
+		<a href="/categories/">Categories</a>
+		
+		<a href="/tags/leetcode">LeetCode</a>
+		
+		<a href="/about/">About</a>
+		
+	</nav>
+</header>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">LeetCode Biweekly Contest:29 &amp;&amp; Weekly Contest:195</h1>
+			<div class="meta">Posted on Jun 28, 2020</div>
+		</div>
+		
+
+		<section class="body">
+			<blockquote>
+<p>LeetCode 双周赛 29 + 周赛 195 解题报告</p>
+</blockquote>
+<blockquote>
+<p>两周一次的欢乐双周赛时间，双周赛昨天忘记了，过了半个小时去写的。。前几个没什么难度，第四个状压 dp 恕我无能为力（dp 永远的神！），周赛还没开始，感觉难度应该会难一些，争取 3 题！（实际上，每次如果我卡的时间太久。。我就没写了。。。可能还剩一个小时。。。）</p>
+<p>-- Sunday 08:03</p>
+<p>裂开。。。网络炸了。。。</p>
+<p>艹，不写了！！！（会不会太水了。。。）</p>
+<p>算了，这次周赛就放弃了，等明天写了补题解吧</p>
+<p>-- Sunday 10:52</p>
+<p>不用明天了。。。</p>
+<p>-- Sunday 15:42</p>
+</blockquote>
+<h2 id="biweekly-contest">Biweekly Contest</h2>
+<h4 id="5434-删掉一个元素以后全为-1-的最长子数组httpsleetcode-cncomproblemslongest-subarray-of-1s-after-deleting-one-element"><a href="https://leetcode-cn.com/problems/longest-subarray-of-1s-after-deleting-one-element/">5434. 删掉一个元素以后全为 1 的最长子数组</a></h4>
+<blockquote>
+<p>这是第三题</p>
+<p>找到 0 的位置，然后扩散到两边，算出长度</p>
+</blockquote>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#111">longestSubarray</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">int</span> <span style="color:#111">n</span> <span style="color:#f92672">=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">(),</span> <span style="color:#111">ans</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">accumulate</span><span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">begin</span><span style="color:#111">(),</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">end</span><span style="color:#111">(),</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#f92672">==</span> <span style="color:#111">n</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">n</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span> 
+
+        <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">();</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#00a8c8">continue</span><span style="color:#111">;</span>
+            <span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+            <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">le</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#111">le</span><span style="color:#f92672">--</span><span style="color:#111">;</span>
+            <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">ri</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#111">ri</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
+            <span style="color:#111">ans</span> <span style="color:#f92672">=</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#111">ans</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span><span style="color:#111">);</span>
+        <span style="color:#111">}</span>
+
+        <span style="color:#00a8c8">return</span> <span style="color:#111">ans</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
+</code></pre></div><h2 id="weekly-contest">Weekly Contest</h2>
+<blockquote>
+<p>第二题</p>
+<p>大佬的写法和我差距好大。。。思路一样，但是我的代码就是不够简洁，总是重复判断就像下面这道题，我用的 map 存储，导致复杂了，而且最后判断是否能够成对，我是一个一个判断。。。实际上没必要，观之大佬的实现十分简洁，对于负数的处理也很有经验（我也这样处理的。。。只是是单独拿出来的，写出来不够简洁），而且开的数组，最后遍历也变得很简单，最后的判断 <code>mod[0] % 2 == 0</code>，这种情况我没注意到，这也是我没 ac 的原因</p>
+</blockquote>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+   <span style="color:#00a8c8">bool</span> <span style="color:#111">canArrange</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">arr</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">k</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+       <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">mod</span><span style="color:#111">(</span><span style="color:#111">k</span><span style="color:#111">);</span>
+
+       <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">auto</span> <span style="color:#111">a</span> <span style="color:#111">:</span> <span style="color:#111">arr</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+           <span style="color:#111">mod</span><span style="color:#111">[(</span><span style="color:#111">k</span> <span style="color:#f92672">+</span> <span style="color:#111">a</span> <span style="color:#f92672">%</span> <span style="color:#111">k</span><span style="color:#111">)</span> <span style="color:#f92672">%</span> <span style="color:#111">k</span><span style="color:#111">]</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
+       <span style="color:#111">}</span>
+
+       <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">mod</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">();</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+           <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">mod</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">!=</span> <span style="color:#111">mod</span><span style="color:#111">[</span><span style="color:#111">k</span> <span style="color:#f92672">-</span> <span style="color:#111">i</span><span style="color:#111">])</span> <span style="color:#00a8c8">return</span> <span style="color:#111">false</span><span style="color:#111">;</span>
+       <span style="color:#111">}</span>
+
+       <span style="color:#00a8c8">return</span> <span style="color:#111">mod</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+   <span style="color:#111">}</span>
+<span style="color:#111">};</span>
+</code></pre></div><blockquote>
+<p>第三题</p>
+<p>看的大佬题解，与大佬实现基本一致（抄）</p>
+<p>排序之后，<code>le</code> 是最小值，<code>ri</code> 是最大值</p>
+<p><code>le ~ ri</code> 之间序列有 <code>pow(2, ri - le)</code> 个子序列</p>
+<p>我现在才知道不用写快速幂（实际上让我现在写快速幂我也写不出来，太久没写了），直接上数组就好了。。。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
+<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#111">mod</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000000007</span><span style="color:#111">;</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#75af00">numSubseq</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+        <span style="color:#00a8c8">int</span> <span style="color:#111">n</span> <span style="color:#f92672">=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">();</span>
+        <span style="color:#111">sort</span><span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">begin</span><span style="color:#111">(),</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">end</span><span style="color:#111">());</span>
+        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">mul2</span><span style="color:#111">(</span><span style="color:#111">n</span><span style="color:#111">);</span>
+        <span style="color:#111">mul2</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+        <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">n</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#111">mul2</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">mul2</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">mul2</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">&gt;=</span> <span style="color:#111">mod</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+                <span style="color:#111">mul2</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">-=</span> <span style="color:#111">mod</span><span style="color:#111">;</span>
+            <span style="color:#111">}</span>
+        <span style="color:#111">}</span>
+
+        <span style="color:#00a8c8">int</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">n</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">ans</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+
+        <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">le</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">n</span><span style="color:#111">;</span> <span style="color:#111">le</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+            <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">ri</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">le</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">ri</span><span style="color:#111">]</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+                <span style="color:#f92672">--</span><span style="color:#111">ri</span><span style="color:#111">;</span>
+            <span style="color:#111">}</span>
+
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#00a8c8">break</span><span style="color:#111">;</span>
+
+            <span style="color:#111">ans</span> <span style="color:#f92672">+=</span> <span style="color:#111">mul2</span><span style="color:#111">[</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">];</span>
+            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">ans</span> <span style="color:#f92672">&gt;=</span> <span style="color:#111">mod</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+                <span style="color:#111">ans</span> <span style="color:#f92672">-=</span> <span style="color:#111">mod</span><span style="color:#111">;</span>
+            <span style="color:#111">}</span>
+        <span style="color:#111">}</span>
+
+        <span style="color:#00a8c8">return</span> <span style="color:#111">ans</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">};</span>
+</code></pre></div>
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/contest">Contest</a></li>
+					
+					<li><a href="/tags/leetcode">LeetCode</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+	</article>
+</main>
+<footer>
+<hr><a class="soc" href="https://github.com/abcdlsj" title="GitHub"><i data-feather="github"></i></a>|<a class="soc" href="lisongjianshuai@gmail.com" title="Email"><i data-feather="mail"></i></a>|⚡️
+	2021  © Copyright By ABCDLSJ |  <a href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+</footer>
+
+
+<script>
+      feather.replace()
+</script></div>
+    </body>
+</html>

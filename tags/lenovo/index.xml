@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lenovo on Blog</title>
+    <link>https://abcdlsj.github.io/tags/lenovo/</link>
+    <description>Recent content in Lenovo on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright By ABCDLSJ</copyright>
+    <lastBuildDate>Mon, 13 Jul 2020 10:38:18 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/tags/lenovo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ArchLinux i3wm Config (联想小新 pro 13, Lenovo IdeaPad S540 13ARE)</title>
+      <link>https://abcdlsj.github.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/</link>
+      <pubDate>Mon, 13 Jul 2020 10:38:18 +0800</pubDate>
+      
+      <guid>https://abcdlsj.github.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;上个月末，准备买一台新的笔记本&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
