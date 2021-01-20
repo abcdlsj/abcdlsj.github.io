@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>LeetCode Biweekly Contest:32 &amp;&amp; Weekly Contest: 201 &middot; </title>
+        <title>LeetCode Biweekly Contest:32 &amp;&amp; Weekly Contest: 201 &middot; ABCDLSJ</title>
         <meta name="description" content="LeetCode 双周赛 32 &#43; 周赛 201 解题报告
  双周赛 K 次操作转变字符串  我最开始用的每次 &#43;26，导致 tle 了好几次（下次千万不要刷新了，刷新之前的错误都没了，导致改了代码我以为我又可以了，结果提交就 tle），之后换成 map，就没啥问题了
  class Solution { public: bool canConvertString(string s, string t, int k) { if (s.size() != t.size()) return false; map&lt;int, int&gt; map; for (int i = 0; i &lt; s.size(); i&#43;&#43;) { int x = t[i] - s[i]; x = x &lt; 0 ? x &#43; 26 : x; map[x]&#43;&#43;; } for (auto ele : map) { if (ele.">
@@ -38,7 +38,7 @@
                     <div class="site-title-wrapper">
                         
                             <h1 class="site-title">
-                                <a href="https://abcdlsj.github.io">My Blog</a>
+                                <a href="https://abcdlsj.github.io">Real World</a>
                             </h1>
                         
                         
@@ -61,6 +61,26 @@
 
                     <ul class="site-nav">
                         
+    <li class="site-nav-item">
+        <a href="/">Home</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/post/">Archives</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/categories/">Categories</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/tags/leetcode">LeetCode</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/about/">About</a>
+    </li>
+
 
                     </ul>
                 </div>
@@ -79,7 +99,7 @@
         <span>by</span>
         <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
             <span itemprop="name">
-                <a href="#" itemprop="url" rel="author"></a>
+                <a href="#" itemprop="url" rel="author">ABCDLSJ</a>
             </span>
         </span>
     </p>
@@ -299,7 +319,7 @@
             <div class="container">
                 <div class="site-title-wrapper">
                     <h1 class="site-title">
-                        <a href="https://abcdlsj.github.io">My Blog</a>
+                        <a href="https://abcdlsj.github.io">Real World</a>
                     </h1>
                     <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
                         <i class="fa fa-angle-up" aria-hidden="true"></i>

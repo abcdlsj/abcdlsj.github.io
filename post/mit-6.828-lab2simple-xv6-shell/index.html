@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>MIT 6.828 Lab 2: Simple xv6 shell &middot; </title>
+        <title>MIT 6.828 Lab 2: Simple xv6 shell &middot; ABCDLSJ</title>
         <meta name="description" content="Lab: Simple xv6 shell
    #include &#34;kernel/fcntl.h&#34;#include &#34;kernel/param.h&#34;#include &#34;kernel/types.h&#34;#include &#34;user/user.h&#34; #define MAXSIZE 128  void redirect(int d, int pd[]) { close(d); dup(pd[d]); close(pd[0]); close(pd[1]); } char *splitpipe(char *cmd) { for (; *cmd &amp;&amp; *cmd != &#39;|&#39;; cmd&#43;&#43;) ; if (*cmd == &#39;|&#39;) { *cmd&#43;&#43; = &#39;\0&#39;; return cmd; } return 0; } int isspace(char c) { return c == &#39; &#39; || c == &#39;\t&#39; || c == &#39;\n&#39;; } void execcmd(char *cmd) { char *argv[MAXARG]; int argc = 0, inpos = 0, outpos = 0; for (; *cmd; *cmd&#43;&#43; = &#39;\0&#39;) { if (!">
         <meta name="HandheldFriendly" content="True">
@@ -36,7 +36,7 @@
                     <div class="site-title-wrapper">
                         
                             <h1 class="site-title">
-                                <a href="https://abcdlsj.github.io">My Blog</a>
+                                <a href="https://abcdlsj.github.io">Real World</a>
                             </h1>
                         
                         
@@ -59,6 +59,26 @@
 
                     <ul class="site-nav">
                         
+    <li class="site-nav-item">
+        <a href="/">Home</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/post/">Archives</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/categories/">Categories</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/tags/leetcode">LeetCode</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/about/">About</a>
+    </li>
+
 
                     </ul>
                 </div>
@@ -77,7 +97,7 @@
         <span>by</span>
         <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
             <span itemprop="name">
-                <a href="#" itemprop="url" rel="author"></a>
+                <a href="#" itemprop="url" rel="author">ABCDLSJ</a>
             </span>
         </span>
     </p>
@@ -255,7 +275,7 @@
             <div class="container">
                 <div class="site-title-wrapper">
                     <h1 class="site-title">
-                        <a href="https://abcdlsj.github.io">My Blog</a>
+                        <a href="https://abcdlsj.github.io">Real World</a>
                     </h1>
                     <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
                         <i class="fa fa-angle-up" aria-hidden="true"></i>
