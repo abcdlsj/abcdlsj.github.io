@@ -1,121 +1,66 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns#">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Arch 配置双显卡 &middot; ABCDLSJ</title>
-        <meta name="description" content="
-ArchLinux 双显卡配置，应该多数 Linux 系统都适用，可能细节不一样。
-">
-        <meta name="HandheldFriendly" content="True">
-        <meta name="MobileOptimized" content="320">
-        <meta name="generator" content="Hugo 0.80.0" />
-        <meta name="robots" content="index,follow">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta property="og:title" content="Arch 配置双显卡">
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Arch 配置双显卡 - Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Arch 配置双显卡" />
 <meta property="og:description" content="
 ArchLinux 双显卡配置，应该多数 Linux 系统都适用，可能细节不一样。
-">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://abcdlsj.github.io/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/">
-        <link rel="stylesheet" href="https://abcdlsj.github.iodist/site.css">
-        <link rel="stylesheet" href="https://abcdlsj.github.iodist/syntax.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-        
-        
-        
-        
-        
-
-    </head>
-    <body>
-        
-
-        <div id="wrapper">
-            <header class="site-header">
-                <div class="container">
-                    <div class="site-title-wrapper">
-                        
-                            <h1 class="site-title">
-                                <a href="https://abcdlsj.github.io">Real World</a>
-                            </h1>
-                        
-                        
-                        
-                        
-                        
-                        
-                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/abcdlsj" rel="me">
-                                <i class="fa fa-github-alt" aria-hidden="true"></i>
-                            </a>
-                        
-                        
-                        
-                        
-                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:lisongjianshuai@gmail.com">
-                                <i class="fa fa-envelope" aria-hidden="true"></i>
-                            </a>
-                        
-                    </div>
-
-                    <ul class="site-nav">
-                        
-    <li class="site-nav-item">
-        <a href="/">Home</a>
-    </li>
-
-    <li class="site-nav-item">
-        <a href="/post/">Archives</a>
-    </li>
-
-    <li class="site-nav-item">
-        <a href="/categories/">Categories</a>
-    </li>
-
-    <li class="site-nav-item">
-        <a href="/tags/leetcode">LeetCode</a>
-    </li>
-
-    <li class="site-nav-item">
-        <a href="/about/">About</a>
-    </li>
-
-
-                    </ul>
-                </div>
-            </header>
-
-            <div id="container">
-
-
-<div class="container">
-    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
-        <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Arch 配置双显卡</h1>
-    
-    <p class="post-date post-line">
-        <span>Published <time datetime="2019-10-08" itemprop="datePublished">Tue, Oct 8, 2019</time></span>
-        <span>by</span>
-        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
-            <span itemprop="name">
-                <a href="#" itemprop="url" rel="author">ABCDLSJ</a>
-            </span>
-        </span>
-    </p>
-    
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://abcdlsj.github.io/post/arch%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8C%E6%98%BE%E5%8D%A1/" />
+<meta property="article:published_time" content="2019-10-08T00:00:00+08:00" />
+<meta property="article:modified_time" content="2020-03-01T16:05:15+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Arch 配置双显卡"/>
+<meta name="twitter:description" content="
+ArchLinux 双显卡配置，应该多数 Linux 系统都适用，可能细节不一样。
+"/>
+<script src="https://abcdlsj.github.iojs/feather.min.js"></script>
+	
+	<link href="https://abcdlsj.github.iocss/fonts.css" rel="stylesheet">
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://abcdlsj.github.iocss/main.css" /><link rel="stylesheet" type="text/css" href="https://abcdlsj.github.iocss/dark.css" media="(prefers-color-scheme: dark)" />
+	
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://abcdlsj.github.io">Blog</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/post/">Archives</a>
+		
+		<a href="/categories/">Categories</a>
+		
+		<a href="/tags/leetcode">LeetCode</a>
+		
+		<a href="/about/">About</a>
+		
+	</nav>
 </header>
 
-        <div class="post-content clearfix" itemprop="articleBody">
-    
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">Arch 配置双显卡</h1>
+			<div class="meta">Posted on Oct 8, 2019</div>
+		</div>
+		
 
-    <blockquote>
+		<section class="body">
+			<blockquote>
 <p>ArchLinux 双显卡配置，应该多数 Linux 系统都适用，可能细节不一样。</p>
 </blockquote>
 <h2 id="首先开机时禁用-n卡驱动-nouveau">首先开机时禁用 N卡驱动 nouveau</h2>
 <p>开机启动时如果开机黑屏按 <code>e</code> 加入以下</p>
-<pre><code class="language-nil" data-lang="nil">modprobe.blacklist=nouveau
-</code></pre><h2 id="安装-nvidia驱动">安装 NVIDIA驱动</h2>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">modprobe.blacklist=nouveau
+</code></pre></div><h2 id="安装-nvidia驱动">安装 NVIDIA驱动</h2>
 <div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo pacman -Syu nvidia nvidia-settings xorg-xrandr
 </code></pre></div><h2 id="配置">配置</h2>
 <h3 id="修改-grub">修改 grub</h3>
@@ -137,7 +82,7 @@ acpi_osi=\&ldquo;windows 2009\&rdquo;&rdquo;</p>
 </code></pre></div><h3 id="add-pacman-hook">add pacman hook</h3>
 <p>每次更新 <code>NVIDIA</code> 都需要重新生成 <code>initramfs</code> 可以使用 pacman hook</p>
 <div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo nvim /etc/pacman.d/hooks/nvidia.hook
-</code></pre></div><pre><code class="language-nil" data-lang="nil">[Trigger]
+</code></pre></div><div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[Trigger]
 Operation=Install
 Operation=Upgrade
 Operation=Remove
@@ -151,8 +96,8 @@ Description=Update Nvidia module in initcpio
 Depends=mkinitcpio
 When=PostTransaction
 NeedsTargets
-Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /usr/bin/mkinitcpio -P'
-</code></pre><h2 id="显示管理器">显示管理器</h2>
+Exec=/bin/sh -c &#39;while read -r trg; do case $trg in linux) exit 0; esac; done; /usr/bin/mkinitcpio -P&#39;
+</code></pre></div><h2 id="显示管理器">显示管理器</h2>
 <p><a href="https://wiki.archlinux.org/index.php/NVIDIA%5FOptimus%5F(%25E7%25AE%2580%25E4%25BD%2593%25E4%25B8%25AD%25E6%2596%2587)#%25E6%2598%25BE%25E7%25A4%25BA%25E7%25AE%25A1%25E7%2590%2586%25E5%2599%25A8">Arch Wiki</a></p>
 <h2 id="bumblebee">bumblebee</h2>
 <p>如果是 <code>linux-lts</code> 是安装 <code>bumblebee</code> <code>bbswitch-dkms</code></p>
@@ -160,53 +105,33 @@ Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /
 sudo gpasswd -a user bumblebee
 systemctl <span style="color:#111">enable</span> bumblebeed.service
 </code></pre></div>
-</div>
+		</section>
 
-        <footer class="post-footer clearfix">
-        <p class="post-tags">
-            <span>Tagged:</span>
-                <a href="/tags/arch/">Arch</a>, 
-                <a href="/tags/os/">OS</a>
-        </p>
-    <div class="share">
-            <a class="icon-twitter" href="https://twitter.com/share?text=Arch%20%e9%85%8d%e7%bd%ae%e5%8f%8c%e6%98%be%e5%8d%a1&url=https%3a%2f%2fabcdlsj.github.io%2fpost%2farch%25E5%25AE%2589%25E8%25A3%2585%25E9%2585%258D%25E7%25BD%25AE%25E5%258F%258C%25E6%2598%25BE%25E5%258D%25A1%2f"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
-                <i class="fa fa-twitter" aria-hidden="true"></i>
-            </a>
-    </div>
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/arch">Arch</a></li>
+					
+					<li><a href="/tags/os">OS</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+	</article>
+</main>
+<footer>
+<hr><a class="soc" href="https://github.com/abcdlsj" title="GitHub"><i data-feather="github"></i></a>|<a class="soc" href="lisongjianshuai@gmail.com" title="Email"><i data-feather="mail"></i></a>|⚡️
+	2021  © Copyright By ABCDLSJ |  <a href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
 </footer>
 
-        
-    </article>
-</div>
 
-            </div>
-        </div>
-
-        <footer class="footer">
-            <div class="container">
-                <div class="site-title-wrapper">
-                    <h1 class="site-title">
-                        <a href="https://abcdlsj.github.io">Real World</a>
-                    </h1>
-                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
-                        <i class="fa fa-angle-up" aria-hidden="true"></i>
-                    </a>
-                </div>
-
-                <p class="footer-copyright">
-                    <span>&copy; 2020 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
-                </p>
-                <p class="footer-copyright">
-                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
-                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
-                </p>
-            </div>
-        </footer>
-
-        <script src="https://abcdlsj.github.iojs/jquery-1.11.3.min.js"></script>
-        <script src="https://abcdlsj.github.iojs/jquery.fitvids.js"></script>
-        <script src="https://abcdlsj.github.iojs/scripts.js"></script>
+<script>
+      feather.replace()
+</script></div>
     </body>
 </html>
-

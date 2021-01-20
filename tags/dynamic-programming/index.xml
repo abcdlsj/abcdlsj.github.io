@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dynamic Programming on Real World</title>
+    <title>Dynamic Programming on Blog</title>
     <link>https://abcdlsj.github.io/tags/dynamic-programming/</link>
-    <description>Recent content in Dynamic Programming on Real World</description>
+    <description>Recent content in Dynamic Programming on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright By ABCDLSJ</copyright>
     <lastBuildDate>Mon, 07 Sep 2020 10:44:09 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/tags/dynamic-programming/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>GeeksforGeeks-Dynamic-Programming-20</title>
@@ -12,17 +14,9 @@
       <pubDate>Mon, 07 Sep 2020 10:44:09 +0800</pubDate>
       
       <guid>https://abcdlsj.github.io/post/geeksforgeeks-dynamic-programming-20/</guid>
-      <description>https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/
-  缩进格式可能会不统一。。。不想修改了（有些是 LeetCode 网页写的，有些是本地写的，我的本地 C style 是 Google，所以缩进是 2）。。。尽量本地 format 之后放上来
-直接放的题目链接就是 GeeksforGeeks 的链接，LeetCode 会在链接的地方加上 LeetCode
--- 09-08 :timer_clock: 21:17
-一些简单的题就不写了，比如 爬楼梯 这种
--- 09-10
- Longest Common Subsequence  最长公共子序列（LCS）是一个在一个序列集合中（通常为两个序列）用来查找所有序列中最长子序列的问题。这与查找最长公共子串的问题不同的地方是：子序列不需要在原序列中占用连续的位置 。最长公共子序列问题是一个经典的计算机科学问题，也是数据比较程序，比如Diff工具，和生物信息学应用的基础。它也被广泛地应用在版本控制，比如Git用来调和文件之间的改变。
--- wiki
-Longest Common Subsequence
-学会这个完全可以写一个 diff 工具！！！
- int lcs(string s, string t, int m, int n) { if (m == 0 || n == 0) { return 0; } if (s[m - 1] == t[n - 1]) { return 1 + lcs(s, t, m - 1, n - 1); } return max(lcs(s, t, m, n - 1), lcs(s, t, m - 1, n)); } // dp int lcs_dp(string s, string t) { int m = s.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/&#34;&gt;https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>

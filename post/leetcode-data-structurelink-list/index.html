@@ -1,115 +1,60 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns#">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>LeetCode Data-Structure: Link List &middot; ABCDLSJ</title>
-        <meta name="description" content="
-LeetCode 刷题总结：链表
-">
-        <meta name="HandheldFriendly" content="True">
-        <meta name="MobileOptimized" content="320">
-        <meta name="generator" content="Hugo 0.80.0" />
-        <meta name="robots" content="index,follow">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta property="og:title" content="LeetCode Data-Structure: Link List">
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>LeetCode Data-Structure: Link List - Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="LeetCode Data-Structure: Link List" />
 <meta property="og:description" content="
 LeetCode 刷题总结：链表
-">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://abcdlsj.github.io/post/leetcode-data-structurelink-list/">
-        <link rel="stylesheet" href="https://abcdlsj.github.iodist/site.css">
-        <link rel="stylesheet" href="https://abcdlsj.github.iodist/syntax.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-        
-        
-        
-        
-        
-
-    </head>
-    <body>
-        
-
-        <div id="wrapper">
-            <header class="site-header">
-                <div class="container">
-                    <div class="site-title-wrapper">
-                        
-                            <h1 class="site-title">
-                                <a href="https://abcdlsj.github.io">Real World</a>
-                            </h1>
-                        
-                        
-                        
-                        
-                        
-                        
-                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/abcdlsj" rel="me">
-                                <i class="fa fa-github-alt" aria-hidden="true"></i>
-                            </a>
-                        
-                        
-                        
-                        
-                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:lisongjianshuai@gmail.com">
-                                <i class="fa fa-envelope" aria-hidden="true"></i>
-                            </a>
-                        
-                    </div>
-
-                    <ul class="site-nav">
-                        
-    <li class="site-nav-item">
-        <a href="/">Home</a>
-    </li>
-
-    <li class="site-nav-item">
-        <a href="/post/">Archives</a>
-    </li>
-
-    <li class="site-nav-item">
-        <a href="/categories/">Categories</a>
-    </li>
-
-    <li class="site-nav-item">
-        <a href="/tags/leetcode">LeetCode</a>
-    </li>
-
-    <li class="site-nav-item">
-        <a href="/about/">About</a>
-    </li>
-
-
-                    </ul>
-                </div>
-            </header>
-
-            <div id="container">
-
-
-<div class="container">
-    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
-        <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">LeetCode Data-Structure: Link List</h1>
-    
-    <p class="post-date post-line">
-        <span>Published <time datetime="2020-06-22" itemprop="datePublished">Mon, Jun 22, 2020</time></span>
-        <span>by</span>
-        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
-            <span itemprop="name">
-                <a href="#" itemprop="url" rel="author">abcdlsj</a>
-            </span>
-        </span>
-    </p>
-    
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://abcdlsj.github.io/post/leetcode-data-structurelink-list/" />
+<meta property="article:published_time" content="2020-06-22T08:52:45+08:00" />
+<meta property="article:modified_time" content="2020-06-22T08:52:45+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="LeetCode Data-Structure: Link List"/>
+<meta name="twitter:description" content="
+LeetCode 刷题总结：链表
+"/>
+<script src="https://abcdlsj.github.iojs/feather.min.js"></script>
+	
+	<link href="https://abcdlsj.github.iocss/fonts.css" rel="stylesheet">
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://abcdlsj.github.iocss/main.css" /><link rel="stylesheet" type="text/css" href="https://abcdlsj.github.iocss/dark.css" media="(prefers-color-scheme: dark)" />
+	
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://abcdlsj.github.io">Blog</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/post/">Archives</a>
+		
+		<a href="/categories/">Categories</a>
+		
+		<a href="/tags/leetcode">LeetCode</a>
+		
+		<a href="/about/">About</a>
+		
+	</nav>
 </header>
 
-        <div class="post-content clearfix" itemprop="articleBody">
-    
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">LeetCode Data-Structure: Link List</h1>
+			<div class="meta">Posted on Jun 22, 2020</div>
+		</div>
+		
 
-    <blockquote>
+		<section class="body">
+			<blockquote>
 <p>LeetCode 刷题总结：链表</p>
 </blockquote>
 <blockquote>
@@ -448,54 +393,35 @@ LeetCode 刷题总结：链表
     <span style="color:#111">}</span>
 <span style="color:#111">};</span>
 </code></pre></div>
-</div>
+		</section>
 
-        <footer class="post-footer clearfix">
-        <p class="post-tags">
-            <span>Tagged:</span>
-                <a href="/tags/link-list/">Link List</a>, 
-                <a href="/tags/data-structure/">Data Structure</a>, 
-                <a href="/tags/leetcode/">LeetCode</a>
-        </p>
-    <div class="share">
-            <a class="icon-twitter" href="https://twitter.com/share?text=LeetCode%20Data-Structure%3a%20Link%20List&url=https%3a%2f%2fabcdlsj.github.io%2fpost%2fleetcode-data-structurelink-list%2f"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
-                <i class="fa fa-twitter" aria-hidden="true"></i>
-            </a>
-    </div>
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/link-list">Link List</a></li>
+					
+					<li><a href="/tags/data-structure">Data Structure</a></li>
+					
+					<li><a href="/tags/leetcode">LeetCode</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+	</article>
+</main>
+<footer>
+<hr><a class="soc" href="https://github.com/abcdlsj" title="GitHub"><i data-feather="github"></i></a>|<a class="soc" href="lisongjianshuai@gmail.com" title="Email"><i data-feather="mail"></i></a>|⚡️
+	2021  © Copyright By ABCDLSJ |  <a href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
 </footer>
 
-        
-    </article>
-</div>
 
-            </div>
-        </div>
-
-        <footer class="footer">
-            <div class="container">
-                <div class="site-title-wrapper">
-                    <h1 class="site-title">
-                        <a href="https://abcdlsj.github.io">Real World</a>
-                    </h1>
-                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
-                        <i class="fa fa-angle-up" aria-hidden="true"></i>
-                    </a>
-                </div>
-
-                <p class="footer-copyright">
-                    <span>&copy; 2020 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
-                </p>
-                <p class="footer-copyright">
-                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
-                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
-                </p>
-            </div>
-        </footer>
-
-        <script src="https://abcdlsj.github.iojs/jquery-1.11.3.min.js"></script>
-        <script src="https://abcdlsj.github.iojs/jquery.fitvids.js"></script>
-        <script src="https://abcdlsj.github.iojs/scripts.js"></script>
+<script>
+      feather.replace()
+</script></div>
     </body>
 </html>
-

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Real World</title>
+    <title>Posts on Blog</title>
     <link>https://abcdlsj.github.io/post/</link>
-    <description>Recent content in Posts on Real World</description>
+    <description>Recent content in Posts on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright By ABCDLSJ</copyright>
     <lastBuildDate>Wed, 16 Sep 2020 14:49:46 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>LeetCode-Pattern: Union Find</title>
@@ -23,17 +25,9 @@
       <pubDate>Mon, 07 Sep 2020 10:44:09 +0800</pubDate>
       
       <guid>https://abcdlsj.github.io/post/geeksforgeeks-dynamic-programming-20/</guid>
-      <description>https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/
-  缩进格式可能会不统一。。。不想修改了（有些是 LeetCode 网页写的，有些是本地写的，我的本地 C style 是 Google，所以缩进是 2）。。。尽量本地 format 之后放上来
-直接放的题目链接就是 GeeksforGeeks 的链接，LeetCode 会在链接的地方加上 LeetCode
--- 09-08 :timer_clock: 21:17
-一些简单的题就不写了，比如 爬楼梯 这种
--- 09-10
- Longest Common Subsequence  最长公共子序列（LCS）是一个在一个序列集合中（通常为两个序列）用来查找所有序列中最长子序列的问题。这与查找最长公共子串的问题不同的地方是：子序列不需要在原序列中占用连续的位置 。最长公共子序列问题是一个经典的计算机科学问题，也是数据比较程序，比如Diff工具，和生物信息学应用的基础。它也被广泛地应用在版本控制，比如Git用来调和文件之间的改变。
--- wiki
-Longest Common Subsequence
-学会这个完全可以写一个 diff 工具！！！
- int lcs(string s, string t, int m, int n) { if (m == 0 || n == 0) { return 0; } if (s[m - 1] == t[n - 1]) { return 1 + lcs(s, t, m - 1, n - 1); } return max(lcs(s, t, m, n - 1), lcs(s, t, m - 1, n)); } // dp int lcs_dp(string s, string t) { int m = s.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/&#34;&gt;https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -42,10 +36,9 @@ Longest Common Subsequence
       <pubDate>Sun, 16 Aug 2020 11:58:06 +0800</pubDate>
       
       <guid>https://abcdlsj.github.io/post/leetcode-weekly-contest202/</guid>
-      <description>LeetCode Weekly Contest: 202
-  这周差点忘记了，过了十分钟才参加的（当时都有点不想参加了），然后解决了前三题，花了 35 min（PS. 第三题比第四题难），然后看着第四题懵逼了，其实一点不难（当时在别人家把电脑放在膝盖上写的。。），最后排名也一般 500 +（没有内推资格。。。），这周难度不大，很有机会 AK 的，没把握好机会，希望下次排名好点吧（想去面试微软，但是我感觉怎么着也得稳前 200 才有机会）
- 5489. 两球之间的磁力  二分，主要是 间隔 = 小球数 - 1
- class Solution { public: int maxDistance(vector&amp;lt;int&amp;gt;&amp;amp; position, int m) { sort(position.begin(), position.end()); int le = 0, ri = position[position.size() - 1] - position[0]; while (le &amp;lt;= ri) { int mid = le + (ri - le) / 2; if (check(position, m, mid)) { le = mid + 1; } else { ri = mid - 1; } } return le - 1; } bool check(const vector&amp;lt;int&amp;gt;&amp;amp; position, int m, int dis) { int count = 0, prepos = position[0]; for (int i = 1; i &amp;lt; position.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode Weekly Contest: 202&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -54,9 +47,9 @@ Longest Common Subsequence
       <pubDate>Sun, 09 Aug 2020 00:01:37 +0800</pubDate>
       
       <guid>https://abcdlsj.github.io/post/leetcode-biweekly-contest32-weekly-contest201/</guid>
-      <description>LeetCode 双周赛 32 + 周赛 201 解题报告
- 双周赛 K 次操作转变字符串  我最开始用的每次 +26，导致 tle 了好几次（下次千万不要刷新了，刷新之前的错误都没了，导致改了代码我以为我又可以了，结果提交就 tle），之后换成 map，就没啥问题了
- class Solution { public: bool canConvertString(string s, string t, int k) { if (s.size() != t.size()) return false; map&amp;lt;int, int&amp;gt; map; for (int i = 0; i &amp;lt; s.size(); i++) { int x = t[i] - s[i]; x = x &amp;lt; 0 ? x + 26 : x; map[x]++; } for (auto ele : map) { if (ele.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode 双周赛 32 + 周赛 201 解题报告&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -65,21 +58,7 @@ Longest Common Subsequence
       <pubDate>Mon, 03 Aug 2020 09:18:28 +0800</pubDate>
       
       <guid>https://abcdlsj.github.io/post/think-about-this-blog/</guid>
-      <description>初次提交
--- 08-03
-归档了一些无意义的博文
--- 09-08
- 把一些博文的“时间线”注释了（记录的每篇博文的修改和更新时间，有些当时的想法，因为很多吐槽和抱怨，不适合放在这里）
-写博客不能为了写博客而写博客
-如果仅仅是为了记录自己学习过程，那么可以选择的太多了，Emacs Org-Mode ，印象笔记，Google Keep &amp;hellip;&amp;hellip;
-如果当作笔记为了复习， 本地 org/md 已经很完美了
-更功利的讲，如果是为了让别人“感觉”自己很厉害，完全没有必要
-博客的受众是什么？
-觉得博客内容对他们有帮助的人
-但是因为自己的习惯，我不喜欢把东西讲很清楚，所以对别人也没什么帮助，而且，互联网可以找到所有的解决答案
-因为我其实很丧很懒，不想让博客也被感染
-所以以后的博文就记录一下自己学习公开课的过程，自己阅读源码的总结，有意思的经历，一些总结之类的
-比如，之前看到的“为什么XXX要这样设计”系列，“如何实现XXX”，“如何成功面试外卖骑手/滴滴司机”，“面试官皮裤先生”等</description>
+      <description></description>
     </item>
     
     <item>
@@ -111,64 +90,7 @@ Longest Common Subsequence
       
       <guid>https://abcdlsj.github.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;上个月末，准备买一台新的笔记本，选了好几天，决定从联想小新 13 pro 2020 AMD R7 4800u （代号 Lenovo IdeaPad S540 13ARE）和 yoga14s 4800u 同价版本中挑一个，最后选择了 pro 13（实际上过程还是非常曲折的，大概折腾了快小半个月），昨天货到了，检查了一遍，没发现什么很大的问题，主要问题是华星屏幕有点色差和漏光，然后放在桌子上有点不平，不过，对我来说应该不是很严重的问题，所以没换货。检查之后直接双系统，系统选我最爱的 Arch，搭配上熟悉的 i3wm，之前神舟分辨率（1920x1080）简直瞎眼，gnome 也一样字体总是很糊，现在看着感官完全不一样。16:10 + 2.5k + 4800u，续航也非常可以了（超过 6 个小时），而且也可以调野兽模式、节能模式等等。&lt;/p&gt;
-&lt;p&gt;虽然是 AMD CPU，过程还是算比较简单的，wiki 写得很详细，但是比较分散，这里记录一下遇到几个问题，有些是本子特有的，有些是我傻了吧唧的操作导致的。&lt;/p&gt;
-&lt;p&gt;还有就是，安装的时候进界面会出现亮线，之后把 grub 分辨率改了就好（猜的，不过实测有效），这种一般是电压不稳定造成的&lt;/p&gt;
-&lt;p&gt;13ARE ArchWiki 页面：&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://wiki.archlinux.org/index.php/Lenovo_IdeaPad_S540_13ARE&#34;&gt;https://wiki.archlinux.org/index.php/Lenovo_IdeaPad_S540_13ARE&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;-- 07-12&lt;/p&gt;
-&lt;p&gt;使用两天，添加遇到的几个问题，就写这算了，不想从下面添加了：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;合盖会冻结，具体表现为输入设备没法使用（i3wm 键盘失效，鼠标可以移动，点击失效），换 linux-zen 内核后解决&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;缩放问题，最好的还是 144&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;vim .Xresources&lt;/code&gt; （PS. 实测鼠标这样设置大小会好一点点）&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;Xft.dpi: &lt;span style=&#34;color:#ae81ff&#34;&gt;144&lt;/span&gt;
-Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &lt;span style=&#34;color:#ae81ff&#34;&gt;48&lt;/span&gt; or &lt;span style=&#34;color:#ae81ff&#34;&gt;64&lt;/span&gt; may also be good values
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;触控板设置问题，原来是没有手势，比如单击之类的，只能够用触控板本来的点击，感觉不舒服，如果想要简单的就可以像我一样：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ synclient &lt;span style=&#34;color:#111&#34;&gt;TapButton1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;TapButton2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;TapButton3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样就差不多了，更丰富的功能找 wiki&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;fcitx 的字体设置：&lt;code&gt;Noto Sans CJK SC Medium 11&lt;/code&gt;，&lt;code&gt;Menu Font: Ubuntu Regular 11&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;亲测这样看着会舒服很多，Linux 中文字体渲染没有 Mac 好，设置 Regular 还是会比较虚，Medium 会舒服很多，Ubuntu Regular 就不虚 Mac 了，非常好看&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;如果发现渲染重叠，去配置 compton（现在叫 picom）&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;-- 07-14 :timer_clock: 12:55&lt;/p&gt;
-&lt;p&gt;托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决（个人感觉是主题缩放的问题）（07-21 破案了，是字体大小限制的）&lt;/p&gt;
-&lt;p&gt;还有就是内存最好划分 2G 给显卡，4G 如果有高级显示需求是需要的，主要不给 2G 我开 Emacs、Goland 太慢，不打游戏 2G 够了&lt;/p&gt;
-&lt;p&gt;-- 07-16 :timer_clock: 07:07&lt;/p&gt;
-&lt;p&gt;刚刚看了一下 Manjaro Gnome 20 的效果，发现不行，所以最好还是推荐装 i3wm&lt;/p&gt;
-&lt;p&gt;实测自己创建 gtk 的缩放主题很麻烦，很不推荐，浪费时间&lt;/p&gt;
-&lt;p&gt;如果发现 vlc 打开视频闪烁，去配置 picom，wiki 写了解决方案，但是对我没用，因为只有开全屏才会出现，所以我设置 vlc 为浮动了，而且 mpv 不会闪烁&lt;/p&gt;
-&lt;p&gt;如果发现 chrome 滚动撕裂，去配置 picom 垂直同步就好了&lt;/p&gt;
-&lt;p&gt;-- 07-17 :timer_clock: 19:37&lt;/p&gt;
-&lt;p&gt;又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）&lt;/p&gt;
-&lt;p&gt;-- 07-19 :timer_clock: 22:43&lt;/p&gt;
-&lt;p&gt;i3wm 也可以设置主题的，虽然其实没啥用，和默认比也没啥变化，具体可以 Github 找，我用的是 &lt;code&gt;base16-google-dark&lt;/code&gt;，之前一直用的 &lt;code&gt;base16-default-dark&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;镜面屏还是适合对自己颜值有自信的人（不适合我。。。hhh，Emacs 被迫放弃暗色主题）&lt;/p&gt;
-&lt;p&gt;Typora 推荐使用 Next 主题，自带的中文字体非常适合 Typora&lt;/p&gt;
-&lt;p&gt;Linux 中文字体渲染真的垃圾，配置 &lt;code&gt;fontconfig&lt;/code&gt; 可以适当改善&lt;/p&gt;
-&lt;p&gt;-- 07-24 :timer_clock: 17:22&lt;/p&gt;
-&lt;p&gt;更新 bios 之后是可以用 fn + 功能键的（有音量加减很方便。。。），但是我的背光调节不可以。。。&lt;/p&gt;
-&lt;p&gt;经过我的不懈努力，终于找到了究极的字体和 hidpi 配置了&lt;/p&gt;
-&lt;p&gt;看文末就可以了&lt;/p&gt;
-&lt;p&gt;-- 08-01 :timer_clock: 09:25&lt;/p&gt;
-&lt;p&gt;好了，现在换成 Windows 的 Linux 子系统，完结撒花&lt;/p&gt;
-&lt;p&gt;-- 08-28 :timer_clock: 17:15&lt;/p&gt;
-&lt;p&gt;好了，windows 太难用了，为了图安装快换成 manjaro 了&lt;/p&gt;
-&lt;p&gt;-- 08-29 :timer_clock: 14:21&lt;/p&gt;
-&lt;p&gt;好了，折腾一天，发现一堆问题，还不如重装前。。。&lt;/p&gt;
-&lt;p&gt;-- 08-29 :timer_clock: 21:03&lt;/p&gt;
-&lt;p&gt;回 Arch 了。。Manjaro 发行版很适合一些日常图安装快速，配置简单的用户，但是不适合想要深度定制的用户，而且小问题非常多，比如各种 &lt;code&gt;hang on tlp system start/shutdown&lt;/code&gt;，&lt;code&gt;hang on XXX scheduler&lt;/code&gt; 等等，反而 Arch 装好，小问题就非常非常少！&lt;/p&gt;
-&lt;p&gt;-- 09-08 :timer_clock: 15:34&lt;/p&gt;
+&lt;p&gt;上个月末，准备买一台新的笔记本&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -178,18 +100,9 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
       <pubDate>Sun, 28 Jun 2020 07:47:41 +0800</pubDate>
       
       <guid>https://abcdlsj.github.io/post/leetcode-biweekly-contest29-weekly-contest195/</guid>
-      <description>LeetCode 双周赛 29 + 周赛 195 解题报告
-  两周一次的欢乐双周赛时间，双周赛昨天忘记了，过了半个小时去写的。。前几个没什么难度，第四个状压 dp 恕我无能为力（dp 永远的神！），周赛还没开始，感觉难度应该会难一些，争取 3 题！（实际上，每次如果我卡的时间太久。。我就没写了。。。可能还剩一个小时。。。）
--- Sunday 08:03
-裂开。。。网络炸了。。。
-艹，不写了！！！（会不会太水了。。。）
-算了，这次周赛就放弃了，等明天写了补题解吧
--- Sunday 10:52
-不用明天了。。。
--- Sunday 15:42
- Biweekly Contest 5434. 删掉一个元素以后全为 1 的最长子数组  这是第三题
-找到 0 的位置，然后扩散到两边，算出长度
- class Solution { public: int longestSubarray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int n = nums.size(), ans = 0; if (accumulate(nums.begin(), nums.end(), 0) == n) return n - 1; for (int i = 0; i &amp;lt; nums.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode 双周赛 29 + 周赛 195 解题报告&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -231,12 +144,9 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
       <pubDate>Wed, 17 Jun 2020 23:00:00 +0800</pubDate>
       
       <guid>https://abcdlsj.github.io/post/boltdb-analysis-and-implementation/</guid>
-      <description>BoltDB 分析与实现
-   boltDB 介绍  特点就是简单（
- 特点：
- 单机数据库 k/v 存储，B+ 树索引 支持事务 mmap 缓存，逻辑简单  源码结构：
- 存储和缓存：page.go, freelist.go, blot_xxx.go 数据和索引：node.go 桶：bucket.go, cursor.go 事务：tx.go API：db.go  存储与缓存 page 在 bolt 当中，文件被组织成 PAGE_SIZE 大小的 page，结构是：
-// page size(4096 bytes) type page struct { id pgid // page id 	flags uint16 // 区分 page 类型的标识 	count uint16 // page data 中的数据个数 	overflow uint32 // 如果单个 page 大小不够，会分配多个 page，overflow 记录溢出 	ptr uintptr // 指向 page 数据的内存地址 } page 有四种类型</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;BoltDB 源码阅读&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -245,8 +155,9 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
       <pubDate>Wed, 17 Jun 2020 11:43:20 +0800</pubDate>
       
       <guid>https://abcdlsj.github.io/post/mit-6.828-lab2simple-xv6-shell/</guid>
-      <description>Lab: Simple xv6 shell
-   #include &amp;#34;kernel/fcntl.h&amp;#34;#include &amp;#34;kernel/param.h&amp;#34;#include &amp;#34;kernel/types.h&amp;#34;#include &amp;#34;user/user.h&amp;#34; #define MAXSIZE 128  void redirect(int d, int pd[]) { close(d); dup(pd[d]); close(pd[0]); close(pd[1]); } char *splitpipe(char *cmd) { for (; *cmd &amp;amp;&amp;amp; *cmd != &amp;#39;|&amp;#39;; cmd++) ; if (*cmd == &amp;#39;|&amp;#39;) { *cmd++ = &amp;#39;\0&amp;#39;; return cmd; } return 0; } int isspace(char c) { return c == &amp;#39; &amp;#39; || c == &amp;#39;\t&amp;#39; || c == &amp;#39;\n&amp;#39;; } void execcmd(char *cmd) { char *argv[MAXARG]; int argc = 0, inpos = 0, outpos = 0; for (; *cmd; *cmd++ = &amp;#39;\0&amp;#39;) { if (!</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Lab: Simple xv6 shell&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -255,13 +166,9 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
       <pubDate>Tue, 16 Jun 2020 10:43:35 +0800</pubDate>
       
       <guid>https://abcdlsj.github.io/post/mit-6.828-lab1xv6-and-unix-utilities/</guid>
-      <description>Lab: Xv6 and Unix utilities
-  基本完成实验了，但是一些细节自己还是没处理好，有的地方也不是特别清晰（对，就是 primes），明天应该会再看下别人的实现，然后多完善一下 lab1
--- 06-17 :timer_clock: 01:30
-又看了会并行素数筛，go 版本很好理解，至于实验，嗯，我是 fw。。。
-继续看，继续学（今天原本要停电，都做好看一天动漫的准备了。。。然后早上起床发现不停了。。。）
--- 06-17 :timer_clock: 11:30
- xv6 System Call    system call description     fork() Create a process   exit(xstatus) Terminate the current process with xstatus indicating success or failure   wait(*xstatus) Wait for a child process to exit and copy the child’s exit status to xstatus   kill(pid) Terminate process pid   getpid() Return the current process’s pid   sleep(n) Sleep for n clock ticks   exec(filename, *argv) Load an executable file and execute it   sbrk(n) Grow process’s memory by n bytes   open(filename, flags) Open a file; the flags indicate read/write   read(fd, buf, n) Read n bytes from an open file into buf   write(fd, buf, n) Write n bytes to an open file   close(fd) Release open file fd   dup(fd) Duplicate fd   pipe(p) Create a pipe and return fd’s in p   chdir(dirname) Change the current directory   mkdir(dirname) Create a new directory   mknod(name, major, minor) Create a device file   fstat(fd) Return info about an open file   link(f1, f2) Create another name (f2) for the file f1   unlink(filename) Remove a file    sleep Implement the UNIX program sleep for xv6; your sleep should pause for a user-specified number of ticks.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Lab: Xv6 and Unix utilities&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -270,17 +177,9 @@ Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &
       <pubDate>Sun, 14 Jun 2020 11:16:07 +0800</pubDate>
       
       <guid>https://abcdlsj.github.io/post/leetcode-biweekly-contest28/</guid>
-      <description>LeetCode Biweekly Contest 28
-  现在开始每周记录一下周赛的情况，因为到了瓶颈了，现在主要的目的是达到每次周赛稳三题的情况（大半年前 50 题的时候，就可以 2 题，现在还在冲稳三题。。。）
-本周双周赛前面两个比较简单，第三个写了半天还是错的（写出来可以前 300，甚至 200，靠着手速前 2 个，都 700+。。。太丢脸了），最后一个当然不用说了（日常放弃，下次可以试试）
-周赛放弃了（吃饭去了。。。签了到就溜了，下次一定！）
-这里就记录一下双周赛第三题好了（虽然很不负责任，但是写一道题多爽）
- 5423. 找两个和为目标值且不重叠的子数组 这道题我当时思路是：
-  首先前缀和。
-  用 map 存储 {当前前缀和, 下标 i} ，最后放入 map[0] = -1; 。
-  遍历 arr，求 map.find(arr[i] - target) 如果找到，那就取子数组首尾下标，map[arr[i] - target] 和 i ，计算长度用 vectot cnt 保存，判断是否重叠，如果当前 map[arr[i] - target] &amp;lt; 上次的 i ，那就因为重叠跳过（问题在这）。 然后返回 cnt 最小的两个值。
-  我判断重叠的地方是错误的，比赛时我没仔细想，知道之后时间不太够了（懒），就没继续写。
-举个例子，比如  arr = [3, 1, 1, 1, 1, 1, 2, 1], target = 4 。</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;LeetCode Biweekly Contest 28&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>

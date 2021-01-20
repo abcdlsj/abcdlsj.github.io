@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>emacs on Real World</title>
+    <title>emacs on Blog</title>
     <link>https://abcdlsj.github.io/tags/emacs/</link>
-    <description>Recent content in emacs on Real World</description>
+    <description>Recent content in emacs on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright By ABCDLSJ</copyright>
     <lastBuildDate>Sat, 23 Nov 2019 00:00:00 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/tags/emacs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>org-page 搭建 blog</title>

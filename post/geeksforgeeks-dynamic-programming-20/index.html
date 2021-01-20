@@ -1,131 +1,60 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns#">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>GeeksforGeeks-Dynamic-Programming-20 &middot; ABCDLSJ</title>
-        <meta name="description" content="https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/
-  缩进格式可能会不统一。。。不想修改了（有些是 LeetCode 网页写的，有些是本地写的，我的本地 C style 是 Google，所以缩进是 2）。。。尽量本地 format 之后放上来
-直接放的题目链接就是 GeeksforGeeks 的链接，LeetCode 会在链接的地方加上 LeetCode
--- 09-08 :timer_clock: 21:17
-一些简单的题就不写了，比如 爬楼梯 这种
--- 09-10
- Longest Common Subsequence  最长公共子序列（LCS）是一个在一个序列集合中（通常为两个序列）用来查找所有序列中最长子序列的问题。这与查找最长公共子串的问题不同的地方是：子序列不需要在原序列中占用连续的位置 。最长公共子序列问题是一个经典的计算机科学问题，也是数据比较程序，比如Diff工具，和生物信息学应用的基础。它也被广泛地应用在版本控制，比如Git用来调和文件之间的改变。
--- wiki
-Longest Common Subsequence
-学会这个完全可以写一个 diff 工具！！！
- int lcs(string s, string t, int m, int n) { if (m == 0 || n == 0) { return 0; } if (s[m - 1] == t[n - 1]) { return 1 &#43; lcs(s, t, m - 1, n - 1); } return max(lcs(s, t, m, n - 1), lcs(s, t, m - 1, n)); } // dp int lcs_dp(string s, string t) { int m = s.">
-        <meta name="HandheldFriendly" content="True">
-        <meta name="MobileOptimized" content="320">
-        <meta name="generator" content="Hugo 0.80.0" />
-        <meta name="robots" content="index,follow">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta property="og:title" content="GeeksforGeeks-Dynamic-Programming-20">
-<meta property="og:description" content="https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/
-  缩进格式可能会不统一。。。不想修改了（有些是 LeetCode 网页写的，有些是本地写的，我的本地 C style 是 Google，所以缩进是 2）。。。尽量本地 format 之后放上来
-直接放的题目链接就是 GeeksforGeeks 的链接，LeetCode 会在链接的地方加上 LeetCode
--- 09-08 :timer_clock: 21:17
-一些简单的题就不写了，比如 爬楼梯 这种
--- 09-10
- Longest Common Subsequence  最长公共子序列（LCS）是一个在一个序列集合中（通常为两个序列）用来查找所有序列中最长子序列的问题。这与查找最长公共子串的问题不同的地方是：子序列不需要在原序列中占用连续的位置 。最长公共子序列问题是一个经典的计算机科学问题，也是数据比较程序，比如Diff工具，和生物信息学应用的基础。它也被广泛地应用在版本控制，比如Git用来调和文件之间的改变。
--- wiki
-Longest Common Subsequence
-学会这个完全可以写一个 diff 工具！！！
- int lcs(string s, string t, int m, int n) { if (m == 0 || n == 0) { return 0; } if (s[m - 1] == t[n - 1]) { return 1 &#43; lcs(s, t, m - 1, n - 1); } return max(lcs(s, t, m, n - 1), lcs(s, t, m - 1, n)); } // dp int lcs_dp(string s, string t) { int m = s.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://abcdlsj.github.io/post/geeksforgeeks-dynamic-programming-20/">
-        <link rel="stylesheet" href="https://abcdlsj.github.iodist/site.css">
-        <link rel="stylesheet" href="https://abcdlsj.github.iodist/syntax.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-        
-        
-        
-        
-        
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>GeeksforGeeks-Dynamic-Programming-20 - Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
 
-    </head>
-    <body>
-        
-
-        <div id="wrapper">
-            <header class="site-header">
-                <div class="container">
-                    <div class="site-title-wrapper">
-                        
-                            <h1 class="site-title">
-                                <a href="https://abcdlsj.github.io">Real World</a>
-                            </h1>
-                        
-                        
-                        
-                        
-                        
-                        
-                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/abcdlsj" rel="me">
-                                <i class="fa fa-github-alt" aria-hidden="true"></i>
-                            </a>
-                        
-                        
-                        
-                        
-                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:lisongjianshuai@gmail.com">
-                                <i class="fa fa-envelope" aria-hidden="true"></i>
-                            </a>
-                        
-                    </div>
-
-                    <ul class="site-nav">
-                        
-    <li class="site-nav-item">
-        <a href="/">Home</a>
-    </li>
-
-    <li class="site-nav-item">
-        <a href="/post/">Archives</a>
-    </li>
-
-    <li class="site-nav-item">
-        <a href="/categories/">Categories</a>
-    </li>
-
-    <li class="site-nav-item">
-        <a href="/tags/leetcode">LeetCode</a>
-    </li>
-
-    <li class="site-nav-item">
-        <a href="/about/">About</a>
-    </li>
-
-
-                    </ul>
-                </div>
-            </header>
-
-            <div id="container">
-
-
-<div class="container">
-    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
-        <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">GeeksforGeeks-Dynamic-Programming-20</h1>
-    
-    <p class="post-date post-line">
-        <span>Published <time datetime="2020-09-07" itemprop="datePublished">Mon, Sep 7, 2020</time></span>
-        <span>by</span>
-        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
-            <span itemprop="name">
-                <a href="#" itemprop="url" rel="author">ABCDLSJ</a>
-            </span>
-        </span>
-    </p>
-    
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="GeeksforGeeks-Dynamic-Programming-20" />
+<meta property="og:description" content="
+https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://abcdlsj.github.io/post/geeksforgeeks-dynamic-programming-20/" />
+<meta property="article:published_time" content="2020-09-07T10:44:09+08:00" />
+<meta property="article:modified_time" content="2020-09-07T10:44:09+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="GeeksforGeeks-Dynamic-Programming-20"/>
+<meta name="twitter:description" content="
+https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/
+"/>
+<script src="https://abcdlsj.github.iojs/feather.min.js"></script>
+	
+	<link href="https://abcdlsj.github.iocss/fonts.css" rel="stylesheet">
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://abcdlsj.github.iocss/main.css" /><link rel="stylesheet" type="text/css" href="https://abcdlsj.github.iocss/dark.css" media="(prefers-color-scheme: dark)" />
+	
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://abcdlsj.github.io">Blog</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/post/">Archives</a>
+		
+		<a href="/categories/">Categories</a>
+		
+		<a href="/tags/leetcode">LeetCode</a>
+		
+		<a href="/about/">About</a>
+		
+	</nav>
 </header>
 
-        <div class="post-content clearfix" itemprop="articleBody">
-    
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">GeeksforGeeks-Dynamic-Programming-20</h1>
+			<div class="meta">Posted on Sep 7, 2020</div>
+		</div>
+		
 
-    <blockquote>
+		<section class="body">
+			<blockquote>
 <p><a href="https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/">https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/</a></p>
 </blockquote>
 <blockquote>
@@ -472,53 +401,33 @@ Longest Common Subsequence
 <h4 id="leetcode-1092-最短公共超序列httpsleetcode-cncomproblemsshortest-common-s-upersequence">[LeetCode 1092. 最短公共超序列](<a href="https://leetcode-cn.com/problems/shortest-common-s">https://leetcode-cn.com/problems/shortest-common-s</a> upersequence/)</h4>
 <div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
 </code></pre></div>
-</div>
+		</section>
 
-        <footer class="post-footer clearfix">
-        <p class="post-tags">
-            <span>Tagged:</span>
-                <a href="/tags/dynamic-programming/">Dynamic Programming</a>, 
-                <a href="/tags/geeksforgeeks/">GeeksforGeeks</a>
-        </p>
-    <div class="share">
-            <a class="icon-twitter" href="https://twitter.com/share?text=GeeksforGeeks-Dynamic-Programming-20&url=https%3a%2f%2fabcdlsj.github.io%2fpost%2fgeeksforgeeks-dynamic-programming-20%2f"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
-                <i class="fa fa-twitter" aria-hidden="true"></i>
-            </a>
-    </div>
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/dynamic-programming">Dynamic Programming</a></li>
+					
+					<li><a href="/tags/geeksforgeeks">GeeksforGeeks</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+	</article>
+</main>
+<footer>
+<hr><a class="soc" href="https://github.com/abcdlsj" title="GitHub"><i data-feather="github"></i></a>|<a class="soc" href="lisongjianshuai@gmail.com" title="Email"><i data-feather="mail"></i></a>|⚡️
+	2021  © Copyright By ABCDLSJ |  <a href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
 </footer>
 
-        
-    </article>
-</div>
 
-            </div>
-        </div>
-
-        <footer class="footer">
-            <div class="container">
-                <div class="site-title-wrapper">
-                    <h1 class="site-title">
-                        <a href="https://abcdlsj.github.io">Real World</a>
-                    </h1>
-                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
-                        <i class="fa fa-angle-up" aria-hidden="true"></i>
-                    </a>
-                </div>
-
-                <p class="footer-copyright">
-                    <span>&copy; 2020 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
-                </p>
-                <p class="footer-copyright">
-                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
-                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
-                </p>
-            </div>
-        </footer>
-
-        <script src="https://abcdlsj.github.iojs/jquery-1.11.3.min.js"></script>
-        <script src="https://abcdlsj.github.iojs/jquery.fitvids.js"></script>
-        <script src="https://abcdlsj.github.iojs/scripts.js"></script>
+<script>
+      feather.replace()
+</script></div>
     </body>
 </html>
-

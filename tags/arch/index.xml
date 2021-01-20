@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Arch on Real World</title>
+    <title>Arch on Blog</title>
     <link>https://abcdlsj.github.io/tags/arch/</link>
-    <description>Recent content in Arch on Real World</description>
+    <description>Recent content in Arch on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright By ABCDLSJ</copyright>
     <lastBuildDate>Mon, 13 Jul 2020 10:38:18 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/tags/arch/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ArchLinux i3wm Config (联想小新 pro 13, Lenovo IdeaPad S540 13ARE)</title>
@@ -13,64 +15,7 @@
       
       <guid>https://abcdlsj.github.io/post/archlinux-i3wm-config-in-lenovo-ideapad-s540-13are/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;上个月末，准备买一台新的笔记本，选了好几天，决定从联想小新 13 pro 2020 AMD R7 4800u （代号 Lenovo IdeaPad S540 13ARE）和 yoga14s 4800u 同价版本中挑一个，最后选择了 pro 13（实际上过程还是非常曲折的，大概折腾了快小半个月），昨天货到了，检查了一遍，没发现什么很大的问题，主要问题是华星屏幕有点色差和漏光，然后放在桌子上有点不平，不过，对我来说应该不是很严重的问题，所以没换货。检查之后直接双系统，系统选我最爱的 Arch，搭配上熟悉的 i3wm，之前神舟分辨率（1920x1080）简直瞎眼，gnome 也一样字体总是很糊，现在看着感官完全不一样。16:10 + 2.5k + 4800u，续航也非常可以了（超过 6 个小时），而且也可以调野兽模式、节能模式等等。&lt;/p&gt;
-&lt;p&gt;虽然是 AMD CPU，过程还是算比较简单的，wiki 写得很详细，但是比较分散，这里记录一下遇到几个问题，有些是本子特有的，有些是我傻了吧唧的操作导致的。&lt;/p&gt;
-&lt;p&gt;还有就是，安装的时候进界面会出现亮线，之后把 grub 分辨率改了就好（猜的，不过实测有效），这种一般是电压不稳定造成的&lt;/p&gt;
-&lt;p&gt;13ARE ArchWiki 页面：&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://wiki.archlinux.org/index.php/Lenovo_IdeaPad_S540_13ARE&#34;&gt;https://wiki.archlinux.org/index.php/Lenovo_IdeaPad_S540_13ARE&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;-- 07-12&lt;/p&gt;
-&lt;p&gt;使用两天，添加遇到的几个问题，就写这算了，不想从下面添加了：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;合盖会冻结，具体表现为输入设备没法使用（i3wm 键盘失效，鼠标可以移动，点击失效），换 linux-zen 内核后解决&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;缩放问题，最好的还是 144&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;vim .Xresources&lt;/code&gt; （PS. 实测鼠标这样设置大小会好一点点）&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;Xft.dpi: &lt;span style=&#34;color:#ae81ff&#34;&gt;144&lt;/span&gt;
-Xcursor.size:  &lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt; ! 32, &lt;span style=&#34;color:#ae81ff&#34;&gt;48&lt;/span&gt; or &lt;span style=&#34;color:#ae81ff&#34;&gt;64&lt;/span&gt; may also be good values
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;触控板设置问题，原来是没有手势，比如单击之类的，只能够用触控板本来的点击，感觉不舒服，如果想要简单的就可以像我一样：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ synclient &lt;span style=&#34;color:#111&#34;&gt;TapButton1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;TapButton2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;TapButton3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样就差不多了，更丰富的功能找 wiki&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;fcitx 的字体设置：&lt;code&gt;Noto Sans CJK SC Medium 11&lt;/code&gt;，&lt;code&gt;Menu Font: Ubuntu Regular 11&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;亲测这样看着会舒服很多，Linux 中文字体渲染没有 Mac 好，设置 Regular 还是会比较虚，Medium 会舒服很多，Ubuntu Regular 就不虚 Mac 了，非常好看&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;如果发现渲染重叠，去配置 compton（现在叫 picom）&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;-- 07-14 :timer_clock: 12:55&lt;/p&gt;
-&lt;p&gt;托盘图标还是有点问题，大小不一样，幸好就两个稍微大一点点，找了很多方法，没解决（个人感觉是主题缩放的问题）（07-21 破案了，是字体大小限制的）&lt;/p&gt;
-&lt;p&gt;还有就是内存最好划分 2G 给显卡，4G 如果有高级显示需求是需要的，主要不给 2G 我开 Emacs、Goland 太慢，不打游戏 2G 够了&lt;/p&gt;
-&lt;p&gt;-- 07-16 :timer_clock: 07:07&lt;/p&gt;
-&lt;p&gt;刚刚看了一下 Manjaro Gnome 20 的效果，发现不行，所以最好还是推荐装 i3wm&lt;/p&gt;
-&lt;p&gt;实测自己创建 gtk 的缩放主题很麻烦，很不推荐，浪费时间&lt;/p&gt;
-&lt;p&gt;如果发现 vlc 打开视频闪烁，去配置 picom，wiki 写了解决方案，但是对我没用，因为只有开全屏才会出现，所以我设置 vlc 为浮动了，而且 mpv 不会闪烁&lt;/p&gt;
-&lt;p&gt;如果发现 chrome 滚动撕裂，去配置 picom 垂直同步就好了&lt;/p&gt;
-&lt;p&gt;-- 07-17 :timer_clock: 19:37&lt;/p&gt;
-&lt;p&gt;又使用了两天（还没有需要用到虚拟机和 docker 的地方），个人感觉独显 2G 可能稍稍有点点少，但是也没必要分到 4G，然后暂时也没出现卡死的情况（之前电脑 Chrome 标签开多了会卡死，看来是现在的 CPU 强很多了）&lt;/p&gt;
-&lt;p&gt;-- 07-19 :timer_clock: 22:43&lt;/p&gt;
-&lt;p&gt;i3wm 也可以设置主题的，虽然其实没啥用，和默认比也没啥变化，具体可以 Github 找，我用的是 &lt;code&gt;base16-google-dark&lt;/code&gt;，之前一直用的 &lt;code&gt;base16-default-dark&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;镜面屏还是适合对自己颜值有自信的人（不适合我。。。hhh，Emacs 被迫放弃暗色主题）&lt;/p&gt;
-&lt;p&gt;Typora 推荐使用 Next 主题，自带的中文字体非常适合 Typora&lt;/p&gt;
-&lt;p&gt;Linux 中文字体渲染真的垃圾，配置 &lt;code&gt;fontconfig&lt;/code&gt; 可以适当改善&lt;/p&gt;
-&lt;p&gt;-- 07-24 :timer_clock: 17:22&lt;/p&gt;
-&lt;p&gt;更新 bios 之后是可以用 fn + 功能键的（有音量加减很方便。。。），但是我的背光调节不可以。。。&lt;/p&gt;
-&lt;p&gt;经过我的不懈努力，终于找到了究极的字体和 hidpi 配置了&lt;/p&gt;
-&lt;p&gt;看文末就可以了&lt;/p&gt;
-&lt;p&gt;-- 08-01 :timer_clock: 09:25&lt;/p&gt;
-&lt;p&gt;好了，现在换成 Windows 的 Linux 子系统，完结撒花&lt;/p&gt;
-&lt;p&gt;-- 08-28 :timer_clock: 17:15&lt;/p&gt;
-&lt;p&gt;好了，windows 太难用了，为了图安装快换成 manjaro 了&lt;/p&gt;
-&lt;p&gt;-- 08-29 :timer_clock: 14:21&lt;/p&gt;
-&lt;p&gt;好了，折腾一天，发现一堆问题，还不如重装前。。。&lt;/p&gt;
-&lt;p&gt;-- 08-29 :timer_clock: 21:03&lt;/p&gt;
-&lt;p&gt;回 Arch 了。。Manjaro 发行版很适合一些日常图安装快速，配置简单的用户，但是不适合想要深度定制的用户，而且小问题非常多，比如各种 &lt;code&gt;hang on tlp system start/shutdown&lt;/code&gt;，&lt;code&gt;hang on XXX scheduler&lt;/code&gt; 等等，反而 Arch 装好，小问题就非常非常少！&lt;/p&gt;
-&lt;p&gt;-- 09-08 :timer_clock: 15:34&lt;/p&gt;
+&lt;p&gt;上个月末，准备买一台新的笔记本&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     

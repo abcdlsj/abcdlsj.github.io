@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>6.828 on Real World</title>
+    <title>6.828 on Blog</title>
     <link>https://abcdlsj.github.io/tags/6.828/</link>
-    <description>Recent content in 6.828 on Real World</description>
+    <description>Recent content in 6.828 on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright By ABCDLSJ</copyright>
     <lastBuildDate>Wed, 17 Jun 2020 11:43:20 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/tags/6.828/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MIT 6.828 Lab 2: Simple xv6 shell</title>
@@ -12,8 +14,9 @@
       <pubDate>Wed, 17 Jun 2020 11:43:20 +0800</pubDate>
       
       <guid>https://abcdlsj.github.io/post/mit-6.828-lab2simple-xv6-shell/</guid>
-      <description>Lab: Simple xv6 shell
-   #include &amp;#34;kernel/fcntl.h&amp;#34;#include &amp;#34;kernel/param.h&amp;#34;#include &amp;#34;kernel/types.h&amp;#34;#include &amp;#34;user/user.h&amp;#34; #define MAXSIZE 128  void redirect(int d, int pd[]) { close(d); dup(pd[d]); close(pd[0]); close(pd[1]); } char *splitpipe(char *cmd) { for (; *cmd &amp;amp;&amp;amp; *cmd != &amp;#39;|&amp;#39;; cmd++) ; if (*cmd == &amp;#39;|&amp;#39;) { *cmd++ = &amp;#39;\0&amp;#39;; return cmd; } return 0; } int isspace(char c) { return c == &amp;#39; &amp;#39; || c == &amp;#39;\t&amp;#39; || c == &amp;#39;\n&amp;#39;; } void execcmd(char *cmd) { char *argv[MAXARG]; int argc = 0, inpos = 0, outpos = 0; for (; *cmd; *cmd++ = &amp;#39;\0&amp;#39;) { if (!</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Lab: Simple xv6 shell&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>
@@ -22,13 +25,9 @@
       <pubDate>Tue, 16 Jun 2020 10:43:35 +0800</pubDate>
       
       <guid>https://abcdlsj.github.io/post/mit-6.828-lab1xv6-and-unix-utilities/</guid>
-      <description>Lab: Xv6 and Unix utilities
-  基本完成实验了，但是一些细节自己还是没处理好，有的地方也不是特别清晰（对，就是 primes），明天应该会再看下别人的实现，然后多完善一下 lab1
--- 06-17 :timer_clock: 01:30
-又看了会并行素数筛，go 版本很好理解，至于实验，嗯，我是 fw。。。
-继续看，继续学（今天原本要停电，都做好看一天动漫的准备了。。。然后早上起床发现不停了。。。）
--- 06-17 :timer_clock: 11:30
- xv6 System Call    system call description     fork() Create a process   exit(xstatus) Terminate the current process with xstatus indicating success or failure   wait(*xstatus) Wait for a child process to exit and copy the child’s exit status to xstatus   kill(pid) Terminate process pid   getpid() Return the current process’s pid   sleep(n) Sleep for n clock ticks   exec(filename, *argv) Load an executable file and execute it   sbrk(n) Grow process’s memory by n bytes   open(filename, flags) Open a file; the flags indicate read/write   read(fd, buf, n) Read n bytes from an open file into buf   write(fd, buf, n) Write n bytes to an open file   close(fd) Release open file fd   dup(fd) Duplicate fd   pipe(p) Create a pipe and return fd’s in p   chdir(dirname) Change the current directory   mkdir(dirname) Create a new directory   mknod(name, major, minor) Create a device file   fstat(fd) Return info about an open file   link(f1, f2) Create another name (f2) for the file f1   unlink(filename) Remove a file    sleep Implement the UNIX program sleep for xv6; your sleep should pause for a user-specified number of ticks.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Lab: Xv6 and Unix utilities&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
   </channel>
