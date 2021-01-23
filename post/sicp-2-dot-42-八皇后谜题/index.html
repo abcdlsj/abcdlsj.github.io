@@ -58,61 +58,61 @@
 <!-- raw HTML omitted -->
 </blockquote>
 <p>代码还算简单(简单我也看了半天。。。)，主要是督促一下自己好好看书(其实这道题个人觉得是 2.2.3 节最有价值的一道题了，很好诠释了 SICP 所要表达的 <code>抽象</code>)</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scheme" data-lang="scheme"><span style="color:#f92672">#</span><span style="color:#111">lang</span> <span style="color:#111">sicp</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scheme" data-lang="scheme">#<span style="color:#40ffff">lang</span> <span style="color:#40ffff">sicp</span>
 
-<span style="color:#111">(</span><span style="color:#00a8c8">define </span><span style="color:#111">nil</span> <span style="color:#111">(</span><span style="color:#00a8c8">quote </span><span style="color:#111">()))</span>
+(<span style="color:#6ab825;font-weight:bold">define </span><span style="color:#40ffff">nil</span> (<span style="color:#6ab825;font-weight:bold">quote </span>()))
 
-<span style="color:#111">(</span><span style="color:#00a8c8">define </span><span style="color:#111">(</span><span style="color:#75af00">filter</span> <span style="color:#111">predicate</span> <span style="color:#111">sequence</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#00a8c8">cond </span><span style="color:#111">((</span><span style="color:#111">null? </span><span style="color:#111">sequence</span><span style="color:#111">)</span> <span style="color:#111">nil</span><span style="color:#111">)</span>
-		<span style="color:#111">((</span><span style="color:#75af00">predicate</span> <span style="color:#111">(</span><span style="color:#111">car </span><span style="color:#111">sequence</span><span style="color:#111">))</span>
-		 <span style="color:#111">(</span><span style="color:#111">cons </span><span style="color:#111">(</span><span style="color:#111">car </span><span style="color:#111">sequence</span><span style="color:#111">)</span>
-			   <span style="color:#111">(</span><span style="color:#75af00">filter</span> <span style="color:#111">predicate</span> <span style="color:#111">(</span><span style="color:#111">cdr </span><span style="color:#111">sequence</span><span style="color:#111">))))</span>
-		<span style="color:#111">(</span><span style="color:#00a8c8">else </span><span style="color:#111">(</span><span style="color:#75af00">filter</span> <span style="color:#111">predicate</span> <span style="color:#111">(</span><span style="color:#111">cdr </span><span style="color:#111">sequence</span><span style="color:#111">)))))</span>
+(<span style="color:#6ab825;font-weight:bold">define </span>(<span style="color:#447fcf">filter</span> <span style="color:#40ffff">predicate</span> <span style="color:#40ffff">sequence</span>)
+  (<span style="color:#6ab825;font-weight:bold">cond </span>((<span style="color:#24909d">null? </span><span style="color:#40ffff">sequence</span>) <span style="color:#40ffff">nil</span>)
+		((<span style="color:#447fcf">predicate</span> (<span style="color:#24909d">car </span><span style="color:#40ffff">sequence</span>))
+		 (<span style="color:#24909d">cons </span>(<span style="color:#24909d">car </span><span style="color:#40ffff">sequence</span>)
+			   (<span style="color:#447fcf">filter</span> <span style="color:#40ffff">predicate</span> (<span style="color:#24909d">cdr </span><span style="color:#40ffff">sequence</span>))))
+		(<span style="color:#6ab825;font-weight:bold">else </span>(<span style="color:#447fcf">filter</span> <span style="color:#40ffff">predicate</span> (<span style="color:#24909d">cdr </span><span style="color:#40ffff">sequence</span>)))))
 
-<span style="color:#111">(</span><span style="color:#00a8c8">define </span><span style="color:#111">(</span><span style="color:#75af00">enumerate-interval</span> <span style="color:#111">low</span> <span style="color:#111">high</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#00a8c8">if </span><span style="color:#111">(</span><span style="color:#111">&gt; </span><span style="color:#111">low</span> <span style="color:#111">high</span><span style="color:#111">)</span>
-	  <span style="color:#111">nil</span>
-	  <span style="color:#111">(</span><span style="color:#111">cons </span><span style="color:#111">low</span> <span style="color:#111">(</span><span style="color:#75af00">enumerate-interval</span> <span style="color:#111">(</span><span style="color:#111">+ </span><span style="color:#111">low</span> <span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#111">high</span><span style="color:#111">))))</span>
+(<span style="color:#6ab825;font-weight:bold">define </span>(<span style="color:#447fcf">enumerate-interval</span> <span style="color:#40ffff">low</span> <span style="color:#40ffff">high</span>)
+  (<span style="color:#6ab825;font-weight:bold">if </span>(<span style="color:#24909d">&gt; </span><span style="color:#40ffff">low</span> <span style="color:#40ffff">high</span>)
+	  <span style="color:#40ffff">nil</span>
+	  (<span style="color:#24909d">cons </span><span style="color:#40ffff">low</span> (<span style="color:#447fcf">enumerate-interval</span> (<span style="color:#24909d">+ </span><span style="color:#40ffff">low</span> <span style="color:#3677a9">1</span>) <span style="color:#40ffff">high</span>))))
 
-<span style="color:#111">(</span><span style="color:#00a8c8">define </span><span style="color:#111">(</span><span style="color:#75af00">accumulate</span> <span style="color:#111">op</span> <span style="color:#111">initial</span> <span style="color:#111">sequence</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#00a8c8">if </span><span style="color:#111">(</span><span style="color:#111">null? </span><span style="color:#111">sequence</span><span style="color:#111">)</span>
-	  <span style="color:#111">initial</span>
-	  <span style="color:#111">(</span><span style="color:#75af00">op</span> <span style="color:#111">(</span><span style="color:#111">car </span><span style="color:#111">sequence</span><span style="color:#111">)</span>
-		  <span style="color:#111">(</span><span style="color:#75af00">accumulate</span> <span style="color:#111">op</span> <span style="color:#111">initial</span> <span style="color:#111">(</span><span style="color:#111">cdr </span><span style="color:#111">sequence</span><span style="color:#111">)))))</span>
+(<span style="color:#6ab825;font-weight:bold">define </span>(<span style="color:#447fcf">accumulate</span> <span style="color:#40ffff">op</span> <span style="color:#40ffff">initial</span> <span style="color:#40ffff">sequence</span>)
+  (<span style="color:#6ab825;font-weight:bold">if </span>(<span style="color:#24909d">null? </span><span style="color:#40ffff">sequence</span>)
+	  <span style="color:#40ffff">initial</span>
+	  (<span style="color:#447fcf">op</span> (<span style="color:#24909d">car </span><span style="color:#40ffff">sequence</span>)
+		  (<span style="color:#447fcf">accumulate</span> <span style="color:#40ffff">op</span> <span style="color:#40ffff">initial</span> (<span style="color:#24909d">cdr </span><span style="color:#40ffff">sequence</span>)))))
 
-<span style="color:#111">(</span><span style="color:#00a8c8">define </span><span style="color:#111">(</span><span style="color:#75af00">flatmap</span> <span style="color:#111">proc</span> <span style="color:#111">seq</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#75af00">accumulate</span> <span style="color:#111">append</span> <span style="color:#111">nil</span> <span style="color:#111">(</span><span style="color:#111">map </span><span style="color:#111">proc</span> <span style="color:#111">seq</span><span style="color:#111">)))</span>
+(<span style="color:#6ab825;font-weight:bold">define </span>(<span style="color:#447fcf">flatmap</span> <span style="color:#40ffff">proc</span> <span style="color:#40ffff">seq</span>)
+  (<span style="color:#447fcf">accumulate</span> <span style="color:#40ffff">append</span> <span style="color:#40ffff">nil</span> (<span style="color:#24909d">map </span><span style="color:#40ffff">proc</span> <span style="color:#40ffff">seq</span>)))
 
-<span style="color:#111">(</span><span style="color:#00a8c8">define </span><span style="color:#111">(</span><span style="color:#75af00">queens</span> <span style="color:#111">board-size</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#00a8c8">define </span><span style="color:#111">(</span><span style="color:#75af00">queen-cols</span> <span style="color:#111">k</span><span style="color:#111">)</span>
-	<span style="color:#111">(</span><span style="color:#00a8c8">if </span><span style="color:#111">(</span><span style="color:#111">= </span><span style="color:#111">k</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span>
-		<span style="color:#111">(</span><span style="color:#111">list </span><span style="color:#111">empty-board</span><span style="color:#111">)</span>
-		<span style="color:#111">(</span><span style="color:#75af00">filter</span>
-		 <span style="color:#111">(</span><span style="color:#00a8c8">lambda </span><span style="color:#111">(</span><span style="color:#75af00">positions</span><span style="color:#111">)</span> <span style="color:#111">(</span><span style="color:#75af00">safe?</span> <span style="color:#111">k</span> <span style="color:#111">positions</span><span style="color:#111">))</span>
-		 <span style="color:#111">(</span><span style="color:#75af00">flatmap</span>
-		  <span style="color:#111">(</span><span style="color:#00a8c8">lambda </span><span style="color:#111">(</span><span style="color:#75af00">rest-of-queens</span><span style="color:#111">)</span>
-			<span style="color:#111">(</span><span style="color:#111">map </span><span style="color:#111">(</span><span style="color:#00a8c8">lambda </span><span style="color:#111">(</span><span style="color:#75af00">new-row</span><span style="color:#111">)</span>
-				   <span style="color:#111">(</span><span style="color:#75af00">adjoin-position</span> <span style="color:#111">new-row</span> <span style="color:#111">k</span> <span style="color:#111">rest-of-queens</span><span style="color:#111">))</span>
-				 <span style="color:#111">(</span><span style="color:#75af00">enumerate-interval</span> <span style="color:#ae81ff">1</span> <span style="color:#111">board-size</span><span style="color:#111">)))</span>
-		  <span style="color:#111">(</span><span style="color:#75af00">queen-cols</span> <span style="color:#111">(</span><span style="color:#111">- </span><span style="color:#111">k</span> <span style="color:#ae81ff">1</span><span style="color:#111">))))))</span>
-  <span style="color:#111">(</span><span style="color:#75af00">queen-cols</span> <span style="color:#111">board-size</span><span style="color:#111">))</span>
+(<span style="color:#6ab825;font-weight:bold">define </span>(<span style="color:#447fcf">queens</span> <span style="color:#40ffff">board-size</span>)
+  (<span style="color:#6ab825;font-weight:bold">define </span>(<span style="color:#447fcf">queen-cols</span> <span style="color:#40ffff">k</span>)
+	(<span style="color:#6ab825;font-weight:bold">if </span>(<span style="color:#24909d">= </span><span style="color:#40ffff">k</span> <span style="color:#3677a9">0</span>)
+		(<span style="color:#24909d">list </span><span style="color:#40ffff">empty-board</span>)
+		(<span style="color:#447fcf">filter</span>
+		 (<span style="color:#6ab825;font-weight:bold">lambda </span>(<span style="color:#447fcf">positions</span>) (<span style="color:#447fcf">safe?</span> <span style="color:#40ffff">k</span> <span style="color:#40ffff">positions</span>))
+		 (<span style="color:#447fcf">flatmap</span>
+		  (<span style="color:#6ab825;font-weight:bold">lambda </span>(<span style="color:#447fcf">rest-of-queens</span>)
+			(<span style="color:#24909d">map </span>(<span style="color:#6ab825;font-weight:bold">lambda </span>(<span style="color:#447fcf">new-row</span>)
+				   (<span style="color:#447fcf">adjoin-position</span> <span style="color:#40ffff">new-row</span> <span style="color:#40ffff">k</span> <span style="color:#40ffff">rest-of-queens</span>))
+				 (<span style="color:#447fcf">enumerate-interval</span> <span style="color:#3677a9">1</span> <span style="color:#40ffff">board-size</span>)))
+		  (<span style="color:#447fcf">queen-cols</span> (<span style="color:#24909d">- </span><span style="color:#40ffff">k</span> <span style="color:#3677a9">1</span>))))))
+  (<span style="color:#447fcf">queen-cols</span> <span style="color:#40ffff">board-size</span>))
 
-<span style="color:#111">(</span><span style="color:#00a8c8">define </span><span style="color:#111">empty-board</span> <span style="color:#f92672">&#39;</span><span style="color:#111">())</span>
+(<span style="color:#6ab825;font-weight:bold">define </span><span style="color:#40ffff">empty-board</span> &#39;())
 
-<span style="color:#111">(</span><span style="color:#00a8c8">define </span><span style="color:#111">(</span><span style="color:#75af00">adjoin-position</span> <span style="color:#111">row</span> <span style="color:#111">col</span> <span style="color:#111">rest-of-queens</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#111">cons </span><span style="color:#111">row</span> <span style="color:#111">rest-of-queens</span><span style="color:#111">))</span>
+(<span style="color:#6ab825;font-weight:bold">define </span>(<span style="color:#447fcf">adjoin-position</span> <span style="color:#40ffff">row</span> <span style="color:#40ffff">col</span> <span style="color:#40ffff">rest-of-queens</span>)
+  (<span style="color:#24909d">cons </span><span style="color:#40ffff">row</span> <span style="color:#40ffff">rest-of-queens</span>))
 
-<span style="color:#111">(</span><span style="color:#00a8c8">define </span><span style="color:#111">(</span><span style="color:#75af00">safe?</span> <span style="color:#111">column</span> <span style="color:#111">positions</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#00a8c8">define </span><span style="color:#111">(</span><span style="color:#75af00">next-column-safe?</span> <span style="color:#111">new-row</span> <span style="color:#111">positions</span> <span style="color:#111">row-offset</span><span style="color:#111">)</span>
-	<span style="color:#111">(</span><span style="color:#00a8c8">if </span><span style="color:#111">(</span><span style="color:#111">null? </span><span style="color:#111">positions</span><span style="color:#111">)</span>
-		<span style="color:#00a8c8">#t</span>
-		<span style="color:#111">(</span><span style="color:#00a8c8">let </span><span style="color:#111">((</span><span style="color:#75af00">this-row</span> <span style="color:#111">(</span><span style="color:#111">car </span><span style="color:#111">positions</span><span style="color:#111">)))</span>
-		  <span style="color:#111">(</span><span style="color:#00a8c8">if </span><span style="color:#111">(</span><span style="color:#00a8c8">or </span><span style="color:#111">(</span><span style="color:#111">= </span><span style="color:#111">this-row</span> <span style="color:#111">new-row</span><span style="color:#111">)</span>
-				  <span style="color:#111">(</span><span style="color:#111">= </span><span style="color:#111">(</span><span style="color:#111">+ </span><span style="color:#111">this-row</span> <span style="color:#111">row-offset</span><span style="color:#111">)</span> <span style="color:#111">new-row</span><span style="color:#111">)</span>
-				  <span style="color:#111">(</span><span style="color:#111">= </span><span style="color:#111">(</span><span style="color:#111">- </span><span style="color:#111">this-row</span> <span style="color:#111">row-offset</span><span style="color:#111">)</span> <span style="color:#111">new-row</span><span style="color:#111">))</span>
-			  <span style="color:#00a8c8">#f</span>
-			  <span style="color:#111">(</span><span style="color:#75af00">next-column-safe?</span> <span style="color:#111">new-row</span> <span style="color:#111">(</span><span style="color:#111">cdr </span><span style="color:#111">positions</span><span style="color:#111">)</span> <span style="color:#111">(</span><span style="color:#111">+ </span><span style="color:#ae81ff">1</span> <span style="color:#111">row-offset</span><span style="color:#111">))))))</span>
-  <span style="color:#111">(</span><span style="color:#75af00">next-column-safe?</span> <span style="color:#111">(</span><span style="color:#111">car </span><span style="color:#111">positions</span><span style="color:#111">)</span> <span style="color:#111">(</span><span style="color:#111">cdr </span><span style="color:#111">positions</span><span style="color:#111">)</span> <span style="color:#ae81ff">1</span><span style="color:#111">))</span>
+(<span style="color:#6ab825;font-weight:bold">define </span>(<span style="color:#447fcf">safe?</span> <span style="color:#40ffff">column</span> <span style="color:#40ffff">positions</span>)
+  (<span style="color:#6ab825;font-weight:bold">define </span>(<span style="color:#447fcf">next-column-safe?</span> <span style="color:#40ffff">new-row</span> <span style="color:#40ffff">positions</span> <span style="color:#40ffff">row-offset</span>)
+	(<span style="color:#6ab825;font-weight:bold">if </span>(<span style="color:#24909d">null? </span><span style="color:#40ffff">positions</span>)
+		<span style="color:#40ffff">#t</span>
+		(<span style="color:#6ab825;font-weight:bold">let </span>((<span style="color:#447fcf">this-row</span> (<span style="color:#24909d">car </span><span style="color:#40ffff">positions</span>)))
+		  (<span style="color:#6ab825;font-weight:bold">if </span>(<span style="color:#6ab825;font-weight:bold">or </span>(<span style="color:#24909d">= </span><span style="color:#40ffff">this-row</span> <span style="color:#40ffff">new-row</span>)
+				  (<span style="color:#24909d">= </span>(<span style="color:#24909d">+ </span><span style="color:#40ffff">this-row</span> <span style="color:#40ffff">row-offset</span>) <span style="color:#40ffff">new-row</span>)
+				  (<span style="color:#24909d">= </span>(<span style="color:#24909d">- </span><span style="color:#40ffff">this-row</span> <span style="color:#40ffff">row-offset</span>) <span style="color:#40ffff">new-row</span>))
+			  <span style="color:#40ffff">#f</span>
+			  (<span style="color:#447fcf">next-column-safe?</span> <span style="color:#40ffff">new-row</span> (<span style="color:#24909d">cdr </span><span style="color:#40ffff">positions</span>) (<span style="color:#24909d">+ </span><span style="color:#3677a9">1</span> <span style="color:#40ffff">row-offset</span>))))))
+  (<span style="color:#447fcf">next-column-safe?</span> (<span style="color:#24909d">car </span><span style="color:#40ffff">positions</span>) (<span style="color:#24909d">cdr </span><span style="color:#40ffff">positions</span>) <span style="color:#3677a9">1</span>))
 </code></pre></div>
 		</section>
 

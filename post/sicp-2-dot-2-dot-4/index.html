@@ -57,19 +57,19 @@ SICP 2.2.4 解决方案
 			<blockquote>
 <p>SICP 2.2.4 解决方案</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">在 2.2.4 中，通过对数据的组合来实现了复杂的图形，为了看到书中的例子，网上查找了解决方案，发现了两种比较好的
-</code></pre></div><div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket"><span style="color:#f92672">#lang </span><span style="color:#111">racket</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">在 2.2.4 中，通过对数据的组合来实现了复杂的图形，为了看到书中的例子，网上查找了解决方案，发现了两种比较好的
+</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket"><span style="color:#6ab825;font-weight:bold">#lang </span><span style="color:#447fcf;text-decoration:underline">racket</span>
 
-<span style="color:#75715e">;;(#%require sicp-pict)</span>
-<span style="color:#111">(</span><span style="color:#00a8c8">require</span> <span style="color:#111">(</span><span style="color:#00a8c8">planet</span> <span style="color:#d88200">&#34;sicp.ss&#34;</span> <span style="color:#111">(</span><span style="color:#d88200">&#34;soegaard&#34;</span> <span style="color:#d88200">&#34;sicp.plt&#34;</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">1</span><span style="color:#111">)))</span>
+<span style="color:#999;font-style:italic">;;(#%require sicp-pict)</span>
+(<span style="color:#6ab825;font-weight:bold">require</span> (<span style="color:#6ab825;font-weight:bold">planet</span> <span style="color:#ed9d13">&#34;sicp.ss&#34;</span> (<span style="color:#ed9d13">&#34;soegaard&#34;</span> <span style="color:#ed9d13">&#34;sicp.plt&#34;</span> <span style="color:#3677a9">2</span> <span style="color:#3677a9">1</span>)))
 
-<span style="color:#111">(</span><span style="color:#00a8c8">define</span> <span style="color:#111">(</span><span style="color:#111">right-split</span> <span style="color:#111">painter</span> <span style="color:#111">n</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">=</span> <span style="color:#111">n</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span>
-	  <span style="color:#111">painter</span>
-	  <span style="color:#111">(</span><span style="color:#00a8c8">let</span> <span style="color:#111">((</span><span style="color:#111">smaller</span> <span style="color:#111">(</span><span style="color:#111">right-split</span> <span style="color:#111">painter</span> <span style="color:#111">(</span><span style="color:#111">-</span> <span style="color:#111">n</span> <span style="color:#ae81ff">1</span><span style="color:#111">))))</span>
-		<span style="color:#111">(</span><span style="color:#111">beside</span> <span style="color:#111">painter</span> <span style="color:#111">(</span><span style="color:#111">below</span> <span style="color:#111">smaller</span> <span style="color:#111">smaller</span><span style="color:#111">)))))</span>
+(<span style="color:#6ab825;font-weight:bold">define</span> (right-split painter n)
+  (<span style="color:#6ab825;font-weight:bold">if</span> (<span style="color:#24909d">=</span> n <span style="color:#3677a9">0</span>)
+	  painter
+	  (<span style="color:#6ab825;font-weight:bold">let</span> ((smaller (right-split painter (<span style="color:#24909d">-</span> n <span style="color:#3677a9">1</span>))))
+		(beside painter (below smaller smaller)))))
 
-<span style="color:#111">(</span><span style="color:#111">paint</span> <span style="color:#111">(</span><span style="color:#111">right-split</span> <span style="color:#111">einstein</span> <span style="color:#ae81ff">5</span><span style="color:#111">))</span><span style="color:#960050;background-color:#1e0010">
+(paint (right-split einstein <span style="color:#3677a9">5</span>))<span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><figure>
     <img src="/ox-hugo/fig2.png"
          alt="Figure 1: fig2"/> <figcaption>
@@ -78,18 +78,18 @@ SICP 2.2.4 解决方案
 </figure>
 
 <p>还可以</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket"><span style="color:#f92672">#lang </span><span style="color:#111">sicp</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-racket" data-lang="racket"><span style="color:#6ab825;font-weight:bold">#lang </span><span style="color:#447fcf;text-decoration:underline">sicp</span>
 
-<span style="color:#111">(</span><span style="color:#00a8c8">#%require</span> <span style="color:#111">sicp-pict</span><span style="color:#111">)</span>
-<span style="color:#75715e">;;(require (planet &#34;sicp.ss&#34; (&#34;soegaard&#34; &#34;sicp.plt&#34; 2 1)))</span>
+(<span style="color:#6ab825;font-weight:bold">#%require</span> sicp-pict)
+<span style="color:#999;font-style:italic">;;(require (planet &#34;sicp.ss&#34; (&#34;soegaard&#34; &#34;sicp.plt&#34; 2 1)))</span>
 
-<span style="color:#111">(</span><span style="color:#00a8c8">define</span> <span style="color:#111">(</span><span style="color:#111">right-split</span> <span style="color:#111">painter</span> <span style="color:#111">n</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">=</span> <span style="color:#111">n</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span>
-	  <span style="color:#111">painter</span>
-	  <span style="color:#111">(</span><span style="color:#00a8c8">let</span> <span style="color:#111">((</span><span style="color:#111">smaller</span> <span style="color:#111">(</span><span style="color:#111">right-split</span> <span style="color:#111">painter</span> <span style="color:#111">(</span><span style="color:#111">-</span> <span style="color:#111">n</span> <span style="color:#ae81ff">1</span><span style="color:#111">))))</span>
-		<span style="color:#111">(</span><span style="color:#111">beside</span> <span style="color:#111">painter</span> <span style="color:#111">(</span><span style="color:#111">below</span> <span style="color:#111">smaller</span> <span style="color:#111">smaller</span><span style="color:#111">)))))</span>
+(<span style="color:#6ab825;font-weight:bold">define</span> (right-split painter n)
+  (<span style="color:#6ab825;font-weight:bold">if</span> (<span style="color:#24909d">=</span> n <span style="color:#3677a9">0</span>)
+	  painter
+	  (<span style="color:#6ab825;font-weight:bold">let</span> ((smaller (right-split painter (<span style="color:#24909d">-</span> n <span style="color:#3677a9">1</span>))))
+		(beside painter (below smaller smaller)))))
 
-<span style="color:#111">(</span><span style="color:#111">paint</span> <span style="color:#111">(</span><span style="color:#111">right-split</span> <span style="color:#111">einstein</span> <span style="color:#ae81ff">5</span><span style="color:#111">))</span><span style="color:#960050;background-color:#1e0010">
+(paint (right-split einstein <span style="color:#3677a9">5</span>))<span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><figure>
     <img src="/ox-hugo/fig1.png"
          alt="Figure 2: fig1"/> <figcaption>

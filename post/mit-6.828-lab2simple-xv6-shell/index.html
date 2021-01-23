@@ -66,133 +66,133 @@ Lab: Simple xv6 shell
 <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/fcntl.h&#34;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/param.h&#34;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;kernel/types.h&#34;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;user/user.h&#34;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define MAXSIZE 128
-</span><span style="color:#75715e"></span>
-<span style="color:#00a8c8">void</span> <span style="color:#75af00">redirect</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">d</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">pd</span><span style="color:#111">[])</span> <span style="color:#111">{</span>
-  <span style="color:#111">close</span><span style="color:#111">(</span><span style="color:#111">d</span><span style="color:#111">);</span>
-  <span style="color:#111">dup</span><span style="color:#111">(</span><span style="color:#111">pd</span><span style="color:#111">[</span><span style="color:#111">d</span><span style="color:#111">]);</span>
-  <span style="color:#111">close</span><span style="color:#111">(</span><span style="color:#111">pd</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]);</span>
-  <span style="color:#111">close</span><span style="color:#111">(</span><span style="color:#111">pd</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">]);</span>
-<span style="color:#111">}</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cd2828;font-weight:bold">#include</span> <span style="color:#cd2828;font-weight:bold">&#34;kernel/fcntl.h&#34;</span><span style="color:#cd2828;font-weight:bold">
+</span><span style="color:#cd2828;font-weight:bold">#include</span> <span style="color:#cd2828;font-weight:bold">&#34;kernel/param.h&#34;</span><span style="color:#cd2828;font-weight:bold">
+</span><span style="color:#cd2828;font-weight:bold">#include</span> <span style="color:#cd2828;font-weight:bold">&#34;kernel/types.h&#34;</span><span style="color:#cd2828;font-weight:bold">
+</span><span style="color:#cd2828;font-weight:bold">#include</span> <span style="color:#cd2828;font-weight:bold">&#34;user/user.h&#34;</span><span style="color:#cd2828;font-weight:bold">
+</span><span style="color:#cd2828;font-weight:bold"></span>
+<span style="color:#cd2828;font-weight:bold">#define MAXSIZE 128
+</span><span style="color:#cd2828;font-weight:bold"></span>
+<span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">redirect</span>(<span style="color:#6ab825;font-weight:bold">int</span> d, <span style="color:#6ab825;font-weight:bold">int</span> pd[]) {
+  close(d);
+  dup(pd[d]);
+  close(pd[<span style="color:#3677a9">0</span>]);
+  close(pd[<span style="color:#3677a9">1</span>]);
+}
 
-<span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#75af00">splitpipe</span><span style="color:#111">(</span><span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">cmd</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-  <span style="color:#00a8c8">for</span> <span style="color:#111">(;</span> <span style="color:#f92672">*</span><span style="color:#111">cmd</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">*</span><span style="color:#111">cmd</span> <span style="color:#f92672">!=</span> <span style="color:#d88200">&#39;|&#39;</span><span style="color:#111">;</span> <span style="color:#111">cmd</span><span style="color:#f92672">++</span><span style="color:#111">)</span>
-    <span style="color:#111">;</span>
+<span style="color:#6ab825;font-weight:bold">char</span> *<span style="color:#447fcf">splitpipe</span>(<span style="color:#6ab825;font-weight:bold">char</span> *cmd) {
+  <span style="color:#6ab825;font-weight:bold">for</span> (; *cmd &amp;&amp; *cmd != <span style="color:#ed9d13">&#39;|&#39;</span>; cmd++)
+    ;
 
-  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">cmd</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;|&#39;</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-    <span style="color:#f92672">*</span><span style="color:#111">cmd</span><span style="color:#f92672">++</span> <span style="color:#f92672">=</span> <span style="color:#d88200">&#39;\0&#39;</span><span style="color:#111">;</span>
-    <span style="color:#00a8c8">return</span> <span style="color:#111">cmd</span><span style="color:#111">;</span>
-  <span style="color:#111">}</span>
+  <span style="color:#6ab825;font-weight:bold">if</span> (*cmd == <span style="color:#ed9d13">&#39;|&#39;</span>) {
+    *cmd++ = <span style="color:#ed9d13">&#39;\0&#39;</span>;
+    <span style="color:#6ab825;font-weight:bold">return</span> cmd;
+  }
 
-  <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
-<span style="color:#111">}</span>
+  <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#3677a9">0</span>;
+}
 
-<span style="color:#00a8c8">int</span> <span style="color:#75af00">isspace</span><span style="color:#111">(</span><span style="color:#00a8c8">char</span> <span style="color:#111">c</span><span style="color:#111">)</span> <span style="color:#111">{</span> <span style="color:#00a8c8">return</span> <span style="color:#111">c</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39; &#39;</span> <span style="color:#f92672">||</span> <span style="color:#111">c</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;\t&#39;</span> <span style="color:#f92672">||</span> <span style="color:#111">c</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;\n&#39;</span><span style="color:#111">;</span> <span style="color:#111">}</span>
+<span style="color:#6ab825;font-weight:bold">int</span> <span style="color:#447fcf">isspace</span>(<span style="color:#6ab825;font-weight:bold">char</span> c) { <span style="color:#6ab825;font-weight:bold">return</span> c == <span style="color:#ed9d13">&#39; &#39;</span> || c == <span style="color:#ed9d13">&#39;\t&#39;</span> || c == <span style="color:#ed9d13">&#39;\n&#39;</span>; }
 
-<span style="color:#00a8c8">void</span> <span style="color:#75af00">execcmd</span><span style="color:#111">(</span><span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">cmd</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-  <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#111">MAXARG</span><span style="color:#111">];</span>
-  <span style="color:#00a8c8">int</span> <span style="color:#111">argc</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">inpos</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">outpos</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+<span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">execcmd</span>(<span style="color:#6ab825;font-weight:bold">char</span> *cmd) {
+  <span style="color:#6ab825;font-weight:bold">char</span> *argv[MAXARG];
+  <span style="color:#6ab825;font-weight:bold">int</span> argc = <span style="color:#3677a9">0</span>, inpos = <span style="color:#3677a9">0</span>, outpos = <span style="color:#3677a9">0</span>;
 
-  <span style="color:#00a8c8">for</span> <span style="color:#111">(;</span> <span style="color:#f92672">*</span><span style="color:#111">cmd</span><span style="color:#111">;</span> <span style="color:#f92672">*</span><span style="color:#111">cmd</span><span style="color:#f92672">++</span> <span style="color:#f92672">=</span> <span style="color:#d88200">&#39;\0&#39;</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">isspace</span><span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">cmd</span><span style="color:#111">))</span> <span style="color:#111">{</span>
-      <span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#111">argc</span><span style="color:#f92672">++</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">cmd</span><span style="color:#111">;</span>
+  <span style="color:#6ab825;font-weight:bold">for</span> (; *cmd; *cmd++ = <span style="color:#ed9d13">&#39;\0&#39;</span>) {
+    <span style="color:#6ab825;font-weight:bold">if</span> (!isspace(*cmd)) {
+      argv[argc++] = cmd;
 
-      <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">cmd</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;&lt;&#39;</span><span style="color:#111">)</span>
-        <span style="color:#111">inpos</span> <span style="color:#f92672">=</span> <span style="color:#111">argc</span><span style="color:#111">;</span>
-      <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">cmd</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;&gt;&#39;</span><span style="color:#111">)</span>
-        <span style="color:#111">outpos</span> <span style="color:#f92672">=</span> <span style="color:#111">argc</span><span style="color:#111">;</span>
+      <span style="color:#6ab825;font-weight:bold">if</span> (*cmd == <span style="color:#ed9d13">&#39;&lt;&#39;</span>)
+        inpos = argc;
+      <span style="color:#6ab825;font-weight:bold">if</span> (*cmd == <span style="color:#ed9d13">&#39;&gt;&#39;</span>)
+        outpos = argc;
 
-      <span style="color:#00a8c8">for</span> <span style="color:#111">(;</span> <span style="color:#f92672">*</span><span style="color:#111">cmd</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#111">isspace</span><span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#111">cmd</span><span style="color:#111">);</span> <span style="color:#111">cmd</span><span style="color:#f92672">++</span><span style="color:#111">)</span>
-        <span style="color:#111">;</span>
-      <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">!*</span><span style="color:#111">cmd</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">break</span><span style="color:#111">;</span>
-      <span style="color:#111">}</span>
-    <span style="color:#111">}</span>
-  <span style="color:#111">}</span>
+      <span style="color:#6ab825;font-weight:bold">for</span> (; *cmd &amp;&amp; !isspace(*cmd); cmd++)
+        ;
+      <span style="color:#6ab825;font-weight:bold">if</span> (!*cmd) {
+        <span style="color:#6ab825;font-weight:bold">break</span>;
+      }
+    }
+  }
 
-  <span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#111">argc</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+  argv[argc] = <span style="color:#3677a9">0</span>;
 
-  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">inpos</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-    <span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#111">argc</span> <span style="color:#f92672">=</span> <span style="color:#111">inpos</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
-    <span style="color:#111">close</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">);</span>
-    <span style="color:#111">open</span><span style="color:#111">(</span><span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#111">inpos</span><span style="color:#111">],</span> <span style="color:#111">O_RDONLY</span><span style="color:#111">);</span>
-  <span style="color:#111">}</span>
+  <span style="color:#6ab825;font-weight:bold">if</span> (inpos) {
+    argv[argc = inpos - <span style="color:#3677a9">1</span>] = <span style="color:#3677a9">0</span>;
+    close(<span style="color:#3677a9">0</span>);
+    open(argv[inpos], O_RDONLY);
+  }
 
-  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">outpos</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-    <span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#111">argc</span> <span style="color:#f92672">=</span> <span style="color:#111">outpos</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
-    <span style="color:#111">close</span><span style="color:#111">(</span><span style="color:#ae81ff">1</span><span style="color:#111">);</span>
-    <span style="color:#111">open</span><span style="color:#111">(</span><span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#111">outpos</span><span style="color:#111">],</span> <span style="color:#111">O_CREATE</span> <span style="color:#f92672">|</span> <span style="color:#111">O_WRONLY</span><span style="color:#111">);</span>
-  <span style="color:#111">}</span>
+  <span style="color:#6ab825;font-weight:bold">if</span> (outpos) {
+    argv[argc = outpos - <span style="color:#3677a9">1</span>] = <span style="color:#3677a9">0</span>;
+    close(<span style="color:#3677a9">1</span>);
+    open(argv[outpos], O_CREATE | O_WRONLY);
+  }
 
-  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">argc</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-    <span style="color:#111">exit</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">);</span>
-  <span style="color:#111">}</span>
+  <span style="color:#6ab825;font-weight:bold">if</span> (argc == <span style="color:#3677a9">0</span>) {
+    exit(<span style="color:#3677a9">0</span>);
+  }
 
-  <span style="color:#111">exec</span><span style="color:#111">(</span><span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">],</span> <span style="color:#111">argv</span><span style="color:#111">);</span>
+  exec(argv[<span style="color:#3677a9">0</span>], argv);
 
-  <span style="color:#111">fprintf</span><span style="color:#111">(</span><span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;argv: &#34;</span><span style="color:#111">);</span>
-  <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">];</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-    <span style="color:#111">fprintf</span><span style="color:#111">(</span><span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#d88200">&#34; %s&#34;</span><span style="color:#111">,</span> <span style="color:#111">argv</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]);</span>
-  <span style="color:#111">}</span>
+  fprintf(<span style="color:#3677a9">2</span>, <span style="color:#ed9d13">&#34;argv: &#34;</span>);
+  <span style="color:#6ab825;font-weight:bold">for</span> (<span style="color:#6ab825;font-weight:bold">int</span> i = <span style="color:#3677a9">0</span>; argv[i]; i++) {
+    fprintf(<span style="color:#3677a9">2</span>, <span style="color:#ed9d13">&#34; %s&#34;</span>, argv[i]);
+  }
 
-  <span style="color:#111">fprintf</span><span style="color:#111">(</span><span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">);</span>
-<span style="color:#111">}</span>
+  fprintf(<span style="color:#3677a9">2</span>, <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\n</span><span style="color:#ed9d13">&#34;</span>);
+}
 
-<span style="color:#00a8c8">void</span> <span style="color:#75af00">parsecmd</span><span style="color:#111">(</span><span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">cmd</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-  <span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">nextcmd</span> <span style="color:#f92672">=</span> <span style="color:#111">splitpipe</span><span style="color:#111">(</span><span style="color:#111">cmd</span><span style="color:#111">);</span>
-  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">nextcmd</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-    <span style="color:#111">execcmd</span><span style="color:#111">(</span><span style="color:#111">cmd</span><span style="color:#111">);</span>
-    <span style="color:#111">fprintf</span><span style="color:#111">(</span><span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;exec: %s failed</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">,</span> <span style="color:#111">cmd</span><span style="color:#111">);</span>
-    <span style="color:#111">exit</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">);</span>
-  <span style="color:#111">}</span>
+<span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">parsecmd</span>(<span style="color:#6ab825;font-weight:bold">char</span> *cmd) {
+  <span style="color:#6ab825;font-weight:bold">char</span> *nextcmd = splitpipe(cmd);
+  <span style="color:#6ab825;font-weight:bold">if</span> (!nextcmd) {
+    execcmd(cmd);
+    fprintf(<span style="color:#3677a9">2</span>, <span style="color:#ed9d13">&#34;exec: %s failed</span><span style="color:#ed9d13">\n</span><span style="color:#ed9d13">&#34;</span>, cmd);
+    exit(<span style="color:#3677a9">0</span>);
+  }
 
-  <span style="color:#00a8c8">int</span> <span style="color:#111">pd</span><span style="color:#111">[</span><span style="color:#ae81ff">2</span><span style="color:#111">];</span>
-  <span style="color:#111">pipe</span><span style="color:#111">(</span><span style="color:#111">pd</span><span style="color:#111">);</span>
+  <span style="color:#6ab825;font-weight:bold">int</span> pd[<span style="color:#3677a9">2</span>];
+  pipe(pd);
 
-  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">fork</span><span style="color:#111">())</span> <span style="color:#111">{</span>
-    <span style="color:#111">redirect</span><span style="color:#111">(</span><span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">pd</span><span style="color:#111">);</span>
-    <span style="color:#111">execcmd</span><span style="color:#111">(</span><span style="color:#111">cmd</span><span style="color:#111">);</span>
-    <span style="color:#111">fprintf</span><span style="color:#111">(</span><span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;exec: %s failed</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">,</span> <span style="color:#111">cmd</span><span style="color:#111">);</span>
-  <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">fork</span><span style="color:#111">())</span> <span style="color:#111">{</span>
-    <span style="color:#111">redirect</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">pd</span><span style="color:#111">);</span>
-    <span style="color:#111">parsecmd</span><span style="color:#111">(</span><span style="color:#111">nextcmd</span><span style="color:#111">);</span>
-  <span style="color:#111">}</span>
+  <span style="color:#6ab825;font-weight:bold">if</span> (fork()) {
+    redirect(<span style="color:#3677a9">1</span>, pd);
+    execcmd(cmd);
+    fprintf(<span style="color:#3677a9">2</span>, <span style="color:#ed9d13">&#34;exec: %s failed</span><span style="color:#ed9d13">\n</span><span style="color:#ed9d13">&#34;</span>, cmd);
+  } <span style="color:#6ab825;font-weight:bold">else</span> <span style="color:#6ab825;font-weight:bold">if</span> (fork()) {
+    redirect(<span style="color:#3677a9">0</span>, pd);
+    parsecmd(nextcmd);
+  }
 
-  <span style="color:#111">close</span><span style="color:#111">(</span><span style="color:#111">pd</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]);</span>
-  <span style="color:#111">close</span><span style="color:#111">(</span><span style="color:#111">pd</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">]);</span>
-  <span style="color:#111">wait</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">);</span>
-  <span style="color:#111">wait</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">);</span>
-  <span style="color:#111">exit</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">);</span>
-<span style="color:#111">}</span>
+  close(pd[<span style="color:#3677a9">0</span>]);
+  close(pd[<span style="color:#3677a9">1</span>]);
+  wait(<span style="color:#3677a9">0</span>);
+  wait(<span style="color:#3677a9">0</span>);
+  exit(<span style="color:#3677a9">0</span>);
+}
 
-<span style="color:#00a8c8">int</span> <span style="color:#75af00">getcmd</span><span style="color:#111">(</span><span style="color:#00a8c8">char</span> <span style="color:#f92672">*</span><span style="color:#111">buf</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">nbuf</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-  <span style="color:#111">fprintf</span><span style="color:#111">(</span><span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;@ &#34;</span><span style="color:#111">);</span>
-  <span style="color:#111">memset</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">nbuf</span><span style="color:#111">);</span>
-  <span style="color:#111">gets</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">,</span> <span style="color:#111">nbuf</span><span style="color:#111">);</span>
-  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span>
-    <span style="color:#00a8c8">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-  <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
-<span style="color:#111">}</span>
+<span style="color:#6ab825;font-weight:bold">int</span> <span style="color:#447fcf">getcmd</span>(<span style="color:#6ab825;font-weight:bold">char</span> *buf, <span style="color:#6ab825;font-weight:bold">int</span> nbuf) {
+  fprintf(<span style="color:#3677a9">2</span>, <span style="color:#ed9d13">&#34;@ &#34;</span>);
+  memset(buf, <span style="color:#3677a9">0</span>, nbuf);
+  gets(buf, nbuf);
+  <span style="color:#6ab825;font-weight:bold">if</span> (buf[<span style="color:#3677a9">0</span>] == <span style="color:#3677a9">0</span>)
+    <span style="color:#6ab825;font-weight:bold">return</span> -<span style="color:#3677a9">1</span>;
+  <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#3677a9">0</span>;
+}
 
-<span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span><span style="color:#111">(</span><span style="color:#00a8c8">void</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-  <span style="color:#00a8c8">static</span> <span style="color:#00a8c8">char</span> <span style="color:#111">buf</span><span style="color:#111">[</span><span style="color:#111">MAXSIZE</span><span style="color:#111">];</span>
+<span style="color:#6ab825;font-weight:bold">int</span> <span style="color:#447fcf">main</span>(<span style="color:#6ab825;font-weight:bold">void</span>) {
+  <span style="color:#6ab825;font-weight:bold">static</span> <span style="color:#6ab825;font-weight:bold">char</span> buf[MAXSIZE];
 
-  <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">getcmd</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">,</span> <span style="color:#00a8c8">sizeof</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">))</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">fork</span><span style="color:#111">())</span> <span style="color:#111">{</span>
-      <span style="color:#111">wait</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">);</span>
-    <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-      <span style="color:#111">parsecmd</span><span style="color:#111">(</span><span style="color:#111">buf</span><span style="color:#111">);</span>
-      <span style="color:#111">fprintf</span><span style="color:#111">(</span><span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;parsecmd not exit</span><span style="color:#8045ff">\n</span><span style="color:#d88200">&#34;</span><span style="color:#111">);</span>
-    <span style="color:#111">}</span>
-  <span style="color:#111">}</span>
+  <span style="color:#6ab825;font-weight:bold">while</span> (getcmd(buf, <span style="color:#6ab825;font-weight:bold">sizeof</span>(buf)) == <span style="color:#3677a9">0</span>) {
+    <span style="color:#6ab825;font-weight:bold">if</span> (fork()) {
+      wait(<span style="color:#3677a9">0</span>);
+    } <span style="color:#6ab825;font-weight:bold">else</span> {
+      parsecmd(buf);
+      fprintf(<span style="color:#3677a9">2</span>, <span style="color:#ed9d13">&#34;parsecmd not exit</span><span style="color:#ed9d13">\n</span><span style="color:#ed9d13">&#34;</span>);
+    }
+  }
 
-  <span style="color:#111">exit</span><span style="color:#111">(</span><span style="color:#ae81ff">0</span><span style="color:#111">);</span>
-<span style="color:#111">}</span>
+  exit(<span style="color:#3677a9">0</span>);
+}
 </code></pre></div>
 		</section>
 

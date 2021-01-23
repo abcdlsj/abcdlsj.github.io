@@ -88,38 +88,38 @@
 <blockquote>
 <p>个人习惯使用 <code>#include &lt;bits/stdc++.h&gt;</code></p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#00a8c8">using</span> <span style="color:#00a8c8">namespace</span> <span style="color:#111">std</span><span style="color:#111">;</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cd2828;font-weight:bold">#include</span> <span style="color:#cd2828;font-weight:bold">&lt;bits/stdc++.h&gt;</span><span style="color:#cd2828;font-weight:bold">
+</span><span style="color:#cd2828;font-weight:bold"></span><span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#6ab825;font-weight:bold">namespace</span> std;
 
-<span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span> <span style="color:#111">()</span> <span style="color:#111">{</span>
-    <span style="color:#00a8c8">int</span> <span style="color:#111">n</span><span style="color:#111">;</span>
-    <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">cin</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">n</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">arr1</span><span style="color:#111">(</span><span style="color:#111">n</span><span style="color:#111">),</span> <span style="color:#111">arr2</span><span style="color:#111">(</span><span style="color:#111">n</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">n</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">cin</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">arr1</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">];</span>
-        <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">n</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">cin</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">arr2</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">];</span>
+<span style="color:#6ab825;font-weight:bold">int</span> <span style="color:#447fcf">main</span> () {
+    <span style="color:#6ab825;font-weight:bold">int</span> n;
+    <span style="color:#6ab825;font-weight:bold">while</span> (cin &gt;&gt; n) {
+        vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; arr1(n), arr2(n);
+        <span style="color:#6ab825;font-weight:bold">for</span> (<span style="color:#6ab825;font-weight:bold">int</span> i = <span style="color:#3677a9">0</span>; i &lt; n; i++) cin &gt;&gt; arr1[i];
+        <span style="color:#6ab825;font-weight:bold">for</span> (<span style="color:#6ab825;font-weight:bold">int</span> i = <span style="color:#3677a9">0</span>; i &lt; n; i++) cin &gt;&gt; arr2[i];
         
-        <span style="color:#00a8c8">int</span> <span style="color:#111">start1</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">end1</span> <span style="color:#f92672">=</span> <span style="color:#111">n</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">start2</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">end2</span> <span style="color:#f92672">=</span> <span style="color:#111">n</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">offset</span><span style="color:#111">,</span> <span style="color:#111">mid1</span><span style="color:#111">,</span> <span style="color:#111">mid2</span><span style="color:#111">;</span>
+        <span style="color:#6ab825;font-weight:bold">int</span> start1 = <span style="color:#3677a9">0</span>, end1 = n - <span style="color:#3677a9">1</span>, start2 = <span style="color:#3677a9">0</span>, end2 = n - <span style="color:#3677a9">1</span>, offset, mid1, mid2;
 
-        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">start1</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">end1</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#111">mid1</span> <span style="color:#f92672">=</span> <span style="color:#111">start1</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">end1</span> <span style="color:#f92672">-</span> <span style="color:#111">start1</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
-            <span style="color:#111">mid2</span> <span style="color:#f92672">=</span> <span style="color:#111">start2</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">end2</span> <span style="color:#f92672">-</span> <span style="color:#111">start2</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
-            <span style="color:#111">offset</span> <span style="color:#f92672">=</span> <span style="color:#111">((</span><span style="color:#111">end1</span> <span style="color:#f92672">-</span> <span style="color:#111">start1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#f92672">^</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">arr1</span><span style="color:#111">[</span><span style="color:#111">mid1</span><span style="color:#111">]</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">arr2</span><span style="color:#111">[</span><span style="color:#111">mid2</span><span style="color:#111">])</span> <span style="color:#111">{</span>
-                <span style="color:#111">end1</span> <span style="color:#f92672">=</span> <span style="color:#111">mid1</span><span style="color:#111">;</span>
-                <span style="color:#111">start2</span> <span style="color:#f92672">=</span> <span style="color:#111">mid2</span> <span style="color:#f92672">+</span> <span style="color:#111">offset</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">arr1</span><span style="color:#111">[</span><span style="color:#111">mid1</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">arr2</span><span style="color:#111">[</span><span style="color:#111">mid2</span><span style="color:#111">])</span> <span style="color:#111">{</span>
-                <span style="color:#111">start1</span> <span style="color:#f92672">=</span> <span style="color:#111">mid1</span> <span style="color:#f92672">+</span> <span style="color:#111">offset</span><span style="color:#111">;</span>
-                <span style="color:#111">end2</span> <span style="color:#f92672">=</span> <span style="color:#111">mid2</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-                <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">arr1</span><span style="color:#111">[</span><span style="color:#111">mid1</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">endl</span><span style="color:#111">;</span>
-                <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+        <span style="color:#6ab825;font-weight:bold">while</span> (start1 &lt; end1) {
+            mid1 = start1 + (end1 - start1) / <span style="color:#3677a9">2</span>;
+            mid2 = start2 + (end2 - start2) / <span style="color:#3677a9">2</span>;
+            offset = ((end1 - start1 + <span style="color:#3677a9">1</span>) &amp; <span style="color:#3677a9">1</span>) ^ <span style="color:#3677a9">1</span>;
+            <span style="color:#6ab825;font-weight:bold">if</span> (arr1[mid1] &gt; arr2[mid2]) {
+                end1 = mid1;
+                start2 = mid2 + offset;
+            } <span style="color:#6ab825;font-weight:bold">else</span> <span style="color:#6ab825;font-weight:bold">if</span> (arr1[mid1] &lt; arr2[mid2]) {
+                start1 = mid1 + offset;
+                end2 = mid2;
+            } <span style="color:#6ab825;font-weight:bold">else</span> {
+                cout &lt;&lt; arr1[mid1] &lt;&lt; endl;
+                <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#3677a9">0</span>;
+            }
+        }
 
-        <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">min</span><span style="color:#111">(</span><span style="color:#111">arr1</span><span style="color:#111">[</span><span style="color:#111">start1</span><span style="color:#111">],</span> <span style="color:#111">arr2</span><span style="color:#111">[</span><span style="color:#111">start2</span><span style="color:#111">])</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">endl</span><span style="color:#111">;</span>
-        <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">}</span>
+        cout &lt;&lt; min(arr1[start1], arr2[start2]) &lt;&lt; endl;
+        <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#3677a9">0</span>;
+    }
+}
 </code></pre></div>
 		</section>
 

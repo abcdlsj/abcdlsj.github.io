@@ -61,43 +61,43 @@
 <p><a href="https://github.com/sillykelvin/org-page">地址</a></p>
 <h2 id="配置">配置</h2>
 <p>配置的话,我的是这样的</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp"><span style="color:#111">(</span><span style="color:#111">use-package!</span> <span style="color:#111">org-page</span>
-  <span style="color:#111">:config</span>
-  <span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/repository-directory</span> <span style="color:#d88200">&#34;~/GithubPro/abcdlsj.github.io&#34;</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/site-domain</span> <span style="color:#d88200">&#34;https://abcdlsj.github.io&#34;</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/personal-github-link</span> <span style="color:#d88200">&#34;https://github.com/abcdlsj&#34;</span><span style="color:#111">)</span> <span style="color:#75715e">; if you want to show a personal github link</span>
-  <span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/site-main-title</span> <span style="color:#d88200">&#34;ABCDLSJ&#39;S WORLD&#34;</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/site-sub-title</span> <span style="color:#d88200">&#34;=========&gt;&gt;享受专注&#34;</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/personal-disqus-shortname</span> <span style="color:#d88200">&#34;abcdlsj&#34;</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/repository-org-branch</span> <span style="color:#d88200">&#34;source&#34;</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/repository-html-branch</span> <span style="color:#d88200">&#34;master&#34;</span><span style="color:#111">)</span>
-  <span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/theme</span> <span style="color:#d88200">&#39;mdo</span><span style="color:#111">))</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp">(<span style="color:#40ffff">use-package!</span> <span style="color:#40ffff">org-page</span>
+  <span style="color:#24909d">:config</span>
+  (<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/repository-directory</span> <span style="color:#ed9d13">&#34;~/GithubPro/abcdlsj.github.io&#34;</span>)
+  (<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/site-domain</span> <span style="color:#ed9d13">&#34;https://abcdlsj.github.io&#34;</span>)
+  (<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/personal-github-link</span> <span style="color:#ed9d13">&#34;https://github.com/abcdlsj&#34;</span>) <span style="color:#999;font-style:italic">; if you want to show a personal github link</span>
+  (<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/site-main-title</span> <span style="color:#ed9d13">&#34;ABCDLSJ&#39;S WORLD&#34;</span>)
+  (<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/site-sub-title</span> <span style="color:#ed9d13">&#34;=========&gt;&gt;享受专注&#34;</span>)
+  (<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/personal-disqus-shortname</span> <span style="color:#ed9d13">&#34;abcdlsj&#34;</span>)
+  (<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/repository-org-branch</span> <span style="color:#ed9d13">&#34;source&#34;</span>)
+  (<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/repository-html-branch</span> <span style="color:#ed9d13">&#34;master&#34;</span>)
+  (<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/theme</span> <span style="color:#ed9d13">&#39;mdo</span>))
 </code></pre></div><p>我用的是 <code>doom-emacs</code> ，这是org-page 官方的示例</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp"><span style="color:#75715e">;;; the following is only needed if you install org-page manually</span>
-<span style="color:#111">(</span><span style="color:#111">add-to-list</span> <span style="color:#d88200">&#39;load-path</span> <span style="color:#d88200">&#34;path/to/org-page&#34;</span><span style="color:#111">)</span>
-<span style="color:#111">(</span><span style="color:#111">require</span> <span style="color:#d88200">&#39;org-page</span><span style="color:#111">)</span>
-<span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/repository-directory</span> <span style="color:#d88200">&#34;path/to/your/org/repository&#34;</span><span style="color:#111">)</span>
-<span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/site-domain</span> <span style="color:#d88200">&#34;http://your.personal.site.com/&#34;</span><span style="color:#111">)</span>
-<span style="color:#75715e">;;; for commenting, you can choose either disqus, duoshuo or hashover</span>
-<span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/personal-disqus-shortname</span> <span style="color:#d88200">&#34;your_disqus_shortname&#34;</span><span style="color:#111">)</span>
-<span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/personal-duoshuo-shortname</span> <span style="color:#d88200">&#34;your_duoshuo_shortname&#34;</span><span style="color:#111">)</span>
-<span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/hashover-comments</span> <span style="color:#00a8c8">t</span><span style="color:#111">)</span>
-<span style="color:#75715e">;;; the configuration below are optional</span>
-<span style="color:#111">(</span><span style="color:#111">setq</span> <span style="color:#111">op/personal-google-analytics-id</span> <span style="color:#d88200">&#34;your_google_analytics_id&#34;</span><span style="color:#111">)</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elisp" data-lang="elisp"><span style="color:#999;font-style:italic">;;; the following is only needed if you install org-page manually</span>
+(<span style="color:#40ffff">add-to-list</span> <span style="color:#ed9d13">&#39;load-path</span> <span style="color:#ed9d13">&#34;path/to/org-page&#34;</span>)
+(<span style="color:#24909d">require</span> <span style="color:#ed9d13">&#39;org-page</span>)
+(<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/repository-directory</span> <span style="color:#ed9d13">&#34;path/to/your/org/repository&#34;</span>)
+(<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/site-domain</span> <span style="color:#ed9d13">&#34;http://your.personal.site.com/&#34;</span>)
+<span style="color:#999;font-style:italic">;;; for commenting, you can choose either disqus, duoshuo or hashover</span>
+(<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/personal-disqus-shortname</span> <span style="color:#ed9d13">&#34;your_disqus_shortname&#34;</span>)
+(<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/personal-duoshuo-shortname</span> <span style="color:#ed9d13">&#34;your_duoshuo_shortname&#34;</span>)
+(<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/hashover-comments</span> <span style="color:#40ffff">t</span>)
+<span style="color:#999;font-style:italic">;;; the configuration below are optional</span>
+(<span style="color:#24909d">setq</span> <span style="color:#40ffff">op/personal-google-analytics-id</span> <span style="color:#ed9d13">&#34;your_google_analytics_id&#34;</span>)
 </code></pre></div><h2 id="使用">使用</h2>
 <h3 id="新建仓库">新建仓库</h3>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">M-x op/new-repository
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">M-x op/new-repository
 </code></pre></div><p>输入路径之后，会初始化两个分支 ， <code>source</code> 和 <code>master</code> ，org-page 是在 <code>source</code> 下写文件，然后生成 html 文件到 <code>master</code> 分支，然后提交，就可以在 <code>yourname.github.io</code> 看到你的博客了。</p>
 <p>对了，记得 <code>git remote</code> 你 github上面的仓库哦！</p>
 <h3 id="写博客">写博客</h3>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">M-x op/new-post
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">M-x op/new-post
 </code></pre></div><p>输入一系列配置之后，就可以了。这时候你会发现你的仓库地址分支会切换成 <code>source</code> ，这个分支就是给你写 org 文档的</p>
 <h3 id="提交">提交</h3>
 <p>如果不太看得懂下面这步的话，可以先花二十分钟熟悉一下 git 操作，保证受益匪浅</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">git add new blog (under source branch) and commit it ( in emacs, you can use magit, it would be much easier to do the process)
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">git add new blog (under source branch) and commit it ( in emacs, you can use magit, it would be much easier to do the process)
 git push source(这步随便，因为博客本身只需要 html，也就是 master分支)
 </code></pre></div><p>然后</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">M-x op/do-publication
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">M-x op/do-publication
 </code></pre></div><p>选择 y n y y (或者我推荐 y n n n,然后你手动提交)就可以了，这个时候应该看不到博客因为 media 文件夹里面的东西是链接形式，你可以删除本地仓库中的 media 文件，然后复制源文件进去提交（我就是这样做的，所以每次 do-publication 都要操作一次，如果找到更好的办法我会写出来的）</p>
 <h2 id="参考链接">参考链接</h2>
 <p><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>

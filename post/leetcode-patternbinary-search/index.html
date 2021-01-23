@@ -83,47 +83,47 @@ LeetCode 刷题总结之：二分查找
 <p>首先，一个有序数组查找一个数字，怎么写呢？</p>
 </blockquote>
 <p>测试主函数</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span><span style="color:#111">()</span> <span style="color:#111">{</span>
-  <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">arr</span> <span style="color:#f92672">=</span> <span style="color:#111">{</span><span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#ae81ff">2</span><span style="color:#111">,</span> <span style="color:#ae81ff">3</span><span style="color:#111">,</span> <span style="color:#ae81ff">4</span><span style="color:#111">,</span> <span style="color:#ae81ff">5</span><span style="color:#111">,</span> <span style="color:#ae81ff">6</span><span style="color:#111">,</span> <span style="color:#ae81ff">7</span><span style="color:#111">,</span> <span style="color:#ae81ff">8</span><span style="color:#111">};</span>
-  <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">binary_search</span><span style="color:#111">(</span><span style="color:#111">arr</span><span style="color:#111">,</span> <span style="color:#ae81ff">6</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">endl</span><span style="color:#111">;</span>
-  <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">binary_search</span><span style="color:#111">(</span><span style="color:#111">arr</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">endl</span><span style="color:#111">;</span>
-  <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">binary_search</span><span style="color:#111">(</span><span style="color:#111">arr</span><span style="color:#111">,</span> <span style="color:#ae81ff">9</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">endl</span><span style="color:#111">;</span>
-  <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">binary_search</span><span style="color:#111">(</span><span style="color:#111">arr</span><span style="color:#111">,</span> <span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">endl</span><span style="color:#111">;</span>
-  <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">binary_search</span><span style="color:#111">(</span><span style="color:#111">arr</span><span style="color:#111">,</span> <span style="color:#ae81ff">8</span><span style="color:#111">)</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">endl</span><span style="color:#111">;</span>
-<span style="color:#111">}</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">int</span> <span style="color:#447fcf">main</span>() {
+  vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; arr = {<span style="color:#3677a9">1</span>, <span style="color:#3677a9">2</span>, <span style="color:#3677a9">3</span>, <span style="color:#3677a9">4</span>, <span style="color:#3677a9">5</span>, <span style="color:#3677a9">6</span>, <span style="color:#3677a9">7</span>, <span style="color:#3677a9">8</span>};
+  cout &lt;&lt; binary_search(arr, <span style="color:#3677a9">6</span>) &lt;&lt; endl;
+  cout &lt;&lt; binary_search(arr, <span style="color:#3677a9">0</span>) &lt;&lt; endl;
+  cout &lt;&lt; binary_search(arr, <span style="color:#3677a9">9</span>) &lt;&lt; endl;
+  cout &lt;&lt; binary_search(arr, <span style="color:#3677a9">1</span>) &lt;&lt; endl;
+  cout &lt;&lt; binary_search(arr, <span style="color:#3677a9">8</span>) &lt;&lt; endl;
+}
 </code></pre></div><p><code>binary_search</code> 函数</p>
 <p>这样写肯定是可以的，测试通过</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">int</span> <span style="color:#75af00">binary_search</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-  <span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-  <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-    <span style="color:#00a8c8">int</span> <span style="color:#111">mid</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
-	<span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-	  <span style="color:#00a8c8">return</span> <span style="color:#111">mid</span><span style="color:#111">;</span>
-	<span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-      <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-      <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-  <span style="color:#111">}</span>
-  <span style="color:#00a8c8">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-<span style="color:#111">}</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">int</span> <span style="color:#447fcf">binary_search</span>(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; nums, <span style="color:#6ab825;font-weight:bold">int</span> target) {
+  <span style="color:#6ab825;font-weight:bold">int</span> le = <span style="color:#3677a9">0</span>, ri = nums.size() - <span style="color:#3677a9">1</span>;
+  <span style="color:#6ab825;font-weight:bold">while</span> (le &lt;= ri) {
+    <span style="color:#6ab825;font-weight:bold">int</span> mid = le + (ri - le) / <span style="color:#3677a9">2</span>;
+	<span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] == target) {
+	  <span style="color:#6ab825;font-weight:bold">return</span> mid;
+	} <span style="color:#6ab825;font-weight:bold">else</span> <span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] &lt; target) {
+      le = mid + <span style="color:#3677a9">1</span>;
+    } <span style="color:#6ab825;font-weight:bold">else</span> {
+      ri = mid - <span style="color:#3677a9">1</span>;
+    }
+  }
+  <span style="color:#6ab825;font-weight:bold">return</span> -<span style="color:#3677a9">1</span>;
+}
 </code></pre></div><p>这样也可以</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">int</span> <span style="color:#75af00">binary_search</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-  <span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-  <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-    <span style="color:#00a8c8">int</span> <span style="color:#111">mid</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
-	<span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-	  <span style="color:#00a8c8">return</span> <span style="color:#111">mid</span><span style="color:#111">;</span>
-	<span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-      <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-      <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-  <span style="color:#111">}</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">int</span> <span style="color:#447fcf">binary_search</span>(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; nums, <span style="color:#6ab825;font-weight:bold">int</span> target) {
+  <span style="color:#6ab825;font-weight:bold">int</span> le = <span style="color:#3677a9">0</span>, ri = nums.size() - <span style="color:#3677a9">1</span>;
+  <span style="color:#6ab825;font-weight:bold">while</span> (le &lt; ri) {
+    <span style="color:#6ab825;font-weight:bold">int</span> mid = le + (ri - le) / <span style="color:#3677a9">2</span>;
+	<span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] == target) {
+	  <span style="color:#6ab825;font-weight:bold">return</span> mid;
+	} <span style="color:#6ab825;font-weight:bold">else</span> <span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] &lt; target) {
+      le = mid + <span style="color:#3677a9">1</span>;
+    } <span style="color:#6ab825;font-weight:bold">else</span> {
+      ri = mid;
+    }
+  }
 
-  <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">le</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">le</span><span style="color:#111">;</span>
-  <span style="color:#00a8c8">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-<span style="color:#111">}</span>
+  <span style="color:#6ab825;font-weight:bold">if</span> (nums[le] == target) <span style="color:#6ab825;font-weight:bold">return</span> le;
+  <span style="color:#6ab825;font-weight:bold">return</span> -<span style="color:#3677a9">1</span>;
+}
 </code></pre></div><p>我都是直接初始化 <code>ri = nums.size() -1</code>，左闭右闭区间，而不是混用 <code>ri = nums.size()</code>，因为二分的写法真的很多，初始化可以定下来，然后结合题目单独分析</p>
 <p>至于循环，这里有两种思路（想法来自于 weiwei 的算法笔记 <a href="https://www.yuque.com/liweiwei1419/algo/wkmtx4">https://www.yuque.com/liweiwei1419/algo/wkmtx4</a>）</p>
 <p><strong>思路 1：在循环体内部查找元素</strong>：<code>while (left &lt;= right)</code>；</p>
@@ -139,78 +139,78 @@ LeetCode 刷题总结之：二分查找
 <blockquote>
 <p>很不错的题（我都忘了好几次了）</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#00a8c8">int</span> <span style="color:#111">search</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    <span style="color:#6ab825;font-weight:bold">int</span> search(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; nums, <span style="color:#6ab825;font-weight:bold">int</span> target) {
+        <span style="color:#6ab825;font-weight:bold">int</span> le = <span style="color:#3677a9">0</span>, ri = nums.size() - <span style="color:#3677a9">1</span>;
 
-        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">int</span> <span style="color:#111">mid</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
+        <span style="color:#6ab825;font-weight:bold">while</span> (le &lt;= ri) {
+            <span style="color:#6ab825;font-weight:bold">int</span> mid = le + (ri - le) / <span style="color:#3677a9">2</span>;
 
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">mid</span><span style="color:#111">;</span> 
-            <span style="color:#75715e">// 发生这个条件的时候，肯定代表 [le, mid] 之间是有序的，我们只能判断有序部分
-</span><span style="color:#75715e"></span>            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">&gt;=</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">le</span><span style="color:#111">])</span> <span style="color:#111">{</span>
-                <span style="color:#75715e">// 为什么要 nums[le] &lt;= target;
-</span><span style="color:#75715e"></span>                <span style="color:#75715e">// 注意查找区间
-</span><span style="color:#75715e"></span>                <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">target</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">le</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-                    <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-                <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-                    <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-                <span style="color:#111">}</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span> <span style="color:#75715e">// [mid, ri] 之间有序
-</span><span style="color:#75715e"></span>                <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">target</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">ri</span><span style="color:#111">]</span> <span style="color:#f92672">&gt;=</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-                    <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-                <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-                    <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-                <span style="color:#111">}</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>  
+            <span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] == target) <span style="color:#6ab825;font-weight:bold">return</span> mid; 
+            <span style="color:#999;font-style:italic">// 发生这个条件的时候，肯定代表 [le, mid] 之间是有序的，我们只能判断有序部分
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] &gt;= nums[le]) {
+                <span style="color:#999;font-style:italic">// 为什么要 nums[le] &lt;= target;
+</span><span style="color:#999;font-style:italic"></span>                <span style="color:#999;font-style:italic">// 注意查找区间
+</span><span style="color:#999;font-style:italic"></span>                <span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] &gt; target &amp;&amp; nums[le] &lt;= target) {
+                    ri = mid - <span style="color:#3677a9">1</span>;
+                } <span style="color:#6ab825;font-weight:bold">else</span> {
+                    le = mid + <span style="color:#3677a9">1</span>;
+                }
+            } <span style="color:#6ab825;font-weight:bold">else</span> { <span style="color:#999;font-style:italic">// [mid, ri] 之间有序
+</span><span style="color:#999;font-style:italic"></span>                <span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] &lt; target &amp;&amp; nums[ri] &gt;= target) {
+                    le = mid + <span style="color:#3677a9">1</span>;
+                } <span style="color:#6ab825;font-weight:bold">else</span> {
+                    ri = mid - <span style="color:#3677a9">1</span>;
+                }
+            }
+        }  
 
-        <span style="color:#00a8c8">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+        <span style="color:#6ab825;font-weight:bold">return</span> -<span style="color:#3677a9">1</span>;
+    }
+};
 </code></pre></div><h4 id="153-寻找旋转排序数组中的最小值httpsleetcode-cncomproblemsfind-minimum-in-rotated-sorted-array"><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/">153. 寻找旋转排序数组中的最小值</a></h4>
 <blockquote>
 <p>有个评论写得很很好，“前面一堆０，后面一堆１，然后寻找第一个１的二分问题”</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#00a8c8">int</span> <span style="color:#111">findMin</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    <span style="color:#6ab825;font-weight:bold">int</span> findMin(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; nums) {
+        <span style="color:#6ab825;font-weight:bold">int</span> le = <span style="color:#3677a9">0</span>, ri = nums.size() - <span style="color:#3677a9">1</span>;
         
-        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">int</span> <span style="color:#111">mid</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">ri</span><span style="color:#111">])</span> <span style="color:#111">{</span>
-                <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-                <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+        <span style="color:#6ab825;font-weight:bold">while</span> (le &lt; ri) {
+            <span style="color:#6ab825;font-weight:bold">int</span> mid = le + (ri - le) / <span style="color:#3677a9">2</span>;
+            <span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] &lt; nums[ri]) {
+                ri = mid;
+            } <span style="color:#6ab825;font-weight:bold">else</span> {
+                le = mid + <span style="color:#3677a9">1</span>;
+            }
+        }
 
-        <span style="color:#00a8c8">return</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">le</span><span style="color:#111">];</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+        <span style="color:#6ab825;font-weight:bold">return</span> nums[le];
+    }
+};
 </code></pre></div><h4 id="154-寻找旋转排序数组中的最小值-iihttpsleetcode-cncomproblemsfind-minimum-in-rotated-sorted-array-ii"><a href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/">154. 寻找旋转排序数组中的最小值 II</a></h4>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#00a8c8">int</span> <span style="color:#111">findMin</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    <span style="color:#6ab825;font-weight:bold">int</span> findMin(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; nums) {
+        <span style="color:#6ab825;font-weight:bold">int</span> le = <span style="color:#3677a9">0</span>, ri = nums.size() - <span style="color:#3677a9">1</span>;
 
-        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">int</span> <span style="color:#111">mid</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
+        <span style="color:#6ab825;font-weight:bold">while</span> (le &lt; ri) {
+            <span style="color:#6ab825;font-weight:bold">int</span> mid = le + (ri - le) / <span style="color:#3677a9">2</span>;
 
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">ri</span><span style="color:#111">])</span> <span style="color:#111">{</span>
-                <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#75af00">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">ri</span><span style="color:#111">])</span> <span style="color:#111">{</span>
-                <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-                <span style="color:#111">ri</span><span style="color:#f92672">--</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+            <span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] &lt; nums[ri]) {
+                ri = mid;
+            } <span style="color:#6ab825;font-weight:bold">else</span> <span style="color:#447fcf">if</span> (nums[mid] &gt; nums[ri]) {
+                le = mid + <span style="color:#3677a9">1</span>;
+            } <span style="color:#6ab825;font-weight:bold">else</span> {
+                ri--;
+            }
+        }
 
-        <span style="color:#00a8c8">return</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">le</span><span style="color:#111">];</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+        <span style="color:#6ab825;font-weight:bold">return</span> nums[le];
+    }
+};
 </code></pre></div><h2 id="二分搜索">二分搜索</h2>
 <h4 id="34-在排序数组中查找元素的第一个和最后一个位置httpsleetcode-cncomproblemsfind-first-and-last-position-of-element-in-sorted-array"><a href="https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/">34. 在排序数组中查找元素的第一个和最后一个位置</a></h4>
 <blockquote>
@@ -219,176 +219,176 @@ LeetCode 刷题总结之：二分查找
 </blockquote>
 <p>按照思路一查找，思路二排除的想法</p>
 <p>可以这样写，第一个循环排除，如果不存在直接返回，存在，第二个循环查找</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">searchRange</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">ret</span> <span style="color:#f92672">=</span> <span style="color:#111">{</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">};</span>
-        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">ret</span><span style="color:#111">;</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; searchRange(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; nums, <span style="color:#6ab825;font-weight:bold">int</span> target) {
+        vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; ret = {-<span style="color:#3677a9">1</span>, -<span style="color:#3677a9">1</span>};
+        <span style="color:#6ab825;font-weight:bold">if</span> (nums.size() == <span style="color:#3677a9">0</span>) <span style="color:#6ab825;font-weight:bold">return</span> ret;
 
-        <span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+        <span style="color:#6ab825;font-weight:bold">int</span> le = <span style="color:#3677a9">0</span>, ri = nums.size() - <span style="color:#3677a9">1</span>;
 
-        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">int</span> <span style="color:#111">mid</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
+        <span style="color:#6ab825;font-weight:bold">while</span> (le &lt; ri) {
+            <span style="color:#6ab825;font-weight:bold">int</span> mid = le + (ri - le) / <span style="color:#3677a9">2</span>;
 
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-                <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-                <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+            <span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] &lt; target) {
+                le = mid + <span style="color:#3677a9">1</span>;
+            } <span style="color:#6ab825;font-weight:bold">else</span> {
+                ri = mid;
+            }
+        }
 
-        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">le</span><span style="color:#111">]</span> <span style="color:#f92672">!=</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">ret</span><span style="color:#111">;</span>
-        <span style="color:#111">ret</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span><span style="color:#111">;</span>
+        <span style="color:#6ab825;font-weight:bold">if</span> (nums[le] != target) <span style="color:#6ab825;font-weight:bold">return</span> ret;
+        ret[<span style="color:#3677a9">0</span>] = le;
 
-        <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">int</span> <span style="color:#111">mid</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
+        le = <span style="color:#3677a9">0</span>, ri = nums.size() - <span style="color:#3677a9">1</span>;
+        <span style="color:#6ab825;font-weight:bold">while</span> (le &lt;= ri) {
+            <span style="color:#6ab825;font-weight:bold">int</span> mid = le + (ri - le) / <span style="color:#3677a9">2</span>;
 
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-                <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-                <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+            <span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] &lt;= target) {
+                le = mid + <span style="color:#3677a9">1</span>;
+            } <span style="color:#6ab825;font-weight:bold">else</span> {
+                ri = mid - <span style="color:#3677a9">1</span>;
+            }
+        }
 
-        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">le</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">ret</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-        <span style="color:#00a8c8">return</span> <span style="color:#111">ret</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+        <span style="color:#6ab825;font-weight:bold">if</span> (nums[le - <span style="color:#3677a9">1</span>] == target) ret[<span style="color:#3677a9">1</span>] = le - <span style="color:#3677a9">1</span>;
+        <span style="color:#6ab825;font-weight:bold">return</span> ret;
+    }
+};
 </code></pre></div><p>这样写也是对的，反正考虑好会出错的情况，然后添加判断条件，其实都可以解决</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">searchRange</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">ret</span> <span style="color:#f92672">=</span> <span style="color:#111">{</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">};</span>
-        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">ret</span><span style="color:#111">;</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; searchRange(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; nums, <span style="color:#6ab825;font-weight:bold">int</span> target) {
+        vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; ret = {-<span style="color:#3677a9">1</span>, -<span style="color:#3677a9">1</span>};
+        <span style="color:#6ab825;font-weight:bold">if</span> (nums.size() == <span style="color:#3677a9">0</span>) <span style="color:#6ab825;font-weight:bold">return</span> ret;
 
-        <span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+        <span style="color:#6ab825;font-weight:bold">int</span> le = <span style="color:#3677a9">0</span>, ri = nums.size() - <span style="color:#3677a9">1</span>;
 
-        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">int</span> <span style="color:#111">mid</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
+        <span style="color:#6ab825;font-weight:bold">while</span> (le &lt;= ri) {
+            <span style="color:#6ab825;font-weight:bold">int</span> mid = le + (ri - le) / <span style="color:#3677a9">2</span>;
 
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-                <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-                <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+            <span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] &lt; target) {
+                le = mid + <span style="color:#3677a9">1</span>;
+            } <span style="color:#6ab825;font-weight:bold">else</span> {
+                ri = mid - <span style="color:#3677a9">1</span>;
+            }
+        }
 
-        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&gt;=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">||</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">le</span><span style="color:#111">]</span> <span style="color:#f92672">!=</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">ret</span><span style="color:#111">;</span>
-        <span style="color:#111">ret</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span><span style="color:#111">;</span>
+        <span style="color:#6ab825;font-weight:bold">if</span> (le &gt;= nums.size() || nums[le] != target) <span style="color:#6ab825;font-weight:bold">return</span> ret;
+        ret[<span style="color:#3677a9">0</span>] = le;
 
-        <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">int</span> <span style="color:#111">mid</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
+        le = <span style="color:#3677a9">0</span>, ri = nums.size() - <span style="color:#3677a9">1</span>;
+        <span style="color:#6ab825;font-weight:bold">while</span> (le &lt;= ri) {
+            <span style="color:#6ab825;font-weight:bold">int</span> mid = le + (ri - le) / <span style="color:#3677a9">2</span>;
 
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">mid</span><span style="color:#111">]</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-                <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-                <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+            <span style="color:#6ab825;font-weight:bold">if</span> (nums[mid] &lt;= target) {
+                le = mid + <span style="color:#3677a9">1</span>;
+            } <span style="color:#6ab825;font-weight:bold">else</span> {
+                ri = mid - <span style="color:#3677a9">1</span>;
+            }
+        }
 
-        <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">le</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">ret</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-        <span style="color:#00a8c8">return</span> <span style="color:#111">ret</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+        <span style="color:#6ab825;font-weight:bold">if</span> (nums[le - <span style="color:#3677a9">1</span>] == target) ret[<span style="color:#3677a9">1</span>] = le - <span style="color:#3677a9">1</span>;
+        <span style="color:#6ab825;font-weight:bold">return</span> ret;
+    }
+};
 </code></pre></div><h2 id="其他用法">其他用法</h2>
 <h4 id="287-寻找重复数httpsleetcode-cncomproblemsfind-the-duplicate-number"><a href="https://leetcode-cn.com/problems/find-the-duplicate-number/">287. 寻找重复数</a></h4>
 <blockquote>
 <p>这道题用二分简直了，虽然复杂度就那样，但是思路很牛逼</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#00a8c8">int</span> <span style="color:#111">findDuplicate</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">cnt</span><span style="color:#111">,</span> <span style="color:#111">mid</span><span style="color:#111">;</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    <span style="color:#6ab825;font-weight:bold">int</span> findDuplicate(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; nums) {
+        <span style="color:#6ab825;font-weight:bold">int</span> le = <span style="color:#3677a9">1</span>, ri = nums.size() - <span style="color:#3677a9">1</span>, cnt, mid;
 
-        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#111">cnt</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
-            <span style="color:#111">mid</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
+        <span style="color:#6ab825;font-weight:bold">while</span> (le &lt; ri) {
+            cnt = <span style="color:#3677a9">0</span>;
+            mid = le + (ri - le) / <span style="color:#3677a9">2</span>;
 
-            <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">auto</span> <span style="color:#111">num</span> <span style="color:#111">:</span> <span style="color:#111">nums</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-                <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">num</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">mid</span><span style="color:#111">)</span> <span style="color:#111">cnt</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
+            <span style="color:#6ab825;font-weight:bold">for</span> (<span style="color:#6ab825;font-weight:bold">auto</span> num : nums) {
+                <span style="color:#6ab825;font-weight:bold">if</span> (num &lt;= mid) cnt++;
+            }
 
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">cnt</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">mid</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-                <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-                <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+            <span style="color:#6ab825;font-weight:bold">if</span> (cnt &gt; mid) {
+                ri = mid;
+            } <span style="color:#6ab825;font-weight:bold">else</span> {
+                le = mid + <span style="color:#3677a9">1</span>;
+            }
+        }
 
-        <span style="color:#00a8c8">return</span> <span style="color:#111">le</span><span style="color:#111">;</span> 
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+        <span style="color:#6ab825;font-weight:bold">return</span> le; 
+    }
+};
 </code></pre></div><h4 id="875-爱吃香蕉的珂珂httpsleetcode-cncomproblemskoko-eating-bananas"><a href="https://leetcode-cn.com/problems/koko-eating-bananas/">875. 爱吃香蕉的珂珂</a></h4>
 <blockquote>
 <p>套路题（PS. 202 周赛第三题同类型）</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#00a8c8">int</span> <span style="color:#111">minEatingSpeed</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">piles</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">H</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">int</span> <span style="color:#111">maxn</span> <span style="color:#f92672">=</span> <span style="color:#f92672">*</span><span style="color:#111">max_element</span><span style="color:#111">(</span><span style="color:#111">piles</span><span style="color:#111">.</span><span style="color:#111">begin</span><span style="color:#111">(),</span> <span style="color:#111">piles</span><span style="color:#111">.</span><span style="color:#111">end</span><span style="color:#111">());</span>
-        <span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">maxn</span><span style="color:#111">;</span>
-        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;=</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">int</span> <span style="color:#111">mid</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">check</span><span style="color:#111">(</span><span style="color:#111">piles</span><span style="color:#111">,</span> <span style="color:#111">mid</span><span style="color:#111">,</span> <span style="color:#111">H</span><span style="color:#111">))</span> <span style="color:#111">{</span>
-                <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-                <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    <span style="color:#6ab825;font-weight:bold">int</span> minEatingSpeed(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; piles, <span style="color:#6ab825;font-weight:bold">int</span> H) {
+        <span style="color:#6ab825;font-weight:bold">int</span> maxn = *max_element(piles.begin(), piles.end());
+        <span style="color:#6ab825;font-weight:bold">int</span> le = <span style="color:#3677a9">1</span>, ri = maxn;
+        <span style="color:#6ab825;font-weight:bold">while</span> (le &lt;= ri) {
+            <span style="color:#6ab825;font-weight:bold">int</span> mid = le + (ri - le) / <span style="color:#3677a9">2</span>;
+            <span style="color:#6ab825;font-weight:bold">if</span> (check(piles, mid, H)) {
+                ri = mid - <span style="color:#3677a9">1</span>;
+            } <span style="color:#6ab825;font-weight:bold">else</span> {
+                le = mid + <span style="color:#3677a9">1</span>;
+            }
+        }
 
-        <span style="color:#00a8c8">return</span> <span style="color:#111">le</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
+        <span style="color:#6ab825;font-weight:bold">return</span> le;
+    }
 
-    <span style="color:#00a8c8">bool</span> <span style="color:#75af00">check</span><span style="color:#111">(</span><span style="color:#00a8c8">const</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">piles</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">speed</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">H</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">int</span> <span style="color:#111">count</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
-        <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">piles</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">();</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#111">count</span> <span style="color:#f92672">+=</span> <span style="color:#111">piles</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">/</span> <span style="color:#111">speed</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">piles</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">%</span> <span style="color:#111">speed</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span><span style="color:#111">);</span>
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">count</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">H</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span> <span style="color:#111">false</span><span style="color:#111">;</span>
-        <span style="color:#111">}</span>
-        <span style="color:#00a8c8">return</span> <span style="color:#111">true</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+    <span style="color:#6ab825;font-weight:bold">bool</span> <span style="color:#447fcf">check</span>(<span style="color:#6ab825;font-weight:bold">const</span> vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; piles, <span style="color:#6ab825;font-weight:bold">int</span> speed, <span style="color:#6ab825;font-weight:bold">int</span> H) {
+        <span style="color:#6ab825;font-weight:bold">int</span> count = <span style="color:#3677a9">0</span>;
+        <span style="color:#6ab825;font-weight:bold">for</span> (<span style="color:#6ab825;font-weight:bold">int</span> i = <span style="color:#3677a9">0</span>; i &lt; piles.size(); i++) {
+            count += piles[i] / speed + (piles[i] % speed == <span style="color:#3677a9">0</span> ? <span style="color:#3677a9">0</span> : <span style="color:#3677a9">1</span>);
+            <span style="color:#6ab825;font-weight:bold">if</span> (count &gt; H) <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#24909d">false</span>;
+        }
+        <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#24909d">true</span>;
+    }
+};
 </code></pre></div><h4 id="1011-在-d-天内送达包裹的能力httpsleetcode-cncomproblemscapacity-to-ship-packages-within-d-days"><a href="https://leetcode-cn.com/problems/capacity-to-ship-packages-within-d-days/">1011. 在 D 天内送达包裹的能力</a></h4>
 <blockquote>
 <p>和吃香蕉一样</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#00a8c8">int</span> <span style="color:#111">shipWithinDays</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">weights</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">D</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#f92672">*</span><span style="color:#111">max_element</span><span style="color:#111">(</span><span style="color:#111">weights</span><span style="color:#111">.</span><span style="color:#111">begin</span><span style="color:#111">(),</span> <span style="color:#111">weights</span><span style="color:#111">.</span><span style="color:#111">end</span><span style="color:#111">()),</span>
-            <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">accumulate</span><span style="color:#111">(</span><span style="color:#111">weights</span><span style="color:#111">.</span><span style="color:#111">begin</span><span style="color:#111">(),</span> <span style="color:#111">weights</span><span style="color:#111">.</span><span style="color:#111">end</span><span style="color:#111">(),</span> <span style="color:#ae81ff">0</span><span style="color:#111">);</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    <span style="color:#6ab825;font-weight:bold">int</span> shipWithinDays(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; weights, <span style="color:#6ab825;font-weight:bold">int</span> D) {
+        <span style="color:#6ab825;font-weight:bold">int</span> le = *max_element(weights.begin(), weights.end()),
+            ri = accumulate(weights.begin(), weights.end(), <span style="color:#3677a9">0</span>);
         
-        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">le</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">ri</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">int</span> <span style="color:#111">mid</span> <span style="color:#f92672">=</span> <span style="color:#111">le</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">)</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span>
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">check</span><span style="color:#111">(</span><span style="color:#111">weights</span><span style="color:#111">,</span> <span style="color:#111">D</span><span style="color:#111">,</span> <span style="color:#111">mid</span><span style="color:#111">))</span> <span style="color:#111">{</span>
-                <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-                <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#111">mid</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+        <span style="color:#6ab825;font-weight:bold">while</span> (le &lt; ri) {
+            <span style="color:#6ab825;font-weight:bold">int</span> mid = le + (ri - le) / <span style="color:#3677a9">2</span>;
+            <span style="color:#6ab825;font-weight:bold">if</span> (check(weights, D, mid)) {
+                ri = mid;
+            } <span style="color:#6ab825;font-weight:bold">else</span> {
+                le = mid + <span style="color:#3677a9">1</span>;
+            }
+        }
 
-        <span style="color:#00a8c8">return</span> <span style="color:#111">le</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
+        <span style="color:#6ab825;font-weight:bold">return</span> le;
+    }
 
-    <span style="color:#00a8c8">bool</span> <span style="color:#75af00">check</span><span style="color:#111">(</span><span style="color:#00a8c8">const</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">weights</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">D</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">speed</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">int</span> <span style="color:#111">idx</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
-        <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">D</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">int</span> <span style="color:#111">sum</span> <span style="color:#f92672">=</span> <span style="color:#111">speed</span><span style="color:#111">;</span>
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">sum</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">weights</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">])</span> <span style="color:#00a8c8">return</span> <span style="color:#111">false</span><span style="color:#111">;</span>
-            <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">sum</span> <span style="color:#f92672">&gt;=</span> <span style="color:#111">weights</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">])</span> <span style="color:#111">{</span>
-                <span style="color:#111">sum</span> <span style="color:#f92672">-=</span> <span style="color:#111">weights</span><span style="color:#111">[</span><span style="color:#111">idx</span><span style="color:#111">];</span>
-                <span style="color:#111">idx</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
-                <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">idx</span> <span style="color:#f92672">==</span> <span style="color:#111">weights</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">())</span> <span style="color:#111">{</span>
-                    <span style="color:#00a8c8">return</span> <span style="color:#111">true</span><span style="color:#111">;</span>
-                <span style="color:#111">}</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+    <span style="color:#6ab825;font-weight:bold">bool</span> <span style="color:#447fcf">check</span>(<span style="color:#6ab825;font-weight:bold">const</span> vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; weights, <span style="color:#6ab825;font-weight:bold">int</span> D, <span style="color:#6ab825;font-weight:bold">int</span> speed) {
+        <span style="color:#6ab825;font-weight:bold">int</span> idx = <span style="color:#3677a9">0</span>;
+        <span style="color:#6ab825;font-weight:bold">for</span> (<span style="color:#6ab825;font-weight:bold">int</span> i = <span style="color:#3677a9">0</span>; i &lt; D; i++) {
+            <span style="color:#6ab825;font-weight:bold">int</span> sum = speed;
+            <span style="color:#6ab825;font-weight:bold">if</span> (sum &lt; weights[idx]) <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#24909d">false</span>;
+            <span style="color:#6ab825;font-weight:bold">while</span> (sum &gt;= weights[idx]) {
+                sum -= weights[idx];
+                idx++;
+                <span style="color:#6ab825;font-weight:bold">if</span> (idx == weights.size()) {
+                    <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#24909d">true</span>;
+                }
+            }
+        }
 
-        <span style="color:#00a8c8">return</span> <span style="color:#111">false</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>    
-<span style="color:#111">};</span>
+        <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#24909d">false</span>;
+    }    
+};
 </code></pre></div><h2 id="references">References</h2>
 <p><a href="https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/solution/er-fen-cha-zhao-suan-fa-xi-jie-xiang-jie-by-labula/">https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/solution/er-fen-cha-zhao-suan-fa-xi-jie-xiang-jie-by-labula/</a></p>
 <p><a href="https://labuladong.gitbook.io/algo/gao-pin-mian-shi-xi-lie/koko-tou-xiang-jiao">https://labuladong.gitbook.io/algo/gao-pin-mian-shi-xi-lie/koko-tou-xiang-jiao</a></p>

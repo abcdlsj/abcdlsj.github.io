@@ -59,18 +59,18 @@ ArchLinux 双显卡配置，应该多数 Linux 系统都适用，可能细节不
 </blockquote>
 <h2 id="首先开机时禁用-n卡驱动-nouveau">首先开机时禁用 N卡驱动 nouveau</h2>
 <p>开机启动时如果开机黑屏按 <code>e</code> 加入以下</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">modprobe.blacklist=nouveau
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">modprobe.blacklist=nouveau
 </code></pre></div><h2 id="安装-nvidia驱动">安装 NVIDIA驱动</h2>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo pacman -Syu nvidia nvidia-settings xorg-xrandr
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo pacman -Syu nvidia nvidia-settings xorg-xrandr
 </code></pre></div><h2 id="配置">配置</h2>
 <h3 id="修改-grub">修改 grub</h3>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo nvim /etc/default/grub
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo nvim /etc/default/grub
 </code></pre></div><blockquote>
 <p>GRUB_CMDLINE_LINUX_DEFAULT=&ldquo;loglevel=3 quiet nvidia-drm.modeset=1 acpi_osi=!
 acpi_osi=\&ldquo;windows 2009\&rdquo;&rdquo;</p>
 </blockquote>
 <h3 id="修改完之后重新生成-grub-dot-cfg">修改完之后重新生成 grub.cfg</h3>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo grub-mkconfig -o /boot/grub/grub.cfg
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo grub-mkconfig -o /boot/grub/grub.cfg
 </code></pre></div><h3 id="添加-initramfs-模块">添加 initramfs 模块</h3>
 <p><a href="https://wiki.archlinux.org/index.php/Arch%5Fboot%5Fprocess%5F(%25E7%25AE%2580%25E4%25BD%2593%25E4%25B8%25AD%25E6%2596%2587)#initramfs">Arch Wiki initramfs</a></p>
 <p>在 <code>/etc/mkinitcpio.conf</code> 中找到 <code>MODULES=()</code> 加入</p>
@@ -78,11 +78,11 @@ acpi_osi=\&ldquo;windows 2009\&rdquo;&rdquo;</p>
 <p>nvidia nvidia_modeset nvidia_uvm nvidia_drm</p>
 </blockquote>
 <h3 id="重新生成一下-initramfs">重新生成一下 initramfs</h3>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo mkinitcpio -P
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo mkinitcpio -P
 </code></pre></div><h3 id="add-pacman-hook">add pacman hook</h3>
 <p>每次更新 <code>NVIDIA</code> 都需要重新生成 <code>initramfs</code> 可以使用 pacman hook</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo nvim /etc/pacman.d/hooks/nvidia.hook
-</code></pre></div><div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[Trigger]
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo nvim /etc/pacman.d/hooks/nvidia.hook
+</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[Trigger]
 Operation=Install
 Operation=Upgrade
 Operation=Remove
@@ -101,9 +101,9 @@ Exec=/bin/sh -c &#39;while read -r trg; do case $trg in linux) exit 0; esac; don
 <p><a href="https://wiki.archlinux.org/index.php/NVIDIA%5FOptimus%5F(%25E7%25AE%2580%25E4%25BD%2593%25E4%25B8%25AD%25E6%2596%2587)#%25E6%2598%25BE%25E7%25A4%25BA%25E7%25AE%25A1%25E7%2590%2586%25E5%2599%25A8">Arch Wiki</a></p>
 <h2 id="bumblebee">bumblebee</h2>
 <p>如果是 <code>linux-lts</code> 是安装 <code>bumblebee</code> <code>bbswitch-dkms</code></p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo pacman -S bumblebee bbswitch
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo pacman -S bumblebee bbswitch
 sudo gpasswd -a user bumblebee
-systemctl <span style="color:#111">enable</span> bumblebeed.service
+systemctl <span style="color:#24909d">enable</span> bumblebeed.service
 </code></pre></div>
 		</section>
 

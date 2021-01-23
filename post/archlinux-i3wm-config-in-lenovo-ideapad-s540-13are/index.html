@@ -72,12 +72,12 @@
 <li>
 <p>缩放问题，最好的还是 144</p>
 <p><code>vim .Xresources</code> （PS. 实测鼠标这样设置大小会好一点点）</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">Xft.dpi: <span style="color:#ae81ff">144</span>
-Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#ae81ff">48</span> or <span style="color:#ae81ff">64</span> may also be good values
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">Xft.dpi: <span style="color:#3677a9">144</span>
+Xcursor.size:  <span style="color:#3677a9">32</span> ! 32, <span style="color:#3677a9">48</span> or <span style="color:#3677a9">64</span> may also be good values
 </code></pre></div></li>
 <li>
 <p>触控板设置问题，原来是没有手势，比如单击之类的，只能够用触控板本来的点击，感觉不舒服，如果想要简单的就可以像我一样：</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ synclient <span style="color:#111">TapButton1</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#111">TapButton2</span><span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> <span style="color:#111">TapButton3</span><span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ synclient <span style="color:#40ffff">TapButton1</span>=<span style="color:#3677a9">1</span> <span style="color:#40ffff">TapButton2</span>=<span style="color:#3677a9">3</span> <span style="color:#40ffff">TapButton3</span>=<span style="color:#3677a9">2</span>
 </code></pre></div><p>这样就差不多了，更丰富的功能找 wiki</p>
 </li>
 <li>
@@ -141,7 +141,7 @@ Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#a
 <p>我遇到了之后，弄到失去耐心直接重装（弄了好几个小时，各种方法都没啥效果，于是昨天晚上 10 点开始重装，2 个小时不到装好，虽然之后一直熬夜玩到凌晨 5 点）</p>
 <h2 id="python-module-的错误">Python Module 的错误</h2>
 <p>具体报错没了，可以试试：</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo pacman -S python3 python-pip python-setuptools
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo pacman -S python3 python-pip python-setuptools
 </code></pre></div><p>差不多就可以解决了</p>
 <h2 id="backlight">BackLight</h2>
 <blockquote>
@@ -151,7 +151,7 @@ Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#a
 <p>-- 09-09</p>
 </blockquote>
 <p>和 intel 差不多：</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#111">echo</span> <span style="color:#ae81ff">70</span> &gt; /sys/class/backlight/amdgpu_bl0/brightness
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">echo</span> <span style="color:#3677a9">70</span> &gt; /sys/class/backlight/amdgpu_bl0/brightness
 </code></pre></div><h2 id="bios">Bios</h2>
 <blockquote>
 <p>最好还是自己设置一下</p>
@@ -171,16 +171,16 @@ Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#a
 <p>音频是开箱即用的，但是还是需要稍微配置一下，指定一下输出，遇到问题就看官方 wiki 吧，写得不错的</p>
 <p>我基本就配置了一个文件</p>
 <p><code>sudo vim ~/.asoundrc</code></p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">defaults.pcm.card 1
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">defaults.pcm.card 1
 defaults.pcm.device 0
 defaults.ctl.card 1
 </code></pre></div><h2 id="grub-分辨率">grub 分辨率</h2>
 <blockquote>
 <p>不改会出现亮线，因为那一瞬间分辨率变化太快了（我是自己这样想的，实测也是这个问题），改成 1280x960 就好</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo vim /etc/default/grub
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo vim /etc/default/grub
 
-<span style="color:#111">GRUB_GFXMODE</span><span style="color:#f92672">=</span>1280x960
+<span style="color:#40ffff">GRUB_GFXMODE</span>=1280x960
 </code></pre></div><p>记得重新生成 grub.cfg</p>
 <h2 id="一些优化">一些优化</h2>
 <p>修改 icons theme，系统托盘会好看一点</p>
@@ -197,8 +197,8 @@ defaults.ctl.card 1
 <h2 id="美化设置i3wm主要是字体和缩放">美化设置（i3wm，主要是字体和缩放）</h2>
 <p><code>i3wm</code> 配置随意，我用的基本是默认</p>
 <p><code>vim .Xresources</code> 设置缩放 144，鼠标大小 32</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">Xft.dpi: <span style="color:#ae81ff">144</span>
-Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#ae81ff">48</span> or <span style="color:#ae81ff">64</span> may also be good values
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">Xft.dpi: <span style="color:#3677a9">144</span>
+Xcursor.size:  <span style="color:#3677a9">32</span> ! 32, <span style="color:#3677a9">48</span> or <span style="color:#3677a9">64</span> may also be good values
 </code></pre></div><p><code>qt5ct</code> 设置 qt 程序字体和图标</p>
 <p><code>lxappearance</code> 设置 gtk3 程序，看自己喜好，图标我用 <code>Papirus</code>，字体用 <code>Noto Sans CJK SC Medium 10</code></p>
 <p>通知用 <code>dunst</code>，配置使用自带的，<code>cp -rf /usr/share/dunst/dunstrc ~/.config/dunst</code></p>
@@ -212,7 +212,7 @@ Xcursor.size:  <span style="color:#ae81ff">32</span> ! 32, <span style="color:#a
 <p>-- 2020-09-08 更新</p>
 <p><code>~/.config/fontconfig/fonts.conf</code></p>
 <p>复制修改的别人的，具体出处找不到了。。</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">&lt;?xml version=&#39;1.0&#39;?&gt;
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">&lt;?xml version=&#39;1.0&#39;?&gt;
 &lt;!DOCTYPE fontconfig SYSTEM &#39;fonts.dtd&#39;&gt;
 &lt;fontconfig&gt;
 

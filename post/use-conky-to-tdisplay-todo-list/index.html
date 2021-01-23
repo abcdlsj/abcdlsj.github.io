@@ -58,8 +58,8 @@
 <p>作为一个 Emacser，使用 org-agenda 来管理日常是很正常的事情，于是想到在桌面显示自己的 todo-list，查阅资料之后发现很简单</p>
 </blockquote>
 <h2 id="conky-配置">conky 配置</h2>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat ~/.config/conky/org-todo.config
-</code></pre></div><div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">conky.config = {
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat ~/.config/conky/org-todo.config
+</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">conky.config = {
     alignment = &#39;top_left&#39;,
     background = true,
     cpu_avg_samples = 2,
@@ -81,8 +81,8 @@ conky.text = [[
     ${execpi 300 /usr/bin/emacs --batch -l ~/.config/conky/org-todo.el -eval &#39;(org-batch-agenda &#34;t&#34;)&#39;}
 ]];
 </code></pre></div><h2 id="org-todo-dot-el">org-todo.el</h2>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat ~/.config/conky/org-todo.el
-</code></pre></div><div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">(require &#39;org)
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat ~/.config/conky/org-todo.el
+</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">(require &#39;org)
 (setq org-agenda-files (list &#34;~/Dropbox/org/&#34;))
 (setq org-agenda-file-regexp &#34;\\`[^.].*\\.org\\|.todo\\&#39;&#34;)
 </code></pre></div>

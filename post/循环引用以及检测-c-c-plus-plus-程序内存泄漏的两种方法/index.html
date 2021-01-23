@@ -69,38 +69,38 @@ Linux 检测 C/C&#43;&#43; 内存泄漏两种方法
 <p>shared_ptr 实现共享式拥有（shared ownership）概念。多个智能指针可以指向相同对象，该对象和其相关资源会在“最后一个引用（reference）被销毁”时候释放。</p>
 </blockquote>
 <p>但是这样会出现循环引用的问题，比如这样一个程序</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;memory&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#00a8c8">struct</span> <span style="color:#75af00">A</span><span style="color:#111">;</span>
-<span style="color:#00a8c8">struct</span> <span style="color:#75af00">B</span><span style="color:#111">;</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cd2828;font-weight:bold">#include</span> <span style="color:#cd2828;font-weight:bold">&lt;iostream&gt;</span><span style="color:#cd2828;font-weight:bold">
+</span><span style="color:#cd2828;font-weight:bold">#include</span> <span style="color:#cd2828;font-weight:bold">&lt;memory&gt;</span><span style="color:#cd2828;font-weight:bold">
+</span><span style="color:#cd2828;font-weight:bold"></span>
+<span style="color:#6ab825;font-weight:bold">struct</span> <span style="color:#447fcf;text-decoration:underline">A</span>;
+<span style="color:#6ab825;font-weight:bold">struct</span> <span style="color:#447fcf;text-decoration:underline">B</span>;
 
-<span style="color:#00a8c8">struct</span> <span style="color:#75af00">A</span> <span style="color:#111">{</span>
-  <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">shared_ptr</span><span style="color:#f92672">&lt;</span><span style="color:#111">B</span><span style="color:#f92672">&gt;</span> <span style="color:#111">pointer</span><span style="color:#111">;</span>
-  <span style="color:#f92672">~</span><span style="color:#111">A</span><span style="color:#111">()</span> <span style="color:#111">{</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;A 被销毁&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span> <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+<span style="color:#6ab825;font-weight:bold">struct</span> <span style="color:#447fcf;text-decoration:underline">A</span> {
+  std::shared_ptr&lt;B&gt; pointer;
+  ~A() { std::cout &lt;&lt; <span style="color:#ed9d13">&#34;A 被销毁&#34;</span> &lt;&lt; std::endl; }
+};
 
-<span style="color:#00a8c8">struct</span> <span style="color:#75af00">B</span> <span style="color:#111">{</span>
-  <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">shared_ptr</span><span style="color:#f92672">&lt;</span><span style="color:#111">A</span><span style="color:#f92672">&gt;</span> <span style="color:#111">pointer</span><span style="color:#111">;</span>
-  <span style="color:#f92672">~</span><span style="color:#111">B</span><span style="color:#111">()</span> <span style="color:#111">{</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;B 被销毁&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span> <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+<span style="color:#6ab825;font-weight:bold">struct</span> <span style="color:#447fcf;text-decoration:underline">B</span> {
+  std::shared_ptr&lt;A&gt; pointer;
+  ~B() { std::cout &lt;&lt; <span style="color:#ed9d13">&#34;B 被销毁&#34;</span> &lt;&lt; std::endl; }
+};
 
-<span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span><span style="color:#111">()</span> <span style="color:#111">{</span>
-  <span style="color:#00a8c8">auto</span> <span style="color:#111">a</span> <span style="color:#f92672">=</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">make_shared</span><span style="color:#f92672">&lt;</span><span style="color:#111">A</span><span style="color:#f92672">&gt;</span><span style="color:#111">();</span>
-  <span style="color:#00a8c8">auto</span> <span style="color:#111">b</span> <span style="color:#f92672">=</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">make_shared</span><span style="color:#f92672">&lt;</span><span style="color:#111">B</span><span style="color:#f92672">&gt;</span><span style="color:#111">();</span>
-  <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;a.use_count(): &#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">a</span><span style="color:#111">.</span><span style="color:#111">use_count</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;</span><span style="color:#8045ff">\t</span><span style="color:#d88200">b.use_count(): &#34;</span>
-			<span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">b</span><span style="color:#111">.</span><span style="color:#111">use_count</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span>
+<span style="color:#6ab825;font-weight:bold">int</span> <span style="color:#447fcf">main</span>() {
+  <span style="color:#6ab825;font-weight:bold">auto</span> a = std::make_shared&lt;A&gt;();
+  <span style="color:#6ab825;font-weight:bold">auto</span> b = std::make_shared&lt;B&gt;();
+  std::cout &lt;&lt; <span style="color:#ed9d13">&#34;a.use_count(): &#34;</span> &lt;&lt; a.use_count() &lt;&lt; <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\t</span><span style="color:#ed9d13">b.use_count(): &#34;</span>
+			&lt;&lt; b.use_count() &lt;&lt; std::endl;
 
-  <span style="color:#111">a</span><span style="color:#f92672">-&gt;</span><span style="color:#111">pointer</span> <span style="color:#f92672">=</span> <span style="color:#111">b</span><span style="color:#111">;</span>
-  <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;a.use_count(): &#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">a</span><span style="color:#111">.</span><span style="color:#111">use_count</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;</span><span style="color:#8045ff">\t</span><span style="color:#d88200">b.use_count(): &#34;</span>
-			<span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">b</span><span style="color:#111">.</span><span style="color:#111">use_count</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span>
+  a-&gt;pointer = b;
+  std::cout &lt;&lt; <span style="color:#ed9d13">&#34;a.use_count(): &#34;</span> &lt;&lt; a.use_count() &lt;&lt; <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\t</span><span style="color:#ed9d13">b.use_count(): &#34;</span>
+			&lt;&lt; b.use_count() &lt;&lt; std::endl;
 
-  <span style="color:#111">b</span><span style="color:#f92672">-&gt;</span><span style="color:#111">pointer</span> <span style="color:#f92672">=</span> <span style="color:#111">a</span><span style="color:#111">;</span>
-  <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;a.use_count(): &#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">a</span><span style="color:#111">.</span><span style="color:#111">use_count</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;</span><span style="color:#8045ff">\t</span><span style="color:#d88200">b.use_count(): &#34;</span>
-			<span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">b</span><span style="color:#111">.</span><span style="color:#111">use_count</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span>
-<span style="color:#111">}</span>
+  b-&gt;pointer = a;
+  std::cout &lt;&lt; <span style="color:#ed9d13">&#34;a.use_count(): &#34;</span> &lt;&lt; a.use_count() &lt;&lt; <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\t</span><span style="color:#ed9d13">b.use_count(): &#34;</span>
+			&lt;&lt; b.use_count() &lt;&lt; std::endl;
+}
 </code></pre></div><p>输出为：</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">: a.use_count(): 1	b.use_count(): 1
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">: a.use_count(): 1	b.use_count(): 1
 : a.use_count(): 1	b.use_count(): 2
 : a.use_count(): 2	b.use_count(): 2
 </code></pre></div><p>结果 A,B 都不会被销毁，因为 <code>a b</code> 内部同时引用了 <code>a b</code> ，这使得 <code>a b</code> 的引用计数变为 2，当离开作用域时， <code>a b</code> 智能指针被析构，各自的引用计数 -1，但是 <code>a b</code> 对象指向的内存区域引用计数不为零，而外部已经没有办法找到这块区域了，也就造成了内存泄露</p>
@@ -112,38 +112,38 @@ Linux 检测 C/C&#43;&#43; 内存泄漏两种方法
 </figure>
 
 <p>解决这个办法就是使用弱引用指针 <code>std::weak_ptr</code> ，它不控制所指向对象的生存期，指向一个 <code>std::shared_ptr</code> 管理的对象，但是它绑定到 <code>std::shared_ptr</code> 不会改变其引用计数。一旦最后一个指向对象的 <code>std::weak_ptr</code> 被销毁，对象就会被释放，即使 <code>std::weak_ptr</code> 指向对象，对象还是会被释放。</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;memory&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#00a8c8">struct</span> <span style="color:#75af00">A</span><span style="color:#111">;</span>
-<span style="color:#00a8c8">struct</span> <span style="color:#75af00">B</span><span style="color:#111">;</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cd2828;font-weight:bold">#include</span> <span style="color:#cd2828;font-weight:bold">&lt;iostream&gt;</span><span style="color:#cd2828;font-weight:bold">
+</span><span style="color:#cd2828;font-weight:bold">#include</span> <span style="color:#cd2828;font-weight:bold">&lt;memory&gt;</span><span style="color:#cd2828;font-weight:bold">
+</span><span style="color:#cd2828;font-weight:bold"></span>
+<span style="color:#6ab825;font-weight:bold">struct</span> <span style="color:#447fcf;text-decoration:underline">A</span>;
+<span style="color:#6ab825;font-weight:bold">struct</span> <span style="color:#447fcf;text-decoration:underline">B</span>;
 
-<span style="color:#00a8c8">struct</span> <span style="color:#75af00">A</span> <span style="color:#111">{</span>
-  <span style="color:#111">A</span><span style="color:#111">()</span> <span style="color:#111">{</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;A 被创建&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span> <span style="color:#111">}</span>
-  <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">weak_ptr</span><span style="color:#f92672">&lt;</span><span style="color:#111">B</span><span style="color:#f92672">&gt;</span> <span style="color:#111">pointer</span><span style="color:#111">;</span>
-  <span style="color:#f92672">~</span><span style="color:#111">A</span><span style="color:#111">()</span> <span style="color:#111">{</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;A 被销毁&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span> <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+<span style="color:#6ab825;font-weight:bold">struct</span> <span style="color:#447fcf;text-decoration:underline">A</span> {
+  A() { std::cout &lt;&lt; <span style="color:#ed9d13">&#34;A 被创建&#34;</span> &lt;&lt; std::endl; }
+  std::weak_ptr&lt;B&gt; pointer;
+  ~A() { std::cout &lt;&lt; <span style="color:#ed9d13">&#34;A 被销毁&#34;</span> &lt;&lt; std::endl; }
+};
 
-<span style="color:#00a8c8">struct</span> <span style="color:#75af00">B</span> <span style="color:#111">{</span>
-  <span style="color:#111">B</span><span style="color:#111">()</span> <span style="color:#111">{</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;B 被创建&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span> <span style="color:#111">}</span>
-  <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">weak_ptr</span><span style="color:#f92672">&lt;</span><span style="color:#111">A</span><span style="color:#f92672">&gt;</span> <span style="color:#111">pointer</span><span style="color:#111">;</span>
-  <span style="color:#f92672">~</span><span style="color:#111">B</span><span style="color:#111">()</span> <span style="color:#111">{</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;B 被销毁&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span> <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+<span style="color:#6ab825;font-weight:bold">struct</span> <span style="color:#447fcf;text-decoration:underline">B</span> {
+  B() { std::cout &lt;&lt; <span style="color:#ed9d13">&#34;B 被创建&#34;</span> &lt;&lt; std::endl; }
+  std::weak_ptr&lt;A&gt; pointer;
+  ~B() { std::cout &lt;&lt; <span style="color:#ed9d13">&#34;B 被销毁&#34;</span> &lt;&lt; std::endl; }
+};
 
-<span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span><span style="color:#111">()</span> <span style="color:#111">{</span>
-  <span style="color:#00a8c8">auto</span> <span style="color:#111">a</span> <span style="color:#f92672">=</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">make_shared</span><span style="color:#f92672">&lt;</span><span style="color:#111">A</span><span style="color:#f92672">&gt;</span><span style="color:#111">();</span>
-  <span style="color:#00a8c8">auto</span> <span style="color:#111">b</span> <span style="color:#f92672">=</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">make_shared</span><span style="color:#f92672">&lt;</span><span style="color:#111">B</span><span style="color:#f92672">&gt;</span><span style="color:#111">();</span>
-  <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;a.use_count(): &#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">a</span><span style="color:#111">.</span><span style="color:#111">use_count</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;</span><span style="color:#8045ff">\t</span><span style="color:#d88200">b.use_count(): &#34;</span>
-			<span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">b</span><span style="color:#111">.</span><span style="color:#111">use_count</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span>
-  <span style="color:#111">a</span><span style="color:#f92672">-&gt;</span><span style="color:#111">pointer</span> <span style="color:#f92672">=</span> <span style="color:#111">b</span><span style="color:#111">;</span>
-  <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;a.use_count(): &#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">a</span><span style="color:#111">.</span><span style="color:#111">use_count</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;</span><span style="color:#8045ff">\t</span><span style="color:#d88200">b.use_count(): &#34;</span>
-			<span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">b</span><span style="color:#111">.</span><span style="color:#111">use_count</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span>
+<span style="color:#6ab825;font-weight:bold">int</span> <span style="color:#447fcf">main</span>() {
+  <span style="color:#6ab825;font-weight:bold">auto</span> a = std::make_shared&lt;A&gt;();
+  <span style="color:#6ab825;font-weight:bold">auto</span> b = std::make_shared&lt;B&gt;();
+  std::cout &lt;&lt; <span style="color:#ed9d13">&#34;a.use_count(): &#34;</span> &lt;&lt; a.use_count() &lt;&lt; <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\t</span><span style="color:#ed9d13">b.use_count(): &#34;</span>
+			&lt;&lt; b.use_count() &lt;&lt; std::endl;
+  a-&gt;pointer = b;
+  std::cout &lt;&lt; <span style="color:#ed9d13">&#34;a.use_count(): &#34;</span> &lt;&lt; a.use_count() &lt;&lt; <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\t</span><span style="color:#ed9d13">b.use_count(): &#34;</span>
+			&lt;&lt; b.use_count() &lt;&lt; std::endl;
 
-  <span style="color:#111">b</span><span style="color:#f92672">-&gt;</span><span style="color:#111">pointer</span> <span style="color:#f92672">=</span> <span style="color:#111">a</span><span style="color:#111">;</span>
-  <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;a.use_count(): &#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">a</span><span style="color:#111">.</span><span style="color:#111">use_count</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;</span><span style="color:#8045ff">\t</span><span style="color:#d88200">b.use_count(): &#34;</span>
-			<span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">b</span><span style="color:#111">.</span><span style="color:#111">use_count</span><span style="color:#111">()</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span>
-<span style="color:#111">}</span>
-</code></pre></div><div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">: A 被创建
+  b-&gt;pointer = a;
+  std::cout &lt;&lt; <span style="color:#ed9d13">&#34;a.use_count(): &#34;</span> &lt;&lt; a.use_count() &lt;&lt; <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\t</span><span style="color:#ed9d13">b.use_count(): &#34;</span>
+			&lt;&lt; b.use_count() &lt;&lt; std::endl;
+}
+</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">: A 被创建
 : B 被创建
 : a.use_count(): 1	b.use_count(): 1
 : a.use_count(): 1	b.use_count(): 1
@@ -155,31 +155,31 @@ Linux 检测 C/C&#43;&#43; 内存泄漏两种方法
 <p>出现内存泄漏是非常麻烦的事情，这里介绍两个工具，这里用两个工具分析一下循环引用时发生的内存泄漏</p>
 </blockquote>
 <p><strong><strong>代码：</strong></strong></p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;memory&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#00a8c8">struct</span> <span style="color:#75af00">A</span><span style="color:#111">;</span>
-<span style="color:#00a8c8">struct</span> <span style="color:#75af00">B</span><span style="color:#111">;</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cd2828;font-weight:bold">#include</span> <span style="color:#cd2828;font-weight:bold">&lt;iostream&gt;</span><span style="color:#cd2828;font-weight:bold">
+</span><span style="color:#cd2828;font-weight:bold">#include</span> <span style="color:#cd2828;font-weight:bold">&lt;memory&gt;</span><span style="color:#cd2828;font-weight:bold">
+</span><span style="color:#cd2828;font-weight:bold"></span>
+<span style="color:#6ab825;font-weight:bold">struct</span> <span style="color:#447fcf;text-decoration:underline">A</span>;
+<span style="color:#6ab825;font-weight:bold">struct</span> <span style="color:#447fcf;text-decoration:underline">B</span>;
 
-<span style="color:#00a8c8">struct</span> <span style="color:#75af00">A</span> <span style="color:#111">{</span>
-  <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">shared_ptr</span><span style="color:#f92672">&lt;</span><span style="color:#111">B</span><span style="color:#f92672">&gt;</span> <span style="color:#111">pointer</span><span style="color:#111">;</span>
-  <span style="color:#f92672">~</span><span style="color:#111">A</span><span style="color:#111">()</span> <span style="color:#111">{</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;A 被销毁&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span> <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+<span style="color:#6ab825;font-weight:bold">struct</span> <span style="color:#447fcf;text-decoration:underline">A</span> {
+  std::shared_ptr&lt;B&gt; pointer;
+  ~A() { std::cout &lt;&lt; <span style="color:#ed9d13">&#34;A 被销毁&#34;</span> &lt;&lt; std::endl; }
+};
 
-<span style="color:#00a8c8">struct</span> <span style="color:#75af00">B</span> <span style="color:#111">{</span>
-  <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">shared_ptr</span><span style="color:#f92672">&lt;</span><span style="color:#111">A</span><span style="color:#f92672">&gt;</span> <span style="color:#111">pointer</span><span style="color:#111">;</span>
-  <span style="color:#f92672">~</span><span style="color:#111">B</span><span style="color:#111">()</span> <span style="color:#111">{</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;B 被销毁&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span> <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+<span style="color:#6ab825;font-weight:bold">struct</span> <span style="color:#447fcf;text-decoration:underline">B</span> {
+  std::shared_ptr&lt;A&gt; pointer;
+  ~B() { std::cout &lt;&lt; <span style="color:#ed9d13">&#34;B 被销毁&#34;</span> &lt;&lt; std::endl; }
+};
 
-<span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span><span style="color:#111">()</span> <span style="color:#111">{</span>
-  <span style="color:#00a8c8">auto</span> <span style="color:#111">a</span> <span style="color:#f92672">=</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">make_shared</span><span style="color:#f92672">&lt;</span><span style="color:#111">A</span><span style="color:#f92672">&gt;</span><span style="color:#111">();</span>
-  <span style="color:#00a8c8">auto</span> <span style="color:#111">b</span> <span style="color:#f92672">=</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">make_shared</span><span style="color:#f92672">&lt;</span><span style="color:#111">B</span><span style="color:#f92672">&gt;</span><span style="color:#111">();</span>
-  <span style="color:#111">a</span><span style="color:#f92672">-&gt;</span><span style="color:#111">pointer</span> <span style="color:#f92672">=</span> <span style="color:#111">b</span><span style="color:#111">;</span>
-  <span style="color:#111">b</span><span style="color:#f92672">-&gt;</span><span style="color:#111">pointer</span> <span style="color:#f92672">=</span> <span style="color:#111">a</span><span style="color:#111">;</span>
-<span style="color:#111">}</span>
+<span style="color:#6ab825;font-weight:bold">int</span> <span style="color:#447fcf">main</span>() {
+  <span style="color:#6ab825;font-weight:bold">auto</span> a = std::make_shared&lt;A&gt;();
+  <span style="color:#6ab825;font-weight:bold">auto</span> b = std::make_shared&lt;B&gt;();
+  a-&gt;pointer = b;
+  b-&gt;pointer = a;
+}
 </code></pre></div><p><strong><strong>工具：</strong></strong></p>
 <h2 id="valgrind">valgrind</h2>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">~/Dropbox/workspace/CPP/ptr $ valgrind --tool=memcheck --leak-check=full  ./shared_weak_ptr
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">~/Dropbox/workspace/CPP/ptr $ valgrind --tool=memcheck --leak-check=full  ./shared_weak_ptr
 ==50675== Memcheck, a memory error detector
 ==50675== Copyright (C) 2002-2017, and GNU GPL&#39;d, by Julian Seward et al.
 ==50675== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
@@ -215,8 +215,8 @@ a.use_count()2	b.use_count()2
 ==50675== For lists of detected and suppressed errors, rerun with: -s
 ==50675== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 </code></pre></div><h2 id="gcc-asan">gcc asan</h2>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">g++ -fsanitize<span style="color:#f92672">=</span>address -fno-omit-frame-pointer -g -O2 shared_weak_ptr.cpp -o shared_weak_ptr
-</code></pre></div><div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">~/Dropbox/workspace/CPP/ptr $ ./shared_weak_ptr
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">g++ -fsanitize=address -fno-omit-frame-pointer -g -O2 shared_weak_ptr.cpp -o shared_weak_ptr
+</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">~/Dropbox/workspace/CPP/ptr $ ./shared_weak_ptr
 a.use_count()1	b.use_count()1
 a.use_count()1	b.use_count()2
 a.use_count()2	b.use_count()2

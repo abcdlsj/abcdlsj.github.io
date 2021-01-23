@@ -57,59 +57,59 @@
 			<blockquote>
 <!-- raw HTML omitted -->
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">哑元这个词还是开始是我查 void func(int); 这种只有参数类型的行参的作用的时候，看到别人说的。然后查查查找到了使用哑元来重载 ++
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">哑元这个词还是开始是我查 void func(int); 这种只有参数类型的行参的作用的时候，看到别人说的。然后查查查找到了使用哑元来重载 ++
 </code></pre></div><p><a href="https://isocpp.org/wiki/faq/operator-overloading#increment-pre-post-overloading">isocpp: How can I overload the prefix and postfix forms of operators ++ and --?</a></p>
 <h2 id="正文">正文</h2>
 <p>重载通过识别参数列表的不同来选择函数，对于 ++ 运算符，前置和后置是不同的，那么怎么识别的呢，就是通过 <code>dummy parameter</code></p>
 <p>前置自增是没有参数的，返回类型是引用（左值），后置自增是有哑元参数的，返回一个值（右值）。</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#00a8c8">using</span> <span style="color:#00a8c8">namespace</span> <span style="color:#111">std</span><span style="color:#111">;</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cd2828;font-weight:bold">#include</span> <span style="color:#cd2828;font-weight:bold">&lt;bits/stdc++.h&gt;</span><span style="color:#cd2828;font-weight:bold">
+</span><span style="color:#cd2828;font-weight:bold"></span><span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#6ab825;font-weight:bold">namespace</span> std;
 
-<span style="color:#00a8c8">class</span> <span style="color:#75af00">Number</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-  <span style="color:#111">Number</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">x</span><span style="color:#111">)</span> <span style="color:#f92672">:</span> <span style="color:#111">val</span><span style="color:#111">(</span><span style="color:#111">x</span><span style="color:#111">)</span> <span style="color:#111">{};</span>
-  <span style="color:#111">Number</span><span style="color:#f92672">&amp;</span> <span style="color:#00a8c8">operator</span><span style="color:#f92672">++</span> <span style="color:#111">();</span>    <span style="color:#75715e">// prefix ++
-</span><span style="color:#75715e"></span>  <span style="color:#111">Number</span>  <span style="color:#00a8c8">operator</span><span style="color:#f92672">++</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span><span style="color:#111">);</span> <span style="color:#75715e">// postfix ++
-</span><span style="color:#75715e"></span>  <span style="color:#00a8c8">void</span> <span style="color:#75af00">print</span><span style="color:#111">()</span> <span style="color:#111">{</span> <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">val</span><span style="color:#111">;</span> <span style="color:#111">};</span>
-<span style="color:#00a8c8">private</span><span style="color:#f92672">:</span>
-  <span style="color:#00a8c8">int</span> <span style="color:#111">val</span><span style="color:#111">;</span>
-<span style="color:#111">};</span>
+<span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Number</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+  Number(<span style="color:#6ab825;font-weight:bold">int</span> x) : val(x) {};
+  Number&amp; <span style="color:#6ab825;font-weight:bold">operator</span>++ ();    <span style="color:#999;font-style:italic">// prefix ++
+</span><span style="color:#999;font-style:italic"></span>  Number  <span style="color:#6ab825;font-weight:bold">operator</span>++ (<span style="color:#6ab825;font-weight:bold">int</span>); <span style="color:#999;font-style:italic">// postfix ++
+</span><span style="color:#999;font-style:italic"></span>  <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">print</span>() { cout &lt;&lt; val; };
+<span style="color:#6ab825;font-weight:bold">private</span>:
+  <span style="color:#6ab825;font-weight:bold">int</span> val;
+};
 
-<span style="color:#111">Number</span><span style="color:#f92672">&amp;</span> <span style="color:#111">Number</span><span style="color:#f92672">::</span><span style="color:#00a8c8">operator</span><span style="color:#f92672">++</span> <span style="color:#111">()</span> <span style="color:#111">{</span>
-  <span style="color:#111">val</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
-  <span style="color:#00a8c8">return</span> <span style="color:#f92672">*</span><span style="color:#00a8c8">this</span><span style="color:#111">;</span>
-<span style="color:#111">}</span>
+Number&amp; Number::<span style="color:#6ab825;font-weight:bold">operator</span>++ () {
+  val += <span style="color:#3677a9">1</span>;
+  <span style="color:#6ab825;font-weight:bold">return</span> *<span style="color:#6ab825;font-weight:bold">this</span>;
+}
 
-<span style="color:#111">Number</span> <span style="color:#111">Number</span><span style="color:#f92672">::</span><span style="color:#00a8c8">operator</span><span style="color:#f92672">++</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-  <span style="color:#111">Number</span> <span style="color:#111">ans</span> <span style="color:#f92672">=</span> <span style="color:#f92672">*</span><span style="color:#00a8c8">this</span><span style="color:#111">;</span>
-  <span style="color:#f92672">++</span><span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#00a8c8">this</span><span style="color:#111">);</span>  <span style="color:#75715e">// or just call operator++()
-</span><span style="color:#75715e"></span>  <span style="color:#00a8c8">return</span> <span style="color:#111">ans</span><span style="color:#111">;</span> <span style="color:#75715e">//返回未增的值
-</span><span style="color:#75715e"></span><span style="color:#111">}</span>
+Number Number::<span style="color:#6ab825;font-weight:bold">operator</span>++ (<span style="color:#6ab825;font-weight:bold">int</span>) {
+  Number ans = *<span style="color:#6ab825;font-weight:bold">this</span>;
+  ++(*<span style="color:#6ab825;font-weight:bold">this</span>);  <span style="color:#999;font-style:italic">// or just call operator++()
+</span><span style="color:#999;font-style:italic"></span>  <span style="color:#6ab825;font-weight:bold">return</span> ans; <span style="color:#999;font-style:italic">//返回未增的值
+</span><span style="color:#999;font-style:italic"></span>}
 
-<span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span><span style="color:#111">()</span> <span style="color:#111">{</span>
-  <span style="color:#111">Number</span> <span style="color:#111">num1</span><span style="color:#111">(</span><span style="color:#ae81ff">1</span><span style="color:#111">);</span>
-  <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;num1 = &#34;</span><span style="color:#111">;</span>
-  <span style="color:#111">num1</span><span style="color:#111">.</span><span style="color:#111">print</span><span style="color:#111">();</span>
-  <span style="color:#111">Number</span> <span style="color:#111">num2</span> <span style="color:#f92672">=</span> <span style="color:#f92672">++</span><span style="color:#111">num1</span><span style="color:#111">;</span>
-  <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;</span><span style="color:#8045ff">\n</span><span style="color:#d88200">num2 = ++num1; num2 = &#34;</span><span style="color:#111">;</span>
-  <span style="color:#111">num2</span><span style="color:#111">.</span><span style="color:#111">print</span><span style="color:#111">();</span>
-  <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;; num1 = &#34;</span><span style="color:#111">;</span>
-  <span style="color:#111">num1</span><span style="color:#111">.</span><span style="color:#111">print</span><span style="color:#111">();</span>
-  <span style="color:#111">Number</span> <span style="color:#111">num3</span> <span style="color:#f92672">=</span> <span style="color:#111">num1</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
-  <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;</span><span style="color:#8045ff">\n</span><span style="color:#d88200">num3 = num1++; num3 = &#34;</span><span style="color:#111">;</span>
-  <span style="color:#111">num3</span><span style="color:#111">.</span><span style="color:#111">print</span><span style="color:#111">();</span>
-  <span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;; num1 = &#34;</span><span style="color:#111">;</span>
-  <span style="color:#111">num1</span><span style="color:#111">.</span><span style="color:#111">print</span><span style="color:#111">();</span>
-<span style="color:#111">}</span>
+<span style="color:#6ab825;font-weight:bold">int</span> <span style="color:#447fcf">main</span>() {
+  Number num1(<span style="color:#3677a9">1</span>);
+  cout &lt;&lt; <span style="color:#ed9d13">&#34;num1 = &#34;</span>;
+  num1.print();
+  Number num2 = ++num1;
+  cout &lt;&lt; <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\n</span><span style="color:#ed9d13">num2 = ++num1; num2 = &#34;</span>;
+  num2.print();
+  cout &lt;&lt; <span style="color:#ed9d13">&#34;; num1 = &#34;</span>;
+  num1.print();
+  Number num3 = num1++;
+  cout &lt;&lt; <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\n</span><span style="color:#ed9d13">num3 = num1++; num3 = &#34;</span>;
+  num3.print();
+  cout &lt;&lt; <span style="color:#ed9d13">&#34;; num1 = &#34;</span>;
+  num1.print();
+}
 </code></pre></div><p>下面是是输出</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#111">num1</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-<span style="color:#111">num2</span> <span style="color:#f92672">=</span> <span style="color:#f92672">++</span><span style="color:#111">num1</span><span style="color:#111">;</span> <span style="color:#111">num2</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span> <span style="color:#111">num1</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
-<span style="color:#111">num3</span> <span style="color:#f92672">=</span> <span style="color:#111">num1</span><span style="color:#f92672">++</span><span style="color:#111">;</span> <span style="color:#111">num3</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span><span style="color:#111">;</span> <span style="color:#111">num1</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">num1 = <span style="color:#3677a9">1</span>
+num2 = ++num1; num2 = <span style="color:#3677a9">2</span>; num1 = <span style="color:#3677a9">2</span>
+num3 = num1++; num3 = <span style="color:#3677a9">2</span>; num1 = <span style="color:#3677a9">3</span>
 </code></pre></div><p>网站上还写了另外一个版本的 postfix ++</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">void</span> <span style="color:#111">Number</span><span style="color:#f92672">::</span><span style="color:#00a8c8">operator</span><span style="color:#f92672">++</span> <span style="color:#111">(</span><span style="color:#00a8c8">int</span><span style="color:#111">)</span>
-<span style="color:#111">{</span>
-  <span style="color:#f92672">++</span><span style="color:#111">(</span><span style="color:#f92672">*</span><span style="color:#00a8c8">this</span><span style="color:#111">);</span>  <span style="color:#75715e">// or just call operator++()
-</span><span style="color:#75715e"></span><span style="color:#111">}</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">void</span> Number::<span style="color:#6ab825;font-weight:bold">operator</span>++ (<span style="color:#6ab825;font-weight:bold">int</span>)
+{
+  ++(*<span style="color:#6ab825;font-weight:bold">this</span>);  <span style="color:#999;font-style:italic">// or just call operator++()
+</span><span style="color:#999;font-style:italic"></span>}
 </code></pre></div><p>但是这个版本不能返回 <code>this</code> 对象，也就是不能进行赋值。</p>
 		</section>
 

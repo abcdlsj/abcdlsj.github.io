@@ -100,26 +100,26 @@ LeetCode 刷题总结之：回溯
 <blockquote>
 <p>题目说<code>candidates</code>中的数字可以无限制重复被选取，但是不能包含重复的组合，怎么才能不重复组合呢，我们就需要一个<code>start</code>来表明取值的位置，每次取了值从 <code>start</code> 再递归，这样就可以无限次选取，但是重复的数字只能够向之后取，保证不包含重复的组合，但是这样就必须数组是有序的，所以我们要先排序，为什么需要有序，因为我们假设的是向左取会出现重复组合，如果不排序，这个假设不会必然成立，答案也就出来了。</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">combinationSum</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">candidates</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">sort</span><span style="color:#111">(</span><span style="color:#111">candidates</span><span style="color:#111">.</span><span style="color:#111">begin</span><span style="color:#111">(),</span> <span style="color:#111">candidates</span><span style="color:#111">.</span><span style="color:#111">end</span><span style="color:#111">());</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">path</span><span style="color:#111">;</span>
-        <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">candidates</span><span style="color:#111">,</span> <span style="color:#111">target</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-    <span style="color:#00a8c8">void</span> <span style="color:#75af00">backtrack</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">candidates</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">target</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">start</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">sum</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#75715e">//降低一下复杂度，剪枝
-</span><span style="color:#75715e"></span>        <span style="color:#00a8c8">if</span><span style="color:#111">(</span><span style="color:#111">sum</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span><span style="color:#111">;</span>
-        <span style="color:#00a8c8">if</span><span style="color:#111">(</span><span style="color:#111">sum</span> <span style="color:#f92672">==</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">res</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">for</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">start</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">candidates</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">();</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">candidates</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]);</span>
-            <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">candidates</span><span style="color:#111">,</span> <span style="color:#111">target</span><span style="color:#111">,</span> <span style="color:#111">i</span><span style="color:#111">,</span> <span style="color:#111">sum</span> <span style="color:#f92672">+</span> <span style="color:#111">candidates</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]);</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">pop_back</span><span style="color:#111">();</span>
-        <span style="color:#111">}</span>
-    <span style="color:#111">}</span>
- <span style="color:#111">};</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; combinationSum(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; candidates, <span style="color:#6ab825;font-weight:bold">int</span> target) {
+        sort(candidates.begin(), candidates.end());
+        vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; res;
+        vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; path;
+        backtrack(res, path, candidates, target, <span style="color:#3677a9">0</span>, <span style="color:#3677a9">0</span>);
+        <span style="color:#6ab825;font-weight:bold">return</span> res;
+    }
+    <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">backtrack</span>(vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; &amp;res, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; &amp;path, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; &amp;candidates, <span style="color:#6ab825;font-weight:bold">int</span> target, <span style="color:#6ab825;font-weight:bold">int</span> start, <span style="color:#6ab825;font-weight:bold">int</span> sum) {
+        <span style="color:#999;font-style:italic">//降低一下复杂度，剪枝
+</span><span style="color:#999;font-style:italic"></span>        <span style="color:#6ab825;font-weight:bold">if</span>(sum &gt; target) <span style="color:#6ab825;font-weight:bold">return</span>;
+        <span style="color:#6ab825;font-weight:bold">if</span>(sum == target) res.push_back(path);
+        <span style="color:#6ab825;font-weight:bold">for</span>(<span style="color:#6ab825;font-weight:bold">int</span> i = start; i &lt; candidates.size(); i++) {
+            path.push_back(candidates[i]);
+            backtrack(res, path, candidates, target, i, sum + candidates[i]);
+            path.pop_back();
+        }
+    }
+ };
 </code></pre></div><h2 id="40-组合总和-ii">40. 组合总和 II</h2>
 <p><a href="https://leetcode-cn.com/problems/combination-sum-ii/">40. 组合总和 II</a></p>
 <h3 id="题目内容-1">题目内容</h3>
@@ -145,26 +145,26 @@ LeetCode 刷题总结之：回溯
 <blockquote>
 <p>对于这道题和上面不同的是每个数字只能取一次，我们还是先排序，然后发现数组为<code>[1,1,2,5,6,7,10]</code>，我们不是传入了一个<code>start</code>值吗，这个值代表在某段递归当中（以<code>candidates[start]</code>为初始值），如果大于<code>start</code>并且重复数字，这样就会导致重复，解决办法就是对于每次的递归段初始位置<code>start</code>之后的都进行判断，防止重复。</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">combinationSum2</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">candidates</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">sort</span><span style="color:#111">(</span><span style="color:#111">candidates</span><span style="color:#111">.</span><span style="color:#111">begin</span><span style="color:#111">(),</span> <span style="color:#111">candidates</span><span style="color:#111">.</span><span style="color:#111">end</span><span style="color:#111">());</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">path</span><span style="color:#111">;</span>
-        <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">candidates</span><span style="color:#111">,</span> <span style="color:#111">target</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-    <span style="color:#00a8c8">void</span> <span style="color:#75af00">backtrack</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">candidates</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">target</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">start</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">sum</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">if</span><span style="color:#111">(</span><span style="color:#111">sum</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span><span style="color:#111">;</span>
-        <span style="color:#00a8c8">if</span><span style="color:#111">(</span><span style="color:#111">sum</span> <span style="color:#f92672">==</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">res</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">for</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">start</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">candidates</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">();</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">if</span><span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">start</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">candidates</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">candidates</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">])</span> <span style="color:#00a8c8">continue</span><span style="color:#111">;</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">candidates</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]);</span>
-            <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">candidates</span><span style="color:#111">,</span> <span style="color:#111">target</span><span style="color:#111">,</span> <span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">sum</span> <span style="color:#f92672">+</span> <span style="color:#111">candidates</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]);</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">pop_back</span><span style="color:#111">();</span>
-        <span style="color:#111">}</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; combinationSum2(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; candidates, <span style="color:#6ab825;font-weight:bold">int</span> target) {
+        sort(candidates.begin(), candidates.end());
+        vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; res;
+        vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; path;
+        backtrack(res, path, candidates, target, <span style="color:#3677a9">0</span>, <span style="color:#3677a9">0</span>);
+        <span style="color:#6ab825;font-weight:bold">return</span> res;
+    }
+    <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">backtrack</span>(vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; &amp;res, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; &amp;path, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; &amp;candidates, <span style="color:#6ab825;font-weight:bold">int</span> target, <span style="color:#6ab825;font-weight:bold">int</span> start, <span style="color:#6ab825;font-weight:bold">int</span> sum) {
+        <span style="color:#6ab825;font-weight:bold">if</span>(sum &gt; target) <span style="color:#6ab825;font-weight:bold">return</span>;
+        <span style="color:#6ab825;font-weight:bold">if</span>(sum == target) res.push_back(path);
+        <span style="color:#6ab825;font-weight:bold">for</span>(<span style="color:#6ab825;font-weight:bold">int</span> i = start; i &lt; candidates.size(); i++) {
+            <span style="color:#6ab825;font-weight:bold">if</span>(i &gt; start &amp;&amp; candidates[i] == candidates[i - <span style="color:#3677a9">1</span>]) <span style="color:#6ab825;font-weight:bold">continue</span>;
+            path.push_back(candidates[i]);
+            backtrack(res, path, candidates, target, i + <span style="color:#3677a9">1</span>, sum + candidates[i]);
+            path.pop_back();
+        }
+    }
+};
 </code></pre></div><h2 id="216-组合总和-iii">216. 组合总和 III</h2>
 <p><a href="https://leetcode-cn.com/problems/combination-sum-iii/">216. 组合总和 III</a></p>
 <h3 id="题目内容-2">题目内容</h3>
@@ -179,24 +179,24 @@ LeetCode 刷题总结之：回溯
 <blockquote>
 <p>一样</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">combinationSum3</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">k</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">n</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">path</span><span style="color:#111">;</span>
-        <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">k</span><span style="color:#111">,</span> <span style="color:#111">n</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-    <span style="color:#00a8c8">void</span> <span style="color:#75af00">backtrack</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">sum</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">start</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">k</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">n</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">if</span><span style="color:#111">(</span><span style="color:#111">sum</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">n</span><span style="color:#111">)</span> <span style="color:#00a8c8">return</span><span style="color:#111">;</span>
-        <span style="color:#00a8c8">if</span><span style="color:#111">(</span><span style="color:#111">sum</span> <span style="color:#f92672">==</span> <span style="color:#111">n</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">==</span> <span style="color:#111">k</span><span style="color:#111">)</span> <span style="color:#111">res</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">for</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">start</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">9</span><span style="color:#111">;</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">i</span><span style="color:#111">);</span>
-            <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">sum</span> <span style="color:#f92672">+</span> <span style="color:#111">i</span><span style="color:#111">,</span> <span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span> <span style="color:#111">k</span><span style="color:#111">,</span> <span style="color:#111">n</span><span style="color:#111">);</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">pop_back</span><span style="color:#111">();</span>
-        <span style="color:#111">}</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; combinationSum3(<span style="color:#6ab825;font-weight:bold">int</span> k, <span style="color:#6ab825;font-weight:bold">int</span> n) {
+        vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; res;
+        vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; path;
+        backtrack(res, path, <span style="color:#3677a9">0</span>, <span style="color:#3677a9">1</span>, k, n);
+        <span style="color:#6ab825;font-weight:bold">return</span> res;
+    }
+    <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">backtrack</span>(vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; &amp;res, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; &amp;path, <span style="color:#6ab825;font-weight:bold">int</span> sum, <span style="color:#6ab825;font-weight:bold">int</span> start, <span style="color:#6ab825;font-weight:bold">int</span> k, <span style="color:#6ab825;font-weight:bold">int</span> n) {
+        <span style="color:#6ab825;font-weight:bold">if</span>(sum &gt; n) <span style="color:#6ab825;font-weight:bold">return</span>;
+        <span style="color:#6ab825;font-weight:bold">if</span>(sum == n &amp;&amp; path.size() == k) res.push_back(path);
+        <span style="color:#6ab825;font-weight:bold">for</span>(<span style="color:#6ab825;font-weight:bold">int</span> i = start; i &lt;= <span style="color:#3677a9">9</span>; i++) {
+            path.push_back(i);
+            backtrack(res, path, sum + i, i + <span style="color:#3677a9">1</span>, k, n);
+            path.pop_back();
+        }
+    }
+};
 </code></pre></div><h2 id="46-全排列">46. 全排列</h2>
 <p><a href="https://leetcode-cn.com/problems/permutations/">46. 全排列</a></p>
 <h3 id="题目内容-3">题目内容</h3>
@@ -215,32 +215,32 @@ LeetCode 刷题总结之：回溯
 <blockquote>
 <p>这道题因为是全排列，每个位置不同都是不同的，所以不能用索引来保证不重复，因为只要保证不重复取一个值就不会重复，所以可以新建一个<code>vis</code>数组来保存取过的值。</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
-</span><span style="color:#75715e"></span>
-<span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">permute</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">path</span><span style="color:#111">;</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">bool</span><span style="color:#f92672">&gt;</span> <span style="color:#111">vis</span><span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">(),</span> <span style="color:#111">false</span><span style="color:#111">);</span>
-        <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#111">vis</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-    <span style="color:#00a8c8">void</span> <span style="color:#75af00">backtrack</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">bool</span><span style="color:#f92672">&gt;</span> <span style="color:#111">vis</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">if</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">==</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">())</span> <span style="color:#111">{</span>
-            <span style="color:#111">res</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">);</span>
-            <span style="color:#00a8c8">return</span><span style="color:#111">;</span>
-        <span style="color:#111">}</span>
-        <span style="color:#00a8c8">for</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">();</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">if</span><span style="color:#111">(</span><span style="color:#111">vis</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">true</span><span style="color:#111">)</span> <span style="color:#00a8c8">continue</span><span style="color:#111">;</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]);</span>
-            <span style="color:#111">vis</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">true</span><span style="color:#111">;</span>
-            <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#111">vis</span><span style="color:#111">);</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">pop_back</span><span style="color:#111">();</span>
-            <span style="color:#111">vis</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">false</span><span style="color:#111">;</span>
-        <span style="color:#111">}</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#999;font-style:italic">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
+</span><span style="color:#999;font-style:italic"></span>
+<span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; permute(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; nums) {
+        vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; res;
+        vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; path;
+        vector&lt;<span style="color:#6ab825;font-weight:bold">bool</span>&gt; vis(nums.size(), <span style="color:#24909d">false</span>);
+        backtrack(res, path, nums, vis);
+        <span style="color:#6ab825;font-weight:bold">return</span> res;
+    }
+    <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">backtrack</span>(vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; &amp;res, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; path, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; nums, vector&lt;<span style="color:#6ab825;font-weight:bold">bool</span>&gt; vis) {
+        <span style="color:#6ab825;font-weight:bold">if</span>(path.size() == nums.size()) {
+            res.push_back(path);
+            <span style="color:#6ab825;font-weight:bold">return</span>;
+        }
+        <span style="color:#6ab825;font-weight:bold">for</span>(<span style="color:#6ab825;font-weight:bold">int</span> i = <span style="color:#3677a9">0</span>; i &lt; nums.size(); i++) {
+            <span style="color:#6ab825;font-weight:bold">if</span>(vis[i] == <span style="color:#24909d">true</span>) <span style="color:#6ab825;font-weight:bold">continue</span>;
+            path.push_back(nums[i]);
+            vis[i] = <span style="color:#24909d">true</span>;
+            backtrack(res, path, nums, vis);
+            path.pop_back();
+            vis[i] = <span style="color:#24909d">false</span>;
+        }
+    }
+};
 </code></pre></div><h2 id="47-全排列-ii">47. 全排列 II</h2>
 <p><a href="https://leetcode-cn.com/problems/permutations-ii/">47. 全排列 II</a></p>
 <h3 id="题目内容-4">题目内容</h3>
@@ -266,33 +266,33 @@ LeetCode 刷题总结之：回溯
 <p>全排列应该使用 <code>vis</code> 数组 ，因为它们每次递归都需要从第一个元素开始，但是不能够重复</p>
 <p>-- 07-28 :timer_clock: 12:00</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
-</span><span style="color:#75715e"></span>
-<span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">permuteUnique</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">path</span><span style="color:#111">;</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">bool</span><span style="color:#f92672">&gt;</span> <span style="color:#111">vis</span><span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">(),</span> <span style="color:#111">false</span><span style="color:#111">);</span>
-        <span style="color:#111">sort</span><span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">begin</span><span style="color:#111">(),</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">end</span><span style="color:#111">());</span>
-        <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#111">vis</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-    <span style="color:#00a8c8">void</span> <span style="color:#75af00">backtrack</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">bool</span><span style="color:#f92672">&gt;</span> <span style="color:#111">vis</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#00a8c8">if</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">()</span> <span style="color:#f92672">==</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">())</span> <span style="color:#111">{</span>
-            <span style="color:#111">res</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">);</span>
-            <span style="color:#00a8c8">return</span><span style="color:#111">;</span>
-        <span style="color:#111">}</span>
-        <span style="color:#00a8c8">for</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">();</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">if</span><span style="color:#111">(</span><span style="color:#111">vis</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">true</span> <span style="color:#f92672">||</span> <span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">vis</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">false</span><span style="color:#111">))</span> <span style="color:#00a8c8">continue</span><span style="color:#111">;</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]);</span>
-            <span style="color:#111">vis</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">true</span><span style="color:#111">;</span>
-            <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#111">vis</span><span style="color:#111">);</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">pop_back</span><span style="color:#111">();</span>
-            <span style="color:#111">vis</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">false</span><span style="color:#111">;</span>
-        <span style="color:#111">}</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#999;font-style:italic">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
+</span><span style="color:#999;font-style:italic"></span>
+<span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; permuteUnique(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; nums) {
+        vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; res;
+        vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; path;
+        vector&lt;<span style="color:#6ab825;font-weight:bold">bool</span>&gt; vis(nums.size(), <span style="color:#24909d">false</span>);
+        sort(nums.begin(), nums.end());
+        backtrack(res, path, nums, vis);
+        <span style="color:#6ab825;font-weight:bold">return</span> res;
+    }
+    <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">backtrack</span>(vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; &amp;res, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; path, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; nums, vector&lt;<span style="color:#6ab825;font-weight:bold">bool</span>&gt; vis) {
+        <span style="color:#6ab825;font-weight:bold">if</span>(path.size() == nums.size()) {
+            res.push_back(path);
+            <span style="color:#6ab825;font-weight:bold">return</span>;
+        }
+        <span style="color:#6ab825;font-weight:bold">for</span>(<span style="color:#6ab825;font-weight:bold">int</span> i = <span style="color:#3677a9">0</span>; i &lt; nums.size(); i++) {
+            <span style="color:#6ab825;font-weight:bold">if</span>(vis[i] == <span style="color:#24909d">true</span> || (i &gt; <span style="color:#3677a9">0</span> &amp;&amp; nums[i - <span style="color:#3677a9">1</span>] == nums[i] &amp;&amp; vis[i - <span style="color:#3677a9">1</span>] == <span style="color:#24909d">false</span>)) <span style="color:#6ab825;font-weight:bold">continue</span>;
+            path.push_back(nums[i]);
+            vis[i] = <span style="color:#24909d">true</span>;
+            backtrack(res, path, nums, vis);
+            path.pop_back();
+            vis[i] = <span style="color:#24909d">false</span>;
+        }
+    }
+};
 </code></pre></div><h2 id="78-子集">78. 子集</h2>
 <p><a href="https://leetcode-cn.com/problems/subsets/">78. 子集</a></p>
 <h3 id="题目内容-5">题目内容</h3>
@@ -314,25 +314,25 @@ LeetCode 刷题总结之：回溯
 <blockquote>
 <p>也是一样的套路，不能重复的子集即是不能重复的<code>组合</code>，只是这个组合没有限制，也不需要排序，只需要索引确保不会重复，保证每个数都有两个状态即可（<code>取</code>与<code>不取</code>）。</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
-</span><span style="color:#75715e"></span>
-<span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">subsets</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">path</span><span style="color:#111">;</span>
-        <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-    <span style="color:#00a8c8">void</span> <span style="color:#75af00">backtrack</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">start</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">res</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">for</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">start</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">();</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]);</span>
-            <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">);</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">pop_back</span><span style="color:#111">();</span>
-        <span style="color:#111">}</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#999;font-style:italic">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
+</span><span style="color:#999;font-style:italic"></span>
+<span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; subsets(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; nums) {
+        vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; res;
+        vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; path;
+        backtrack(res, path, nums, <span style="color:#3677a9">0</span>);
+        <span style="color:#6ab825;font-weight:bold">return</span> res;
+    }
+    <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">backtrack</span>(vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; &amp;res, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; &amp;path, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; nums, <span style="color:#6ab825;font-weight:bold">int</span> start) {
+        res.push_back(path);
+        <span style="color:#6ab825;font-weight:bold">for</span>(<span style="color:#6ab825;font-weight:bold">int</span> i = start; i &lt; nums.size(); i++) {
+            path.push_back(nums[i]);
+            backtrack(res, path, nums, i + <span style="color:#3677a9">1</span>);
+            path.pop_back();
+        }
+    }
+};
 </code></pre></div><h2 id="90-子集-ii">90. 子集 II</h2>
 <p><a href="https://leetcode-cn.com/problems/subsets-ii/">90. 子集 II</a></p>
 <h3 id="题目内容-6">题目内容</h3>
@@ -352,42 +352,42 @@ LeetCode 刷题总结之：回溯
 <blockquote>
 <p>重复的元素，然后不能重复组合，画图之后也就一目了然了。</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
-</span><span style="color:#75715e"></span>
-<span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">subsetsWithDup</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">path</span><span style="color:#111">;</span>
-        <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">bool</span><span style="color:#f92672">&gt;</span> <span style="color:#111">vis</span><span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">(),</span> <span style="color:#111">false</span><span style="color:#111">);</span>
-        <span style="color:#111">sort</span><span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">begin</span><span style="color:#111">(),</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">end</span><span style="color:#111">());</span>
-        <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#111">vis</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">return</span> <span style="color:#111">res</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-    <span style="color:#00a8c8">void</span> <span style="color:#75af00">backtrack</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">&amp;</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">bool</span><span style="color:#f92672">&gt;</span> <span style="color:#111">vis</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">start</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">res</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">path</span><span style="color:#111">);</span>
-        <span style="color:#00a8c8">for</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#111">start</span><span style="color:#111">;</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">nums</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">();</span> <span style="color:#111">i</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">if</span><span style="color:#111">(</span><span style="color:#111">i</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">start</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">vis</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">false</span><span style="color:#111">)</span> <span style="color:#00a8c8">continue</span><span style="color:#111">;</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">push_back</span><span style="color:#111">(</span><span style="color:#111">nums</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]);</span>
-            <span style="color:#111">vis</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">true</span><span style="color:#111">;</span>
-            <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#111">res</span><span style="color:#111">,</span> <span style="color:#111">path</span><span style="color:#111">,</span> <span style="color:#111">nums</span><span style="color:#111">,</span> <span style="color:#111">vis</span><span style="color:#111">,</span> <span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">);</span>
-            <span style="color:#111">vis</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">false</span><span style="color:#111">;</span>
-            <span style="color:#111">path</span><span style="color:#111">.</span><span style="color:#111">pop_back</span><span style="color:#111">();</span>
-        <span style="color:#111">}</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#999;font-style:italic">// Author: abcdlsj @ https://github.com/abcdlsj/Leetcode
+</span><span style="color:#999;font-style:italic"></span>
+<span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; subsetsWithDup(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; nums) {
+        vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; res;
+        vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; path;
+        vector&lt;<span style="color:#6ab825;font-weight:bold">bool</span>&gt; vis(nums.size(), <span style="color:#24909d">false</span>);
+        sort(nums.begin(), nums.end());
+        backtrack(res, path, nums, vis, <span style="color:#3677a9">0</span>);
+        <span style="color:#6ab825;font-weight:bold">return</span> res;
+    }
+    <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">backtrack</span>(vector&lt;vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&gt; &amp;res, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; path, vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt; nums, vector&lt;<span style="color:#6ab825;font-weight:bold">bool</span>&gt; vis, <span style="color:#6ab825;font-weight:bold">int</span> start) {
+        res.push_back(path);
+        <span style="color:#6ab825;font-weight:bold">for</span>(<span style="color:#6ab825;font-weight:bold">int</span> i = start; i &lt; nums.size(); i++) {
+            <span style="color:#6ab825;font-weight:bold">if</span>(i &gt; start &amp;&amp; nums[i] == nums[i - <span style="color:#3677a9">1</span>] &amp;&amp; vis[i - <span style="color:#3677a9">1</span>] == <span style="color:#24909d">false</span>) <span style="color:#6ab825;font-weight:bold">continue</span>;
+            path.push_back(nums[i]);
+            vis[i] = <span style="color:#24909d">true</span>;
+            backtrack(res, path, nums, vis, i + <span style="color:#3677a9">1</span>);
+            vis[i] = <span style="color:#24909d">false</span>;
+            path.pop_back();
+        }
+    }
+};
 </code></pre></div><h2 id="总结">总结</h2>
 <blockquote>
 <p>能够总结出这一类穷举问题的回溯模板。</p>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#111">result</span> <span style="color:#f92672">=</span> <span style="color:#111">[]</span>
-<span style="color:#00a8c8">def</span> <span style="color:#75af00">backtrack</span><span style="color:#111">(</span><span style="color:#960050;background-color:#1e0010">路径</span><span style="color:#111">,</span> <span style="color:#960050;background-color:#1e0010">选择列表</span><span style="color:#111">):</span>
-<span style="color:#00a8c8">if</span> <span style="color:#960050;background-color:#1e0010">满足结束条件</span><span style="color:#111">:</span>
-     <span style="color:#111">result</span><span style="color:#f92672">.</span><span style="color:#111">add</span><span style="color:#111">(</span><span style="color:#960050;background-color:#1e0010">路径</span><span style="color:#111">)</span>
-     <span style="color:#00a8c8">return</span>
-<span style="color:#00a8c8">for</span> <span style="color:#960050;background-color:#1e0010">选择</span> <span style="color:#f92672">in</span> <span style="color:#960050;background-color:#1e0010">选择列表</span><span style="color:#111">:</span>
- <span style="color:#960050;background-color:#1e0010">做选择</span>
- <span style="color:#111">backtrack</span><span style="color:#111">(</span><span style="color:#960050;background-color:#1e0010">路径</span><span style="color:#111">,</span> <span style="color:#960050;background-color:#1e0010">选择列表</span><span style="color:#111">)</span>
- <span style="color:#960050;background-color:#1e0010">撤销选择</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">result = []
+<span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf">backtrack</span>(<span style="color:#a61717;background-color:#e3d2d2">路径</span>, <span style="color:#a61717;background-color:#e3d2d2">选择列表</span>):
+<span style="color:#6ab825;font-weight:bold">if</span> <span style="color:#a61717;background-color:#e3d2d2">满足结束条件</span>:
+     result.add(<span style="color:#a61717;background-color:#e3d2d2">路径</span>)
+     <span style="color:#6ab825;font-weight:bold">return</span>
+<span style="color:#6ab825;font-weight:bold">for</span> <span style="color:#a61717;background-color:#e3d2d2">选择</span> <span style="color:#6ab825;font-weight:bold">in</span> <span style="color:#a61717;background-color:#e3d2d2">选择列表</span>:
+ <span style="color:#a61717;background-color:#e3d2d2">做选择</span>
+ backtrack(<span style="color:#a61717;background-color:#e3d2d2">路径</span>, <span style="color:#a61717;background-color:#e3d2d2">选择列表</span>)
+ <span style="color:#a61717;background-color:#e3d2d2">撤销选择</span>
 </code></pre></div></blockquote>
 <blockquote>
 <p>回溯法可能开始很难，但是就和<code>BFS/DFS</code>一样只要心里面有解决问题的<code>模板</code>，那一般的问题就不算难了，当然一些很困难的回溯也很复杂，回溯的节点不好找，还有就是时间复杂度要求严格的题，毕竟巧妙的剪枝没有经验也是比较难看出来的。</p>

@@ -88,44 +88,44 @@ LeetCode Biweekly Contest 28
 <p>随便看了一下题解（其他时间看动漫去了。。。），<code>滑动窗口 + multimap</code> 算是比较好的解法了，比较容易理解（其实我就看了这一个答案。。。），我开始的想法也差不多这个，但是我不知道 <code>multimap</code> 。。。</p>
 <p>-- Sunday 14:30</p>
 </blockquote>
-<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">class</span> <span style="color:#75af00">Solution</span> <span style="color:#111">{</span>
-<span style="color:#00a8c8">public</span><span style="color:#f92672">:</span>
-    <span style="color:#00a8c8">int</span> <span style="color:#111">minSumOfLengths</span><span style="color:#111">(</span><span style="color:#111">vector</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;&amp;</span> <span style="color:#111">arr</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-        <span style="color:#111">multimap</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span><span style="color:#f92672">&gt;</span> <span style="color:#111">vec</span><span style="color:#111">;</span>
-        <span style="color:#00a8c8">int</span> <span style="color:#111">le</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">ri</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">sum</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span> <span style="color:#111">ans</span> <span style="color:#f92672">=</span> <span style="color:#111">INT_MAX</span><span style="color:#111">;</span>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Solution</span> {
+<span style="color:#6ab825;font-weight:bold">public</span>:
+    <span style="color:#6ab825;font-weight:bold">int</span> minSumOfLengths(vector&lt;<span style="color:#6ab825;font-weight:bold">int</span>&gt;&amp; arr, <span style="color:#6ab825;font-weight:bold">int</span> target) {
+        multimap&lt;<span style="color:#6ab825;font-weight:bold">int</span>, <span style="color:#6ab825;font-weight:bold">int</span>&gt; vec;
+        <span style="color:#6ab825;font-weight:bold">int</span> le = <span style="color:#3677a9">0</span>, ri = <span style="color:#3677a9">0</span>, sum = <span style="color:#3677a9">0</span>, ans = INT_MAX;
 
-        <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">ri</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">arr</span><span style="color:#111">.</span><span style="color:#111">size</span><span style="color:#111">())</span> <span style="color:#111">{</span>
-            <span style="color:#75715e">// sum 增加，ri 右移
-</span><span style="color:#75715e"></span>            <span style="color:#111">sum</span> <span style="color:#f92672">+=</span> <span style="color:#111">arr</span><span style="color:#111">[</span><span style="color:#111">ri</span><span style="color:#111">];</span> <span style="color:#111">ri</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">sum</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#00a8c8">continue</span><span style="color:#111">;</span>
-            <span style="color:#75715e">// 收缩 le，直到可以下次递增
-</span><span style="color:#75715e"></span>            <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">sum</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-                <span style="color:#111">sum</span> <span style="color:#f92672">-=</span> <span style="color:#111">arr</span><span style="color:#111">[</span><span style="color:#111">le</span><span style="color:#111">];</span> <span style="color:#111">le</span><span style="color:#f92672">++</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">sum</span> <span style="color:#f92672">==</span> <span style="color:#111">target</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-                <span style="color:#75715e">// {长度， 左边界}
-</span><span style="color:#75715e"></span>                <span style="color:#111">vec</span><span style="color:#111">.</span><span style="color:#111">insert</span><span style="color:#111">({</span><span style="color:#111">ri</span> <span style="color:#f92672">-</span> <span style="color:#111">le</span><span style="color:#111">,</span> <span style="color:#111">le</span><span style="color:#111">});</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+        <span style="color:#6ab825;font-weight:bold">while</span> (ri &lt; arr.size()) {
+            <span style="color:#999;font-style:italic">// sum 增加，ri 右移
+</span><span style="color:#999;font-style:italic"></span>            sum += arr[ri]; ri++;
+            <span style="color:#6ab825;font-weight:bold">if</span> (sum &lt; target) <span style="color:#6ab825;font-weight:bold">continue</span>;
+            <span style="color:#999;font-style:italic">// 收缩 le，直到可以下次递增
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">while</span> (sum &gt; target) {
+                sum -= arr[le]; le++;
+            }
+            <span style="color:#6ab825;font-weight:bold">if</span> (sum == target) {
+                <span style="color:#999;font-style:italic">// {长度， 左边界}
+</span><span style="color:#999;font-style:italic"></span>                vec.insert({ri - le, le});
+            }
+        }
 
-        <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">auto</span> <span style="color:#111">r1</span> <span style="color:#f92672">=</span> <span style="color:#111">vec</span><span style="color:#111">.</span><span style="color:#111">begin</span><span style="color:#111">();</span> <span style="color:#111">r1</span> <span style="color:#f92672">!=</span> <span style="color:#111">vec</span><span style="color:#111">.</span><span style="color:#111">end</span><span style="color:#111">();</span> <span style="color:#111">r1</span><span style="color:#f92672">++</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-            <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">r1</span><span style="color:#f92672">-&gt;</span><span style="color:#111">first</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&gt;=</span> <span style="color:#111">ans</span><span style="color:#111">)</span> <span style="color:#00a8c8">break</span><span style="color:#111">;</span>
-            <span style="color:#00a8c8">auto</span> <span style="color:#111">r2</span> <span style="color:#f92672">=</span> <span style="color:#111">r1</span><span style="color:#111">;</span>
+        <span style="color:#6ab825;font-weight:bold">for</span> (<span style="color:#6ab825;font-weight:bold">auto</span> r1 = vec.begin(); r1 != vec.end(); r1++) {
+            <span style="color:#6ab825;font-weight:bold">if</span> (r1-&gt;first * <span style="color:#3677a9">2</span> &gt;= ans) <span style="color:#6ab825;font-weight:bold">break</span>;
+            <span style="color:#6ab825;font-weight:bold">auto</span> r2 = r1;
 
-            <span style="color:#75715e">// 定 r1，找到合适的第一个 r2
-</span><span style="color:#75715e"></span>            <span style="color:#00a8c8">while</span> <span style="color:#111">((</span><span style="color:#f92672">++</span><span style="color:#111">r2</span><span style="color:#111">)</span> <span style="color:#f92672">!=</span> <span style="color:#111">vec</span><span style="color:#111">.</span><span style="color:#111">end</span><span style="color:#111">())</span> <span style="color:#111">{</span>
-                <span style="color:#75715e">// r1 在 r2 左边，然后 r1 长度大于 r1 r2 之间间隔
-</span><span style="color:#75715e"></span>                <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">r1</span><span style="color:#f92672">-&gt;</span><span style="color:#111">second</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">r2</span><span style="color:#f92672">-&gt;</span><span style="color:#111">second</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">r1</span><span style="color:#f92672">-&gt;</span><span style="color:#111">second</span> <span style="color:#f92672">+</span> <span style="color:#111">r1</span><span style="color:#f92672">-&gt;</span><span style="color:#111">first</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">r2</span><span style="color:#f92672">-&gt;</span><span style="color:#111">second</span><span style="color:#111">)</span> <span style="color:#00a8c8">continue</span><span style="color:#111">;</span>
-                <span style="color:#75715e">// r2 在左边
-</span><span style="color:#75715e"></span>                <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">r2</span><span style="color:#f92672">-&gt;</span><span style="color:#111">second</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">r1</span><span style="color:#f92672">-&gt;</span><span style="color:#111">second</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#111">r2</span><span style="color:#f92672">-&gt;</span><span style="color:#111">second</span> <span style="color:#f92672">+</span> <span style="color:#111">r2</span><span style="color:#f92672">-&gt;</span><span style="color:#111">first</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">r1</span><span style="color:#f92672">-&gt;</span><span style="color:#111">second</span><span style="color:#111">)</span> <span style="color:#00a8c8">continue</span><span style="color:#111">;</span>
-                <span style="color:#111">ans</span> <span style="color:#f92672">=</span> <span style="color:#111">min</span><span style="color:#111">(</span><span style="color:#111">ans</span><span style="color:#111">,</span> <span style="color:#111">r1</span><span style="color:#f92672">-&gt;</span><span style="color:#111">first</span> <span style="color:#f92672">+</span> <span style="color:#111">r2</span><span style="color:#f92672">-&gt;</span><span style="color:#111">first</span><span style="color:#111">);</span>
-                <span style="color:#00a8c8">break</span><span style="color:#111">;</span>
-            <span style="color:#111">}</span>
-        <span style="color:#111">}</span>
+            <span style="color:#999;font-style:italic">// 定 r1，找到合适的第一个 r2
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">while</span> ((++r2) != vec.end()) {
+                <span style="color:#999;font-style:italic">// r1 在 r2 左边，然后 r1 长度大于 r1 r2 之间间隔
+</span><span style="color:#999;font-style:italic"></span>                <span style="color:#6ab825;font-weight:bold">if</span> (r1-&gt;second &lt; r2-&gt;second &amp;&amp; r1-&gt;second + r1-&gt;first &gt; r2-&gt;second) <span style="color:#6ab825;font-weight:bold">continue</span>;
+                <span style="color:#999;font-style:italic">// r2 在左边
+</span><span style="color:#999;font-style:italic"></span>                <span style="color:#6ab825;font-weight:bold">if</span> (r2-&gt;second &lt; r1-&gt;second &amp;&amp; r2-&gt;second + r2-&gt;first &gt; r1-&gt;second) <span style="color:#6ab825;font-weight:bold">continue</span>;
+                ans = min(ans, r1-&gt;first + r2-&gt;first);
+                <span style="color:#6ab825;font-weight:bold">break</span>;
+            }
+        }
 
-        <span style="color:#00a8c8">return</span> <span style="color:#111">ans</span> <span style="color:#f92672">==</span> <span style="color:#111">INT_MAX</span> <span style="color:#f92672">?</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#111">ans</span><span style="color:#111">;</span>
-    <span style="color:#111">}</span>
-<span style="color:#111">};</span>
+        <span style="color:#6ab825;font-weight:bold">return</span> ans == INT_MAX ? -<span style="color:#3677a9">1</span> : ans;
+    }
+};
 </code></pre></div><p>比较容易看懂，我就不写啥了</p>
 <blockquote>
 <p>学会了一手 <code>multimap</code> ，之前一直没有好的方法储存键值对，一直都是傻乎乎的用 <code>vector&lt;pair&lt;int, int&gt;&gt;</code> 。。。</p>
