@@ -1,0 +1,24 @@
+{{define "tag"}}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{template "head" .}}
+  </head>
+  <body class="container">
+    <div>{{template "navbar" .}}</div>
+    <header>
+      <h1>{{.Name}} Posts</h1>
+    </header>
+    <main>
+      {{range .Refers}}
+      <article>
+        <h2>
+          <a class="tag-refer" href="/posts/{{. | urlize}}.html">{{.}}</a>
+        </h2>
+      </article>
+      {{end}}
+    </main>
+    {{template "footer" .}}
+  </body>
+</html>
+{{end}}

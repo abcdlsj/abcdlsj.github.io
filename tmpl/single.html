@@ -1,0 +1,28 @@
+{{define "single"}}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{template "head" .}}
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body class="container">
+    <div class="navbar">{{template "navbar" .}}</div>
+    <hr class="divider" />
+    <h1 class="post-title">{{.Meta.Title}}</h1>
+    <div class="post-meta">
+      <div class="post-date">Date: {{.Meta.Date}}</div>
+      <nav class="post-tags">
+        {{range $tag := .Meta.Tags}}
+        <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
+        {{end}}
+      </nav>
+    </div>
+    <hr class="divider" />
+    <main class="post-content">
+      <article>{{.Body}}</article>
+    </main>
+    <hr class="divider" />
+    {{template "footer" .}}
+  </body>
+</html>
+{{end}}
