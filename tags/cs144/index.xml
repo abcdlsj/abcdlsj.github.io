@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cs144 on Blog</title>
+    <link>https://abcdlsj.github.io/tags/cs144/</link>
+    <description>Recent content in cs144 on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&amp;copy; 2018 ABCDLSJ</copyright>
+    <lastBuildDate>Sun, 04 Apr 2021 19:42:49 +0800</lastBuildDate><atom:link href="https://abcdlsj.github.io/tags/cs144/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CS144 Lab Notes</title>
+      <link>https://abcdlsj.github.io/post/cs144-lab-notes/</link>
+      <pubDate>Sun, 04 Apr 2021 19:42:49 +0800</pubDate>
+      
+      <guid>https://abcdlsj.github.io/post/cs144-lab-notes/</guid>
+      <description>It’s not always natural what the “right” behavior is.
+ -` abcdlsj@Lenovo-13ARE .o+` -------------------- `ooo/ OS: Arch Linux x86_64 `+oooo: Host: 82DM Lenovo XiaoXinPro-13ARE 2020 `+oooooo: Kernel: 5.11.4-zen1-1-zen -+oooooo+: Uptime: 1 hour, 54 mins `/:-:++oooo+: Packages: 1326 (pacman) `/++++/+++++++: Shell: zsh 5.8 `/++++++++++++++: Resolution: 2560x1600 `/+++ooooooooooooo/` WM: i3 ./ooosssso++osssssso+` Theme: Adwaita-dark [GTK2/3] .oossssso-````/ossssss+` Icons: Papirus-Dark [GTK2/3] -osssssso. :ssssssso. Terminal: alacritty :osssssss/ osssso+++. CPU: AMD Ryzen 7 4800U with Radeon Graphics (16) @ 1.</description>
+    </item>
+    
+  </channel>
+</rss>
