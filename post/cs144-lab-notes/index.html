@@ -253,6 +253,60 @@
 </code></pre></div><p>思路在代码中已经很清楚了。</p>
 <h2 id="lab-2-the-tcp-receiver">Lab 2: the TCP receiver</h2>
 <p><a href="https://cs144.github.io/assignments/lab2.pdf">https://cs144.github.io/assignments/lab2.pdf</a></p>
+<p>首先需要了解  <code>seqno</code>、<code>absolute seqno</code>、<code>stream index</code> 的区别：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Sequence Numbers</th>
+<th style="text-align:center">Absolute Sequence Numbers</th>
+<th style="text-align:center">Stream Indices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Start at the ISN</td>
+<td style="text-align:center">Start at 0</td>
+<td style="text-align:center">Start at 0</td>
+</tr>
+<tr>
+<td style="text-align:center">Include SYN/FIN</td>
+<td style="text-align:center">Include SYN/FIN</td>
+<td style="text-align:center">Omit SYN/FIN</td>
+</tr>
+<tr>
+<td style="text-align:center">32 bits, wrapping</td>
+<td style="text-align:center">64 bits, non-wrapping</td>
+<td style="text-align:center">64 bits, non-wrapping</td>
+</tr>
+<tr>
+<td style="text-align:center">“seqno”</td>
+<td style="text-align:center">“absolute seqno”</td>
+<td style="text-align:center">“stream index”</td>
+</tr>
+</tbody>
+</table>
+<p><code>PDF</code> 上面有一个例子，例如 <code>byte stream</code> 中保存的数据为 <code>string</code> 为 <code>cat</code>，并且 <code>SYN = 2^32 - 2</code>，那么三者值如下：</p>
+<p><img src="/img/cs144lab2_3seq_diff.png" alt="image-20210406142034423"></p>
+<p>因为在 <code>StreamReassembler</code> 模块中使用的索引值是从 0 开始的，所以 <code>TCP receiver</code> 在重组子串之前，需要将从<code>SYN+1</code> 开始的 32 位索引还原成从 0 开始的 64 位索引。</p>
+<p>第一个任务就是进行 32 位索引值和 64 位索引值的相互转换。</p>
+<p><code>warp</code> 是包装 64 位索引到 <code>WrappingInt32</code> 中，直接截取后 32 位加上 <code>ISN</code> 就可以了。</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">WrappingInt32</span> <span class="nf">wrap</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">n</span><span class="p">,</span> <span class="n">WrappingInt32</span> <span class="n">isn</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">WrappingInt32</span><span class="p">{</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">isn</span><span class="p">.</span><span class="n">raw_value</span><span class="p">()};</span>
+<span class="p">}</span>
+</code></pre></div><p><code>unwrap</code> 实现（这个算法是看了网上的实现写的）：</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">uint64_t</span> <span class="nf">unwrap</span><span class="p">(</span><span class="n">WrappingInt32</span> <span class="n">n</span><span class="p">,</span> <span class="n">WrappingInt32</span> <span class="n">isn</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="n">checkpoint</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">uint64_t</span> <span class="n">a</span> <span class="o">=</span> <span class="n">n</span><span class="p">.</span><span class="n">raw_value</span><span class="p">()</span> <span class="o">-</span> <span class="n">isn</span><span class="p">.</span><span class="n">raw_value</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">checkpoint</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+    <span class="kt">uint64_t</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">1ul</span> <span class="o">&lt;&lt;</span> <span class="mi">32</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">checkpoint</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">32</span><span class="p">;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="p">((</span><span class="n">checkpoint</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">32</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">32</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">&lt;</span> <span class="n">d</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">b</span> <span class="o">*</span> <span class="n">d</span> <span class="o">+</span> <span class="n">a</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">d</span> <span class="o">+</span> <span class="n">a</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p><strong>TCP receiver</strong></p>
 <h2 id="reference">Reference</h2>
 <p><a href="https://zhuanlan.zhihu.com/p/262274265">https://zhuanlan.zhihu.com/p/262274265</a></p>
 <p><a href="https://www.cnblogs.com/kangyupl/p/stanford_cs144_labs.html">https://www.cnblogs.com/kangyupl/p/stanford_cs144_labs.html</a></p>
