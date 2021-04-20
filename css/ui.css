@@ -381,7 +381,7 @@ template {
 .container {
   position: relative;
   width: 100%;
-  max-width: 70rem;
+  max-width: 95rem;
   margin: 0 auto;
   padding: 0 2rem;
   box-sizing: border-box;
