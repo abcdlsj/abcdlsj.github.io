@@ -17,7 +17,6 @@
       <description>&lt;blockquote&gt;
 &lt;p&gt;It’s not always natural what the “right” behavior is.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;2&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;                   -`                    abcdlsj@Lenovo-13ARE
                   .o+`                   --------------------
                  `ooo/                   OS: Arch Linux x86_64
@@ -62,7 +61,7 @@
 &lt;p&gt;&lt;a href=&#34;https://cs144.github.io/assignments/lab1.pdf&#34;&gt;https://cs144.github.io/assignments/lab1.pdf&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://abcdlsj.github.io/img/cs144impl_dataflow_modules.png&#34; alt=&#34;cs144impl_dataflow_modules&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Lab 1 要求实现一个 &lt;code&gt;StreamReassembler&lt;/code&gt;，在 Lab 的 TCP 实现图当中（上图）可以看到 &lt;code&gt;TCPReceiver&lt;/code&gt;  具有一个  &lt;code&gt;StreamReassembler&lt;/code&gt; 用来重组接收到的 Bytes，&lt;code&gt;CS144&lt;/code&gt; 目的就是实现一个能够在不可靠数据报传输网络上传输两个 &lt;code&gt;ByteStreams&lt;/code&gt; 的 TCP 程序。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;实现细节&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实现细节：&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;从下图可以看到 &lt;code&gt;StreamReassembler&lt;/code&gt; 包含 &lt;code&gt;ByteStreams&lt;/code&gt; 和未被重组的部分。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://abcdlsj.github.io/img/cs144lab1_streamreassembler_struct.png&#34; alt=&#34;image-20210404164542600&#34;&gt;&lt;/p&gt;
 &lt;p&gt;关于一些实现的 &lt;code&gt;tips&lt;/code&gt;：&lt;/p&gt;

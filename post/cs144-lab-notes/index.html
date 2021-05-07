@@ -114,7 +114,6 @@ It’s not always natural what the “right” behavior is.
         <blockquote>
 <p>It’s not always natural what the “right” behavior is.</p>
 </blockquote>
-<p>2</p>
 <div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">                   -`                    abcdlsj@Lenovo-13ARE
                   .o+`                   --------------------
                  `ooo/                   OS: Arch Linux x86_64
@@ -159,7 +158,7 @@ It’s not always natural what the “right” behavior is.
 <p><a href="https://cs144.github.io/assignments/lab1.pdf">https://cs144.github.io/assignments/lab1.pdf</a></p>
 <p><img src="/img/cs144impl_dataflow_modules.png" alt="cs144impl_dataflow_modules"></p>
 <p>Lab 1 要求实现一个 <code>StreamReassembler</code>，在 Lab 的 TCP 实现图当中（上图）可以看到 <code>TCPReceiver</code>  具有一个  <code>StreamReassembler</code> 用来重组接收到的 Bytes，<code>CS144</code> 目的就是实现一个能够在不可靠数据报传输网络上传输两个 <code>ByteStreams</code> 的 TCP 程序。</p>
-<p><strong class=chinese>实现细节</strong></p>
+<p><strong>实现细节：</strong></p>
 <p>从下图可以看到 <code>StreamReassembler</code> 包含 <code>ByteStreams</code> 和未被重组的部分。</p>
 <p><img src="/img/cs144lab1_streamreassembler_struct.png" alt="image-20210404164542600"></p>
 <p>关于一些实现的 <code>tips</code>：</p>
