@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}" />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <header>
+    <h1>{{.Title}}</h1>
+    <nav>
+      <a href="{{.URL}}">Home</a>
+    </nav>
+  </header>
+  <body>
+    <main>
+      <h1>Posts</h1>
+      {{range .Posts}}
+      <article>
+        <nav>
+          {{range $tag := .Meta.Tags}}
+          <a
+            href="{{$.URL}}/tags/{{$tag | urlize}}.html"
+            >#{{$tag}}</a
+          >
+          {{end}}
+        </nav>
+        <h2>
+          <a href="{{$.URL}}/posts/{{.Name | urlize}}.html">{{.Meta.Title}}</a>
+        </h2>
+        <p>Date: {{.Meta.Date}}</p>
+      </article>
+      <hr >
+      {{end}}
+    </main>
+  </body>
+</html>
