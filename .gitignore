@@ -1,4 +1,4 @@
-.idea/*
-.vscode/*
-*.code-workspace
-public/*
+.idea/
+.vscode/
+
+example/

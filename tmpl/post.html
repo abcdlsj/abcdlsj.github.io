@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{.Meta.Title}}</title>
+    <meta name="description" content="{{.Meta.Description}}" />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>{{.Meta.Title}}</h1>
+      <nav>
+        <a href="{{.URL}}">Home</a>
+      </nav>
+    </header>
+    <main>
+      <nav>
+        {{range $tag := .Meta.Tags}}
+        <a href="{{$.URL}}/tags/{{$tag | urlize}}.html">{{$tag}}</a>
+        {{end}}
+      </nav>
+      <article>{{.Body}}</article>
+    </main>
+  </body>
+</html>

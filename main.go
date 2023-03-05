@@ -2,147 +2,224 @@ package main
 
 import (
 	"bytes"
-	"io/ioutil"
-	"log"
+	"flag"
+	"fmt"
+	"net/url"
 	"os"
 	"path"
-	"path/filepath"
-	"strings"
 	"text/template"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/yuin/goldmark"
 	highlighting "github.com/yuin/goldmark-highlighting"
-	"github.com/yuin/goldmark/extension"
+	meta "github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
 )
 
-const (
-	PostsPathMatch    string = "posts"
-	OutputDir         string = "public"
-	PostTemplateFile  string = "static/post.html"
-	IndexTemplateFile string = "static/index.html"
+var (
+	SiteDescription string = "Enjoy Focus!"
+	SiteTitle       string = "Enjoy Focus!"
+	SiteURL         string = "http://127.0.0.1:8000"
+
+	PostsDir  = flag.String("posts_dir", orEnv("POSTS_DIR", "example/posts"), "posts directory")
+	OutputDir = flag.String("output_dir", orEnv("OUTPUT_DIR", "example/output"), "output directory")
+	StaticDir = flag.String("static_dir", orEnv("STATIC_DIR", "example/static"), "static directory")
+
+	md = goldmark.New(
+		goldmark.WithExtensions(
+			meta.Meta,
+			highlighting.Highlighting,
+		),
+		goldmark.WithParserOptions(parser.WithAutoHeadingID()),
+		goldmark.WithRendererOptions(html.WithHardWraps()),
+	)
+
+	funcMap = template.FuncMap{
+		"joinTags": joinTags,
+		"inTag":    inTag,
+		"urlize":   urlize,
+	}
 )
 
-type OtherConfig struct {
-	Author      string `yaml:"author"`
-	Title       string `yaml:"title"`
-	Description string `yaml:"description"`
-	Mail        string `yaml:"mail"`
-	Github      string `yaml:"github"`
-}
+type Site struct {
+	Title       string
+	Description string
+	URL         string
+	PostsDir    string
+	OutputDir   string
+	StaticDir   string
 
-type Meta struct {
-	Title   string
-	Date    string
-	Tags    []string
-	Summary string
+	Posts []Post
+	Tags  map[string]Tag
 }
 
 type Post struct {
-	MetaData Meta
-	Body     string
-	FileName string
+	Site
+	Meta map[string]interface{}
+	Body string
+	Name string
 }
 
 type Tag struct {
-	Title string
-	Link  string
-	Count int
+	Site
+	Name   string
+	Refers []string
 }
 
-func createTagPostsMap(posts []Post) map[string][]Post {
-	result := make(map[string][]Post)
-	for _, post := range posts {
-		for _, tag := range post.MetaData.Tags {
-			key := strings.ToLower(tag)
-			if result[key] == nil {
-				result[key] = []Post{post}
-			} else {
-				result[key] = append(result[key], post)
-			}
+func init() {
+	flag.Parse()
+	log.SetFormatter(&log.TextFormatter{
+		FullTimestamp: true,
+	})
+	log.SetLevel(log.DebugLevel)
+}
+
+func orEnv(key string, defaultValue string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return defaultValue
+}
+
+func (s *Site) gen() {
+	s.parsePosts()
+	s.render()
+}
+
+func (s *Site) render() {
+	s.renderIndex()
+	s.renderPost()
+	s.renderTags()
+}
+
+func (s *Site) renderIndex() {
+	tmpl := template.Must(template.New("index.html").Funcs(funcMap).ParseGlob("tmpl/index.html"))
+	if err := render(tmpl, s, path.Join(s.OutputDir, "index.html")); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (s *Site) renderPost() {
+	tmpl := template.Must(template.New("post.html").Funcs(funcMap).ParseGlob("tmpl/post.html"))
+	for _, post := range s.Posts {
+		if err := render(tmpl, post, path.Join(s.OutputDir, "posts", urlize(post.Name)+".html")); err != nil {
+			log.Fatal(err)
 		}
 	}
-
-	return result
 }
 
-func getPostInfo(f string, name string) Post {
-	fileRead, _ := ioutil.ReadFile(f)
-	lines := strings.Split(string(fileRead), "\n")
-	title := lines[1]
-	date := lines[2]
-	tags := strings.Split(lines[3], " ")
-	summary := lines[4]
-	body := strings.Join(lines[6:], "\n")
-	htmlByte, err := markdown2HTML([]byte(body))
+func (s *Site) renderTags() {
+	tmpl := template.Must(template.New("tag.html").Funcs(funcMap).ParseGlob("tmpl/tag.html"))
+	for _, tag := range s.Tags {
+		if err := render(tmpl, tag, path.Join(s.OutputDir, "tags", urlize(tag.Name)+".html")); err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
+func render(tmpl *template.Template, data interface{}, name string) error {
+	file, err := openWithCreatePath(name)
 	if err != nil {
-		log.Fatal("markdown2HTML error!")
-	}
-
-	return Post{Meta{title, date, tags, summary}, string(htmlByte), name}
-}
-
-func markdown2HTML(src []byte) ([]byte, error) {
-	markdown := goldmark.New(
-		goldmark.WithRendererOptions(
-			html.WithUnsafe(),
-			html.WithHardWraps()),
-		goldmark.WithExtensions(
-			extension.GFM,
-			extension.Footnote,
-			highlighting.NewHighlighting(
-				highlighting.WithStyle("monokai"))))
-	var buf bytes.Buffer
-	if err := markdown.Convert(src, &buf); err != nil {
-		return []byte{}, err
-	}
-	return buf.Bytes(), nil
-}
-
-func getAllPosts() []Post {
-	var ret []Post
-	files, _ := filepath.Glob(PostsPathMatch + "/*")
-	for _, f := range files {
-		fname := strings.Replace(f, "posts/", "", -1)
-		fname = strings.Replace(fname, ".md", "", -1)
-		post := getPostInfo(f, fname)
-		ret = append(ret, post)
-	}
-	return ret
-}
-
-func GenerateIndexHTML() {
-	posts := getAllPosts()
-	t, err := template.ParseFiles(IndexTemplateFile)
-	if err != nil {
-		panic(err)
-	}
-	file, err := os.Create(path.Join(OutputDir, "index.html"))
-	if err != nil {
-		panic(err)
+		return err
 	}
 	defer file.Close()
-	t.Execute(file, posts)
+	return tmpl.Execute(file, data)
 }
 
-func GeneratePostsHTML() {
-	files, _ := filepath.Glob(PostsPathMatch + "/*")
-	t, _ := template.ParseFiles(PostTemplateFile)
-	for _, f := range files {
-		fname := strings.Replace(f, "posts/", "", -1)
-		fname = strings.Replace(fname, ".md", "", -1)
-		post := getPostInfo(f, fname)
-		out, _ := os.Create(path.Join(OutputDir, PostsPathMatch, fname) + ".html")
-		t.Execute(out, post)
+func openWithCreatePath(filename string) (*os.File, error) {
+	if err := os.MkdirAll(path.Dir(filename), 0755); err != nil {
+		return nil, err
+	}
+	return os.Create(filename)
+}
+
+func (s *Site) parsePosts() {
+	posts, err := os.ReadDir(s.PostsDir)
+	if err != nil {
+		log.Fatal("open posts dir error")
+	}
+	for _, post := range posts {
+		if post.IsDir() {
+			continue
+		}
+		data, err := os.ReadFile(path.Join(s.PostsDir, post.Name()))
+		if err != nil {
+			log.Fatal("open post file error")
+		}
+		name := post.Name()[:len(post.Name())-3]
+		blog, err := parsePost(data, name, *s)
+		if err != nil {
+			log.Fatal("parse post error")
+		}
+		s.Posts = append(s.Posts, blog)
+		s.parseTags(blog.Meta["Tags"].([]interface{}), blog, name, *s)
 	}
 }
 
-func GenerateTagsHTML(posts []Post) {
-	tagsMap := createTagPostsMap(posts)
-	_ = tagsMap
+func (s *Site) parseTags(tags []interface{}, post Post, name string, site Site) error {
+	for _, tag := range tags {
+		tagStr := fmt.Sprintf("%v", tag)
+		if entry, ok := s.Tags[tagStr]; !ok {
+			s.Tags[tagStr] = Tag{
+				Name:   tagStr,
+				Refers: []string{name},
+				Site:   site,
+			}
+		} else {
+			entry.Refers = append(entry.Refers, name)
+			s.Tags[tagStr] = entry
+		}
+	}
+	return nil
+}
+
+func parsePost(data []byte, name string, site Site) (Post, error) {
+	var buf bytes.Buffer
+	context := parser.NewContext()
+	if err := md.Convert(data, &buf, parser.WithContext(context)); err != nil {
+		panic(err)
+	}
+	metaData := meta.Get(context)
+	return Post{site, metaData, buf.String(), name}, nil
 }
 
 func main() {
-	GenerateIndexHTML()
-	GeneratePostsHTML()
+	site := &Site{
+		Title:       SiteTitle,
+		Description: SiteDescription,
+		URL:         SiteURL,
+		PostsDir:    *PostsDir,
+		OutputDir:   *OutputDir,
+		StaticDir:   *StaticDir,
+
+		Posts: []Post{},
+		Tags:  make(map[string]Tag),
+	}
+
+	site.gen()
+}
+
+func joinTags(tags []interface{}) string {
+	var result bytes.Buffer
+	for i, tag := range tags {
+		if i > 0 {
+			result.WriteString(", ")
+		}
+		result.WriteString(fmt.Sprintf("<a href=\"%s/tags/%s.html\">%s</a>", SiteURL, url.QueryEscape(fmt.Sprint(tag)), tag))
+	}
+	return result.String()
+}
+
+func urlize(s string) string {
+	return url.QueryEscape(s)
+}
+
+func inTag(tag string, tags []interface{}) bool {
+	for _, t := range tags {
+		if fmt.Sprint(t) == tag {
+			return true
+		}
+	}
+	return false
 }
