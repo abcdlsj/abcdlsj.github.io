@@ -1,25 +1,21 @@
+{{define "single"}}
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>{{.Meta.Title}}</title>
-    <meta name="description" content="{{.Meta.Description}}" />
-    <link rel="stylesheet" href="/static/style.css" />
+    {{template "head" .}}
   </head>
   <body>
-    <header>
-      <h1>{{.Meta.Title}}</h1>
-      <nav>
-        <a href="{{.URL}}">Home</a>
-      </nav>
-    </header>
+    <div>{{template "navbar" .}}</div>
+    <h1>{{.Meta.Title}}</h1>
     <main>
       <nav>
         {{range $tag := .Meta.Tags}}
-        <a href="{{$.URL}}/tags/{{$tag | urlize}}.html">{{$tag}}</a>
+        <a href="/tags/{{$tag | urlize}}.html">{{$tag}}</a>
         {{end}}
       </nav>
       <article>{{.Body}}</article>
     </main>
   </body>
+  {{template "footer" .}}
 </html>
+{{end}}

@@ -1,12 +1,11 @@
+{{define "tag"}}
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>Tag: {{.Name}}</title>
-    <meta name="description" content="Posts related to {{.Name}}" />
-    <link rel="stylesheet" href="/static/style.css" />
+    {{template "head" .}}
   </head>
   <body>
+    <div>{{template "navbar" .}}</div>
     <header>
       <h1>Posts Related To Tag: {{.Name}}</h1>
     </header>
@@ -14,10 +13,12 @@
       {{range .Refers}}
       <article>
         <h2>
-          <a href="{{$.URL}}/posts/{{. | urlize}}.html">{{.}}</a>
+          <a href="/posts/{{. | urlize}}.html">{{.}}</a>
         </h2>
-      </article>  
+      </article>
       {{end}}
     </main>
   </body>
+  {{template "footer" .}}
 </html>
+{{end}}

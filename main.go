@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"embed"
 	"flag"
 	"fmt"
 	"net/url"
@@ -10,6 +11,7 @@ import (
 	"sort"
 	"text/template"
 
+	"github.com/otiai10/copy"
 	log "github.com/sirupsen/logrus"
 	"github.com/yuin/goldmark"
 	highlighting "github.com/yuin/goldmark-highlighting"
@@ -19,13 +21,12 @@ import (
 )
 
 var (
-	SiteDescription string = "Enjoy Focus!"
-	SiteTitle       string = "Enjoy Focus!"
-	SiteURL         string = "http://127.0.0.1:8000"
-
-	PostsDir  = flag.String("posts_dir", orEnv("POSTS_DIR", "example/posts"), "posts directory")
-	OutputDir = flag.String("output_dir", orEnv("OUTPUT_DIR", "example/output"), "output directory")
-	StaticDir = flag.String("static_dir", orEnv("STATIC_DIR", "example/static"), "static directory")
+	PostsDir        = flag.String("posts_dir", orEnv("POSTS_DIR", "example/posts"), "posts directory")
+	OutputDir       = flag.String("output_dir", orEnv("OUTPUT_DIR", "example/output"), "output directory")
+	StaticDir       = flag.String("static_dir", orEnv("STATIC_DIR", "example/static"), "static directory")
+	SiteURL         = flag.String("site_url", orEnv("SITE_URL", "http://127.0.0.1:8000"), "site url")
+	SiteDescription = flag.String("site_description", orEnv("SITE_DESCRIPTION", "Enjoy Focus!"), "site description")
+	SiteTitle       = flag.String("site_title", orEnv("SITE_TITLE", "Enjoy Focus!"), "site title")
 
 	md = goldmark.New(
 		goldmark.WithExtensions(
@@ -37,22 +38,18 @@ var (
 	)
 
 	funcMap = template.FuncMap{
-		"joinTags": joinTags,
-		"inTag":    inTag,
-		"urlize":   urlize,
+		"urlize": urlize,
 	}
+
+	//go:embed tmpl/*
+	templateFiles embed.FS
+
+	t *template.Template
 )
 
-type Site struct {
-	SiteMeta
-
-	PostsDir  string
-	OutputDir string
-	StaticDir string
-
-	Posts []Post
-	Tags  map[string]Tag
-}
+var Posts []Post
+var Tags map[string]Tag
+var siteMeta SiteMeta
 
 type SiteMeta struct {
 	Title       string
@@ -61,95 +58,64 @@ type SiteMeta struct {
 }
 
 type Post struct {
-	SiteMeta
-	Meta map[string]interface{}
-	Body string
-	Name string
+	SiteMeta SiteMeta
+	Meta     map[string]interface{}
+	Body     string
+	Name     string
 }
 
 type Tag struct {
-	SiteMeta
-	Name   string
-	Refers []string
+	SiteMeta SiteMeta
+	Name     string
+	Refers   []string
 }
 
 func init() {
 	flag.Parse()
 	log.SetFormatter(&log.TextFormatter{
-		FullTimestamp: true,
+		TimestampFormat: "2006-01-02 15:04:05",
 	})
 	log.SetLevel(log.DebugLevel)
 }
 
-func orEnv(key string, defaultValue string) string {
-	if value, ok := os.LookupEnv(key); ok {
-		return value
+func RenderIndex() {
+	data := struct {
+		SiteMeta SiteMeta
+		Posts    []Post
+	}{
+		SiteMeta: siteMeta,
+		Posts:    Posts,
 	}
-	return defaultValue
-}
-
-func (s *Site) gen() {
-	s.parseAllPosts()
-
-	for _, post := range s.Posts {
-		log.Infof("post: %s", post.Name)
-		for k, v := range post.Meta {
-			log.Infof("meta: %s: %v", k, v)
-		}
-	}
-	for _, tag := range s.Tags {
-		log.Infof("tag: %s", tag.Name)
-		for _, ref := range tag.Refers {
-			log.Infof("ref: %s", ref)
-		}
-	}
-	s.render()
-}
-
-func (s *Site) render() {
-	s.renderIndex()
-
-	s.renderPosts()
-	s.renderTags()
-}
-
-func (s *Site) renderIndex() {
-	tmpl := template.Must(template.New("index.html").Funcs(funcMap).ParseGlob("tmpl/index.html"))
-	if err := render(tmpl, s, path.Join(s.OutputDir, "index.html")); err != nil {
+	if err := render(t, data, path.Join(*OutputDir, "index.html"), "index"); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func (s *Site) renderPosts() {
-	tmpl := template.Must(template.New("single.html").Funcs(funcMap).ParseGlob("tmpl/single.html"))
-	for _, post := range s.Posts {
-		if err := render(tmpl, post, path.Join(s.OutputDir, "posts", urlize(post.Name)+".html")); err != nil {
+func RenderPosts() {
+	for _, post := range Posts {
+		if err := render(t, post, path.Join(*OutputDir, "posts", urlize(post.Name)+".html"), "single"); err != nil {
 			log.Fatal(err)
 		}
 	}
 }
 
-func (s *Site) sortPosts() {
-	sort.Slice(s.Posts, func(i, j int) bool {
-		return s.Posts[i].Meta["Date"].(string) > s.Posts[j].Meta["Date"].(string)
-	})
-}
-
-func (s *Site) renderTags() {
-	tmpl := template.Must(template.New("tag.html").Funcs(funcMap).ParseGlob("tmpl/tag.html"))
-	for _, tag := range s.Tags {
-		if err := render(tmpl, tag, path.Join(s.OutputDir, "tags", urlize(tag.Name)+".html")); err != nil {
+func RenderTags() {
+	for _, tag := range Tags {
+		if err := render(t, tag, path.Join(*OutputDir, "tags", urlize(tag.Name)+".html"), "tag"); err != nil {
 			log.Fatal(err)
 		}
 	}
 }
 
-func render(tmpl *template.Template, data interface{}, name string) error {
-	file, err := openWithCreatePath(name)
+func render(tmpl *template.Template, data interface{}, fPath, tName string) error {
+	file, err := openWithCreatePath(fPath)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
+	if tName != "" {
+		return tmpl.ExecuteTemplate(file, tName, data)
+	}
 	return tmpl.Execute(file, data)
 }
 
@@ -160,109 +126,104 @@ func openWithCreatePath(filename string) (*os.File, error) {
 	return os.Create(filename)
 }
 
-func (s *Site) parseAllPosts() {
-	posts, err := os.ReadDir(s.PostsDir)
-	if err != nil {
-		log.Fatal("open posts dir error")
-	}
-	for _, post := range posts {
-		if post.IsDir() {
-			continue
-		}
-		data, err := os.ReadFile(path.Join(s.PostsDir, post.Name()))
-		if err != nil {
-			log.Fatal("open post file error")
-		}
-		urlizeName := urlize(post.Name()[:len(post.Name())-3])
-		blog, err := parsePost(data, urlizeName)
-		if err != nil {
-			log.Fatal("parse post error")
-		}
-		s.Posts = append(s.Posts, blog)
-		s.parseTags(blog.Meta["Tags"].([]interface{}), blog, urlizeName)
-	}
-
-	s.sortPosts()
-}
-
-func (s *Site) parseTags(tags []interface{}, post Post, urlizeName string) error {
-	for _, tag := range tags {
+func ParseTags(tagNames []interface{}, post Post) error {
+	for _, tag := range tagNames {
 		tagStr := fmt.Sprintf("%v", tag)
-		if entry, ok := s.Tags[tagStr]; !ok {
-			s.Tags[tagStr] = Tag{
-				Name:   tagStr,
-				Refers: []string{urlizeName},
-				SiteMeta: SiteMeta{
-					Title:       SiteTitle,
-					Description: SiteDescription,
-					URL:         SiteURL,
-				},
+		if entry, ok := Tags[tagStr]; !ok {
+			Tags[tagStr] = Tag{
+				Name:     tagStr,
+				Refers:   []string{post.Name},
+				SiteMeta: siteMeta,
 			}
 		} else {
-			entry.Refers = append(entry.Refers, urlizeName)
-			s.Tags[tagStr] = entry
+			entry.Refers = append(entry.Refers, post.Name)
+			Tags[tagStr] = entry
 		}
 	}
 	return nil
 }
 
-func parsePost(data []byte, urlizeName string) (Post, error) {
+func parsePost(data []byte, uName string) (Post, error) {
 	var buf bytes.Buffer
 	context := parser.NewContext()
 	if err := md.Convert(data, &buf, parser.WithContext(context)); err != nil {
-		panic(err)
+		log.Fatalf("failed to convert markdown, file: %s, err: %v", uName, err)
 	}
 	metaData := meta.Get(context)
 	return Post{
-		SiteMeta: SiteMeta{
-			Title:       SiteTitle,
-			Description: SiteDescription,
-			URL:         SiteURL,
-		},
-		Meta: metaData,
-		Body: buf.String(),
-		Name: urlizeName,
+		SiteMeta: siteMeta,
+		Meta:     metaData,
+		Body:     buf.String(),
+		Name:     uName,
 	}, nil
 }
 
 func main() {
-	site := &Site{
-		SiteMeta: SiteMeta{
-			Title:       SiteTitle,
-			Description: SiteDescription,
-			URL:         SiteURL,
-		},
-		PostsDir:  *PostsDir,
-		OutputDir: *OutputDir,
-		StaticDir: *StaticDir,
-
-		Posts: []Post{},
-		Tags:  make(map[string]Tag),
+	siteMeta = SiteMeta{
+		Title:       *SiteTitle,
+		Description: *SiteDescription,
+		URL:         *SiteURL,
 	}
 
-	site.gen()
+	t = template.Must(template.New("").Funcs(funcMap).ParseFS(templateFiles, "tmpl/*.html"))
+
+	Tags = make(map[string]Tag)
+
+	posts, err := os.ReadDir(*PostsDir)
+	if err != nil {
+		log.Fatal("open posts dir error ")
+	}
+	for _, p := range posts {
+		if p.IsDir() {
+			continue
+		}
+		data, err := os.ReadFile(path.Join(*PostsDir, p.Name()))
+		if err != nil {
+			log.Fatal("open post file error")
+		}
+		uName := urlize(p.Name()[:len(p.Name())-3])
+		post, err := parsePost(data, uName)
+		if err != nil {
+			log.Fatal("parse post error")
+		}
+		Posts = append(Posts, post)
+		ParseTags(post.Meta["Tags"].([]interface{}), post)
+	}
+
+	sort.Slice(Posts, func(i, j int) bool {
+		return Posts[i].Meta["Date"].(string) > Posts[j].Meta["Date"].(string)
+	})
+
+	Renders(RenderIndex, RenderPosts, RenderTags)
+	CpStaticDirToOutput()
 }
 
-func joinTags(tags []interface{}) string {
-	var result bytes.Buffer
-	for i, tag := range tags {
-		if i > 0 {
-			result.WriteString(", ")
-		}
-		result.WriteString(fmt.Sprintf("<a href=\"%s/tags/%s.html\">%s</a>", SiteURL, url.QueryEscape(fmt.Sprint(tag)), tag))
+func CpStaticDirToOutput() {
+	outputStatic := path.Join(*OutputDir, "static")
+	if err := os.RemoveAll(outputStatic); err != nil {
+		log.Fatal(err)
 	}
-	return result.String()
+	if err := os.MkdirAll(outputStatic, 0755); err != nil {
+		log.Fatal(err)
+	}
+	if err := copy.Copy(*StaticDir, outputStatic); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func Renders(fns ...func()) {
+	for _, fn := range fns {
+		fn()
+	}
 }
 
 func urlize(s string) string {
 	return url.QueryEscape(s)
 }
 
-func inTag(tag string, tags []interface{}) bool {
-	for _, t := range tags {
-		if fmt.Sprint(t) == tag {
-			return true
-		}
+func orEnv(key string, defaultValue string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
 	}
-	return false
+	return defaultValue
 }

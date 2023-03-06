@@ -5,7 +5,6 @@ go 1.19
 require (
 	github.com/otiai10/copy v1.9.0
 	github.com/sirupsen/logrus v1.9.0
-	github.com/u-root/uio v0.0.0-20230220225925-ffce2a382923
 	github.com/yuin/goldmark v1.5.4
 	github.com/yuin/goldmark-highlighting v0.0.0-20220208100518-594be1970594
 	github.com/yuin/goldmark-meta v1.1.0
