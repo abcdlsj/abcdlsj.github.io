@@ -19,10 +19,7 @@
       <article>
         <nav>
           {{range $tag := .Meta.Tags}}
-          <a
-            href="{{$.URL}}/tags/{{$tag | urlize}}.html"
-            >#{{$tag}}</a
-          >
+          <a href="{{$.URL}}/tags/{{$tag | urlize}}.html">#{{$tag}}</a>
           {{end}}
         </nav>
         <h2>
@@ -30,7 +27,7 @@
         </h2>
         <p>Date: {{.Meta.Date}}</p>
       </article>
-      <hr >
+      <hr />
       {{end}}
     </main>
   </body>

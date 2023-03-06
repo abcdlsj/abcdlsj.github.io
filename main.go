@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 	"path"
+	"sort"
 	"text/template"
 
 	log "github.com/sirupsen/logrus"
@@ -43,26 +44,31 @@ var (
 )
 
 type Site struct {
-	Title       string
-	Description string
-	URL         string
-	PostsDir    string
-	OutputDir   string
-	StaticDir   string
+	SiteMeta
+
+	PostsDir  string
+	OutputDir string
+	StaticDir string
 
 	Posts []Post
 	Tags  map[string]Tag
 }
 
+type SiteMeta struct {
+	Title       string
+	Description string
+	URL         string
+}
+
 type Post struct {
-	Site
+	SiteMeta
 	Meta map[string]interface{}
 	Body string
 	Name string
 }
 
 type Tag struct {
-	Site
+	SiteMeta
 	Name   string
 	Refers []string
 }
@@ -83,13 +89,27 @@ func orEnv(key string, defaultValue string) string {
 }
 
 func (s *Site) gen() {
-	s.parsePosts()
+	s.parseAllPosts()
+
+	for _, post := range s.Posts {
+		log.Infof("post: %s", post.Name)
+		for k, v := range post.Meta {
+			log.Infof("meta: %s: %v", k, v)
+		}
+	}
+	for _, tag := range s.Tags {
+		log.Infof("tag: %s", tag.Name)
+		for _, ref := range tag.Refers {
+			log.Infof("ref: %s", ref)
+		}
+	}
 	s.render()
 }
 
 func (s *Site) render() {
 	s.renderIndex()
-	s.renderPost()
+
+	s.renderPosts()
 	s.renderTags()
 }
 
@@ -100,13 +120,19 @@ func (s *Site) renderIndex() {
 	}
 }
 
-func (s *Site) renderPost() {
-	tmpl := template.Must(template.New("post.html").Funcs(funcMap).ParseGlob("tmpl/post.html"))
+func (s *Site) renderPosts() {
+	tmpl := template.Must(template.New("single.html").Funcs(funcMap).ParseGlob("tmpl/single.html"))
 	for _, post := range s.Posts {
 		if err := render(tmpl, post, path.Join(s.OutputDir, "posts", urlize(post.Name)+".html")); err != nil {
 			log.Fatal(err)
 		}
 	}
+}
+
+func (s *Site) sortPosts() {
+	sort.Slice(s.Posts, func(i, j int) bool {
+		return s.Posts[i].Meta["Date"].(string) > s.Posts[j].Meta["Date"].(string)
+	})
 }
 
 func (s *Site) renderTags() {
@@ -134,7 +160,7 @@ func openWithCreatePath(filename string) (*os.File, error) {
 	return os.Create(filename)
 }
 
-func (s *Site) parsePosts() {
+func (s *Site) parseAllPosts() {
 	posts, err := os.ReadDir(s.PostsDir)
 	if err != nil {
 		log.Fatal("open posts dir error")
@@ -147,51 +173,68 @@ func (s *Site) parsePosts() {
 		if err != nil {
 			log.Fatal("open post file error")
 		}
-		name := post.Name()[:len(post.Name())-3]
-		blog, err := parsePost(data, name, *s)
+		urlizeName := urlize(post.Name()[:len(post.Name())-3])
+		blog, err := parsePost(data, urlizeName)
 		if err != nil {
 			log.Fatal("parse post error")
 		}
 		s.Posts = append(s.Posts, blog)
-		s.parseTags(blog.Meta["Tags"].([]interface{}), blog, name, *s)
+		s.parseTags(blog.Meta["Tags"].([]interface{}), blog, urlizeName)
 	}
+
+	s.sortPosts()
 }
 
-func (s *Site) parseTags(tags []interface{}, post Post, name string, site Site) error {
+func (s *Site) parseTags(tags []interface{}, post Post, urlizeName string) error {
 	for _, tag := range tags {
 		tagStr := fmt.Sprintf("%v", tag)
 		if entry, ok := s.Tags[tagStr]; !ok {
 			s.Tags[tagStr] = Tag{
 				Name:   tagStr,
-				Refers: []string{name},
-				Site:   site,
+				Refers: []string{urlizeName},
+				SiteMeta: SiteMeta{
+					Title:       SiteTitle,
+					Description: SiteDescription,
+					URL:         SiteURL,
+				},
 			}
 		} else {
-			entry.Refers = append(entry.Refers, name)
+			entry.Refers = append(entry.Refers, urlizeName)
 			s.Tags[tagStr] = entry
 		}
 	}
 	return nil
 }
 
-func parsePost(data []byte, name string, site Site) (Post, error) {
+func parsePost(data []byte, urlizeName string) (Post, error) {
 	var buf bytes.Buffer
 	context := parser.NewContext()
 	if err := md.Convert(data, &buf, parser.WithContext(context)); err != nil {
 		panic(err)
 	}
 	metaData := meta.Get(context)
-	return Post{site, metaData, buf.String(), name}, nil
+	return Post{
+		SiteMeta: SiteMeta{
+			Title:       SiteTitle,
+			Description: SiteDescription,
+			URL:         SiteURL,
+		},
+		Meta: metaData,
+		Body: buf.String(),
+		Name: urlizeName,
+	}, nil
 }
 
 func main() {
 	site := &Site{
-		Title:       SiteTitle,
-		Description: SiteDescription,
-		URL:         SiteURL,
-		PostsDir:    *PostsDir,
-		OutputDir:   *OutputDir,
-		StaticDir:   *StaticDir,
+		SiteMeta: SiteMeta{
+			Title:       SiteTitle,
+			Description: SiteDescription,
+			URL:         SiteURL,
+		},
+		PostsDir:  *PostsDir,
+		OutputDir: *OutputDir,
+		StaticDir: *StaticDir,
 
 		Posts: []Post{},
 		Tags:  make(map[string]Tag),

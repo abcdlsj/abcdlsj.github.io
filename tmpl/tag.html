@@ -11,15 +11,13 @@
       <h1>Posts Related To Tag: {{.Name}}</h1>
     </header>
     <main>
-      <ul>
-        {{range $key, $value := .Posts}} {{if inTag $.Name $value.Meta.Tags}}
-        <li>
-          <a href="{{$.URL}}/posts/{{$value.Name}}.html"
-            >{{$value.Meta.Title}}</a
-          >
-        </li>
-        {{end}} {{end}}
-      </ul>
+      {{range .Refers}}
+      <article>
+        <h2>
+          <a href="{{$.URL}}/posts/{{. | urlize}}.html">{{.}}</a>
+        </h2>
+      </article>  
+      {{end}}
     </main>
   </body>
 </html>
