@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+<meta charset="UTF-8" />
+<title>Enjoy Focus!</title>
+<meta name="description" content="Enjoy Focus!" />
+<meta name="author" content="Author" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+/>
+<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="stylesheet" href="/static/style.css" />
+
+  </head>
+  <body>
+    <div>
+<nav class="navbar">
+  <ul>
+    <li class="brand">
+      <a href="/">Home</a>
+    </li>
+  </ul>
+</nav>
+</div>
+    <hr />
+    <h1 class="post-title">CS144 Lab Notes</h1>
+    <div class="meta">
+      <div class="date">Date: 2021-05-04T19:42:49+08:00 </div>
+      <nav class="tags">
+        
+        <a class="tag" href="/tags/cs144.html">#cs144</a>
+        
+        <a class="tag" href="/tags/network.html">#network</a>
+        
+      </nav>
+    </div>
+    <hr />
+    <main>
+      <article class="post-body"><blockquote>
+<p>It’s not always natural what the “right” behavior is.</p>
+</blockquote>
+ <!--more--> 
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>                   -`                    abcdlsj@Lenovo-13ARE
+</span></span><span style="display:flex;"><span>                  .o+`                   --------------------
+</span></span><span style="display:flex;"><span>                 `ooo/                   OS: Arch Linux x86_64
+</span></span><span style="display:flex;"><span>                `+oooo:                  Host: 82DM Lenovo XiaoXinPro-13ARE 2020
+</span></span><span style="display:flex;"><span>               `+oooooo:                 Kernel: 5.11.4-zen1-1-zen
+</span></span><span style="display:flex;"><span>               -+oooooo+:                Uptime: 1 hour, 54 mins
+</span></span><span style="display:flex;"><span>             `/:-:++oooo+:               Packages: 1326 (pacman)
+</span></span><span style="display:flex;"><span>            `/++++/+++++++:              Shell: zsh 5.8
+</span></span><span style="display:flex;"><span>           `/++++++++++++++:             Resolution: 2560x1600
+</span></span><span style="display:flex;"><span>          `/+++ooooooooooooo/`           WM: i3
+</span></span><span style="display:flex;"><span>         ./ooosssso++osssssso+`          Theme: Adwaita-dark [GTK2/3]
+</span></span><span style="display:flex;"><span>        .oossssso-````/ossssss+`         Icons: Papirus-Dark [GTK2/3]
+</span></span><span style="display:flex;"><span>       -osssssso.      :ssssssso.        Terminal: alacritty
+</span></span><span style="display:flex;"><span>      :osssssss/        osssso+++.       CPU: AMD Ryzen 7 4800U with Radeon Graphics (16) @ 1.800GHz
+</span></span><span style="display:flex;"><span>     /ossssssss/        +ssssooo/-       GPU: AMD ATI 03:00.0 Renoir
+</span></span><span style="display:flex;"><span>   `/ossssso+/:-        -:/+osssso+-     Memory: 5086MiB / 13912MiB
+</span></span><span style="display:flex;"><span>  `+sso+:-`                 `.-/+oso:
+</span></span><span style="display:flex;"><span> `++:.                           `-/+/
+</span></span><span style="display:flex;"><span> .`                                 `/
+</span></span></code></pre><h2 id="heading">环境搭建以及如何调试</h2>
+<p>环境用官方的虚拟机或者自己的 <code>Linux</code> 发行版也可以，下载必需的包就可以，官方有写。</p>
+<p>调试可以看看 <a href="https://blog.csdn.net/kangyupl/article/details/108589594">https://blog.csdn.net/kangyupl/article/details/108589594</a></p>
+<p>编译遇到  <code>out_of_range() not found</code> 的问题，添加 <code>#include &lt;stdexcept&gt;</code> 就可以了</p>
+<h2 id="lab-0-networking-warmup">Lab 0: networking warmup</h2>
+<p><a href="https://cs144.github.io/assignments/lab0.pdf">https://cs144.github.io/assignments/lab0.pdf</a></p>
+<p><code>Lab 0</code> 实现有两个任务，<code>webget</code> 和 <code>ByteStreams</code></p>
+<p><code>webget</code> 实现如下：</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>TCPSocket sock{};
+</span></span><span style="display:flex;"><span>sock.connect(Address(host, <span style="color:#d14">&#34;http&#34;</span>));
+</span></span><span style="display:flex;"><span>string <span style="color:#900;font-weight:bold">input</span>(<span style="color:#d14">&#34;GET &#34;</span> <span style="color:#000;font-weight:bold">+</span> path <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34; HTTP/1.1</span><span style="color:#d14">\r\n</span><span style="color:#d14">host: &#34;</span> <span style="color:#000;font-weight:bold">+</span> host <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34;</span><span style="color:#d14">\r\n\r\n</span><span style="color:#d14">&#34;</span>);
+</span></span><span style="display:flex;"><span>sock.write(input);
+</span></span><span style="display:flex;"><span>sock.shutdown(SHUT_WR);
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">while</span> (<span style="color:#000;font-weight:bold">!</span>sock.eof()) {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#000;font-weight:bold">&lt;&lt;</span> sock.read();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>sock.close();
+</span></span></code></pre><p><code>ByteStreams</code> 则是实现一个类似双端队列的东西，我直接使用 <code>std::deque&lt;char&gt;</code> 实现。</p>
+<p>这里写下 <code>eof</code> 实现：</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#458;font-weight:bold">bool</span> ByteStream<span style="color:#000;font-weight:bold">::</span>eof() <span style="color:#000;font-weight:bold">const</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">input_ended</span>() <span style="color:#000;font-weight:bold">&amp;&amp;</span> buffer_empty(); }
+</span></span></code></pre><p><code>eof</code> 代表无法继续从 <code>stream</code> 读出数据，不仅要判断输入完成，还要判断 <code>buffer</code> 已被读完。</p>
+<h2 id="lab-1-stitching-substrings-into-a-byte-stream">Lab 1: stitching substrings into a byte stream</h2>
+<p><a href="https://cs144.github.io/assignments/lab1.pdf">https://cs144.github.io/assignments/lab1.pdf</a></p>
+<img src="/static/img/cs144impl_dataflow_modules.png" width="600">
+<p>Lab 1 要求实现一个 <code>StreamReassembler</code>，在 Lab 的 TCP 实现图当中（上图）可以看到 <code>TCPReceiver</code>  具有一个  <code>StreamReassembler</code> 用来重组接收到的 Bytes，<code>CS144</code> 目的就是实现一个能够在不可靠数据报传输网络上传输两个 <code>ByteStreams</code> 的 TCP 程序。</p>
+<p><strong>实现细节：</strong></p>
+<p>从下图可以看到 <code>StreamReassembler</code> 包含 <code>ByteStreams</code> 和未被重组的部分。</p>
+<img src="/static/img/cs144lab1_streamreassembler_struct.png" width="600">
+<p>关于一些实现的 <code>tips</code>：</p>
+<ul>
+<li>
+<p>序号从 <code>0</code> 开始，也就是序号和串的长度有关。</p>
+</li>
+<li>
+<p><code>first unread</code> 值是什么？</p>
+<p>因为 <code>StreamReassembler</code> 的目的是保存那些<code>无法立即写入</code>到 <code>ByteStreams</code> 的子串，所有的串最终都会传输到 <code>ByteStreams</code>。那么 <code>first unread</code>  在整个流中的位置其实就是 <code>ByteStream</code> 中的 <code>bytes_read()</code>， 即 <code>readed</code> 的数据长度。</p>
+</li>
+<li>
+<p><code>first unassembled</code>  值？</p>
+<p><code>ByteStream</code> 中的 <code>bytes_written()</code></p>
+</li>
+<li>
+<p><code>first unacceptable</code>  值是什么？</p>
+<p><code>first unread</code> + <code>capacity</code></p>
+</li>
+<li>
+<p><code>capacity</code> 是怎么定义的？</p>
+<p>根据 <code>PDF</code>，定义为红色部分加上绿色部分，其中绿色是 <code>ByteStream</code> 的部分，红色代表未被重组的段。</p>
+</li>
+</ul>
+<p>其实很多东西都是围绕下面的图来的。</p>
+<img src="/static/img/cs144lab1_streamreassembler_capacity.png" width="600">
+<p><strong>代码：</strong></p>
+<p>这是未重组部分的节点构造，包含一个 <code>index</code> 和 <code>data</code></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">Segment</span> {
+</span></span><span style="display:flex;"><span>    size_t _index;
+</span></span><span style="display:flex;"><span>    std<span style="color:#000;font-weight:bold">::</span>string _data;
+</span></span><span style="display:flex;"><span>    Segment(<span style="color:#458;font-weight:bold">int</span> index, std<span style="color:#000;font-weight:bold">::</span>string data) <span style="color:#000;font-weight:bold">:</span> _index(index), _data(data) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">operator</span><span style="color:#000;font-weight:bold">&lt;</span>(<span style="color:#000;font-weight:bold">const</span> Segment <span style="color:#000;font-weight:bold">&amp;</span>s) <span style="color:#000;font-weight:bold">const</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span><span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">&lt;</span> s._index; }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre><p><code>StreamReassembler</code> 结构</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>ByteStream _output;  <span style="color:#998;font-style:italic">//!&lt; The reassembled in-order byte stream
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>size_t _capacity;    <span style="color:#998;font-style:italic">//!&lt; The maximum number of bytes
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>std<span style="color:#000;font-weight:bold">::</span>set<span style="color:#000;font-weight:bold">&lt;</span>Segment<span style="color:#000;font-weight:bold">&gt;</span> _waiting_buffer;
+</span></span><span style="display:flex;"><span>size_t _unassembled_bytes_size;
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">bool</span> _flag_eof;
+</span></span><span style="display:flex;"><span>size_t _pos_eof;
+</span></span></code></pre><pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&#34;stream_reassembler.hh&#34;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;cstddef&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;pthread.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Dummy implementation of a stream reassembler.
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// For Lab 1, please replace with a real implementation that passes the
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// automated checks run by `make check_lab1`.
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// You will need to add private members to the class declaration in `stream_reassembler.hh`
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">template</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000;font-weight:bold">typename</span>... Targs<span style="color:#000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">void</span> DUMMY_CODE(Targs <span style="color:#000;font-weight:bold">&amp;&amp;</span>...<span style="color:#998;font-style:italic">/* unused */</span>) {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">using</span> <span style="color:#000;font-weight:bold">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>StreamReassembler<span style="color:#000;font-weight:bold">::</span>StreamReassembler(<span style="color:#000;font-weight:bold">const</span> size_t capacity)
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">:</span> _output(capacity)
+</span></span><span style="display:flex;"><span>    , _capacity(capacity)
+</span></span><span style="display:flex;"><span>    , _waiting_buffer({})
+</span></span><span style="display:flex;"><span>    , _unassembled_bytes_size(<span style="color:#099">0</span>)
+</span></span><span style="display:flex;"><span>    , _flag_eof(<span style="color:#0086b3">false</span>)
+</span></span><span style="display:flex;"><span>    , _pos_eof(<span style="color:#099">0</span>) {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">//! \details This function accepts a substring (aka a segment) of bytes,
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">//! possibly out-of-order, from the logical stream, and assembles any newly
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">//! contiguous substrings and writes them into the output stream in order.
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">void</span> StreamReassembler<span style="color:#000;font-weight:bold">::</span>insert_buffer(<span style="color:#000;font-weight:bold">const</span> Segment <span style="color:#000;font-weight:bold">&amp;</span>s) {
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (_waiting_buffer.empty()) {
+</span></span><span style="display:flex;"><span>        _waiting_buffer.insert(s);
+</span></span><span style="display:flex;"><span>        _unassembled_bytes_size <span style="color:#000;font-weight:bold">+=</span> s._data.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    Segment c <span style="color:#000;font-weight:bold">=</span> s;
+</span></span><span style="display:flex;"><span>    size_t idx <span style="color:#000;font-weight:bold">=</span> c._index, sz <span style="color:#000;font-weight:bold">=</span> c._data.size();
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">auto</span> it <span style="color:#000;font-weight:bold">=</span> _waiting_buffer.lower_bound(s);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (it <span style="color:#000;font-weight:bold">!=</span> _waiting_buffer.begin()) {
+</span></span><span style="display:flex;"><span>        it<span style="color:#000;font-weight:bold">--</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">if</span> (it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">+</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size() <span style="color:#000;font-weight:bold">&gt;</span> idx) {
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span> (idx <span style="color:#000;font-weight:bold">+</span> sz <span style="color:#000;font-weight:bold">&lt;=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">+</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size())
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">return</span>;
+</span></span><span style="display:flex;"><span>            c._data <span style="color:#000;font-weight:bold">=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data <span style="color:#000;font-weight:bold">+</span> c._data.substr(it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">+</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size() <span style="color:#000;font-weight:bold">-</span> idx);
+</span></span><span style="display:flex;"><span>            c._index <span style="color:#000;font-weight:bold">=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index;
+</span></span><span style="display:flex;"><span>            idx <span style="color:#000;font-weight:bold">=</span> c._index, sz <span style="color:#000;font-weight:bold">=</span> c._data.size();
+</span></span><span style="display:flex;"><span>            _unassembled_bytes_size <span style="color:#000;font-weight:bold">-=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size();
+</span></span><span style="display:flex;"><span>            _waiting_buffer.erase(it<span style="color:#000;font-weight:bold">++</span>);
+</span></span><span style="display:flex;"><span>        } <span style="color:#000;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>            it<span style="color:#000;font-weight:bold">++</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">while</span> (it <span style="color:#000;font-weight:bold">!=</span> _waiting_buffer.end() <span style="color:#000;font-weight:bold">&amp;&amp;</span> idx <span style="color:#000;font-weight:bold">+</span> sz <span style="color:#000;font-weight:bold">&gt;</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index) {
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">if</span> (idx <span style="color:#000;font-weight:bold">&gt;=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">&amp;&amp;</span> idx <span style="color:#000;font-weight:bold">+</span> sz <span style="color:#000;font-weight:bold">&lt;=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">+</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size())
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">return</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">if</span> (idx <span style="color:#000;font-weight:bold">+</span> sz <span style="color:#000;font-weight:bold">&lt;</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">+</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size()) {
+</span></span><span style="display:flex;"><span>            c._data <span style="color:#000;font-weight:bold">+=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.substr(idx <span style="color:#000;font-weight:bold">+</span> sz <span style="color:#000;font-weight:bold">-</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index);
+</span></span><span style="display:flex;"><span>            sz <span style="color:#000;font-weight:bold">=</span> c._data.size();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        _unassembled_bytes_size <span style="color:#000;font-weight:bold">-=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size();
+</span></span><span style="display:flex;"><span>        _waiting_buffer.erase(it<span style="color:#000;font-weight:bold">++</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    _unassembled_bytes_size <span style="color:#000;font-weight:bold">+=</span> c._data.size();
+</span></span><span style="display:flex;"><span>    _waiting_buffer.insert(c);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">void</span> StreamReassembler<span style="color:#000;font-weight:bold">::</span>push_substring(<span style="color:#000;font-weight:bold">const</span> string <span style="color:#000;font-weight:bold">&amp;</span>data, <span style="color:#000;font-weight:bold">const</span> size_t index, <span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">bool</span> eof) {
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">auto</span> s <span style="color:#000;font-weight:bold">=</span> Segment(index, data);
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">auto</span> first_unread_idx <span style="color:#000;font-weight:bold">=</span> _output.bytes_read();
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">auto</span> first_unassembled_idx <span style="color:#000;font-weight:bold">=</span> _output.bytes_written();
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">auto</span> first_unacceptable_idx <span style="color:#000;font-weight:bold">=</span> first_unread_idx <span style="color:#000;font-weight:bold">+</span> _capacity;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (index <span style="color:#000;font-weight:bold">&gt;=</span> first_unacceptable_idx <span style="color:#000;font-weight:bold">||</span> index <span style="color:#000;font-weight:bold">+</span> data.size() <span style="color:#000;font-weight:bold">&lt;</span> first_unassembled_idx)
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (index <span style="color:#000;font-weight:bold">+</span> data.size() <span style="color:#000;font-weight:bold">&gt;</span> first_unacceptable_idx) {
+</span></span><span style="display:flex;"><span>        s._data <span style="color:#000;font-weight:bold">=</span> s._data.substr(<span style="color:#099">0</span>, first_unacceptable_idx <span style="color:#000;font-weight:bold">-</span> index);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (index <span style="color:#000;font-weight:bold">&lt;=</span> first_unassembled_idx) {
+</span></span><span style="display:flex;"><span>        _output.write(s._data.substr(first_unassembled_idx <span style="color:#000;font-weight:bold">-</span> index));
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">auto</span> it <span style="color:#000;font-weight:bold">=</span> _waiting_buffer.begin();
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">while</span> (it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">&lt;=</span> _output.bytes_written() <span style="color:#000;font-weight:bold">&amp;&amp;</span> <span style="color:#000;font-weight:bold">!</span>_waiting_buffer.empty()) {
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span> (it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">+</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size() <span style="color:#000;font-weight:bold">&gt;</span> s._index <span style="color:#000;font-weight:bold">+</span> s._data.size()) {
+</span></span><span style="display:flex;"><span>                _output.write(it<span style="color:#000;font-weight:bold">-&gt;</span>_data.substr(_output.bytes_written() <span style="color:#000;font-weight:bold">-</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index));
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            _unassembled_bytes_size <span style="color:#000;font-weight:bold">-=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size();
+</span></span><span style="display:flex;"><span>            _waiting_buffer.erase(it<span style="color:#000;font-weight:bold">++</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    } <span style="color:#000;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>        insert_buffer(s);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (eof) {
+</span></span><span style="display:flex;"><span>        _flag_eof <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">true</span>;
+</span></span><span style="display:flex;"><span>        _pos_eof <span style="color:#000;font-weight:bold">=</span> index <span style="color:#000;font-weight:bold">+</span> data.size();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (_flag_eof <span style="color:#000;font-weight:bold">&amp;&amp;</span> _output.bytes_written() <span style="color:#000;font-weight:bold">==</span> _pos_eof) {
+</span></span><span style="display:flex;"><span>        _output.end_input();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>size_t StreamReassembler<span style="color:#000;font-weight:bold">::</span>unassembled_bytes() <span style="color:#000;font-weight:bold">const</span> { <span style="color:#000;font-weight:bold">return</span> _unassembled_bytes_size; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">bool</span> StreamReassembler<span style="color:#000;font-weight:bold">::</span>empty() <span style="color:#000;font-weight:bold">const</span> { <span style="color:#000;font-weight:bold">return</span> _unassembled_bytes_size <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span>; }
+</span></span></code></pre><p>思路在代码中已经很清楚了。</p>
+<h2 id="lab-2-the-tcp-receiver">Lab 2: the TCP receiver</h2>
+<p><a href="https://cs144.github.io/assignments/lab2.pdf">https://cs144.github.io/assignments/lab2.pdf</a></p>
+<p>首先需要了解  <code>seqno</code>、<code>absolute seqno</code>、<code>stream index</code> 的区别：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Sequence Numbers</th>
+<th style="text-align:center">Absolute Sequence Numbers</th>
+<th style="text-align:center">Stream Indices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Start at the ISN</td>
+<td style="text-align:center">Start at 0</td>
+<td style="text-align:center">Start at 0</td>
+</tr>
+<tr>
+<td style="text-align:center">Include SYN/FIN</td>
+<td style="text-align:center">Include SYN/FIN</td>
+<td style="text-align:center">Omit SYN/FIN</td>
+</tr>
+<tr>
+<td style="text-align:center">32 bits, wrapping</td>
+<td style="text-align:center">64 bits, non-wrapping</td>
+<td style="text-align:center">64 bits, non-wrapping</td>
+</tr>
+<tr>
+<td style="text-align:center">“seqno”</td>
+<td style="text-align:center">“absolute seqno”</td>
+<td style="text-align:center">“stream index”</td>
+</tr>
+</tbody>
+</table>
+<p><code>PDF</code> 上面有一个例子，例如 <code>byte stream</code> 中保存的数据为 <code>string</code> 为 <code>cat</code>，并且 <code>SYN = 2^32 - 2</code>，那么三者值如下：</p>
+<img src="/static/img/cs144lab2_3seq_diff.png" width="600">
+<p>因为在 <code>StreamReassembler</code> 模块中使用的索引值是从 0 开始的，所以 <code>TCP receiver</code> 在重组子串之前，需要将从<code>SYN+1</code> 开始的 32 位索引还原成从 0 开始的 64 位索引。</p>
+<p>第一个任务就是进行 32 位索引值和 64 位索引值的相互转换。</p>
+<p><code>warp</code> 是包装 64 位索引到 <code>WrappingInt32</code> 中，直接截取后 32 位加上 <code>ISN</code> 就可以了。</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>WrappingInt32 <span style="color:#900;font-weight:bold">wrap</span>(<span style="color:#458;font-weight:bold">uint64_t</span> n, WrappingInt32 isn) {
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> WrappingInt32{<span style="color:#000;font-weight:bold">static_cast</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#458;font-weight:bold">uint32_t</span><span style="color:#000;font-weight:bold">&gt;</span>(n) <span style="color:#000;font-weight:bold">+</span> isn.raw_value()};
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p><code>unwrap</code> 实现（仿照网上实现写的）：</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#458;font-weight:bold">uint64_t</span> <span style="color:#900;font-weight:bold">unwrap</span>(WrappingInt32 n, WrappingInt32 isn, <span style="color:#458;font-weight:bold">uint64_t</span> checkpoint) {
+</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">uint64_t</span> a <span style="color:#000;font-weight:bold">=</span> n.raw_value() <span style="color:#000;font-weight:bold">-</span> isn.raw_value();
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (checkpoint <span style="color:#000;font-weight:bold">&lt;=</span> a)
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> a;
+</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">uint64_t</span> d <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1ul</span> <span style="color:#000;font-weight:bold">&lt;&lt;</span> <span style="color:#099">32</span>, b, c;
+</span></span><span style="display:flex;"><span>    b <span style="color:#000;font-weight:bold">=</span> (checkpoint <span style="color:#000;font-weight:bold">-</span> a) <span style="color:#000;font-weight:bold">&gt;&gt;</span> <span style="color:#099">32</span>;
+</span></span><span style="display:flex;"><span>    c <span style="color:#000;font-weight:bold">=</span> ((checkpoint <span style="color:#000;font-weight:bold">-</span> a) <span style="color:#000;font-weight:bold">&lt;&lt;</span> <span style="color:#099">32</span>) <span style="color:#000;font-weight:bold">&gt;&gt;</span> <span style="color:#099">32</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (c <span style="color:#000;font-weight:bold">&lt;</span> d <span style="color:#000;font-weight:bold">/</span> <span style="color:#099">2</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> b <span style="color:#000;font-weight:bold">*</span> d <span style="color:#000;font-weight:bold">+</span> a;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> (b <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">*</span> d <span style="color:#000;font-weight:bold">+</span> a;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p><strong>TCP receiver</strong></p>
+<h2 id="reference">Reference</h2>
+<p><a href="https://zhuanlan.zhihu.com/p/262274265">https://zhuanlan.zhihu.com/p/262274265</a></p>
+<p><a href="https://www.cnblogs.com/kangyupl/p/stanford_cs144_labs.html">https://www.cnblogs.com/kangyupl/p/stanford_cs144_labs.html</a></p>
+</article>
+    </main>
+  </body>
+  <hr />
+  
+<footer>
+  <p class="footer-author">Author <a href="https://github.com/abcdlsj">abcdlsj</a></p>
+  <p class="footer-proj">Source <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a></p>
+</footer>
+
+</html>
