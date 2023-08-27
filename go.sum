@@ -1,3 +1,5 @@
+github.com/abcdlsj/cr v0.0.0-20230826080435-77f6cd9d159d h1:KwmqE5JhjhB1W2HSDWK5sMxHO6DdpHIZ01QywpmThOc=
+github.com/abcdlsj/cr v0.0.0-20230826080435-77f6cd9d159d/go.mod h1:UXhMCz3z7zilxFn+sYdT323qQyhiJaj97ACU7zTVqP8=
 github.com/alecthomas/chroma v0.10.0 h1:7XDcGkCQopCNKjZHfYrNLraA+M7e0fMiJ/Mfikbfjek=
 github.com/alecthomas/chroma v0.10.0/go.mod h1:jtJATyUxlIORhUOFNA9NZDWGAQ8wpxQQqNSB4rjA/1s=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=

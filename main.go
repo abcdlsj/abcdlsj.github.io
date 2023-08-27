@@ -11,6 +11,7 @@ import (
 	"sort"
 	"text/template"
 
+	"github.com/abcdlsj/cr"
 	"github.com/otiai10/copy"
 	log "github.com/sirupsen/logrus"
 	"github.com/yuin/goldmark"
@@ -189,6 +190,13 @@ func main() {
 		if err != nil {
 			log.Fatal("parse post error")
 		}
+		if val, ok := post.Meta["Hide"]; ok {
+			if val.(bool) {
+				fmt.Printf("skip hidden post: %s\n", cr.PLBlue(uName))
+				continue
+			}
+		}
+		fmt.Printf("parse post: %s\n", cr.PLBlue(uName))
 		Posts = append(Posts, post)
 		ParseTags(post.Meta["Tags"].([]interface{}), post)
 	}
@@ -199,6 +207,8 @@ func main() {
 
 	Renders(RenderIndex, RenderPosts, RenderTags)
 	CpStaticDirToOutput()
+
+	fmt.Println(cr.PLCyan("* done"))
 }
 
 func CpStaticDirToOutput() {
@@ -212,12 +222,16 @@ func CpStaticDirToOutput() {
 	if err := copy.Copy(*StaticDir, outputStatic); err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Println(cr.PLCyan("* copy static dir success"))
 }
 
 func Renders(fns ...func()) {
 	for _, fn := range fns {
 		fn()
 	}
+
+	fmt.Println(cr.PLCyan("* render success"))
 }
 
 func urlize(s string) string {

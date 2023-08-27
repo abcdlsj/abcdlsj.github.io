@@ -3,6 +3,7 @@ module github.com/abcdlsj/blom
 go 1.20
 
 require (
+	github.com/abcdlsj/cr v0.0.0-20230826080435-77f6cd9d159d
 	github.com/otiai10/copy v1.9.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/yuin/goldmark v1.5.4
