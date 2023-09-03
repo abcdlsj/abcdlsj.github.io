@@ -13,7 +13,7 @@
       {{range .Refers}}
       <article>
         <h2>
-          <a class="tag-refer" href="/posts/{{. | urlize}}.html">{{.}}</a>
+          <a class="tag-refer" href="/posts/{{.Uname | urlize}}.html">{{.Title}}</a>
         </h2>
       </article>
       {{end}}

@@ -101,13 +101,17 @@ type Post struct {
 	Meta  PostMeta
 	Body  string
 	Uname string
-	Fname string
 }
 
 type Tag struct {
 	Site   CfgVar
 	Name   string
-	Refers []string
+	Refers []Refer
+}
+
+type Refer struct {
+	Title string
+	Uname string
 }
 
 func init() {
@@ -175,18 +179,24 @@ func openWithCreatePath(filename string) (*os.File, error) {
 }
 
 func ParseTags(tagNames []string, post Post) error {
+	tagRefer := Refer{
+		Title: post.Meta.Title,
+		Uname: post.Uname,
+	}
+
 	for _, tag := range tagNames {
 		if entry, ok := Tags[tag]; !ok {
 			Tags[tag] = Tag{
 				Name:   tag,
-				Refers: []string{post.Uname},
+				Refers: []Refer{tagRefer},
 				Site:   cfgVar,
 			}
 		} else {
-			entry.Refers = append(entry.Refers, post.Uname)
+			entry.Refers = append(entry.Refers, tagRefer)
 			Tags[tag] = entry
 		}
 	}
+
 	return nil
 }
 
@@ -202,7 +212,6 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 		Meta:  unmarshalPostMeta(meta.Get(context)),
 		Body:  buf.String(),
 		Uname: urlize(cleanName),
-		Fname: cleanName,
 	}, nil
 }
 
