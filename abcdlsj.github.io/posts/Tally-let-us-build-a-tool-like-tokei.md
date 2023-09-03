@@ -8,7 +8,154 @@ hide: false
 
 ## First
 I want to build a tool like `scc`, `tokei`, just for learning. It was very easy to write a simple version: [tally - first commit](https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go).
-Then I will to optimize it.
+I will to optimize it at the second half of this post.
+
+At first, Let me to explain it for you.
+## Explain
+The counting-line machine worked similar to the `Putting elephants in the freezer`, so the steps are: 
+1. Walk directory tree.
+2. Read file and Count lines.
+1. Output result.
+
+### Walk directory tree
+Use `filepath.Walk` to walk directory tree, it's very easy to use.
+```go
+	filepath.Walk(os.Args[1], func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			panic(err)
+		}
+
+		if info.IsDir() {
+			return nil
+		}
+
+		return countLine(path)
+	})
+```
+
+### Read file and Count lines
+Count line we need to know what is a line. A line is a string end with `\n` or `\r\n`. So we can just split the file content with `\n` or `\r\n` to get the lines.
+
+Because we need to count the code lines, so we need to ignore the comment lines. I just use a simple way to ignore the comment lines, just ignore the line start with a rule string(**by the way: the first version I just conside the single line comment.**).
+```go
+type Counter struct {
+	idx     int
+	lang    string
+	comment string
+	exts    []string
+}
+
+var (
+	Go       = Counter{1, "Go", "//", vec(".go")}
+	Rust     = Counter{2, "Rust", "//", vec(".rs")}
+	Java     = Counter{3, "Java", "//", vec(".java")}
+	Python   = Counter{4, "Python", "#", vec(".py")}
+	C        = Counter{5, "C", "//", vec(".c", ".h")}
+	Cpp      = Counter{6, "C++", "//", vec(".cpp", ".hpp")}
+	Js       = Counter{7, "Javascript", "//", vec(".js")}
+	Ts       = Counter{8, "Typescript", "//", vec(".ts")}
+	HTML     = Counter{9, "HTML", "//", vec(".html", ".htm")}
+	JSON     = Counter{10, "JSON", "//", vec(".json")}
+	Protobuf = Counter{11, "Protobuf", "//", vec(".proto")}
+	Markdown = Counter{12, "Markdown", "//", vec(".md")}
+	Shell    = Counter{13, "Shell", "#", vec(".sh")}
+	YAML     = Counter{14, "YAML", "#", vec(".yaml", ".yml")}
+)
+```
+**vec is a function to create a slice. (Nostalgia for `Rust vec!`  :smile:)**
+
+Count line logic:
+```go
+func countLine(path string) error {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return err
+	}
+
+	c := guessLang(path)
+
+	if c.lang == "" {
+		return nil
+	}
+
+	lines := bytes.Split(data, []byte("\n"))
+
+	item := Item{
+		lang:  c.lang,
+		lines: len(lines),
+		files: 1,
+	}
+
+	for _, line := range lines {
+		line := bytes.TrimSpace(line)
+		if len(line) == 0 {
+			item.blank++
+			continue
+		}
+
+		if c.isComment(line) {
+			item.comment++
+			continue
+		}
+
+		item.code++
+	}
+
+	result.Add(c, item)
+	return nil
+}
+```
+
+### Output result
+Actually, this is the most hard part. you need to output the result intuitively. thanks to `tokei` and `scc`, I just copy the output format from them :smile:.
+```go
+func (r *Result) String() {
+	itemF := "%-10s %10d %10d %10d %10d %10d\n"
+	headerF := "%-10s %10s %10s %10s %10s %10s\n"
+	fmt.Printf(strings.Repeat("━", 65) + "\n")
+	fmt.Printf(headerF, "Language", "Files", "Lines", "Code", "Comments", "Blanks")
+	fmt.Printf(strings.Repeat("━", 65) + "\n")
+
+	var total Item
+
+	sort.Slice(r.data, func(i, j int) bool {
+		return r.data[i].lines > r.data[j].lines
+	})
+	for _, item := range r.data {
+		if item.files == 0 {
+			continue
+		}
+
+		total = mergeItem(total, item)
+		fmt.Printf(itemF, item.lang, item.files, item.lines, item.code, item.comment, item.blank)
+	}
+
+	fmt.Printf(strings.Repeat("━", 65) + "\n")
+	fmt.Printf(itemF, "Total", total.files, total.lines, total.code, total.comment, total.blank)
+	fmt.Printf(strings.Repeat("━", 65) + "\n")
+}
+```
+
+Test it.
+
+```shell
+go install
+tally .
+```
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Language        Files      Lines       Code   Comments     Blanks
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Go                  1        242        199          0         43
+Markdown            1          3          2          0          1
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Total               2        245        201          0         44
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+All done! let's benchmark it.
+
 ## Benchmark
 use `time`  for benchmarks is not accurate enough. [stackoverflow - Is the UNIX `time` command accurate enough for benchmarks? [closed]](https://stackoverflow.com/questions/9006596/is-the-unix-time-command-accurate-enough-for-benchmarks)
 so use `perf stat` for benchmarks at my `Intel(R) N100` machine.
