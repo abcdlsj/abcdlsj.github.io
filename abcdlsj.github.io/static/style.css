@@ -40,27 +40,28 @@ h1.blog-title {
 }
 
 .navbar {
-  border-bottom: 2px solid #888;
+  display: flex;
+  justify-content: space-between;
 }
 
 .navbar ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
   display: flex;
-  flex-direction: row;
+  list-style-type: none;
+  padding: 0;
 }
 
-.navbar li {
-  padding: 16px;
+.navbar ul:not(:last-child) {
+  margin-right: 20px
 }
 
-.brand a {
-  text-decoration: none;
-  font-weight: bold;
+.navbar li:not(:last-child) {
+  margin-right: 10px;
 }
 
-/* Style code elements */
+.navbar ul li:last-child {
+  margin-right: 0;
+}
+
 code {
   padding: 2px 5px;
   background-color: #f2f2f2;

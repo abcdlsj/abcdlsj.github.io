@@ -1,10 +1,10 @@
 ---
-Title: "CS144 Lab Notes"
-Date: "2021-05-04T19:42:49+08:00"
-Tags:
+title: "CS144 Lab Notes"
+date: "2021-05-04T19:42:49+08:00"
+tags:
   - cs144
   - network
-Hide: true
+hide: false
 ---
 
 > It’s not always natural what the “right” behavior is.

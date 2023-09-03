@@ -8,9 +8,12 @@ import (
 	"net/url"
 	"os"
 	"path"
+	"path/filepath"
 	"sort"
+	"strings"
 	"text/template"
 
+	"github.com/BurntSushi/toml"
 	"github.com/abcdlsj/cr"
 	"github.com/otiai10/copy"
 	log "github.com/sirupsen/logrus"
@@ -22,13 +25,33 @@ import (
 	"github.com/yuin/goldmark/renderer/html"
 )
 
+type CfgVar struct {
+	URL         string `toml:"url"`
+	Title       string `toml:"title"`
+	Description string `toml:"description"`
+	Menus       []struct {
+		Slug string `toml:"slug"`
+		Name string `toml:"name"`
+		URL  string `toml:"url"`
+	} `toml:"menus"`
+	Build struct {
+		Posts  string `toml:"posts"`
+		Output string `toml:"output"`
+		Static string `toml:"static"`
+	} `toml:"build"`
+}
+
+func mustCfg(f string) CfgVar {
+	var cfg CfgVar
+	if _, err := toml.DecodeFile(f, &cfg); err != nil {
+		log.Fatalf("decode config file error: %v", err)
+	}
+	return cfg
+}
+
 var (
-	PostsDir        = flag.String("posts_dir", orEnv("POSTS_DIR", "example/posts"), "posts directory")
-	OutputDir       = flag.String("output_dir", orEnv("OUTPUT_DIR", "example/output"), "output directory")
-	StaticDir       = flag.String("static_dir", orEnv("STATIC_DIR", "example/static"), "static directory")
-	SiteURL         = flag.String("site_url", orEnv("SITE_URL", "http://127.0.0.1:8000"), "site url")
-	SiteDescription = flag.String("site_description", orEnv("SITE_DESCRIPTION", "Enjoy Focus!"), "site description")
-	SiteTitle       = flag.String("site_title", orEnv("SITE_TITLE", "Enjoy Focus!"), "site title")
+	cfgFile = flag.String("c", "config.toml", "config file")
+	cfgVar  CfgVar
 
 	md = goldmark.New(
 		goldmark.WithExtensions(
@@ -49,33 +72,47 @@ var (
 	templateFiles embed.FS
 
 	t *template.Template
+
+	Posts     []Post
+	Tags      map[string]Tag
+	AboutPost Post
 )
 
-var Posts []Post
-var Tags map[string]Tag
-var siteMeta SiteMeta
+type PostMeta struct {
+	Title string   `yaml:"title"`
+	Date  string   `yaml:"date"`
+	Tags  []string `yaml:"tags"`
+	Hide  bool     `yaml:"hide"`
+	Menus []string `yaml:"menus"`
+}
 
-type SiteMeta struct {
-	Title       string
-	Description string
-	URL         string
+func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
+	return PostMeta{
+		Title: meta["title"].(string),
+		Date:  orStr(meta["date"].(string), "1970-01-01"),
+		Tags:  getTagMeta(meta),
+		Hide:  meta["hide"].(bool),
+		Menus: getPostMenu(meta),
+	}
 }
 
 type Post struct {
-	SiteMeta SiteMeta
-	Meta     map[string]interface{}
-	Body     string
-	Name     string
+	Site  CfgVar
+	Meta  PostMeta
+	Body  string
+	Uname string
+	Fname string
 }
 
 type Tag struct {
-	SiteMeta SiteMeta
-	Name     string
-	Refers   []string
+	Site   CfgVar
+	Name   string
+	Refers []string
 }
 
 func init() {
 	flag.Parse()
+
 	log.SetFormatter(&log.TextFormatter{
 		TimestampFormat: "2006-01-02 15:04:05",
 	})
@@ -84,20 +121,21 @@ func init() {
 
 func RenderIndex() {
 	data := struct {
-		SiteMeta SiteMeta
-		Posts    []Post
+		Site  CfgVar
+		Posts []Post
 	}{
-		SiteMeta: siteMeta,
-		Posts:    Posts,
+		Site:  cfgVar,
+		Posts: Posts,
 	}
-	if err := render(t, data, path.Join(*OutputDir, "index.html"), "index"); err != nil {
+
+	if err := render(t, data, path.Join(cfgVar.Build.Output, "index.html"), "index"); err != nil {
 		log.Fatal(err)
 	}
 }
 
 func RenderPosts() {
 	for _, post := range Posts {
-		if err := render(t, post, path.Join(*OutputDir, "posts", urlize(post.Name)+".html"), "single"); err != nil {
+		if err := render(t, post, path.Join(cfgVar.Build.Output, "posts", post.Uname+".html"), "single"); err != nil {
 			log.Fatal(err)
 		}
 	}
@@ -105,9 +143,15 @@ func RenderPosts() {
 
 func RenderTags() {
 	for _, tag := range Tags {
-		if err := render(t, tag, path.Join(*OutputDir, "tags", urlize(tag.Name)+".html"), "tag"); err != nil {
+		if err := render(t, tag, path.Join(cfgVar.Build.Output, "tags", urlize(tag.Name)+".html"), "tag"); err != nil {
 			log.Fatal(err)
 		}
+	}
+}
+
+func RenderAbout() {
+	if err := render(t, AboutPost, path.Join(cfgVar.Build.Output, "about/index.html"), "about"); err != nil {
+		log.Fatal(err)
 	}
 }
 
@@ -130,96 +174,126 @@ func openWithCreatePath(filename string) (*os.File, error) {
 	return os.Create(filename)
 }
 
-func ParseTags(tagNames []interface{}, post Post) error {
+func ParseTags(tagNames []string, post Post) error {
 	for _, tag := range tagNames {
-		tagStr := fmt.Sprintf("%v", tag)
-		if entry, ok := Tags[tagStr]; !ok {
-			Tags[tagStr] = Tag{
-				Name:     tagStr,
-				Refers:   []string{post.Name},
-				SiteMeta: siteMeta,
+		if entry, ok := Tags[tag]; !ok {
+			Tags[tag] = Tag{
+				Name:   tag,
+				Refers: []string{post.Uname},
+				Site:   cfgVar,
 			}
 		} else {
-			entry.Refers = append(entry.Refers, post.Name)
-			Tags[tagStr] = entry
+			entry.Refers = append(entry.Refers, post.Uname)
+			Tags[tag] = entry
 		}
 	}
 	return nil
 }
 
-func parsePost(data []byte, uName string) (Post, error) {
+func parsePost(data []byte, cleanName string) (Post, error) {
 	var buf bytes.Buffer
 	context := parser.NewContext()
 	if err := md.Convert(data, &buf, parser.WithContext(context)); err != nil {
-		log.Fatalf("failed to convert markdown, file: %s, err: %v", uName, err)
+		log.Fatalf("failed to convert markdown, file: %s, err: %v", cleanName, err)
 	}
-	metaData := meta.Get(context)
+
 	return Post{
-		SiteMeta: siteMeta,
-		Meta:     metaData,
-		Body:     buf.String(),
-		Name:     uName,
+		Site:  cfgVar,
+		Meta:  unmarshalPostMeta(meta.Get(context)),
+		Body:  buf.String(),
+		Uname: urlize(cleanName),
+		Fname: cleanName,
 	}, nil
 }
 
 func main() {
-	siteMeta = SiteMeta{
-		Title:       *SiteTitle,
-		Description: *SiteDescription,
-		URL:         *SiteURL,
-	}
+	cfgVar = mustCfg(*cfgFile)
 
 	t = template.Must(template.New("").Funcs(funcMap).ParseFS(templateFiles, "tmpl/*.html"))
 
 	Tags = make(map[string]Tag)
 
-	posts, err := os.ReadDir(*PostsDir)
+	posts, err := getAllFiles(cfgVar.Build.Posts)
 	if err != nil {
 		log.Fatal("open posts dir error ")
 	}
+
 	for _, p := range posts {
-		if p.IsDir() {
-			continue
-		}
-		data, err := os.ReadFile(path.Join(*PostsDir, p.Name()))
+		fmt.Printf("post file: %s\n", cr.PLYellow(p))
+	}
+
+	for _, p := range posts {
+		fdata, err := os.ReadFile(p)
 		if err != nil {
 			log.Fatal("open post file error")
 		}
-		uName := urlize(p.Name()[:len(p.Name())-3])
-		post, err := parsePost(data, uName)
+
+		base := filepath.Base(p)
+		cleanName := base[:len(base)-len(filepath.Ext(base))]
+		post, err := parsePost(fdata, strings.ToLower(cleanName))
+
 		if err != nil {
 			log.Fatal("parse post error")
 		}
-		if val, ok := post.Meta["Hide"]; ok {
-			if val.(bool) {
-				fmt.Printf("skip hidden post: %s\n", cr.PLBlue(uName))
-				continue
-			}
+
+		if post.Meta.Hide {
+			fmt.Printf("skip hidden post: %s\n", cr.PLBlue(p))
+			continue
 		}
-		fmt.Printf("parse post: %s\n", cr.PLBlue(uName))
+
+		if post.Meta.Menus != nil && post.Meta.Menus[0] == "about" {
+			AboutPost = post
+			continue
+		}
+
+		fmt.Printf("parse post: %s\n", cr.PLBlue(p))
 		Posts = append(Posts, post)
-		ParseTags(post.Meta["Tags"].([]interface{}), post)
+		ParseTags(post.Meta.Tags, post)
 	}
 
 	sort.Slice(Posts, func(i, j int) bool {
-		return Posts[i].Meta["Date"].(string) > Posts[j].Meta["Date"].(string)
+		return Posts[i].Meta.Date > Posts[j].Meta.Date
 	})
 
-	Renders(RenderIndex, RenderPosts, RenderTags)
+	Renders(RenderIndex, RenderPosts, RenderTags, RenderAbout)
 	CpStaticDirToOutput()
 
 	fmt.Println(cr.PLCyan("* done"))
 }
 
+func getTagMeta(meta map[string]interface{}) []string {
+	if val, ok := meta["tags"]; ok {
+		tags := val.([]interface{})
+		var tagStrs []string
+		for _, tag := range tags {
+			tagStrs = append(tagStrs, fmt.Sprintf("%v", tag))
+		}
+		return tagStrs
+	}
+	return nil
+}
+
+func getPostMenu(meta map[string]interface{}) []string {
+	if val, ok := meta["menus"]; ok {
+		menus := val.([]interface{})
+		var menuStrs []string
+		for _, menu := range menus {
+			menuStrs = append(menuStrs, fmt.Sprintf("%v", menu))
+		}
+		return menuStrs
+	}
+	return nil
+}
+
 func CpStaticDirToOutput() {
-	outputStatic := path.Join(*OutputDir, "static")
+	outputStatic := path.Join(cfgVar.Build.Output, "static")
 	if err := os.RemoveAll(outputStatic); err != nil {
 		log.Fatal(err)
 	}
 	if err := os.MkdirAll(outputStatic, 0755); err != nil {
 		log.Fatal(err)
 	}
-	if err := copy.Copy(*StaticDir, outputStatic); err != nil {
+	if err := copy.Copy(cfgVar.Build.Static, outputStatic); err != nil {
 		log.Fatal(err)
 	}
 
@@ -238,9 +312,23 @@ func urlize(s string) string {
 	return url.QueryEscape(s)
 }
 
-func orEnv(key string, defaultValue string) string {
-	if value, ok := os.LookupEnv(key); ok {
-		return value
+func orStr(s string, defaultValue string) string {
+	if s != "" {
+		return s
 	}
 	return defaultValue
+}
+
+func getAllFiles(dir string) ([]string, error) {
+	var result []string
+	// result need with prefix dir
+
+	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+		if !info.IsDir() {
+			result = append(result, path)
+		}
+		return nil
+	})
+
+	return result, nil
 }

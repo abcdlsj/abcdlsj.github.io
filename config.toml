@@ -1,0 +1,18 @@
+url = "https://abcdlsj.github.io"
+title = "abcdlsj"
+description = "Enjoy Focus!"
+
+[[menus]]
+slug = "home"
+name = "Home"
+url = ""
+
+[[menus]]
+slug = "about"
+name = "About"
+url = "about"
+
+[build]
+posts = "abcdlsj.github.io/posts"
+output = "abcdlsj.github.io/public"
+static = "abcdlsj.github.io/static"
