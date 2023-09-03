@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+<meta charset="UTF-8" />
+<title>abcdlsj</title>
+<meta name="description" content="Enjoy Focus!" />
+<meta name="author" content="Author" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+/>
+<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="stylesheet" href="/static/style.css" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body class="container">
+    <div class="navbar">
+<nav class="navbar">
+  
+  <ul>
+    <li>
+      <a href="/" class="menu">#Home</a>
+    </li>
+  </ul>
+  
+  <ul>
+    <li>
+      <a href="/about" class="menu">#About</a>
+    </li>
+  </ul>
+  
+</nav>
+</div>
+    <hr class="divider" />
+    <h1 class="post-title">Golink - useful local url shortener</h1>
+    <div class="post-meta">
+      <div class="post-date">Date: 2023-04-16T18:47:37+08:00</div>
+      <nav class="post-tags">
+        
+        <a href="/tags/Idea.html" class="tag">#Idea</a>
+        
+      </nav>
+    </div>
+    <hr class="divider" />
+    <main class="post-content">
+      <article><blockquote>
+<p>What is <code>url shortener</code>?<br>
+Answer: <a href="https://en.wikipedia.org/wiki/URL_shortening">URL Shortening</a></p>
+</blockquote>
+<!--more-->
+<p>There are many posts about <code>url shorteners</code> on the internet, but I wanted to write this post to record my own thoughts.</p>
+<p>For a good <code>url shortener</code>, it should have a short domain (e.g., <code>t.ly</code>, <code>bit.ly</code>).</p>
+<p>Short domains can be quite expensive.</p>
+<p>An alternative is to use a <code>DNS server</code> to map a short domain to a long domain.</p>
+<p>However, in most cases, this is not necessary for me.</p>
+<p>I just want to create a url shortener in my local network, so I am interested in using a local <code>url shortener</code>.</p>
+<h2 id="etchosts">/etc/hosts</h2>
+<blockquote>
+<p><code>/etc/hosts</code> is a file in Linux that can link a domain to an IP address.</p>
+</blockquote>
+<p>For example, I can add the following line to <code>/etc/hosts</code>:</p>
+<pre><code>127.0.0.1      go
+</code></pre>
+<p>This allows me to access <code>go</code> in my browser.</p>
+<p>When I enter <code>go</code> in my browser, it sends a request to <code>127.0.0.1:80</code> (you cannot specify a port in <code>/etc/hosts</code> because it works like a <code>DNS server</code> and can only link a domain to an IP address).</p>
+<h2 id="writing-a-url-shortener">Writing a url shortener</h2>
+<p>Writing a url shortener is quite simple: just create an HTTP server that maps a domain to a URL.</p>
+<p>You can write one yourself or take a look at my <a href="https://github.com/abcdlsj/share/tree/master/go/golink">abcdlsj/golink</a> implementation (Use <code>SQLite3</code>, With <code>import/export</code> features).</p>
+<h2 id="combining-them">Combining them</h2>
+<p>Run it as a daemon:</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>nohup golink &amp;
+</span></span></code></pre><h2 id="view">View</h2>
+<img src="/static/img/golink-screenshot.png" width="600">
+<p>You also can add a <code>Chrome Site-search</code> to make it easier to use.</p>
+<img src="/static/img/golink-chrome-site-search.png" width="600">
+<h2 id="end">End</h2>
+<p>This post doesn't include any code samples, as I believe that you can write it yourself for the purpose of learning or practicing a programming language.</p>
+<p>The idea is from <a href="https://github.com/tailscale/golink/tree/main">tailscale/golink</a>, which relies on <code>Tailscale Magic DNS</code>. You can find more information <a href="https://tailscale.com/kb/1081/magicdns/">here</a></p>
+</article>
+    </main>
+    <hr class="divider" />
+    
+<footer class="footer">
+  <p class="footer-author">
+    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
+  </p>
+  <p class="footer-proj">
+    Source
+    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
+  </p>
+</footer>
+
+  </body>
+</html>
