@@ -48,6 +48,8 @@ github.com/yuin/goldmark-highlighting v0.0.0-20220208100518-594be1970594 h1:yHfZ
 github.com/yuin/goldmark-highlighting v0.0.0-20220208100518-594be1970594/go.mod h1:U9ihbh+1ZN7fR5Se3daSPoz1CGF9IYtSvWwVQtnzGHU=
 github.com/yuin/goldmark-meta v1.1.0 h1:pWw+JLHGZe8Rk0EGsMVssiNb/AaPMHfSRszZeUeiOUc=
 github.com/yuin/goldmark-meta v1.1.0/go.mod h1:U4spWENafuA7Zyg+Lj5RqK/MF+ovMYtBvXi1lBb2VP0=
+go.abhg.dev/goldmark/toc v0.5.0 h1:FRPmzRsEFMY3CX0/YdqSjlWJgT54tOS3SmgPeSCyH+Q=
+go.abhg.dev/goldmark/toc v0.5.0/go.mod h1:GUHSW7vpOVy9Y25ZS0DZUYwKd6CeU+Afvn6BIKxyfMU=
 golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.5.0 h1:MUK/U/4lj1t1oPg0HfuXDN/Z1wv31ZJ/YcPiGccS4DU=
 golang.org/x/sys v0.5.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

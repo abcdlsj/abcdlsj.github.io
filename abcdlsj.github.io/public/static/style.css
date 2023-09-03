@@ -24,7 +24,7 @@ body {
   line-height: 1.5;
   display: flex;
   flex-direction: column;
-  background-color: #f8fcf8;;
+  background-color: #f8fcf8;
 }
 
 a {
@@ -51,7 +51,7 @@ h1.blog-title {
 }
 
 .navbar ul:not(:last-child) {
-  margin-right: 20px
+  margin-right: 20px;
 }
 
 .navbar li:not(:last-child) {
@@ -95,6 +95,36 @@ pre code {
   padding: 20px;
   white-space: pre-wrap;
   font-size: 14px;
+}
+
+.post-content {
+  font-size: 14px;
+  margin-left: 20px;
+  list-style: none;
+}
+
+.post-content li {
+  margin-bottom: 5px;
+}
+
+.post-content a {
+  text-decoration: none;
+}
+
+.post-content a:visited {
+  color: #808080;
+}
+
+.post-content a:hover {
+  text-decoration: underline;
+}
+
+.post-content ul {
+  margin-left: 20px;
+}
+
+.post-content h1 {
+  font-size: 16px;
 }
 
 blockquote {

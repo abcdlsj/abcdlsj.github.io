@@ -46,7 +46,44 @@
     </div>
     <hr class="divider" />
     <main class="post-content">
-      <article><h2 id="first">First</h2>
+      <article><h1>Table of Contents</h1>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#first">First</a></li>
+<li>
+<a href="#explain">Explain</a><ul>
+<li>
+<a href="#walk-directory-tree">Walk directory tree</a></li>
+<li>
+<a href="#read-file-and-count-lines">Read file and Count lines</a></li>
+<li>
+<a href="#output-result">Output result</a></li>
+</ul>
+</li>
+<li>
+<a href="#benchmark">Benchmark</a><ul>
+<li>
+<a href="#tokei">Tokei</a></li>
+<li>
+<a href="#tally">Tally</a></li>
+</ul>
+</li>
+<li>
+<a href="#optimize1---parallel">Optimize1 - Parallel</a></li>
+<li>
+<a href="#optimize2---bufio-scanner-countline">Optimize2 - Bufio scanner countline</a></li>
+<li>
+<a href="#optimize3---faster-filepath-walking">Optimize3 - Faster filepath walking</a></li>
+<li>
+<a href="#end">End</a></li>
+<li>
+<a href="#ref">Ref</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="first">First</h2>
 <p>I want to build a tool like <code>scc</code>, <code>tokei</code>, just for learning. It was very easy to write a simple version: <a href="https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go">tally - first commit</a>.<br>
 I will to optimize it at the second half of this post.</p>
 <p>At first, Let me to explain it for you.</p>

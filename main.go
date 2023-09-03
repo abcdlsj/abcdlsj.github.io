@@ -23,6 +23,7 @@ import (
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
+	"go.abhg.dev/goldmark/toc"
 )
 
 type CfgVar struct {
@@ -59,6 +60,9 @@ var (
 			highlighting.Highlighting,
 			extension.GFM,
 			extension.Footnote,
+			&toc.Extender{
+				MaxDepth: 3,
+			},
 		),
 		goldmark.WithParserOptions(parser.WithAutoHeadingID()),
 		goldmark.WithRendererOptions(html.WithHardWraps(), html.WithUnsafe()),
