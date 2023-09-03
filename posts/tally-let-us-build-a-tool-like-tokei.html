@@ -48,7 +48,122 @@
     <main class="post-content">
       <article><h2 id="first">First</h2>
 <p>I want to build a tool like <code>scc</code>, <code>tokei</code>, just for learning. It was very easy to write a simple version: <a href="https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go">tally - first commit</a>.<br>
-Then I will to optimize it.</p>
+I will to optimize it at the second half of this post.</p>
+<p>At first, Let me to explain it for you.</p>
+<h2 id="explain">Explain</h2>
+<p>The counting-line machine worked similar to the <code>Putting elephants in the freezer.</code>, so the steps are:</p>
+<ol>
+<li>Walk directory tree.</li>
+<li>Read file and Count lines.</li>
+<li>Output result.</li>
+</ol>
+<h3 id="walk-directory-tree">Walk directory tree</h3>
+<p>Use <code>filepath.Walk</code> to walk directory tree, it's very easy to use.</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>	filepath.<span style="color:#900;font-weight:bold">Walk</span>(os.Args[<span style="color:#099">1</span>], <span style="color:#000;font-weight:bold">func</span>(path <span style="color:#458;font-weight:bold">string</span>, info os.FileInfo, err <span style="color:#458;font-weight:bold">error</span>) <span style="color:#458;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#0086b3">panic</span>(err)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> info.<span style="color:#900;font-weight:bold">IsDir</span>() {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">countLine</span>(path)
+</span></span><span style="display:flex;"><span>	})
+</span></span></code></pre><h3 id="read-file-and-count-lines">Read file and Count lines</h3>
+<p>Count line we need to know what is a line. In my opinion, a line is a string end with <code>\n</code> or <code>\r\n</code>. So we can just split the file content with <code>\n</code> or <code>\r\n</code> to get the lines.</p>
+<p>Because we need to count the code lines, so we need to ignore the comment lines. I just use a simple way to ignore the comment lines, just ignore the line start with a rule string(<strong>by the way: the first version I just conside the single line comment.</strong>).</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Counter <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	idx     <span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>	lang    <span style="color:#458;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>	comment <span style="color:#458;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>	exts    []<span style="color:#458;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
+</span></span><span style="display:flex;"><span>	Go       = Counter{<span style="color:#099">1</span>, <span style="color:#d14">&#34;Go&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.go&#34;</span>)}
+</span></span><span style="display:flex;"><span>	Rust     = Counter{<span style="color:#099">2</span>, <span style="color:#d14">&#34;Rust&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.rs&#34;</span>)}
+</span></span><span style="display:flex;"><span>	Java     = Counter{<span style="color:#099">3</span>, <span style="color:#d14">&#34;Java&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.java&#34;</span>)}
+</span></span><span style="display:flex;"><span>	Python   = Counter{<span style="color:#099">4</span>, <span style="color:#d14">&#34;Python&#34;</span>, <span style="color:#d14">&#34;#&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.py&#34;</span>)}
+</span></span><span style="display:flex;"><span>	C        = Counter{<span style="color:#099">5</span>, <span style="color:#d14">&#34;C&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.c&#34;</span>, <span style="color:#d14">&#34;.h&#34;</span>)}
+</span></span><span style="display:flex;"><span>	Cpp      = Counter{<span style="color:#099">6</span>, <span style="color:#d14">&#34;C++&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.cpp&#34;</span>, <span style="color:#d14">&#34;.hpp&#34;</span>)}
+</span></span><span style="display:flex;"><span>	Js       = Counter{<span style="color:#099">7</span>, <span style="color:#d14">&#34;Javascript&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.js&#34;</span>)}
+</span></span><span style="display:flex;"><span>	Ts       = Counter{<span style="color:#099">8</span>, <span style="color:#d14">&#34;Typescript&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.ts&#34;</span>)}
+</span></span><span style="display:flex;"><span>	HTML     = Counter{<span style="color:#099">9</span>, <span style="color:#d14">&#34;HTML&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.html&#34;</span>, <span style="color:#d14">&#34;.htm&#34;</span>)}
+</span></span><span style="display:flex;"><span>	JSON     = Counter{<span style="color:#099">10</span>, <span style="color:#d14">&#34;JSON&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.json&#34;</span>)}
+</span></span><span style="display:flex;"><span>	Protobuf = Counter{<span style="color:#099">11</span>, <span style="color:#d14">&#34;Protobuf&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.proto&#34;</span>)}
+</span></span><span style="display:flex;"><span>	Markdown = Counter{<span style="color:#099">12</span>, <span style="color:#d14">&#34;Markdown&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.md&#34;</span>)}
+</span></span><span style="display:flex;"><span>	Shell    = Counter{<span style="color:#099">13</span>, <span style="color:#d14">&#34;Shell&#34;</span>, <span style="color:#d14">&#34;#&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.sh&#34;</span>)}
+</span></span><span style="display:flex;"><span>	YAML     = Counter{<span style="color:#099">14</span>, <span style="color:#d14">&#34;YAML&#34;</span>, <span style="color:#d14">&#34;#&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.yaml&#34;</span>, <span style="color:#d14">&#34;.yml&#34;</span>)}
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre><p><strong>vec is a function to create a slice. (Nostalgia for <code>Rust</code> Vec! :smile:)</strong></p>
+<p>Count line logic:</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">countLine</span>(path <span style="color:#458;font-weight:bold">string</span>) <span style="color:#458;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	data, err <span style="color:#000;font-weight:bold">:=</span> os.<span style="color:#900;font-weight:bold">ReadFile</span>(path)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	c <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">guessLang</span>(path)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> c.lang <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	lines <span style="color:#000;font-weight:bold">:=</span> bytes.<span style="color:#900;font-weight:bold">Split</span>(data, []<span style="color:#0086b3">byte</span>(<span style="color:#d14">&#34;\n&#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	item <span style="color:#000;font-weight:bold">:=</span> Item{
+</span></span><span style="display:flex;"><span>		lang:  c.lang,
+</span></span><span style="display:flex;"><span>		lines: <span style="color:#0086b3">len</span>(lines),
+</span></span><span style="display:flex;"><span>		files: <span style="color:#099">1</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> _, line <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> lines {
+</span></span><span style="display:flex;"><span>		line <span style="color:#000;font-weight:bold">:=</span> bytes.<span style="color:#900;font-weight:bold">TrimSpace</span>(line)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(line) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> {
+</span></span><span style="display:flex;"><span>			item.blank<span style="color:#000;font-weight:bold">++</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> c.<span style="color:#900;font-weight:bold">isComment</span>(line) {
+</span></span><span style="display:flex;"><span>			item.comment<span style="color:#000;font-weight:bold">++</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		item.code<span style="color:#000;font-weight:bold">++</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	result.<span style="color:#900;font-weight:bold">Add</span>(c, item)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><h3 id="output-result">Output result</h3>
+<p>Actually, this is the most hard part. you need to output the result intuitively. thanks to <code>tokei</code> and <code>scc</code>, I just copy the output format from them :smile:.</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (r <span style="color:#000;font-weight:bold">*</span>Result) <span style="color:#900;font-weight:bold">String</span>() {
+</span></span><span style="display:flex;"><span>	itemF <span style="color:#000;font-weight:bold">:=</span> <span style="color:#d14">&#34;%-10s %10d %10d %10d %10d %10d\n&#34;</span>
+</span></span><span style="display:flex;"><span>	headerF <span style="color:#000;font-weight:bold">:=</span> <span style="color:#d14">&#34;%-10s %10s %10s %10s %10s %10s\n&#34;</span>
+</span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(strings.<span style="color:#900;font-weight:bold">Repeat</span>(<span style="color:#d14">&#34;━&#34;</span>, <span style="color:#099">65</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34;\n&#34;</span>)
+</span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(headerF, <span style="color:#d14">&#34;Language&#34;</span>, <span style="color:#d14">&#34;Files&#34;</span>, <span style="color:#d14">&#34;Lines&#34;</span>, <span style="color:#d14">&#34;Code&#34;</span>, <span style="color:#d14">&#34;Comments&#34;</span>, <span style="color:#d14">&#34;Blanks&#34;</span>)
+</span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(strings.<span style="color:#900;font-weight:bold">Repeat</span>(<span style="color:#d14">&#34;━&#34;</span>, <span style="color:#099">65</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34;\n&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">var</span> total Item
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	sort.<span style="color:#900;font-weight:bold">Slice</span>(r.data, <span style="color:#000;font-weight:bold">func</span>(i, j <span style="color:#458;font-weight:bold">int</span>) <span style="color:#458;font-weight:bold">bool</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> r.data[i].lines &gt; r.data[j].lines
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> _, item <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> r.data {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> item.files <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		total = <span style="color:#900;font-weight:bold">mergeItem</span>(total, item)
+</span></span><span style="display:flex;"><span>		fmt.<span style="color:#900;font-weight:bold">Printf</span>(itemF, item.lang, item.files, item.lines, item.code, item.comment, item.blank)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(strings.<span style="color:#900;font-weight:bold">Repeat</span>(<span style="color:#d14">&#34;━&#34;</span>, <span style="color:#099">65</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34;\n&#34;</span>)
+</span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(itemF, <span style="color:#d14">&#34;Total&#34;</span>, total.files, total.lines, total.code, total.comment, total.blank)
+</span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(strings.<span style="color:#900;font-weight:bold">Repeat</span>(<span style="color:#d14">&#34;━&#34;</span>, <span style="color:#099">65</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34;\n&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>All done! let's benchmark it.</p>
 <h2 id="benchmark">Benchmark</h2>
 <p>use <code>time</code>  for benchmarks is not accurate enough. <a href="https://stackoverflow.com/questions/9006596/is-the-unix-time-command-accurate-enough-for-benchmarks">stackoverflow - Is the UNIX <code>time</code> command accurate enough for benchmarks? [closed]</a><br>
 so use <code>perf stat</code> for benchmarks at my <code>Intel(R) N100</code> machine.</p>
