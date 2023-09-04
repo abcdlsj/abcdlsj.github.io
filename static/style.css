@@ -29,7 +29,12 @@ body {
 
 a {
   color: #3273dc;
+  font-weight: medium;
   text-decoration: none;
+}
+
+a:visited {
+  font-weight: normal;
 }
 
 h1.blog-title {
