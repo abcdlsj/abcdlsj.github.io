@@ -10,7 +10,8 @@ hide: false
 I want to build a tool like `scc`, `tokei`, just for learning. It was very easy to write a simple version: [tally - first commit](https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go).
 I will to optimize it at the second half of this post.
 
-At first, Let me to explain it for you.
+First, allow me to explain it to you.
+
 ## Explain
 The counting-line machine worked similar to the `Putting elephants in the freezer`, so the steps are: 
 1. Walk directory tree.
@@ -20,17 +21,17 @@ The counting-line machine worked similar to the `Putting elephants in the freeze
 ### Walk directory tree
 Use `filepath.Walk` to walk directory tree, it's very easy to use.
 ```go
-	filepath.Walk(os.Args[1], func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			panic(err)
-		}
+filepath.Walk(os.Args[1], func(path string, info os.FileInfo, err error) error {
+	if err != nil {
+		panic(err)
+	}
 
-		if info.IsDir() {
-			return nil
-		}
+	if info.IsDir() {
+		return nil
+	}
 
-		return countLine(path)
-	})
+	return countLine(path)
+})
 ```
 
 ### Read file and Count lines
@@ -205,17 +206,14 @@ Test repo: https://github.com/firecracker-microvm/firecracker
 ```
 
 **Result**: we can see, the origin version is faster enough even faster then `tokei`, because `tokei` have more complex features and the count of files is small.
+
 ## Optimize1 - Parallel
 Walking file paralleling. I searched out a post about this, [stackoverflow - Concurrent filesystem scanning](https://stackoverflow.com/questions/44255814/concurrent-filesystem-scanning)
 
+I write a version with `parallel`, this is the `diff`.
+
 ```diff
  func main() {
--	if len(os.Args) < 2 {
-+	if len(os.Args) != 2 {
- 		fmt.Println("Usage: ./main <path>")
- 		os.Exit(1)
- 	}
- 
 -	filepath.Walk(os.Args[1], func(path string, info os.FileInfo, err error) error {
 +	var wgCalc sync.WaitGroup
 +	paths := make(chan string, 100)
@@ -275,6 +273,8 @@ Walking file paralleling. I searched out a post about this, [stackoverflow - Con
 -
 ```
 
+### test chan capacity 10
+
 with `paths chan capacity=10` 
 ```shell
  Performance counter stats for '/home/ubtu/.go/bin/tally_walk10 .' (10 runs):
@@ -297,6 +297,8 @@ with `paths chan capacity=10`
 
 But the result shows it's not `expected`.
 Why?
+
+### test chan capacity 100/1000/10000
 ```shell
  Performance counter stats for '/home/ubtu/.go/bin/tally_walk100 .' (10 runs):
 
@@ -354,6 +356,7 @@ Why?
            0.05367 +- 0.00622 seconds time elapsed  ( +- 11.59% )
 ```
 
+### test with large number of files
 dir with `3800+` files.
 ```shell
 root@beelink100 /h/u/workspace# perf stat -r 10 -d /home/ubtu/.go/bin/tally_walk10000 . >/dev/null
@@ -433,11 +436,12 @@ root@beelink100 /h/u/workspace# perf stat -r 10 -d /home/ubtu/.go/bin/tally_walk
             0.7958 +- 0.0206 seconds time elapsed  ( +-  2.58% )
 ```
 
-Seems the most time killer is not the `line counter`
-It's `filepath walker`
+### conclusion
+Based on the result, I think the `parallel` won't make too great improvement.
+Seems the most time killer is not the `line counter`, it's the `filepath walker`.
+But my result is very abbreviate, It effected by many factors (I'll do more test at the future) 
 
 ## Optimize2 - Bufio scanner countline
-
 [tally - main.go#L145-L182](https://github.com/abcdlsj/share/blob/fd5bb216a651246352a25d27ddc189396cdec13a/go/tally/main.go#L145-L182)
 
 ```shell
@@ -459,14 +463,15 @@ It's `filepath walker`
           0.023000 +- 0.000407 seconds time elapsed  ( +-  1.77% )
 ```
 
-it's so `fast` than [origin `counter` tally](###Tally)
+it's so `fast` than [origin `counter` tally](#tally)
 
-## Optimize3 - Faster filepath walking
-
+### Optimize3 - Faster filepath walking
+At the [`Optimize1`](#optimize1---parallel), I found the `filepath.Walk` is the most time killer.
 Based on this post [You Don't Need a Library for File Walking in Go](https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/), the result shows the `offical filepath walk` are faster enough. And I want to build `tally` without any `third-party dependencies`, so I won't use other faster `walkdir` library...
-Currently, I use the `filepath.Walk` to `walking` dir, I will modify to `filepth.Walkdir`, It's faster a little.
+Currently, I use the `filepath.Walk` to `walking` dir, I'll modify to `filepth.Walkdir`, It's faster a little.
 
-I bench it at my `MacbookPro 16` using [hyperfine](https://github.com/sharkdp/hyperfine)(I just found it at these days...)
+I bench the two version (`filepath.Walk` and `filepath.Walkdir`) at my `Mbp16` using [hyperfine](https://github.com/sharkdp/hyperfine)
+
 ```shell
 $ hyperfine 'tally_walk .' 'tally_walkdir .' --warmup 3
 Benchmark 1: tally_walk .
@@ -483,9 +488,9 @@ Summary
 ```
 
 ## End
-
 **Not the end**
 The post is just a learning progress, you can find source code at [github - abcdlsj/tally](https://github.com/abcdlsj/share/tree/master/go/tally)
+I'll do more test and optimize at the future.
 
 ## Ref
 

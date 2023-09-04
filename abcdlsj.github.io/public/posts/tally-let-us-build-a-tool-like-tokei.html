@@ -71,11 +71,23 @@
 </ul>
 </li>
 <li>
-<a href="#optimize1---parallel">Optimize1 - Parallel</a></li>
+<a href="#optimize1---parallel">Optimize1 - Parallel</a><ul>
 <li>
-<a href="#optimize2---bufio-scanner-countline">Optimize2 - Bufio scanner countline</a></li>
+<a href="#test-chan-capacity-10">test chan capacity 10</a></li>
+<li>
+<a href="#test-chan-capacity-100100010000">test chan capacity 100/1000/10000</a></li>
+<li>
+<a href="#test-with-large-number-of-files">test with large number of files</a></li>
+<li>
+<a href="#conclusion">conclusion</a></li>
+</ul>
+</li>
+<li>
+<a href="#optimize2---bufio-scanner-countline">Optimize2 - Bufio scanner countline</a><ul>
 <li>
 <a href="#optimize3---faster-filepath-walking">Optimize3 - Faster filepath walking</a></li>
+</ul>
+</li>
 <li>
 <a href="#end">End</a></li>
 <li>
@@ -86,7 +98,7 @@
 <h2 id="first">First</h2>
 <p>I want to build a tool like <code>scc</code>, <code>tokei</code>, just for learning. It was very easy to write a simple version: <a href="https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go">tally - first commit</a>.<br>
 I will to optimize it at the second half of this post.</p>
-<p>At first, Let me to explain it for you.</p>
+<p>First, allow me to explain it to you.</p>
 <h2 id="explain">Explain</h2>
 <p>The counting-line machine worked similar to the <code>Putting elephants in the freezer</code>, so the steps are:</p>
 <ol>
@@ -96,17 +108,17 @@ I will to optimize it at the second half of this post.</p>
 </ol>
 <h3 id="walk-directory-tree">Walk directory tree</h3>
 <p>Use <code>filepath.Walk</code> to walk directory tree, it's very easy to use.</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>	filepath.<span style="color:#900;font-weight:bold">Walk</span>(os.Args[<span style="color:#099">1</span>], <span style="color:#000;font-weight:bold">func</span>(path <span style="color:#458;font-weight:bold">string</span>, info os.FileInfo, err <span style="color:#458;font-weight:bold">error</span>) <span style="color:#458;font-weight:bold">error</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			<span style="color:#0086b3">panic</span>(err)
-</span></span><span style="display:flex;"><span>		}
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>filepath.<span style="color:#900;font-weight:bold">Walk</span>(os.Args[<span style="color:#099">1</span>], <span style="color:#000;font-weight:bold">func</span>(path <span style="color:#458;font-weight:bold">string</span>, info os.FileInfo, err <span style="color:#458;font-weight:bold">error</span>) <span style="color:#458;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#0086b3">panic</span>(err)
+</span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> info.<span style="color:#900;font-weight:bold">IsDir</span>() {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
-</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> info.<span style="color:#900;font-weight:bold">IsDir</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">countLine</span>(path)
-</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">countLine</span>(path)
+</span></span><span style="display:flex;"><span>})
 </span></span></code></pre><h3 id="read-file-and-count-lines">Read file and Count lines</h3>
 <p>Count line we need to know what is a line. A line is a string end with <code>\n</code> or <code>\r\n</code>. So we can just split the file content with <code>\n</code> or <code>\r\n</code> to get the lines.</p>
 <p>Because we need to count the code lines, so we need to ignore the comment lines. I just use a simple way to ignore the comment lines, just ignore the line start with a rule string(<strong>by the way: the first version I just conside the single line comment.</strong>).</p>
@@ -254,13 +266,8 @@ so use <code>perf stat</code> for benchmarks at my <code>Intel(R) N100</code> ma
 </span></span></code></pre><p><strong>Result</strong>: we can see, the origin version is faster enough even faster then <code>tokei</code>, because <code>tokei</code> have more complex features and the count of files is small.</p>
 <h2 id="optimize1---parallel">Optimize1 - Parallel</h2>
 <p>Walking file paralleling. I searched out a post about this, <a href="https://stackoverflow.com/questions/44255814/concurrent-filesystem-scanning">stackoverflow - Concurrent filesystem scanning</a></p>
+<p>I write a version with <code>parallel</code>, this is the <code>diff</code>.</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span> func main() {
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	if len(os.Args) &lt; 2 {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+	if len(os.Args) != 2 {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 		fmt.Println(&#34;Usage: ./main &lt;path&gt;&#34;)
-</span></span><span style="display:flex;"><span> 		os.Exit(1)
-</span></span><span style="display:flex;"><span> 	}
-</span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	filepath.Walk(os.Args[1], func(path string, info os.FileInfo, err error) error {
 </span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+	var wgCalc sync.WaitGroup
 </span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	paths := make(chan string, 100)
@@ -318,7 +325,8 @@ so use <code>perf stat</code> for benchmarks at my <code>Intel(R) N100</code> ma
 </span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	})
 </span></span><span style="display:flex;"><span> }
 </span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-
-</span></span></span></code></pre><p>with <code>paths chan capacity=10</code></p>
+</span></span></span></code></pre><h3 id="test-chan-capacity-10">test chan capacity 10</h3>
+<p>with <code>paths chan capacity=10</code></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally_walk10 .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>            105.76 msec task-clock                <span style="color:#998;font-style:italic">#    2.573 CPUs utilized            ( +-  5.49% )</span>
@@ -337,6 +345,7 @@ so use <code>perf stat</code> for benchmarks at my <code>Intel(R) N100</code> ma
 </span></span><span style="display:flex;"><span>           0.04110 +- 0.00219 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +-  5.33% <span style="color:#000;font-weight:bold">)</span>
 </span></span></code></pre><p>But the result shows it's not <code>expected</code>.<br>
 Why?</p>
+<h3 id="test-chan-capacity-100100010000">test chan capacity 100/1000/10000</h3>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally_walk100 .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>            149.63 msec task-clock                <span style="color:#998;font-style:italic">#    2.970 CPUs utilized            ( +-  3.94% )</span>
@@ -385,7 +394,8 @@ Why?</p>
 </span></span><span style="display:flex;"><span>           211,730      LLC-load-misses           <span style="color:#998;font-style:italic">#   27.27% of all LL-cache accesses  ( +-  7.50% )</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>           0.05367 +- 0.00622 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +- 11.59% <span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre><p>dir with <code>3800+</code> files.</p>
+</span></span></code></pre><h3 id="test-with-large-number-of-files">test with large number of files</h3>
+<p>dir with <code>3800+</code> files.</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>root@beelink100 /h/u/workspace# perf stat -r <span style="color:#099">10</span> -d /home/ubtu/.go/bin/tally_walk10000 . &gt;/dev/null
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally_walk10000 .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
@@ -461,8 +471,10 @@ Why?</p>
 </span></span><span style="display:flex;"><span>         9,946,393      LLC-load-misses           <span style="color:#998;font-style:italic">#   29.66% of all LL-cache accesses  ( +-  3.42% )</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>            0.7958 +- 0.0206 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +-  2.58% <span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre><p>Seems the most time killer is not the <code>line counter</code><br>
-It's <code>filepath walker</code></p>
+</span></span></code></pre><h3 id="conclusion">conclusion</h3>
+<p>Based on the result, I think the <code>parallel</code> won't make too great improvement.<br>
+Seems the most time killer is not the <code>line counter</code>, it's the <code>filepath walker</code>.<br>
+But my result is very abbreviate, It effected by many factors (I'll do more test at the future)</p>
 <h2 id="optimize2---bufio-scanner-countline">Optimize2 - Bufio scanner countline</h2>
 <p><a href="https://github.com/abcdlsj/share/blob/fd5bb216a651246352a25d27ddc189396cdec13a/go/tally/main.go#L145-L182">tally - main.go#L145-L182</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
@@ -481,11 +493,12 @@ It's <code>filepath walker</code></p>
 </span></span><span style="display:flex;"><span>            32,681      LLC-load-misses           <span style="color:#998;font-style:italic">#   42.57% of all LL-cache accesses  ( +-  0.81% )</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>          0.023000 +- 0.000407 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +-  1.77% <span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre><p>it's so <code>fast</code> than <a href="###Tally">origin <code>counter</code> tally</a></p>
-<h2 id="optimize3---faster-filepath-walking">Optimize3 - Faster filepath walking</h2>
-<p>Based on this post <a href="https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/">You Don't Need a Library for File Walking in Go</a>, the result shows the <code>offical filepath walk</code> are faster enough. And I want to build <code>tally</code> without any <code>third-party dependencies</code>, so I won't use other faster <code>walkdir</code> library...<br>
-Currently, I use the <code>filepath.Walk</code> to <code>walking</code> dir, I will modify to <code>filepth.Walkdir</code>, It's faster a little.</p>
-<p>I bench it at my <code>MacbookPro 16</code> using <a href="https://github.com/sharkdp/hyperfine">hyperfine</a>(I just found it at these days...)</p>
+</span></span></code></pre><p>it's so <code>fast</code> than <a href="#tally">origin <code>counter</code> tally</a></p>
+<h3 id="optimize3---faster-filepath-walking">Optimize3 - Faster filepath walking</h3>
+<p>At the <a href="#optimize1---parallel"><code>Optimize1</code></a>, I found the <code>filepath.Walk</code> is the most time killer.<br>
+Based on this post <a href="https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/">You Don't Need a Library for File Walking in Go</a>, the result shows the <code>offical filepath walk</code> are faster enough. And I want to build <code>tally</code> without any <code>third-party dependencies</code>, so I won't use other faster <code>walkdir</code> library...<br>
+Currently, I use the <code>filepath.Walk</code> to <code>walking</code> dir, I'll modify to <code>filepth.Walkdir</code>, It's faster a little.</p>
+<p>I bench the two version (<code>filepath.Walk</code> and <code>filepath.Walkdir</code>) at my <code>Mbp16</code> using <a href="https://github.com/sharkdp/hyperfine">hyperfine</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>$ hyperfine <span style="color:#d14">&#39;tally_walk .&#39;</span> <span style="color:#d14">&#39;tally_walkdir .&#39;</span> --warmup <span style="color:#099">3</span>
 </span></span><span style="display:flex;"><span>Benchmark 1: tally_walk .
 </span></span><span style="display:flex;"><span>  Time <span style="color:#000;font-weight:bold">(</span>mean ± σ<span style="color:#000;font-weight:bold">)</span>:      3.035 s ±  0.519 s    <span style="color:#000;font-weight:bold">[</span>User: 0.594 s, System: 2.382 s<span style="color:#000;font-weight:bold">]</span>
@@ -500,7 +513,8 @@ Currently, I use the <code>filepath.Walk</code> to <code>walking</code> dir, I w
 </span></span><span style="display:flex;"><span>    1.23 ± 0.32 <span style="color:#0086b3">times</span> faster than tally_walk .
 </span></span></code></pre><h2 id="end">End</h2>
 <p><strong>Not the end</strong><br>
-The post is just a learning progress, you can find source code at <a href="https://github.com/abcdlsj/share/tree/master/go/tally">github - abcdlsj/tally</a></p>
+The post is just a learning progress, you can find source code at <a href="https://github.com/abcdlsj/share/tree/master/go/tally">github - abcdlsj/tally</a><br>
+I'll do more test and optimize at the future.</p>
 <h2 id="ref">Ref</h2>
 <p><a href="https://github.com/boyter/scc/">https://github.com/boyter/scc/</a><br>
 <a href="https://boyter.org/posts/sloc-cloc-code/">https://boyter.org/posts/sloc-cloc-code/</a><br>
