@@ -14,6 +14,7 @@ import (
 	"text/template"
 
 	"github.com/BurntSushi/toml"
+	d2 "github.com/FurqanSoftware/goldmark-d2"
 	"github.com/abcdlsj/cr"
 	"github.com/otiai10/copy"
 	log "github.com/sirupsen/logrus"
@@ -24,6 +25,8 @@ import (
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
 	"go.abhg.dev/goldmark/toc"
+	"oss.terrastruct.com/d2/d2layouts/d2dagrelayout"
+	"oss.terrastruct.com/d2/d2themes/d2themescatalog"
 )
 
 type CfgVar struct {
@@ -62,6 +65,10 @@ var (
 			extension.Footnote,
 			&toc.Extender{
 				MaxDepth: 3,
+			},
+			&d2.Extender{
+				Layout:  d2dagrelayout.DefaultLayout,
+				ThemeID: d2themescatalog.CoolClassics.ID,
 			},
 		),
 		goldmark.WithParserOptions(parser.WithAutoHeadingID()),
