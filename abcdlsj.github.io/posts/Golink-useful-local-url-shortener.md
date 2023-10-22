@@ -46,11 +46,11 @@ nohup golink &
 ```
 
 ## View
-<img src="/static/img/golink-screenshot.png" width="600">
+<img src="/static/img/golink-screenshot.png" width="800">
 
 You also can add a `Chrome Site-search` to make it easier to use.
 
-<img src="/static/img/golink-chrome-site-search.png" width="600">
+<img src="/static/img/golink-chrome-site-search.png" width="800">
 
 ## End
 

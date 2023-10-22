@@ -2,7 +2,8 @@
 title: "Pipe - Build a proxy"
 date: 2023-09-04T18:47:37+08:00
 tags:
-  - proxy
+  - Proxy
+  - Weekly
 hide: true
 ---
 

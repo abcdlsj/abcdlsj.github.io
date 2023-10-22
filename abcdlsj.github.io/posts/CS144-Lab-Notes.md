@@ -2,8 +2,8 @@
 title: "CS144 Lab Notes"
 date: "2021-05-04T19:42:49+08:00"
 tags:
-  - cs144
-  - network
+  - CS144
+  - Network
 hide: false
 ---
 
