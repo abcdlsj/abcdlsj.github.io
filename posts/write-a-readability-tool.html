@@ -231,7 +231,7 @@
 <p><code>docker run -it --rm -p &lt;HOST_PORT&gt;:8080 abcdlsj/readability</code></p>
 <p>Now you can access the website at <code>http://localhost:&lt;HOST_PORT&gt;</code>.</p>
 <h2 id="10-27-update">10-27 update</h2>
-<p>As mentioned in the conclusion, you can enhance the functionality by utilizing URL parameters, making it more useful. I attempted to add an HTTP URL to the path, but encountered a problem with the parser.</p>
+<p>You can enhance the functionality by utilizing URL parameters, making it more useful. I attempted to add an HTTP URL to the path, but encountered a problem with the parser.</p>
 <p>For example, when you make a request to <code>https://xxx.com/read/https://nautil.us/mirror-image-life-412729/</code>, the appended path becomes <code>https:/nautil.us/mirror-image-life-412729</code> due to the modification of <code>//</code> to <code>/</code>. This behavior is a result of the following explanation from the documentation:</p>
 <blockquote>
 <p>ServeMux also takes care of sanitizing the URL request path and the Host header, stripping the port number and redirecting any request containing . or .. elements or repeated slashes to an equivalent, cleaner URL.</p>
