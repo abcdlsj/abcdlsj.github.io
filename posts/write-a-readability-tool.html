@@ -118,7 +118,7 @@
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><p>It will work as expected.</p>
 <p>However, there are instances where a terminal environment may not be available. In such cases, you can run it as a web server using Go's <code>http</code> package and <code>template</code> library to implement it. (In fact, I used <code>ChatGPT</code> to provide this demo.)</p>
-<p><strong>- index.html</strong></p>
+<p><strong>index.html</strong></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">&lt;!DOCTYPE html&gt;</span>
 </span></span><span style="display:flex;"><span>&lt;<span style="color:#000080">html</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;<span style="color:#000080">head</span>&gt;
@@ -133,7 +133,7 @@
 </span></span><span style="display:flex;"><span>	&lt;/<span style="color:#000080">form</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#000080">body</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#000080">html</span>&gt;
-</span></span></code></pre><p><strong>- article.html</strong></p>
+</span></span></code></pre><p><strong>article.html</strong></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">&lt;!DOCTYPE html&gt;</span>
 </span></span><span style="display:flex;"><span>&lt;<span style="color:#000080">html</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;<span style="color:#000080">head</span>&gt;
@@ -150,7 +150,7 @@
 </span></span><span style="display:flex;"><span>	{{end}}
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#000080">body</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#000080">html</span>&gt;
-</span></span></code></pre><p><strong>- main.go</strong></p>
+</span></span></code></pre><p><strong>main.go</strong></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
 </span></span><span style="display:flex;"><span>    tmpl = <span style="color:#000;font-weight:bold">...</span>.
 </span></span><span style="display:flex;"><span>)
@@ -251,11 +251,11 @@
 <p><strong>Updated: 2023-10-29</strong></p>
 <ul>
 <li>
-<p>index page<br>
+<p><strong>index page</strong><br>
 <img src="/static/img/readability_screenshot2.png" width="800"></p>
 </li>
 <li>
-<p>reading page<br>
+<p><strong>reading page</strong><br>
 <img src="/static/img/readability_screenshot.png" width="800"></p>
 </li>
 </ul>
