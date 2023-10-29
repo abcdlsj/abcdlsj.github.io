@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+<meta charset="UTF-8" />
+<title>abcdlsj</title>
+<meta name="description" content="Enjoy Focus!" />
+<meta name="author" content="Author" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+/>
+<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="stylesheet" href="/static/style.css" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body class="container">
+    <div class="navbar">
+<nav class="navbar">
+  
+  <ul>
+    <li>
+      <a href="/" class="menu">#Home</a>
+    </li>
+  </ul>
+  
+  <ul>
+    <li>
+      <a href="/about" class="menu">#About</a>
+    </li>
+  </ul>
+  
+</nav>
+</div>
+    <hr class="divider" />
+    <h1 class="post-title">Implement cron expression library from scratch(中文)</h1>
+    <div class="post-meta">
+      <div class="post-date">Date: 2023-10-29T18:51:37+08:00</div>
+      <nav class="post-tags">
+        
+        <a href="/tags/Weekly.html" class="tag">#Weekly</a>
+        
+      </nav>
+    </div>
+    <hr class="divider" />
+    <main class="post-content">
+      <article><h1>Table of Contents</h1>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#background">Background</a></li>
+<li>
+<a href="#cron-expression">Cron expression</a></li>
+<li>
+<a href="#implementation">Implementation</a><ul>
+<li>
+<a href="#field">field</a></li>
+<li>
+<a href="#expr">expr</a></li>
+<li>
+<a href="#match">match</a></li>
+<li>
+<a href="#parse">parse</a></li>
+<li>
+<a href="#compose">compose</a></li>
+<li>
+<a href="#nextnextnnotify">next/nextn/notify</a></li>
+</ul>
+</li>
+<li>
+<a href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="background">Background</h2>
+<p>本文所有的代码都在 <a href="https://github.com/abcdlsj/crone">abcdlsj/crone</a></p>
+<blockquote>
+<p><code>Cron</code> 日常开发还是经常遇到的，这里准备自己实现一个 <code>Golang</code> 的 <code>Cron</code> 表达式解析器，然后基于这个表达式来实现一个定时任务调度器/执行器（虽然已经有很多开源库，但是这种简单而有意思的东西，还是可以动手实际实现下）</p>
+</blockquote>
+<p><a href="https://www.wikiwand.com/en/Cron">Cron wikiwand</a></p>
+<p>这里只实现初级的 Cron 表达式，所以只有 <code>minute</code> <code>hour</code> <code>day</code> <code>month(day of the week)</code> <code>week(day of the week)</code></p>
+<pre><code># ┌───────────── minute (0–59)
+# │ ┌───────────── hour (0–23)
+# │ │ ┌───────────── day of the month (1–31)
+# │ │ │ ┌───────────── month (1–12)
+# │ │ │ │ ┌───────────── day of the week (0–6) (Sunday to Saturday;
+# │ │ │ │ │                                   7 is also Sunday on some systems)
+# │ │ │ │ │
+# │ │ │ │ │
+# * * * * * &lt;command to execute&gt;
+</code></pre>
+<p>并且没有 <code>yearly</code> <code>monthly</code> <code>weekly</code> <code>daily</code> <code>hourly</code> <code>reboot</code> 等</p>
+<table>
+<thead>
+<tr>
+<th>Entry</th>
+<th>Description</th>
+<th>Equivalent to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@yearly</code> (or <code>@annually</code>)</td>
+<td>Run once a year at midnight of 1 January</td>
+<td><code>0 0 1 1 *</code></td>
+</tr>
+<tr>
+<td><code>@monthly</code></td>
+<td>Run once a month at midnight of the first day of the month</td>
+<td><code>0 0 1 * *</code></td>
+</tr>
+<tr>
+<td><code>@weekly</code></td>
+<td>Run once a week at midnight on Sunday</td>
+<td><code>0 0 * * 0</code></td>
+</tr>
+<tr>
+<td><code>@daily</code> (or <code>@midnight</code>)</td>
+<td>Run once a day at midnight</td>
+<td><code>0 0 * * *</code></td>
+</tr>
+<tr>
+<td><code>@hourly</code></td>
+<td>Run once an hour at the beginning of the hour</td>
+<td><code>0 * * * *</code></td>
+</tr>
+<tr>
+<td><code>@reboot</code></td>
+<td>Run at startup</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cron-expression">Cron expression</h2>
+<p>字段规则</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Allowed values</th>
+<th>Allowed special characters</th>
+<th>Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minutes</td>
+<td>Yes</td>
+<td>0–59</td>
+<td><code>*</code> <code>,</code> <code>-</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Hours</td>
+<td>Yes</td>
+<td>0–23</td>
+<td><code>*</code> <code>,</code> <code>-</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Day of month</td>
+<td>Yes</td>
+<td>1–31</td>
+<td><code>*</code> <code>,</code> <code>-</code> <code>?</code> <code>L</code> <code>W</code></td>
+<td><code>?</code> <code>L</code> <code>W</code> only in some implementations</td>
+</tr>
+<tr>
+<td>Month</td>
+<td>Yes</td>
+<td>1–12 or JAN–DEC</td>
+<td><code>*</code> <code>,</code> <code>-</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Day of week</td>
+<td>Yes</td>
+<td>0–6 or SUN–SAT</td>
+<td><code>*</code> <code>,</code> <code>-</code> <code>?</code> <code>L</code> <code>#</code></td>
+<td><code>?</code> <code>L</code> <code>#</code> only in some implementations</td>
+</tr>
+<tr>
+<td>Year</td>
+<td>No</td>
+<td>1970–2099</td>
+<td><code>*</code> <code>,</code> <code>-</code></td>
+<td>This field is not supported in standard/default implementations.</td>
+</tr>
+</tbody>
+</table>
+<p>可以看到实现的 <code>Cron</code> 表达式字段都有明确的上下限</p>
+<p>以及支持的 <code>Special characters</code> 都是 <code>*</code> <code>,</code> <code>-</code>（这里只考虑一般规则）</p>
+<p>所以其实可以复用同一套规则，然后分别 <code>parse</code> 就可以了</p>
+<h2 id="implementation">Implementation</h2>
+<p>开始实现</p>
+<h3 id="field">field</h3>
+<p>首先定义 <code>field</code>，以及实现一个 <code>limit</code> 方法，返回其上下限</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> field <span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">const</span> (
+</span></span><span style="display:flex;"><span>	minute field = <span style="color:#000;font-weight:bold">iota</span>
+</span></span><span style="display:flex;"><span>	hour
+</span></span><span style="display:flex;"><span>	day
+</span></span><span style="display:flex;"><span>	month
+</span></span><span style="display:flex;"><span>	weekday
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (f field) <span style="color:#900;font-weight:bold">limit</span>() (<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">int</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> f {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> minute:
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>, <span style="color:#099">59</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> hour:
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>, <span style="color:#099">23</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> day:
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">1</span>, <span style="color:#099">31</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> month:
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">1</span>, <span style="color:#099">12</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> weekday:
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>, <span style="color:#099">6</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>, <span style="color:#099">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><h3 id="expr">expr</h3>
+<p><code>Expr</code> 的结构体该怎么定义呢，它本身应该有一个 <code>expr</code> 代表表达式字符串</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Cronexpr <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	expr     <span style="color:#458;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>这里以我的视角（一个 <code>Cron</code> 库使用者）的角度出发，我期望 <code>Cron</code> 库有下面的功能</p>
+<ol>
+<li><code>New(string)</code>： 创建新的 <code>Cronexpr</code></li>
+<li><code>Next()</code>： 获取接下来 <code>Cron</code> 触发的时间</li>
+<li><code>NextN(n)</code>： 获取接下来 <code>n</code> 个 <code>Cron</code> 触发的时间</li>
+</ol>
+<p>这里分别是<code>创建</code>和<code>使用</code>，因为 <code>Goruntine</code> 广泛使用，加之提倡使用 <code>Channel</code> 在 <code>Goroutine</code> 之间传递信息<br>
+这里还可以加一个方法</p>
+<ol start="4">
+<li><code>Notify(ctx, outchan)</code> 类似于这样的函数定义，<code>ctx</code> 用来控制函数的退出，会在 <code>Cron</code> 触发时发送到 <code>outchan</code></li>
+</ol>
+<h3 id="match">match</h3>
+<p>到目前为止，我都没有写到具体是怎样的思路去实现 <code>获取 Cron 触发的时间</code></p>
+<p><code>获取</code> Cron 触发时间关键在于 <code>判断</code> 时间是否符合某个 Cron 表达式</p>
+<p>并且，不管是 <code>weekday</code> or <code>day</code> or <code>month</code> or <code>hour</code> or <code>minute</code> 都是根据规则<code>枚举</code>出符合要求的值，解析出枚举过程放在 <code>parse</code> 函数中</p>
+<p>这里假设已经枚举出符合要求的一系列值</p>
+<p>实现 <code>matches</code> 结构体</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Matches <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	minute  []<span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>	hour    []<span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>	day     []<span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>	month   []<span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>	weekday []<span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>实现 <code>Match</code> 方法，判断输入 <code>Time</code> 是否符合（触发）</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (m Matches) <span style="color:#900;font-weight:bold">Match</span>(t time.Time) <span style="color:#458;font-weight:bold">bool</span> {
+</span></span><span style="display:flex;"><span>	contains <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">func</span>(arr []<span style="color:#458;font-weight:bold">int</span>, val <span style="color:#458;font-weight:bold">int</span>) <span style="color:#458;font-weight:bold">bool</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">for</span> _, v <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> arr {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> v <span style="color:#000;font-weight:bold">==</span> val {
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">contains</span>(m.minute, t.<span style="color:#900;font-weight:bold">Minute</span>()) <span style="color:#000;font-weight:bold">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#900;font-weight:bold">contains</span>(m.hour, t.<span style="color:#900;font-weight:bold">Hour</span>()) <span style="color:#000;font-weight:bold">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#900;font-weight:bold">contains</span>(m.day, t.<span style="color:#900;font-weight:bold">Day</span>()) <span style="color:#000;font-weight:bold">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#900;font-weight:bold">contains</span>(m.month, <span style="color:#0086b3">int</span>(t.<span style="color:#900;font-weight:bold">Month</span>())) <span style="color:#000;font-weight:bold">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#900;font-weight:bold">contains</span>(m.weekday, <span style="color:#0086b3">int</span>(t.<span style="color:#900;font-weight:bold">Weekday</span>()))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>很简单的实现，只要 <code>Time</code> 都分别在 <code>minute</code> <code>hour</code> <code>day</code> <code>month</code> <code>weekday</code> 各个的枚举值内就代表这个时间符合要求</p>
+<h3 id="parse">parse</h3>
+<p><code>parse</code> 函数用于返回枚举值，然后保存在 <code>matches</code> 里，返回 <code>[]int</code>（简化了上下限的检查）</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">parse</span>(rule <span style="color:#458;font-weight:bold">string</span>, f field) ([]<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(rule) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>, errors.<span style="color:#900;font-weight:bold">New</span>(<span style="color:#d14">&#34;empty spec&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	specs <span style="color:#000;font-weight:bold">:=</span> strings.<span style="color:#900;font-weight:bold">Split</span>(rule, <span style="color:#d14">&#34;,&#34;</span>)
+</span></span><span style="display:flex;"><span>	matches <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">int</span>, <span style="color:#099">0</span>)
+</span></span><span style="display:flex;"><span>	low, high <span style="color:#000;font-weight:bold">:=</span> f.<span style="color:#900;font-weight:bold">limit</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> _, spec <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> specs {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> spec <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#34;*&#34;</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">:=</span> low; i &lt; high; i<span style="color:#000;font-weight:bold">++</span> {
+</span></span><span style="display:flex;"><span>				matches = <span style="color:#0086b3">append</span>(matches, i)
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		} <span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> strings.<span style="color:#900;font-weight:bold">Contains</span>(spec, <span style="color:#d14">&#34;/&#34;</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">...</span>get step<span style="color:#000;font-weight:bold">...</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">...</span>check<span style="color:#000;font-weight:bold">...</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">:=</span> low; i &lt; high; i <span style="color:#000;font-weight:bold">+=</span> step {
+</span></span><span style="display:flex;"><span>				matches = <span style="color:#0086b3">append</span>(matches, i)
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		} <span style="color:#000;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">if</span> strings.<span style="color:#900;font-weight:bold">Contains</span>(spec, <span style="color:#d14">&#34;-&#34;</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">...</span>get start <span style="color:#000;font-weight:bold">&amp;</span> end<span style="color:#000;font-weight:bold">...</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">...</span>check<span style="color:#000;font-weight:bold">...</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">:=</span> start; i <span style="color:#000;font-weight:bold">&lt;=</span> end; i<span style="color:#000;font-weight:bold">++</span> {
+</span></span><span style="display:flex;"><span>				matches = <span style="color:#0086b3">append</span>(matches, i)
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		} <span style="color:#000;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>			val, err <span style="color:#000;font-weight:bold">:=</span> strconv.<span style="color:#900;font-weight:bold">Atoi</span>(spec)
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">...</span>check<span style="color:#000;font-weight:bold">...</span>
+</span></span><span style="display:flex;"><span>			matches = <span style="color:#0086b3">append</span>(matches, val)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> matches, <span style="color:#000;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><h3 id="compose">compose</h3>
+<p>因为使用表达式解析器的入口是 <code>Cronexpr</code>，所以 <code>matches</code> 应该是 <code>Cronexpr</code> 的字段</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NewExpr</span>(expr <span style="color:#458;font-weight:bold">string</span>) <span style="color:#000;font-weight:bold">*</span>Cronexpr {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">&amp;</span>Cronexpr{
+</span></span><span style="display:flex;"><span>		expr:     expr,
+</span></span><span style="display:flex;"><span>		matches:  <span style="color:#900;font-weight:bold">newMatches</span>(expr),
+</span></span><span style="display:flex;"><span>		accurate: time.Minute,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">newMatches</span>(expr <span style="color:#458;font-weight:bold">string</span>) Matches {
+</span></span><span style="display:flex;"><span>	splits <span style="color:#000;font-weight:bold">:=</span> strings.<span style="color:#900;font-weight:bold">Split</span>(expr, <span style="color:#d14">&#34; &#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(splits) <span style="color:#000;font-weight:bold">!=</span> <span style="color:#099">5</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> Matches{}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	mustParse <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">func</span>(s <span style="color:#458;font-weight:bold">string</span>, f field) []<span style="color:#458;font-weight:bold">int</span> {
+</span></span><span style="display:flex;"><span>		matches, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">parse</span>(s, f)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#0086b3">panic</span>(err)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> matches
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> Matches{
+</span></span><span style="display:flex;"><span>		minute:  <span style="color:#900;font-weight:bold">mustParse</span>(splits[<span style="color:#099">0</span>], minute),
+</span></span><span style="display:flex;"><span>		hour:    <span style="color:#900;font-weight:bold">mustParse</span>(splits[<span style="color:#099">1</span>], hour),
+</span></span><span style="display:flex;"><span>		day:     <span style="color:#900;font-weight:bold">mustParse</span>(splits[<span style="color:#099">2</span>], day),
+</span></span><span style="display:flex;"><span>		month:   <span style="color:#900;font-weight:bold">mustParse</span>(splits[<span style="color:#099">3</span>], month),
+</span></span><span style="display:flex;"><span>		weekday: <span style="color:#900;font-weight:bold">mustParse</span>(splits[<span style="color:#099">4</span>], weekday),
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>这里利用辅助函数简化了代码（ps. <code>MustXxx</code> 在开源项目里很普遍）<br>
+<code>Cronexpr</code> 的 <code>accurate</code> 含义等下会解释</p>
+<h3 id="nextnextnnotify">next/nextn/notify</h3>
+<p>到了使用的入口函数了</p>
+<p><code>Next()</code> or <code>NextN(n)</code> 需要实现这样一个方法 <code>nextN(n)</code></p>
+<p>通过 <code>matches</code> 我们知道了，我们可以判断某个 <code>Time</code> 是否符合 <code>Cronexpr</code> 的触发时间</p>
+<p>那 <code>nexnN(n)</code> 里，我们就需要对<code>未来的时间</code>进行枚举，然后通过 <code>matches</code> 判断是否符合</p>
+<p>这里还有一个问题，<code>未来的时间</code>的间隔应该是多少呢，因为我们表达式里面的最小单位是 <code>minute</code></p>
+<p>所以枚举时间的间隔应该是 <code>1 * minute</code>，<code>Cronexpr.accurate</code> 就是代表这个</p>
+<blockquote>
+<p>为什么不写成常量呢？因为之后还可以实现支持 <code>second</code> 字段的 <code>Cronexpr</code></p>
+</blockquote>
+<p>这里还因为枚举未来时间因为需要一个基准(<code>zero time</code>)值，而这个时间对于 <code>nextN()</code> 这样的<code>最小</code>函数最好是可以外部传入的（符合 <code>Go 哲学</code>）所以加上了 <code>z time.Time</code></p>
+<p>当然了，对于 <code>Next()</code> 和 <code>NextN()</code> 这样的函数 <code>zero time</code> 也是可以外部传入的，因为 <code>Next()</code> 这个语义并没有明显包括代表当前时间之后的含义</p>
+<p>所以 <code>nextN()</code> 应该是这样</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (e <span style="color:#000;font-weight:bold">*</span>Cronexpr) <span style="color:#900;font-weight:bold">nextN</span>(z time.Time, n <span style="color:#458;font-weight:bold">int</span>) []time.Time {
+</span></span><span style="display:flex;"><span>	ts <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]time.Time, <span style="color:#099">0</span>, n)
+</span></span><span style="display:flex;"><span>	lt <span style="color:#000;font-weight:bold">:=</span> z
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">:=</span> <span style="color:#099">0</span>; i &lt; n; i<span style="color:#000;font-weight:bold">++</span> {
+</span></span><span style="display:flex;"><span>		n1 <span style="color:#000;font-weight:bold">:=</span> e.<span style="color:#900;font-weight:bold">next1</span>(lt)
+</span></span><span style="display:flex;"><span>		ts = <span style="color:#0086b3">append</span>(ts, n1)
+</span></span><span style="display:flex;"><span>		lt = n1
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> ts
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p><code>nextN</code> 又去调用 <code>next1</code>，这是 <code>next1</code> 实现（这里 <code>next1</code> 的逻辑做成 <code>nextN</code> 的内部函数我感觉甚至更好）</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (e <span style="color:#000;font-weight:bold">*</span>Cronexpr) <span style="color:#900;font-weight:bold">next1</span>(z time.Time) time.Time {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> t <span style="color:#000;font-weight:bold">:=</span> z.<span style="color:#900;font-weight:bold">Add</span>(e.accurate); t.<span style="color:#900;font-weight:bold">Before</span>(END); t = t.<span style="color:#900;font-weight:bold">Add</span>(e.accurate) {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> e.matches.<span style="color:#900;font-weight:bold">Match</span>(t) {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> t
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> END
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>这里 <code>for range</code> 的时候 <code>初始值 t</code> 加上 <code>accurate</code> 是为了防止如果 <code>z</code> 符合要求函数就会一直直接返回 <code>true</code>，导致 <code>nextN</code> 里的 <code>for</code> 循环就会返回同样的值</p>
+<p><code>Notify</code> 函数实现主要是多了 <code>ctx deadline</code> 的判断退出，这里可以简单的使用 <code>time ticker</code> 来获取需要检查的时间点</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (e <span style="color:#000;font-weight:bold">*</span>Cronexpr) <span style="color:#900;font-weight:bold">Notify</span>(ctx context.Context, out <span style="color:#000;font-weight:bold">chan</span><span style="color:#000;font-weight:bold">&lt;-</span> time.Time) {
+</span></span><span style="display:flex;"><span>	ticker <span style="color:#000;font-weight:bold">:=</span> time.<span style="color:#900;font-weight:bold">NewTicker</span>(e.accurate)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> ticker.<span style="color:#900;font-weight:bold">Stop</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">select</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">case</span> <span style="color:#000;font-weight:bold">&lt;-</span>ctx.<span style="color:#900;font-weight:bold">Done</span>():
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">case</span> t <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&lt;-</span>ticker.C:
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> e.matches.<span style="color:#900;font-weight:bold">Match</span>(t) {
+</span></span><span style="display:flex;"><span>				out <span style="color:#000;font-weight:bold">&lt;-</span> t
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><h2 id="conclusion">Conclusion</h2>
+<p>执行器的部分可以看源码，这部分实现比较简单</p>
+<p>实现 <code>Cronexpr</code> 解析器还是很有意思的，这是一个简单的小项目。</p>
+<p>感谢阅读！</p>
+</article>
+    </main>
+    <hr class="divider" />
+    
+<footer class="footer">
+  <p class="footer-author">
+    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
+  </p>
+  <p class="footer-proj">
+    Source
+    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
+  </p>
+</footer>
+
+  </body>
+</html>
