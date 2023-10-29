@@ -6,8 +6,8 @@ tags:
 hide: false
 ---
 
-## Background
 
+## Background
 Many websites use various CSS styles, and some of them can be challenging to read. One way to improve readability is to use a browser extension. Alternatively, you can create your own website [readability](https://www.wikiwand.com/en/Readability) tool. There are numerous language options and implementations available for this purpose. In this case, we will use Go and the [readability](github.com/go-shiori/go-readability) library to implement it. You will see how simple it is.
 
 You can find all the code on my GitHub repository [abcdlsj](https://github.com/abcdlsj).
@@ -63,7 +63,7 @@ It will work as expected.
 However, there are instances where a terminal environment may not be available. In such cases, you can run it as a web server using Go's `http` package and `template` library to implement it. (In fact, I used `ChatGPT` to provide this demo.)
 
 
-**- index.html**
+**index.html**
 ```html
 <!DOCTYPE html>
 <html>
@@ -81,7 +81,7 @@ However, there are instances where a terminal environment may not be available. 
 </html>
 ```
 
-**- article.html**
+**article.html**
 ```html
 <!DOCTYPE html>
 <html>
@@ -101,7 +101,7 @@ However, there are instances where a terminal environment may not be available. 
 </html>
 ```
 
-**- main.go**
+**main.go**
 ```go
 var (
     tmpl = ....
@@ -202,28 +202,35 @@ After building the Docker image, you can run it using the following command:
 
 Now you can access the website at `http://localhost:<HOST_PORT>`.
 
-## 2020-10-27 update
-I had 
+## 10-27 update
+You can enhance the functionality by utilizing URL parameters, making it more useful. I attempted to add an HTTP URL to the path, but encountered a problem with the parser.
 
+For example, when you make a request to `https://xxx.com/read/https://nautil.us/mirror-image-life-412729/`, the appended path becomes `https:/nautil.us/mirror-image-life-412729` due to the modification of `//` to `/`. This behavior is a result of the following explanation from the documentation:
 
-servemux will clean double slash 
-https://pkg.go.dev/net/http#ServeMux
-https://stackoverflow.com/questions/55716545/url-escaped-parameter-not-resolving-properly
-https://github.com/gorilla/mux
-https://stackoverflow.com/questions/51908277/how-do-i-get-gos-net-http-package-to-stop-removing-double-slashes
+> ServeMux also takes care of sanitizing the URL request path and the Host header, stripping the port number and redirecting any request containing . or .. elements or repeated slashes to an equivalent, cleaner URL.
+
+[This information was obtained from the documentation found at](https://pkg.go.dev/net/http#ServeMux)
+
+I came across some useful links that discuss this issue:
+- [Stack Overflow post: URL-escaped parameter not resolving properly](https://stackoverflow.com/questions/55716545/url-escaped-parameter-not-resolving-properly)
+- [Stack Overflow post: How do I get Go's net/http package to stop removing double slashes?](https://stackoverflow.com/questions/51908277/how-do-i-get-gos-net-http-package-to-stop-removing-double-slashes)
+
+The suggested solution is to use `https://github.com/gorilla/mux` or implement your own `ServeMux`. By using gorilla/mux, you simply need to call `SkipClean(true)`. After doing this, the double slashes won't be removed.
+
+However, I encountered another issue when using redirects after submitting a link form. The redirect operation also removes the double slashes from the URL path, and unfortunately, `gorilla/mux` does not support handling this situation.
+
+Luckily, there is a workaround available. You can escape the `/` characters as `%2F` to prevent the removal of double slashes during the redirect process.
+
+You can find this version of the code at [https://github.com/abcdlsj/share/tree/909fcb5e80fef9ecfaf68259ae98fb6694d3e984/go/readability](https://github.com/abcdlsj/share/tree/909fcb5e80fef9ecfaf68259ae98fb6694d3e984/go/readability). Please note that there are some additional adjustments made as well.
 
 ## Conclusion
-
 This is a small weekend project. After adding some simple `CSS` to the `HTML template`, you will see the result:
 
-<img src="/static/img/readability_index.png" width="800">
+**Updated: 2023-10-29**
+- **index page**
+<img src="/static/img/readability_screenshot2.png" width="800">
 
+- **reading page**
 <img src="/static/img/readability_screenshot.png" width="800">
-
-You can enhance this server by incorporating additional features, including:
-
-- Implementing a cache mechanism to minimize the number of requests
-- Utilizing URL parameters for parsing, which can reduce reliance on the index page
-- Implementing it as a `Cloudflare Worker` for improved functionality
 
 Thanks for reading!
