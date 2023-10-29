@@ -202,6 +202,16 @@ After building the Docker image, you can run it using the following command:
 
 Now you can access the website at `http://localhost:<HOST_PORT>`.
 
+## 2020-10-27 update
+I had 
+
+
+servemux will clean double slash 
+https://pkg.go.dev/net/http#ServeMux
+https://stackoverflow.com/questions/55716545/url-escaped-parameter-not-resolving-properly
+https://github.com/gorilla/mux
+https://stackoverflow.com/questions/51908277/how-do-i-get-gos-net-http-package-to-stop-removing-double-slashes
+
 ## Conclusion
 
 This is a small weekend project. After adding some simple `CSS` to the `HTML template`, you will see the result:
