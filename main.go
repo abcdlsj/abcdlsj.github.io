@@ -85,7 +85,7 @@ var (
 	t *template.Template
 
 	Posts     []Post
-	Tags      map[string]Tag
+	TagMap    map[string]Tag
 	AboutPost Post
 )
 
@@ -123,6 +123,7 @@ type Tag struct {
 type Refer struct {
 	Title string
 	Uname string
+	Meta  PostMeta
 }
 
 func init() {
@@ -157,7 +158,7 @@ func RenderPosts() {
 }
 
 func RenderTags() {
-	for _, tag := range Tags {
+	for _, tag := range TagMap {
 		if err := render(t, tag, path.Join(cfgVar.Build.Output, "tags", urlize(tag.Name)+".html"), "tag"); err != nil {
 			log.Fatal(err)
 		}
@@ -193,18 +194,19 @@ func ParseTags(tagNames []string, post Post) error {
 	tagRefer := Refer{
 		Title: post.Meta.Title,
 		Uname: post.Uname,
+		Meta:  post.Meta,
 	}
 
 	for _, tag := range tagNames {
-		if entry, ok := Tags[tag]; !ok {
-			Tags[tag] = Tag{
+		if entry, ok := TagMap[tag]; !ok {
+			TagMap[tag] = Tag{
 				Name:   tag,
 				Refers: []Refer{tagRefer},
 				Site:   cfgVar,
 			}
 		} else {
 			entry.Refers = append(entry.Refers, tagRefer)
-			Tags[tag] = entry
+			TagMap[tag] = entry
 		}
 	}
 
@@ -231,7 +233,7 @@ func main() {
 
 	t = template.Must(template.New("").Funcs(funcMap).ParseFS(templateFiles, "tmpl/*.html"))
 
-	Tags = make(map[string]Tag)
+	TagMap = make(map[string]Tag)
 
 	posts, err := getAllFiles(cfgVar.Build.Posts)
 	if err != nil {
@@ -239,10 +241,7 @@ func main() {
 	}
 
 	for _, p := range posts {
-		fmt.Printf("post file: %s\n", cr.PLYellow(p))
-	}
-
-	for _, p := range posts {
+		fmt.Printf("Load post: %s\n", cr.PLYellow(p))
 		fdata, err := os.ReadFile(p)
 		if err != nil {
 			log.Fatal("open post file error")
@@ -257,7 +256,7 @@ func main() {
 		}
 
 		if post.Meta.Hide {
-			fmt.Printf("skip hidden post: %s\n", cr.PLBlue(p))
+			fmt.Printf("Skip hidden post: %s\n", cr.PLBlue(p))
 			continue
 		}
 
@@ -266,7 +265,7 @@ func main() {
 			continue
 		}
 
-		fmt.Printf("parse post: %s\n", cr.PLBlue(p))
+		fmt.Printf("Parsed post: %s\n", cr.PLGreen(p))
 		Posts = append(Posts, post)
 		ParseTags(post.Meta.Tags, post)
 	}
@@ -275,10 +274,21 @@ func main() {
 		return Posts[i].Meta.Date > Posts[j].Meta.Date
 	})
 
+	sortTagMap := make(map[string]Tag)
+	for k, v := range TagMap {
+		sort.Slice(v.Refers, func(i, j int) bool {
+			return v.Refers[i].Title < v.Refers[j].Title
+		})
+
+		sortTagMap[k] = v
+	}
+
+	TagMap = sortTagMap
+
 	Renders(RenderIndex, RenderPosts, RenderTags, RenderAbout)
 	CpStaticDirToOutput()
 
-	fmt.Println(cr.PLCyan("* done"))
+	fmt.Println(cr.PLCyan("All done!!!"))
 }
 
 func getTagMeta(meta map[string]interface{}) []string {
@@ -317,7 +327,7 @@ func CpStaticDirToOutput() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(cr.PLCyan("* copy static dir success"))
+	fmt.Println(cr.PLCyan("Copy static dir success"))
 }
 
 func Renders(fns ...func()) {
@@ -325,7 +335,7 @@ func Renders(fns ...func()) {
 		fn()
 	}
 
-	fmt.Println(cr.PLCyan("* render success"))
+	fmt.Println(cr.PLCyan("Render success"))
 }
 
 func urlize(s string) string {

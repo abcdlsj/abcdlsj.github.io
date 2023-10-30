@@ -46,15 +46,17 @@ nohup golink &
 ```
 
 ## View
+
+- **Screenshot**
 <img src="/static/img/golink-screenshot.png" width="800">
 
 You also can add a `Chrome Site-search` to make it easier to use.
 
+- **Chrome Site-search setting**
 <img src="/static/img/golink-chrome-site-search.png" width="800">
 
 ## End
 
 This post doesn't include any code samples, as I believe that you can write it yourself for the purpose of learning or practicing a programming language.
-
 
 The idea is from [tailscale/golink](https://github.com/tailscale/golink/tree/main), which relies on `Tailscale Magic DNS`. You can find more information [here](https://tailscale.com/kb/1081/magicdns/)

@@ -3,12 +3,11 @@
 <html lang="en">
   <head>
     {{template "head" .}}
-    <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body class="container">
     <div class="navbar">{{template "navbar" .}}</div>
     <main>
-      <h1 class="blog-title">My Blog</h1>
+      <h1 class="blog-title">Blog Posts</h1>
       {{range .Posts}}
       <article class="post">
         <div class="post-meta">

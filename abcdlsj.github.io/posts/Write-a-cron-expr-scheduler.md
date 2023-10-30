@@ -99,17 +99,17 @@ type Cronexpr struct {
 2. `Next()`： 获取接下来 `Cron` 触发的时间
 3. `NextN(n)`： 获取接下来 `n` 个 `Cron` 触发的时间
 
-这里分别是`创建`和`使用`，因为 `Goruntine` 广泛使用，加之提倡使用 `Channel` 在 `Goroutine` 之间传递信息
+这里分别是**创建**和**使用**，因为 `Goruntine` 广泛使用，加之提倡使用 `Channel` 在 `Goroutine` 之间传递信息
 这里还可以加一个方法
 
 4. `Notify(ctx, outchan)` 类似于这样的函数定义，`ctx` 用来控制函数的退出，会在 `Cron` 触发时发送到 `outchan`
 
 ### match
-到目前为止，我都没有写到具体是怎样的思路去实现 `获取 Cron 触发的时间`
+到目前为止，我都没有写到具体是怎样的思路去实现**获取 Cron 触发的时间**
 
-`获取` Cron 触发时间关键在于 `判断` 时间是否符合某个 Cron 表达式
+**获取** Cron 触发时间关键在于**判断**时间是否符合某个 Cron 表达式
 
-并且，不管是 `weekday` or `day` or `month` or `hour` or `minute` 都是根据规则`枚举`出符合要求的值，解析出枚举过程放在 `parse` 函数中
+并且，不管是 `weekday` or `day` or `month` or `hour` or `minute` 都是根据规则**枚举**出符合要求的值，解析出枚举过程放在 `parse` 函数中
 
 这里假设已经枚举出符合要求的一系列值
 
@@ -165,13 +165,13 @@ func parse(rule string, f field) ([]int, error) {
 			}
 		} else if strings.Contains(spec, "/") {
 			...get step...
-            ...check...
+			...check...
 			for i := low; i < high; i += step {
 				matches = append(matches, i)
 			}
 		} else if strings.Contains(spec, "-") {
 			...get start & end...
-            ...check...
+			...check...
 			for i := start; i <= end; i++ {
 				matches = append(matches, i)
 			}
@@ -231,15 +231,15 @@ func newMatches(expr string) Matches {
 
 通过 `matches` 我们知道了，我们可以判断某个 `Time` 是否符合 `Cronexpr` 的触发时间
 
-那 `nexnN(n)` 里，我们就需要对`未来的时间`进行枚举，然后通过 `matches` 判断是否符合
+那 `nexnN(n)` 里，我们就需要对**未来的时间**进行枚举，然后通过 `matches` 判断是否符合
 
-这里还有一个问题，`未来的时间`的间隔应该是多少呢，因为我们表达式里面的最小单位是 `minute`
+这里还有一个问题，**未来的时间**的间隔应该是多少呢，因为我们表达式里面的最小单位是 `minute`
 
 所以枚举时间的间隔应该是 `1 * minute`，`Cronexpr.accurate` 就是代表这个
 
 > 为什么不写成常量呢？因为之后还可以实现支持 `second` 字段的 `Cronexpr`
 
-这里还因为枚举未来时间因为需要一个基准(`zero time`)值，而这个时间对于 `nextN()` 这样的`最小`函数最好是可以外部传入的（符合 `Go 哲学`）所以加上了 `z time.Time`
+这里还因为枚举未来时间因为需要一个基准(`zero time`)值，而这个时间对于 `nextN()` 这样的**最小**函数最好是可以外部传入的（符合 Go 哲学）所以加上了 `z time.Time`
 
 当然了，对于 `Next()` 和 `NextN()` 这样的函数 `zero time` 也是可以外部传入的，因为 `Next()` 这个语义并没有明显包括代表当前时间之后的含义
 
@@ -272,7 +272,7 @@ func (e *Cronexpr) next1(z time.Time) time.Time {
 }
 ```
 
-这里 `for range` 的时候 `初始值 t` 加上 `accurate` 是为了防止如果 `z` 符合要求函数就会一直直接返回 `true`，导致 `nextN` 里的 `for` 循环就会返回同样的值
+这里 `for range` 的时候初始值 `t` 加上 `accurate` 是为了防止如果 `z` 符合要求函数就会一直直接返回 `true`，导致 `nextN` 里的 `for` 循环就会返回同样的值
 
 `Notify` 函数实现主要是多了 `ctx deadline` 的判断退出，这里可以简单的使用 `time ticker` 来获取需要检查的时间点
 ```go
