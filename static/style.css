@@ -1,4 +1,3 @@
-/* Reset default browser styles */
 body,
 h1,
 h2,
@@ -15,29 +14,31 @@ blockquote {
 }
 
 body {
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  margin: auto;
-  padding: 20px;
-  max-width: 800px;
-  line-height: 1.6;
+  background-color: #f8fcf8;
   display: flex;
   flex-direction: column;
-  background-color: #f8fcf8;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  margin: auto;
+  max-width: 800px;
+  padding: 20px;
 }
 
 a {
   color: #3273dc;
-  font-weight: bold;
+  font-weight: 500;
+  outline: none;
   text-decoration: none;
 }
 
 a:visited {
-  font-weight: normal;
+  color: #3273dc;
 }
 
 h1.blog-title {
   font-size: 32px;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 20px;
 }
 
@@ -65,19 +66,19 @@ h1.blog-title {
 }
 
 code {
-  padding: 2px 5px;
   background-color: #e8e8e8;
+  padding: 2px 5px;
 }
 
 pre code {
+  background: #e8e8e8;
   display: block;
   padding: 20px;
   white-space: pre-wrap;
-  background: #e8e8e8;
 }
 
 blockquote {
-  border-left: 2px solid black;
+  border-left: 2px solid #000;
   padding-left: 10px;
 }
 
@@ -87,8 +88,8 @@ blockquote {
 
 .post-content {
   font-size: 14px;
-  margin-left: 20px;
   list-style: none;
+  margin-left: 20px;
 }
 
 .post-content li {
@@ -96,11 +97,13 @@ blockquote {
 }
 
 .post-content a {
+  color: #3273dc;
+  font-weight: 500;
   text-decoration: none;
 }
 
 .post-content a:visited {
-  color: #808080;
+  color: #3273dc;
 }
 
 .post-content a:hover {
@@ -116,33 +119,29 @@ blockquote {
 }
 
 blockquote {
-  border-left: 2px solid black;
+  border-left: 2px solid #000;
   padding-left: 10px;
 }
 
-.tag-refer {
-  color: #3273dc;
-}
-
 .post-meta .post-date {
+  background-color: #6f7378;
+  color: #f8fcf8;
   font-size: 12px;
-  background-color: #888;
   padding: 5px;
-  color: #fff;
 }
 
 .post-tags .tag {
+  background-color: #4c4e52;
+  color: #f8fcf8;
   display: inline-block;
-  padding: 5px 10px;
-  background-color: #333;
-  color: #fff;
-  text-decoration: none;
   margin-right: 5px;
+  padding: 5px 10px;
+  text-decoration: none;
 }
 
 .container {
-  position: relative;
   min-height: calc(95vh - 2.5rem);
+  position: relative;
 }
 
 hr.divider {
@@ -151,9 +150,9 @@ hr.divider {
 }
 
 .footer {
-  position: absolute;
   bottom: 0;
-  width: 100%;
-  text-align: center;
   height: 2.5rem;
+  position: absolute;
+  text-align: center;
+  width: 100%;
 }

@@ -65,7 +65,13 @@
 </ul>
 </li>
 <li>
-<a href="#10-27-update">10-27 update</a></li>
+<a href="#optimize">Optimize</a><ul>
+<li>
+<a href="#protect-double-slashes">Protect double slashes</a></li>
+<li>
+<a href="#httpredirect-clean-double-slashes">http.Redirect clean double slashes</a></li>
+</ul>
+</li>
 <li>
 <a href="#conclusion">Conclusion</a></li>
 </ul>
@@ -73,8 +79,7 @@
 </ul>
 <h2 id="background">Background</h2>
 <p>Many websites use various CSS styles, and some of them can be challenging to read. One way to improve readability is to use a browser extension. Alternatively, you can create your own website <a href="https://www.wikiwand.com/en/Readability">readability</a> tool. There are numerous language options and implementations available for this purpose. In this case, we will use Go and the <a href="github.com/go-shiori/go-readability">readability</a> library to implement it. You will see how simple it is.</p>
-<p>You can find all the code on my GitHub repository <a href="https://github.com/abcdlsj">abcdlsj</a>.</p>
-<p><a href="https://github.com/abcdlsj/share/tree/master/go/readability">abcdlsj/readability</a></p>
+<p>You can find all the code on my GitHub repository <a href="https://github.com/abcdlsj/share/tree/master/go/readability">readability</a></p>
 <h2 id="do-it">Do it</h2>
 <p>Start by reading the example code for <a href="https://github.com/go-shiori/go-readability">go-readability</a> to understand its functionality and usage.</p>
 <p>You can write the following code, which can be used as a command-line interface (CLI) tool.</p>
@@ -230,22 +235,29 @@
 <p>After building the Docker image, you can run it using the following command:</p>
 <p><code>docker run -it --rm -p &lt;HOST_PORT&gt;:8080 abcdlsj/readability</code></p>
 <p>Now you can access the website at <code>http://localhost:&lt;HOST_PORT&gt;</code>.</p>
-<h2 id="10-27-update">10-27 update</h2>
+<h2 id="optimize">Optimize</h2>
+<h3 id="protect-double-slashes"><code>Protect</code> double slashes</h3>
 <p>You can enhance the functionality by utilizing URL parameters, making it more useful. I attempted to add an HTTP URL to the path, but encountered a problem with the parser.</p>
 <p>For example, when you make a request to <code>https://xxx.com/read/https://nautil.us/mirror-image-life-412729/</code>, the appended path becomes <code>https:/nautil.us/mirror-image-life-412729</code> due to the modification of <code>//</code> to <code>/</code>. This behavior is a result of the following explanation from the documentation:</p>
 <blockquote>
 <p>ServeMux also takes care of sanitizing the URL request path and the Host header, stripping the port number and redirecting any request containing . or .. elements or repeated slashes to an equivalent, cleaner URL.</p>
 </blockquote>
-<p><a href="https://pkg.go.dev/net/http#ServeMux">This information was obtained from the documentation found at</a></p>
+<p>This information was obtained from the documentation found at <a href="https://pkg.go.dev/net/http#ServeMux">net/http#ServeMux</a></p>
 <p>I came across some useful links that discuss this issue:</p>
 <ul>
-<li><a href="https://stackoverflow.com/questions/55716545/url-escaped-parameter-not-resolving-properly">Stack Overflow post: URL-escaped parameter not resolving properly</a></li>
-<li><a href="https://stackoverflow.com/questions/51908277/how-do-i-get-gos-net-http-package-to-stop-removing-double-slashes">Stack Overflow post: How do I get Go's net/http package to stop removing double slashes?</a></li>
+<li><a href="https://stackoverflow.com/questions/55716545/url-escaped-parameter-not-resolving-properly">Stack Overflow - URL-escaped parameter not resolving properly</a></li>
+<li><a href="https://stackoverflow.com/questions/51908277/how-do-i-get-gos-net-http-package-to-stop-removing-double-slashes">Stack Overflow - How do I get Go's net/http package to stop removing double slashes?</a></li>
+<li><a href="https://github.com/golang/go/issues/42244">Github issue - net/http: ServeMux forcibly cleans double forward slash in URLs even when behaving as a gateway</a></li>
 </ul>
 <p>The suggested solution is to use <code>https://github.com/gorilla/mux</code> or implement your own <code>ServeMux</code>. By using gorilla/mux, you simply need to call <code>SkipClean(true)</code>. After doing this, the double slashes won't be removed.</p>
+<h3 id="httpredirect-clean-double-slashes"><code>http.Redirect</code> clean double slashes</h3>
 <p>However, I encountered another issue when using redirects after submitting a link form. The redirect operation also removes the double slashes from the URL path, and unfortunately, <code>gorilla/mux</code> does not support handling this situation.</p>
+<p>Because <code>http.Redirect</code> call <code>url = path.Clean(url)</code> to clean the URL, it also will <code>clean</code> double slashes.</p>
+<blockquote>
+<p>Can see code <a href="https://github.com/golang/go/blob/8c92897e15d15fbc664cd5a05132ce800cf4017f/src/net/http/server.go#L2247C25-L2247C25">/src/net/http/server.go</a></p>
+</blockquote>
 <p>Luckily, there is a workaround available. You can escape the <code>/</code> characters as <code>%2F</code> to prevent the removal of double slashes during the redirect process.</p>
-<p>You can find this version of the code at <a href="https://github.com/abcdlsj/share/tree/909fcb5e80fef9ecfaf68259ae98fb6694d3e984/go/readability">https://github.com/abcdlsj/share/tree/909fcb5e80fef9ecfaf68259ae98fb6694d3e984/go/readability</a>. Please note that there are some additional adjustments made as well.</p>
+<p>You can find this version of the code at <a href="https://github.com/abcdlsj/share/tree/909fcb5e80fef9ecfaf68259ae98fb6694d3e984/go/readability">readability - 909fcb5e80fe</a>. Please note that there are some additional adjustments made as well.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>This is a small weekend project. After adding some simple <code>CSS</code> to the <code>HTML template</code>, you will see the result:</p>
 <p><strong>Updated: 2023-10-29</strong></p>
