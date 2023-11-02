@@ -21,7 +21,7 @@ blockquote {
 body {
   display: flex;
   flex-direction: column;
-  font-family: inter, system-ui;
+  font-family: Lato, inter, system-ui;
   line-height: 2;
   margin: auto;
   max-width: 60%;
