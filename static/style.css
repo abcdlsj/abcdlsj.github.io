@@ -15,16 +15,17 @@ blockquote {
 :root {
   --light-border-color: #dee2e6;
   --code-color: #007da6;
-  --main-color: #006e93;
-  --ref-color: #008cba;
+  --href-color: #006e93;
+  --dark-ref-color: #008cba;
 }
 body {
   display: flex;
   flex-direction: column;
-  font-family: Lato, inter, system-ui;
+  font-family: system-ui;
   line-height: 2;
   margin: auto;
   max-width: 60%;
+  font-size: 16px;
   padding: 20px;
 }
 .container {
@@ -32,15 +33,15 @@ body {
   position: relative;
 }
 a {
-  color: var(--main-color);
+  color: var(--href-color);
   text-decoration: none;
 }
 a:visited {
-  color: var(--main-color);
+  color: var(--href-color);
   text-decoration: underline;
 }
 a:hover {
-  color: var(--main-color);
+  color: var(--href-color);
   text-decoration: underline;
 }
 blockquote {
@@ -53,17 +54,19 @@ blockquote {
   background-color: #f2f3f5;
 }
 h1.blog-title {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 600;
   margin-bottom: 20px;
 }
 code {
   color: var(--code-color);
+  font-size: 15px;
 }
 pre code {
   background: #F2F3F5;
   display: block;
   padding: 20px;
+  font-size: 14px;
   white-space: pre-wrap;
   color: #000;
 }
@@ -72,7 +75,7 @@ pre code {
   justify-content: space-between;
 }
 .navbar a {
-  color: var(--ref-color);
+  color: var(--dark-ref-color);
   text-decoration: none;
 }
 .navbar ul {
@@ -99,19 +102,19 @@ pre code {
   margin-bottom: 5px;
 }
 .post-content a {
-  color: var(--main-color);
+  color: var(--href-color);
   text-decoration: none;
 }
 .post-content a:visited {
-  color: var(--main-color);
+  color: var(--href-color);
 }
 .post-content li a {
   font-weight: 500;
-  color: var(--ref-color);
+  color: var(--dark-ref-color);
 }
 .post-content li a:visited {
   font-weight: 500;
-  color: var(--ref-color);
+  color: var(--dark-ref-color);
 }
 .post-content a:hover {
   text-decoration: underline;
@@ -122,7 +125,7 @@ pre code {
   padding: 5px;
 }
 .post-tags .tag {
-  color: var(--ref-color);
+  color: var(--dark-ref-color);
   margin-right: 5px;
   font-size: 14px;
   font-weight: 600;
