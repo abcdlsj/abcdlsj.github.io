@@ -25,7 +25,6 @@ body {
   line-height: 2;
   margin: auto;
   max-width: 60%;
-  font-size: 16px;
   padding: 20px;
 }
 .container {
@@ -60,13 +59,11 @@ h1.blog-title {
 }
 code {
   color: var(--code-color);
-  font-size: 15px;
 }
 pre code {
   background: #F2F3F5;
   display: block;
   padding: 20px;
-  font-size: 14px;
   white-space: pre-wrap;
   color: #000;
 }
