@@ -1,9 +1,9 @@
 ---
 title: "Written on the Occasion of 22nd Birthday"
-date: "2021-04-01T14:04:52+08:00"
+date: 2021-04-01T14:04:52+08:00
 tags:
-  - Summary
-hide: true
+    - Summary
+hide: false
 ---
 
 > 今年 7 月份就会结束自己的学生生涯，刚好过几天也会迎来自己的 22 岁生日，恰逢在本周收到了还算满意的 `offer`，所以觉得还是需要写点东西表示一下。
