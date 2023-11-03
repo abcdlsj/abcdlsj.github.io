@@ -1,3 +1,5 @@
+@import url('https://fonts.cdnfonts.com/css/gg-sans-2');
+
 body,
 h1,
 h2,
@@ -21,7 +23,7 @@ blockquote {
 body {
   display: flex;
   flex-direction: column;
-  font-family: system-ui;
+  font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 2;
   margin: auto;
   max-width: 60%;
@@ -52,11 +54,6 @@ blockquote {
   border-radius: 0.25rem;
   background-color: #f2f3f5;
 }
-h1.blog-title {
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
 code {
   color: var(--code-color);
 }
@@ -74,6 +71,7 @@ pre code {
 .navbar a {
   color: var(--dark-ref-color);
   text-decoration: none;
+  font-weight: 500;
 }
 .navbar ul {
   display: flex;
@@ -101,17 +99,11 @@ pre code {
 .post-content a {
   color: var(--href-color);
   text-decoration: none;
+  font-family: 'gg sans Medium';
+  font-weight: 500;
 }
 .post-content a:visited {
   color: var(--href-color);
-}
-.post-content li a {
-  font-weight: 500;
-  color: var(--dark-ref-color);
-}
-.post-content li a:visited {
-  font-weight: 500;
-  color: var(--dark-ref-color);
 }
 .post-content a:hover {
   text-decoration: underline;
@@ -129,6 +121,17 @@ pre code {
   padding: 5px 10px;
   text-decoration: none;
 }
+.blog-title {
+  font-size: 2em;
+  font-family: 'gg sans Medium', 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.post-title {
+  font-size: 2em;
+  font-family: 'gg sans Medium', 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+}
 hr {
   background-color: var(--light-border-color);
   opacity: 1;
@@ -140,3 +143,4 @@ hr {
   text-align: center;
   width: 100%;
 }
+
