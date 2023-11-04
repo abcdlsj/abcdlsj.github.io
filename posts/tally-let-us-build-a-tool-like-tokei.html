@@ -84,11 +84,9 @@
 </ul>
 </li>
 <li>
-<a href="#optimize2---bufio-scanner-countline">Optimize2 - Bufio scanner countline</a><ul>
+<a href="#optimize2---bufio-scanner-countline">Optimize2 - Bufio scanner countline</a></li>
 <li>
 <a href="#optimize3---faster-filepath-walking">Optimize3 - Faster filepath walking</a></li>
-</ul>
-</li>
 <li>
 <a href="#end">End</a></li>
 <li>
@@ -495,7 +493,7 @@ But my result is very abbreviate, It effected by many factors (I'll do more test
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>          0.023000 +- 0.000407 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +-  1.77% <span style="color:#000;font-weight:bold">)</span>
 </span></span></code></pre><p>it's so <code>fast</code> than <a href="#tally">origin <code>counter</code> tally</a></p>
-<h3 id="optimize3---faster-filepath-walking">Optimize3 - Faster filepath walking</h3>
+<h2 id="optimize3---faster-filepath-walking">Optimize3 - Faster filepath walking</h2>
 <p>At the <a href="#optimize1---parallel"><code>Optimize1</code></a>, I found the <code>filepath.Walk</code> is the most time killer.<br>
 Based on this post <a href="https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/">You Don't Need a Library for File Walking in Go</a>, the result shows the <code>offical filepath walk</code> are faster enough. And I want to build <code>tally</code> without any <code>third-party dependencies</code>, so I won't use other faster <code>walkdir</code> library...<br>
 Currently, I use the <code>filepath.Walk</code> to <code>walking</code> dir, I'll modify to <code>filepth.Walkdir</code>, It's faster a little.</p>
