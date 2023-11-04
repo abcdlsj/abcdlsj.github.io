@@ -34,7 +34,7 @@
 </nav>
 </div>
     <hr class="divider" />
-    <h1 class="post-title">[WIP] Pipe - Build a tunnel tool like `frp` or `ngrok`</h1>
+    <h1 class="post-title">Pipe - Build a tunnel tool like `frp` or `ngrok`</h1>
     <div class="post-meta">
       <div class="post-date">Date: 2023-11-02T18:47:37+08:00</div>
       <nav class="post-tags">
@@ -100,7 +100,6 @@
 </ul>
 </li>
 </ul>
-<p>This article has <code>English</code> version，please read <a href="/posts/pipe-build-a-proxy-en.html">Pipe - Build a tunnel tool like <code>frp</code> or <code>ngrok</code></a></p>
 <h2 id="background">Background</h2>
 <p><strong>简单的转发工具</strong><br>
 公司内部的服务框架通信都是通过 <code>UNIX domain</code> 连接机器本地的 <code>Agent</code> 实现，在公司容器集群环境，都是会启动 <code>Agent</code>，但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地启动服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到远程的一个 <code>TCP agent</code> 来启动服务的<br>
