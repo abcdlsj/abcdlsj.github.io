@@ -12,20 +12,19 @@ hide: false
 ## Background
 **简单的转发工具**
 公司内部的服务框架 Service 之间通信是通过连接每台机器的 `Agent` 监听的 `UNIX domain` 实现的，在公司容器集群环境，都是会启动 `Agent`。
-但是作为本地环境，没有 `Agent` 的条件，所以本地启动服务都是使用 `socat` 将本地 `UNIX domain` 流量转发到远程搭建的 `TCP agent` 来启动服务的（远程的 `TCP agent` 也没有什么特殊的，流量也是转发到机器 `Agent` 上）
-我们一般是使用 `socat -d -d -d UNIX-LISTEN:/tmp/xxx.sock,reuseaddr,fork TCP:agent-tcp.xxxx.io:9299`
+但是作为本地环境，没有 `Agent` 的条件，所以本地启动服务都是使用 `socat` 将本地 `UNIX domain` 流量转发到远程搭建的 `TCP agent` 来启动服务的（远程的 `TCP agent` 也没有什么特殊的，流量也是转发到搭建 `TCP agent` 机器的本地 `Agent` 上）
+在公司内部，我们一般是使用 `socat -d -d -d UNIX-LISTEN:/tmp/xxx.sock,reuseaddr,fork TCP:agent-tcp.xxxx.io:9299` 来做转发的。
 
 > `socat` 是一个瑞士军刀类的工具，非常强大
 
-后边想到既然原理这么简单，那么实现一个类似功能的转发工具应该也很简单，借助 `io.Copy()` 以及 `net` 包，一小会就实现了代码，总代码量不超过 50 行，但是却非常实用，启动速度很快（实测竟然比 `socat` 要稍快）
+有次想到既然原理这么简单，那么实现一个类似功能的转发工具应该也很简单，借助 `io.Copy()` 以及 `net` 包，一小会就实现了代码，总代码量不超过 50 行，但是却非常实用，启动速度很快（实测竟然比 `socat` 要稍快）
 
 **远程端口转发**
-后边想到可以实现一个类似 `frp` 和 `ngrok` 的工具，核心代码和简单的转发工具也差不太多，所以就开始写了。
-实现过程中没有借鉴太多其它项目的代码，很多地方都是遇到问题再去查，所以写一篇博客记录下是很值得的，一直没想法去写，这里记录一下思路以及核心代码。
-代码是年初 or 去年末写的第一个版本，后边改了一些，现在和最初的版本相比要复杂一些。
+再后来想到可以实现一个类似 `frp` 和 `ngrok` 的工具，实现的过程中没有借鉴太多其它项目的代码，很多地方都是遇到问题再去查，所以写一篇博客记录下是很值得的，一直没想法去写，这里记录一下思路以及核心代码。
+代码是年初 or 去年末写了第一个版本，后边改了一些，现在和最初的版本相比要复杂一些。
 
 > 开始的版本只实现 `TCP` 转发，含有 `Caddy` 来做 `Auto Subdomain https`，代码不到 `1000` 行。后边优化了下，现在支持 `TCP/UDP` 协议，所以本文只涉及 `TCP/UDP` 实现（不过其它协议也大都类似
-> 另外顺带一提，`GitHub` 有非常多类似的实现，比如 [ekzhang/bore](https://github.com/ekzhang/bore) 和 [rapiz1/rathole](https://github.com/rapiz1/rathole/)（`Tokio` 的功能太强大了，忍不住想用 `Rust` 重写 :P）
+> 顺带一提，`GitHub` 有非常多类似的实现，比如 [ekzhang/bore](https://github.com/ekzhang/bore) 和 [rapiz1/rathole](https://github.com/rapiz1/rathole/)（`Tokio` 的功能太强大了，忍不住想用 `Rust` 重写 :P）
 
 所有的代码都在 [abcdlsj/pipe](https://github.com/abcdlsj/pipe/tree/484084da8b9edb99fb39e5d7561cc94d16d7031c) 里（本文纂写时的版本）
 
@@ -38,9 +37,10 @@ hide: false
 我们希望有一种方法来建立服务器端口和客户端端口之间的关联，将对服务器端口的访问转发到客户端的对应端口，通过公网访问服务器的端口就相当于访问客户端的端口。
 
 **如何实现这个转发？**
-首先 Server 端应该和 Client 端进行通信，对于 Server 端的入站请求，将请求和 Client 端进行**绑定**，Client 则对目标端口和 Server 端通信连接进行**绑定**。**绑定** 的意思是对两个连接进行 `io.Copy()`。
-
 假设我们 Server 通信端口是 8910，要将 Client 的 3000 端口穿透到 Server 的 9000 端口。
+首先 Server 端应该和 Client 端进行通信（8910 端口），对于 Server 端的目标端口（9000）的用户请求，将用户请求和 Client 连接进行流量**代理**，Client 则对本地端口（3000）和通信接口连接进行流量**代理**）。
+这样流量路径就是：用户请求 -> Server **代理**的通信连接（也是 Client 端**代理**的通信连接） -> Client 端本地链接
+
 最后结构差不多就是这样：
 ```d2
 Flow: {
@@ -50,11 +50,11 @@ Flow: {
   client: {
     localport 3000
   }
-  client <-> server: 1. Create control connection, auth, send request forward...
+  client <-> server: 1. Port 8910(create control connection, auth, send request forward...)
   user -> server: 2. View remote port 9000
-  server -> server: 3. io.Copy() control connection 8910 and user connection
+  server -> server: 3. Proxy(8910 connection, 9000 connection)
   server -> client: 4. Send start proxy request
-  client -> client: 5. io.Copy() control connection 8910 and local connection
+  client -> client: 5. Proxy(8910 connection, 3000 connection)
 }
 ```
 
