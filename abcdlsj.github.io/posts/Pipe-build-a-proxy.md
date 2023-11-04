@@ -1,6 +1,6 @@
 ---
 title: "Pipe - Build a tunnel tool like `frp` or `ngrok`"
-date: 2023-11-02T18:47:37+08:00
+date: 2023-11-04T22:47:37+08:00
 tags:
   - Network
   - Weekly
