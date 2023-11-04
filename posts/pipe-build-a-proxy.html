@@ -58,11 +58,13 @@
 <li>
 <a href="#how-it-works">How it works</a></li>
 <li>
-<a href="#implementation">Implementation</a><ul>
+<a href="#codes">Codes</a><ul>
 <li>
-<a href="#structure">Structure</a></li>
+<a href="#structure">structure</a></li>
 <li>
-<a href="#handshark--auth">handshark &amp; auth</a></li>
+<a href="#auth">auth</a></li>
+<li>
+<a href="#message">message</a></li>
 <li>
 <a href="#forward">forward</a></li>
 <li>
@@ -77,6 +79,8 @@
 <a href="#deploy-at-flyio">Deploy at fly.io</a></li>
 <li>
 <a href="#udp">UDP</a></li>
+<li>
+<a href="#speed-limit">Speed limit</a></li>
 </ul>
 </li>
 <li>
@@ -239,10 +243,12 @@
 </mask></svg></svg></div><p>这里省略了一些值得思考的东西，比如：</p>
 <ol>
 <li>Client 端和 Server 端建立连接 <code>Auth/Handshake</code> 的部分，如何「鉴权」？</li>
+<li><code>Control</code> 连接里的消息是否固定长度？如果不固定，怎么处理「边界」问题？</li>
 <li>Client 端接收到 <code>Proxy</code> 请求后，进行 <code>io.Copy()</code> 的是哪个连接，Server 端又怎样处理呢？</li>
 </ol>
 <blockquote>
-<p>对于 2，如果没有实现过类似的工具可能不太清楚为什么会有这个问题，看了下面详细的流程大概就清楚了（忽略「鉴权」部分</p>
+<p>对于 1 和 2 可以看下面的详细实现<br>
+对于 2，如果没有实现过类似的工具可能不太清楚为什么会有这个问题，看了下面详细的流程大概就清楚了（忽略「鉴权」部分</p>
 </blockquote>
 <ol>
 <li>首先启动 Server 端，「监听」 8910 端口</li>
@@ -264,30 +270,226 @@
 解决这个问题有很多方法：</p>
 <ol>
 <li>可以使用连接复用库，例如 <a href="https://github.com/hashicorp/yamux">hashicorp/yamux</a>，<code>frp</code> 默认使用 <code>yamux</code></li>
-<li>对报文在应用层自行区分，于此同时 <code>Copy</code> 的部分也要做处理（ps. <code>yamux</code> 就是对报文做了处理）</li>
+<li>对报文在应用层自行区分，同时 <code>Copy</code> 的部分也要做处理（ps. <code>yamux</code> 就是对报文做了处理）</li>
 <li>最简单的方法，也是大多数内网转发工具用的方法，就是如果需要 <code>Copy</code> 就新建一个连接，简单有效</li>
 </ol>
 <blockquote>
-<p>方法 3 可能存在的问题是，某个端口的连接总数是有限的，但是绝大多数情况，都足够用了（只要实现上没有问题，连接有正常 <code>Close</code></p>
+<p>方法 3 可能存在的问题是，端口的连接总数是有限的，但是正常都足够的（只要实现上连接有正常 <code>Close</code>，在 Client 不是很多的情况下是没有太大问题的</p>
 </blockquote>
 <p>方法 1 和 方法 3 是最适合的，而且 <code>yamux</code> 接入并不复杂，我选择方法 3 来实现（后续会抽空加上 <code>yamux</code> 支持</p>
 <p>选择方法 3，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 <code>Copy</code> <code>Local 3000</code> 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 <code>Forward</code> 还是 <code>Exchange</code> 消息，然后如果是 <code>Exchange</code>，需要<strong>拿出</strong>用户连接 <code>Copy</code> 到此 <code>Exchange</code> 消息的连接上。</p>
 <p>所以步骤 3，Server 需要保存用户请求，创建对应的 <code>Connection UUID</code>，然后带上发送 <code>Exchange</code> 消息到 Client<br>
-步骤 5，Client 需要接收到 <code>Exchange</code> 消息，新建 Server 连接，然后首先发送带上同样 <code>UUID</code> 的 <code>Exchange</code> 消息到 Server，然后 <code>Copy</code> <code>Local 3000</code> 流量到此新建的 Server 连接上，于此同时<br>
-之后步骤 6. Server 接收到 <code>Exchange</code> 消息，通过 <code>UUID</code> 取出对应的用户连接，然后 <code>Copy</code> 用户连接和此连接上</p>
-<p>至此，用户访问 Server 端 9000 端口的「一个连接」的流量已经完成了<br>
+步骤 5，Client 需要接收到 <code>Exchange</code> 消息，新建 Server 连接，然后首先发送带上同样 <code>UUID</code> 的 <code>Exchange</code> 消息到 Server，然后 <code>Copy</code> <code>Local 3000</code> 流量到此新建的 Server 连接上<br>
+步骤 6. Server 接收到 <code>Exchange</code> 消息，通过 <code>UUID</code> 取出对应的用户连接，然后 <code>Copy</code> 用户连接和此连接上</p>
+<p>至此，用户访问 Server 端 9000 端口的「一个连接」的访问流程已经完成了<br>
 流程很简单，那么接下来，我会写一下每个流程的代码实现</p>
-<h2 id="implementation">Implementation</h2>
-<h3 id="structure">Structure</h3>
-<h3 id="handshark--auth">handshark &amp; auth</h3>
+<h2 id="codes">Codes</h2>
+<h3 id="structure">structure</h3>
+<p>结构大概是这样</p>
+<pre><code>.
+├── client
+│   ├── cfg.toml
+│   ├── cmd.go
+│   ├── config.go
+│   └── serve.go
+├── cmd
+│   └── cmd.go
+├── example
+│   └── udp_forward
+│       ├── README.md
+│       └── echo.go
+├── logger
+│   └── log.go
+├── main.go
+├── pio
+│   ├── encrypt.go
+│   └── limit.go
+├── proto
+│   ├── error.go
+│   ├── msg.go
+│   └── packet.go
+├── proxy
+│   ├── buf.go
+│   ├── proxy.go
+│   └── udp.go
+└── server
+    ├── cfg.toml
+    ├── cmd.go
+    ├── config.go
+    ├── conn
+    │   ├── constant.go
+    │   ├── tcp.go
+    │   └── udp.go
+    └── serve.go
+</code></pre>
+<p>简要描述下：</p>
+<ul>
+<li>cmd: <code>cmd</code> 入口，<code>cobra</code></li>
+<li>proxy：对两个连接进行 <code>Copy</code> 的部分</li>
+<li>proto：<code>Control</code> 发送的消息结构体，以及序列化封装</li>
+<li>client：client 处理流程</li>
+<li>server：server 处理流程</li>
+<li>pio: <code>io.Reader</code> 和 <code>io.Writer</code> 的封装，实现限速（<code>Speed limit</code>）的功能</li>
+</ul>
+<h3 id="auth">auth</h3>
+<p>因为打算通过 <code>Message</code> 发送来写一个流程，所以就不分别写 <code>Client</code> 和 <code>Server</code> 的结构体了</p>
+<p><code>Auth</code> 采用简单的 Token 校验，消息里有 <code>Token</code> 以及 <code>Timestamp</code> 字段，收到消息会 <code>md5(Token + Timestamp)</code> 进行校验（最开始我的实现 Client 和 Server 每个收发消息都会带上校验字段，好处是少一次 Auth 的发送时间，后来看到很多实现都只是在建立连接的时候校验，所以也改成连接创建时校验）</p>
+<p><code>Login message</code> 结构体<br>
+<a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L56">proto/msg.go#L56</a></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> MsgLogin <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	Token     <span style="color:#458;font-weight:bold">string</span> <span style="color:#d14">`json:&#34;token&#34;`</span>
+</span></span><span style="display:flex;"><span>	Version   <span style="color:#458;font-weight:bold">string</span> <span style="color:#d14">`json:&#34;client_version&#34;`</span>
+</span></span><span style="display:flex;"><span>	Timestamp <span style="color:#458;font-weight:bold">int64</span>  <span style="color:#d14">`json:&#34;timestamp&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p><code>Dial</code> 创建和 <code>Auth</code> 部分差不多是这样<br>
+<a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L75">client/serve.go#L75</a></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">authDialSvr</span>(svraddr <span style="color:#458;font-weight:bold">string</span>, token <span style="color:#458;font-weight:bold">string</span>) (net.Conn, <span style="color:#458;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	conn, err <span style="color:#000;font-weight:bold">:=</span> net.<span style="color:#900;font-weight:bold">Dial</span>(<span style="color:#d14">&#34;tcp&#34;</span>, svraddr)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(conn, proto.<span style="color:#900;font-weight:bold">NewMsgLogin</span>(token)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> conn, <span style="color:#000;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>这里用到 <code>proto.Send</code>，接下来会介绍 <code>message</code> 的实现</p>
+<h3 id="message">message</h3>
+<p><code>TCP</code> 是 <code>Stream</code> 协议，我们并不知道需要读取多少字节，每个消息的长度也都是不固定的，所以需要实现自己的序列化规则</p>
+<h4 id="format">format</h4>
+<p>规定 <code>Message</code> 的 <code>format</code> 如下：</p>
+<pre><code>|&lt;1 byte&gt;|&lt;2 byte&gt;|&lt;length byte&gt;|
+|PacketType|Length| Json Message|
+</code></pre>
+<h4 id="packunpack">pack/unpack</h4>
+<p><a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/packet.go#L42">proto/packet.go#L42</a></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">packet</span>(typ PacketType, msg <span style="color:#000;font-weight:bold">interface</span>{}) ([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#458;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	buf, err <span style="color:#000;font-weight:bold">:=</span> json.<span style="color:#900;font-weight:bold">Marshal</span>(msg)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">packet0</span>(typ, buf)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">packet0</span>(typ PacketType, buf []<span style="color:#458;font-weight:bold">byte</span>) ([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#458;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(buf) &gt; <span style="color:#099">65535</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>, ErrMsgLength
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	ret <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#099">3</span><span style="color:#000;font-weight:bold">+</span><span style="color:#0086b3">len</span>(buf))
+</span></span><span style="display:flex;"><span>	ret[<span style="color:#099">0</span>] = <span style="color:#0086b3">byte</span>(typ)
+</span></span><span style="display:flex;"><span>	ret[<span style="color:#099">1</span>] = <span style="color:#0086b3">byte</span>(<span style="color:#0086b3">len</span>(buf) <span style="color:#000;font-weight:bold">&gt;&gt;</span> <span style="color:#099">8</span>)
+</span></span><span style="display:flex;"><span>	ret[<span style="color:#099">2</span>] = <span style="color:#0086b3">byte</span>(<span style="color:#0086b3">len</span>(buf))
+</span></span><span style="display:flex;"><span>	<span style="color:#0086b3">copy</span>(ret[<span style="color:#099">3</span>:], buf)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> ret, <span style="color:#000;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">read</span>(r io.Reader) (PacketType, []<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#458;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	typ, buf, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">read0</span>(r)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> PacketUnknown, <span style="color:#000;font-weight:bold">nil</span>, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">PacketType</span>(typ), buf, <span style="color:#000;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">read0</span>(r io.Reader) (typ <span style="color:#458;font-weight:bold">byte</span>, buf []<span style="color:#458;font-weight:bold">byte</span>, err <span style="color:#458;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	buf = <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#099">1</span>)
+</span></span><span style="display:flex;"><span>	_, err = r.<span style="color:#900;font-weight:bold">Read</span>(buf)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	typ = buf[<span style="color:#099">0</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	buf = <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#099">2</span>)
+</span></span><span style="display:flex;"><span>	_, err = r.<span style="color:#900;font-weight:bold">Read</span>(buf)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		err = ErrMsgRead
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	l <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">int</span>(buf[<span style="color:#099">0</span>])<span style="color:#000;font-weight:bold">&lt;&lt;</span><span style="color:#099">8</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#0086b3">int</span>(buf[<span style="color:#099">1</span>])
+</span></span><span style="display:flex;"><span>	buf = <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, l)
+</span></span><span style="display:flex;"><span>	n, err <span style="color:#000;font-weight:bold">:=</span> io.<span style="color:#900;font-weight:bold">ReadFull</span>(r, buf)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> n <span style="color:#000;font-weight:bold">!=</span> l {
+</span></span><span style="display:flex;"><span>		err = ErrMsgLength
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><h4 id="sendrecv">send/recv</h4>
+<p><a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L16">proto/msg.go#L16</a></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Send</span>(w io.Writer, msg Msg) <span style="color:#458;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	buf, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">packet</span>(msg.<span style="color:#900;font-weight:bold">Type</span>(), msg)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	_, err = w.<span style="color:#900;font-weight:bold">Write</span>(buf)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Recv</span>(r io.Reader, msg Msg) <span style="color:#458;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	p, buf, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">read</span>(r)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> p <span style="color:#000;font-weight:bold">!=</span> msg.<span style="color:#900;font-weight:bold">Type</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> ErrInvalidMsg
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> json.<span style="color:#900;font-weight:bold">Unmarshal</span>(buf, msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>到这里 <code>Message</code> 的序列化和解析已经完成了，之后使用 <code>Msg</code> 或者添加新的 <code>Msg</code> 都不用关注这部分</p>
 <h3 id="forward">forward</h3>
-<h3 id="exchange">exchange</h3>
+<p><a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L88"></a></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (f <span style="color:#000;font-weight:bold">*</span>Forwarder) <span style="color:#900;font-weight:bold">Run</span>() {
+</span></span><span style="display:flex;"><span>	rConn, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">authDialSvr</span>(f.svraddr, f.token)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(rConn, proto.<span style="color:#900;font-weight:bold">NewMsgForward</span>(f.proxyName, f.subdomain,
+</span></span><span style="display:flex;"><span>		f.proxyType, f.remotePort)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		f.logger.<span style="color:#900;font-weight:bold">Fatalf</span>(<span style="color:#d14">&#34;Error send forward msg to remote: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	frdResp <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>proto.MsgForwardResp{}
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Recv</span>(rConn, frdResp); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		f.logger.<span style="color:#900;font-weight:bold">Fatal</span>(<span style="color:#d14">&#34;Error reading forward resp msg from remote, please check your config&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> frdResp.Status <span style="color:#000;font-weight:bold">!=</span> <span style="color:#d14">&#34;success&#34;</span> {
+</span></span><span style="display:flex;"><span>		f.logger.<span style="color:#900;font-weight:bold">Fatalf</span>(<span style="color:#d14">&#34;Forward failed, status: %s, remote port: %d&#34;</span>, frdResp.Status, f.remotePort)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">...</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><h3 id="exchange">exchange</h3>
 <h2 id="feat">Feat</h2>
 <h3 id="auto-subdomain-https">Auto subdomain https</h3>
 <h3 id="deploy-at-flyio">Deploy at <code>fly.io</code></h3>
 <h3 id="udp"><code>UDP</code></h3>
+<h3 id="speed-limit">Speed limit</h3>
 <h2 id="done">Done</h2>
-<p>写了下如何实现一个内网转发的小工具，代码本身还有很多可以优化的地方，比如「错误处理」部分，还有支持更多协议。</p>
+<p>写了下如何实现一个内网转发的小工具，代码本身还有很多可以优化的地方，比如</p>
+<ol>
+<li>完善「错误处理」「重试」，对于哪些错误需要重试，哪些错误直接退出</li>
+<li>支持更多转发协议，例如 <code>HTTP/Quic/WebSocket</code>，<code>Control</code> 协议也可以支持更多，目前是 <code>TCP</code>，可以支持 <code>UDP/KCP</code> 等</li>
+<li>完善监控采集，这部分可以用 <code>Prometheus</code>，但是对于小项目来说太麻烦了</li>
+<li><code>Load balance</code> 这部分一直在思考如何做，从上边 <code>fly.io</code> 的部署就能知道，<code>Server</code> 端访问只能是单机的</li>
+</ol>
+<p>写这个小项目后感觉到，项目是很难「维护」的，而且因为个人的局限性，代码一开始很难做出合理的「抽象」，导致后续有代码改动的时候会变很困难。之前写一些几百行的小项目还不觉得，现在这个项目代码量变多后，感觉代码「结构」、「接口」还是不够「清晰」。</p>
 <p>感谢阅读！</p>
 <h2 id="refs">refs</h2>
 <p><a href="https://pandaychen.github.io/2020/01/01/MAGIC-GO-IO-PACKAGE/">https://pandaychen.github.io/2020/01/01/MAGIC-GO-IO-PACKAGE/</a><br>
