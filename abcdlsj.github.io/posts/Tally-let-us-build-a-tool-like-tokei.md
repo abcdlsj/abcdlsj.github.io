@@ -466,7 +466,7 @@ But my result is very abbreviate, It effected by many factors (I'll do more test
 
 it's so `fast` than [origin `counter` tally](#tally)
 
-### Optimize3 - Faster filepath walking
+## Optimize3 - Faster filepath walking
 At the [`Optimize1`](#optimize1---parallel), I found the `filepath.Walk` is the most time killer.
 Based on this post [You Don't Need a Library for File Walking in Go](https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/), the result shows the `offical filepath walk` are faster enough. And I want to build `tally` without any `third-party dependencies`, so I won't use other faster `walkdir` library...
 Currently, I use the `filepath.Walk` to `walking` dir, I'll modify to `filepth.Walkdir`, It's faster a little.
