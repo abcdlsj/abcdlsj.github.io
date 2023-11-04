@@ -100,17 +100,22 @@
 </ul>
 </li>
 </ul>
+<blockquote>
+<p>This blog has <code>English</code> version, can view <a href="/posts/pipe-build-a-proxy-en.html">Pipe - Build a tunnel tool like <code>frp</code> or <code>ngrok</code></a></p>
+</blockquote>
 <h2 id="background">Background</h2>
 <p><strong>简单的转发工具</strong><br>
-公司内部的服务框架通信是通过 <code>UNIX domain</code> 连接机器本地的 <code>Agent</code> 实现，在公司容器集群环境，都是会启动 <code>Agent</code>，但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地启动服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到远程的一个 <code>TCP agent</code> 来启动服务的<br>
-所以我们是使用 <code>socat</code>：<code>socat unix:/xxx.sock,fork tcp:agent.xxx.io:5443</code></p>
+公司内部的服务框架 Service 之间通信是通过连接每台机器的 <code>Agent</code> 监听的 <code>UNIX domain</code> 实现的，在公司容器集群环境，都是会启动 <code>Agent</code>。<br>
+但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地启动服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到远程搭建的 <code>TCP agent</code> 来启动服务的（远程的 <code>TCP agent</code> 也没有什么特殊的，流量也是转发到机器 <code>Agent</code> 上）<br>
+我们一般是使用 <code>socat -d -d -d UNIX-LISTEN:/tmp/xxx.sock,reuseaddr,fork TCP:agent-tcp.xxxx.io:9299</code></p>
 <blockquote>
 <p><code>socat</code> 是一个瑞士军刀类的工具，非常强大</p>
 </blockquote>
-<p>之前借助 <code>io.Copy()</code> 以及 <code>net</code> 包，动手实现了符合需求的转发工具，代码量很少，加上 <code>flag</code> 代码不超过 50 行，但是却非常实用，启动速度很快（实测因为 <code>socat</code> 会对流量做加解密，所以直接 <code>copy</code> 会快一点点）</p>
+<p>后边想到既然原理这么简单，那么实现一个类似功能的转发工具应该也很简单，借助 <code>io.Copy()</code> 以及 <code>net</code> 包，一小会就实现了代码，总代码量不超过 50 行，但是却非常实用，启动速度很快（实测竟然比 <code>socat</code> 要稍快）</p>
 <p><strong>远程端口转发</strong><br>
-<code>frp</code> 很适用于内网转发，不过功能很多用不上，<code>ngrok</code> 则适用于做一些临时暴露本地服务之类的。<br>
-因为之前的尝试，所以准备实现一个类似工具，实现过程中没有借鉴太多其它项目的代码，很多地方都是遇到问题再去查，所以写一篇博客记录下是很值得的，这里写一下思路以及核心代码。</p>
+后边想到可以实现一个类似 <code>frp</code> 和 <code>ngrok</code> 的工具，核心代码和简单的转发工具也差不太多，所以就开始写了。<br>
+实现过程中没有借鉴太多其它项目的代码，很多地方都是遇到问题再去查，所以写一篇博客记录下是很值得的，一直没想法去写，这里记录一下思路以及核心代码。<br>
+代码是年初 or 去年末写的第一个版本，后边改了一些，现在和最初的版本相比要复杂一些。</p>
 <blockquote>
 <p>开始的版本只实现 <code>TCP</code> 转发，含有 <code>Caddy</code> 来做 <code>Auto Subdomain https</code>，代码不到 <code>1000</code> 行。后边优化了下，现在支持 <code>TCP/UDP</code> 协议，所以本文只涉及 <code>TCP/UDP</code> 实现（不过其它协议也大都类似<br>
 另外顺带一提，<code>GitHub</code> 有非常多类似的实现，比如 <a href="https://github.com/ekzhang/bore">ekzhang/bore</a> 和 <a href="https://github.com/rapiz1/rathole/">rapiz1/rathole</a>（<code>Tokio</code> 的功能太强大了，忍不住想用 <code>Rust</code> 重写 :P）</p>
@@ -280,7 +285,7 @@
 解决这个问题有很多方法：</p>
 <ol>
 <li>可以使用连接复用库，例如 <a href="https://github.com/hashicorp/yamux">hashicorp/yamux</a>，<code>frp</code> 默认使用 <code>yamux</code></li>
-<li>对报文在应用层自行区分，同时 <code>Copy</code> 的部分也要做处理（ps. <code>yamux</code> 就是对报文做了处理）</li>
+<li>对报文在应用层自行区分，同时 <code>Copy</code> 的部分也要做处理（<code>yamux</code> 就是对报文做了处理）</li>
 <li>最简单的方法，也是大多数内网转发工具用的方法，就是如果需要 <code>Copy</code> 就新建一个连接，简单有效</li>
 </ol>
 <blockquote>
@@ -602,8 +607,8 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 <li>收到用户连接，创建 <code>uuid</code>，发送 <code>Exchange</code> 消息</li>
 </ol>
 <h3 id="exchange">Exchange</h3>
-<p><a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L124">client/serve.go#L124</a><br>
-Client 端从发送 <code>Forward</code> 消息后的 <code>for</code> 里不断获取消息，然后如果是 <code>Exchange</code> 消息</p>
+<p>Client 端从发送 <code>Forward</code> 消息后的 <code>for</code> 里不断获取消息，然后如果是 <code>Exchange</code> 消息<br>
+<a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L124">client/serve.go#L124</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> {
 </span></span><span style="display:flex;"><span>		p, buf, err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Read</span>(rConn)
 </span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
@@ -743,23 +748,12 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可�
 <p>然后这里需要在配置里指定出 <code>Forward</code> 的端口，这样运行 Server 和 Client 后<br>
 访问 <a href="https://pipefly.fly.dev:9000">https://pipefly.fly.dev:9000</a> 就会访问到 Client <code>Local 3000</code> 了</p>
 <blockquote>
-<p>ps. <code>UDP</code> 的配置，<code>fly.io</code> 也是支持的，可以看 <code>fly</code> 的文档，或者可以看这个例子 <a href="https://github.com/AnimMouse/frp-flyapp">AnimMouse/frp-flyapp</a></p>
+<p><code>UDP</code> 的配置，<code>fly.io</code> 也是支持的，可以看 <code>fly</code> 的文档，或者可以看这个例子 <a href="https://github.com/AnimMouse/frp-flyapp">AnimMouse/frp-flyapp</a></p>
 </blockquote>
 <h3 id="udp"><code>UDP</code></h3>
 <p><code>UDP</code> 的支持，因为 <code>UDP</code> 没有连接的概念，只有 <code>Packet</code> 概念，所以我们可以「封装」<code>UDP</code> 流量为 <code>MsgUDPDatagram</code>，然后做流量的 <code>Copy</code></p>
 <p><a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proxy/udp.go#L1-L77">proxy/udp.go#L1-L77</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">package</span> proxy
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">import</span> (
-</span></span><span style="display:flex;"><span>	<span style="color:#d14">&#34;io&#34;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#d14">&#34;net&#34;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#d14">&#34;strings&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#d14">&#34;github.com/abcdlsj/pipe/logger&#34;</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#d14">&#34;github.com/abcdlsj/pipe/proto&#34;</span>
-</span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">UDPClientStream</span>(token <span style="color:#458;font-weight:bold">string</span>, tcp, udp io.ReadWriteCloser) <span style="color:#458;font-weight:bold">error</span> {
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">UDPClientStream</span>(token <span style="color:#458;font-weight:bold">string</span>, tcp, udp io.ReadWriteCloser) <span style="color:#458;font-weight:bold">error</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
 </span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">for</span> {
 </span></span><span style="display:flex;"><span>			msg <span style="color:#000;font-weight:bold">:=</span> proto.MsgUDPDatagram{}
