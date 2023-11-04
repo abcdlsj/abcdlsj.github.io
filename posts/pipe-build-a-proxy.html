@@ -103,7 +103,7 @@
 <p>This article has <code>English</code> version，please read <a href="/posts/pipe-build-a-proxy-en.html">Pipe - Build a tunnel tool like <code>frp</code> or <code>ngrok</code></a></p>
 <h2 id="background">Background</h2>
 <p><strong>简单的转发工具</strong><br>
-公司的项目启动需要使用我们内部 <code>RPC</code> 框架的 <code>Agent</code> 实现，但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地启动服务都是使用 <code>socat</code> 将本地 <code>unix:/xxx.sock</code> 流量转发到 <code>tcp://agent.xxx.io:5443</code> 来启动服务的。<br>
+公司内部的服务框架，服务之前的通信都是通过机器本地的 <code>Agent</code> 实现，在公司容器集群环境，<code>Agent</code> 之间都是可以直接通过 <code>UNIX domain</code> 通信的，但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地启动服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到 <code>TCP</code> 来启动服务的。<br>
 类似于：<code>socat unix:/xxx.sock,fork tcp:agent.xxx.io:5443</code></p>
 <blockquote>
 <p><code>socat</code> 是一个非常瑞士军刀类的工具，非常强大</p>
@@ -688,9 +688,203 @@ Client 端从发送 <code>Forward</code> 消息后的 <code>for</code> 里不断
 <p>到此，<code>Pipe</code> 的实现已经差不多，基本上列出了完整的流程，接下来会写下 <code>Pipe</code> 所实现的 <code>Feature</code></p>
 <h2 id="feat">Feat</h2>
 <h3 id="auto-subdomain-https">Auto subdomain https</h3>
+<p>目标是实现一个自动 <code>Subdomain</code> 分配并且支持 <code>Https</code><br>
+也就是加入 Server 运行在 <code>example.com</code> 机器，Client 开启转发 <code>Local 3000</code> 到 <code>Server 9000</code> 端口<br>
+Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可以通过 <code>https://xxx.example.com</code> 来访问 Client <code>Local 3000</code><br>
+因为不太想过于麻烦的实现 <code>Https</code>，所以借助 <code>Caddy</code> 来做 <code>Https</code> 的部分<br>
+代码在 <a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22">server/caddy_service.go#L22</a><br>
+借助 <code>Caddy</code> 的 <code>API</code> 添加 <code>https</code> 的 <code>route</code></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">addCaddyRouter</span>(host <span style="color:#458;font-weight:bold">string</span>, port <span style="color:#458;font-weight:bold">int</span>) {
+</span></span><span style="display:flex;"><span>	tunnelId <span style="color:#000;font-weight:bold">:=</span> fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;%s.%d&#34;</span>, host, port)
+</span></span><span style="display:flex;"><span>	resp, err <span style="color:#000;font-weight:bold">:=</span> http.<span style="color:#900;font-weight:bold">Post</span>(caddyAddRouteUrl, <span style="color:#d14">&#34;application/json&#34;</span>, bytes.<span style="color:#900;font-weight:bold">NewBuffer</span>([]<span style="color:#0086b3">byte</span>(fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(caddyAddRouteF, tunnelId, host, port))))
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Tunnel creation failed, err: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> resp.Body.<span style="color:#900;font-weight:bold">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	resp, err = http.<span style="color:#900;font-weight:bold">Post</span>(caddyAddTlsSubjectsUrl, <span style="color:#d14">&#34;application/json&#34;</span>, bytes.<span style="color:#900;font-weight:bold">NewBuffer</span>([]<span style="color:#0086b3">byte</span>(fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;\&#34;%s\&#34;&#34;</span>, host))))
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Tunnel creation failed, err: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> resp.Body.<span style="color:#900;font-weight:bold">Close</span>()
+</span></span><span style="display:flex;"><span>	logger.<span style="color:#900;font-weight:bold">Infof</span>(<span style="color:#d14">&#34;Tunnel created successfully, id: %s, host: %s&#34;</span>, tunnelId, cr.<span style="color:#900;font-weight:bold">PWhiteUnderline</span>(host))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>前置准备：</p>
+<ol>
+<li>要先设置好域名 <code>DNS</code> 解析，要设置两条记录 <code>A *.example.com &lt;your server ip&gt;</code> 和 <code>A example.com &lt;your server ip&gt;</code></li>
+<li>运行 <code>Caddy</code>（如果是 <code>Cloudflare DNS</code> 还需要自己编译支持 <code>Cloudflare DNS plugin</code> 的 <code>Caddy</code> 版本，以及配置里填写 <code>Cloudflare KEY</code>，具体流程如有需要网上找下应该可以找到）</li>
+<li>Server 端带上支持 <code>Subdomain</code> 的参数，可以看项目 <code>README.md</code></li>
+</ol>
 <h3 id="deploy-at-flyio">Deploy at <code>fly.io</code></h3>
+<p>因为 <code>fly.io</code> 支持 <code>Dockerfile</code>，所以只用简单的写个 <code>Dockerfile</code> 即可<br>
+关键是 <code>fly.toml</code></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>app = <span style="color:#d14">&#34;pipefly&#34;</span>
+</span></span><span style="display:flex;"><span>primary_region = <span style="color:#d14">&#34;hkg&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[build]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Control</span>
+</span></span><span style="display:flex;"><span>[[services]]
+</span></span><span style="display:flex;"><span>  internal_port = <span style="color:#099">8910</span>
+</span></span><span style="display:flex;"><span>  protocol = <span style="color:#d14">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  [[services.ports]]
+</span></span><span style="display:flex;"><span>    port = <span style="color:#099">8910</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Admin</span>
+</span></span><span style="display:flex;"><span>[[services]]
+</span></span><span style="display:flex;"><span>  internal_port = <span style="color:#099">8911</span>
+</span></span><span style="display:flex;"><span>  protocol = <span style="color:#d14">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  [[services.ports]]
+</span></span><span style="display:flex;"><span>    handlers = [<span style="color:#d14">&#34;http&#34;</span>]
+</span></span><span style="display:flex;"><span>    port = <span style="color:#099">80</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  [[services.ports]]
+</span></span><span style="display:flex;"><span>    handlers = [<span style="color:#d14">&#34;tls&#34;</span>, <span style="color:#d14">&#34;http&#34;</span>]
+</span></span><span style="display:flex;"><span>    port = <span style="color:#099">443</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Forward TCP</span>
+</span></span><span style="display:flex;"><span>[[services]]
+</span></span><span style="display:flex;"><span>  internal_port = <span style="color:#099">9000</span>
+</span></span><span style="display:flex;"><span>  protocol = <span style="color:#d14">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  [[services.ports]]
+</span></span><span style="display:flex;"><span>    handlers = [<span style="color:#d14">&#34;tls&#34;</span>, <span style="color:#d14">&#34;http&#34;</span>]
+</span></span><span style="display:flex;"><span>    port = <span style="color:#099">9000</span>
+</span></span></code></pre><p><code>Control</code> 和 <code>Admin</code> 因为都是 <code>TCP</code>，所以 <code>protocol</code> 是 <code>tcp</code>，然后 <code>Admin</code> 希望直接从 <a href="https://pipefly.fly.io">https://pipefly.fly.io</a> 访问，就需要加上 <code>handlers = [&quot;http&quot;]</code> 以及 <code>https</code> 的 <code>handlers = [&quot;tls&quot;, &quot;http&quot;]</code></p>
+<p>然后这里需要在配置里指定出 <code>Forward</code> 的端口，这样运行 Server 和 Client 后<br>
+访问 <a href="https://pipefly.fly.io:9000">https://pipefly.fly.io:9000</a> 就会访问到 Client <code>Local 3000</code> 了</p>
+<blockquote>
+<p>ps. <code>UDP</code> 的配置，<code>fly.io</code> 也是支持的，可以看 <code>fly</code> 的文档，或者可以看这个例子 <a href="https://github.com/AnimMouse/frp-flyapp">AnimMouse/frp-flyapp</a></p>
+</blockquote>
 <h3 id="udp"><code>UDP</code></h3>
+<p><code>UDP</code> 的支持，因为 <code>UDP</code> 没有连接的概念，只有 <code>Packet</code> 概念，所以我们可以「封装」<code>UDP</code> 流量为 <code>MsgUDPDatagram</code>，然后做流量的 <code>Copy</code></p>
+<p><a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proxy/udp.go#L1-L77">proxy/udp.go#L1-L77</a></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">package</span> proxy
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#d14">&#34;io&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#d14">&#34;net&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#d14">&#34;strings&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#d14">&#34;github.com/abcdlsj/pipe/logger&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#d14">&#34;github.com/abcdlsj/pipe/proto&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">UDPClientStream</span>(token <span style="color:#458;font-weight:bold">string</span>, tcp, udp io.ReadWriteCloser) <span style="color:#458;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">for</span> {
+</span></span><span style="display:flex;"><span>			msg <span style="color:#000;font-weight:bold">:=</span> proto.MsgUDPDatagram{}
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Recv</span>(tcp, <span style="color:#000;font-weight:bold">&amp;</span>msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			n, err <span style="color:#000;font-weight:bold">:=</span> udp.<span style="color:#900;font-weight:bold">Write</span>(msg.Payload)
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> n <span style="color:#000;font-weight:bold">!=</span> <span style="color:#0086b3">len</span>(msg.Payload) {
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> {
+</span></span><span style="display:flex;"><span>		buf <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#099">4096</span>)
+</span></span><span style="display:flex;"><span>		n, err <span style="color:#000;font-weight:bold">:=</span> udp.<span style="color:#900;font-weight:bold">Read</span>(buf)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(tcp, proto.<span style="color:#900;font-weight:bold">NewMsgUDPDatagram</span>(<span style="color:#000;font-weight:bold">nil</span>, buf[:n])); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">UDPDatagram</span>(token <span style="color:#458;font-weight:bold">string</span>, tcp io.ReadWriteCloser, udp <span style="color:#000;font-weight:bold">*</span>net.UDPConn) <span style="color:#458;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> {
+</span></span><span style="display:flex;"><span>		buf <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#099">4096</span>)
+</span></span><span style="display:flex;"><span>		n, addr, err <span style="color:#000;font-weight:bold">:=</span> udp.<span style="color:#900;font-weight:bold">ReadFromUDP</span>(buf)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(tcp, proto.<span style="color:#900;font-weight:bold">NewMsgUDPDatagram</span>(addr, buf[:n])); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
+</span></span><span style="display:flex;"><span>			msg <span style="color:#000;font-weight:bold">:=</span> proto.MsgUDPDatagram{}
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Recv</span>(tcp, <span style="color:#000;font-weight:bold">&amp;</span>msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			_, err <span style="color:#000;font-weight:bold">:=</span> udp.<span style="color:#900;font-weight:bold">WriteTo</span>(msg.Payload, addr)
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>相当于 <code>TCP</code> 转发里的 <code>proxy.Stream</code> 替代</p>
 <h3 id="speed-limit">Speed limit</h3>
+<p>得益于 <code>io.Reader</code> 和 <code>io.Writer</code> 接口，以及 <code>rate</code> 包，实现限速其实也很简单</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> LimitStream <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	rw       io.ReadWriteCloser
+</span></span><span style="display:flex;"><span>	ctx      context.Context
+</span></span><span style="display:flex;"><span>	wlimiter <span style="color:#000;font-weight:bold">*</span>rate.Limiter
+</span></span><span style="display:flex;"><span>	rlimiter <span style="color:#000;font-weight:bold">*</span>rate.Limiter
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NewLimitStream</span>(rw io.ReadWriteCloser, limit <span style="color:#458;font-weight:bold">int</span>) <span style="color:#000;font-weight:bold">*</span>LimitStream {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">&amp;</span>LimitStream{
+</span></span><span style="display:flex;"><span>		rw:       rw,
+</span></span><span style="display:flex;"><span>		ctx:      context.<span style="color:#900;font-weight:bold">Background</span>(),
+</span></span><span style="display:flex;"><span>		wlimiter: rate.<span style="color:#900;font-weight:bold">NewLimiter</span>(rate.<span style="color:#900;font-weight:bold">Limit</span>(limit), limit), <span style="color:#998;font-style:italic">// set burst = limit
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>		rlimiter: rate.<span style="color:#900;font-weight:bold">NewLimiter</span>(rate.<span style="color:#900;font-weight:bold">Limit</span>(limit), limit), <span style="color:#998;font-style:italic">// set burst = limit
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>LimitStream) <span style="color:#900;font-weight:bold">Read</span>(p []<span style="color:#458;font-weight:bold">byte</span>) (<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> s.rlimiter <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> s.rw.<span style="color:#900;font-weight:bold">Read</span>(p)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	do <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">func</span>(r <span style="color:#000;font-weight:bold">*</span>LimitStream, p []<span style="color:#458;font-weight:bold">byte</span>) (<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>		n, err <span style="color:#000;font-weight:bold">:=</span> r.rw.<span style="color:#900;font-weight:bold">Read</span>(p)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> n, err
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> r.rlimiter.<span style="color:#900;font-weight:bold">WaitN</span>(r.ctx, n); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> n, err
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> n, <span style="color:#000;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(p) &lt; s.rlimiter.<span style="color:#900;font-weight:bold">Burst</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">do</span>(s, p)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	burst <span style="color:#000;font-weight:bold">:=</span> s.rlimiter.<span style="color:#900;font-weight:bold">Burst</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">var</span> read <span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">:=</span> <span style="color:#099">0</span>; i &lt; <span style="color:#0086b3">len</span>(p); i <span style="color:#000;font-weight:bold">+=</span> burst {
+</span></span><span style="display:flex;"><span>		end <span style="color:#000;font-weight:bold">:=</span> i <span style="color:#000;font-weight:bold">+</span> burst
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> end &gt; <span style="color:#0086b3">len</span>(p) {
+</span></span><span style="display:flex;"><span>			end = <span style="color:#0086b3">len</span>(p)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		n, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">do</span>(s, p[i:end])
+</span></span><span style="display:flex;"><span>		read <span style="color:#000;font-weight:bold">+=</span> n
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> read, err
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> read, <span style="color:#000;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>原理就是，假如说我们想要限速到 <code>10k/s</code>，那么就初始化 <code>burst=10k</code> 的 <code>rate.Limiter</code><br>
+<code>Read</code> 的时候，调用 <code>WaitN</code>，因为容量为 <code>10k</code>，所以 <code>WaitN</code> 每读取 <code>10k byte</code> 就会等待 <code>1s</code><br>
+这样就实现了 <code>10k/s</code> 的限速，而且使用上非常简单，初始化一个 <code>LimitStream</code> 就可以了</p>
 <h2 id="done">Done</h2>
 <p>写了下如何实现一个内网转发的小工具，代码本身还有很多可以优化的地方，比如</p>
 <ol>
@@ -704,7 +898,8 @@ Client 端从发送 <code>Forward</code> 消息后的 <code>for</code> 里不断
 <h2 id="refs">refs</h2>
 <p><a href="https://pandaychen.github.io/2020/01/01/MAGIC-GO-IO-PACKAGE/">https://pandaychen.github.io/2020/01/01/MAGIC-GO-IO-PACKAGE/</a><br>
 <a href="https://github.com/ekzhang/bore">https://github.com/ekzhang/bore</a><br>
-<a href="https://github.com/rapiz1/rathole">https://github.com/rapiz1/rathole</a></p>
+<a href="https://github.com/rapiz1/rathole">https://github.com/rapiz1/rathole</a><br>
+<a href="https://github.com/AnimMouse/frp-flyapp">https://github.com/AnimMouse/frp-flyapp</a></p>
 </article>
     </main>
     <hr class="divider" />
