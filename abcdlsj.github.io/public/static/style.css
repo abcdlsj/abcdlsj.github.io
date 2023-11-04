@@ -126,6 +126,12 @@ pre code {
   font-weight: 500;
   margin-bottom: 20px;
 }
+.tag-title {
+  font-size: 2em;
+  font-family: 'gg sans Medium', 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
 .post-title {
   font-size: 2em;
   font-family: 'gg sans Medium', 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;

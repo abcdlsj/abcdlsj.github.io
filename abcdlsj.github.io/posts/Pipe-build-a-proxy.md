@@ -7,18 +7,22 @@ tags:
   - Tunnel
 hide: false
 ---
+> This blog has `English` version, can view [Pipe - Build a tunnel tool like `frp` or `ngrok`](/posts/pipe-build-a-proxy-en.html)
+
 ## Background
 **简单的转发工具**
-公司内部的服务框架通信都是通过 `UNIX domain` 连接机器本地的 `Agent` 实现，在公司容器集群环境，都是会启动 `Agent`，但是作为本地环境，没有 `Agent` 的条件，所以本地启动服务都是使用 `socat` 将本地 `UNIX domain` 流量转发到远程的一个 `TCP agent` 来启动服务的
-类似于：`socat unix:/xxx.sock,fork tcp:agent.xxx.io:5443`
+公司内部的服务框架 Service 之间通信是通过连接每台机器的 `Agent` 监听的 `UNIX domain` 实现的，在公司容器集群环境，都是会启动 `Agent`。
+但是作为本地环境，没有 `Agent` 的条件，所以本地启动服务都是使用 `socat` 将本地 `UNIX domain` 流量转发到远程搭建的 `TCP agent` 来启动服务的（远程的 `TCP agent` 也没有什么特殊的，流量也是转发到机器 `Agent` 上）
+我们一般是使用 `socat -d -d -d UNIX-LISTEN:/tmp/xxx.sock,reuseaddr,fork TCP:agent-tcp.xxxx.io:9299`
 
 > `socat` 是一个瑞士军刀类的工具，非常强大
 
-借助 `io.Copy()` 以及 `net` 包，动手实现了符合需求的转发工具，代码量很少，加上 `flag` 代码不超过 50 行，但是却非常实用，启动速度很快（实测因为 `socat` 会对流量做加解密，所以直接 `copy` 会快一点点）
+后边想到既然原理这么简单，那么实现一个类似功能的转发工具应该也很简单，借助 `io.Copy()` 以及 `net` 包，一小会就实现了代码，总代码量不超过 50 行，但是却非常实用，启动速度很快（实测竟然比 `socat` 要稍快）
 
 **远程端口转发**
-`frp` 很适用于内网转发，不过功能很多用不上，`ngrok` 则适用于做一些临时暴露本地服务之类的。
-因为去年的尝试，所以准备实现一个类似工具，实现过程中没有借鉴太多其它项目的代码，很多地方都是遇到问题再去查，所以写一篇博客记录下是很值得的，这里写一下思路以及核心代码。
+后边想到可以实现一个类似 `frp` 和 `ngrok` 的工具，核心代码和简单的转发工具也差不太多，所以就开始写了。
+实现过程中没有借鉴太多其它项目的代码，很多地方都是遇到问题再去查，所以写一篇博客记录下是很值得的，一直没想法去写，这里记录一下思路以及核心代码。
+代码是年初 or 去年末写的第一个版本，后边改了一些，现在和最初的版本相比要复杂一些。
 
 > 开始的版本只实现 `TCP` 转发，含有 `Caddy` 来做 `Auto Subdomain https`，代码不到 `1000` 行。后边优化了下，现在支持 `TCP/UDP` 协议，所以本文只涉及 `TCP/UDP` 实现（不过其它协议也大都类似
 > 另外顺带一提，`GitHub` 有非常多类似的实现，比如 [ekzhang/bore](https://github.com/ekzhang/bore) 和 [rapiz1/rathole](https://github.com/rapiz1/rathole/)（`Tokio` 的功能太强大了，忍不住想用 `Rust` 重写 :P）
@@ -46,7 +50,7 @@ Flow: {
   client: {
     localport 3000
   }
-  client <-> server: 1. Prepare(handshark, auth, request forward...)
+  client <-> server: 1. Create control connection, auth, send request forward...
   user -> server: 2. View remote port 9000
   server -> server: 3. io.Copy() control connection 8910 and user connection
   server -> client: 4. Send start proxy request
@@ -60,7 +64,7 @@ Flow: {
 3. Client 端接收到 `Proxy` 请求后，进行 `io.Copy()` 的是哪个连接，Server 端又怎样处理呢？
 
 > 对于 1 和 2 可以看下面的详细实现
-> 对于 2，如果没有实现过类似的工具可能不太清楚为什么会有这个问题，看了下面详细的流程大概就清楚了（忽略「鉴权」部分
+> 对于 3，如果没有实现过类似的工具可能不太清楚为什么会有这个问题，看了下面详细的流程大概就清楚了（忽略「鉴权」部分
 
 1. 首先启动 Server 端，「监听」 8910 端口
 2. 启动 Client, Client 端和 Server 端建立 `Control` 连接，然后发送一条 `Forward` 接口告诉 Server 端将要转发到 9000 端口
@@ -74,17 +78,17 @@ Flow: {
 那么也就是我们遇到了「连接复用」的问题，这个问题在对多端流量进行处理的时候很常见，而且因为这里是直接 `io.Copy` 没办法区分流量的不同。
 解决这个问题有很多方法：
 1. 可以使用连接复用库，例如 [hashicorp/yamux](https://github.com/hashicorp/yamux)，`frp` 默认使用 `yamux`
-2. 对报文在应用层自行区分，同时 `Copy` 的部分也要做处理（ps. `yamux` 就是对报文做了处理） 
+2. 对报文在应用层自行区分，同时 `Copy` 的部分也要做处理（`yamux` 就是对报文做了处理） 
 3. 最简单的方法，也是大多数内网转发工具用的方法，就是如果需要 `Copy` 就新建一个连接，简单有效
 > 方法 3 可能存在的问题是，端口的连接总数是有限的，但是正常都足够的（只要实现上连接有正常 `Close`，在 Client 不是很多的情况下是没有太大问题的
 
 方法 1 和 方法 3 是最适合的，而且 `yamux` 接入并不复杂，我选择方法 3 来实现（后续会抽空加上 `yamux` 支持
 
-选择方法 3，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 `Copy` `Local 3000` 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 `Forward` 还是 `Exchange` 消息，然后如果是 `Exchange`，需要**拿出**用户连接 `Copy` 到此 `Exchange` 消息的连接上。
+选择方法 3 后，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 `Copy` `Local 3000` 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 `Forward` 还是 `Exchange` 消息，然后如果是 `Exchange`，需要**拿出**用户连接 `Copy` 到此 `Exchange` 消息的连接上。
 
 所以步骤 3，Server 需要保存用户请求，创建对应的 `Connection UUID`，然后带上发送 `Exchange` 消息到 Client
 步骤 5，Client 需要接收到 `Exchange` 消息，新建 Server 连接，然后首先发送带上同样 `UUID` 的 `Exchange` 消息到 Server，然后 `Copy` `Local 3000` 流量到此新建的 Server 连接上
-步骤 6. Server 接收到 `Exchange` 消息，通过 `UUID` 取出对应的用户连接，然后 `Copy` 用户连接和此连接上
+步骤 6. Server 接收到 `Exchange` 消息，通过 `UUID` 取出对应的用户连接，然后 `Copy` 用户连接流量和此连接
 
 至此，用户访问 Server 端 9000 端口的「一个连接」的访问流程已经完成了
 流程很简单，那么接下来，我会写一下每个流程的代码实现
@@ -102,10 +106,6 @@ Flow: {
 │   └── serve.go
 ├── cmd
 │   └── cmd.go
-├── example
-│   └── udp_forward
-│       ├── README.md
-│       └── echo.go
 ├── logger
 │   └── log.go
 ├── main.go
@@ -134,16 +134,16 @@ Flow: {
 - cmd: `cmd` 入口，`cobra`
 - proxy：对两个连接进行 `Copy` 的部分
 - proto：`Control` 发送的消息结构体，以及序列化封装
-- client：client 处理流程
-- server：server 处理流程
+- client：Client 处理流程
+- server：Server 处理流程
 - pio: `io.Reader` 和 `io.Writer` 的封装，实现限速（`Speed limit`）的功能
 
 ### Auth
-因为打算通过 `Message` 发送来写一个流程，所以就不分别写 `Client` 和 `Server` 的结构体了
+因为打算通过 `Message` 发送来带出主体代码，所以就不分别写 `Client` 和 `Server` 的结构体了
 
 `Auth` 采用简单的 Token 校验，消息里有 `Token` 以及 `Timestamp` 字段，收到消息会 `md5(Token + Timestamp)` 进行校验（最开始我的实现 Client 和 Server 每个收发消息都会带上校验字段，好处是少一次 Auth 的发送时间，后来看到很多实现都只是在建立连接的时候校验，所以也改成连接创建时校验）
 
-`Login message` 结构体
+`MsgLogin` 结构体
 [proto/msg.go#L56](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L56)
 ```go
 type MsgLogin struct {
@@ -170,8 +170,10 @@ func authDialSvr(svraddr string, token string) (net.Conn, error) {
 }
 ```
 
+`Auth` 的部分还有其它更有意思的实现，例如 `OpenID Connect (OIDC)`，可以实现「扫码」认证之类的功能
+
 **Server 部分**
-Server 会 `Listening 8910`，端口等待新的连接到来
+Server 会 `Listen` 端口 `8910`，等待 Client 连接到来（默认都用 `8910`）
 [server/serve.go#L38-L62](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L38-L62)
 ```go
 func (s *Server) Run() {
@@ -380,7 +382,6 @@ func (f *Forwarder) Run() {
 		}
 
 		s.handleForward(conn, msg, failChan)
-  ...
   }
 ```
 
@@ -395,7 +396,6 @@ func (s *Server) handleForward(cConn net.Conn, msg *proto.MsgForwardReq, failCha
 	}
 	from := cConn.RemoteAddr().String()
 	switch msg.ProxyType {
-  ... // udp
   case "tcp":
 		uListener, err := net.Listen("tcp", fmt.Sprintf(":%d", uPort))
 		if err != nil {
@@ -403,20 +403,8 @@ func (s *Server) handleForward(cConn net.Conn, msg *proto.MsgForwardReq, failCha
 			return
 		}
 		defer uListener.Close()
-
-		s.addForward(Forward{
-			To:           uPort,
-			From:         from,
-			Subdomain:    msg.Subdomain,
-			listenCloser: uListener,
-		})
-
-		domain := fmt.Sprintf("%s.%s", msg.Subdomain, s.cfg.Domain)
-		if !s.cfg.DomainTunnel {
-			domain = ""
-		}
-
-		if err = proto.Send(cConn, proto.NewMsgForwardResp(domain, "success")); err != nil {
+    
+    if err = proto.Send(cConn, proto.NewMsgForwardResp(domain, "success")); err != nil {
 			failChan <- struct{}{}
 			return
 		}
@@ -439,15 +427,14 @@ func (s *Server) handleForward(cConn net.Conn, msg *proto.MsgForwardReq, failCha
 ```
 大概流程就是：
 1. check port available
-2. 添加到 forwards 里（admin 展示, forward close）
 3. 发送 `ForwardResp` 消息
 4. 创建 `uListener` 并且等待用户连接
 5. 收到用户连接，创建 `uuid`，发送 `Exchange` 消息
 
 ### Exchange
 
-[client/serve.go#L124](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L124)
 Client 端从发送 `Forward` 消息后的 `for` 里不断获取消息，然后如果是 `Exchange` 消息
+[client/serve.go#L124](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L124)
 ```go
 	for {
 		p, buf, err := proto.Read(rConn)
@@ -458,7 +445,6 @@ Client 端从发送 `Forward` 消息后的 `for` 里不断获取消息，然后�
 
 		nlogger := f.logger.CloneAdd(p.String())
 		switch p {
-    ... // heartbeat
 		case proto.PacketExchange:
 			msg := &proto.MsgExchange{}
 			if err := json.Unmarshal(buf, msg); err != nil {
@@ -501,7 +487,6 @@ Server 端接收到 `Exchange` 消息就很简单了，从 `tcpConnMap` 里拿�
 ```go
 func (s *Server) handleExchange(conn net.Conn, msg *proto.MsgExchange) {
 	switch msg.ProxyType {
-  ... // udp
   case "tcp":
 		uConn, ok := s.tcpConnMap.Get(msg.ConnId)
 		if !ok {
@@ -549,6 +534,10 @@ func addCaddyRouter(host string, port int) {
 3. Server 端带上支持 `Subdomain` 的参数，可以看项目 `README.md`
 
 ### Deploy at `fly.io`
+**这里很重要的一点是，只能部署 1 个 Service**
+> 部署多个不行吗？
+> 不行，因为部署多个，`fly` 会做 `Load Balancing`，导致有的用户请求，因为没在 `tcpConnMap` 里，就没法 `Copy` 成功（`yamux` 或许可以解决这个问题）
+
 因为 `fly.io` 支持 `Dockerfile`，所以只用简单的写个 `Dockerfile` 即可
 关键是 `fly.toml`
 ```toml
@@ -593,23 +582,14 @@ primary_region = "hkg"
 然后这里需要在配置里指定出 `Forward` 的端口，这样运行 Server 和 Client 后
 访问 <https://pipefly.fly.dev:9000> 就会访问到 Client `Local 3000` 了
 
-> ps. `UDP` 的配置，`fly.io` 也是支持的，可以看 `fly` 的文档，或者可以看这个例子 [AnimMouse/frp-flyapp](https://github.com/AnimMouse/frp-flyapp)
+> `UDP` 的配置，`fly.io` 也是支持的，可以看 `fly` 的文档，或者可以看这个例子 [AnimMouse/frp-flyapp](https://github.com/AnimMouse/frp-flyapp)
+
+
 ### `UDP`
 `UDP` 的支持，因为 `UDP` 没有连接的概念，只有 `Packet` 概念，所以我们可以「封装」`UDP` 流量为 `MsgUDPDatagram`，然后做流量的 `Copy`
 
 [proxy/udp.go#L1-L77](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proxy/udp.go#L1-L77)
 ```go
-package proxy
-
-import (
-	"io"
-	"net"
-	"strings"
-
-	"github.com/abcdlsj/pipe/logger"
-	"github.com/abcdlsj/pipe/proto"
-)
-
 func UDPClientStream(token string, tcp, udp io.ReadWriteCloser) error {
 	go func() {
 		for {
@@ -733,7 +713,7 @@ func (s *LimitStream) Read(p []byte) (int, error) {
 1. 完善「错误处理」「重试」，对于哪些错误需要重试，哪些错误直接退出
 2. 支持更多转发协议，例如 `HTTP/Quic/WebSocket`，`Control` 协议也可以支持更多，目前是 `TCP`，可以支持 `UDP/KCP` 等
 3. 完善监控采集，这部分可以用 `Prometheus`，但是对于小项目来说太麻烦了
-4. `Load balance` 这部分一直在思考如何做，从上边 `fly.io` 的部署就能知道，`Server` 端访问只能是单机的
+4. `Load Balancing` 这部分一直在思考如何做，从上边 `fly.io` 的部署就能知道，`Server` 端访问只能是单机的
 
 写这个小项目后感觉到，项目是很难「维护」的，而且因为个人的局限性，代码一开始很难做出合理的「抽象」，导致后续有代码改动的时候会变很困难。之前写一些几百行的小项目还不觉得，现在这个项目代码量变多后，感觉代码「结构」、「接口」还是不够「清晰」。
 
