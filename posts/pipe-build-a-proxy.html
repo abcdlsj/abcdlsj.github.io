@@ -102,8 +102,8 @@
 </ul>
 <h2 id="background">Background</h2>
 <p><strong>简单的转发工具</strong><br>
-公司内部的服务框架通信都是通过 <code>UNIX domain</code> 连接机器本地的 <code>Agent</code> 实现，在公司容器集群环境，都是会启动 <code>Agent</code>，但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地启动服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到远程的一个 <code>TCP agent</code> 来启动服务的<br>
-类似于：<code>socat unix:/xxx.sock,fork tcp:agent.xxx.io:5443</code></p>
+公司内部的服务框架通信是通过 <code>UNIX domain</code> 连接机器本地的 <code>Agent</code> 实现，在公司容器集群环境，都是会启动 <code>Agent</code>，但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地启动服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到远程的一个 <code>TCP agent</code> 来启动服务的<br>
+所以我们是使用 <code>socat</code>：<code>socat unix:/xxx.sock,fork tcp:agent.xxx.io:5443</code></p>
 <blockquote>
 <p><code>socat</code> 是一个瑞士军刀类的工具，非常强大</p>
 </blockquote>
@@ -258,7 +258,7 @@
 </ol>
 <blockquote>
 <p>对于 1 和 2 可以看下面的详细实现<br>
-对于 2，如果没有实现过类似的工具可能不太清楚为什么会有这个问题，看了下面详细的流程大概就清楚了（忽略「鉴权」部分</p>
+对于 3，如果没有实现过类似的工具可能不太清楚为什么会有这个问题，看了下面详细的流程大概就清楚了（忽略「鉴权」部分</p>
 </blockquote>
 <ol>
 <li>首先启动 Server 端，「监听」 8910 端口</li>
