@@ -537,8 +537,7 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> pt {
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">...</span> <span style="color:#998;font-style:italic">// other types
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>	<span style="color:#000;font-weight:bold">case</span> proto.PacketForwardReq:
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> proto.PacketForwardReq:
 </span></span><span style="display:flex;"><span>		failChan <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>(<span style="color:#000;font-weight:bold">chan</span> <span style="color:#000;font-weight:bold">struct</span>{})
 </span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">defer</span> <span style="color:#0086b3">close</span>(failChan)
 </span></span><span style="display:flex;"><span>
@@ -567,8 +566,7 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	from <span style="color:#000;font-weight:bold">:=</span> cConn.<span style="color:#900;font-weight:bold">RemoteAddr</span>().<span style="color:#900;font-weight:bold">String</span>()
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> msg.ProxyType {
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">...</span> <span style="color:#998;font-style:italic">// udp
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>  <span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;tcp&#34;</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;tcp&#34;</span>:
 </span></span><span style="display:flex;"><span>		uListener, err <span style="color:#000;font-weight:bold">:=</span> net.<span style="color:#900;font-weight:bold">Listen</span>(<span style="color:#d14">&#34;tcp&#34;</span>, fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;:%d&#34;</span>, uPort))
 </span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
 </span></span><span style="display:flex;"><span>			failChan <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#000;font-weight:bold">struct</span>{}{}
@@ -615,8 +613,7 @@ Client 端从发送 <code>Forward</code> 消息后的 <code>for</code> 里不断
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>		nlogger <span style="color:#000;font-weight:bold">:=</span> f.logger.<span style="color:#900;font-weight:bold">CloneAdd</span>(p.<span style="color:#900;font-weight:bold">String</span>())
 </span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">switch</span> p {
-</span></span><span style="display:flex;"><span>      <span style="color:#000;font-weight:bold">...</span> <span style="color:#998;font-style:italic">// heartbeat
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">case</span> proto.PacketExchange:
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">case</span> proto.PacketExchange:
 </span></span><span style="display:flex;"><span>			msg <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>proto.MsgExchange{}
 </span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> json.<span style="color:#900;font-weight:bold">Unmarshal</span>(buf, msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
 </span></span><span style="display:flex;"><span>				<span style="color:#900;font-weight:bold">cancelForward</span>(f.token, f.svraddr, f.proxyName, f.localPort, f.remotePort)
@@ -657,8 +654,7 @@ Client 端从发送 <code>Forward</code> 消息后的 <code>for</code> 里不断
 <a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L254">server/serve.go#L254</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>Server) <span style="color:#900;font-weight:bold">handleExchange</span>(conn net.Conn, msg <span style="color:#000;font-weight:bold">*</span>proto.MsgExchange) {
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> msg.ProxyType {
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">...</span> <span style="color:#998;font-style:italic">// udp
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>  <span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;tcp&#34;</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;tcp&#34;</span>:
 </span></span><span style="display:flex;"><span>		uConn, ok <span style="color:#000;font-weight:bold">:=</span> s.tcpConnMap.<span style="color:#900;font-weight:bold">Get</span>(msg.ConnId)
 </span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> !ok {
 </span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span>
