@@ -12,6 +12,7 @@ import (
 	"sort"
 	"strings"
 	"text/template"
+	"time"
 
 	"github.com/BurntSushi/toml"
 	d2 "github.com/FurqanSoftware/goldmark-d2"
@@ -68,7 +69,8 @@ var (
 			},
 			&d2.Extender{
 				Layout:  d2dagrelayout.DefaultLayout,
-				ThemeID: d2themescatalog.CoolClassics.ID,
+				ThemeID: d2themescatalog.NeutralDefault.ID,
+				Sketch:  true,
 			},
 		),
 		goldmark.WithParserOptions(parser.WithAutoHeadingID()),
@@ -101,9 +103,9 @@ func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 	return PostMeta{
 		Title: meta["title"].(string),
 		Date:  orStr(meta["date"].(string), "1970-01-01"),
-		Tags:  getTagMeta(meta),
+		Tags:  getMetaStrs(meta, "tags"),
 		Hide:  meta["hide"].(bool),
-		Menus: getPostMenu(meta),
+		Menus: getMetaStrs(meta, "menus"),
 	}
 }
 
@@ -136,12 +138,20 @@ func init() {
 }
 
 func RenderIndex() {
+	posts := make([]Post, 0, len(Posts))
+
+	for _, post := range Posts {
+		if !post.Meta.Hide {
+			posts = append(posts, post)
+		}
+	}
+
 	data := struct {
 		Site  CfgVar
 		Posts []Post
 	}{
 		Site:  cfgVar,
-		Posts: Posts,
+		Posts: posts,
 	}
 
 	if err := render(t, data, path.Join(cfgVar.Build.Output, "index.html"), "index"); err != nil {
@@ -190,7 +200,7 @@ func openWithCreatePath(filename string) (*os.File, error) {
 	return os.Create(filename)
 }
 
-func ParseTags(tagNames []string, post Post) error {
+func parseTags(tagNames []string, post Post) error {
 	tagRefer := Refer{
 		Title: post.Meta.Title,
 		Uname: post.Uname,
@@ -255,11 +265,6 @@ func main() {
 			log.Fatal("parse post error")
 		}
 
-		if post.Meta.Hide {
-			fmt.Printf("Skip hidden post: %s\n", cr.PLBlue(p))
-			continue
-		}
-
 		if post.Meta.Menus != nil && post.Meta.Menus[0] == "about" {
 			AboutPost = post
 			continue
@@ -267,17 +272,20 @@ func main() {
 
 		fmt.Printf("Parsed post: %s\n", cr.PLGreen(p))
 		Posts = append(Posts, post)
-		ParseTags(post.Meta.Tags, post)
+
+		if !post.Meta.Hide {
+			parseTags(post.Meta.Tags, post)
+		}
 	}
 
 	sort.Slice(Posts, func(i, j int) bool {
-		return Posts[i].Meta.Date > Posts[j].Meta.Date
+		return dateCompare(Posts[i].Meta.Date, Posts[j].Meta.Date)
 	})
 
 	sortTagMap := make(map[string]Tag)
 	for k, v := range TagMap {
 		sort.Slice(v.Refers, func(i, j int) bool {
-			return v.Refers[i].Title < v.Refers[j].Title
+			return dateCompare(v.Refers[i].Meta.Date, v.Refers[j].Meta.Date)
 		})
 
 		sortTagMap[k] = v
@@ -291,26 +299,31 @@ func main() {
 	fmt.Println(cr.PLCyan("All done!!!"))
 }
 
-func getTagMeta(meta map[string]interface{}) []string {
-	if val, ok := meta["tags"]; ok {
-		tags := val.([]interface{})
-		var tagStrs []string
-		for _, tag := range tags {
-			tagStrs = append(tagStrs, fmt.Sprintf("%v", tag))
-		}
-		return tagStrs
+func dateCompare(a, b string) bool {
+	layout := "2006-01-02T15:04:05Z07:00"
+
+	ta, err := time.Parse(layout, a)
+	if err != nil {
+		log.Fatal(err)
+		return false
 	}
-	return nil
+	tb, err := time.Parse(layout, b)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+
+	return ta.After(tb)
 }
 
-func getPostMenu(meta map[string]interface{}) []string {
-	if val, ok := meta["menus"]; ok {
-		menus := val.([]interface{})
-		var menuStrs []string
-		for _, menu := range menus {
-			menuStrs = append(menuStrs, fmt.Sprintf("%v", menu))
+func getMetaStrs(meta map[string]interface{}, key string) []string {
+	if val, ok := meta[key]; ok {
+		strs := val.([]interface{})
+		var strsStrs []string
+		for _, str := range strs {
+			strsStrs = append(strsStrs, fmt.Sprintf("%v", str))
 		}
-		return menuStrs
+		return strsStrs
 	}
 	return nil
 }
@@ -342,16 +355,15 @@ func urlize(s string) string {
 	return url.QueryEscape(s)
 }
 
-func orStr(s string, defaultValue string) string {
+func orStr(s string, dv string) string {
 	if s != "" {
 		return s
 	}
-	return defaultValue
+	return dv
 }
 
 func getAllFiles(dir string) ([]string, error) {
 	var result []string
-	// result need with prefix dir
 
 	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 		if !info.IsDir() {
