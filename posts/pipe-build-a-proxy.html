@@ -113,7 +113,7 @@
 因为去年的尝试，所以准备实现一个类似工具，实现过程中没有借鉴太多其它项目的代码，很多地方都是遇到问题再去查，所以写一篇博客记录下是很值得的，这里写一下思路以及核心代码。</p>
 <blockquote>
 <p>开始的版本只实现 <code>TCP</code> 转发，含有 <code>Caddy</code> 来做 <code>Auto Subdomain https</code>，代码不到 <code>1000</code> 行。后边优化了下，现在支持 <code>TCP/UDP</code> 协议，所以本文只涉及 <code>TCP/UDP</code> 实现（不过其它协议也大都类似<br>
-另外顺带一提，<code>GitHub</code> 有非常多类似的实现，比如 <a href="https://github.com/ekzhang/bore">ekzhang/bore</a> 和 <a href="https://github.com/rapiz1/rathole/">rapiz1/rathole</a>。特别是 <code>bore</code>，代码非常优美（差点忍不住再次<strong>入门</strong> Rust</p>
+另外顺带一提，<code>GitHub</code> 有非常多类似的实现，比如 <a href="https://github.com/ekzhang/bore">ekzhang/bore</a> 和 <a href="https://github.com/rapiz1/rathole/">rapiz1/rathole</a>（<code>Tokio</code> 的功能太强大了，忍不住想用 <code>Rust</code> 重写 :P）</p>
 </blockquote>
 <p>所有的代码都在 <a href="https://github.com/abcdlsj/pipe/tree/484084da8b9edb99fb39e5d7561cc94d16d7031c">abcdlsj/pipe</a> 里（本文纂写时的版本）</p>
 <h2 id="how-it-works">How it works</h2>
