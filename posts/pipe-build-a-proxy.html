@@ -702,6 +702,11 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可�
 <li>Server 端带上支持 <code>Subdomain</code> 的参数，可以看项目 <code>README.md</code></li>
 </ol>
 <h3 id="deploy-at-flyio">Deploy at <code>fly.io</code></h3>
+<p><strong>这里很重要的一点是，只能部署 1 个 Service</strong></p>
+<blockquote>
+<p>部署多个不行吗？<br>
+不行，因为部署多个，<code>fly</code> 会做 <code>Load Balancing</code>，导致有的用户请求，因为没在 <code>tcpConnMap</code> 里，就没法 <code>Copy</code> 成功（<code>yamux</code> 或许可以解决这个问题）</p>
+</blockquote>
 <p>因为 <code>fly.io</code> 支持 <code>Dockerfile</code>，所以只用简单的写个 <code>Dockerfile</code> 即可<br>
 关键是 <code>fly.toml</code></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>app = <span style="color:#d14">&#34;pipefly&#34;</span>
@@ -875,7 +880,7 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可�
 <li>完善「错误处理」「重试」，对于哪些错误需要重试，哪些错误直接退出</li>
 <li>支持更多转发协议，例如 <code>HTTP/Quic/WebSocket</code>，<code>Control</code> 协议也可以支持更多，目前是 <code>TCP</code>，可以支持 <code>UDP/KCP</code> 等</li>
 <li>完善监控采集，这部分可以用 <code>Prometheus</code>，但是对于小项目来说太麻烦了</li>
-<li><code>Load balance</code> 这部分一直在思考如何做，从上边 <code>fly.io</code> 的部署就能知道，<code>Server</code> 端访问只能是单机的</li>
+<li><code>Load Balancing</code> 这部分一直在思考如何做，从上边 <code>fly.io</code> 的部署就能知道，<code>Server</code> 端访问只能是单机的</li>
 </ol>
 <p>写这个小项目后感觉到，项目是很难「维护」的，而且因为个人的局限性，代码一开始很难做出合理的「抽象」，导致后续有代码改动的时候会变很困难。之前写一些几百行的小项目还不觉得，现在这个项目代码量变多后，感觉代码「结构」、「接口」还是不够「清晰」。</p>
 <p>感谢阅读！</p>
