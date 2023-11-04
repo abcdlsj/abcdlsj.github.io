@@ -103,10 +103,10 @@
 <p>This article has <code>English</code> version，please read <a href="/posts/pipe-build-a-proxy-en.html">Pipe - Build a tunnel tool like <code>frp</code> or <code>ngrok</code></a></p>
 <h2 id="background">Background</h2>
 <p><strong>简单的转发工具</strong><br>
-公司内部的服务框架，服务之前的通信都是通过机器本地的 <code>Agent</code> 实现，在公司容器集群环境，<code>Agent</code> 之间都是可以直接通过 <code>UNIX domain</code> 通信的，但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地启动服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到 <code>TCP</code> 来启动服务的。<br>
+公司内部的服务框架通信都是通过 <code>UNIX domain</code> 连接机器本地的 <code>Agent</code> 实现，在公司容器集群环境，都是会启动 <code>Agent</code>，但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地启动服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到远程的一个 <code>TCP agent</code> 来启动服务的<br>
 类似于：<code>socat unix:/xxx.sock,fork tcp:agent.xxx.io:5443</code></p>
 <blockquote>
-<p><code>socat</code> 是一个非常瑞士军刀类的工具，非常强大</p>
+<p><code>socat</code> 是一个瑞士军刀类的工具，非常强大</p>
 </blockquote>
 <p>借助 <code>io.Copy()</code> 以及 <code>net</code> 包，动手实现了符合需求的转发工具，代码量很少，加上 <code>flag</code> 代码不超过 50 行，但是却非常实用，启动速度很快（实测因为 <code>socat</code> 会对流量做加解密，所以直接 <code>copy</code> 会快一点点）</p>
 <p><strong>远程端口转发</strong><br>
