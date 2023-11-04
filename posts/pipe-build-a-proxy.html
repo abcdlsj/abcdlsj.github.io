@@ -555,8 +555,8 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>		s.<span style="color:#900;font-weight:bold">handleForward</span>(conn, msg, failChan)
-</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">...</span>
-</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">...</span> <span style="color:#998;font-style:italic">// other types
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>  }
 </span></span></code></pre><p><code>handleForward</code> 函数<br>
 <a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L133">server/serve.go#L133</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>Server) <span style="color:#900;font-weight:bold">handleForward</span>(cConn net.Conn, msg <span style="color:#000;font-weight:bold">*</span>proto.MsgForwardReq, failChan <span style="color:#000;font-weight:bold">chan</span> <span style="color:#000;font-weight:bold">struct</span>{}) {
