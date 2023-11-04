@@ -107,10 +107,10 @@
 <blockquote>
 <p><code>socat</code> 是一个瑞士军刀类的工具，非常强大</p>
 </blockquote>
-<p>借助 <code>io.Copy()</code> 以及 <code>net</code> 包，动手实现了符合需求的转发工具，代码量很少，加上 <code>flag</code> 代码不超过 50 行，但是却非常实用，启动速度很快（实测因为 <code>socat</code> 会对流量做加解密，所以直接 <code>copy</code> 会快一点点）</p>
+<p>之前借助 <code>io.Copy()</code> 以及 <code>net</code> 包，动手实现了符合需求的转发工具，代码量很少，加上 <code>flag</code> 代码不超过 50 行，但是却非常实用，启动速度很快（实测因为 <code>socat</code> 会对流量做加解密，所以直接 <code>copy</code> 会快一点点）</p>
 <p><strong>远程端口转发</strong><br>
 <code>frp</code> 很适用于内网转发，不过功能很多用不上，<code>ngrok</code> 则适用于做一些临时暴露本地服务之类的。<br>
-因为去年的尝试，所以准备实现一个类似工具，实现过程中没有借鉴太多其它项目的代码，很多地方都是遇到问题再去查，所以写一篇博客记录下是很值得的，这里写一下思路以及核心代码。</p>
+因为之前的尝试，所以准备实现一个类似工具，实现过程中没有借鉴太多其它项目的代码，很多地方都是遇到问题再去查，所以写一篇博客记录下是很值得的，这里写一下思路以及核心代码。</p>
 <blockquote>
 <p>开始的版本只实现 <code>TCP</code> 转发，含有 <code>Caddy</code> 来做 <code>Auto Subdomain https</code>，代码不到 <code>1000</code> 行。后边优化了下，现在支持 <code>TCP/UDP</code> 协议，所以本文只涉及 <code>TCP/UDP</code> 实现（不过其它协议也大都类似<br>
 另外顺带一提，<code>GitHub</code> 有非常多类似的实现，比如 <a href="https://github.com/ekzhang/bore">ekzhang/bore</a> 和 <a href="https://github.com/rapiz1/rathole/">rapiz1/rathole</a>（<code>Tokio</code> 的功能太强大了，忍不住想用 <code>Rust</code> 重写 :P）</p>
@@ -290,7 +290,7 @@
 <p>选择方法 3 后，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 <code>Copy</code> <code>Local 3000</code> 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 <code>Forward</code> 还是 <code>Exchange</code> 消息，然后如果是 <code>Exchange</code>，需要<strong>拿出</strong>用户连接 <code>Copy</code> 到此 <code>Exchange</code> 消息的连接上。</p>
 <p>所以步骤 3，Server 需要保存用户请求，创建对应的 <code>Connection UUID</code>，然后带上发送 <code>Exchange</code> 消息到 Client<br>
 步骤 5，Client 需要接收到 <code>Exchange</code> 消息，新建 Server 连接，然后首先发送带上同样 <code>UUID</code> 的 <code>Exchange</code> 消息到 Server，然后 <code>Copy</code> <code>Local 3000</code> 流量到此新建的 Server 连接上<br>
-步骤 6. Server 接收到 <code>Exchange</code> 消息，通过 <code>UUID</code> 取出对应的用户连接，然后 <code>Copy</code> 用户连接和此连接上</p>
+步骤 6. Server 接收到 <code>Exchange</code> 消息，通过 <code>UUID</code> 取出对应的用户连接，然后 <code>Copy</code> 用户连接流量和此连接</p>
 <p>至此，用户访问 Server 端 9000 端口的「一个连接」的访问流程已经完成了<br>
 流程很简单，那么接下来，我会写一下每个流程的代码实现</p>
 <h2 id="codes">Codes</h2>
