@@ -287,7 +287,7 @@
 <p>方法 3 可能存在的问题是，端口的连接总数是有限的，但是正常都足够的（只要实现上连接有正常 <code>Close</code>，在 Client 不是很多的情况下是没有太大问题的</p>
 </blockquote>
 <p>方法 1 和 方法 3 是最适合的，而且 <code>yamux</code> 接入并不复杂，我选择方法 3 来实现（后续会抽空加上 <code>yamux</code> 支持</p>
-<p>选择方法 3，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 <code>Copy</code> <code>Local 3000</code> 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 <code>Forward</code> 还是 <code>Exchange</code> 消息，然后如果是 <code>Exchange</code>，需要<strong>拿出</strong>用户连接 <code>Copy</code> 到此 <code>Exchange</code> 消息的连接上。</p>
+<p>选择方法 3 后，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 <code>Copy</code> <code>Local 3000</code> 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 <code>Forward</code> 还是 <code>Exchange</code> 消息，然后如果是 <code>Exchange</code>，需要<strong>拿出</strong>用户连接 <code>Copy</code> 到此 <code>Exchange</code> 消息的连接上。</p>
 <p>所以步骤 3，Server 需要保存用户请求，创建对应的 <code>Connection UUID</code>，然后带上发送 <code>Exchange</code> 消息到 Client<br>
 步骤 5，Client 需要接收到 <code>Exchange</code> 消息，新建 Server 连接，然后首先发送带上同样 <code>UUID</code> 的 <code>Exchange</code> 消息到 Server，然后 <code>Copy</code> <code>Local 3000</code> 流量到此新建的 Server 连接上<br>
 步骤 6. Server 接收到 <code>Exchange</code> 消息，通过 <code>UUID</code> 取出对应的用户连接，然后 <code>Copy</code> 用户连接和此连接上</p>
