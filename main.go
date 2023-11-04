@@ -65,7 +65,7 @@ var (
 			extension.GFM,
 			extension.Footnote,
 			&toc.Extender{
-				MaxDepth: 3,
+				MaxDepth: 4,
 			},
 			&d2.Extender{
 				Layout:  d2dagrelayout.DefaultLayout,
