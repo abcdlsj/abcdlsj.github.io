@@ -338,9 +338,9 @@
 <li>pio: <code>io.Reader</code> 和 <code>io.Writer</code> 的封装，实现限速（<code>Speed limit</code>）的功能</li>
 </ul>
 <h3 id="auth">Auth</h3>
-<p>因为打算通过 <code>Message</code> 发送来写一个流程，所以就不分别写 <code>Client</code> 和 <code>Server</code> 的结构体了</p>
+<p>因为打算通过 <code>Message</code> 发送来带出主体代码，所以就不分别写 <code>Client</code> 和 <code>Server</code> 的结构体了</p>
 <p><code>Auth</code> 采用简单的 Token 校验，消息里有 <code>Token</code> 以及 <code>Timestamp</code> 字段，收到消息会 <code>md5(Token + Timestamp)</code> 进行校验（最开始我的实现 Client 和 Server 每个收发消息都会带上校验字段，好处是少一次 Auth 的发送时间，后来看到很多实现都只是在建立连接的时候校验，所以也改成连接创建时校验）</p>
-<p><code>Login message</code> 结构体<br>
+<p><code>MsgLogin</code> 结构体<br>
 <a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L56">proto/msg.go#L56</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> MsgLogin <span style="color:#000;font-weight:bold">struct</span> {
 </span></span><span style="display:flex;"><span>	Token     <span style="color:#458;font-weight:bold">string</span> <span style="color:#d14">`json:&#34;token&#34;`</span>
