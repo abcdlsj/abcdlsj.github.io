@@ -1,5 +1,5 @@
 ---
-title: "Pipe - Build a tunnel tool like `frp` or `ngrok`"
+title: "Pipe - Build a tunnel tool like frp/ngrok"
 date: 2023-11-04T22:47:37+08:00
 tags:
   - Network

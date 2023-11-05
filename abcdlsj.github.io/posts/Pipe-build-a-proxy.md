@@ -1,5 +1,5 @@
 ---
-title: "Pipe - Build a tunnel tool like `frp` or `ngrok`"
+title: "Pipe - Build a tunnel tool like frp/ngrok"
 date: 2023-11-04T22:47:37+08:00
 tags:
   - Network
@@ -7,7 +7,7 @@ tags:
   - Tunnel
 hide: false
 ---
-> This blog has `English` version, can view [Pipe - Build a tunnel tool like `frp` or `ngrok`](/posts/pipe-build-a-proxy-en.html)
+> This blog has `English` version, can view [Pipe - Build a tunnel tool like frp/ngrok](/posts/pipe-build-a-proxy-en.html)
 
 ## Background
 **简单的转发工具**
