@@ -82,7 +82,7 @@ Flow: {
 3. 最简单的方法，也是大多数内网转发工具用的方法，就是如果需要 `Copy` 就新建一个连接，简单有效
 > 方法 3 可能存在的问题是，端口的连接总数是有限的，但是正常都足够的（只要实现上连接有正常 `Close`，在 Client 不是很多的情况下是没有太大问题的
 
-方法 1 和 方法 3 是最适合的，而且 `yamux` 接入并不复杂，我选择方法 3 来实现（后续会抽空加上 `yamux` 支持
+方法 1 和 方法 3 是最适合的，这里为了简单，我选择方法 3 来实现（`yamux` 接入也非常简单，后续会支持；11/6 Update，[commit](https://github.com/abcdlsj/pipe/commit/fb5ca54b60ea9b1b2df3e877ad2978af0beba09f) 加上了 `yamux` 支持）
 
 选择方法 3 后，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 `Copy` `Local 3000` 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 `Forward` 还是 `Exchange` 消息，然后如果是 `Exchange`，需要**拿出**用户连接 `Copy` 到此 `Exchange` 消息的连接上。
 
