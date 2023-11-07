@@ -9,6 +9,9 @@ hide: false
 ---
 > This blog has `English` version, can view [Pipe - Build a tunnel tool like frp/ngrok](/posts/pipe-build-a-proxy-en.html)
 
+> Changelog
+> 2023-11-06: Add `yamux` support.
+
 ## Background
 **简单的转发工具**
 公司内部的服务框架 Service 之间通信是通过连接每台机器的 `Agent` 监听的 `UNIX domain` 实现的，在公司容器集群环境，都是会启动 `Agent`。
@@ -69,13 +72,13 @@ Flow: {
 1. 首先启动 Server 端，「监听」 8910 端口
 2. 启动 Client, Client 端和 Server 端建立 `Control` 连接，然后发送一条 `Forward` 接口告诉 Server 端将要转发到 9000 端口
 3. Server 端从 `Control` 连接接收到 `Forward` 消息，开始对 9000 端口进行「监听」，准备接收来自用户端的请求
+4. 当有新的用户请求到来时，Server 端通过 `Control` 连接发送 `Exchange` 消息，告诉 Client 端：有新的用户连接，准备开始对流量进行 `Copy`
 > 此时 Server 是否要 `Copy` 用户连接和 `Control` 连接呢？
 > 答案是不应该也不能，因为 `Control` 连接还会有来自 Server 或者 Client 的「其它」的流量，例如 `Close`、`Heartbeat` 消息等，这些流量如果直接 `Copy` 到用户连接上，那就会产生问题。
-4. 当有新的用户请求到来时，Server 端通过 `Control` 连接发送 `Exchange` 消息，告诉 Client 端：有新的用户连接，准备开始对流量进行 `Copy`
 5. Client 端接收到 `Exchange` 消息，建立连接到 `Local 3000` 端口，准备 `Copy` 流量
-> Client 端也不能直接 `Copy` `Control` 连接和 `Local 3000` 连接，和 3 是一样的情况
+> Client 端也不能直接 `Copy` `Control` 连接和 `Local 3000` 连接，和 4 是一样的情况
 
-那么也就是我们遇到了「连接复用」的问题，这个问题在对多端流量进行处理的时候很常见，而且因为这里是直接 `io.Copy` 没办法区分流量的不同。
+这就是「连接复用」的问题，这个问题在对多端流量进行处理的时候很常见。
 解决这个问题有很多方法：
 1. 可以使用连接复用库，例如 [hashicorp/yamux](https://github.com/hashicorp/yamux)，`frp` 默认使用 `yamux`
 2. 对报文在应用层自行区分，同时 `Copy` 的部分也要做处理（`yamux` 就是对报文做了处理） 
@@ -536,7 +539,7 @@ func addCaddyRouter(host string, port int) {
 ### Deploy at `fly.io`
 **这里很重要的一点是，只能部署 1 个 Service**
 > 部署多个不行吗？
-> 不行，因为部署多个，`fly` 会做 `Load Balancing`，导致有的用户请求，因为没在 `tcpConnMap` 里，就没法 `Copy` 成功（`yamux` 或许可以解决这个问题）
+> 不行，因为部署多个，`fly` 会做 `Load Balancing`，导致有的用户请求，因为没在 `tcpConnMap` 里，就没法 `Copy` 成功
 
 因为 `fly.io` 支持 `Dockerfile`，所以只用简单的写个 `Dockerfile` 即可
 关键是 `fly.toml`
