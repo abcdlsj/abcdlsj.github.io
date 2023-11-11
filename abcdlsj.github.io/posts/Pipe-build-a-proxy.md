@@ -10,7 +10,8 @@ hide: false
 > This blog has `English` version, can view [Pipe - Build a tunnel tool like frp/ngrok](/posts/pipe-build-a-proxy-en.html)
 
 > Changelog
-> 2023-11-06: Add `yamux` support.
+> 2023-11-06: 添加了 `yamux` 支持.
+> 2023-11-11: 代码后续有**结构**/**接口**上的更新，也可以看 master 
 
 ## Background
 **简单的转发工具**
