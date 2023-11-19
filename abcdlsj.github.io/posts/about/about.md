@@ -6,4 +6,4 @@ menus:
   - about
 ---
 
-Hello, I'm abcdlsj.
+Hello, I am `abcdlsj`.
