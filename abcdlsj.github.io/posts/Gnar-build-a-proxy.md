@@ -1,5 +1,5 @@
 ---
-title: "Pipe - Build a tunnel tool like frp/ngrok"
+title: "Gnar - Build a tunnel tool like frp/ngrok"
 date: 2023-11-04T22:47:37+08:00
 tags:
   - Network
@@ -7,11 +7,11 @@ tags:
   - Tunnel
 hide: false
 ---
-> This blog has `English` version, can view [Pipe - Build a tunnel tool like frp/ngrok](/posts/pipe-build-a-proxy-en.html)
 
 > Changelog
 > 2023-11-06: 添加了 `yamux` 支持.
-> 2023-11-11: 代码后续有**结构**/**接口**上的更新，也可以看 master 
+> 2023-11-11: 代码后续有**结构**/**接口**上的更新，请看 master 
+> 2023-11-19: 项目修改了命名 Pipe -> Gnar
 
 ## Background
 **简单的转发工具**
@@ -30,17 +30,15 @@ hide: false
 > 开始的版本只实现 `TCP` 转发，含有 `Caddy` 来做 `Auto Subdomain https`，代码不到 `1000` 行。后边优化了下，现在支持 `TCP/UDP` 协议，所以本文只涉及 `TCP/UDP` 实现（不过其它协议也大都类似
 > 顺带一提，`GitHub` 有非常多类似的实现，比如 [ekzhang/bore](https://github.com/ekzhang/bore) 和 [rapiz1/rathole](https://github.com/rapiz1/rathole/)（`Tokio` 的功能太强大了，忍不住想用 `Rust` 重写 :P）
 
-所有的代码都在 [abcdlsj/pipe](https://github.com/abcdlsj/pipe/tree/484084da8b9edb99fb39e5d7561cc94d16d7031c) 里（本文纂写时的版本）
+所有的代码都在 [abcdlsj/gnar](https://github.com/abcdlsj/gnar/tree/484084da8b9edb99fb39e5d7561cc94d16d7031c) 里（本文纂写时的版本）
 
 ## How it works
 
 实现**远程端口转发**
-
 假设有一个服务器（Server）和一个客户端（Client）。其中，服务器的 IP 可以直接从公网访问，而客户端的 IP 则不行，并且客户端可以访问服务器。
 
 我们希望有一种方法来建立服务器端口和客户端端口之间的关联，将对服务器端口的访问转发到客户端的对应端口，通过公网访问服务器的端口就相当于访问客户端的端口。
 
-**如何实现这个转发？**
 假设我们 Server 通信端口是 8910，要将 Client 的 3000 端口穿透到 Server 的 9000 端口。
 首先 Server 端应该和 Client 端进行通信（8910 端口），对于 Server 端的目标端口（9000）的用户请求，将用户请求和 Client 连接进行流量**代理**，Client 则对本地端口（3000）和通信接口连接进行流量**代理**）。
 这样流量路径就是：用户请求 -> Server **代理**的通信连接（也是 Client 端**代理**的通信连接） -> Client 端本地链接
@@ -86,7 +84,7 @@ Flow: {
 3. 最简单的方法，也是大多数内网转发工具用的方法，就是如果需要 `Copy` 就新建一个连接，简单有效
 > 方法 3 可能存在的问题是，端口的连接总数是有限的，但是正常都足够的（只要实现上连接有正常 `Close`，在 Client 不是很多的情况下是没有太大问题的
 
-方法 1 和 方法 3 是最适合的，这里为了简单，我选择方法 3 来实现（`yamux` 接入也非常简单，后续会支持；11/6 Update，[commit](https://github.com/abcdlsj/pipe/commit/fb5ca54b60ea9b1b2df3e877ad2978af0beba09f) 加上了 `yamux` 支持）
+方法 1 和 方法 3 是最适合的，这里为了简单，我选择方法 3 来实现（`yamux` 接入也非常简单，后续会支持；11/6 Update，[commit](https://github.com/abcdlsj/gnar/commit/fb5ca54b60ea9b1b2df3e877ad2978af0beba09f) 加上了 `yamux` 支持）
 
 选择方法 3 后，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 `Copy` `Local 3000` 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 `Forward` 还是 `Exchange` 消息，然后如果是 `Exchange`，需要**拿出**用户连接 `Copy` 到此 `Exchange` 消息的连接上。
 
@@ -148,7 +146,7 @@ Flow: {
 `Auth` 采用简单的 Token 校验，消息里有 `Token` 以及 `Timestamp` 字段，收到消息会 `md5(Token + Timestamp)` 进行校验（最开始我的实现 Client 和 Server 每个收发消息都会带上校验字段，好处是少一次 Auth 的发送时间，后来看到很多实现都只是在建立连接的时候校验，所以也改成连接创建时校验）
 
 `MsgLogin` 结构体
-[proto/msg.go#L56](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L56)
+[proto/msg.go#L56](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L56)
 ```go
 type MsgLogin struct {
 	Token     string `json:"token"`
@@ -158,7 +156,7 @@ type MsgLogin struct {
 ```
 
 **Client** `Dial` 创建和 `Auth` 部分差不多是这样
-[client/serve.go#L75](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L75)
+[client/serve.go#L75](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L75)
 ```go
 func authDialSvr(svraddr string, token string) (net.Conn, error) {
 	conn, err := net.Dial("tcp", svraddr)
@@ -178,7 +176,7 @@ func authDialSvr(svraddr string, token string) (net.Conn, error) {
 
 **Server 部分**
 Server 会 `Listen` 端口 `8910`，等待 Client 连接到来（默认都用 `8910`）
-[server/serve.go#L38-L62](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L38-L62)
+[server/serve.go#L38-L62](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L38-L62)
 ```go
 func (s *Server) Run() {
   ...
@@ -201,7 +199,7 @@ func (s *Server) Run() {
 ```
 
 Server handle 部分对 `MsgLogin` 进行校验，校验不通过直接断开连接
-[server/serve.go#L64-L79](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L64-L79)
+[server/serve.go#L64-L79](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L64-L79)
 ```go
 func (s *Server) handle(conn net.Conn) {
 	loginMsg := proto.MsgLogin{}
@@ -236,7 +234,7 @@ func (s *Server) handle(conn net.Conn) {
 ```
 
 #### pack/unpack
-[proto/packet.go#L42](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/packet.go#L42)
+[proto/packet.go#L42](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/packet.go#L42)
 ```go
 func packet(typ PacketType, msg interface{}) ([]byte, error) {
 	buf, err := json.Marshal(msg)
@@ -297,7 +295,7 @@ func read0(r io.Reader) (typ byte, buf []byte, err error) {
 }
 ```
 #### send/recv
-[proto/msg.go#L16](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L16)
+[proto/msg.go#L16](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L16)
 ```go
 func Send(w io.Writer, msg Msg) error {
 	buf, err := packet(msg.Type(), msg)
@@ -330,7 +328,7 @@ func Recv(r io.Reader, msg Msg) error {
 
 ### Forward
 client 部分就是发送 `Forward` 消息，接收返回的 `ForwardResp`
-[client/serve.go#L88](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L88)
+[client/serve.go#L88](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L88)
 ```go
 func (f *Forwarder) Run() {
 	rConn, err := authDialSvr(f.svraddr, f.token)
@@ -359,7 +357,7 @@ func (f *Forwarder) Run() {
 发送后，如果检验成功，Client 端会在 `for` 循环里接收来自 Server 端的消息
 
 **Server 端处理 `Forward` 消息**
-[server/serve.go#L83-L107](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L83-L107)
+[server/serve.go#L83-L107](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L83-L107)
 ```go
 	pt, buf, err := proto.Read(conn)
 	if err != nil {
@@ -390,7 +388,7 @@ func (f *Forwarder) Run() {
 ```
 
 `handleForward` 函数
-[server/serve.go#L133](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L133)
+[server/serve.go#L133](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L133)
 ```go
 func (s *Server) handleForward(cConn net.Conn, msg *proto.MsgForwardReq, failChan chan struct{}) {
 	uPort := msg.RemotePort
@@ -438,7 +436,7 @@ func (s *Server) handleForward(cConn net.Conn, msg *proto.MsgForwardReq, failCha
 ### Exchange
 
 Client 端从发送 `Forward` 消息后的 `for` 里不断获取消息，然后如果是 `Exchange` 消息
-[client/serve.go#L124](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L124)
+[client/serve.go#L124](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L124)
 ```go
 	for {
 		p, buf, err := proto.Read(rConn)
@@ -487,7 +485,7 @@ Client 端从发送 `Forward` 消息后的 `for` 里不断获取消息，然后�
 4. 调用 `proxy.Stream` 进行流量 `Copy`
 
 Server 端接收到 `Exchange` 消息就很简单了，从 `tcpConnMap` 里拿出对应的连接，然后同样的 `proxy.Stream` 进行流量 `Copy`
-[server/serve.go#L254](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L254)
+[server/serve.go#L254](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L254)
 ```go
 func (s *Server) handleExchange(conn net.Conn, msg *proto.MsgExchange) {
 	switch msg.ProxyType {
@@ -503,7 +501,7 @@ func (s *Server) handleExchange(conn net.Conn, msg *proto.MsgExchange) {
 }
 ```
 ### Conclusion
-到此，`Pipe` 的实现已经差不多，基本上列出了完整的流程，接下来会写下 `Pipe` 所实现的 `Feature`
+到此，`Gnar` 的实现已经差不多，基本上列出了完整的流程，接下来会写下 `Gnar` 所实现的 `Feature`
 
 ## Feat
 ### Auto subdomain https
@@ -511,7 +509,7 @@ func (s *Server) handleExchange(conn net.Conn, msg *proto.MsgExchange) {
 也就是加入 Server 运行在 `example.com` 机器，Client 开启转发 `Local 3000` 到 `Server 9000` 端口
 Server 会生成 `xxx.example.com` 的 `Subdomain`，可以通过 `https://xxx.example.com` 来访问 Client `Local 3000`
 因为不太想过于麻烦的实现 `Https`，所以借助 `Caddy` 来做 `Https` 的部分
-代码在 [server/caddy_service.go#L22](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22)
+代码在 [server/caddy_service.go#L22](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22)
 借助 `Caddy` 的 `API` 添加 `https` 的 `route`
 ```go
 func addCaddyRouter(host string, port int) {
@@ -545,7 +543,7 @@ func addCaddyRouter(host string, port int) {
 因为 `fly.io` 支持 `Dockerfile`，所以只用简单的写个 `Dockerfile` 即可
 关键是 `fly.toml`
 ```toml
-app = "pipefly"
+app = "xxxx"
 primary_region = "hkg"
 
 [build]
@@ -581,18 +579,18 @@ primary_region = "hkg"
     port = 9000
 ```
 
-`Control` 和 `Admin` 因为都是 `TCP`，所以 `protocol` 是 `tcp`，然后 `Admin` 希望直接从 <https://pipefly.fly.dev/> 访问，就需要加上 `handlers = ["http"]` 以及 `https` 的 `handlers = ["tls", "http"]`
+`Control` 和 `Admin` 因为都是 `TCP`，所以 `protocol` 是 `tcp`，然后 `Admin` 希望直接从 <https://xxxx.fly.dev/> 访问，就需要加上 `handlers = ["http"]` 以及 `https` 的 `handlers = ["tls", "http"]`
 
 然后这里需要在配置里指定出 `Forward` 的端口，这样运行 Server 和 Client 后
-访问 <https://pipefly.fly.dev:9000> 就会访问到 Client `Local 3000` 了
+访问 <https://xxxx.fly.dev:9000> 就会访问到 Client `Local 3000` 了
 
 > `UDP` 的配置，`fly.io` 也是支持的，可以看 `fly` 的文档，或者可以看这个例子 [AnimMouse/frp-flyapp](https://github.com/AnimMouse/frp-flyapp)
 
 
 ### `UDP`
-`UDP` 的支持，因为 `UDP` 没有连接的概念，只有 `Packet` 概念，所以我们可以「封装」`UDP` 流量为 `MsgUDPDatagram`，然后做流量的 `Copy`
+`UDP` 的支持，因为 `UDP` 没有连接的概念，只有 `Packet` 概念，所以我们可以「封装」`UDP` 流量为「消息」`MsgUDPDatagram`，然后做流量的 `Copy`
 
-[proxy/udp.go#L1-L77](https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proxy/udp.go#L1-L77)
+[proxy/udp.go#L1-L77](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proxy/udp.go#L1-L77)
 ```go
 func UDPClientStream(token string, tcp, udp io.ReadWriteCloser) error {
 	go func() {
@@ -712,16 +710,16 @@ func (s *LimitStream) Read(p []byte) (int, error) {
 `Read` 的时候，调用 `WaitN`，因为容量为 `10k`，所以 `WaitN` 每读取 `10k byte` 就会等待 `1s`
 这样就实现了 `10k/s` 的限速，而且使用上非常简单，初始化一个 `LimitStream` 就可以了
 
-## Done
+## Conclusion
 写了下如何实现一个内网转发的小工具，代码本身还有很多可以优化的地方，比如
 1. 完善「错误处理」「重试」，对于哪些错误需要重试，哪些错误直接退出
 2. 支持更多转发协议，例如 `HTTP/Quic/WebSocket`，`Control` 协议也可以支持更多，目前是 `TCP`，可以支持 `UDP/KCP` 等
 3. 完善监控采集，这部分可以用 `Prometheus`，但是对于小项目来说太麻烦了
-4. `Load Balancing` 这部分一直在思考如何做，从上边 `fly.io` 的部署就能知道，`Server` 端访问只能是单机的
+4. `Serverside Load-Balancing` 这部分一直在思考如何做，从上边 `fly.io` 的部署就能知道，`Server` 端访问只能是单机的
 
-写这个小项目后感觉到，项目是很难「维护」的，而且因为个人的局限性，代码一开始很难做出合理的「抽象」，导致后续有代码改动的时候会变很困难。之前写一些几百行的小项目还不觉得，现在这个项目代码量变多后，感觉代码「结构」、「接口」还是不够「清晰」。
+因为个人的局限性，所以开始写代码时很难做出合理的「抽象」，随着这个项目代码量变多后，感觉代码「结构」「接口」还是不够「清晰」。
 
-感谢阅读！
+最后，感谢阅读！
 ## refs
 <https://pandaychen.github.io/2020/01/01/MAGIC-GO-IO-PACKAGE/>
 <https://github.com/ekzhang/bore>

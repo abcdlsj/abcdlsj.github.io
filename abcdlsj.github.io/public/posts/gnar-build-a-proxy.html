@@ -34,7 +34,7 @@
 </nav>
 </div>
     <hr class="divider" />
-    <h1 class="post-title">Pipe - Build a tunnel tool like frp/ngrok</h1>
+    <h1 class="post-title">Gnar - Build a tunnel tool like frp/ngrok</h1>
     <div class="post-meta">
       <div class="post-date">Date: 2023-11-04T22:47:37+08:00</div>
       <nav class="post-tags">
@@ -94,19 +94,17 @@
 </ul>
 </li>
 <li>
-<a href="#done">Done</a></li>
+<a href="#conclusion-1">Conclusion</a></li>
 <li>
 <a href="#refs">refs</a></li>
 </ul>
 </li>
 </ul>
 <blockquote>
-<p>This blog has <code>English</code> version, can view <a href="/posts/pipe-build-a-proxy-en.html">Pipe - Build a tunnel tool like frp/ngrok</a></p>
-</blockquote>
-<blockquote>
 <p>Changelog<br>
 2023-11-06: 添加了 <code>yamux</code> 支持.<br>
-2023-11-11: 代码后续有<strong>结构</strong>/<strong>接口</strong>上的更新，也可以看 master</p>
+2023-11-11: 代码后续有<strong>结构</strong>/<strong>接口</strong>上的更新，请看 master<br>
+2023-11-19: 项目修改了命名 Pipe -&gt; Gnar</p>
 </blockquote>
 <h2 id="background">Background</h2>
 <p><strong>简单的转发工具</strong><br>
@@ -124,13 +122,12 @@
 <p>开始的版本只实现 <code>TCP</code> 转发，含有 <code>Caddy</code> 来做 <code>Auto Subdomain https</code>，代码不到 <code>1000</code> 行。后边优化了下，现在支持 <code>TCP/UDP</code> 协议，所以本文只涉及 <code>TCP/UDP</code> 实现（不过其它协议也大都类似<br>
 顺带一提，<code>GitHub</code> 有非常多类似的实现，比如 <a href="https://github.com/ekzhang/bore">ekzhang/bore</a> 和 <a href="https://github.com/rapiz1/rathole/">rapiz1/rathole</a>（<code>Tokio</code> 的功能太强大了，忍不住想用 <code>Rust</code> 重写 :P）</p>
 </blockquote>
-<p>所有的代码都在 <a href="https://github.com/abcdlsj/pipe/tree/484084da8b9edb99fb39e5d7561cc94d16d7031c">abcdlsj/pipe</a> 里（本文纂写时的版本）</p>
+<p>所有的代码都在 <a href="https://github.com/abcdlsj/gnar/tree/484084da8b9edb99fb39e5d7561cc94d16d7031c">abcdlsj/gnar</a> 里（本文纂写时的版本）</p>
 <h2 id="how-it-works">How it works</h2>
-<p>实现<strong>远程端口转发</strong></p>
-<p>假设有一个服务器（Server）和一个客户端（Client）。其中，服务器的 IP 可以直接从公网访问，而客户端的 IP 则不行，并且客户端可以访问服务器。</p>
+<p>实现<strong>远程端口转发</strong><br>
+假设有一个服务器（Server）和一个客户端（Client）。其中，服务器的 IP 可以直接从公网访问，而客户端的 IP 则不行，并且客户端可以访问服务器。</p>
 <p>我们希望有一种方法来建立服务器端口和客户端端口之间的关联，将对服务器端口的访问转发到客户端的对应端口，通过公网访问服务器的端口就相当于访问客户端的端口。</p>
-<p><strong>如何实现这个转发？</strong><br>
-假设我们 Server 通信端口是 8910，要将 Client 的 3000 端口穿透到 Server 的 9000 端口。<br>
+<p>假设我们 Server 通信端口是 8910，要将 Client 的 3000 端口穿透到 Server 的 9000 端口。<br>
 首先 Server 端应该和 Client 端进行通信（8910 端口），对于 Server 端的目标端口（9000）的用户请求，将用户请求和 Client 连接进行流量<strong>代理</strong>，Client 则对本地端口（3000）和通信接口连接进行流量<strong>代理</strong>）。<br>
 这样流量路径就是：用户请求 -&gt; Server <strong>代理</strong>的通信连接（也是 Client 端<strong>代理</strong>的通信连接） -&gt; Client 端本地链接</p>
 <p>最后结构差不多就是这样：</p>
@@ -296,7 +293,7 @@
 <blockquote>
 <p>方法 3 可能存在的问题是，端口的连接总数是有限的，但是正常都足够的（只要实现上连接有正常 <code>Close</code>，在 Client 不是很多的情况下是没有太大问题的</p>
 </blockquote>
-<p>方法 1 和 方法 3 是最适合的，这里为了简单，我选择方法 3 来实现（<code>yamux</code> 接入也非常简单，后续会支持；11/6 Update，<a href="https://github.com/abcdlsj/pipe/commit/fb5ca54b60ea9b1b2df3e877ad2978af0beba09f">commit</a> 加上了 <code>yamux</code> 支持）</p>
+<p>方法 1 和 方法 3 是最适合的，这里为了简单，我选择方法 3 来实现（<code>yamux</code> 接入也非常简单，后续会支持；11/6 Update，<a href="https://github.com/abcdlsj/gnar/commit/fb5ca54b60ea9b1b2df3e877ad2978af0beba09f">commit</a> 加上了 <code>yamux</code> 支持）</p>
 <p>选择方法 3 后，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 <code>Copy</code> <code>Local 3000</code> 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 <code>Forward</code> 还是 <code>Exchange</code> 消息，然后如果是 <code>Exchange</code>，需要<strong>拿出</strong>用户连接 <code>Copy</code> 到此 <code>Exchange</code> 消息的连接上。</p>
 <p>所以步骤 3，Server 需要保存用户请求，创建对应的 <code>Connection UUID</code>，然后带上发送 <code>Exchange</code> 消息到 Client<br>
 步骤 5，Client 需要接收到 <code>Exchange</code> 消息，新建 Server 连接，然后首先发送带上同样 <code>UUID</code> 的 <code>Exchange</code> 消息到 Server，然后 <code>Copy</code> <code>Local 3000</code> 流量到此新建的 Server 连接上<br>
@@ -351,14 +348,14 @@
 <p>因为打算通过 <code>Message</code> 发送来带出主体代码，所以就不分别写 <code>Client</code> 和 <code>Server</code> 的结构体了</p>
 <p><code>Auth</code> 采用简单的 Token 校验，消息里有 <code>Token</code> 以及 <code>Timestamp</code> 字段，收到消息会 <code>md5(Token + Timestamp)</code> 进行校验（最开始我的实现 Client 和 Server 每个收发消息都会带上校验字段，好处是少一次 Auth 的发送时间，后来看到很多实现都只是在建立连接的时候校验，所以也改成连接创建时校验）</p>
 <p><code>MsgLogin</code> 结构体<br>
-<a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L56">proto/msg.go#L56</a></p>
+<a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L56">proto/msg.go#L56</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> MsgLogin <span style="color:#000;font-weight:bold">struct</span> {
 </span></span><span style="display:flex;"><span>	Token     <span style="color:#458;font-weight:bold">string</span> <span style="color:#d14">`json:&#34;token&#34;`</span>
 </span></span><span style="display:flex;"><span>	Version   <span style="color:#458;font-weight:bold">string</span> <span style="color:#d14">`json:&#34;client_version&#34;`</span>
 </span></span><span style="display:flex;"><span>	Timestamp <span style="color:#458;font-weight:bold">int64</span>  <span style="color:#d14">`json:&#34;timestamp&#34;`</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><p><strong>Client</strong> <code>Dial</code> 创建和 <code>Auth</code> 部分差不多是这样<br>
-<a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L75">client/serve.go#L75</a></p>
+<a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L75">client/serve.go#L75</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">authDialSvr</span>(svraddr <span style="color:#458;font-weight:bold">string</span>, token <span style="color:#458;font-weight:bold">string</span>) (net.Conn, <span style="color:#458;font-weight:bold">error</span>) {
 </span></span><span style="display:flex;"><span>	conn, err <span style="color:#000;font-weight:bold">:=</span> net.<span style="color:#900;font-weight:bold">Dial</span>(<span style="color:#d14">&#34;tcp&#34;</span>, svraddr)
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
@@ -374,7 +371,7 @@
 </span></span></code></pre><p><code>Auth</code> 的部分还有其它更有意思的实现，例如 <code>OpenID Connect (OIDC)</code>，可以实现「扫码」认证之类的功能</p>
 <p><strong>Server 部分</strong><br>
 Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接到来（默认都用 <code>8910</code>）<br>
-<a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L38-L62">server/serve.go#L38-L62</a></p>
+<a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L38-L62">server/serve.go#L38-L62</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>Server) <span style="color:#900;font-weight:bold">Run</span>() {
 </span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">...</span>
 </span></span><span style="display:flex;"><span>  listener, err <span style="color:#000;font-weight:bold">:=</span> net.<span style="color:#900;font-weight:bold">Listen</span>(<span style="color:#d14">&#34;tcp&#34;</span>, fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;:%d&#34;</span>, s.cfg.Port))
@@ -394,7 +391,7 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><p>Server handle 部分对 <code>MsgLogin</code> 进行校验，校验不通过直接断开连接<br>
-<a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L64-L79">server/serve.go#L64-L79</a></p>
+<a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L64-L79">server/serve.go#L64-L79</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>Server) <span style="color:#900;font-weight:bold">handle</span>(conn net.Conn) {
 </span></span><span style="display:flex;"><span>	loginMsg <span style="color:#000;font-weight:bold">:=</span> proto.MsgLogin{}
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Recv</span>(conn, <span style="color:#000;font-weight:bold">&amp;</span>loginMsg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
@@ -425,7 +422,7 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 |PacketType|Length| Json Message|
 </code></pre>
 <h4 id="packunpack">pack/unpack</h4>
-<p><a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/packet.go#L42">proto/packet.go#L42</a></p>
+<p><a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/packet.go#L42">proto/packet.go#L42</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">packet</span>(typ PacketType, msg <span style="color:#000;font-weight:bold">interface</span>{}) ([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#458;font-weight:bold">error</span>) {
 </span></span><span style="display:flex;"><span>	buf, err <span style="color:#000;font-weight:bold">:=</span> json.<span style="color:#900;font-weight:bold">Marshal</span>(msg)
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
@@ -484,7 +481,7 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><h4 id="sendrecv">send/recv</h4>
-<p><a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L16">proto/msg.go#L16</a></p>
+<p><a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L16">proto/msg.go#L16</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Send</span>(w io.Writer, msg Msg) <span style="color:#458;font-weight:bold">error</span> {
 </span></span><span style="display:flex;"><span>	buf, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">packet</span>(msg.<span style="color:#900;font-weight:bold">Type</span>(), msg)
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
@@ -513,7 +510,7 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span></code></pre><p>到这里 <code>Message</code> 的序列化和解析已经完成了，之后使用 <code>Msg</code> 或者添加新的 <code>Msg</code> 都不用关注这部分</p>
 <h3 id="forward">Forward</h3>
 <p>client 部分就是发送 <code>Forward</code> 消息，接收返回的 <code>ForwardResp</code><br>
-<a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L88">client/serve.go#L88</a></p>
+<a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L88">client/serve.go#L88</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (f <span style="color:#000;font-weight:bold">*</span>Forwarder) <span style="color:#900;font-weight:bold">Run</span>() {
 </span></span><span style="display:flex;"><span>	rConn, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">authDialSvr</span>(f.svraddr, f.token)
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">...</span>
@@ -539,7 +536,7 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><p>发送后，如果检验成功，Client 端会在 <code>for</code> 循环里接收来自 Server 端的消息</p>
 <p><strong>Server 端处理 <code>Forward</code> 消息</strong><br>
-<a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L83-L107">server/serve.go#L83-L107</a></p>
+<a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L83-L107">server/serve.go#L83-L107</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>	pt, buf, err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Read</span>(conn)
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
 </span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error reading from connection: %v&#34;</span>, err)
@@ -567,7 +564,7 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span><span style="display:flex;"><span>		s.<span style="color:#900;font-weight:bold">handleForward</span>(conn, msg, failChan)
 </span></span><span style="display:flex;"><span>  }
 </span></span></code></pre><p><code>handleForward</code> 函数<br>
-<a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L133">server/serve.go#L133</a></p>
+<a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L133">server/serve.go#L133</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>Server) <span style="color:#900;font-weight:bold">handleForward</span>(cConn net.Conn, msg <span style="color:#000;font-weight:bold">*</span>proto.MsgForwardReq, failChan <span style="color:#000;font-weight:bold">chan</span> <span style="color:#000;font-weight:bold">struct</span>{}) {
 </span></span><span style="display:flex;"><span>	uPort <span style="color:#000;font-weight:bold">:=</span> msg.RemotePort
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> !s.<span style="color:#900;font-weight:bold">availablePort</span>(uPort) {
@@ -613,7 +610,7 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </ol>
 <h3 id="exchange">Exchange</h3>
 <p>Client 端从发送 <code>Forward</code> 消息后的 <code>for</code> 里不断获取消息，然后如果是 <code>Exchange</code> 消息<br>
-<a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L124">client/serve.go#L124</a></p>
+<a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L124">client/serve.go#L124</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> {
 </span></span><span style="display:flex;"><span>		p, buf, err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Read</span>(rConn)
 </span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
@@ -661,7 +658,7 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 <li>调用 <code>proxy.Stream</code> 进行流量 <code>Copy</code></li>
 </ol>
 <p>Server 端接收到 <code>Exchange</code> 消息就很简单了，从 <code>tcpConnMap</code> 里拿出对应的连接，然后同样的 <code>proxy.Stream</code> 进行流量 <code>Copy</code><br>
-<a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L254">server/serve.go#L254</a></p>
+<a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L254">server/serve.go#L254</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>Server) <span style="color:#900;font-weight:bold">handleExchange</span>(conn net.Conn, msg <span style="color:#000;font-weight:bold">*</span>proto.MsgExchange) {
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> msg.ProxyType {
 </span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;tcp&#34;</span>:
@@ -675,14 +672,14 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><h3 id="conclusion">Conclusion</h3>
-<p>到此，<code>Pipe</code> 的实现已经差不多，基本上列出了完整的流程，接下来会写下 <code>Pipe</code> 所实现的 <code>Feature</code></p>
+<p>到此，<code>Gnar</code> 的实现已经差不多，基本上列出了完整的流程，接下来会写下 <code>Gnar</code> 所实现的 <code>Feature</code></p>
 <h2 id="feat">Feat</h2>
 <h3 id="auto-subdomain-https">Auto subdomain https</h3>
 <p>目标是实现一个自动 <code>Subdomain</code> 分配并且支持 <code>Https</code><br>
 也就是加入 Server 运行在 <code>example.com</code> 机器，Client 开启转发 <code>Local 3000</code> 到 <code>Server 9000</code> 端口<br>
 Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可以通过 <code>https://xxx.example.com</code> 来访问 Client <code>Local 3000</code><br>
 因为不太想过于麻烦的实现 <code>Https</code>，所以借助 <code>Caddy</code> 来做 <code>Https</code> 的部分<br>
-代码在 <a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22">server/caddy_service.go#L22</a><br>
+代码在 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22">server/caddy_service.go#L22</a><br>
 借助 <code>Caddy</code> 的 <code>API</code> 添加 <code>https</code> 的 <code>route</code></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">addCaddyRouter</span>(host <span style="color:#458;font-weight:bold">string</span>, port <span style="color:#458;font-weight:bold">int</span>) {
 </span></span><span style="display:flex;"><span>	tunnelId <span style="color:#000;font-weight:bold">:=</span> fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;%s.%d&#34;</span>, host, port)
@@ -715,7 +712,7 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可�
 </blockquote>
 <p>因为 <code>fly.io</code> 支持 <code>Dockerfile</code>，所以只用简单的写个 <code>Dockerfile</code> 即可<br>
 关键是 <code>fly.toml</code></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>app = <span style="color:#d14">&#34;pipefly&#34;</span>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>app = <span style="color:#d14">&#34;xxxx&#34;</span>
 </span></span><span style="display:flex;"><span>primary_region = <span style="color:#d14">&#34;hkg&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>[build]
@@ -749,15 +746,15 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可�
 </span></span><span style="display:flex;"><span>  [[services.ports]]
 </span></span><span style="display:flex;"><span>    handlers = [<span style="color:#d14">&#34;tls&#34;</span>, <span style="color:#d14">&#34;http&#34;</span>]
 </span></span><span style="display:flex;"><span>    port = <span style="color:#099">9000</span>
-</span></span></code></pre><p><code>Control</code> 和 <code>Admin</code> 因为都是 <code>TCP</code>，所以 <code>protocol</code> 是 <code>tcp</code>，然后 <code>Admin</code> 希望直接从 <a href="https://pipefly.fly.dev/">https://pipefly.fly.dev/</a> 访问，就需要加上 <code>handlers = [&quot;http&quot;]</code> 以及 <code>https</code> 的 <code>handlers = [&quot;tls&quot;, &quot;http&quot;]</code></p>
+</span></span></code></pre><p><code>Control</code> 和 <code>Admin</code> 因为都是 <code>TCP</code>，所以 <code>protocol</code> 是 <code>tcp</code>，然后 <code>Admin</code> 希望直接从 <a href="https://xxxx.fly.dev/">https://xxxx.fly.dev/</a> 访问，就需要加上 <code>handlers = [&quot;http&quot;]</code> 以及 <code>https</code> 的 <code>handlers = [&quot;tls&quot;, &quot;http&quot;]</code></p>
 <p>然后这里需要在配置里指定出 <code>Forward</code> 的端口，这样运行 Server 和 Client 后<br>
-访问 <a href="https://pipefly.fly.dev:9000">https://pipefly.fly.dev:9000</a> 就会访问到 Client <code>Local 3000</code> 了</p>
+访问 <a href="https://xxxx.fly.dev:9000">https://xxxx.fly.dev:9000</a> 就会访问到 Client <code>Local 3000</code> 了</p>
 <blockquote>
 <p><code>UDP</code> 的配置，<code>fly.io</code> 也是支持的，可以看 <code>fly</code> 的文档，或者可以看这个例子 <a href="https://github.com/AnimMouse/frp-flyapp">AnimMouse/frp-flyapp</a></p>
 </blockquote>
 <h3 id="udp"><code>UDP</code></h3>
-<p><code>UDP</code> 的支持，因为 <code>UDP</code> 没有连接的概念，只有 <code>Packet</code> 概念，所以我们可以「封装」<code>UDP</code> 流量为 <code>MsgUDPDatagram</code>，然后做流量的 <code>Copy</code></p>
-<p><a href="https://github.com/abcdlsj/pipe/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proxy/udp.go#L1-L77">proxy/udp.go#L1-L77</a></p>
+<p><code>UDP</code> 的支持，因为 <code>UDP</code> 没有连接的概念，只有 <code>Packet</code> 概念，所以我们可以「封装」<code>UDP</code> 流量为「消息」<code>MsgUDPDatagram</code>，然后做流量的 <code>Copy</code></p>
+<p><a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proxy/udp.go#L1-L77">proxy/udp.go#L1-L77</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">UDPClientStream</span>(token <span style="color:#458;font-weight:bold">string</span>, tcp, udp io.ReadWriteCloser) <span style="color:#458;font-weight:bold">error</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
 </span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">for</span> {
@@ -869,16 +866,16 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可�
 </span></span></code></pre><p>原理就是，假如说我们想要限速到 <code>10k/s</code>，那么就初始化 <code>burst=10k</code> 的 <code>rate.Limiter</code><br>
 <code>Read</code> 的时候，调用 <code>WaitN</code>，因为容量为 <code>10k</code>，所以 <code>WaitN</code> 每读取 <code>10k byte</code> 就会等待 <code>1s</code><br>
 这样就实现了 <code>10k/s</code> 的限速，而且使用上非常简单，初始化一个 <code>LimitStream</code> 就可以了</p>
-<h2 id="done">Done</h2>
+<h2 id="conclusion-1">Conclusion</h2>
 <p>写了下如何实现一个内网转发的小工具，代码本身还有很多可以优化的地方，比如</p>
 <ol>
 <li>完善「错误处理」「重试」，对于哪些错误需要重试，哪些错误直接退出</li>
 <li>支持更多转发协议，例如 <code>HTTP/Quic/WebSocket</code>，<code>Control</code> 协议也可以支持更多，目前是 <code>TCP</code>，可以支持 <code>UDP/KCP</code> 等</li>
 <li>完善监控采集，这部分可以用 <code>Prometheus</code>，但是对于小项目来说太麻烦了</li>
-<li><code>Load Balancing</code> 这部分一直在思考如何做，从上边 <code>fly.io</code> 的部署就能知道，<code>Server</code> 端访问只能是单机的</li>
+<li><code>Serverside Load-Balancing</code> 这部分一直在思考如何做，从上边 <code>fly.io</code> 的部署就能知道，<code>Server</code> 端访问只能是单机的</li>
 </ol>
-<p>写这个小项目后感觉到，项目是很难「维护」的，而且因为个人的局限性，代码一开始很难做出合理的「抽象」，导致后续有代码改动的时候会变很困难。之前写一些几百行的小项目还不觉得，现在这个项目代码量变多后，感觉代码「结构」、「接口」还是不够「清晰」。</p>
-<p>感谢阅读！</p>
+<p>因为个人的局限性，所以开始写代码时很难做出合理的「抽象」，随着这个项目代码量变多后，感觉代码「结构」「接口」还是不够「清晰」。</p>
+<p>最后，感谢阅读！</p>
 <h2 id="refs">refs</h2>
 <p><a href="https://pandaychen.github.io/2020/01/01/MAGIC-GO-IO-PACKAGE/">https://pandaychen.github.io/2020/01/01/MAGIC-GO-IO-PACKAGE/</a><br>
 <a href="https://github.com/ekzhang/bore">https://github.com/ekzhang/bore</a><br>
