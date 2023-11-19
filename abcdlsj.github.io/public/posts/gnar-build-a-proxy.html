@@ -531,38 +531,38 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">...</span>
-</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">...</span>
+</span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><p>发送后，如果检验成功，Client 端会在 <code>for</code> 循环里接收来自 Server 端的消息</p>
 <p><strong>Server 端处理 <code>Forward</code> 消息</strong><br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L83-L107">server/serve.go#L83-L107</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>	pt, buf, err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Read</span>(conn)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error reading from connection: %v&#34;</span>, err)
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>pt, buf, err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Read</span>(conn)
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>	logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error reading from connection: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">switch</span> pt {
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">case</span> proto.PacketForwardReq:
+</span></span><span style="display:flex;"><span>	failChan <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>(<span style="color:#000;font-weight:bold">chan</span> <span style="color:#000;font-weight:bold">struct</span>{})
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> <span style="color:#0086b3">close</span>(failChan)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">&lt;-</span>failChan
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Send</span>(conn, proto.<span style="color:#900;font-weight:bold">NewMsgForwardResp</span>(<span style="color:#d14">&#34;&#34;</span>, <span style="color:#d14">&#34;failed&#34;</span>)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>			logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error sending forward failed resp message: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	msg <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>proto.MsgForwardReq{}
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> json.<span style="color:#900;font-weight:bold">Unmarshal</span>(buf, msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error unmarshalling message: %v&#34;</span>, err)
 </span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> pt {
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> proto.PacketForwardReq:
-</span></span><span style="display:flex;"><span>		failChan <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>(<span style="color:#000;font-weight:bold">chan</span> <span style="color:#000;font-weight:bold">struct</span>{})
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">defer</span> <span style="color:#0086b3">close</span>(failChan)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">&lt;-</span>failChan
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Send</span>(conn, proto.<span style="color:#900;font-weight:bold">NewMsgForwardResp</span>(<span style="color:#d14">&#34;&#34;</span>, <span style="color:#d14">&#34;failed&#34;</span>)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>				logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error sending forward failed resp message: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>		}()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		msg <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>proto.MsgForwardReq{}
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> json.<span style="color:#900;font-weight:bold">Unmarshal</span>(buf, msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error unmarshalling message: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		s.<span style="color:#900;font-weight:bold">handleForward</span>(conn, msg, failChan)
-</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>	s.<span style="color:#900;font-weight:bold">handleForward</span>(conn, msg, failChan)
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre><p><code>handleForward</code> 函数<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L133">server/serve.go#L133</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>Server) <span style="color:#900;font-weight:bold">handleForward</span>(cConn net.Conn, msg <span style="color:#000;font-weight:bold">*</span>proto.MsgForwardReq, failChan <span style="color:#000;font-weight:bold">chan</span> <span style="color:#000;font-weight:bold">struct</span>{}) {
@@ -580,8 +580,8 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span>
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">defer</span> uListener.<span style="color:#900;font-weight:bold">Close</span>()
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(cConn, proto.<span style="color:#900;font-weight:bold">NewMsgForwardResp</span>(domain, <span style="color:#d14">&#34;success&#34;</span>)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(cConn, proto.<span style="color:#900;font-weight:bold">NewMsgForwardResp</span>(domain, <span style="color:#d14">&#34;success&#34;</span>)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
 </span></span><span style="display:flex;"><span>			failChan <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#000;font-weight:bold">struct</span>{}{}
 </span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span>
 </span></span><span style="display:flex;"><span>		}
@@ -611,44 +611,44 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 <h3 id="exchange">Exchange</h3>
 <p>Client 端从发送 <code>Forward</code> 消息后的 <code>for</code> 里不断获取消息，然后如果是 <code>Exchange</code> 消息<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L124">client/serve.go#L124</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> {
-</span></span><span style="display:flex;"><span>		p, buf, err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Read</span>(rConn)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			f.logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error reading msg from remote: %v&#34;</span>, err)
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">for</span> {
+</span></span><span style="display:flex;"><span>	p, buf, err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Read</span>(rConn)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		f.logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error reading msg from remote: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	nlogger <span style="color:#000;font-weight:bold">:=</span> f.logger.<span style="color:#900;font-weight:bold">CloneAdd</span>(p.<span style="color:#900;font-weight:bold">String</span>())
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> p {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> proto.PacketExchange:
+</span></span><span style="display:flex;"><span>		msg <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>proto.MsgExchange{}
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> json.<span style="color:#900;font-weight:bold">Unmarshal</span>(buf, msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#900;font-weight:bold">cancelForward</span>(f.token, f.svraddr, f.proxyName, f.localPort, f.remotePort)
 </span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span>
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		nlogger <span style="color:#000;font-weight:bold">:=</span> f.logger.<span style="color:#900;font-weight:bold">CloneAdd</span>(p.<span style="color:#900;font-weight:bold">String</span>())
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">switch</span> p {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">case</span> proto.PacketExchange:
-</span></span><span style="display:flex;"><span>			msg <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>proto.MsgExchange{}
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> json.<span style="color:#900;font-weight:bold">Unmarshal</span>(buf, msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>				<span style="color:#900;font-weight:bold">cancelForward</span>(f.token, f.svraddr, f.proxyName, f.localPort, f.remotePort)
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">switch</span> msg.ProxyType {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;tcp&#34;</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
+</span></span><span style="display:flex;"><span>				nRconn, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">authDialSvr</span>(f.svraddr, f.token)
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>					nlogger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error connecting to remote: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>					<span style="color:#900;font-weight:bold">cancelForward</span>(f.token, f.svraddr, f.proxyName, f.localPort, f.remotePort)
+</span></span><span style="display:flex;"><span>					<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(nRconn, proto.<span style="color:#900;font-weight:bold">NewMsgExchange</span>(msg.ConnId, f.proxyType)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>					nlogger.<span style="color:#900;font-weight:bold">Infof</span>(<span style="color:#d14">&#34;Error sending exchange msg to remote: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				lConn, err <span style="color:#000;font-weight:bold">:=</span> net.<span style="color:#900;font-weight:bold">Dial</span>(msg.ProxyType, fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;:%d&#34;</span>, f.localPort))
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>					nlogger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error connecting to local: %v, will close forward, %s:%d&#34;</span>, err, f.proxyType, f.localPort)
+</span></span><span style="display:flex;"><span>					<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>				}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">switch</span> msg.ProxyType {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;tcp&#34;</span>:
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
-</span></span><span style="display:flex;"><span>					nRconn, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">authDialSvr</span>(f.svraddr, f.token)
-</span></span><span style="display:flex;"><span>					<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>						nlogger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error connecting to remote: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>						<span style="color:#900;font-weight:bold">cancelForward</span>(f.token, f.svraddr, f.proxyName, f.localPort, f.remotePort)
-</span></span><span style="display:flex;"><span>						<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>					}
-</span></span><span style="display:flex;"><span>					<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(nRconn, proto.<span style="color:#900;font-weight:bold">NewMsgExchange</span>(msg.ConnId, f.proxyType)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>						nlogger.<span style="color:#900;font-weight:bold">Infof</span>(<span style="color:#d14">&#34;Error sending exchange msg to remote: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>					}
-</span></span><span style="display:flex;"><span>					lConn, err <span style="color:#000;font-weight:bold">:=</span> net.<span style="color:#900;font-weight:bold">Dial</span>(msg.ProxyType, fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;:%d&#34;</span>, f.localPort))
-</span></span><span style="display:flex;"><span>					<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>						nlogger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error connecting to local: %v, will close forward, %s:%d&#34;</span>, err, f.proxyType, f.localPort)
-</span></span><span style="display:flex;"><span>						<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>					}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>					proxy.<span style="color:#900;font-weight:bold">Stream</span>(lConn, nRconn)
-</span></span><span style="display:flex;"><span>				}()
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>				proxy.<span style="color:#900;font-weight:bold">Stream</span>(lConn, nRconn)
+</span></span><span style="display:flex;"><span>			}()
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><p>这里可以看到逻辑很简单</p>
 <ol>
@@ -678,25 +678,47 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 <p>目标是实现一个自动 <code>Subdomain</code> 分配并且支持 <code>Https</code><br>
 也就是加入 Server 运行在 <code>example.com</code> 机器，Client 开启转发 <code>Local 3000</code> 到 <code>Server 9000</code> 端口<br>
 Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可以通过 <code>https://xxx.example.com</code> 来访问 Client <code>Local 3000</code><br>
-因为不太想过于麻烦的实现 <code>Https</code>，所以借助 <code>Caddy</code> 来做 <code>Https</code> 的部分<br>
-代码在 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22">server/caddy_service.go#L22</a><br>
-借助 <code>Caddy</code> 的 <code>API</code> 添加 <code>https</code> 的 <code>route</code></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">addCaddyRouter</span>(host <span style="color:#458;font-weight:bold">string</span>, port <span style="color:#458;font-weight:bold">int</span>) {
+因为不太想过于麻烦的实现 <code>Https</code>，所以借助 <code>Caddy</code> 来做 <code>Https</code> 的部分</p>
+<p>借助 <code>Caddy</code> 的 <code>API</code> 添加 <code>https</code> 的 <code>route</code></p>
+<p>需要先启动 <code>Caddy</code>，创建一个 <code>server</code></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#000080">&#34;apps&#34;</span>: {
+</span></span><span style="display:flex;"><span>		<span style="color:#000080">&#34;http&#34;</span>: {
+</span></span><span style="display:flex;"><span>			<span style="color:#000080">&#34;servers&#34;</span>: {
+</span></span><span style="display:flex;"><span>				<span style="color:#000080">&#34;gnar&#34;</span>: {
+</span></span><span style="display:flex;"><span>					<span style="color:#000080">&#34;listen&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#d14">&#34;:443&#34;</span>
+</span></span><span style="display:flex;"><span>					],
+</span></span><span style="display:flex;"><span>					<span style="color:#000080">&#34;routes&#34;</span>: []
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p><a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22">server/caddy_service.go#L22</a></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
+</span></span><span style="display:flex;"><span>	caddyAddRouteF         = <span style="color:#d14">&#34;{\&#34;@id\&#34;:\&#34;%s\&#34;,\&#34;match\&#34;:[{\&#34;host\&#34;:[\&#34;%s\&#34;]}],\&#34;handle\&#34;:[{\&#34;handler\&#34;:\&#34;reverse_proxy\&#34;,\&#34;upstreams\&#34;:[{\&#34;dial\&#34;:\&#34;:%d\&#34;}]}]}&#34;</span>
+</span></span><span style="display:flex;"><span>	caddyAddRouteUrl       = <span style="color:#d14">&#34;http://127.0.0.1:2019/config/apps/http/servers/gnar/routes&#34;</span>
+</span></span><span style="display:flex;"><span>	caddyAddTlsSubjectsUrl = <span style="color:#d14">&#34;http://127.0.0.1:2019/config/apps/tls/automation/policies/0/subjects&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">addCaddyRouter</span>(host <span style="color:#458;font-weight:bold">string</span>, port <span style="color:#458;font-weight:bold">int</span>) <span style="color:#458;font-weight:bold">error</span> {
 </span></span><span style="display:flex;"><span>	tunnelId <span style="color:#000;font-weight:bold">:=</span> fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;%s.%d&#34;</span>, host, port)
 </span></span><span style="display:flex;"><span>	resp, err <span style="color:#000;font-weight:bold">:=</span> http.<span style="color:#900;font-weight:bold">Post</span>(caddyAddRouteUrl, <span style="color:#d14">&#34;application/json&#34;</span>, bytes.<span style="color:#900;font-weight:bold">NewBuffer</span>([]<span style="color:#0086b3">byte</span>(fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(caddyAddRouteF, tunnelId, host, port))))
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
 </span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Tunnel creation failed, err: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> err
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> resp.Body.<span style="color:#900;font-weight:bold">Close</span>()
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	resp, err = http.<span style="color:#900;font-weight:bold">Post</span>(caddyAddTlsSubjectsUrl, <span style="color:#d14">&#34;application/json&#34;</span>, bytes.<span style="color:#900;font-weight:bold">NewBuffer</span>([]<span style="color:#0086b3">byte</span>(fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;\&#34;%s\&#34;&#34;</span>, host))))
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
 </span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Tunnel creation failed, err: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> err
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> resp.Body.<span style="color:#900;font-weight:bold">Close</span>()
 </span></span><span style="display:flex;"><span>	logger.<span style="color:#900;font-weight:bold">Infof</span>(<span style="color:#d14">&#34;Tunnel created successfully, id: %s, host: %s&#34;</span>, tunnelId, cr.<span style="color:#900;font-weight:bold">PWhiteUnderline</span>(host))
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><p>前置准备：</p>
 <ol>

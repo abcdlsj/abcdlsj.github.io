@@ -350,8 +350,8 @@ func (f *Forwarder) Run() {
 	}
 
 	for {
-    ...
-  }
+		...
+	}
 }
 ```
 发送后，如果检验成功，Client 端会在 `for` 循环里接收来自 Server 端的消息
@@ -359,32 +359,32 @@ func (f *Forwarder) Run() {
 **Server 端处理 `Forward` 消息**
 [server/serve.go#L83-L107](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L83-L107)
 ```go
-	pt, buf, err := proto.Read(conn)
-	if err != nil {
-		logger.Errorf("Error reading from connection: %v", err)
+pt, buf, err := proto.Read(conn)
+if err != nil {
+	logger.Errorf("Error reading from connection: %v", err)
+	return
+}
+
+switch pt {
+case proto.PacketForwardReq:
+	failChan := make(chan struct{})
+	defer close(failChan)
+
+	go func() {
+		<-failChan
+		if err := proto.Send(conn, proto.NewMsgForwardResp("", "failed")); err != nil {
+			logger.Errorf("Error sending forward failed resp message: %v", err)
+		}
+	}()
+
+	msg := &proto.MsgForwardReq{}
+	if err := json.Unmarshal(buf, msg); err != nil {
+		logger.Errorf("Error unmarshalling message: %v", err)
 		return
 	}
 
-	switch pt {
-	case proto.PacketForwardReq:
-		failChan := make(chan struct{})
-		defer close(failChan)
-
-		go func() {
-			<-failChan
-			if err := proto.Send(conn, proto.NewMsgForwardResp("", "failed")); err != nil {
-				logger.Errorf("Error sending forward failed resp message: %v", err)
-			}
-		}()
-
-		msg := &proto.MsgForwardReq{}
-		if err := json.Unmarshal(buf, msg); err != nil {
-			logger.Errorf("Error unmarshalling message: %v", err)
-			return
-		}
-
-		s.handleForward(conn, msg, failChan)
-  }
+	s.handleForward(conn, msg, failChan)
+}
 ```
 
 `handleForward` 函数
@@ -405,8 +405,8 @@ func (s *Server) handleForward(cConn net.Conn, msg *proto.MsgForwardReq, failCha
 			return
 		}
 		defer uListener.Close()
-    
-    if err = proto.Send(cConn, proto.NewMsgForwardResp(domain, "success")); err != nil {
+
+	if err = proto.Send(cConn, proto.NewMsgForwardResp(domain, "success")); err != nil {
 			failChan <- struct{}{}
 			return
 		}
@@ -438,44 +438,44 @@ func (s *Server) handleForward(cConn net.Conn, msg *proto.MsgForwardReq, failCha
 Client 端从发送 `Forward` 消息后的 `for` 里不断获取消息，然后如果是 `Exchange` 消息
 [client/serve.go#L124](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L124)
 ```go
-	for {
-		p, buf, err := proto.Read(rConn)
-		if err != nil {
-			f.logger.Errorf("Error reading msg from remote: %v", err)
+for {
+	p, buf, err := proto.Read(rConn)
+	if err != nil {
+		f.logger.Errorf("Error reading msg from remote: %v", err)
+		return
+	}
+
+	nlogger := f.logger.CloneAdd(p.String())
+	switch p {
+	case proto.PacketExchange:
+		msg := &proto.MsgExchange{}
+		if err := json.Unmarshal(buf, msg); err != nil {
+			cancelForward(f.token, f.svraddr, f.proxyName, f.localPort, f.remotePort)
 			return
 		}
 
-		nlogger := f.logger.CloneAdd(p.String())
-		switch p {
-		case proto.PacketExchange:
-			msg := &proto.MsgExchange{}
-			if err := json.Unmarshal(buf, msg); err != nil {
-				cancelForward(f.token, f.svraddr, f.proxyName, f.localPort, f.remotePort)
-				return
-			}
+		switch msg.ProxyType {
+		case "tcp":
+			go func() {
+				nRconn, err := authDialSvr(f.svraddr, f.token)
+				if err != nil {
+					nlogger.Errorf("Error connecting to remote: %v", err)
+					cancelForward(f.token, f.svraddr, f.proxyName, f.localPort, f.remotePort)
+					return
+				}
+				if err = proto.Send(nRconn, proto.NewMsgExchange(msg.ConnId, f.proxyType)); err != nil {
+					nlogger.Infof("Error sending exchange msg to remote: %v", err)
+				}
+				lConn, err := net.Dial(msg.ProxyType, fmt.Sprintf(":%d", f.localPort))
+				if err != nil {
+					nlogger.Errorf("Error connecting to local: %v, will close forward, %s:%d", err, f.proxyType, f.localPort)
+					return
+				}
 
-			switch msg.ProxyType {
-			case "tcp":
-				go func() {
-					nRconn, err := authDialSvr(f.svraddr, f.token)
-					if err != nil {
-						nlogger.Errorf("Error connecting to remote: %v", err)
-						cancelForward(f.token, f.svraddr, f.proxyName, f.localPort, f.remotePort)
-						return
-					}
-					if err = proto.Send(nRconn, proto.NewMsgExchange(msg.ConnId, f.proxyType)); err != nil {
-						nlogger.Infof("Error sending exchange msg to remote: %v", err)
-					}
-					lConn, err := net.Dial(msg.ProxyType, fmt.Sprintf(":%d", f.localPort))
-					if err != nil {
-						nlogger.Errorf("Error connecting to local: %v, will close forward, %s:%d", err, f.proxyType, f.localPort)
-						return
-					}
-
-					proxy.Stream(lConn, nRconn)
-				}()
-			}
-    }
+				proxy.Stream(lConn, nRconn)
+			}()
+		}
+	}
 }
 ```
 这里可以看到逻辑很简单
@@ -509,25 +509,52 @@ func (s *Server) handleExchange(conn net.Conn, msg *proto.MsgExchange) {
 也就是加入 Server 运行在 `example.com` 机器，Client 开启转发 `Local 3000` 到 `Server 9000` 端口
 Server 会生成 `xxx.example.com` 的 `Subdomain`，可以通过 `https://xxx.example.com` 来访问 Client `Local 3000`
 因为不太想过于麻烦的实现 `Https`，所以借助 `Caddy` 来做 `Https` 的部分
-代码在 [server/caddy_service.go#L22](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22)
+
 借助 `Caddy` 的 `API` 添加 `https` 的 `route`
+
+需要先启动 `Caddy`，创建一个 `server` 
+```json
+{
+	"apps": {
+		"http": {
+			"servers": {
+				"gnar": {
+					"listen": [
+						":443"
+					],
+					"routes": []
+				}
+			}
+		}
+	}
+}
+```
+
+[server/caddy_service.go#L22](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22)
 ```go
-func addCaddyRouter(host string, port int) {
+var (
+	caddyAddRouteF         = "{\"@id\":\"%s\",\"match\":[{\"host\":[\"%s\"]}],\"handle\":[{\"handler\":\"reverse_proxy\",\"upstreams\":[{\"dial\":\":%d\"}]}]}"
+	caddyAddRouteUrl       = "http://127.0.0.1:2019/config/apps/http/servers/gnar/routes"
+	caddyAddTlsSubjectsUrl = "http://127.0.0.1:2019/config/apps/tls/automation/policies/0/subjects"
+)
+
+func addCaddyRouter(host string, port int) error {
 	tunnelId := fmt.Sprintf("%s.%d", host, port)
 	resp, err := http.Post(caddyAddRouteUrl, "application/json", bytes.NewBuffer([]byte(fmt.Sprintf(caddyAddRouteF, tunnelId, host, port))))
 	if err != nil {
 		logger.Errorf("Tunnel creation failed, err: %v", err)
-		return
+		return err
 	}
 	defer resp.Body.Close()
 
 	resp, err = http.Post(caddyAddTlsSubjectsUrl, "application/json", bytes.NewBuffer([]byte(fmt.Sprintf("\"%s\"", host))))
 	if err != nil {
 		logger.Errorf("Tunnel creation failed, err: %v", err)
-		return
+		return err
 	}
 	defer resp.Body.Close()
 	logger.Infof("Tunnel created successfully, id: %s, host: %s", tunnelId, cr.PWhiteUnderline(host))
+	return nil
 }
 ```
 前置准备：
