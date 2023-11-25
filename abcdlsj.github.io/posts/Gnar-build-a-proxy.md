@@ -500,19 +500,51 @@ func (s *Server) handleExchange(conn net.Conn, msg *proto.MsgExchange) {
 	}
 }
 ```
+
+### `proxy.Stream`
+`proxy.Stream` 就是封装了 `io.Copy`
+[proxy.go#L7C1-L28C2](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proxy/proxy.go#L7C1-L28C2)
+
+```go
+func Stream(s1, s2 io.ReadWriteCloser) {
+	defer s1.Close()
+	defer s2.Close()
+
+	copy := func(src io.Reader, dst io.Writer) {
+		buf := bufPool.Get().(*Buf)
+		defer bufPool.Put(buf)
+
+		for {
+			n, err := io.CopyBuffer(dst, src, buf.buf)
+			if err == io.EOF || n == 0 {
+				break
+			}
+		}
+	}
+
+	go func() {
+		copy(s1, s2)
+	}()
+
+	copy(s2, s1)
+}
+```
+
 ### Conclusion
 到此，`Gnar` 的实现已经差不多，基本上列出了完整的流程，接下来会写下 `Gnar` 所实现的 `Feature`
 
-## Feat
-### Auto subdomain https
-目标是实现一个自动 `Subdomain` 分配并且支持 `Https`
-也就是加入 Server 运行在 `example.com` 机器，Client 开启转发 `Local 3000` 到 `Server 9000` 端口
-Server 会生成 `xxx.example.com` 的 `Subdomain`，可以通过 `https://xxx.example.com` 来访问 Client `Local 3000`
-因为不太想过于麻烦的实现 `Https`，所以借助 `Caddy` 来做 `Https` 的部分
+## Feature
+### Auto-Https
+> 目标是实现自动 `Subdomain` 分配并且支持 `Https`
 
-借助 `Caddy` 的 `API` 添加 `https` 的 `route`
+也就是假设 Server 运行在 `example.com` 机器，Client 开启转发 `Local 3000` 到 `Server 9000` 端口
+Server 会生成 `xxx.example.com` 的 `Subdomain`，提供 `Auto-Https`，用户可以通过 `https://xxx.example.com` 来访问
+> 这里可以自己通过 Reverse Proxy 来实现 `Auto-Https`
+因为不太想过于麻烦的实现 `Https`，所以借助 `Caddy/Nginx` 来做 `Https` 的部分
 
-需要先启动 `Caddy`，创建一个 `server` 
+这里我使用的 `Caddy`，借助 `Caddy` 的 `API` 功能来实现
+
+需要先启动 `Caddy` 创建一个 `server`，这是配置内容，`routes` 留空就可以
 ```json
 {
 	"apps": {
@@ -530,6 +562,7 @@ Server 会生成 `xxx.example.com` 的 `Subdomain`，可以通过 `https://xxx.e
 }
 ```
 
+这是 `Gnar` 的 `Caddy` 部分代码
 [server/caddy_service.go#L22](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22)
 ```go
 var (
@@ -565,7 +598,9 @@ func addCaddyRouter(host string, port int) error {
 ### Deploy at `fly.io`
 **这里很重要的一点是，只能部署 1 个 Service**
 > 部署多个不行吗？
-> 不行，因为部署多个，`fly` 会做 `Load Balancing`，导致有的用户请求，因为没在 `tcpConnMap` 里，就没法 `Copy` 成功
+> 不行，因为部署多个，`fly` 会做 `Load Balancing`，而 client 只连接到了 1 台机器上，导致部分用户请求，因为没在 `tcpConnMap` 里，就没法 `Copy` 成功
+> 如何实现部署多个 `Server` 呢?
+> `frp issue` 里有类似问题，可以看 [frp - How to use load balancing](https://github.com/fatedier/frp/issues/1482)
 
 因为 `fly.io` 支持 `Dockerfile`，所以只用简单的写个 `Dockerfile` 即可
 关键是 `fly.toml`
@@ -743,8 +778,6 @@ func (s *LimitStream) Read(p []byte) (int, error) {
 2. 支持更多转发协议，例如 `HTTP/Quic/WebSocket`，`Control` 协议也可以支持更多，目前是 `TCP`，可以支持 `UDP/KCP` 等
 3. 完善监控采集，这部分可以用 `Prometheus`，但是对于小项目来说太麻烦了
 4. `Serverside Load-Balancing` 这部分一直在思考如何做，从上边 `fly.io` 的部署就能知道，`Server` 端访问只能是单机的
-
-因为个人的局限性，所以开始写代码时很难做出合理的「抽象」，随着这个项目代码量变多后，感觉代码「结构」「接口」还是不够「清晰」。
 
 最后，感谢阅读！
 ## refs
