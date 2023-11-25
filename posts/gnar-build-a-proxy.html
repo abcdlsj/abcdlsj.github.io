@@ -78,13 +78,15 @@
 <li>
 <a href="#exchange">Exchange</a></li>
 <li>
+<a href="#proxystream">proxy.Stream</a></li>
+<li>
 <a href="#conclusion">Conclusion</a></li>
 </ul>
 </li>
 <li>
-<a href="#feat">Feat</a><ul>
+<a href="#feature">Feature</a><ul>
 <li>
-<a href="#auto-subdomain-https">Auto subdomain https</a></li>
+<a href="#auto-https">Auto-Https</a></li>
 <li>
 <a href="#deploy-at-flyio">Deploy at fly.io</a></li>
 <li>
@@ -671,16 +673,46 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span><span style="display:flex;"><span>		proxy.<span style="color:#900;font-weight:bold">Stream</span>(conn, uConn)
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
+</span></span></code></pre><h3 id="proxystream"><code>proxy.Stream</code></h3>
+<p><code>proxy.Stream</code> 就是封装了 <code>io.Copy</code><br>
+<a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proxy/proxy.go#L7C1-L28C2">proxy.go#L7C1-L28C2</a></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Stream</span>(s1, s2 io.ReadWriteCloser) {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> s1.<span style="color:#900;font-weight:bold">Close</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> s2.<span style="color:#900;font-weight:bold">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	copy <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">func</span>(src io.Reader, dst io.Writer) {
+</span></span><span style="display:flex;"><span>		buf <span style="color:#000;font-weight:bold">:=</span> bufPool.<span style="color:#900;font-weight:bold">Get</span>().(<span style="color:#000;font-weight:bold">*</span>Buf)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">defer</span> bufPool.<span style="color:#900;font-weight:bold">Put</span>(buf)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">for</span> {
+</span></span><span style="display:flex;"><span>			n, err <span style="color:#000;font-weight:bold">:=</span> io.<span style="color:#900;font-weight:bold">CopyBuffer</span>(dst, src, buf.buf)
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">==</span> io.EOF <span style="color:#000;font-weight:bold">||</span> n <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#0086b3">copy</span>(s1, s2)
+</span></span><span style="display:flex;"><span>	}()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#0086b3">copy</span>(s2, s1)
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre><h3 id="conclusion">Conclusion</h3>
 <p>到此，<code>Gnar</code> 的实现已经差不多，基本上列出了完整的流程，接下来会写下 <code>Gnar</code> 所实现的 <code>Feature</code></p>
-<h2 id="feat">Feat</h2>
-<h3 id="auto-subdomain-https">Auto subdomain https</h3>
-<p>目标是实现一个自动 <code>Subdomain</code> 分配并且支持 <code>Https</code><br>
-也就是加入 Server 运行在 <code>example.com</code> 机器，Client 开启转发 <code>Local 3000</code> 到 <code>Server 9000</code> 端口<br>
-Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可以通过 <code>https://xxx.example.com</code> 来访问 Client <code>Local 3000</code><br>
-因为不太想过于麻烦的实现 <code>Https</code>，所以借助 <code>Caddy</code> 来做 <code>Https</code> 的部分</p>
-<p>借助 <code>Caddy</code> 的 <code>API</code> 添加 <code>https</code> 的 <code>route</code></p>
-<p>需要先启动 <code>Caddy</code>，创建一个 <code>server</code></p>
+<h2 id="feature">Feature</h2>
+<h3 id="auto-https">Auto-Https</h3>
+<blockquote>
+<p>目标是实现自动 <code>Subdomain</code> 分配并且支持 <code>Https</code></p>
+</blockquote>
+<p>也就是假设 Server 运行在 <code>example.com</code> 机器，Client 开启转发 <code>Local 3000</code> 到 <code>Server 9000</code> 端口<br>
+Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，提供 <code>Auto-Https</code>，用户可以通过 <code>https://xxx.example.com</code> 来访问</p>
+<blockquote>
+<p>这里可以自己通过 Reverse Proxy 来实现 <code>Auto-Https</code><br>
+因为不太想过于麻烦的实现 <code>Https</code>，所以借助 <code>Caddy/Nginx</code> 来做 <code>Https</code> 的部分</p>
+</blockquote>
+<p>这里我使用的 <code>Caddy</code>，借助 <code>Caddy</code> 的 <code>API</code> 功能来实现</p>
+<p>需要先启动 <code>Caddy</code> 创建一个 <code>server</code>，这是配置内容，<code>routes</code> 留空就可以</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>	<span style="color:#000080">&#34;apps&#34;</span>: {
 </span></span><span style="display:flex;"><span>		<span style="color:#000080">&#34;http&#34;</span>: {
@@ -695,7 +727,8 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可�
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><p><a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22">server/caddy_service.go#L22</a></p>
+</span></span></code></pre><p>这是 <code>Gnar</code> 的 <code>Caddy</code> 部分代码<br>
+<a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22">server/caddy_service.go#L22</a></p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
 </span></span><span style="display:flex;"><span>	caddyAddRouteF         = <span style="color:#d14">&#34;{\&#34;@id\&#34;:\&#34;%s\&#34;,\&#34;match\&#34;:[{\&#34;host\&#34;:[\&#34;%s\&#34;]}],\&#34;handle\&#34;:[{\&#34;handler\&#34;:\&#34;reverse_proxy\&#34;,\&#34;upstreams\&#34;:[{\&#34;dial\&#34;:\&#34;:%d\&#34;}]}]}&#34;</span>
 </span></span><span style="display:flex;"><span>	caddyAddRouteUrl       = <span style="color:#d14">&#34;http://127.0.0.1:2019/config/apps/http/servers/gnar/routes&#34;</span>
@@ -730,7 +763,9 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可�
 <p><strong>这里很重要的一点是，只能部署 1 个 Service</strong></p>
 <blockquote>
 <p>部署多个不行吗？<br>
-不行，因为部署多个，<code>fly</code> 会做 <code>Load Balancing</code>，导致有的用户请求，因为没在 <code>tcpConnMap</code> 里，就没法 <code>Copy</code> 成功</p>
+不行，因为部署多个，<code>fly</code> 会做 <code>Load Balancing</code>，而 client 只连接到了 1 台机器上，导致部分用户请求，因为没在 <code>tcpConnMap</code> 里，就没法 <code>Copy</code> 成功<br>
+如何实现部署多个 <code>Server</code> 呢?<br>
+<code>frp issue</code> 里有类似问题，可以看 <a href="https://github.com/fatedier/frp/issues/1482">frp - How to use load balancing</a></p>
 </blockquote>
 <p>因为 <code>fly.io</code> 支持 <code>Dockerfile</code>，所以只用简单的写个 <code>Dockerfile</code> 即可<br>
 关键是 <code>fly.toml</code></p>
@@ -896,7 +931,6 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，可�
 <li>完善监控采集，这部分可以用 <code>Prometheus</code>，但是对于小项目来说太麻烦了</li>
 <li><code>Serverside Load-Balancing</code> 这部分一直在思考如何做，从上边 <code>fly.io</code> 的部署就能知道，<code>Server</code> 端访问只能是单机的</li>
 </ol>
-<p>因为个人的局限性，所以开始写代码时很难做出合理的「抽象」，随着这个项目代码量变多后，感觉代码「结构」「接口」还是不够「清晰」。</p>
 <p>最后，感谢阅读！</p>
 <h2 id="refs">refs</h2>
 <p><a href="https://pandaychen.github.io/2020/01/01/MAGIC-GO-IO-PACKAGE/">https://pandaychen.github.io/2020/01/01/MAGIC-GO-IO-PACKAGE/</a><br>
