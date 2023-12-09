@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+<meta charset="UTF-8" />
+<title>abcdlsj</title>
+<meta name="description" content="Enjoy Focus!" />
+<meta name="author" content="Author" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+/>
+<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="stylesheet" href="/static/style.css" />
+
+  </head>
+  <body class="container">
+    <div class="navbar">
+<nav class="navbar">
+  
+  <ul>
+    <li>
+      <a href="/" class="menu">#Home</a>
+    </li>
+  </ul>
+  
+  <ul>
+    <li>
+      <a href="/about" class="menu">#About</a>
+    </li>
+  </ul>
+  
+</nav>
+</div>
+    <hr class="divider" />
+    <h1 class="post-title">Pasty - Beautiful pastebin website with Go, Turnstile, OAuth</h1>
+    <div class="post-meta">
+      <div class="post-date">Date: 2023-12-08T22:47:37+08:00</div>
+      <nav class="post-tags">
+        
+        <a href="/tags/Weekly.html" class="tag">#Weekly</a>
+        
+        <a href="/tags/OAuth.html" class="tag">#OAuth</a>
+        
+        <a href="/tags/Turnstile.html" class="tag">#Turnstile</a>
+        
+      </nav>
+    </div>
+    <hr class="divider" />
+    <main class="post-content">
+      <article><h1>Table of Contents</h1>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#background">Background</a></li>
+<li>
+<a href="#let-us-build-pasty">Let us build Pasty</a><ul>
+<li>
+<a href="#endpoint-design">Endpoint design</a></li>
+<li>
+<a href="#orm-or-raw-sql">ORM or Raw-SQL</a></li>
+<li>
+<a href="#templates">templates</a></li>
+<li>
+<a href="#run-it">Run it!</a></li>
+</ul>
+</li>
+<li>
+<a href="#turnstile">Turnstile</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="background">Background</h2>
+<p>I had try to build many of <code>Go</code> simple site, Like <code>Golink</code>, <code>GProbe</code> and so on.<br>
+But it's not secure enough, and very easy to be attacked.<br>
+At these days, I want to build a <code>Pastebin</code> website and its need will powerful <strong>Security</strong>.</p>
+<h2 id="let-us-build-pasty">Let us build Pasty</h2>
+<p>Its all old way like I posted before.</p>
+<ul>
+<li><code>Go</code> serve HTTP endpoints.</li>
+<li>template to render HTML.</li>
+<li>SQLite3 to store and query data.</li>
+</ul>
+<h3 id="endpoint-design">Endpoint design</h3>
+<p>For simply, I just make 2 endpoints for <code>Pasty</code>:</p>
+<ol>
+<li><code>/</code>: to get index page(<code>GET</code>) and create a new paste(<code>POST</code>)</li>
+<li><code>/paste/</code>: to get paste page(<code>GET</code>) and delete it(<code>DELETE</code>)</li>
+</ol>
+<p>This is the whole APIs I need to write.</p>
+<p>Let's start:</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>http.<span style="color:#900;font-weight:bold">HandleFunc</span>(<span style="color:#d14">&#34;/&#34;</span>, <span style="color:#000;font-weight:bold">func</span>(w http.ResponseWriter, r <span style="color:#000;font-weight:bold">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> r.Method <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#34;GET&#34;</span> {
+</span></span><span style="display:flex;"><span>		pastes <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">getAllPastes</span>(db)
+</span></span><span style="display:flex;"><span>		tmpl.<span style="color:#900;font-weight:bold">ExecuteTemplate</span>(w, <span style="color:#d14">&#34;index.html&#34;</span>, pastes)
+</span></span><span style="display:flex;"><span>	} <span style="color:#000;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>		r.<span style="color:#900;font-weight:bold">ParseForm</span>()
+</span></span><span style="display:flex;"><span>		content <span style="color:#000;font-weight:bold">:=</span> r.Form.<span style="color:#900;font-weight:bold">Get</span>(<span style="color:#d14">&#34;content&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#900;font-weight:bold">insertPaste</span>(db, <span style="color:#900;font-weight:bold">escapeContent</span>(content))
+</span></span><span style="display:flex;"><span>		http.<span style="color:#900;font-weight:bold">Redirect</span>(w, r, <span style="color:#d14">&#34;/&#34;</span>, http.StatusSeeOther)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>http.<span style="color:#900;font-weight:bold">HandleFunc</span>(<span style="color:#d14">&#34;/paste/&#34;</span>, <span style="color:#000;font-weight:bold">func</span>(w http.ResponseWriter, r <span style="color:#000;font-weight:bold">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>	uid <span style="color:#000;font-weight:bold">:=</span> r.URL.Path[<span style="color:#0086b3">len</span>(<span style="color:#d14">&#34;/paste/&#34;</span>):]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> r.Method <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#34;GET&#34;</span> {
+</span></span><span style="display:flex;"><span>		paste <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">getPasteWithID</span>(db, uid)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> paste.<span style="color:#900;font-weight:bold">isNil</span>() {
+</span></span><span style="display:flex;"><span>			http.<span style="color:#900;font-weight:bold">NotFound</span>(w, r)
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		tmpl.<span style="color:#900;font-weight:bold">ExecuteTemplate</span>(w, <span style="color:#d14">&#34;paste.html&#34;</span>, paste)
+</span></span><span style="display:flex;"><span>	} <span style="color:#000;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#900;font-weight:bold">deletePaste</span>(db, uid)
+</span></span><span style="display:flex;"><span>		http.<span style="color:#900;font-weight:bold">Redirect</span>(w, r, <span style="color:#d14">&#34;/&#34;</span>, http.StatusSeeOther)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre><p>Then we need to write <code>tmpl</code> and implement <code>CRUD</code>(<code>getAllPastes</code>, <code>getPasteWithID</code>, <code>insertPaste</code>, <code>deletePaste</code>)</p>
+<h3 id="orm-or-raw-sql">ORM or Raw-SQL</h3>
+<p>Actually, I'm a original-thinker, I don't like to use third-party packages.<br>
+But <code>ORM</code> will make program easier.</p>
+<p>I use <code>SQLite3</code> and <code>Gorm</code> to store and query data.<br>
+<code>Gorm</code> is easy to use, it provide a lot of functionality.</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Paste <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	ID        <span style="color:#458;font-weight:bold">int</span>       <span style="color:#d14">`gorm:&#34;column:id&#34;`</span>
+</span></span><span style="display:flex;"><span>	UID       <span style="color:#458;font-weight:bold">string</span>    <span style="color:#d14">`gorm:&#34;column:uid&#34;`</span>
+</span></span><span style="display:flex;"><span>	Content   <span style="color:#458;font-weight:bold">string</span>    <span style="color:#d14">`gorm:&#34;column:content&#34;`</span>
+</span></span><span style="display:flex;"><span>	CreatedAt time.Time <span style="color:#d14">`gorm:&#34;column:created_at&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">getAllPastes</span>(db <span style="color:#000;font-weight:bold">*</span>gorm.DB) []Paste {
+</span></span><span style="display:flex;"><span>	pastes <span style="color:#000;font-weight:bold">:=</span> []Paste{}
+</span></span><span style="display:flex;"><span>	db.<span style="color:#900;font-weight:bold">Find</span>(<span style="color:#000;font-weight:bold">&amp;</span>pastes)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> pastes
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">getPasteWithID</span>(db <span style="color:#000;font-weight:bold">*</span>gorm.DB, uid <span style="color:#458;font-weight:bold">string</span>) Paste {
+</span></span><span style="display:flex;"><span>	paste <span style="color:#000;font-weight:bold">:=</span> Paste{}
+</span></span><span style="display:flex;"><span>	db.<span style="color:#900;font-weight:bold">First</span>(<span style="color:#000;font-weight:bold">&amp;</span>paste, <span style="color:#d14">&#34;uid = ?&#34;</span>, uid)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> paste
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">insertPaste</span>(db <span style="color:#000;font-weight:bold">*</span>gorm.DB, content <span style="color:#458;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	paste <span style="color:#000;font-weight:bold">:=</span> Paste{UID: uuid.<span style="color:#900;font-weight:bold">New</span>().<span style="color:#900;font-weight:bold">String</span>(), Content: content, CreatedAt: time.<span style="color:#900;font-weight:bold">Now</span>()}
+</span></span><span style="display:flex;"><span>	db.<span style="color:#900;font-weight:bold">Create</span>(<span style="color:#000;font-weight:bold">&amp;</span>paste)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">deletePaste</span>(db <span style="color:#000;font-weight:bold">*</span>gorm.DB, uid <span style="color:#458;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	db.<span style="color:#900;font-weight:bold">Delete</span>(<span style="color:#000;font-weight:bold">&amp;</span>Paste{}, <span style="color:#d14">&#34;uid = ?&#34;</span>, uid)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>There are all we need!</p>
+<p>Oh.. maybe we need to init a database?<br>
+Right, It's also very easy to init databse, <code>Gorm</code> will help you.</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">initDB</span>(filepath <span style="color:#458;font-weight:bold">string</span>) <span style="color:#000;font-weight:bold">*</span>gorm.DB {
+</span></span><span style="display:flex;"><span>	db, err <span style="color:#000;font-weight:bold">:=</span> gorm.<span style="color:#900;font-weight:bold">Open</span>(sqlite.<span style="color:#900;font-weight:bold">Open</span>(filepath), <span style="color:#000;font-weight:bold">&amp;</span>gorm.Config{
+</span></span><span style="display:flex;"><span>		DisableAutomaticPing: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		log.<span style="color:#900;font-weight:bold">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	err = db.<span style="color:#900;font-weight:bold">AutoMigrate</span>(<span style="color:#000;font-weight:bold">&amp;</span>Paste{})
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		log.<span style="color:#900;font-weight:bold">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> db
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><p>We just need to open the database and migrate the table. If table not exist, it will create it. and if exist, it will do nothing.</p>
+<h3 id="templates">templates</h3>
+<p>I thought <code>Template</code> is very powerful when build simple website.<br>
+We just need to create 2 pages: <code>index.html</code> and <code>paste.html</code>.</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#000080">html</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#000080">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#000080">title</span>&gt;Pasty&lt;/<span style="color:#000080">title</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#000080">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#000080">body</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#000080">h1</span>&gt;Pasty&lt;/<span style="color:#000080">h1</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#000080">p</span>&gt;Input your paste&lt;/<span style="color:#000080">p</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#000080">form</span> <span style="color:#008080">method</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;POST&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#000080">textarea</span> <span style="color:#008080">name</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;content&#34;</span> <span style="color:#008080">required</span> <span style="color:#008080">rows</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;30&#34;</span>&gt;&lt;/<span style="color:#000080">textarea</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#000080">br</span>/&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#000080">input</span> <span style="color:#008080">type</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;submit&#34;</span> <span style="color:#008080">value</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;Submit&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#000080">form</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#000080">hr</span>/&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#000080">h2</span>&gt;Pasted&lt;/<span style="color:#000080">h2</span>&gt;
+</span></span><span style="display:flex;"><span>    {{range .}}
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#000080">div</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#000080">a</span> <span style="color:#008080">href</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;/paste/{{.UID}}&#34;</span>&gt;{{.UID}}&lt;/<span style="color:#000080">a</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#000080">p</span>&gt;&lt;<span style="color:#000080">pre</span>&gt;&lt;<span style="color:#000080">code</span>&gt;{{truncate .Content 200}}&lt;/<span style="color:#000080">code</span>&gt;&lt;/<span style="color:#000080">pre</span>&gt;&lt;/<span style="color:#000080">p</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#000080">div</span>&gt;
+</span></span><span style="display:flex;"><span>    {{end}}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#000080">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#000080">html</span>&gt;
+</span></span></code></pre><pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#000080">html</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#000080">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#000080">title</span>&gt;Paste&lt;/<span style="color:#000080">title</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#000080">head</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#000080">body</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#000080">h1</span>&gt;Paste&lt;/<span style="color:#000080">h1</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#000080">a</span> <span style="color:#008080">href</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;/&#34;</span>&gt;Home&lt;/<span style="color:#000080">a</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#000080">div</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#000080">h2</span>&gt;{{.UID}}&lt;/<span style="color:#000080">h2</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#000080">pre</span>&gt;&lt;<span style="color:#000080">code</span>&gt;{{.Content}}&lt;/<span style="color:#000080">code</span>&gt;&lt;/<span style="color:#000080">pre</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#000080">p</span>&gt;{{.CreatedAt}}&lt;/<span style="color:#000080">p</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#000080">form</span> <span style="color:#008080">method</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;POST&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#000080">input</span> <span style="color:#008080">type</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;submit&#34;</span> <span style="color:#008080">value</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;Delete&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#000080">form</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#000080">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#000080">body</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#000080">html</span>&gt;
+</span></span></code></pre><p><code>CSS</code> is the hardest part I thoguht when I write any website. So I use <code>water.css</code> for styling.</p>
+<blockquote>
+<p><code>Water.css</code> is a drop-in collection of CSS styles to make simple websites like this just a little bit nicer.<a href="https://watercss.kognise.dev/">https://watercss.kognise.dev/</a></p>
+</blockquote>
+<p>You just need to import <code>water.css</code> to <code>html</code> file, and you will got a pretty website with auto dark mode.<br>
+Add this to <code>head</code> element.</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/water.css@2/out/water.css&quot;&gt;
+</code></pre>
+<h3 id="run-it">Run it!</h3>
+<img src="/static/img/pasty-1.png" width="800">
+<p>Looks pretty good!</p>
+<blockquote>
+<p>It's use <code>gg font</code> as <code>font-family</code>.</p>
+</blockquote>
+<p>At the last step, we will to add <code>Turnstile</code>.</p>
+<h2 id="turnstile">Turnstile</h2>
+<blockquote>
+<p>Turnstile is Cloudflare’s smart CAPTCHA alternative. It can be embedded into any website without sending traffic through Cloudflare and works without showing visitors a CAPTCHA. <a href="https://developers.cloudflare.com/turnstile/get-started">Cloudflare</a></p>
+</blockquote>
+<p>COMMING SOON</p>
+</article>
+    </main>
+    <hr class="divider" />
+    
+<footer class="footer">
+  <p class="footer-author">
+    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
+  </p>
+  <p class="footer-proj">
+    Source
+    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
+  </p>
+</footer>
+
+  </body>
+</html>
