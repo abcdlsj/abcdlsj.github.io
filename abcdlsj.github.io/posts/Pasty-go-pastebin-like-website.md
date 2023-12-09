@@ -384,6 +384,8 @@ So we will store `Login Status` in `Cookie`. then once the user view we will che
 So we have a API to trigger login flow, we also need a `Callback` API to get `Access Token` and `User`.
 
 ```go
+var GHRedirectURL =  fmt.Sprintf("https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s", GHClientID, fmt.Sprintf("%s/login/callback", SiteURL))
+...
 http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, GHRedirectURL, http.StatusSeeOther)
 })
@@ -501,8 +503,8 @@ func checkRefreshGHStatus(w http.ResponseWriter, r *http.Request) bool {
 ```
 
 ### Encryption and Decryption
-Be honest, I'm not have much exprenses with encryption and decryption.
-So I just post code there.
+Be honest, I'm not have much expensive knowledge with encryption and decryption.
+So I just post code here.
 
 ```go
 func encryptData(data []byte) (string, error) {
@@ -549,6 +551,8 @@ func decryptStr(str string) ([]byte, error) {
 ```
 
 ### Conclusion
+> When a user concept exists,it may be necessary to add `User` functionality. Add the `User` field to the `Paste` structure and form and perform a `CRUD` with the logged in user.
+
 After setting GitHub application, you can see this page when first view index page.
 
 <img src="/static/img/pasty-4.png" width="800">
