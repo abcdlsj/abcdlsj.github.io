@@ -2,7 +2,8 @@
 title: "Golink - Useful local url shortener"
 date: 2023-04-16T22:47:37+08:00
 tags:
-  - Idea
+  - Shortener
+  - Template
 hide: false
 ---
 

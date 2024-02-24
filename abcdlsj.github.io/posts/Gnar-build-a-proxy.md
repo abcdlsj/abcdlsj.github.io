@@ -3,7 +3,6 @@ title: "Gnar - Build a tunnel tool like frp/ngrok"
 date: 2023-11-04T22:47:37+08:00
 tags:
   - Network
-  - Weekly
   - Tunnel
 hide: false
 ---
@@ -68,13 +67,13 @@ Flow: {
 > 对于 1 和 2 可以看下面的详细实现
 > 对于 3，如果没有实现过类似的工具可能不太清楚为什么会有这个问题，看了下面详细的流程大概就清楚了（忽略「鉴权」部分
 
-1. 首先启动 Server 端，「监听」 8910 端口
+1. 首先启动 Server 端，监听 8910 端口
 2. 启动 Client, Client 端和 Server 端建立 `Control` 连接，然后发送一条 `Forward` 接口告诉 Server 端将要转发到 9000 端口
-3. Server 端从 `Control` 连接接收到 `Forward` 消息，开始对 9000 端口进行「监听」，准备接收来自用户端的请求
+3. Server 端从 `Control` 连接接收到 `Forward` 消息，开始对 9000 端口进行监听，准备接收来自用户端的请求
 4. 当有新的用户请求到来时，Server 端通过 `Control` 连接发送 `Exchange` 消息，告诉 Client 端：有新的用户连接，准备开始对流量进行 `Copy`
 > 此时 Server 是否要 `Copy` 用户连接和 `Control` 连接呢？
 > 答案是不应该也不能，因为 `Control` 连接还会有来自 Server 或者 Client 的「其它」的流量，例如 `Close`、`Heartbeat` 消息等，这些流量如果直接 `Copy` 到用户连接上，那就会产生问题。
-5. Client 端接收到 `Exchange` 消息，建立连接到 `Local 3000` 端口，准备 `Copy` 流量
+1. Client 端接收到 `Exchange` 消息，建立连接到 `Local 3000` 端口，准备 `Copy` 流量
 > Client 端也不能直接 `Copy` `Control` 连接和 `Local 3000` 连接，和 4 是一样的情况
 
 这就是「连接复用」的问题，这个问题在对多端流量进行处理的时候很常见。
@@ -172,7 +171,7 @@ func authDialSvr(svraddr string, token string) (net.Conn, error) {
 }
 ```
 
-`Auth` 的部分还有其它更有意思的实现，例如 `OpenID Connect (OIDC)`，可以实现「扫码」认证之类的功能
+`Auth` 的部分还有其它更有意思的实现，例如 `OpenID Connect (OIDC)`，可以实现扫码认证之类的功能
 
 **Server 部分**
 Server 会 `Listen` 端口 `8910`，等待 Client 连接到来（默认都用 `8910`）
@@ -650,7 +649,7 @@ primary_region = "hkg"
 
 
 ### `UDP`
-`UDP` 的支持，因为 `UDP` 没有连接的概念，只有 `Packet` 概念，所以我们可以「封装」`UDP` 流量为「消息」`MsgUDPDatagram`，然后做流量的 `Copy`
+`UDP` 的支持，因为 `UDP` 没有连接的概念，只有 `Packet` 概念，所以我们可以封装 `UDP` 流量作为一个消息 `MsgUDPDatagram`，然后做流量的 `Copy`（实际上就是 `Readloop` 和 `Writeloop`），如下
 
 [proxy/udp.go#L1-L77](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proxy/udp.go#L1-L77)
 ```go

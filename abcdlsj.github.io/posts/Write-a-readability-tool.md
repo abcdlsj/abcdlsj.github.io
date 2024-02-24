@@ -2,7 +2,8 @@
 title: "Write a website readability tool at 10 minute"
 date: 2023-10-22T11:51:37+08:00
 tags:
-    - Weekly
+  - Template
+  - Readability
 hide: false
 ---
 

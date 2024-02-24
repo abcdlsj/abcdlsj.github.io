@@ -2,7 +2,7 @@
 title: "Implement cron expression library from scratch"
 date: 2023-10-29T23:51:37+08:00
 tags:
-    - Weekly
+  - Cron
 hide: false
 ---
 ## Background

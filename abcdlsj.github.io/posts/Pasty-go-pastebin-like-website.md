@@ -2,9 +2,9 @@
 title: "Pasty - Beautiful pastebin website with Go, Turnstile, OAuth"
 date: 2023-12-08T22:47:37+08:00
 tags:
-  - Weekly
   - OAuth
   - Turnstile
+  - Template
 hide: false
 ---
 
