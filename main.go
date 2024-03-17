@@ -291,7 +291,7 @@ func main() {
 
 		base := filepath.Base(p)
 		cleanName := base[:len(base)-len(filepath.Ext(base))]
-		post, err := parsePost(fdata, strings.ToLower(cleanName))
+		post, err := parsePost(fdata, cleanName)
 
 		if err != nil {
 			log.Fatal("parse post error")
