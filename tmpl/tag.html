@@ -12,13 +12,14 @@
     <main>
       {{range .Refers}}
       <article>
-        <h2 class="post-title">
+        <div class="post-index-title">
           <a class="tag-refer" href="/posts/{{.Uname | urlize}}.html">{{.Title}}</a>
-        </h2>
+        </div>
       </article>
       {{end}}
+      <hr class="divider" />
+      <!-- {{template "footer" .}} -->
     </main>
-    {{template "footer" .}}
   </body>
 </html>
 {{end}}

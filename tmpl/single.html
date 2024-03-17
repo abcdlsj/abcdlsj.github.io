@@ -5,8 +5,9 @@
     {{template "head" .}}
   </head>
   <body class="container">
-    <div class="navbar">{{template "navbar" .}}</div>
     <main>
+      <div class="navbar">{{template "navbar" .}}</div>
+      <hr class="divider" />
       <h1 class="post-single-title">{{.Meta.Title}}</h1>
       <hr class="divider" />
       <div class="post-meta">
@@ -16,15 +17,17 @@
           <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
           {{end}}
         </nav>
+        {{if ne .TocContent ""}}
         <hr class="divider" />
         <div class="post-toc">{{.TocContent}}</div>
+        {{end}}
       </div>
       <hr class="divider" />
       <div class="post-content">
         <article>{{.Body}}</article>
       </div>
       <hr class="divider" />
-      {{template "footer" .}}
+      <!-- {{template "footer" .}} -->
     </main>
   </body>
 </html>

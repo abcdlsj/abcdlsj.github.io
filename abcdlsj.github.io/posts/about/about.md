@@ -6,4 +6,10 @@ menus:
   - about
 ---
 
-Hello, I am `abcdlsj`.
+Hello, I am `abcdlsj`, there is nothing.
+
+GitHub profile: <https://github.com/abcdlsj>
+
+Email me: <mailto:github@songjian.li>
+
+This site is powered by `Static site generator` write by my own. [Source code](https://github.com/abcdlsj/abcdlsj.github.io)

@@ -178,11 +178,17 @@ hr {
   background-color: var(--light-border-color);
   opacity: 1;
 }
-.footer {
+/* .footer {
   bottom: 0;
-  height: 2.5rem;
-  position: absolute;
+  height: 4rem;
   text-align: center;
   width: 100%;
-}
+} */
 
+.footer {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+}

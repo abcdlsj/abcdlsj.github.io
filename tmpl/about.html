@@ -4,17 +4,13 @@
   <head>
     {{template "head" .}}
   </head>
-
   <body class="container">
-    <div class="navbar">{{template "navbar" .}}</div>
-    <hr class="divider" />
-    <h1 class="about-title">{{.Meta.Title}}</h1>
-    <hr class="divider" />
-    <main class="about-content">
-      <article>{{.Body}}</article>
+    <main>
+      <div class="navbar">{{template "navbar" .}}</div>
+      <hr class="divider" />
+      <article class="about-content">{{.Body}}</article>
+      <!-- {{template "footer" .}} -->
     </main>
-    <hr class="divider" />
-    {{template "footer" .}}
   </body>
 </html>
 {{end}}

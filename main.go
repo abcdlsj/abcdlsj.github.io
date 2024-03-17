@@ -396,7 +396,7 @@ func Renders(fns ...func()) {
 }
 
 func urlize(s string) string {
-	return url.QueryEscape(s)
+	return strings.ToLower(url.QueryEscape(s))
 }
 
 func orStr(s string, dv string) string {
