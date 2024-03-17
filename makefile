@@ -4,4 +4,4 @@ clean:
 	rm -rf abcdlsj.github.io/public
 
 serve: all
-	python3 -m http.server 3000  --directory abcdlsj.github.io/public/
+	python3 -m http.server 3001  --directory abcdlsj.github.io/public/

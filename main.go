@@ -25,6 +25,7 @@ import (
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
+	"github.com/yuin/goldmark/text"
 	"go.abhg.dev/goldmark/toc"
 	"oss.terrastruct.com/d2/d2layouts/d2dagrelayout"
 	"oss.terrastruct.com/d2/d2themes/d2themescatalog"
@@ -64,9 +65,6 @@ var (
 			highlighting.Highlighting,
 			extension.GFM,
 			extension.Footnote,
-			&toc.Extender{
-				MaxDepth: 4,
-			},
 			&d2.Extender{
 				Layout:  d2dagrelayout.DefaultLayout,
 				ThemeID: d2themescatalog.NeutralDefault.ID,
@@ -75,6 +73,16 @@ var (
 		),
 		goldmark.WithParserOptions(parser.WithAutoHeadingID()),
 		goldmark.WithRendererOptions(html.WithHardWraps(), html.WithUnsafe()),
+	)
+
+	tocMd = goldmark.New(
+		goldmark.WithExtensions(
+			&toc.Extender{
+				MaxDepth: 4,
+				Title:    "TOC",
+			},
+		),
+		goldmark.WithParserOptions(parser.WithAutoHeadingID()),
 	)
 
 	funcMap = template.FuncMap{
@@ -87,6 +95,7 @@ var (
 	t *template.Template
 
 	Posts     []Post
+	WipPosts  []Post
 	TagMap    map[string]Tag
 	AboutPost Post
 )
@@ -97,6 +106,7 @@ type PostMeta struct {
 	Tags  []string `yaml:"tags"`
 	Hide  bool     `yaml:"hide"`
 	Menus []string `yaml:"menus"`
+	Wip   bool     `yaml:"wip"`
 }
 
 func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
@@ -106,14 +116,16 @@ func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 		Tags:  getMetaStrs(meta, "tags"),
 		Hide:  meta["hide"].(bool),
 		Menus: getMetaStrs(meta, "menus"),
+		Wip:   getMetaBool(meta, "wip"),
 	}
 }
 
 type Post struct {
-	Site  CfgVar
-	Meta  PostMeta
-	Body  string
-	Uname string
+	Site       CfgVar
+	Meta       PostMeta
+	Body       string
+	Uname      string
+	TocContent string
 }
 
 type Tag struct {
@@ -147,11 +159,13 @@ func RenderIndex() {
 	}
 
 	data := struct {
-		Site  CfgVar
-		Posts []Post
+		Site     CfgVar
+		Posts    []Post
+		WipPosts []Post
 	}{
-		Site:  cfgVar,
-		Posts: posts,
+		Site:     cfgVar,
+		Posts:    posts,
+		WipPosts: WipPosts,
 	}
 
 	if err := render(t, data, path.Join(cfgVar.Build.Output, "index.html"), "index"); err != nil {
@@ -160,7 +174,7 @@ func RenderIndex() {
 }
 
 func RenderPosts() {
-	for _, post := range Posts {
+	for _, post := range append(Posts, WipPosts...) {
 		if err := render(t, post, path.Join(cfgVar.Build.Output, "posts", post.Uname+".html"), "single"); err != nil {
 			log.Fatal(err)
 		}
@@ -230,11 +244,29 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 		log.Fatalf("failed to convert markdown, file: %s, err: %v", cleanName, err)
 	}
 
+	doc := tocMd.Parser().Parse(text.NewReader(data))
+
+	tree, err := toc.Inspect(doc, data)
+	if err != nil {
+		log.Fatalf("failed to inspect toc, file: %s, err: %v", cleanName, err)
+	}
+
+	var tocBuf bytes.Buffer
+
+	if len(tree.Items) != 0 {
+		treeList := toc.RenderList(tree)
+
+		if err := tocMd.Renderer().Render(&tocBuf, data, treeList); err != nil {
+			log.Fatalf("failed to render toc, file: %s, err: %v", cleanName, err)
+		}
+	}
+
 	return Post{
-		Site:  cfgVar,
-		Meta:  unmarshalPostMeta(meta.Get(context)),
-		Body:  buf.String(),
-		Uname: urlize(cleanName),
+		Site:       cfgVar,
+		Meta:       unmarshalPostMeta(meta.Get(context)),
+		Body:       buf.String(),
+		Uname:      urlize(cleanName),
+		TocContent: tocBuf.String(),
 	}, nil
 }
 
@@ -270,8 +302,13 @@ func main() {
 			continue
 		}
 
-		fmt.Printf("Parsed post: %s\n", cr.PLGreen(p))
-		Posts = append(Posts, post)
+		if post.Meta.Wip {
+			fmt.Printf("Parsed wip post: %s\n", cr.PLYellow(p))
+			WipPosts = append(WipPosts, post)
+		} else {
+			fmt.Printf("Parsed post: %s\n", cr.PLGreen(p))
+			Posts = append(Posts, post)
+		}
 
 		if !post.Meta.Hide {
 			parseTags(post.Meta.Tags, post)
@@ -326,6 +363,13 @@ func getMetaStrs(meta map[string]interface{}, key string) []string {
 		return strsStrs
 	}
 	return nil
+}
+
+func getMetaBool(meta map[string]interface{}, key string) bool {
+	if val, ok := meta[key]; ok {
+		return val.(bool)
+	}
+	return false
 }
 
 func CpStaticDirToOutput() {

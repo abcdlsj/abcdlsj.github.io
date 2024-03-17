@@ -8,6 +8,17 @@
     <div class="navbar">{{template "navbar" .}}</div>
     <main>
       <h1 class="blog-title">===> Enjoy Focus!</h1>
+      <hr class="divider" />
+      <div class="wip-post">
+        <div class="wip-headline">Write in Progress</div>
+        {{range .WipPosts}}
+        <div class="wip-post-title">
+          <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
+        </div>
+        {{end}}
+      </div>
+      <hr class="divider" />
+      <h2>POSTs</h2>
       {{range .Posts}}
       <article class="post">
         <div class="post-meta">
@@ -18,9 +29,9 @@
             {{end}}
           </nav>
         </div>
-        <h2 class="post-title">
+        <div class="post-index-title">
           <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
-        </h2>
+        </div>
       </article>
       <hr class="divider" />
       {{end}}
