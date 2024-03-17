@@ -89,7 +89,7 @@ pre code {
 }
 .post-toc {
   list-style: none;
-  font-size: small;
+  font-size: 0.8em;
   padding: 0;
 }
 .post-toc ul {
@@ -110,6 +110,27 @@ pre code {
   color: var(--href-color);
 }
 .post-toc a:hover {
+  text-decoration: underline;
+}
+.post-content {
+  list-style: none;
+}
+.post-content ul {
+  margin-left: 25px;
+}
+.post-content li {
+  margin-bottom: 5px;
+}
+.post-content a {
+  color: var(--href-color);
+  text-decoration: none;
+  font-family: 'gg sans Medium';
+  font-weight: 500;
+}
+.post-content a:visited {
+  color: var(--href-color);
+}
+.post-content a:hover {
   text-decoration: underline;
 }
 .post-meta .post-date {
