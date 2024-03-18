@@ -73,7 +73,7 @@ Flow: {
 4. 当有新的用户请求到来时，Server 端通过 `Control` 连接发送 `Exchange` 消息，告诉 Client 端：有新的用户连接，准备开始对流量进行 `Copy`
 > 此时 Server 是否要 `Copy` 用户连接和 `Control` 连接呢？
 > 答案是不应该也不能，因为 `Control` 连接还会有来自 Server 或者 Client 的「其它」的流量，例如 `Close`、`Heartbeat` 消息等，这些流量如果直接 `Copy` 到用户连接上，那就会产生问题。
-1. Client 端接收到 `Exchange` 消息，建立连接到 `Local 3000` 端口，准备 `Copy` 流量
+5. Client 端接收到 `Exchange` 消息，建立连接到 `Local 3000` 端口，准备 `Copy` 流量
 > Client 端也不能直接 `Copy` `Control` 连接和 `Local 3000` 连接，和 4 是一样的情况
 
 这就是「连接复用」的问题，这个问题在对多端流量进行处理的时候很常见。

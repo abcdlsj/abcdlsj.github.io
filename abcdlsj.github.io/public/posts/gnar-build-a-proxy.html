@@ -282,7 +282,7 @@ TOC<ul>
 <p>此时 Server 是否要 <code>Copy</code> 用户连接和 <code>Control</code> 连接呢？<br>
 答案是不应该也不能，因为 <code>Control</code> 连接还会有来自 Server 或者 Client 的「其它」的流量，例如 <code>Close</code>、<code>Heartbeat</code> 消息等，这些流量如果直接 <code>Copy</code> 到用户连接上，那就会产生问题。</p>
 </blockquote>
-<ol>
+<ol start="5">
 <li>Client 端接收到 <code>Exchange</code> 消息，建立连接到 <code>Local 3000</code> 端口，准备 <code>Copy</code> 流量</li>
 </ol>
 <blockquote>
