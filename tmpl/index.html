@@ -19,7 +19,7 @@
       </div>
       <hr class="divider" />
       <h2>POSTs</h2>
-      {{range .Posts}}
+      {{range $i, $posts := .Posts}}
       <article class="post">
         <div class="post-meta">
           <div class="post-date">Date: {{.Meta.Date}}</div>
@@ -33,6 +33,9 @@
           <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
         </div>
       </article>
+      {{if ne (add $i 1) (len $.Posts)}}
+        <hr class="shallower-divider">
+      {{end}}
       {{end}}
       <hr class="divider" />
       <!-- {{template "footer" .}} -->

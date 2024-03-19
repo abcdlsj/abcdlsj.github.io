@@ -24,7 +24,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
-  line-height: 2;
+  line-height: 1.75;
   margin: auto;
   max-width: 60%;
   padding: 10px;
@@ -104,7 +104,7 @@ pre code {
   color: var(--href-color);
   text-decoration: none;
   font-family: 'gg sans Medium';
-  font-weight: 500;
+  font-weight: 400;
 }
 .post-toc a:visited {
   color: var(--href-color);
@@ -125,7 +125,7 @@ pre code {
   color: var(--href-color);
   text-decoration: none;
   font-family: 'gg sans Medium';
-  font-weight: 500;
+  font-weight: 600;
 }
 .post-content a:visited {
   color: var(--href-color);
@@ -140,10 +140,13 @@ pre code {
 .post-tags .tag {
   color: var(--dark-ref-color);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: 'gg sans Medium', 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-decoration: none;
   margin-right: 10px;
+  margin-bottom: 0px;
 }
+
 .blog-title {
   font-size: 2em;
   font-family: 'gg sans Medium', 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -191,4 +194,13 @@ hr {
   width: 100%;
   text-align: center;
   padding: 10px 0;
+}
+
+.shallower-divider {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--light-border-color);
+  border-left-width: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #f2f3f5;
 }

@@ -87,6 +87,7 @@ var (
 
 	funcMap = template.FuncMap{
 		"urlize": urlize,
+		"add":    func(a, b int) int { return a + b },
 	}
 
 	//go:embed tmpl/*
