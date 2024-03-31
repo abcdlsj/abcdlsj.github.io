@@ -102,22 +102,24 @@ var (
 )
 
 type PostMeta struct {
-	Title string   `yaml:"title"`
-	Date  string   `yaml:"date"`
-	Tags  []string `yaml:"tags"`
-	Hide  bool     `yaml:"hide"`
-	Menus []string `yaml:"menus"`
-	Wip   bool     `yaml:"wip"`
+	Title       string   `yaml:"title"`
+	Date        string   `yaml:"date"`
+	Tags        []string `yaml:"tags"`
+	Hide        bool     `yaml:"hide"`
+	Menus       []string `yaml:"menus"`
+	Wip         bool     `yaml:"wip"`
+	TocPosition string   `yaml:"tocPosition"`
 }
 
 func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 	return PostMeta{
-		Title: meta["title"].(string),
-		Date:  orStr(meta["date"].(string), "1970-01-01"),
-		Tags:  getMetaStrs(meta, "tags"),
-		Hide:  meta["hide"].(bool),
-		Menus: getMetaStrs(meta, "menus"),
-		Wip:   getMetaBool(meta, "wip"),
+		Title:       meta["title"].(string),
+		Date:        orStr(meta["date"].(string), "1970-01-01"),
+		Tags:        getMetaStrs(meta, "tags"),
+		Hide:        meta["hide"].(bool),
+		Menus:       getMetaStrs(meta, "menus"),
+		Wip:         getMetaBool(meta, "wip"),
+		TocPosition: orStr(getMetaStr(meta, "tocPosition"), ""),
 	}
 }
 
@@ -262,9 +264,11 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 		}
 	}
 
+	meta := unmarshalPostMeta(meta.Get(context))
+
 	return Post{
 		Site:       cfgVar,
-		Meta:       unmarshalPostMeta(meta.Get(context)),
+		Meta:       meta,
 		Body:       buf.String(),
 		Uname:      urlize(cleanName),
 		TocContent: tocBuf.String(),
@@ -364,6 +368,14 @@ func getMetaStrs(meta map[string]interface{}, key string) []string {
 		return strsStrs
 	}
 	return nil
+}
+
+func getMetaStr(meta map[string]interface{}, key string) string {
+	if val, ok := meta[key]; ok {
+		return fmt.Sprintf("%v", val)
+	}
+
+	return ""
 }
 
 func getMetaBool(meta map[string]interface{}, key string) bool {

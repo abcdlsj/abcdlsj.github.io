@@ -17,10 +17,14 @@
           <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
           {{end}}
         </nav>
-        {{if ne .TocContent ""}}
+        {{if ne .TocContent ""}} {{if eq .Meta.TocPosition ""}}
         <hr class="divider" />
         <div class="post-toc">{{.TocContent}}</div>
-        {{end}}
+        {{else if eq .Meta.TocPosition "left-sidebar"}}
+        <div class="sidebar">
+          <div class="post-toc">{{.TocContent}}</div>
+        </div>
+        {{end}} {{end}}
       </div>
       <hr class="divider" />
       <div class="post-content">
