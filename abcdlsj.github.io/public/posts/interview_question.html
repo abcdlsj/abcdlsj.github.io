@@ -18,29 +18,6 @@
   src="https://us.umami.is/script.js"
   data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"
 ></script>
-<script>
-  var tocContent = document.getElementById("toc-content");
-
-  // 监听页面滚动事件
-  window.addEventListener("scroll", function () {
-    var scrollPosition = window.scrollY || window.pageYOffset;
-
-    // 保持TocContent在侧边栏顶部
-    tocContent.style.top = scrollPosition + "px";
-  });
-
-  // 监听目录链接点击事件
-  tocContent.addEventListener("click", function (event) {
-    if (event.target.tagName === "A") {
-      event.preventDefault();
-      var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
-      var targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
-      }
-    }
-  });
-</script>
 
   </head>
   <body class="container">
@@ -73,6 +50,29 @@
           
         </nav>
          
+        <script>
+          var tocContent = document.getElementById("toc-content");
+        
+          // 监听页面滚动事件
+          window.addEventListener("scroll", function () {
+            var scrollPosition = window.scrollY || window.pageYOffset;
+        
+            // 保持TocContent在侧边栏顶部
+            tocContent.style.top = scrollPosition + "px";
+          });
+        
+          // 监听目录链接点击事件
+          tocContent.addEventListener("click", function (event) {
+            if (event.target.tagName === "A") {
+              event.preventDefault();
+              var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
+              var targetElement = document.getElementById(targetId);
+              if (targetElement) {
+                targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
+              }
+            }
+          });
+        </script>
         <div class="sidebar">
           <div class="post-toc"><ul>
 <li>
