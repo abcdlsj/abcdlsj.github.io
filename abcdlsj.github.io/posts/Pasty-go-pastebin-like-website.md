@@ -121,7 +121,7 @@ func initDB(filepath string) *gorm.DB {
 ```
 We just need to open the database and migrate the table. If table not exist, it will create it. and if exist, it will do nothing.
 
-### templates
+### Templates
 I thought `Template` is very powerful when build simple website.
 We just need to create 2 pages: `index.html` and `paste.html`.
 
@@ -309,7 +309,7 @@ You also need do something configuration for `Turnstile`.
 - Copy site key, secret key
 You can find this at cloudflare's [documentation](https://developers.cloudflare.com/turnstile/get-started).
 
-### server handler
+### Server handler
 
 The new form which we add `Turnstile` will send `cf-turnstile-response`, you can use this to validate the user.
 This is the sample code.
