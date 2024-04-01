@@ -6,6 +6,7 @@ tags:
   - Turnstile
   - Template
 hide: false
+tocPosition: left-sidebar
 ---
 
 ## Background

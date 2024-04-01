@@ -5,15 +5,17 @@ tags:
   - Network
   - Tunnel
 hide: false
+tocPosition: left-sidebar
 ---
 
-> Changelog
-> 2023-11-06: 添加了 `yamux` 支持.
-> 2023-11-11: 代码后续有**结构**/**接口**上的更新，请看 master 
-> 2023-11-19: 项目修改了命名 Pipe -> Gnar
+> Changelog:
+> 2023-11-11: 更新了代码结构和接口 
+> 2023-11-06: 添加了 `yamux` 支持
 
 ## Background
-**简单的转发工具**
+
+**实现简单的转发工具**
+
 公司内部的服务框架 Service 之间通信是通过连接每台机器的 `Agent` 监听的 `UNIX domain` 实现的，在公司容器集群环境，都是会启动 `Agent`。
 但是作为本地环境，没有 `Agent` 的条件，所以本地启动服务都是使用 `socat` 将本地 `UNIX domain` 流量转发到远程搭建的 `TCP agent` 来启动服务的（远程的 `TCP agent` 也没有什么特殊的，流量也是转发到搭建 `TCP agent` 机器的本地 `Agent` 上）
 在公司内部，我们一般是使用 `socat -d -d -d UNIX-LISTEN:/tmp/xxx.sock,reuseaddr,fork TCP:agent-tcp.xxxx.io:9299` 来做转发的。
@@ -23,6 +25,7 @@ hide: false
 有次想到既然原理这么简单，那么实现一个类似功能的转发工具应该也很简单，借助 `io.Copy()` 以及 `net` 包，一小会就实现了代码，总代码量不超过 50 行，但是却非常实用，启动速度很快（实测竟然比 `socat` 要稍快）
 
 **远程端口转发**
+
 再后来想到可以实现一个类似 `frp` 和 `ngrok` 的工具，实现的过程中没有借鉴太多其它项目的代码，很多地方都是遇到问题再去查，所以写一篇博客记录下是很值得的，一直没想法去写，这里记录一下思路以及核心代码。
 代码是年初 or 去年末写了第一个版本，后边改了一些，现在和最初的版本相比要复杂一些。
 
@@ -31,16 +34,15 @@ hide: false
 
 所有的代码都在 [abcdlsj/gnar](https://github.com/abcdlsj/gnar/tree/484084da8b9edb99fb39e5d7561cc94d16d7031c) 里（本文纂写时的版本）
 
-## How it works
+## How to implement
 
-实现**远程端口转发**
 假设有一个服务器（Server）和一个客户端（Client）。其中，服务器的 IP 可以直接从公网访问，而客户端的 IP 则不行，并且客户端可以访问服务器。
 
 我们希望有一种方法来建立服务器端口和客户端端口之间的关联，将对服务器端口的访问转发到客户端的对应端口，通过公网访问服务器的端口就相当于访问客户端的端口。
 
 假设我们 Server 通信端口是 8910，要将 Client 的 3000 端口穿透到 Server 的 9000 端口。
-首先 Server 端应该和 Client 端进行通信（8910 端口），对于 Server 端的目标端口（9000）的用户请求，将用户请求和 Client 连接进行流量**代理**，Client 则对本地端口（3000）和通信接口连接进行流量**代理**）。
-这样流量路径就是：用户请求 -> Server **代理**的通信连接（也是 Client 端**代理**的通信连接） -> Client 端本地链接
+首先 Server 端应该和 Client 端进行通信（8910 端口），对于 Server 端的目标端口（9000）的用户请求，将用户请求和 Client 连接进行流量「代理」，Client 则对本地端口（3000）和通信接口连接进行流量「代理」）。
+这样流量路径就是：用户请求 -> Server 「代理」的通信连接（也是 Client 端「代理」的通信连接） -> Client 端本地链接
 
 最后结构差不多就是这样：
 ```d2
@@ -85,7 +87,7 @@ Flow: {
 
 方法 1 和 方法 3 是最适合的，这里为了简单，我选择方法 3 来实现（`yamux` 接入也非常简单，后续会支持；11/6 Update，[commit](https://github.com/abcdlsj/gnar/commit/fb5ca54b60ea9b1b2df3e877ad2978af0beba09f) 加上了 `yamux` 支持）
 
-选择方法 3 后，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 `Copy` `Local 3000` 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 `Forward` 还是 `Exchange` 消息，然后如果是 `Exchange`，需要**拿出**用户连接 `Copy` 到此 `Exchange` 消息的连接上。
+选择方法 3 后，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 `Copy` `Local 3000` 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 `Forward` 还是 `Exchange` 消息，然后如果是 `Exchange`，需要「拿出」用户连接 `Copy` 到此 `Exchange` 消息的连接上。
 
 所以步骤 3，Server 需要保存用户请求，创建对应的 `Connection UUID`，然后带上发送 `Exchange` 消息到 Client
 步骤 5，Client 需要接收到 `Exchange` 消息，新建 Server 连接，然后首先发送带上同样 `UUID` 的 `Exchange` 消息到 Server，然后 `Copy` `Local 3000` 流量到此新建的 Server 连接上

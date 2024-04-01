@@ -52,14 +52,37 @@
           
         </nav>
          
-        <hr class="divider" />
-        <div class="post-toc"><ul>
+        <script>
+          var tocContent = document.getElementById("toc-content");
+        
+          // 监听页面滚动事件
+          window.addEventListener("scroll", function () {
+            var scrollPosition = window.scrollY || window.pageYOffset;
+        
+            // 保持TocContent在侧边栏顶部
+            tocContent.style.top = scrollPosition + "px";
+          });
+        
+          // 监听目录链接点击事件
+          tocContent.addEventListener("click", function (event) {
+            if (event.target.tagName === "A") {
+              event.preventDefault();
+              var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
+              var targetElement = document.getElementById(targetId);
+              if (targetElement) {
+                targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
+              }
+            }
+          });
+        </script>
+        <div class="sidebar">
+          <div class="post-toc"><ul>
 <li>
 TOC<ul>
 <li>
 <a href="#background">Background</a></li>
 <li>
-<a href="#how-it-works">How it works</a></li>
+<a href="#how-to-implement">How to implement</a></li>
 <li>
 <a href="#codes">Codes</a><ul>
 <li>
@@ -106,40 +129,39 @@ TOC<ul>
 </li>
 </ul>
 </div>
+        </div>
          
       </div>
       <hr class="divider" />
       <div class="post-content">
         <article><blockquote>
-<p>Changelog<br>
-2023-11-06: 添加了 <code>yamux</code> 支持.<br>
-2023-11-11: 代码后续有<strong>结构</strong>/<strong>接口</strong>上的更新，请看 master<br>
-2023-11-19: 项目修改了命名 Pipe -&gt; Gnar</p>
+<p>Changelog:<br>
+2023-11-11: 更新了代码结构和接口<br>
+2023-11-06: 添加了 <code>yamux</code> 支持</p>
 </blockquote>
 <h2 id="background">Background</h2>
-<p><strong>简单的转发工具</strong><br>
-公司内部的服务框架 Service 之间通信是通过连接每台机器的 <code>Agent</code> 监听的 <code>UNIX domain</code> 实现的，在公司容器集群环境，都是会启动 <code>Agent</code>。<br>
+<p><strong>实现简单的转发工具</strong></p>
+<p>公司内部的服务框架 Service 之间通信是通过连接每台机器的 <code>Agent</code> 监听的 <code>UNIX domain</code> 实现的，在公司容器集群环境，都是会启动 <code>Agent</code>。<br>
 但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地启动服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到远程搭建的 <code>TCP agent</code> 来启动服务的（远程的 <code>TCP agent</code> 也没有什么特殊的，流量也是转发到搭建 <code>TCP agent</code> 机器的本地 <code>Agent</code> 上）<br>
 在公司内部，我们一般是使用 <code>socat -d -d -d UNIX-LISTEN:/tmp/xxx.sock,reuseaddr,fork TCP:agent-tcp.xxxx.io:9299</code> 来做转发的。</p>
 <blockquote>
 <p><code>socat</code> 是一个瑞士军刀类的工具，非常强大</p>
 </blockquote>
 <p>有次想到既然原理这么简单，那么实现一个类似功能的转发工具应该也很简单，借助 <code>io.Copy()</code> 以及 <code>net</code> 包，一小会就实现了代码，总代码量不超过 50 行，但是却非常实用，启动速度很快（实测竟然比 <code>socat</code> 要稍快）</p>
-<p><strong>远程端口转发</strong><br>
-再后来想到可以实现一个类似 <code>frp</code> 和 <code>ngrok</code> 的工具，实现的过程中没有借鉴太多其它项目的代码，很多地方都是遇到问题再去查，所以写一篇博客记录下是很值得的，一直没想法去写，这里记录一下思路以及核心代码。<br>
+<p><strong>远程端口转发</strong></p>
+<p>再后来想到可以实现一个类似 <code>frp</code> 和 <code>ngrok</code> 的工具，实现的过程中没有借鉴太多其它项目的代码，很多地方都是遇到问题再去查，所以写一篇博客记录下是很值得的，一直没想法去写，这里记录一下思路以及核心代码。<br>
 代码是年初 or 去年末写了第一个版本，后边改了一些，现在和最初的版本相比要复杂一些。</p>
 <blockquote>
 <p>开始的版本只实现 <code>TCP</code> 转发，含有 <code>Caddy</code> 来做 <code>Auto Subdomain https</code>，代码不到 <code>1000</code> 行。后边优化了下，现在支持 <code>TCP/UDP</code> 协议，所以本文只涉及 <code>TCP/UDP</code> 实现（不过其它协议也大都类似<br>
 顺带一提，<code>GitHub</code> 有非常多类似的实现，比如 <a href="https://github.com/ekzhang/bore">ekzhang/bore</a> 和 <a href="https://github.com/rapiz1/rathole/">rapiz1/rathole</a>（<code>Tokio</code> 的功能太强大了，忍不住想用 <code>Rust</code> 重写 :P）</p>
 </blockquote>
 <p>所有的代码都在 <a href="https://github.com/abcdlsj/gnar/tree/484084da8b9edb99fb39e5d7561cc94d16d7031c">abcdlsj/gnar</a> 里（本文纂写时的版本）</p>
-<h2 id="how-it-works">How it works</h2>
-<p>实现<strong>远程端口转发</strong><br>
-假设有一个服务器（Server）和一个客户端（Client）。其中，服务器的 IP 可以直接从公网访问，而客户端的 IP 则不行，并且客户端可以访问服务器。</p>
+<h2 id="how-to-implement">How to implement</h2>
+<p>假设有一个服务器（Server）和一个客户端（Client）。其中，服务器的 IP 可以直接从公网访问，而客户端的 IP 则不行，并且客户端可以访问服务器。</p>
 <p>我们希望有一种方法来建立服务器端口和客户端端口之间的关联，将对服务器端口的访问转发到客户端的对应端口，通过公网访问服务器的端口就相当于访问客户端的端口。</p>
 <p>假设我们 Server 通信端口是 8910，要将 Client 的 3000 端口穿透到 Server 的 9000 端口。<br>
-首先 Server 端应该和 Client 端进行通信（8910 端口），对于 Server 端的目标端口（9000）的用户请求，将用户请求和 Client 连接进行流量<strong>代理</strong>，Client 则对本地端口（3000）和通信接口连接进行流量<strong>代理</strong>）。<br>
-这样流量路径就是：用户请求 -&gt; Server <strong>代理</strong>的通信连接（也是 Client 端<strong>代理</strong>的通信连接） -&gt; Client 端本地链接</p>
+首先 Server 端应该和 Client 端进行通信（8910 端口），对于 Server 端的目标端口（9000）的用户请求，将用户请求和 Client 连接进行流量「代理」，Client 则对本地端口（3000）和通信接口连接进行流量「代理」）。<br>
+这样流量路径就是：用户请求 -&gt; Server 「代理」的通信连接（也是 Client 端「代理」的通信连接） -&gt; Client 端本地链接</p>
 <p>最后结构差不多就是这样：</p>
 <div class="d2"><?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" d2Version="v0.5.0-HEAD" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1032 941"><svg id="d2-svg" class="d2-1221737758" width="1032" height="941" viewBox="-101 -100 1032 941"><rect x="-101.000000" y="-100.000000" width="1032.000000" height="941.000000" rx="0.000000" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
 .d2-1221737758 .text {
@@ -304,7 +326,7 @@ TOC<ul>
 <p>方法 3 可能存在的问题是，端口的连接总数是有限的，但是正常都足够的（只要实现上连接有正常 <code>Close</code>，在 Client 不是很多的情况下是没有太大问题的</p>
 </blockquote>
 <p>方法 1 和 方法 3 是最适合的，这里为了简单，我选择方法 3 来实现（<code>yamux</code> 接入也非常简单，后续会支持；11/6 Update，<a href="https://github.com/abcdlsj/gnar/commit/fb5ca54b60ea9b1b2df3e877ad2978af0beba09f">commit</a> 加上了 <code>yamux</code> 支持）</p>
-<p>选择方法 3 后，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 <code>Copy</code> <code>Local 3000</code> 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 <code>Forward</code> 还是 <code>Exchange</code> 消息，然后如果是 <code>Exchange</code>，需要<strong>拿出</strong>用户连接 <code>Copy</code> 到此 <code>Exchange</code> 消息的连接上。</p>
+<p>选择方法 3 后，因为 Server 端并不能新建通信连接，所以需要告诉 Client 新建连接，因为 Client 会 <code>Copy</code> <code>Local 3000</code> 流量到这个新建的连接上，所以对于「主分支」的 Server 来说，它需要判断是 <code>Forward</code> 还是 <code>Exchange</code> 消息，然后如果是 <code>Exchange</code>，需要「拿出」用户连接 <code>Copy</code> 到此 <code>Exchange</code> 消息的连接上。</p>
 <p>所以步骤 3，Server 需要保存用户请求，创建对应的 <code>Connection UUID</code>，然后带上发送 <code>Exchange</code> 消息到 Client<br>
 步骤 5，Client 需要接收到 <code>Exchange</code> 消息，新建 Server 连接，然后首先发送带上同样 <code>UUID</code> 的 <code>Exchange</code> 消息到 Server，然后 <code>Copy</code> <code>Local 3000</code> 流量到此新建的 Server 连接上<br>
 步骤 6. Server 接收到 <code>Exchange</code> 消息，通过 <code>UUID</code> 取出对应的用户连接，然后 <code>Copy</code> 用户连接流量和此连接</p>
