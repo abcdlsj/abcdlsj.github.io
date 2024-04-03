@@ -50,8 +50,31 @@
           
         </nav>
          
-        <hr class="divider" />
-        <div class="post-toc"><ul>
+        <script>
+          var tocContent = document.getElementById("toc-content");
+        
+          // 监听页面滚动事件
+          window.addEventListener("scroll", function () {
+            var scrollPosition = window.scrollY || window.pageYOffset;
+        
+            // 保持TocContent在侧边栏顶部
+            tocContent.style.top = scrollPosition + "px";
+          });
+        
+          // 监听目录链接点击事件
+          tocContent.addEventListener("click", function (event) {
+            if (event.target.tagName === "A") {
+              event.preventDefault();
+              var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
+              var targetElement = document.getElementById(targetId);
+              if (targetElement) {
+                targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
+              }
+            }
+          });
+        </script>
+        <div class="sidebar">
+          <div class="post-toc"><ul>
 <li>
 TOC<ul>
 <li>
@@ -62,8 +85,6 @@ TOC<ul>
 <a href="#walk-directory">Walk directory</a></li>
 <li>
 <a href="#read-file-and-count-lines">Read file and Count lines</a></li>
-<li>
-<a href="#mulitiline-comment">Mulitiline comment</a></li>
 <li>
 <a href="#output-result">Output result</a></li>
 </ul>
@@ -102,6 +123,7 @@ TOC<ul>
 </li>
 </ul>
 </div>
+        </div>
          
       </div>
       <hr class="divider" />
@@ -203,8 +225,7 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span style="display:flex;"><span>	result.<span style="color:#900;font-weight:bold">Add</span>(c, item)
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><h3 id="mulitiline-comment">Mulitiline comment</h3>
-<h3 id="output-result">Output result</h3>
+</span></span></code></pre><h3 id="output-result">Output result</h3>
 <p>Actually, this is the most hard part. you need to output the result intuitively. thanks to <code>tokei</code> and <code>scc</code>, I just need to do a <code>copy</code> the output format from them :smile:.</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (r <span style="color:#000;font-weight:bold">*</span>Result) <span style="color:#900;font-weight:bold">String</span>() {
 </span></span><span style="display:flex;"><span>	itemF <span style="color:#000;font-weight:bold">:=</span> <span style="color:#d14">&#34;%-10s %10d %10d %10d %10d %10d\n&#34;</span>
