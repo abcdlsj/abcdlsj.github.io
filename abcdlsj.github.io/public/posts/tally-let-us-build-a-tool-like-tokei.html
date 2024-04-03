@@ -78,11 +78,11 @@
 <li>
 TOC<ul>
 <li>
-<a href="#first">First</a></li>
+<a href="#background">Background</a></li>
 <li>
-<a href="#explain">Explain</a><ul>
+<a href="#explain-the-code">Explain the code</a><ul>
 <li>
-<a href="#walk-directory-tree">Walk directory tree</a></li>
+<a href="#walk-directory">Walk directory</a></li>
 <li>
 <a href="#read-file-and-count-lines">Read file and Count lines</a></li>
 <li>
@@ -92,27 +92,29 @@ TOC<ul>
 <li>
 <a href="#benchmark">Benchmark</a><ul>
 <li>
-<a href="#tokei">Tokei</a></li>
+<a href="#small-repo">Small repo</a></li>
 <li>
-<a href="#tally">Tally</a></li>
+<a href="#large-repo">Large repo</a></li>
 </ul>
 </li>
 <li>
-<a href="#optimize1---parallel">Optimize1 - Parallel</a><ul>
+<a href="#optimize1---improve-the-code">Optimize1 - Improve the code</a><ul>
 <li>
-<a href="#test-chan-capacity-10">test chan capacity 10</a></li>
-<li>
-<a href="#test-chan-capacity-100100010000">test chan capacity 100/1000/10000</a></li>
-<li>
-<a href="#test-with-large-number-of-files">test with large number of files</a></li>
-<li>
-<a href="#conclusion">conclusion</a></li>
+<a href="#compare">Compare</a></li>
 </ul>
 </li>
 <li>
-<a href="#optimize2---bufio-scanner-countline">Optimize2 - Bufio scanner countline</a></li>
+<a href="#optimize2---faster-filepath-walking">Optimize2 - Faster filepath walking</a></li>
 <li>
-<a href="#optimize3---faster-filepath-walking">Optimize3 - Faster filepath walking</a></li>
+<a href="#optimize3---parallelism">Optimize3 - Parallelism</a><ul>
+<li>
+<a href="#implement">Implement</a></li>
+<li>
+<a href="#benchmark-1">Benchmark</a></li>
+</ul>
+</li>
+<li>
+<a href="#optimize4---use-pprof">Optimize4 - Use Pprof</a></li>
 <li>
 <a href="#end">End</a></li>
 <li>
@@ -126,18 +128,25 @@ TOC<ul>
       </div>
       <hr class="divider" />
       <div class="post-content">
-        <article><h2 id="first">First</h2>
+        <article><blockquote>
+<p>Changelog:</p>
+<ul>
+<li>2023-08-16: first version</li>
+<li>2024-04-03: bechmark refactor</li>
+</ul>
+</blockquote>
+<h2 id="background">Background</h2>
 <p>I want to build a tool like <code>scc</code>, <code>tokei</code>, just for learning. It was very easy to write a simple version: <a href="https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go">tally - first commit</a>.<br>
 I will to optimize it at the second half of this post.</p>
 <p>First, allow me to explain it to you.</p>
-<h2 id="explain">Explain</h2>
+<h2 id="explain-the-code">Explain the code</h2>
 <p>The counting-line machine worked similar to the <code>Putting elephants in the freezer</code>, so the steps are:</p>
 <ol>
 <li>Walk directory tree.</li>
 <li>Read file and Count lines.</li>
 <li>Output result.</li>
 </ol>
-<h3 id="walk-directory-tree">Walk directory tree</h3>
+<h3 id="walk-directory">Walk directory</h3>
 <p>Use <code>filepath.Walk</code> to walk directory tree, it's very easy to use.</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>filepath.<span style="color:#900;font-weight:bold">Walk</span>(os.Args[<span style="color:#099">1</span>], <span style="color:#000;font-weight:bold">func</span>(path <span style="color:#458;font-weight:bold">string</span>, info os.FileInfo, err <span style="color:#458;font-weight:bold">error</span>) <span style="color:#458;font-weight:bold">error</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
@@ -217,7 +226,7 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><h3 id="output-result">Output result</h3>
-<p>Actually, this is the most hard part. you need to output the result intuitively. thanks to <code>tokei</code> and <code>scc</code>, I just copy the output format from them :smile:.</p>
+<p>Actually, this is the most hard part. you need to output the result intuitively. thanks to <code>tokei</code> and <code>scc</code>, I just need to do a <code>copy</code> the output format from them :smile:.</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (r <span style="color:#000;font-weight:bold">*</span>Result) <span style="color:#900;font-weight:bold">String</span>() {
 </span></span><span style="display:flex;"><span>	itemF <span style="color:#000;font-weight:bold">:=</span> <span style="color:#d14">&#34;%-10s %10d %10d %10d %10d %10d\n&#34;</span>
 </span></span><span style="display:flex;"><span>	headerF <span style="color:#000;font-weight:bold">:=</span> <span style="color:#d14">&#34;%-10s %10s %10s %10s %10s %10s\n&#34;</span>
@@ -243,9 +252,8 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(itemF, <span style="color:#d14">&#34;Total&#34;</span>, total.files, total.lines, total.code, total.comment, total.blank)
 </span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(strings.<span style="color:#900;font-weight:bold">Repeat</span>(<span style="color:#d14">&#34;━&#34;</span>, <span style="color:#099">65</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34;\n&#34;</span>)
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><p>Test it.</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>go install
-</span></span><span style="display:flex;"><span>tally .
+</span></span></code></pre><p>Let's Test it.</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>tally .
 </span></span></code></pre><pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 </span></span><span style="display:flex;"><span>Language        Files      Lines       Code   Comments     Blanks
 </span></span><span style="display:flex;"><span>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -254,298 +262,346 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span style="display:flex;"><span>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 </span></span><span style="display:flex;"><span>Total               2        245        201          0         44
 </span></span><span style="display:flex;"><span>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-</span></span></code></pre><p>All done! let's benchmark it.</p>
+</span></span></code></pre><p>It's looks very good :)</p>
+<p>At next, I will benchmark and optimize it.</p>
 <h2 id="benchmark">Benchmark</h2>
-<p>use <code>time</code>  for benchmarks is not accurate enough. <a href="https://stackoverflow.com/questions/9006596/is-the-unix-time-command-accurate-enough-for-benchmarks">stackoverflow - Is the UNIX <code>time</code> command accurate enough for benchmarks? [closed]</a><br>
-so use <code>perf stat</code> for benchmarks at my <code>Intel(R) N100</code> machine.</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>perf stat -r <span style="color:#099">10</span> -d <span style="color:#000;font-weight:bold">{</span>xxx<span style="color:#000;font-weight:bold">}</span> .
-</span></span></code></pre><p>Test repo: <a href="https://github.com/firecracker-microvm/firecracker">https://github.com/firecracker-microvm/firecracker</a></p>
-<h3 id="tokei">Tokei</h3>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;tokei .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>             69.13 msec task-clock                <span style="color:#998;font-style:italic">#    2.481 CPUs utilized            ( +- 11.54% )</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#099">51</span>      context-switches          <span style="color:#998;font-style:italic">#  553.733 /sec                     ( +-  6.59% )</span>
-</span></span><span style="display:flex;"><span>                 <span style="color:#099">3</span>      cpu-migrations            <span style="color:#998;font-style:italic">#   32.573 /sec                     ( +- 12.62% )</span>
-</span></span><span style="display:flex;"><span>               <span style="color:#099">684</span>      page-faults               <span style="color:#998;font-style:italic">#    7.427 K/sec                    ( +-  1.02% )</span>
-</span></span><span style="display:flex;"><span>       188,619,115      cycles                    <span style="color:#998;font-style:italic">#    2.048 GHz                      ( +-  0.12% )</span>
-</span></span><span style="display:flex;"><span>       436,763,869      instructions              <span style="color:#998;font-style:italic">#    2.31  insn per cycle           ( +-  0.02% )</span>
-</span></span><span style="display:flex;"><span>       107,324,341      branches                  <span style="color:#998;font-style:italic">#    1.165 G/sec                    ( +-  0.02% )</span>
-</span></span><span style="display:flex;"><span>           827,429      branch-misses             <span style="color:#998;font-style:italic">#    0.77% of all branches          ( +-  0.25% )</span>
-</span></span><span style="display:flex;"><span>       117,783,424      L1-dcache-loads           <span style="color:#998;font-style:italic">#    1.279 G/sec                    ( +-  0.02% )</span>
-</span></span><span style="display:flex;"><span>   &lt;not supported&gt;      L1-dcache-load-misses
-</span></span><span style="display:flex;"><span>            69,479      LLC-loads                 <span style="color:#998;font-style:italic">#  754.369 K/sec                    ( +-  0.72% )</span>
-</span></span><span style="display:flex;"><span>            16,783      LLC-load-misses           <span style="color:#998;font-style:italic">#   23.79% of all LL-cache accesses  ( +-  3.05% )</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>           0.02786 +- 0.00227 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +-  8.13% <span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre><h3 id="tally">Tally</h3>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>             41.15 msec task-clock                <span style="color:#998;font-style:italic">#    1.050 CPUs utilized            ( +-  1.02% )</span>
-</span></span><span style="display:flex;"><span>               <span style="color:#099">199</span>      context-switches          <span style="color:#998;font-style:italic">#    4.812 K/sec                    ( +-  3.37% )</span>
-</span></span><span style="display:flex;"><span>                 <span style="color:#099">7</span>      cpu-migrations            <span style="color:#998;font-style:italic">#  169.267 /sec                     ( +- 13.47% )</span>
-</span></span><span style="display:flex;"><span>             6,710      page-faults               <span style="color:#998;font-style:italic">#  162.254 K/sec                    ( +-  1.52% )</span>
-</span></span><span style="display:flex;"><span>       133,015,106      cycles                    <span style="color:#998;font-style:italic">#    3.216 GHz                      ( +-  0.40% )</span>
-</span></span><span style="display:flex;"><span>       147,895,882      instructions              <span style="color:#998;font-style:italic">#    1.12  insn per cycle           ( +-  0.26% )</span>
-</span></span><span style="display:flex;"><span>        30,824,314      branches                  <span style="color:#998;font-style:italic">#  745.361 M/sec                    ( +-  0.22% )</span>
-</span></span><span style="display:flex;"><span>           268,672      branch-misses             <span style="color:#998;font-style:italic">#    0.86% of all branches          ( +-  0.27% )</span>
-</span></span><span style="display:flex;"><span>        38,861,478      L1-dcache-loads           <span style="color:#998;font-style:italic">#  939.707 M/sec                    ( +-  0.26% )</span>
-</span></span><span style="display:flex;"><span>   &lt;not supported&gt;      L1-dcache-load-misses
-</span></span><span style="display:flex;"><span>           633,051      LLC-loads                 <span style="color:#998;font-style:italic">#   15.308 M/sec                    ( +-  0.41% )</span>
-</span></span><span style="display:flex;"><span>           322,198      LLC-load-misses           <span style="color:#998;font-style:italic">#   51.64% of all LL-cache accesses  ( +-  0.65% )</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>          0.039192 +- 0.000357 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +-  0.91% <span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre><p><strong>Result</strong>: we can see, the origin version is faster enough even faster then <code>tokei</code>, because <code>tokei</code> have more complex features and the count of files is small.</p>
-<h2 id="optimize1---parallel">Optimize1 - Parallel</h2>
-<p>Walking file paralleling. I searched out a post about this, <a href="https://stackoverflow.com/questions/44255814/concurrent-filesystem-scanning">stackoverflow - Concurrent filesystem scanning</a></p>
-<p>I write a version with <code>parallel</code>, this is the <code>diff</code>.</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span> func main() {
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	filepath.Walk(os.Args[1], func(path string, info os.FileInfo, err error) error {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+	var wgCalc sync.WaitGroup
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	paths := make(chan string, 100)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	defer close(paths)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	wgCalc.Add(1)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	go func() {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		defer wgCalc.Done()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		for path := range paths {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			if path == &#34;__end_flag_tally&#34; {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+				return
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			}
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			wgCalc.Add(1)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			go func(path string) {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+				defer wgCalc.Done()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+				calculate(path)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			}(path)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		}
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	}()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	var wgWalk sync.WaitGroup
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	wgWalk.Add(1)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	go func() {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		defer wgWalk.Done()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		WalkParallel(&amp;wgWalk, os.Args[1], paths)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	}()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	wgWalk.Wait()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	paths &lt;- &#34;__end_flag_tally&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	wgCalc.Wait()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	result.String()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+}
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+func WalkParallel(wg *sync.WaitGroup, dir string, paths chan&lt;- string) {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 		if err != nil {
-</span></span><span style="display:flex;"><span> 			panic(err)
-</span></span><span style="display:flex;"><span> 		}
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-		if info.IsDir() {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-			return nil
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+		if info.IsDir() &amp;&amp; path != dir {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			wg.Add(1)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			go func() {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+				defer wg.Done()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+				WalkParallel(wg, path, paths)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			}()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			return filepath.SkipDir
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 		}
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-		return calculate(path)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+		paths &lt;- path
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		return nil
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	})
-</span></span><span style="display:flex;"><span> }
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-
-</span></span></span></code></pre><h3 id="test-chan-capacity-10">test chan capacity 10</h3>
-<p>with <code>paths chan capacity=10</code></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally_walk10 .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            105.76 msec task-clock                <span style="color:#998;font-style:italic">#    2.573 CPUs utilized            ( +-  5.49% )</span>
-</span></span><span style="display:flex;"><span>               <span style="color:#099">392</span>      context-switches          <span style="color:#998;font-style:italic">#    3.432 K/sec                    ( +- 15.47% )</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#099">41</span>      cpu-migrations            <span style="color:#998;font-style:italic">#  358.962 /sec                     ( +- 10.96% )</span>
-</span></span><span style="display:flex;"><span>             7,335      page-faults               <span style="color:#998;font-style:italic">#   64.219 K/sec                    ( +-  3.52% )</span>
-</span></span><span style="display:flex;"><span>       181,829,636      cycles                    <span style="color:#998;font-style:italic">#    1.592 GHz                      ( +-  1.05% )</span>
-</span></span><span style="display:flex;"><span>       188,274,662      instructions              <span style="color:#998;font-style:italic">#    0.99  insn per cycle           ( +-  0.65% )</span>
-</span></span><span style="display:flex;"><span>        38,091,153      branches                  <span style="color:#998;font-style:italic">#  333.495 M/sec                    ( +-  0.57% )</span>
-</span></span><span style="display:flex;"><span>           392,566      branch-misses             <span style="color:#998;font-style:italic">#    1.00% of all branches          ( +-  1.98% )</span>
-</span></span><span style="display:flex;"><span>        48,955,270      L1-dcache-loads           <span style="color:#998;font-style:italic">#  428.612 M/sec                    ( +-  0.63% )</span>
-</span></span><span style="display:flex;"><span>   &lt;not supported&gt;      L1-dcache-load-misses
-</span></span><span style="display:flex;"><span>           713,386      LLC-loads                 <span style="color:#998;font-style:italic">#    6.246 M/sec                    ( +-  1.48% )</span>
-</span></span><span style="display:flex;"><span>           186,519      LLC-load-misses           <span style="color:#998;font-style:italic">#   25.09% of all LL-cache accesses  ( +-  6.00% )</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>           0.04110 +- 0.00219 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +-  5.33% <span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre><p>But the result shows it's not <code>expected</code>.<br>
-Why?</p>
-<h3 id="test-chan-capacity-100100010000">test chan capacity 100/1000/10000</h3>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally_walk100 .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            149.63 msec task-clock                <span style="color:#998;font-style:italic">#    2.970 CPUs utilized            ( +-  3.94% )</span>
-</span></span><span style="display:flex;"><span>             1,250      context-switches          <span style="color:#998;font-style:italic">#    9.855 K/sec                    ( +- 10.07% )</span>
-</span></span><span style="display:flex;"><span>               <span style="color:#099">229</span>      cpu-migrations            <span style="color:#998;font-style:italic">#    1.805 K/sec                    ( +- 11.05% )</span>
-</span></span><span style="display:flex;"><span>             8,715      page-faults               <span style="color:#998;font-style:italic">#   68.707 K/sec                    ( +-  3.08% )</span>
-</span></span><span style="display:flex;"><span>       246,295,457      cycles                    <span style="color:#998;font-style:italic">#    1.942 GHz                      ( +-  2.79% )</span>
-</span></span><span style="display:flex;"><span>       239,901,377      instructions              <span style="color:#998;font-style:italic">#    1.18  insn per cycle           ( +-  2.46% )</span>
-</span></span><span style="display:flex;"><span>        47,265,335      branches                  <span style="color:#998;font-style:italic">#  372.630 M/sec                    ( +-  2.35% )</span>
-</span></span><span style="display:flex;"><span>           498,222      branch-misses             <span style="color:#998;font-style:italic">#    1.20% of all branches          ( +-  2.47% )</span>
-</span></span><span style="display:flex;"><span>        61,741,968      L1-dcache-loads           <span style="color:#998;font-style:italic">#  486.761 M/sec                    ( +-  2.39% )</span>
-</span></span><span style="display:flex;"><span>   &lt;not supported&gt;      L1-dcache-load-misses
-</span></span><span style="display:flex;"><span>           770,443      LLC-loads                 <span style="color:#998;font-style:italic">#    6.074 M/sec                    ( +-  1.42% )</span>
-</span></span><span style="display:flex;"><span>           167,332      LLC-load-misses           <span style="color:#998;font-style:italic">#   21.61% of all LL-cache accesses  ( +-  9.58% )</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>           0.05037 +- 0.00534 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +- 10.59% <span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre><pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally_walk1000 .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            126.02 msec task-clock                <span style="color:#998;font-style:italic">#    2.401 CPUs utilized            ( +-  7.14% )</span>
-</span></span><span style="display:flex;"><span>               <span style="color:#099">534</span>      context-switches          <span style="color:#998;font-style:italic">#    4.190 K/sec                    ( +- 31.54% )</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#099">43</span>      cpu-migrations            <span style="color:#998;font-style:italic">#  337.390 /sec                     ( +- 82.12% )</span>
-</span></span><span style="display:flex;"><span>             8,730      page-faults               <span style="color:#998;font-style:italic">#   68.498 K/sec                    ( +-  3.02% )</span>
-</span></span><span style="display:flex;"><span>       200,521,361      cycles                    <span style="color:#998;font-style:italic">#    1.573 GHz                      ( +-  3.37% )</span>
-</span></span><span style="display:flex;"><span>       201,667,306      instructions              <span style="color:#998;font-style:italic">#    0.95  insn per cycle           ( +-  3.08% )</span>
-</span></span><span style="display:flex;"><span>        40,664,133      branches                  <span style="color:#998;font-style:italic">#  319.063 M/sec                    ( +-  2.75% )</span>
-</span></span><span style="display:flex;"><span>           411,992      branch-misses             <span style="color:#998;font-style:italic">#    0.95% of all branches          ( +-  3.61% )</span>
-</span></span><span style="display:flex;"><span>        52,419,468      L1-dcache-loads           <span style="color:#998;font-style:italic">#  411.298 M/sec                    ( +-  2.91% )</span>
-</span></span><span style="display:flex;"><span>   &lt;not supported&gt;      L1-dcache-load-misses
-</span></span><span style="display:flex;"><span>           699,381      LLC-loads                 <span style="color:#998;font-style:italic">#    5.488 M/sec                    ( +-  2.91% )</span>
-</span></span><span style="display:flex;"><span>           209,549      LLC-load-misses           <span style="color:#998;font-style:italic">#   26.89% of all LL-cache accesses  ( +-  6.15% )</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>           0.05249 +- 0.00584 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +- 11.12% <span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre><pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally_walk10000 .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            165.04 msec task-clock                <span style="color:#998;font-style:italic">#    3.075 CPUs utilized            ( +-  5.71% )</span>
-</span></span><span style="display:flex;"><span>             1,986      context-switches          <span style="color:#998;font-style:italic">#   15.979 K/sec                    ( +- 10.74% )</span>
-</span></span><span style="display:flex;"><span>               <span style="color:#099">440</span>      cpu-migrations            <span style="color:#998;font-style:italic">#    3.540 K/sec                    ( +- 10.92% )</span>
-</span></span><span style="display:flex;"><span>            11,124      page-faults               <span style="color:#998;font-style:italic">#   89.502 K/sec                    ( +-  3.41% )</span>
-</span></span><span style="display:flex;"><span>       254,677,268      cycles                    <span style="color:#998;font-style:italic">#    2.049 GHz                      ( +-  4.05% )</span>
-</span></span><span style="display:flex;"><span>       263,349,968      instructions              <span style="color:#998;font-style:italic">#    1.25  insn per cycle           ( +-  3.98% )</span>
-</span></span><span style="display:flex;"><span>        51,394,364      branches                  <span style="color:#998;font-style:italic">#  413.512 M/sec                    ( +-  3.66% )</span>
-</span></span><span style="display:flex;"><span>           505,212      branch-misses             <span style="color:#998;font-style:italic">#    1.16% of all branches          ( +-  3.36% )</span>
-</span></span><span style="display:flex;"><span>        67,546,889      L1-dcache-loads           <span style="color:#998;font-style:italic">#  543.473 M/sec                    ( +-  3.77% )</span>
-</span></span><span style="display:flex;"><span>   &lt;not supported&gt;      L1-dcache-load-misses
-</span></span><span style="display:flex;"><span>           837,174      LLC-loads                 <span style="color:#998;font-style:italic">#    6.736 M/sec                    ( +-  2.54% )</span>
-</span></span><span style="display:flex;"><span>           211,730      LLC-load-misses           <span style="color:#998;font-style:italic">#   27.27% of all LL-cache accesses  ( +-  7.50% )</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>           0.05367 +- 0.00622 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +- 11.59% <span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre><h3 id="test-with-large-number-of-files">test with large number of files</h3>
-<p>dir with <code>3800+</code> files.</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>root@beelink100 /h/u/workspace# perf stat -r <span style="color:#099">10</span> -d /home/ubtu/.go/bin/tally_walk10000 . &gt;/dev/null
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally_walk10000 .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>          2,121.55 msec task-clock                <span style="color:#998;font-style:italic">#    2.028 CPUs utilized            ( +-  5.87% )</span>
-</span></span><span style="display:flex;"><span>            12,183      context-switches          <span style="color:#998;font-style:italic">#    5.139 K/sec                    ( +-  3.39% )</span>
-</span></span><span style="display:flex;"><span>             1,167      cpu-migrations            <span style="color:#998;font-style:italic">#  492.255 /sec                     ( +-  5.36% )</span>
-</span></span><span style="display:flex;"><span>           203,339      page-faults               <span style="color:#998;font-style:italic">#   85.771 K/sec                    ( +- 17.22% )</span>
-</span></span><span style="display:flex;"><span>     5,990,351,339      cycles                    <span style="color:#998;font-style:italic">#    2.527 GHz                      ( +-  6.79% )</span>
-</span></span><span style="display:flex;"><span>     2,930,469,142      instructions              <span style="color:#998;font-style:italic">#    0.43  insn per cycle           ( +- 24.59% )</span>
-</span></span><span style="display:flex;"><span>       542,443,958      branches                  <span style="color:#998;font-style:italic">#  228.809 M/sec                    ( +- 24.28% )</span>
-</span></span><span style="display:flex;"><span>         2,905,949      branch-misses             <span style="color:#998;font-style:italic">#    0.41% of all branches          ( +- 13.97% )</span>
-</span></span><span style="display:flex;"><span>       914,997,532      L1-dcache-loads           <span style="color:#998;font-style:italic">#  385.957 M/sec                    ( +- 19.22% )</span>
-</span></span><span style="display:flex;"><span>   &lt;not supported&gt;      L1-dcache-load-misses
-</span></span><span style="display:flex;"><span>        31,492,061      LLC-loads                 <span style="color:#998;font-style:italic">#   13.284 M/sec                    ( +-  2.38% )</span>
-</span></span><span style="display:flex;"><span>        11,437,469      LLC-load-misses           <span style="color:#998;font-style:italic">#   33.55% of all LL-cache accesses  ( +-  3.87% )</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>             1.046 +- 0.127 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +- 12.13% <span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>root@beelink100 /h/u/workspace# perf stat -r <span style="color:#099">10</span> -d tokei . &gt;/dev/null
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;tokei .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            299.67 msec task-clock                <span style="color:#998;font-style:italic">#    3.368 CPUs utilized            ( +-  2.28% )</span>
-</span></span><span style="display:flex;"><span>               <span style="color:#099">201</span>      context-switches          <span style="color:#998;font-style:italic">#  655.026 /sec                     ( +-  4.36% )</span>
-</span></span><span style="display:flex;"><span>                 <span style="color:#099">1</span>      cpu-migrations            <span style="color:#998;font-style:italic">#    3.259 /sec                     ( +- 30.73% )</span>
-</span></span><span style="display:flex;"><span>             2,381      page-faults               <span style="color:#998;font-style:italic">#    7.759 K/sec                    ( +-  0.36% )</span>
-</span></span><span style="display:flex;"><span>       872,948,453      cycles                    <span style="color:#998;font-style:italic">#    2.845 GHz                      ( +-  0.22% )</span>
-</span></span><span style="display:flex;"><span>     2,063,804,765      instructions              <span style="color:#998;font-style:italic">#    2.36  insn per cycle           ( +-  0.06% )</span>
-</span></span><span style="display:flex;"><span>       483,436,637      branches                  <span style="color:#998;font-style:italic">#    1.575 G/sec                    ( +-  0.04% )</span>
-</span></span><span style="display:flex;"><span>         3,572,630      branch-misses             <span style="color:#998;font-style:italic">#    0.74% of all branches          ( +-  0.35% )</span>
-</span></span><span style="display:flex;"><span>       568,333,584      L1-dcache-loads           <span style="color:#998;font-style:italic">#    1.852 G/sec                    ( +-  0.06% )</span>
-</span></span><span style="display:flex;"><span>   &lt;not supported&gt;      L1-dcache-load-misses
-</span></span><span style="display:flex;"><span>           371,106      LLC-loads                 <span style="color:#998;font-style:italic">#    1.209 M/sec                    ( +-  0.82% )</span>
-</span></span><span style="display:flex;"><span>            76,251      LLC-load-misses           <span style="color:#998;font-style:italic">#   20.26% of all LL-cache accesses  ( +-  2.06% )</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>           0.08897 +- 0.00211 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +-  2.38% <span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>root@beelink100 /h/u/workspace# perf stat -r <span style="color:#099">10</span> -d /home/ubtu/.go/bin/tally . &gt;/dev/null
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>          1,207.93 msec task-clock                <span style="color:#998;font-style:italic">#    1.029 CPUs utilized            ( +-  0.17% )</span>
-</span></span><span style="display:flex;"><span>             1,793      context-switches          <span style="color:#998;font-style:italic">#    1.481 K/sec                    ( +-  3.76% )</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#099">28</span>      cpu-migrations            <span style="color:#998;font-style:italic">#   23.127 /sec                     ( +- 13.70% )</span>
-</span></span><span style="display:flex;"><span>           177,609      page-faults               <span style="color:#998;font-style:italic">#  146.698 K/sec                    ( +-  0.57% )</span>
-</span></span><span style="display:flex;"><span>     4,008,330,188      cycles                    <span style="color:#998;font-style:italic">#    3.311 GHz                      ( +-  0.06% )</span>
-</span></span><span style="display:flex;"><span>     2,280,290,491      instructions              <span style="color:#998;font-style:italic">#    0.57  insn per cycle           ( +-  0.23% )</span>
-</span></span><span style="display:flex;"><span>       428,399,527      branches                  <span style="color:#998;font-style:italic">#  353.841 M/sec                    ( +-  0.21% )</span>
-</span></span><span style="display:flex;"><span>         1,902,235      branch-misses             <span style="color:#998;font-style:italic">#    0.44% of all branches          ( +-  0.22% )</span>
-</span></span><span style="display:flex;"><span>       750,980,580      L1-dcache-loads           <span style="color:#998;font-style:italic">#  620.280 M/sec                    ( +-  0.18% )</span>
-</span></span><span style="display:flex;"><span>   &lt;not supported&gt;      L1-dcache-load-misses
-</span></span><span style="display:flex;"><span>        28,800,720      LLC-loads                 <span style="color:#998;font-style:italic">#   23.788 M/sec                    ( +-  0.08% )</span>
-</span></span><span style="display:flex;"><span>        16,184,744      LLC-load-misses           <span style="color:#998;font-style:italic">#   56.33% of all LL-cache accesses  ( +-  0.13% )</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>           1.17430 +- 0.00151 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +-  0.13% <span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>root@beelink100 /h/u/workspace# perf stat -r <span style="color:#099">10</span> -d /home/ubtu/.go/bin/tally_walk10 . &gt;/dev/null
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally_walk10 .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>          2,094.44 msec task-clock                <span style="color:#998;font-style:italic">#    2.632 CPUs utilized            ( +-  0.78% )</span>
-</span></span><span style="display:flex;"><span>            13,318      context-switches          <span style="color:#998;font-style:italic">#    6.068 K/sec                    ( +-  4.65% )</span>
-</span></span><span style="display:flex;"><span>             1,022      cpu-migrations            <span style="color:#998;font-style:italic">#  465.636 /sec                     ( +-  7.66% )</span>
-</span></span><span style="display:flex;"><span>           191,164      page-faults               <span style="color:#998;font-style:italic">#   87.097 K/sec                    ( +-  1.66% )</span>
-</span></span><span style="display:flex;"><span>     6,180,096,296      cycles                    <span style="color:#998;font-style:italic">#    2.816 GHz                      ( +-  0.58% )</span>
-</span></span><span style="display:flex;"><span>     2,814,759,285      instructions              <span style="color:#998;font-style:italic">#    0.44  insn per cycle           ( +-  0.55% )</span>
-</span></span><span style="display:flex;"><span>       522,446,609      branches                  <span style="color:#998;font-style:italic">#  238.033 M/sec                    ( +-  0.53% )</span>
-</span></span><span style="display:flex;"><span>         3,255,157      branch-misses             <span style="color:#998;font-style:italic">#    0.63% of all branches          ( +-  1.01% )</span>
-</span></span><span style="display:flex;"><span>       886,619,049      L1-dcache-loads           <span style="color:#998;font-style:italic">#  403.955 M/sec                    ( +-  0.44% )</span>
-</span></span><span style="display:flex;"><span>   &lt;not supported&gt;      L1-dcache-load-misses
-</span></span><span style="display:flex;"><span>        33,985,463      LLC-loads                 <span style="color:#998;font-style:italic">#   15.484 M/sec                    ( +-  1.09% )</span>
-</span></span><span style="display:flex;"><span>         9,946,393      LLC-load-misses           <span style="color:#998;font-style:italic">#   29.66% of all LL-cache accesses  ( +-  3.42% )</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            0.7958 +- 0.0206 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +-  2.58% <span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre><h3 id="conclusion">conclusion</h3>
-<p>Based on the result, I think the <code>parallel</code> won't make too great improvement.<br>
-Seems the most time killer is not the <code>line counter</code>, it's the <code>filepath walker</code>.<br>
-But my result is very abbreviate, It effected by many factors (I'll do more test at the future)</p>
-<h2 id="optimize2---bufio-scanner-countline">Optimize2 - Bufio scanner countline</h2>
-<p><a href="https://github.com/abcdlsj/share/blob/fd5bb216a651246352a25d27ddc189396cdec13a/go/tally/main.go#L145-L182">tally - main.go#L145-L182</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span> Performance counter stats <span style="color:#000;font-weight:bold">for</span> <span style="color:#d14">&#39;/home/ubtu/.go/bin/tally .&#39;</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#099">10</span> runs<span style="color:#000;font-weight:bold">)</span>:
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>             22.23 msec task-clock                <span style="color:#998;font-style:italic">#    0.967 CPUs utilized            ( +-  1.89% )</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#099">67</span>      context-switches          <span style="color:#998;font-style:italic">#    2.905 K/sec                    ( +-  8.96% )</span>
-</span></span><span style="display:flex;"><span>                 <span style="color:#099">4</span>      cpu-migrations            <span style="color:#998;font-style:italic">#  173.427 /sec                     ( +- 11.33% )</span>
-</span></span><span style="display:flex;"><span>               <span style="color:#099">875</span>      page-faults               <span style="color:#998;font-style:italic">#   37.937 K/sec                    ( +-  0.33% )</span>
-</span></span><span style="display:flex;"><span>        71,646,295      cycles                    <span style="color:#998;font-style:italic">#    3.106 GHz                      ( +-  0.59% )</span>
-</span></span><span style="display:flex;"><span>       165,519,597      instructions              <span style="color:#998;font-style:italic">#    2.26  insn per cycle           ( +-  0.04% )</span>
-</span></span><span style="display:flex;"><span>        44,646,031      branches                  <span style="color:#998;font-style:italic">#    1.936 G/sec                    ( +-  0.03% )</span>
-</span></span><span style="display:flex;"><span>           364,548      branch-misses             <span style="color:#998;font-style:italic">#    0.82% of all branches          ( +-  0.25% )</span>
-</span></span><span style="display:flex;"><span>        30,861,725      L1-dcache-loads           <span style="color:#998;font-style:italic">#    1.338 G/sec                    ( +-  0.06% )</span>
-</span></span><span style="display:flex;"><span>   &lt;not supported&gt;      L1-dcache-load-misses
-</span></span><span style="display:flex;"><span>            75,727      LLC-loads                 <span style="color:#998;font-style:italic">#    3.283 M/sec                    ( +-  0.37% )</span>
-</span></span><span style="display:flex;"><span>            32,681      LLC-load-misses           <span style="color:#998;font-style:italic">#   42.57% of all LL-cache accesses  ( +-  0.81% )</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>          0.023000 +- 0.000407 seconds <span style="color:#0086b3">time</span> elapsed  <span style="color:#000;font-weight:bold">(</span> +-  1.77% <span style="color:#000;font-weight:bold">)</span>
-</span></span></code></pre><p>it's so <code>fast</code> than <a href="#tally">origin <code>counter</code> tally</a></p>
-<h2 id="optimize3---faster-filepath-walking">Optimize3 - Faster filepath walking</h2>
-<p>At the <a href="#optimize1---parallel"><code>Optimize1</code></a>, I found the <code>filepath.Walk</code> is the most time killer.<br>
-Based on this post <a href="https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/">You Don't Need a Library for File Walking in Go</a>, the result shows the <code>offical filepath walk</code> are faster enough. And I want to build <code>tally</code> without any <code>third-party dependencies</code>, so I won't use other faster <code>walkdir</code> library...<br>
-Currently, I use the <code>filepath.Walk</code> to <code>walking</code> dir, I'll modify to <code>filepth.Walkdir</code>, It's faster a little.</p>
-<p>I bench the two version (<code>filepath.Walk</code> and <code>filepath.Walkdir</code>) at my <code>Mbp16</code> using <a href="https://github.com/sharkdp/hyperfine">hyperfine</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>$ hyperfine <span style="color:#d14">&#39;tally_walk .&#39;</span> <span style="color:#d14">&#39;tally_walkdir .&#39;</span> --warmup <span style="color:#099">3</span>
-</span></span><span style="display:flex;"><span>Benchmark 1: tally_walk .
-</span></span><span style="display:flex;"><span>  Time <span style="color:#000;font-weight:bold">(</span>mean ± σ<span style="color:#000;font-weight:bold">)</span>:      3.035 s ±  0.519 s    <span style="color:#000;font-weight:bold">[</span>User: 0.594 s, System: 2.382 s<span style="color:#000;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span>  Range <span style="color:#000;font-weight:bold">(</span>min … max<span style="color:#000;font-weight:bold">)</span>:    2.419 s …  4.233 s    <span style="color:#099">10</span> runs
+<p>use <code>time</code> for benchmarks is not accurate enough.</p>
+<blockquote>
+<p><a href="https://stackoverflow.com/questions/9006596/is-the-unix-time-command-accurate-enough-for-benchmarks">stackoverflow - Is the UNIX <code>time</code> command accurate enough for benchmarks? [closed]</a></p>
+</blockquote>
+<blockquote>
+<p>TLDR: Can use <code>perf stat</code> to benchmarks<br>
+<code>perf stat -r 10 -d &lt;CMD&gt;</code></p>
+</blockquote>
+<p>There are also many of powerful tools for benchmarks.</p>
+<p>I use <code>hyperfine</code> for benchmarks at my <code>MacBook Pro 16 (2019)</code> machine.</p>
+<blockquote>
+<p><a href="https://github.com/sharkdp/hyperfine">hyperfine - Command-line benchmarking tool</a></p>
+</blockquote>
+<p><code>hyperfine</code> support warmup file system to reduce noise, and it can compare multiple commands and export to markdown. (very nice! :smile:)</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>hyperfine <span style="color:#d14">&#39;tokei .&#39;</span> <span style="color:#d14">&#39;scc .&#39;</span> <span style="color:#d14">&#39;tally .&#39;</span> --warmup <span style="color:#099">3</span> --export-markdown bench.md
+</span></span></code></pre><h3 id="small-repo">Small repo</h3>
+<p>I use the repo <a href="https://github.com/firecracker-microvm/firecracker">https://github.com/firecracker-microvm/firecracker</a> to do the benchmarks</p>
+<p>Results:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Command</th>
+<th style="text-align:right">Mean [ms]</th>
+<th style="text-align:right">Min [ms]</th>
+<th style="text-align:right">Max [ms]</th>
+<th style="text-align:right">Relative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>tokei .</code></td>
+<td style="text-align:right">36.2 ± 6.3</td>
+<td style="text-align:right">25.0</td>
+<td style="text-align:right">56.5</td>
+<td style="text-align:right">1.00</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>scc .</code></td>
+<td style="text-align:right">41.0 ± 7.7</td>
+<td style="text-align:right">28.0</td>
+<td style="text-align:right">58.9</td>
+<td style="text-align:right">1.13 ± 0.29</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>tally .</code></td>
+<td style="text-align:right">114.4 ± 4.8</td>
+<td style="text-align:right">108.5</td>
+<td style="text-align:right">123.6</td>
+<td style="text-align:right">3.16 ± 0.57</td>
+</tr>
+</tbody>
+</table>
+<p>We can see, the origin version is not fast enough. but I thought it's already usable.</p>
+<p>Let's see large repo.</p>
+<h3 id="large-repo">Large repo</h3>
+<p>Use <a href="https://github.com/moby/moby">https://github.com/moby/moby</a></p>
+<p>Results:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Command</th>
+<th style="text-align:right">Mean [ms]</th>
+<th style="text-align:right">Min [ms]</th>
+<th style="text-align:right">Max [ms]</th>
+<th style="text-align:right">Relative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>tokei .</code></td>
+<td style="text-align:right">447.5 ± 60.5</td>
+<td style="text-align:right">385.4</td>
+<td style="text-align:right">541.4</td>
+<td style="text-align:right">1.30 ± 0.21</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>scc .</code></td>
+<td style="text-align:right">343.7 ± 29.4</td>
+<td style="text-align:right">296.0</td>
+<td style="text-align:right">399.3</td>
+<td style="text-align:right">1.00</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>tally .</code></td>
+<td style="text-align:right">1038.1 ± 77.2</td>
+<td style="text-align:right">947.3</td>
+<td style="text-align:right">1173.8</td>
+<td style="text-align:right">3.02 ± 0.34</td>
+</tr>
+</tbody>
+</table>
+<p>Okay, seems there had a relatively large gap between <code>tokei/scc</code> and <code>tally</code>.</p>
+<h2 id="optimize1---improve-the-code">Optimize1 - Improve the code</h2>
+<p>My first version is very simple and it's just support inline comments, and use <code>split</code> to count lines.</p>
+<p>There have two optimal point:</p>
+<ol>
+<li>Use <code>Bufio.Scanner</code> to readline</li>
+<li>Support multiple comments</li>
+</ol>
+<p>For these two, can see the commits <a href="https://github.com/abcdlsj/share/commits/master/go/tally">https://github.com/abcdlsj/share/commits/master/go/tally</a></p>
+<p>There's nothing to say here.</p>
+<h3 id="compare">Compare</h3>
+<ul>
+<li>Small repo</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Command</th>
+<th style="text-align:right">Mean [ms]</th>
+<th style="text-align:right">Min [ms]</th>
+<th style="text-align:right">Max [ms]</th>
+<th style="text-align:right">Relative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>tally .</code></td>
+<td style="text-align:right">70.2 ± 5.9</td>
+<td style="text-align:right">56.4</td>
+<td style="text-align:right">86.1</td>
+<td style="text-align:right">1.00</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>tally1 .</code></td>
+<td style="text-align:right">119.9 ± 11.3</td>
+<td style="text-align:right">108.5</td>
+<td style="text-align:right">151.2</td>
+<td style="text-align:right">1.71 ± 0.22</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Large repo</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Command</th>
+<th style="text-align:right">Mean [s]</th>
+<th style="text-align:right">Min [s]</th>
+<th style="text-align:right">Max [s]</th>
+<th style="text-align:right">Relative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>tally .</code></td>
+<td style="text-align:right">1.073 ± 0.129</td>
+<td style="text-align:right">0.892</td>
+<td style="text-align:right">1.295</td>
+<td style="text-align:right">1.00</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>tally1 .</code></td>
+<td style="text-align:right">1.113 ± 0.139</td>
+<td style="text-align:right">0.928</td>
+<td style="text-align:right">1.277</td>
+<td style="text-align:right">1.04 ± 0.18</td>
+</tr>
+</tbody>
+</table>
+<p>We can see, for the small repo the gap is smaller. use <code>bufio.Scanner</code> is very effective. but for large repo, it seems not very effective.</p>
+<h2 id="optimize2---faster-filepath-walking">Optimize2 - Faster filepath walking</h2>
+<p>Based on this post <a href="https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/">You Don't Need a Library for File Walking in Go</a>, the result shows the <code>offical filepath walk</code> are faster enough. And I want to build <code>tally</code> without any <code>third-party dependencies</code>, so I won't use other faster <code>walkdir</code> library.</p>
+<p>Currently, I use the <code>filepath.Walk</code> to <code>walking</code> dir, use <code>filepth.Walkdir</code> will be faster a little.</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>&gt; hyperfine <span style="color:#d14">&#39;tally .&#39;</span> <span style="color:#d14">&#39;tally_walkdir .&#39;</span> --warmup <span style="color:#099">3</span>
+</span></span><span style="display:flex;"><span>Benchmark 1: tally .
+</span></span><span style="display:flex;"><span>  Time <span style="color:#000;font-weight:bold">(</span>mean ± σ<span style="color:#000;font-weight:bold">)</span>:      66.4 ms ±   6.6 ms    <span style="color:#000;font-weight:bold">[</span>User: 21.8 ms, System: 43.0 ms<span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>  Range <span style="color:#000;font-weight:bold">(</span>min … max<span style="color:#000;font-weight:bold">)</span>:    58.0 ms …  82.8 ms    <span style="color:#099">37</span> runs
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Benchmark 2: tally_walkdir .
-</span></span><span style="display:flex;"><span>  Time <span style="color:#000;font-weight:bold">(</span>mean ± σ<span style="color:#000;font-weight:bold">)</span>:      2.475 s ±  0.500 s    <span style="color:#000;font-weight:bold">[</span>User: 0.510 s, System: 1.924 s<span style="color:#000;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span>  Range <span style="color:#000;font-weight:bold">(</span>min … max<span style="color:#000;font-weight:bold">)</span>:    2.100 s …  3.780 s    <span style="color:#099">10</span> runs
+</span></span><span style="display:flex;"><span>  Time <span style="color:#000;font-weight:bold">(</span>mean ± σ<span style="color:#000;font-weight:bold">)</span>:      62.8 ms ±   8.1 ms    <span style="color:#000;font-weight:bold">[</span>User: 21.5 ms, System: 39.1 ms<span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>  Range <span style="color:#000;font-weight:bold">(</span>min … max<span style="color:#000;font-weight:bold">)</span>:    51.8 ms …  89.9 ms    <span style="color:#099">43</span> runs
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Summary
 </span></span><span style="display:flex;"><span>  tally_walkdir . ran
-</span></span><span style="display:flex;"><span>    1.23 ± 0.32 <span style="color:#0086b3">times</span> faster than tally_walk .
-</span></span></code></pre><h2 id="end">End</h2>
+</span></span><span style="display:flex;"><span>    1.06 ± 0.17 <span style="color:#0086b3">times</span> faster than tally .
+</span></span></code></pre><p>(Just a small improvement, So I won't commit the change.)</p>
+<h2 id="optimize3---parallelism">Optimize3 - Parallelism</h2>
+<h3 id="implement">Implement</h3>
+<p><code>Go</code> supports concurrency perfectly, we can use the parttern named <code>Fanout</code> to <code>allocate</code> file to <code>worker</code>.</p>
+<p>We follow there steps:</p>
+<ol>
+<li>Passing variables via <code>channel</code></li>
+<li><code>Walk</code> dir will send files firstly to <code>channel</code></li>
+<li>Use multiple <code>worker</code> to <code>read</code> files from <code>channel</code></li>
+<li>Use <code>sync.WaitGroup</code> to <code>wait</code> for <code>worker</code> done</li>
+<li>Use <code>mutex</code> to <code>lock</code> the <code>result</code> data</li>
+</ol>
+<p>These are changes:</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#999">diff --git a/go/tally/main.go b/go/tally/main.go
+</span></span></span><span style="display:flex;"><span><span style="color:#999">index f184b31..23f5fae 100644
+</span></span></span><span style="display:flex;"><span><span style="color:#999"></span><span style="color:#000;background-color:#fdd">--- a/go/tally/main.go
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+++ b/go/tally/main.go
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span><span style="color:#aaa">@@ -6,8 +6,10 @@ import (
+</span></span></span><span style="display:flex;"><span><span style="color:#aaa"></span> 	&#34;fmt&#34;
+</span></span><span style="display:flex;"><span> 	&#34;os&#34;
+</span></span><span style="display:flex;"><span> 	&#34;path/filepath&#34;
+</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	&#34;runtime&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	&#34;sort&#34;
+</span></span><span style="display:flex;"><span> 	&#34;strings&#34;
+</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	&#34;sync&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> )
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span> type Counter struct {
+</span></span><span style="display:flex;"><span><span style="color:#aaa">@@ -48,18 +50,29 @@ func init() {
+</span></span></span><span style="display:flex;"><span><span style="color:#aaa"></span> 		}
+</span></span><span style="display:flex;"><span> 	}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	result = NewResult()
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+	result = &amp;Result{
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		data: make([]Item, registedNum),
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	}
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span> var result *Result
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-func main() {
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	if len(os.Args) &lt; 2 {
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-		fmt.Println(&#34;Usage: tally &lt;path&gt;&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-		os.Exit(1)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+var fileChan = make(chan string, 100)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+func process(dir string) {
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	var wg sync.WaitGroup
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	wg.Add(runtime.NumCPU() * 2)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	for i := 0; i &lt; runtime.NumCPU()*2; i++ {
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		go func() {
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			defer wg.Done()
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			for file := range fileChan {
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+				countLine(file)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			}
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		}()
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	filepath.Walk(os.Args[1], func(path string, info os.FileInfo, err error) error {
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 		if err != nil {
+</span></span><span style="display:flex;"><span> 			panic(err)
+</span></span><span style="display:flex;"><span> 		}
+</span></span><span style="display:flex;"><span><span style="color:#aaa">@@ -68,9 +81,24 @@ func main() {
+</span></span></span><span style="display:flex;"><span><span style="color:#aaa"></span> 			return nil
+</span></span><span style="display:flex;"><span> 		}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-		return countLine(path)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+		fileChan &lt;- path
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		return nil
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	})
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	close(fileChan)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	wg.Wait()
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+}
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+func main() {
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	if len(os.Args) &lt; 2 {
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		fmt.Println(&#34;Usage: tally &lt;path&gt;&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		os.Exit(1)
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	}
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	process(os.Args[1])
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	result.String()
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#aaa">@@ -95,16 +123,13 @@ func mergeItem(a, b Item) Item {
+</span></span></span><span style="display:flex;"><span><span style="color:#aaa"></span> }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span> type Result struct {
+</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	mu   sync.Mutex
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	data []Item
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-func NewResult() *Result {
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	return &amp;Result{
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-		data: make([]Item, registedNum),
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	}
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-}
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span> func (r *Result) Add(c Counter, item Item) {
+</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	r.mu.Lock()
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	defer r.mu.Unlock()
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	r.data[c.idx-1] = mergeItem(r.data[c.idx-1], item)
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#aaa">@@ -174,6 +199,7 @@ func guessLang(file string) Counter {
+</span></span></span><span style="display:flex;"><span><span style="color:#aaa"></span> func countLine(path string) error {
+</span></span><span style="display:flex;"><span> 	f, err := os.Open(path)
+</span></span><span style="display:flex;"><span> 	scanner := bufio.NewScanner(f)
+</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
+</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	if err != nil {
+</span></span><span style="display:flex;"><span> 		return err
+</span></span><span style="display:flex;"><span> 	}
+</span></span></code></pre><p>The <code>fileChan</code> size is 100, the worker number is 2 * <code>CPU number</code>. I don't do much test here.</p>
+<p>According common knowledge</p>
+<ul>
+<li>CPU-bound task, the number of workers should not exceed the number of logical CPU cores available, as having more workers than cores will not improve performance and may even degrade it due to context switching</li>
+<li>I/O-bound tasks, more workers than CPU cores is probably a good idea, because I/O operations often block, allowing other workers to proceed with their tasks</li>
+</ul>
+<h3 id="benchmark-1">Benchmark</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Command</th>
+<th style="text-align:right">Mean [ms]</th>
+<th style="text-align:right">Min [ms]</th>
+<th style="text-align:right">Max [ms]</th>
+<th style="text-align:right">Relative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>tally .</code></td>
+<td style="text-align:right">65.6 ± 6.1</td>
+<td style="text-align:right">56.8</td>
+<td style="text-align:right">85.1</td>
+<td style="text-align:right">1.89 ± 0.33</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>tally_fanout .</code></td>
+<td style="text-align:right">34.8 ± 5.2</td>
+<td style="text-align:right">26.9</td>
+<td style="text-align:right">53.2</td>
+<td style="text-align:right">1.00</td>
+</tr>
+</tbody>
+</table>
+<p>Use <code>Fanout</code> pattern will speed up a lot.</p>
+<h2 id="optimize4---use-pprof">Optimize4 - Use Pprof</h2>
+<p>TODO...</p>
+<h2 id="end">End</h2>
 <p><strong>Not the end</strong><br>
-The post is just a learning progress, you can find source code at <a href="https://github.com/abcdlsj/share/tree/master/go/tally">github - abcdlsj/tally</a><br>
-I'll do more test and optimize at the future.</p>
+The post is just a learning progress, you can find source code at <a href="https://github.com/abcdlsj/share/tree/master/go/tally">github - abcdlsj/tally</a></p>
+<p>I'll do more test and optimize at the future.</p>
 <h2 id="ref">Ref</h2>
 <p><a href="https://github.com/boyter/scc/">https://github.com/boyter/scc/</a><br>
 <a href="https://boyter.org/posts/sloc-cloc-code/">https://boyter.org/posts/sloc-cloc-code/</a><br>
