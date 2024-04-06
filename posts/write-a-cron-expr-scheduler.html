@@ -50,8 +50,31 @@
           
         </nav>
          
-        <hr class="divider" />
-        <div class="post-toc"><ul>
+        <script>
+          var tocContent = document.getElementById("toc-content");
+        
+          // 监听页面滚动事件
+          window.addEventListener("scroll", function () {
+            var scrollPosition = window.scrollY || window.pageYOffset;
+        
+            // 保持TocContent在侧边栏顶部
+            tocContent.style.top = scrollPosition + "px";
+          });
+        
+          // 监听目录链接点击事件
+          tocContent.addEventListener("click", function (event) {
+            if (event.target.tagName === "A") {
+              event.preventDefault();
+              var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
+              var targetElement = document.getElementById(targetId);
+              if (targetElement) {
+                targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
+              }
+            }
+          });
+        </script>
+        <div class="sidebar">
+          <div class="post-toc"><ul>
 <li>
 TOC<ul>
 <li>
@@ -61,17 +84,17 @@ TOC<ul>
 <li>
 <a href="#implementation">Implementation</a><ul>
 <li>
-<a href="#field">field</a></li>
+<a href="#field-definition">Field definition</a></li>
 <li>
-<a href="#expr">expr</a></li>
+<a href="#expr-structure">Expr structure</a></li>
 <li>
-<a href="#match">match</a></li>
+<a href="#match-time">Match time</a></li>
 <li>
-<a href="#parse">parse</a></li>
+<a href="#parse-rule">Parse rule</a></li>
 <li>
-<a href="#compose">compose</a></li>
+<a href="#compose">Compose</a></li>
 <li>
-<a href="#nextnextnnotify">next/nextn/notify</a></li>
+<a href="#function---nextnextnnotify">Function - Next/Nextn/Notify</a></li>
 </ul>
 </li>
 <li>
@@ -80,6 +103,7 @@ TOC<ul>
 </li>
 </ul>
 </div>
+        </div>
          
       </div>
       <hr class="divider" />
@@ -205,7 +229,7 @@ TOC<ul>
 <p>所以其实可以复用同一套规则，然后分别 <code>parse</code> 就可以了</p>
 <h2 id="implementation">Implementation</h2>
 <p>开始实现</p>
-<h3 id="field">field</h3>
+<h3 id="field-definition">Field definition</h3>
 <p>首先定义 <code>field</code>，以及实现一个 <code>limit</code> 方法，返回其上下限</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> field <span style="color:#458;font-weight:bold">int</span>
 </span></span><span style="display:flex;"><span>
@@ -232,7 +256,7 @@ TOC<ul>
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>, <span style="color:#099">0</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><h3 id="expr">expr</h3>
+</span></span></code></pre><h3 id="expr-structure">Expr structure</h3>
 <p><code>Expr</code> 的结构体该怎么定义呢，它本身应该有一个 <code>expr</code> 代表表达式字符串</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Cronexpr <span style="color:#000;font-weight:bold">struct</span> {
 </span></span><span style="display:flex;"><span>	expr     <span style="color:#458;font-weight:bold">string</span>
@@ -248,7 +272,7 @@ TOC<ul>
 <ol start="4">
 <li><code>Notify(ctx, outchan)</code> 类似于这样的函数定义，<code>ctx</code> 用来控制函数的退出，会在 <code>Cron</code> 触发时发送到 <code>outchan</code></li>
 </ol>
-<h3 id="match">match</h3>
+<h3 id="match-time">Match <code>time</code></h3>
 <p>到目前为止，我都没有写到具体是怎样的思路去实现「获取 Cron 触发的时间」</p>
 <p>「获取」Cron 触发时间关键在于「判断」时间是否符合某个 Cron 表达式</p>
 <p>并且，不管是 <code>weekday</code> or <code>day</code> or <code>month</code> or <code>hour</code> or <code>minute</code> 都是根据规则「枚举」出符合要求的值，解析出枚举过程放在 <code>parse</code> 函数中</p>
@@ -279,7 +303,7 @@ TOC<ul>
 </span></span><span style="display:flex;"><span>		<span style="color:#900;font-weight:bold">contains</span>(m.weekday, <span style="color:#0086b3">int</span>(t.<span style="color:#900;font-weight:bold">Weekday</span>()))
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><p>很简单的实现，只要 <code>Time</code> 都分别在 <code>minute</code> <code>hour</code> <code>day</code> <code>month</code> <code>weekday</code> 各个的枚举值内就代表这个时间符合要求</p>
-<h3 id="parse">parse</h3>
+<h3 id="parse-rule">Parse <code>rule</code></h3>
 <p><code>parse</code> 函数用于返回枚举值，然后保存在 <code>matches</code> 里，返回 <code>[]int</code>（简化了上下限的检查）</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">parse</span>(rule <span style="color:#458;font-weight:bold">string</span>, f field) ([]<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">error</span>) {
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(rule) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> {
@@ -316,7 +340,7 @@ TOC<ul>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> matches, <span style="color:#000;font-weight:bold">nil</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><h3 id="compose">compose</h3>
+</span></span></code></pre><h3 id="compose">Compose</h3>
 <p>因为使用表达式解析器的入口是 <code>Cronexpr</code>，所以 <code>matches</code> 应该是 <code>Cronexpr</code> 的字段</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NewExpr</span>(expr <span style="color:#458;font-weight:bold">string</span>) <span style="color:#000;font-weight:bold">*</span>Cronexpr {
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">&amp;</span>Cronexpr{
@@ -350,7 +374,7 @@ TOC<ul>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><p>这里利用辅助函数简化了代码（ps. <code>MustXxx</code> 在开源项目里很普遍）<br>
 <code>Cronexpr</code> 的 <code>accurate</code> 含义等下会解释</p>
-<h3 id="nextnextnnotify">next/nextn/notify</h3>
+<h3 id="function---nextnextnnotify">Function - Next/Nextn/Notify</h3>
 <p>到了使用的入口函数了</p>
 <p><code>Next()</code> or <code>NextN(n)</code> 需要实现这样一个方法 <code>nextN(n)</code></p>
 <p>通过 <code>matches</code> 我们知道了，我们可以判断某个 <code>Time</code> 是否符合 <code>Cronexpr</code> 的触发时间</p>
