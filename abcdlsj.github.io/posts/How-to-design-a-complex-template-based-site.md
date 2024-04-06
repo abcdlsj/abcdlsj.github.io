@@ -5,7 +5,7 @@ tags:
   - TailwindCSS
   - Template
   - WIP
-hide: false
+hide: true
 wip: true
 ---
 

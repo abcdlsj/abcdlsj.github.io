@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+<meta charset="UTF-8" />
+<title>abcdlsj</title>
+<meta name="description" content="Enjoy Focus!" />
+<meta name="author" content="Author" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+/>
+<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="stylesheet" href="/static/style.css" />
+<script
+  defer
+  src="https://us.umami.is/script.js"
+  data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"
+></script>
+
+  </head>
+  <body class="container">
+    <main>
+      <div class="navbar">
+<nav class="navbar">
+  
+  <ul>
+    <li>
+      <a href="/" class="menu">#Home</a>
+    </li>
+  </ul>
+  
+  <ul>
+    <li>
+      <a href="/about" class="menu">#About</a>
+    </li>
+  </ul>
+  
+</nav>
+</div>
+      <hr class="divider" />
+      <h1 class="post-single-title">Graceful upgrade - how to implement</h1>
+      <hr class="divider" />
+      <div class="post-meta">
+        <div class="post-date">Date: 2024-04-06T12:47:37+08:00</div>
+        <nav class="post-tags">
+          
+          <a href="/tags/graceful-upgrade.html" class="tag">#Graceful-Upgrade</a>
+          
+          <a href="/tags/network.html" class="tag">#Network</a>
+          
+          <a href="/tags/wip.html" class="tag">#WIP</a>
+          
+        </nav>
+         
+        <script>
+          var tocContent = document.getElementById("toc-content");
+        
+          // 监听页面滚动事件
+          window.addEventListener("scroll", function () {
+            var scrollPosition = window.scrollY || window.pageYOffset;
+        
+            // 保持TocContent在侧边栏顶部
+            tocContent.style.top = scrollPosition + "px";
+          });
+        
+          // 监听目录链接点击事件
+          tocContent.addEventListener("click", function (event) {
+            if (event.target.tagName === "A") {
+              event.preventDefault();
+              var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
+              var targetElement = document.getElementById(targetId);
+              if (targetElement) {
+                targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
+              }
+            }
+          });
+        </script>
+        <div class="sidebar">
+          <div class="post-toc"><ul>
+<li>
+TOC<ul>
+<li>
+<ul>
+<li>
+<a href="#background">Background</a></li>
+<li>
+<a href="#what-is-graceful-upgrade">What is graceful upgrade?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+         
+      </div>
+      <hr class="divider" />
+      <div class="post-content">
+        <article><p>COMMING SOON...</p>
+<h3 id="background">Background</h3>
+<p>之前实现过一个 <code>proxy</code> 工具，和 <code>Ngrok</code> 和 <code>Frp</code> 很类似，用于端口转发（具体如何实现的，可以看这个链接 <a href="https://abcdlsj.github.io/posts/gnar-build-a-proxy.html">Gnar - Build a tunnel tool like frp/ngrok</a></p>
+<p>工具本身还是「可以用」的，我自己有时候也会使用，但是个人使用上有几个地方其实感觉不是特别好</p>
+<ul>
+<li>配置项比较多而且麻烦
+<ul>
+<li>比如 <code>server-addr</code>、<code>local-port</code>、<code>remote-port</code> 之类的，每个都有 <code>cmd flag</code> 标定太臃肿了，可以用更简洁的配置来 <code>parse</code>，比如可以用 <code>gnar -c &lt;server-addr&gt;:tcp(&lt;local-port&gt;:&lt;remote-port):&lt;token&gt;</code> 这种格式</li>
+<li>不变量可以做一些 <code>global set</code>，支持 <code>gnar set --global &lt;key&gt;=&lt;value&gt;</code> 写入到 <code>$HOME/.config/gnar</code> 目录作为默认配置，更进一步，可以类似于 <code>gitconfig</code> 配置做到目录级别</li>
+</ul>
+</li>
+<li>不支持「平滑升级」，<code>server</code> 端如果有版本更新，那么就需要重启 <code>server</code> 端才能生效，但是 <code>client</code> 端无法连接上 <code>server</code> 就会断开，如果实现了优雅升级（graceful upgrade），就不会导致连接断开的情况了</li>
+</ul>
+<blockquote>
+<p>BTW. 目前 <code>server</code> 配置里比如 <code>token</code>、<code>port</code>、<code>domain</code> 等「更新」都会导致 <code>client</code> 连接出现问题，所以优雅升级也只是作为 <code>feature</code>，不太实用<br>
+这里主要还是想找实际的例子来实操优雅升级，刚好之前写过这样一个服务，就可以动动手实现下</p>
+</blockquote>
+<h3 id="what-is-graceful-upgrade">What is <code>graceful upgrade</code>?</h3>
+<blockquote>
+<p>代表「升级」是在「不中断」的情况下进行的，放在 <code>Web Service</code> 这个语境下就是升级过程中，服务端依旧提供服务，客户端对于服务升级本身无感知</p>
+</blockquote>
+</article>
+      </div>
+      <hr class="divider" />
+      <!-- 
+<footer class="footer">
+  <p class="footer-author">
+    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
+  </p>
+  <p class="footer-proj">
+    Source
+    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
+  </p>
+</footer>
+ -->
+    </main>
+  </body>
+</html>

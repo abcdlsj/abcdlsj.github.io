@@ -154,10 +154,16 @@ func init() {
 
 func RenderIndex() {
 	posts := make([]Post, 0, len(Posts))
-
 	for _, post := range Posts {
 		if !post.Meta.Hide {
 			posts = append(posts, post)
+		}
+	}
+
+	wipPosts := make([]Post, 0, len(WipPosts))
+	for _, post := range WipPosts {
+		if !post.Meta.Hide {
+			wipPosts = append(wipPosts, post)
 		}
 	}
 
@@ -168,7 +174,7 @@ func RenderIndex() {
 	}{
 		Site:     cfgVar,
 		Posts:    posts,
-		WipPosts: WipPosts,
+		WipPosts: wipPosts,
 	}
 
 	if err := render(t, data, path.Join(cfgVar.Build.Output, "index.html"), "index"); err != nil {
