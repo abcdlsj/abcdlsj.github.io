@@ -4,6 +4,7 @@ date: 2023-10-29T23:51:37+08:00
 tags:
   - Cron
 hide: false
+tocPosition: left-sidebar
 ---
 ## Background
 
@@ -56,7 +57,7 @@ hide: false
 ## Implementation
 开始实现
 
-### field
+### Field definition
 首先定义 `field`，以及实现一个 `limit` 方法，返回其上下限
 ```go
 type field int
@@ -86,7 +87,7 @@ func (f field) limit() (int, int) {
 }
 ```
 
-### expr
+### Expr structure
 
 `Expr` 的结构体该怎么定义呢，它本身应该有一个 `expr` 代表表达式字符串
 ```go
@@ -104,7 +105,7 @@ type Cronexpr struct {
 
 4. `Notify(ctx, outchan)` 类似于这样的函数定义，`ctx` 用来控制函数的退出，会在 `Cron` 触发时发送到 `outchan`
 
-### match
+### Match `time`
 到目前为止，我都没有写到具体是怎样的思路去实现「获取 Cron 触发的时间」
 
 「获取」Cron 触发时间关键在于「判断」时间是否符合某个 Cron 表达式
@@ -145,7 +146,7 @@ func (m Matches) Match(t time.Time) bool {
 ```
 很简单的实现，只要 `Time` 都分别在 `minute` `hour` `day` `month` `weekday` 各个的枚举值内就代表这个时间符合要求
 
-### parse
+### Parse `rule`
 `parse` 函数用于返回枚举值，然后保存在 `matches` 里，返回 `[]int`（简化了上下限的检查）
 
 ```go
@@ -186,7 +187,7 @@ func parse(rule string, f field) ([]int, error) {
 }
 ```
 
-### compose
+### Compose 
 
 因为使用表达式解析器的入口是 `Cronexpr`，所以 `matches` 应该是 `Cronexpr` 的字段
 ```go
@@ -224,7 +225,7 @@ func newMatches(expr string) Matches {
 这里利用辅助函数简化了代码（ps. `MustXxx` 在开源项目里很普遍）
 `Cronexpr` 的 `accurate` 含义等下会解释
 
-### next/nextn/notify
+### Function - Next/Nextn/Notify
 到了使用的入口函数了
 
 `Next()` or `NextN(n)` 需要实现这样一个方法 `nextN(n)`
