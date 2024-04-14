@@ -229,14 +229,19 @@ Luckily, there is a workaround available. You can escape the `/` characters as `
 
 You can find this version of the code at [readability - 909fcb5e80fe](https://github.com/abcdlsj/share/tree/909fcb5e80fef9ecfaf68259ae98fb6694d3e984/go/readability). Please note that there are some additional adjustments made as well.
 
+## Pictures
+After adding some simple `CSS` to the `HTML template`, you will see the result:
+
+<img alt="homepage" src="/static/img/readability_screenshot2.png" width="100%" style="border: 1px solid gray;">
+
+<img alt="article page" src="/static/img/readability_screenshot.png" width="100%"  style="border: 1px solid gray;">
+
+> Update: 
+> - Add Recently Viewed (`Redis` cache, `zset` store view count, `list` store recently viewed, [commit](https://github.com/abcdlsj/share/commit/08837c71ff065791a400b976fa23ca2fd338d5bc))
+
+<img alt="`recently` homepage" src="/static/img/readability_screenshot3.png" width="100%"  style="border: 1px solid gray;">
+
 ## Conclusion
-This is a small weekend project. After adding some simple `CSS` to the `HTML template`, you will see the result:
-
-**Updated: 2023-10-29**
-- **index page**
-<img src="/static/img/readability_screenshot2.png" width="800">
-
-- **reading page**
-<img src="/static/img/readability_screenshot.png" width="800">
+This is a small weekend project. 
 
 Thanks for reading!

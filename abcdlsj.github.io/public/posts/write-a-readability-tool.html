@@ -79,6 +79,8 @@ TOC<ul>
 </ul>
 </li>
 <li>
+<a href="#pictures">Pictures</a></li>
+<li>
 <a href="#conclusion">Conclusion</a></li>
 </ul>
 </li>
@@ -269,19 +271,19 @@ TOC<ul>
 </blockquote>
 <p>Luckily, there is a workaround available. You can escape the <code>/</code> characters as <code>%2F</code> to prevent the removal of double slashes during the redirect process.</p>
 <p>You can find this version of the code at <a href="https://github.com/abcdlsj/share/tree/909fcb5e80fef9ecfaf68259ae98fb6694d3e984/go/readability">readability - 909fcb5e80fe</a>. Please note that there are some additional adjustments made as well.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>This is a small weekend project. After adding some simple <code>CSS</code> to the <code>HTML template</code>, you will see the result:</p>
-<p><strong>Updated: 2023-10-29</strong></p>
+<h2 id="pictures">Pictures</h2>
+<p>After adding some simple <code>CSS</code> to the <code>HTML template</code>, you will see the result:</p>
+<img alt="homepage" src="/static/img/readability_screenshot2.png" width="100%" style="border: 1px solid gray;">
+<img alt="article page" src="/static/img/readability_screenshot.png" width="100%"  style="border: 1px solid gray;">
+<blockquote>
+<p>Update:</p>
 <ul>
-<li>
-<p><strong>index page</strong><br>
-<img src="/static/img/readability_screenshot2.png" width="800"></p>
-</li>
-<li>
-<p><strong>reading page</strong><br>
-<img src="/static/img/readability_screenshot.png" width="800"></p>
-</li>
+<li>Add Recently Viewed (<code>Redis</code> cache, <code>zset</code> store view count, <code>list</code> store recently viewed, <a href="https://github.com/abcdlsj/share/commit/08837c71ff065791a400b976fa23ca2fd338d5bc">commit</a>)</li>
 </ul>
+</blockquote>
+<img alt="`recently` homepage" src="/static/img/readability_screenshot3.png" width="100%"  style="border: 1px solid gray;">
+<h2 id="conclusion">Conclusion</h2>
+<p>This is a small weekend project.</p>
 <p>Thanks for reading!</p>
 </article>
       </div>

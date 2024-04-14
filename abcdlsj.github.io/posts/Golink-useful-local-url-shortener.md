@@ -48,13 +48,11 @@ nohup golink &
 
 ## View
 
-- **Screenshot**
-<img src="/static/img/golink-screenshot.png" width="800">
+<img alt="golink screenshot" src="/static/img/golink-screenshot.png" width="100%" style="border: 1px solid gray;">
 
 You also can add a `Chrome Site-search` to make it easier to use.
 
-- **Chrome Site-search setting**
-<img src="/static/img/golink-chrome-site-search.png" width="800">
+<img alt="Chrome Site-search setting" src="/static/img/golink-chrome-site-search.png" width="100%" style="border: 1px solid gray;">
 
 ## End
 

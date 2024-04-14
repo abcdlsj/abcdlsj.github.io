@@ -14,7 +14,7 @@ I had try to build many of `Go` simple site, Like `Golink`, `GProbe` and so on.
 But it's not secure enough, and very easy to be attacked.
 At these days, I want to build a `Pastebin` website and its need with powerful **Security**.
 
-## Let us build Pasty
+## Let's building
 
 Its all old way like I posted before. 
 - `Go` serve HTTP endpoints.
@@ -186,7 +186,7 @@ Add this to `head` element.
 
 ### Run it!
 
-<img src="/static/img/pasty-1.png" width="800">
+<img alt="pasty screenshot1" src="/static/img/pasty-1.png" width="100%" style="border: 1px solid gray;">
 
 Looks pretty good!
 > It's use `gg font` as `font-family`.
@@ -251,7 +251,7 @@ Using `Javascript` to `copy` the content.
 </html>
 ```
 This will have a copy button at `paste` content right top.
-<img src="/static/img/pasty-3.png" width="800">
+<img alt="pasty with copy button" src="/static/img/pasty-3.png" width="100%" style="border: 1px solid gray;">
 It's looks also pretty good!
 
 At the last step, we will to add `Turnstile`.
@@ -356,7 +356,7 @@ The result will contain `success`, can judge it by self.
 ### Look the site
 After add `Turnstile`, there will have a `Turnstile` validation at the `submit` button bottom.
 
-<img src="/static/img/pasty-2.png" width="800">
+<img alt="pasty with turnstile" src="/static/img/pasty-2.png" width="100%" style="border: 1px solid gray;">
 
 Ok, now we have protect our `form` with `Turnstile`.
 
@@ -556,7 +556,7 @@ func decryptStr(str string) ([]byte, error) {
 
 After setting GitHub application, you can see this page when first view index page.
 
-<img src="/static/img/pasty-4.png" width="800">
+<img alt="pasty github oauth page" src="/static/img/pasty-4.png" width="100%" style="border: 1px solid gray;">
 
 ## Done
 
