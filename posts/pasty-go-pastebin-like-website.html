@@ -84,7 +84,7 @@ TOC<ul>
 <li>
 <a href="#background">Background</a></li>
 <li>
-<a href="#let-us-build-pasty">Let us build Pasty</a><ul>
+<a href="#lets-building">Let's building</a><ul>
 <li>
 <a href="#endpoint-design">Endpoint design</a></li>
 <li>
@@ -136,7 +136,7 @@ TOC<ul>
 <p>I had try to build many of <code>Go</code> simple site, Like <code>Golink</code>, <code>GProbe</code> and so on.<br>
 But it's not secure enough, and very easy to be attacked.<br>
 At these days, I want to build a <code>Pastebin</code> website and its need with powerful <strong>Security</strong>.</p>
-<h2 id="let-us-build-pasty">Let us build Pasty</h2>
+<h2 id="lets-building">Let's building</h2>
 <p>Its all old way like I posted before.</p>
 <ul>
 <li><code>Go</code> serve HTTP endpoints.</li>
@@ -286,7 +286,7 @@ Add this to <code>head</code> element.</p>
 <pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/water.css@2/out/water.css&quot;&gt;
 </code></pre>
 <h3 id="run-it">Run it!</h3>
-<img src="/static/img/pasty-1.png" width="800">
+<img alt="pasty screenshot1" src="/static/img/pasty-1.png" width="100%" style="border: 1px solid gray;">
 <p>Looks pretty good!</p>
 <blockquote>
 <p>It's use <code>gg font</code> as <code>font-family</code>.</p>
@@ -349,7 +349,7 @@ Using <code>Javascript</code> to <code>copy</code> the content.</p>
 </span></span><span style="display:flex;"><span>  &lt;/<span style="color:#000080">body</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#000080">html</span>&gt;
 </span></span></code></pre><p>This will have a copy button at <code>paste</code> content right top.<br>
-<img src="/static/img/pasty-3.png" width="800"><br>
+<img alt="pasty with copy button" src="/static/img/pasty-3.png" width="100%" style="border: 1px solid gray;"><br>
 It's looks also pretty good!</p>
 <p>At the last step, we will to add <code>Turnstile</code>.</p>
 <h2 id="turnstile">Turnstile</h2>
@@ -437,7 +437,7 @@ This is the sample code.</p>
 </span></span></code></pre><p>The result will contain <code>success</code>, can judge it by self.</p>
 <h3 id="look-the-site">Look the site</h3>
 <p>After add <code>Turnstile</code>, there will have a <code>Turnstile</code> validation at the <code>submit</code> button bottom.</p>
-<img src="/static/img/pasty-2.png" width="800">
+<img alt="pasty with turnstile" src="/static/img/pasty-2.png" width="100%" style="border: 1px solid gray;">
 <p>Ok, now we have protect our <code>form</code> with <code>Turnstile</code>.</p>
 <h2 id="github-oauth">GitHub OAuth</h2>
 <p>After add <code>Turnstile</code>, I thought the site also too <code>open</code>, anyone can view it.<br>
@@ -613,7 +613,7 @@ So I just post code here.</p>
 <p>When a user concept exists,it may be necessary to add <code>User</code> functionality. Add the <code>User</code> field to the <code>Paste</code> structure and form and perform a <code>CRUD</code> with the logged in user.</p>
 </blockquote>
 <p>After setting GitHub application, you can see this page when first view index page.</p>
-<img src="/static/img/pasty-4.png" width="800">
+<img alt="pasty github oauth page" src="/static/img/pasty-4.png" width="100%" style="border: 1px solid gray;">
 <h2 id="done">Done</h2>
 <p>The all work is done, you can find the code at <a href="https://github.com/abcdlsj/pasty">github.com/abcdlsj/pasty</a>.</p>
 <p>Thanks for reading.</p>
