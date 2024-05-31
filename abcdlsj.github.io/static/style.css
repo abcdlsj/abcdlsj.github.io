@@ -71,7 +71,6 @@ pre code {
 .navbar a {
   color: var(--dark-ref-color);
   text-decoration: none;
-  font-weight: 500;
 }
 .navbar ul {
   display: flex;
@@ -79,7 +78,7 @@ pre code {
   padding: 0;
 }
 .navbar ul:not(:last-child) {
-  margin-right: 20px;
+  margin-right: 60px;
 }
 .navbar li:not(:last-child) {
   margin-right: 10px;

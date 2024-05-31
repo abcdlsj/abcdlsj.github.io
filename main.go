@@ -45,6 +45,11 @@ type CfgVar struct {
 		Output string `toml:"output"`
 		Static string `toml:"static"`
 	} `toml:"build"`
+	Hosts []struct {
+		Name   string `toml:"name"`
+		Dir    string `toml:"dir"`
+		Output string `toml:"output"`
+	} `toml:"host"`
 }
 
 func mustCfg(f string) CfgVar {
@@ -341,8 +346,10 @@ func main() {
 
 	TagMap = sortTagMap
 
+	CreateMenuOutputDirs()
 	Renders(RenderIndex, RenderPosts, RenderTags, RenderAbout)
 	CpStaticDirToOutput()
+	CpHostsDirToOutput()
 
 	fmt.Println(cr.PLCyan("All done!!!"))
 }
@@ -391,6 +398,19 @@ func getMetaBool(meta map[string]interface{}, key string) bool {
 	return false
 }
 
+func CreateMenuOutputDirs() {
+	fmt.Println(cr.PLCyan("Create menu output dirs"))
+	for _, menu := range cfgVar.Menus {
+		fmt.Printf("Create menu output dir: %s\n", menu.URL)
+		outputMenu := path.Join(cfgVar.Build.Output, menu.URL)
+		if err := os.MkdirAll(outputMenu, 0755); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	fmt.Println(cr.PLCyan("Create menu output dirs success"))
+}
+
 func CpStaticDirToOutput() {
 	outputStatic := path.Join(cfgVar.Build.Output, "static")
 	if err := os.RemoveAll(outputStatic); err != nil {
@@ -404,6 +424,24 @@ func CpStaticDirToOutput() {
 	}
 
 	fmt.Println(cr.PLCyan("Copy static dir success"))
+}
+
+func CpHostsDirToOutput() {
+	fmt.Println(cr.PLCyan("Copy hosts dir to output"))
+	for _, host := range cfgVar.Hosts {
+		fmt.Printf("Copy host: %s\n", host.Name)
+		outputHost := path.Join(cfgVar.Build.Output, host.Output)
+		if err := os.RemoveAll(outputHost); err != nil {
+			log.Fatal(err)
+		}
+		if err := os.MkdirAll(outputHost, 0755); err != nil {
+			log.Fatal(err)
+		}
+		if err := copy.Copy(host.Dir, outputHost); err != nil {
+			log.Fatal(err)
+		}
+	}
+	fmt.Println(cr.PLCyan("Copy hosts dir success"))
 }
 
 func Renders(fns ...func()) {

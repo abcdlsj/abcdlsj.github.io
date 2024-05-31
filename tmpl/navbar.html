@@ -3,7 +3,7 @@
   {{range .Site.Menus}}
   <ul>
     <li>
-      <a href="/{{.URL | urlize}}" class="menu">#{{.Name}}</a>
+      <a href="/{{.URL | urlize}}" class="menu">{{.Name}}</a>
     </li>
   </ul>
   {{end}}

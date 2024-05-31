@@ -12,7 +12,17 @@ slug = "about"
 name = "About"
 url = "about"
 
+[[menus]]
+slug = "hosts"
+name = "Hosts"
+url = "hosts"
+
 [build]
 posts = "abcdlsj.github.io/posts"
 output = "abcdlsj.github.io/public"
 static = "abcdlsj.github.io/static"
+
+[[host]]
+name = "DDIA"
+dir = "abcdlsj.github.io/submodules/ddia"
+output = "hosts/ddia"
