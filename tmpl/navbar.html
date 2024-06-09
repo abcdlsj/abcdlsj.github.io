@@ -1,9 +1,9 @@
 {{define "navbar"}}
 <nav class="navbar">
   {{range .Site.Menus}}
-  <ul>
+  <ul class="menu">
     <li>
-      <a href="/{{.URL | urlize}}" class="menu">{{.Name}}</a>
+      <a href="/{{.URL | urlize}}"  class="{{.Name | urlize}}">{{.Name}}</a>
     </li>
   </ul>
   {{end}}
