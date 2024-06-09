@@ -15,15 +15,17 @@ blockquote {
   padding: 0;
 }
 :root {
-  --light-border-color: #dee2e6;
-  --code-color: #007da6;
-  --href-color: #006e93;
-  --dark-ref-color: #008cba;
+  --light-border-color: #91969a;
+  --code-color: #d64b4b;
+  --href-color: #0eac8f;
+  --dark-ref-color: #186782;
+  --font-color: #000;
+  --light-dark-font-color: #565656;
 }
 body {
   display: flex;
   flex-direction: column;
-  font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.75;
   margin: auto;
   max-width: 60%;
@@ -34,15 +36,15 @@ body {
   position: relative;
 }
 a {
-  color: var(--href-color);
+  color: var(--font-color);
   text-decoration: none;
 }
 a:visited {
-  color: var(--href-color);
+  color: var(--font-color);
   text-decoration: underline;
 }
 a:hover {
-  color: var(--href-color);
+  color: var(--font-color);
   text-decoration: underline;
 }
 blockquote {
@@ -66,10 +68,10 @@ pre code {
 }
 .navbar {
   display: flex;
+  color: var(--font-color);
   justify-content: space-between;
 }
 .navbar a {
-  color: var(--dark-ref-color);
   text-decoration: none;
 }
 .navbar ul {
@@ -100,13 +102,12 @@ pre code {
   margin-bottom: 0px; /* 调整间距 */
 }
 .post-toc a {
-  color: var(--href-color);
   text-decoration: none;
   font-family: 'gg sans Medium';
   font-weight: 400;
 }
 .post-toc a:visited {
-  color: var(--href-color);
+  text-decoration: none;
 }
 .post-toc a:hover {
   text-decoration: underline;
@@ -122,13 +123,15 @@ pre code {
 }
 .post-content a {
   color: var(--href-color);
-  text-decoration: none;
+  text-decoration: underline;
   font-family: 'gg sans Medium';
-  font-weight: 600;
+  font-weight: 400;
 }
 .post-content a:visited {
   color: var(--href-color);
+  text-decoration: underline;
 }
+
 .post-content a:hover {
   text-decoration: underline;
 }
@@ -163,7 +166,6 @@ pre code {
   margin-right: 10px;
   margin-bottom: 0px;
 }
-
 .blog-title {
   font-size: 2em;
   font-family: 'gg sans Medium', 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -185,14 +187,16 @@ pre code {
   font-weight: 400;
 }
 .wip-headline {
+  color: var(--light-dark-font-color);
   font-size: 1.3em;
   font-family: 'gg sans Medium', 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 900;
 }
-.wip-post-title {
+.wip-post-title a {
+  color: var(--light-dark-font-color);
   font-size: 1em;
   font-family: 'gg sans Medium', 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 500;
+  font-weight: 400;
 }
 hr {
   background-color: var(--light-border-color);
