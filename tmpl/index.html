@@ -22,7 +22,6 @@
       {{range $i, $posts := .Posts}}
       <article class="post">
         <div class="post-meta">
-          <div class="post-date">Date: {{.Meta.Date}}</div>
           <nav class="post-tags">
             {{range $tag := .Meta.Tags}}
             <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
@@ -34,7 +33,7 @@
         </div>
       </article>
       {{if ne (add $i 1) (len $.Posts)}}
-        <hr class="shallower-divider">
+        <hr class="divider">
       {{end}}
       {{end}}
       <hr class="divider" />

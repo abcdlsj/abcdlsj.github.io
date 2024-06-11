@@ -1,5 +1,5 @@
 ---
-title: "Go Template - Tailwindcss"
+title: "Go Template + Tailwindcss = ❤️"
 date: 2024-02-24T10:47:37+08:00
 tags:
   - TailwindCSS
