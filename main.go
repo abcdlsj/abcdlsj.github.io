@@ -189,6 +189,7 @@ func RenderIndex() {
 
 func RenderPosts() {
 	for _, post := range append(Posts, WipPosts...) {
+		post.Site.Title = post.Meta.Title
 		if err := render(t, post, path.Join(cfgVar.Build.Output, "posts", post.Uname+".html"), "single"); err != nil {
 			log.Fatal(err)
 		}
