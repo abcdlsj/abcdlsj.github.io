@@ -1,5 +1,5 @@
 ---
-title: "From scratch: Write a cron expression library in Golang"
+title: "Write a s cron expression library in Golang"
 date: 2023-10-29T23:51:37+08:00
 tags:
   - Cron
