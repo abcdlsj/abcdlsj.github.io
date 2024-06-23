@@ -267,3 +267,8 @@ hr {
   align-items: center;
   color: white;
 }
+
+img {
+  max-width: 100%; /* 图片的最大宽度为其容器的100% */
+  height: auto; /* 让浏览器自动计算图片的高度，以保持图片比例 */
+}

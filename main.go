@@ -47,8 +47,10 @@ type CfgVar struct {
 	} `toml:"build"`
 	Hosts []struct {
 		Name   string `toml:"name"`
-		Dir    string `toml:"dir"`
+		Source string `toml:"source"`
 		Output string `toml:"output"`
+		Type   string `toml:"type"`
+		Header string `toml:"header"`
 	} `toml:"host"`
 }
 
@@ -70,6 +72,7 @@ var (
 			highlighting.Highlighting,
 			extension.GFM,
 			extension.Footnote,
+			extension.CJK,
 			&d2.Extender{
 				Layout:  d2dagrelayout.DefaultLayout,
 				ThemeID: d2themescatalog.NeutralDefault.ID,
@@ -83,8 +86,8 @@ var (
 	tocMd = goldmark.New(
 		goldmark.WithExtensions(
 			&toc.Extender{
-				MaxDepth: 4,
-				Title:    "TOC",
+				MaxDepth: 3,
+				Title:    "Table of Contents",
 			},
 		),
 		goldmark.WithParserOptions(parser.WithAutoHeadingID()),
@@ -294,6 +297,8 @@ func main() {
 
 	TagMap = make(map[string]Tag)
 
+	CpHostsDirToOutput()
+
 	posts, err := getAllFiles(cfgVar.Build.Posts)
 	if err != nil {
 		log.Fatal("open posts dir error ")
@@ -350,7 +355,6 @@ func main() {
 	CreateMenuOutputDirs()
 	Renders(RenderIndex, RenderPosts, RenderTags, RenderAbout)
 	CpStaticDirToOutput()
-	CpHostsDirToOutput()
 
 	fmt.Println(cr.PLCyan("All done!!!"))
 }
@@ -430,18 +434,34 @@ func CpStaticDirToOutput() {
 func CpHostsDirToOutput() {
 	fmt.Println(cr.PLCyan("Copy hosts dir to output"))
 	for _, host := range cfgVar.Hosts {
-		fmt.Printf("Copy host: %s\n", host.Name)
-		outputHost := path.Join(cfgVar.Build.Output, host.Output)
-		if err := os.RemoveAll(outputHost); err != nil {
-			log.Fatal(err)
-		}
-		if err := os.MkdirAll(outputHost, 0755); err != nil {
-			log.Fatal(err)
-		}
-		if err := copy.Copy(host.Dir, outputHost); err != nil {
-			log.Fatal(err)
+		if host.Type == "static" {
+			fmt.Printf("Copy host: %s\n", host.Name)
+			outputHost := path.Join(cfgVar.Build.Output, host.Output)
+			if err := os.RemoveAll(outputHost); err != nil {
+				log.Fatal(err)
+			}
+			if err := os.MkdirAll(outputHost, 0755); err != nil {
+				log.Fatal(err)
+			}
+			if err := copy.Copy(host.Source, outputHost); err != nil {
+				log.Fatal(err)
+			}
+		} else if host.Type == "render_post" {
+			host.Source = os.ExpandEnv(host.Source)
+			fmt.Printf("Copy file to posts: %s\n", host.Name)
+			filename := path.Base(host.Source)
+			output := path.Join(cfgVar.Build.Posts, filename)
+
+			content, err := os.ReadFile(host.Source)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			content = []byte(host.Header + "\n" + string(content))
+			os.WriteFile(output, content, 0644)
 		}
 	}
+
 	fmt.Println(cr.PLCyan("Copy hosts dir success"))
 }
 
