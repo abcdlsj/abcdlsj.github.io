@@ -225,12 +225,13 @@ hr {
   padding: 10px 0;
 }
 
-.shallower-divider {
+.divider {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  border: 1px solid var(--light-border-color);
+  margin-left: 0;
+  border: 1px solid var(#b7b4b4);
   border-left-width: 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: 0.1rem;
   background-color: #f2f3f5;
 }
 
@@ -239,7 +240,7 @@ hr {
   margin-bottom: 0.5rem;
   width: 25%;
   margin-left: 0;
-  border: 1px solid var(--light-border-color);
+  border: 1px solid var(#b7b4b4);
   border-left-width: 0.5rem;
   border-radius: 0.25rem;
   background-color: #f2f3f5;
