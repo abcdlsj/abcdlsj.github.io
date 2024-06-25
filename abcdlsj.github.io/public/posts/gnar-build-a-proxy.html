@@ -59,15 +59,15 @@
          
         <script>
           var tocContent = document.getElementById("toc-content");
-        
+
           // 监听页面滚动事件
           window.addEventListener("scroll", function () {
             var scrollPosition = window.scrollY || window.pageYOffset;
-        
+
             // 保持TocContent在侧边栏顶部
             tocContent.style.top = scrollPosition + "px";
           });
-        
+
           // 监听目录链接点击事件
           tocContent.addEventListener("click", function (event) {
             if (event.target.tagName === "A") {
@@ -987,5 +987,23 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，提�
 </footer>
  -->
     </main>
+
+    <div id="disqus_thread"></div>
+    <script>
+      (function () {
+        // DON'T EDIT BELOW THIS LINE
+        var d = document,
+          s = d.createElement("script");
+        s.src = "https://abcdlsj.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript
+      >Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript"
+        >comments powered by Disqus.</a
+      ></noscript
+    >
   </body>
 </html>
