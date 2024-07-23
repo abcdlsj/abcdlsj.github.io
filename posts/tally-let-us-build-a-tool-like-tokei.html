@@ -85,13 +85,13 @@ Table of Contents<ul>
 <li>
 <a href="#background">Background</a></li>
 <li>
-<a href="#explain-the-code">Explain the code</a><ul>
+<a href="#steps">Steps</a><ul>
 <li>
 <a href="#walk-directory">Walk directory</a></li>
 <li>
-<a href="#read-file-and-count-lines">Read file and Count lines</a></li>
+<a href="#read-and-count">Read and Count</a></li>
 <li>
-<a href="#output-result">Output result</a></li>
+<a href="#output-style">Output style</a></li>
 </ul>
 </li>
 <li>
@@ -113,9 +113,9 @@ Table of Contents<ul>
 <li>
 <a href="#optimize3---parallelism">Optimize3 - Parallelism</a><ul>
 <li>
-<a href="#implement">Implement</a></li>
+<a href="#fanout">Fanout</a></li>
 <li>
-<a href="#benchmark-1">Benchmark</a></li>
+<a href="#result">Result</a></li>
 </ul>
 </li>
 <li>
@@ -144,7 +144,7 @@ Table of Contents<ul>
 <p>I want to build a tool like <code>scc</code>, <code>tokei</code>, just for learning. It was very easy to write a simple version: <a href="https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go">tally - first commit</a>.<br>
 I will to optimize it at the second half of this post.</p>
 <p>First, allow me to explain it to you.</p>
-<h2 id="explain-the-code">Explain the code</h2>
+<h2 id="steps">Steps</h2>
 <p>The counting-line machine worked similar to the <code>Putting elephants in the freezer</code>, so the steps are:</p>
 <ol>
 <li>Walk directory tree.</li>
@@ -164,7 +164,7 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">countLine</span>(path)
 </span></span><span style="display:flex;"><span>})
-</span></span></code></pre><h3 id="read-file-and-count-lines">Read file and Count lines</h3>
+</span></span></code></pre><h3 id="read-and-count"><code>Read</code> and <code>Count</code></h3>
 <p>Count line we need to know what is a line. A line is a string end with <code>\n</code> or <code>\r\n</code>. So we can just split the file content with <code>\n</code> or <code>\r\n</code> to get the lines.</p>
 <p>Because we need to count the code lines, so we need to ignore the comment lines. I just use a simple way to ignore the comment lines, just ignore the line start with a rule string(<strong>by the way: the first version I just conside the single line comment.</strong>).</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Counter <span style="color:#000;font-weight:bold">struct</span> {
@@ -190,7 +190,9 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span style="display:flex;"><span>	Shell    = Counter{<span style="color:#099">13</span>, <span style="color:#d14">&#34;Shell&#34;</span>, <span style="color:#d14">&#34;#&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.sh&#34;</span>)}
 </span></span><span style="display:flex;"><span>	YAML     = Counter{<span style="color:#099">14</span>, <span style="color:#d14">&#34;YAML&#34;</span>, <span style="color:#d14">&#34;#&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.yaml&#34;</span>, <span style="color:#d14">&#34;.yml&#34;</span>)}
 </span></span><span style="display:flex;"><span>)
-</span></span></code></pre><p><strong>vec is a function to create a slice. (Nostalgia for <code>Rust vec!</code>  :smile:)</strong></p>
+</span></span></code></pre><blockquote>
+<p>vec is a function to create a slice. (Nostalgia for <code>Rust</code> <code>vec!</code> :p)</p>
+</blockquote>
 <p>Count line logic:</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">countLine</span>(path <span style="color:#458;font-weight:bold">string</span>) <span style="color:#458;font-weight:bold">error</span> {
 </span></span><span style="display:flex;"><span>	data, err <span style="color:#000;font-weight:bold">:=</span> os.<span style="color:#900;font-weight:bold">ReadFile</span>(path)
@@ -230,7 +232,7 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span style="display:flex;"><span>	result.<span style="color:#900;font-weight:bold">Add</span>(c, item)
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><h3 id="output-result">Output result</h3>
+</span></span></code></pre><h3 id="output-style">Output style</h3>
 <p>Actually, this is the most hard part. you need to output the result intuitively. thanks to <code>tokei</code> and <code>scc</code>, I just need to do a <code>copy</code> the output format from them :smile:.</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (r <span style="color:#000;font-weight:bold">*</span>Result) <span style="color:#900;font-weight:bold">String</span>() {
 </span></span><span style="display:flex;"><span>	itemF <span style="color:#000;font-weight:bold">:=</span> <span style="color:#d14">&#34;%-10s %10d %10d %10d %10d %10d\n&#34;</span>
@@ -450,7 +452,7 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span style="display:flex;"><span>    1.06 ± 0.17 <span style="color:#0086b3">times</span> faster than tally .
 </span></span></code></pre><p>(Just a small improvement, So I won't commit the change.)</p>
 <h2 id="optimize3---parallelism">Optimize3 - Parallelism</h2>
-<h3 id="implement">Implement</h3>
+<h3 id="fanout">Fanout</h3>
 <p><code>Go</code> supports concurrency perfectly, we can use the parttern named <code>Fanout</code> to <code>allocate</code> file to <code>worker</code>.</p>
 <p>We follow there steps:</p>
 <ol>
@@ -567,12 +569,12 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span style="display:flex;"><span> 		return err
 </span></span><span style="display:flex;"><span> 	}
 </span></span></code></pre><p>The <code>fileChan</code> size is 100, the worker number is 2 * <code>CPU number</code>. I don't do much test here.</p>
-<p>According common knowledge</p>
+<p>According common knowledge:</p>
 <ul>
 <li>CPU-bound task, the number of workers should not exceed the number of logical CPU cores available, as having more workers than cores will not improve performance and may even degrade it due to context switching</li>
 <li>I/O-bound tasks, more workers than CPU cores is probably a good idea, because I/O operations often block, allowing other workers to proceed with their tasks</li>
 </ul>
-<h3 id="benchmark-1">Benchmark</h3>
+<h3 id="result">Result</h3>
 <table>
 <thead>
 <tr>
@@ -604,8 +606,7 @@ I will to optimize it at the second half of this post.</p>
 <h2 id="optimize4---use-pprof">Optimize4 - Use Pprof</h2>
 <p>TODO...</p>
 <h2 id="end">End</h2>
-<p><strong>Not the end</strong><br>
-The post is just a learning progress, you can find source code at <a href="https://github.com/abcdlsj/share/tree/master/go/tally">github - abcdlsj/tally</a></p>
+<p>The post is just a learning progress, you can find source code at <a href="https://github.com/abcdlsj/share/tree/master/go/tally">github - abcdlsj/tally</a></p>
 <p>I'll do more test and optimize at the future.</p>
 <h2 id="ref">Ref</h2>
 <p><a href="https://github.com/boyter/scc/">https://github.com/boyter/scc/</a><br>

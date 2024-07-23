@@ -93,7 +93,7 @@ Table of Contents<ul>
 <li>
 <a href="#endpoint-design">Endpoint design</a></li>
 <li>
-<a href="#orm-or-raw-sql">ORM or Raw-SQL</a></li>
+<a href="#orm">ORM</a></li>
 <li>
 <a href="#templates">Templates</a></li>
 <li>
@@ -113,15 +113,11 @@ Table of Contents<ul>
 <li>
 <a href="#github-oauth">GitHub OAuth</a><ul>
 <li>
-<a href="#oauth">OAuth</a></li>
-<li>
 <a href="#api">API</a></li>
-</ul>
-</li>
 <li>
-<a href="#handler">Handler</a><ul>
+<a href="#refresh-logic">Refresh logic</a></li>
 <li>
-<a href="#encryption-and-decryption">Encryption and Decryption</a></li>
+<a href="#encrypt-cookie-value">Encrypt cookie value</a></li>
 <li>
 <a href="#conclusion">Conclusion</a></li>
 </ul>
@@ -184,7 +180,7 @@ At these days, I want to build a <code>Pastebin</code> website and its need with
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>})
 </span></span></code></pre><p>Then we need to write <code>tmpl</code> and implement <code>CRUD</code>(<code>getAllPastes</code>, <code>getPasteWithID</code>, <code>insertPaste</code>, <code>deletePaste</code>)</p>
-<h3 id="orm-or-raw-sql">ORM or Raw-SQL</h3>
+<h3 id="orm">ORM</h3>
 <p>Actually, I'm a original-thinker, I don't like to use third-party packages.<br>
 But <code>ORM</code> will make program easier.</p>
 <p>I use <code>SQLite3</code> and <code>Gorm</code> to store and query data.<br>
@@ -447,9 +443,7 @@ This is the sample code.</p>
 <h2 id="github-oauth">GitHub OAuth</h2>
 <p>After add <code>Turnstile</code>, I thought the site also too <code>open</code>, anyone can view it.<br>
 So we can add some <code>Authentication</code> feature, example to use <code>OAuth</code>.</p>
-<h3 id="oauth">OAuth</h3>
-<p>OAuth had many <code>client</code>, <code>Google</code>, <code>GitHub</code>, etc.<br>
-I'm use <code>GitHub</code> there.</p>
+<p>OAuth had many <code>client</code>, <code>Google</code>, <code>GitHub</code>, etc. I use <code>GitHub</code> there.</p>
 <p>These is the <code>GitHub OAuth</code> flow</p>
 <ol>
 <li>Request <code>GitHub</code> Identity API</li>
@@ -481,7 +475,7 @@ So we have a API to trigger login flow, we also need a <code>Callback</code> API
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	http.<span style="color:#900;font-weight:bold">Redirect</span>(w, r, <span style="color:#d14">&#34;/&#34;</span>, http.StatusSeeOther)
 </span></span><span style="display:flex;"><span>})
-</span></span></code></pre><h2 id="handler">Handler</h2>
+</span></span></code></pre><h3 id="refresh-logic">Refresh logic</h3>
 <p><code>GitHub OAuth</code> can use <code>refresh token</code> to refresh <code>Access Token</code>, so we can use <code>refresh token</code> to get new <code>Access Token</code> when <code>Access Token</code> expired.<br>
 All these information will be stored in <code>Cookie</code>.</p>
 <blockquote>
@@ -569,9 +563,8 @@ if the <code>Access Token</code> expired, will use <code>Refresh Token</code> to
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">true</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><h3 id="encryption-and-decryption">Encryption and Decryption</h3>
-<p>Be honest, I'm not have much expensive knowledge with encryption and decryption.<br>
-So I just post code here.</p>
+</span></span></code></pre><h3 id="encrypt-cookie-value">Encrypt cookie value</h3>
+<p><code>Cookie</code> value should be encrypted, need to implement encryption and decryption. can use <code>aes</code> to encrypt and <code>base64</code> to encode.</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">encryptData</span>(data []<span style="color:#458;font-weight:bold">byte</span>) (<span style="color:#458;font-weight:bold">string</span>, <span style="color:#458;font-weight:bold">error</span>) {
 </span></span><span style="display:flex;"><span>	block, err <span style="color:#000;font-weight:bold">:=</span> aes.<span style="color:#900;font-weight:bold">NewCipher</span>(CipherKey)
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
@@ -615,7 +608,7 @@ So I just post code here.</p>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><h3 id="conclusion">Conclusion</h3>
 <blockquote>
-<p>When a user concept exists,it may be necessary to add <code>User</code> functionality. Add the <code>User</code> field to the <code>Paste</code> structure and form and perform a <code>CRUD</code> with the logged in user.</p>
+<p>When a user concept exists,it may be necessary to add <code>User</code> functionality. Add the <code>User</code> field to the <code>Paste</code> structure and form and perform a <code>CRUD</code> with the logged in user.((I left this part unimplemented to be lazy :p)</p>
 </blockquote>
 <p>After setting GitHub application, you can see this page when first view index page.</p>
 <img alt="pasty github oauth page" src="/static/img/pasty-4.png" width="100%" style="border: 1px solid gray;">

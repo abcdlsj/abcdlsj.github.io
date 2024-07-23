@@ -85,10 +85,6 @@ Table of Contents<ul>
 <li>
 <a href="#background">Background</a></li>
 <li>
-<a href="#cron-expression">Cron expression</a></li>
-<li>
-<a href="#implementation">Implementation</a><ul>
-<li>
 <a href="#field-definition">Field definition</a></li>
 <li>
 <a href="#expr-structure">Expr structure</a></li>
@@ -97,11 +93,9 @@ Table of Contents<ul>
 <li>
 <a href="#parse-rule">Parse rule</a></li>
 <li>
-<a href="#compose">Compose</a></li>
+<a href="#wrap-matches">Wrap matches</a></li>
 <li>
-<a href="#function---nextnextnnotify">Function - Next/Nextn/Notify</a></li>
-</ul>
-</li>
+<a href="#functions">Functions</a></li>
 <li>
 <a href="#conclusion">Conclusion</a></li>
 </ul>
@@ -116,10 +110,9 @@ Table of Contents<ul>
         <article><h2 id="background">Background</h2>
 <p>本文所有的代码都在 <a href="https://github.com/abcdlsj/crone">abcdlsj/crone</a></p>
 <blockquote>
-<p><code>Cron</code> 日常开发还是经常遇到的，这里准备自己实现一个 <code>Golang</code> 的 <code>Cron</code> 表达式解析器，然后基于这个表达式来实现一个定时任务调度器/执行器（虽然已经有很多开源库，但是这种简单而有意思的东西，还是可以动手实际实现下）</p>
+<p>从零实现一个 <code>Cron</code> 表达式解析器</p>
 </blockquote>
-<p><a href="https://www.wikiwand.com/en/Cron">Cron wikiwand</a></p>
-<p>这里只实现初级的 Cron 表达式，所以只有 <code>minute</code> <code>hour</code> <code>day</code> <code>month(day of the week)</code> <code>week(day of the week)</code></p>
+<p>这里只实现初级的 Cron 表达式，所以只有以下几个字段规则。</p>
 <pre><code># ┌───────────── minute (0–59)
 # │ ┌───────────── hour (0–23)
 # │ │ ┌───────────── day of the month (1–31)
@@ -130,7 +123,7 @@ Table of Contents<ul>
 # │ │ │ │ │
 # * * * * * &lt;command to execute&gt;
 </code></pre>
-<p>并且没有 <code>yearly</code> <code>monthly</code> <code>weekly</code> <code>daily</code> <code>hourly</code> <code>reboot</code> 等</p>
+<p>没有 <code>yearly</code> <code>monthly</code> <code>weekly</code> <code>daily</code> <code>hourly</code> <code>reboot</code> 等特殊规则。</p>
 <table>
 <thead>
 <tr>
@@ -172,8 +165,7 @@ Table of Contents<ul>
 </tr>
 </tbody>
 </table>
-<h2 id="cron-expression">Cron expression</h2>
-<p>字段规则</p>
+<p>其中字段规则</p>
 <table>
 <thead>
 <tr>
@@ -229,13 +221,10 @@ Table of Contents<ul>
 </tr>
 </tbody>
 </table>
-<p>可以看到实现的 <code>Cron</code> 表达式字段都有明确的上下限</p>
-<p>以及支持的 <code>Special characters</code> 都是 <code>*</code> <code>,</code> <code>-</code>（这里只考虑一般规则）</p>
-<p>所以其实可以复用同一套规则，然后分别 <code>parse</code> 就可以了</p>
-<h2 id="implementation">Implementation</h2>
-<p>开始实现</p>
-<h3 id="field-definition">Field definition</h3>
-<p>首先定义 <code>field</code>，以及实现一个 <code>limit</code> 方法，返回其上下限</p>
+<p>可以直观看到 <code>Cron</code> 表达式字段都有明确的上下限，以及支持的 <code>Special characters</code> 都是 <code>&quot;*&quot;</code> <code>&quot;,&quot;</code> <code>&quot;-&quot;</code>（这里只考虑一般规则）。</p>
+<p>所以其实可以复用同一套规则，然后分别 <code>Parse</code> 就可以了。</p>
+<h2 id="field-definition">Field definition</h2>
+<p>首先定义 <code>field</code>，以及实现一个 <code>limit</code> 方法，返回其上下限。</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> field <span style="color:#458;font-weight:bold">int</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">const</span> (
@@ -261,8 +250,8 @@ Table of Contents<ul>
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#099">0</span>, <span style="color:#099">0</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><h3 id="expr-structure">Expr structure</h3>
-<p><code>Expr</code> 的结构体该怎么定义呢，它本身应该有一个 <code>expr</code> 代表表达式字符串</p>
+</span></span></code></pre><h2 id="expr-structure">Expr structure</h2>
+<p><code>Expr</code> 的结构体该怎么定义呢，它本身应该有一个 <code>expr</code> 代表表达式字符串。</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Cronexpr <span style="color:#000;font-weight:bold">struct</span> {
 </span></span><span style="display:flex;"><span>	expr     <span style="color:#458;font-weight:bold">string</span>
 </span></span><span style="display:flex;"><span>}
@@ -272,17 +261,16 @@ Table of Contents<ul>
 <li><code>Next()</code>： 获取接下来 <code>Cron</code> 触发的时间</li>
 <li><code>NextN(n)</code>： 获取接下来 <code>n</code> 个 <code>Cron</code> 触发的时间</li>
 </ol>
-<p>这里分别是「创建」和「使用」，因为 <code>Goruntine</code> 广泛使用，加之提倡使用 <code>Channel</code> 在 <code>Goroutine</code> 之间传递信息<br>
-这里还可以加一个方法</p>
+<p>这里分别是「创建」和「使用」，因为 <code>Go</code> 提倡使用 <code>Channel</code> 在 <code>Goroutine</code> 之间传递信息，这里还可以加一个方法。</p>
 <ol start="4">
 <li><code>Notify(ctx, outchan)</code> 类似于这样的函数定义，<code>ctx</code> 用来控制函数的退出，会在 <code>Cron</code> 触发时发送到 <code>outchan</code></li>
 </ol>
-<h3 id="match-time">Match <code>time</code></h3>
-<p>到目前为止，我都没有写到具体是怎样的思路去实现「获取 Cron 触发的时间」</p>
-<p>「获取」Cron 触发时间关键在于「判断」时间是否符合某个 Cron 表达式</p>
-<p>并且，不管是 <code>weekday</code> or <code>day</code> or <code>month</code> or <code>hour</code> or <code>minute</code> 都是根据规则「枚举」出符合要求的值，解析出枚举过程放在 <code>parse</code> 函数中</p>
-<p>这里假设已经枚举出符合要求的一系列值</p>
-<p>实现 <code>matches</code> 结构体</p>
+<h2 id="match-time">Match <code>time</code></h2>
+<p>到目前为止，我都没有写到具体是怎样的思路去实现「<strong>获取 Cron 触发的时间</strong>」。</p>
+<p>「获取」Cron 触发时间关键在于「判断」时间是否符合某个 Cron 表达式。</p>
+<p>并且，不管是 <code>weekday</code> or <code>day</code> or <code>month</code> or <code>hour</code> or <code>minute</code> 都是根据规则「枚举」出符合要求的值，解析出枚举过程放在 <code>parse</code> 函数中。</p>
+<p>（<em>这里假设已经枚举出符合要求的一系列值</em>）</p>
+<p>实现 <code>matches</code> 结构体：</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Matches <span style="color:#000;font-weight:bold">struct</span> {
 </span></span><span style="display:flex;"><span>	minute  []<span style="color:#458;font-weight:bold">int</span>
 </span></span><span style="display:flex;"><span>	hour    []<span style="color:#458;font-weight:bold">int</span>
@@ -307,9 +295,9 @@ Table of Contents<ul>
 </span></span><span style="display:flex;"><span>		<span style="color:#900;font-weight:bold">contains</span>(m.month, <span style="color:#0086b3">int</span>(t.<span style="color:#900;font-weight:bold">Month</span>())) <span style="color:#000;font-weight:bold">&amp;&amp;</span>
 </span></span><span style="display:flex;"><span>		<span style="color:#900;font-weight:bold">contains</span>(m.weekday, <span style="color:#0086b3">int</span>(t.<span style="color:#900;font-weight:bold">Weekday</span>()))
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><p>很简单的实现，只要 <code>Time</code> 都分别在 <code>minute</code> <code>hour</code> <code>day</code> <code>month</code> <code>weekday</code> 各个的枚举值内就代表这个时间符合要求</p>
-<h3 id="parse-rule">Parse <code>rule</code></h3>
-<p><code>parse</code> 函数用于返回枚举值，然后保存在 <code>matches</code> 里，返回 <code>[]int</code>（简化了上下限的检查）</p>
+</span></span></code></pre><p>很简单的实现，只要 <code>Time</code> 都分别在各种类型枚举值内就代表这个时间符合要求。</p>
+<h2 id="parse-rule">Parse <code>rule</code></h2>
+<p><code>parse</code> 函数用于返回枚举值，然后保存在 <code>matches</code> 里，返回 <code>[]int</code>（简化了上下限的检查）。</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">parse</span>(rule <span style="color:#458;font-weight:bold">string</span>, f field) ([]<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">error</span>) {
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(rule) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> {
 </span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>, errors.<span style="color:#900;font-weight:bold">New</span>(<span style="color:#d14">&#34;empty spec&#34;</span>)
@@ -345,8 +333,8 @@ Table of Contents<ul>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> matches, <span style="color:#000;font-weight:bold">nil</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><h3 id="compose">Compose</h3>
-<p>因为使用表达式解析器的入口是 <code>Cronexpr</code>，所以 <code>matches</code> 应该是 <code>Cronexpr</code> 的字段</p>
+</span></span></code></pre><h2 id="wrap-matches">Wrap <code>matches</code></h2>
+<p>因为使用表达式解析器的入口是 <code>Cronexpr</code>，所以 <code>matches</code> 应该是 <code>Cronexpr</code> 的字段。</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NewExpr</span>(expr <span style="color:#458;font-weight:bold">string</span>) <span style="color:#000;font-weight:bold">*</span>Cronexpr {
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">&amp;</span>Cronexpr{
 </span></span><span style="display:flex;"><span>		expr:     expr,
@@ -377,21 +365,21 @@ Table of Contents<ul>
 </span></span><span style="display:flex;"><span>		weekday: <span style="color:#900;font-weight:bold">mustParse</span>(splits[<span style="color:#099">4</span>], weekday),
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><p>这里利用辅助函数简化了代码（ps. <code>MustXxx</code> 在开源项目里很普遍）<br>
-<code>Cronexpr</code> 的 <code>accurate</code> 含义等下会解释</p>
-<h3 id="function---nextnextnnotify">Function - Next/Nextn/Notify</h3>
-<p>到了使用的入口函数了</p>
-<p><code>Next()</code> or <code>NextN(n)</code> 需要实现这样一个方法 <code>nextN(n)</code></p>
-<p>通过 <code>matches</code> 我们知道了，我们可以判断某个 <code>Time</code> 是否符合 <code>Cronexpr</code> 的触发时间</p>
-<p>那 <code>nexnN(n)</code> 里，我们就需要对「未来」的时间进行枚举，然后通过 <code>matches</code> 判断是否符合</p>
-<p>这里还有一个问题，「未来时间」的间隔应该是多少呢，因为我们表达式里面的最小单位是 <code>minute</code></p>
-<p>所以枚举时间的间隔应该是 <code>1 * minute</code>，<code>Cronexpr.accurate</code> 就是代表这个</p>
+</span></span></code></pre><p>这里利用辅助函数简化了代码（ps. <code>MustXxx</code> 在开源项目里很普遍）</p>
+<p><code>Cronexpr</code> 的 <code>accurate</code> 含义等下会解释</p>
+<h2 id="functions">Functions</h2>
+<p>到了使用的入口函数了，<code>Next()</code> or <code>NextN(n)</code> 需要实现这样一个方法 <code>nextN(n)</code></p>
+<p>通过 <code>matches</code> 我们知道了，我们可以判断某个 <code>Time</code> 是否符合 <code>Cronexpr</code> 的触发时间。</p>
+<p>那 <code>nexnN(n)</code> 里，我们就需要对「未来」的时间进行枚举，然后通过 <code>matches</code> 判断是否符合。</p>
+<p>这里还有一个问题，「未来时间」的间隔应该是多少呢，因为我们表达式里面的最小单位是 <code>minute</code>。</p>
+<p>所以枚举时间的间隔应该是 <code>1 * minute</code>，其中 <code>Cronexpr.accurate</code> 就是代表这个。</p>
 <blockquote>
-<p>为什么不写成常量呢？因为之后还可以实现支持 <code>second</code> 字段的 <code>Cronexpr</code></p>
+<p>为什么不写成常量呢？</p>
+<p>因为之后还可以实现支持 <code>second</code> 字段的 <code>Cronexpr</code></p>
 </blockquote>
-<p>这里还因为枚举未来时间因为需要一个基准(<code>zero time</code>)值，而这个时间对于 <code>nextN()</code> 这样的「最小」函数最好是可以外部传入的（符合 Go 哲学）所以加上了 <code>z time.Time</code></p>
-<p>当然了，对于 <code>Next()</code> 和 <code>NextN()</code> 这样的函数 <code>zero time</code> 也是可以外部传入的，因为 <code>Next()</code> 这个语义并没有明显包括代表当前时间之后的含义</p>
-<p>所以 <code>nextN()</code> 应该是这样</p>
+<p>这里还因为枚举未来时间因为需要一个基准(<code>zero time</code>)值，而这个时间对于 <code>nextN()</code> 这样的「最小」函数最好是可以外部传入的，所以加上了 <code>z time.Time</code>。</p>
+<p>当然了，对于 <code>Next()</code> 和 <code>NextN()</code> 这样的函数 <code>zero time</code> 也是可以外部传入的，因为 <code>Next()</code> 这个语义并没有明显包括代表当前时间之后的含义。</p>
+<p>所以 <code>nextN()</code> 应该是这样：</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (e <span style="color:#000;font-weight:bold">*</span>Cronexpr) <span style="color:#900;font-weight:bold">nextN</span>(z time.Time, n <span style="color:#458;font-weight:bold">int</span>) []time.Time {
 </span></span><span style="display:flex;"><span>	ts <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]time.Time, <span style="color:#099">0</span>, n)
 </span></span><span style="display:flex;"><span>	lt <span style="color:#000;font-weight:bold">:=</span> z
@@ -404,7 +392,7 @@ Table of Contents<ul>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> ts
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><p><code>nextN</code> 又去调用 <code>next1</code>，这是 <code>next1</code> 实现（这里 <code>next1</code> 的逻辑做成 <code>nextN</code> 的内部函数我感觉甚至更好）</p>
+</span></span></code></pre><p><code>nextN</code> 又去调用 <code>next1</code>，这是 <code>next1</code> 实现（这里 <code>next1</code> 的逻辑做成 <code>nextN</code> 的内部函数我感觉甚至更好）。</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (e <span style="color:#000;font-weight:bold">*</span>Cronexpr) <span style="color:#900;font-weight:bold">next1</span>(z time.Time) time.Time {
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> t <span style="color:#000;font-weight:bold">:=</span> z.<span style="color:#900;font-weight:bold">Add</span>(e.accurate); t.<span style="color:#900;font-weight:bold">Before</span>(END); t = t.<span style="color:#900;font-weight:bold">Add</span>(e.accurate) {
 </span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> e.matches.<span style="color:#900;font-weight:bold">Match</span>(t) {
@@ -414,8 +402,8 @@ Table of Contents<ul>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> END
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre><p>这里 <code>for range</code> 的时候初始值 <code>t</code> 加上 <code>accurate</code> 是为了防止如果 <code>z</code> 符合要求函数就会一直直接返回 <code>true</code>，导致 <code>nextN</code> 里的 <code>for</code> 循环就会返回同样的值</p>
-<p><code>Notify</code> 函数实现主要是多了 <code>ctx deadline</code> 的判断退出，这里可以简单的使用 <code>time ticker</code> 来获取需要检查的时间点</p>
+</span></span></code></pre><p>这里 <code>for range</code> 的时候初始值 <code>t</code> 加上 <code>accurate</code> 是为了防止如果 <code>z</code> 符合要求函数就会一直直接返回 <code>true</code>，导致 <code>nextN</code> 里的 <code>for</code> 循环就会返回同样的值。</p>
+<p><code>Notify</code> 函数实现主要是多了 <code>ctx deadline</code> 的判断退出，这里可以简单的使用 <code>time ticker</code> 来获取需要检查的时间点。</p>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (e <span style="color:#000;font-weight:bold">*</span>Cronexpr) <span style="color:#900;font-weight:bold">Notify</span>(ctx context.Context, out <span style="color:#000;font-weight:bold">chan</span><span style="color:#000;font-weight:bold">&lt;-</span> time.Time) {
 </span></span><span style="display:flex;"><span>	ticker <span style="color:#000;font-weight:bold">:=</span> time.<span style="color:#900;font-weight:bold">NewTicker</span>(e.accurate)
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> ticker.<span style="color:#900;font-weight:bold">Stop</span>()
@@ -432,7 +420,7 @@ Table of Contents<ul>
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><h2 id="conclusion">Conclusion</h2>
-<p><code>Scheduler</code> 的部分可以看源码，这部分实现比较简单</p>
+<p><code>Scheduler</code> 的部分可以看源码，这部分实现比较简单。</p>
 <p>实现 <code>Cronexpr</code> 解析器还是很有意思的，这是一个简单的小项目。</p>
 <p>感谢阅读！</p>
 </article>
