@@ -35,12 +35,12 @@ This allows me to access `go` in my browser.
 
 When I enter `go` in my browser, it sends a request to `127.0.0.1:80` (you cannot specify a port in `/etc/hosts` because it works like a `DNS server` and can only link a domain to an IP address).
 
-## Writing a url shortener
+## Code
 Writing a url shortener is quite simple: just create an HTTP server that maps a domain to a URL.
 
 You can write one yourself or take a look at my [abcdlsj/golink](https://github.com/abcdlsj/share/tree/master/go/golink) implementation (Use `SQLite3`, With `import/export` features).
 
-## Combining them
+## Run it
 Run it as a daemon:
 ```shell
 nohup golink &

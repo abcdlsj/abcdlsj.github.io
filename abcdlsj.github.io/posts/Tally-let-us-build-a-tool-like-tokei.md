@@ -17,7 +17,7 @@ I will to optimize it at the second half of this post.
 
 First, allow me to explain it to you.
 
-## Explain the code
+## Steps
 The counting-line machine worked similar to the `Putting elephants in the freezer`, so the steps are: 
 1. Walk directory tree.
 2. Read file and Count lines.
@@ -40,7 +40,7 @@ filepath.Walk(os.Args[1], func(path string, info os.FileInfo, err error) error {
 })
 ```
 
-### Read file and Count lines
+### `Read` and `Count`
 Count line we need to know what is a line. A line is a string end with `\n` or `\r\n`. So we can just split the file content with `\n` or `\r\n` to get the lines.
 
 Because we need to count the code lines, so we need to ignore the comment lines. I just use a simple way to ignore the comment lines, just ignore the line start with a rule string(**by the way: the first version I just conside the single line comment.**).
@@ -70,7 +70,8 @@ var (
 	YAML     = Counter{14, "YAML", "#", vec(".yaml", ".yml")}
 )
 ```
-**vec is a function to create a slice. (Nostalgia for `Rust vec!`  :smile:)**
+
+> vec is a function to create a slice. (Nostalgia for `Rust` `vec!` :p)
 
 Count line logic:
 ```go
@@ -114,7 +115,7 @@ func countLine(path string) error {
 }
 ```
 
-### Output result
+### Output style
 Actually, this is the most hard part. you need to output the result intuitively. thanks to `tokei` and `scc`, I just need to do a `copy` the output format from them :smile:.
 
 ```go
@@ -269,7 +270,7 @@ Summary
 
 ## Optimize3 - Parallelism
 
-### Implement
+### Fanout
 
 `Go` supports concurrency perfectly, we can use the parttern named `Fanout` to `allocate` file to `worker`.
 
@@ -391,12 +392,12 @@ index f184b31..23f5fae 100644
 
 The `fileChan` size is 100, the worker number is 2 * `CPU number`. I don't do much test here.
 
-According common knowledge
+According common knowledge:
 - CPU-bound task, the number of workers should not exceed the number of logical CPU cores available, as having more workers than cores will not improve performance and may even degrade it due to context switching
 - I/O-bound tasks, more workers than CPU cores is probably a good idea, because I/O operations often block, allowing other workers to proceed with their tasks
 
 
-### Benchmark
+### Result
 
 | Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
 |:---|---:|---:|---:|---:|
@@ -410,7 +411,7 @@ Use `Fanout` pattern will speed up a lot.
 TODO...
 
 ## End
-**Not the end**
+
 The post is just a learning progress, you can find source code at [github - abcdlsj/tally](https://github.com/abcdlsj/share/tree/master/go/tally)
 
 I'll do more test and optimize at the future.

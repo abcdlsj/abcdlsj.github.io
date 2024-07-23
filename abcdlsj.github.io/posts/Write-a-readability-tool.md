@@ -236,8 +236,8 @@ After adding some simple `CSS` to the `HTML template`, you will see the result:
 
 <img alt="article page" src="/static/img/readability_screenshot.png" width="100%"  style="border: 1px solid gray;">
 
-> Update: 
-> - Add Recently Viewed (`Redis` cache, `zset` store view count, `list` store recently viewed, [commit](https://github.com/abcdlsj/share/commit/08837c71ff065791a400b976fa23ca2fd338d5bc))
+> 04/14/2024 Update: 
+> Add recently viewed using `Redis` `list` to store, and `zset` store view count [commit](https://github.com/abcdlsj/share/commit/08837c71ff065791a400b976fa23ca2fd338d5bc).
 
 <img alt="`recently` homepage" src="/static/img/readability_screenshot3.png" width="100%"  style="border: 1px solid gray;">
 

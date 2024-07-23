@@ -61,7 +61,7 @@ http.HandleFunc("/paste/", func(w http.ResponseWriter, r *http.Request) {
 
 Then we need to write `tmpl` and implement `CRUD`(`getAllPastes`, `getPasteWithID`, `insertPaste`, `deletePaste`)
 
-### ORM or Raw-SQL
+### ORM
 Actually, I'm a original-thinker, I don't like to use third-party packages.
 But `ORM` will make program easier.
 
@@ -365,9 +365,7 @@ Ok, now we have protect our `form` with `Turnstile`.
 After add `Turnstile`, I thought the site also too `open`, anyone can view it.
 So we can add some `Authentication` feature, example to use `OAuth`.
 
-### OAuth
-OAuth had many `client`, `Google`, `GitHub`, etc.
-I'm use `GitHub` there.
+OAuth had many `client`, `Google`, `GitHub`, etc. I use `GitHub` there.
 
 These is the `GitHub OAuth` flow
 1. Request `GitHub` Identity API
@@ -405,7 +403,7 @@ http.HandleFunc("/login/callback", func(w http.ResponseWriter, r *http.Request) 
 })
 ```
 
-## Handler
+### Refresh logic
 `GitHub OAuth` can use `refresh token` to refresh `Access Token`, so we can use `refresh token` to get new `Access Token` when `Access Token` expired.
 All these information will be stored in `Cookie`.
 
@@ -503,9 +501,9 @@ func checkRefreshGHStatus(w http.ResponseWriter, r *http.Request) bool {
 }
 ```
 
-### Encryption and Decryption
-Be honest, I'm not have much expensive knowledge with encryption and decryption.
-So I just post code here.
+### Encrypt cookie value
+
+`Cookie` value should be encrypted, need to implement encryption and decryption. can use `aes` to encrypt and `base64` to encode.
 
 ```go
 func encryptData(data []byte) (string, error) {
@@ -552,7 +550,7 @@ func decryptStr(str string) ([]byte, error) {
 ```
 
 ### Conclusion
-> When a user concept exists,it may be necessary to add `User` functionality. Add the `User` field to the `Paste` structure and form and perform a `CRUD` with the logged in user.
+> When a user concept exists,it may be necessary to add `User` functionality. Add the `User` field to the `Paste` structure and form and perform a `CRUD` with the logged in user.((I left this part unimplemented to be lazy :p)
 
 After setting GitHub application, you can see this page when first view index page.
 
