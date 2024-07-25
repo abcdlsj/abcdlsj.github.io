@@ -6,15 +6,18 @@
   </head>
   <body class="container">
     <div class="navbar">{{template "navbar" .}}</div>
+    <hr class="divider" />
     <header>
       <h1 class="tag-title">{{.Name}} ({{len .Refers}} posts)</h1>
     </header>
+    <hr class="divider" />
     <main>
       {{range .Refers}}
       <article>
-        <div class="post-index-title">
+        <div class="post-tag-index-title">
           <a class="tag-refer" href="/posts/{{.Uname | urlize}}.html">{{.Title}}</a>
         </div>
+        <hr class="divider-short" />
       </article>
       {{end}}
       <hr class="divider" />
