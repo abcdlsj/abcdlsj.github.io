@@ -2,7 +2,8 @@
 title: "Tally - Build a tool like tokei/scc"
 date: 2023-08-16T18:47:37+08:00
 tags:
-  - Counter
+  - Line Counter
+  - Optimization
 hide: false
 tocPosition: left-sidebar
 ---

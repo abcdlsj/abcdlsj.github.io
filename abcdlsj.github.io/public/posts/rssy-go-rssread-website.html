@@ -5,7 +5,7 @@
 <head>
   
 <meta charset="UTF-8" />
-<title>Graceful upgrade - how to implement</title>
+<title>Rssy - A miniflux rss reader alternative</title>
 <meta name="description" content="Enjoy Focus!" />
 <meta name="author" content="Author" />
 <meta
@@ -54,73 +54,38 @@
 </nav>
 </div>
     <hr class="divider" />
-    <h1 class="post-single-title">Graceful upgrade - how to implement</h1>
+    <h1 class="post-single-title">Rssy - A miniflux rss reader alternative</h1>
     <div class="post-single-meta">
-      <div class="post-date">Date: 2024-04-06</div>
+      <div class="post-date">Date: 2024-07-01</div>
       <nav class="post-tags">
         
-        <a href="/tags/graceful+upgrade.html" class="tag">#Graceful Upgrade</a>
+        <a href="/tags/sqlite3.html" class="tag">#SQLite3</a>
         
-        <a href="/tags/network.html" class="tag">#Network</a>
+        <a href="/tags/postgres.html" class="tag">#Postgres</a>
         
-        <a href="/tags/wip.html" class="tag">#WIP</a>
+        <a href="/tags/rss.html" class="tag">#RSS</a>
+        
+        <a href="/tags/template.html" class="tag">#Template</a>
         
       </nav>
-       
-      <script>
-        var tocContent = document.getElementById("toc-content");
-
-        // 监听页面滚动事件
-        window.addEventListener("scroll", function () {
-          var scrollPosition = window.scrollY || window.pageYOffset;
-
-          // 保持TocContent在侧边栏顶部
-          tocContent.style.top = scrollPosition + "px";
-        });
-
-        // 监听目录链接点击事件
-        tocContent.addEventListener("click", function (event) {
-          if (event.target.tagName === "A") {
-            event.preventDefault();
-            var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
-            var targetElement = document.getElementById(targetId);
-            if (targetElement) {
-              targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
-            }
-          }
-        });
-
-        function scrollToTop() {
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
-        }
-      </script>
-      <div class="sidebar">
-        <div class="post-toc"><ul>
-<li>
-Table of Contents<ul>
-<li>
-<ul>
-<li>
-<a href="#what-is-graceful-upgrade">What is graceful upgrade?</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
-      </div>
-       
+      
     </div>
     <hr class="divider" />
     <div class="post-content">
-      <article><p>COMMING SOON...</p>
-<h3 id="what-is-graceful-upgrade">What is <code>graceful upgrade</code>?</h3>
-<blockquote>
-<p>代表「升级」是在「不中断」的情况下进行的，放在 <code>Web Service</code> 这个语境下就是升级过程中，服务端依旧提供服务，客户端对于服务升级本身无感知。</p>
-</blockquote>
+      <article><p>For a long time, I used <a href="https://miniflux.app/">Miniflux</a> to read RSS feeds. However, I encountered several issues with it:</p>
+<ol>
+<li>
+<p>Miniflux only supports <code>PostgreSQL</code>, whereas I typically prefer using <code>SQLite3</code> due to its simplicity for self-hosting. Unfortunately, PostgreSQL can be resource-intensive, especially my server only has 2 cores and 4GB of RAM.</p>
+</li>
+<li>
+<p>I found that Miniflux offers many features that I don't necessarily need. I mainly need to pull and display RSS feeds on a regular basis and manage subscriptions.</p>
+</li>
+</ol>
+<p>After a challenging night of migrating my local PostgreSQL data to a free PostgreSQL service like <code>Supabase</code>, I encountered numerous data errors. This experience prompted me to develop my own RSS reader in <code>Go</code>.</p>
+<p>The result is <a href="https://github.com/abcdlsj/rssy">rssy</a>, a project built with support for <code>GitHub OAuth</code>, <code>Water CSS</code>, <code>Go Template</code>, <code>SQLite3</code>, and <code>PostgreSQL</code>.</p>
+<p>Here is a screenshot of the project:<br>
+<img src="/static/img/rssy-simple-shot.png" alt="rss simple screenshot"></p>
+<p>More pictures you can find <a href="https://github.com/abcdlsj/rssy/blob/main/README.md">here</a></p>
 </article>
     </div>
     <hr class="divider" />

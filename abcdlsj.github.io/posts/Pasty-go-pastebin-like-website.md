@@ -1,10 +1,11 @@
 ---
-title: "Build a pastebin website with Go+Turnstile+OAuth"
+title: "Pasty - A pastebin website with Go+Turnstile+OAuth"
 date: 2023-12-08T22:47:37+08:00
 tags:
   - OAuth
   - Turnstile
   - Template
+  - SQLite3
 hide: false
 tocPosition: left-sidebar
 ---

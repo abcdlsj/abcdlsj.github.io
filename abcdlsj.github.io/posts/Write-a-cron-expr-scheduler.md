@@ -1,19 +1,17 @@
 ---
-title: "Write a s cron expression library in Golang"
+title: "Write a simple cron expression library in Golang"
 date: 2023-10-29T23:51:37+08:00
 tags:
-  - Cron
+  - Cron Expression
+  - Package Design
 hide: false
 tocPosition: left-sidebar
 ---
 ## Background
 
-本文所有的代码都在 [abcdlsj/crone](https://github.com/abcdlsj/crone)
+> 本文所有的代码都在 [abcdlsj/crone](https://github.com/abcdlsj/crone)
 
-> 从零实现一个 `Cron` 表达式解析器
-
-这里只实现初级的 Cron 表达式，所以只有以下几个字段规则。
-
+从零实现一个初级 `Cron` 表达式解析器，只有以下几个字段规则：
 ```
 # ┌───────────── minute (0–59)
 # │ ┌───────────── hour (0–23)

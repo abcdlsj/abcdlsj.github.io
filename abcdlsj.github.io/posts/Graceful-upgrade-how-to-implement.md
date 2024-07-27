@@ -2,7 +2,7 @@
 title: "Graceful upgrade - how to implement"
 date: 2024-04-06T12:47:37+08:00
 tags:
-  - Graceful-Upgrade
+  - Graceful Upgrade
   - Network
   - WIP
 hide: false

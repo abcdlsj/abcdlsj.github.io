@@ -5,7 +5,7 @@
 <head>
   
 <meta charset="UTF-8" />
-<title>Write a s cron expression library in Golang</title>
+<title>Write a simple cron expression library in Golang</title>
 <meta name="description" content="Enjoy Focus!" />
 <meta name="author" content="Author" />
 <meta
@@ -54,12 +54,14 @@
 </nav>
 </div>
     <hr class="divider" />
-    <h1 class="post-single-title">Write a s cron expression library in Golang</h1>
+    <h1 class="post-single-title">Write a simple cron expression library in Golang</h1>
     <div class="post-single-meta">
       <div class="post-date">Date: 2023-10-29</div>
       <nav class="post-tags">
         
-        <a href="/tags/cron.html" class="tag">#Cron</a>
+        <a href="/tags/cron+expression.html" class="tag">#Cron Expression</a>
+        
+        <a href="/tags/package+design.html" class="tag">#Package Design</a>
         
       </nav>
        
@@ -123,11 +125,10 @@ Table of Contents<ul>
     <hr class="divider" />
     <div class="post-content">
       <article><h2 id="background">Background</h2>
-<p>本文所有的代码都在 <a href="https://github.com/abcdlsj/crone">abcdlsj/crone</a></p>
 <blockquote>
-<p>从零实现一个 <code>Cron</code> 表达式解析器</p>
+<p>本文所有的代码都在 <a href="https://github.com/abcdlsj/crone">abcdlsj/crone</a></p>
 </blockquote>
-<p>这里只实现初级的 Cron 表达式，所以只有以下几个字段规则。</p>
+<p>从零实现一个初级 <code>Cron</code> 表达式解析器，只有以下几个字段规则：</p>
 <pre><code># ┌───────────── minute (0–59)
 # │ ┌───────────── hour (0–23)
 # │ │ ┌───────────── day of the month (1–31)
