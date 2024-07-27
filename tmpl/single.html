@@ -1,78 +1,86 @@
 {{define "single"}}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    {{template "head" .}}
-  </head>
-  <body class="container">
-    <main>
-      <div class="navbar">{{template "navbar" .}}</div>
+
+<head>
+  {{template "head" .}}
+</head>
+
+<body class="container">
+  <main>
+    <div class="navbar">{{template "navbar" .}}</div>
+    <hr class="divider" />
+    <h1 class="post-single-title">{{.Meta.Title}}</h1>
+    <div class="post-single-meta">
+      <div class="post-date">Date: {{.Meta.Date | dayhumandate}}</div>
+      <nav class="post-tags">
+        {{range $tag := .Meta.Tags}}
+        <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
+        {{end}}
+      </nav>
+      {{if ne .TocContent ""}} {{if eq .Meta.TocPosition ""}}
       <hr class="divider" />
-      <h1 class="post-single-title">{{.Meta.Title}}</h1>
-      <div class="post-meta">
-        <div class="post-date">Date: {{.Meta.Date}}</div>
-        <nav class="post-tags">
-          {{range $tag := .Meta.Tags}}
-          <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
-          {{end}}
-        </nav>
-        {{if ne .TocContent ""}} {{if eq .Meta.TocPosition ""}}
-        <hr class="divider" />
-        <div class="post-toc">{{.TocContent}}</div>
-        {{else if eq .Meta.TocPosition "left-sidebar"}}
-        <script>
-          var tocContent = document.getElementById("toc-content");
+      <div class="post-toc">{{.TocContent}}</div>
+      {{else if eq .Meta.TocPosition "left-sidebar"}}
+      <script>
+        var tocContent = document.getElementById("toc-content");
 
-          // 监听页面滚动事件
-          window.addEventListener("scroll", function () {
-            var scrollPosition = window.scrollY || window.pageYOffset;
+        // 监听页面滚动事件
+        window.addEventListener("scroll", function () {
+          var scrollPosition = window.scrollY || window.pageYOffset;
 
-            // 保持TocContent在侧边栏顶部
-            tocContent.style.top = scrollPosition + "px";
-          });
+          // 保持TocContent在侧边栏顶部
+          tocContent.style.top = scrollPosition + "px";
+        });
 
-          // 监听目录链接点击事件
-          tocContent.addEventListener("click", function (event) {
-            if (event.target.tagName === "A") {
-              event.preventDefault();
-              var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
-              var targetElement = document.getElementById(targetId);
-              if (targetElement) {
-                targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
-              }
+        // 监听目录链接点击事件
+        tocContent.addEventListener("click", function (event) {
+          if (event.target.tagName === "A") {
+            event.preventDefault();
+            var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
+            var targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
             }
-          });
-        </script>
-        <div class="sidebar">
-          <div class="post-toc">{{.TocContent}}</div>
-        </div>
-        {{end}} {{end}}
-      </div>
-      <hr class="divider" />
-      <div class="post-content">
-        <article>{{.Body}}</article>
-      </div>
-      <hr class="divider" />
-      <!-- {{template "footer" .}} -->
-    </main>
+          }
+        });
 
-    <div id="disqus_thread"></div>
-    <script>
-      (function () {
-        // DON'T EDIT BELOW THIS LINE
-        var d = document,
-          s = d.createElement("script");
-        s.src = "https://abcdlsj.disqus.com/embed.js";
-        s.setAttribute("data-timestamp", +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript
-      >Please enable JavaScript to view the
-      <a href="https://disqus.com/?ref_noscript"
-        >comments powered by Disqus.</a
-      ></noscript
-    >
-  </body>
+        function scrollToTop() {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        }
+      </script>
+      <div class="sidebar">
+        <div class="post-toc">{{.TocContent}}</div>
+      </div>
+      {{end}} {{end}}
+    </div>
+    <hr class="divider" />
+    <div class="post-content">
+      <article>{{.Body}}</article>
+    </div>
+    <hr class="divider" />
+    <!-- {{template "footer" .}} -->
+  </main>
+  <div class="go-to-top">
+    <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
+  </div>
+  <div id="disqus_thread"></div>
+  <script>
+    (function () {
+      // DON'T EDIT BELOW THIS LINE
+      var d = document,
+        s = d.createElement("script");
+      s.src = "https://abcdlsj.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</body>
+
 </html>
 {{end}}

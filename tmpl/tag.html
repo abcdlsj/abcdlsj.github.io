@@ -10,18 +10,21 @@
     <header>
       <h1 class="tag-title">{{.Name}} ({{len .Refers}} posts)</h1>
     </header>
-    <hr class="divider" />
+    <hr class="divider-short" />
     <main>
-      {{range .Refers}}
-      <article>
-        <div class="post-tag-index-title">
-          <a class="tag-refer" href="/posts/{{.Uname | urlize}}.html">{{.Title}}</a>
-        </div>
+      <div class="post-list">
+        {{range $i, $post := .Refers}}
+        <article class="post">
+          <div class="post-date">{{$post.Meta.Date | day}}</div>
+          <div class="post-index">
+            <div class="post-tag-index-title">
+              <a class="tag-refer" href="/posts/{{$post.Uname | urlize}}.html">{{$post.Title}}</a>
+            </div>
+          </div>
+        </article>
         <hr class="divider-short" />
-      </article>
-      {{end}}
-      <hr class="divider" />
-      <!-- {{template "footer" .}} -->
+        {{end}}
+      </div>
     </main>
   </body>
 </html>

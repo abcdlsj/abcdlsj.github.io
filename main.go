@@ -17,6 +17,7 @@ import (
 	"github.com/BurntSushi/toml"
 	d2 "github.com/FurqanSoftware/goldmark-d2"
 	"github.com/abcdlsj/cr"
+	"github.com/dustin/go-humanize"
 	"github.com/otiai10/copy"
 	log "github.com/sirupsen/logrus"
 	"github.com/yuin/goldmark"
@@ -35,6 +36,7 @@ type CfgVar struct {
 	URL         string `toml:"url"`
 	Title       string `toml:"title"`
 	Description string `toml:"description"`
+	Homepage    string `toml:"homepage"`
 	Menus       []struct {
 		Slug string `toml:"slug"`
 		Name string `toml:"name"`
@@ -59,7 +61,17 @@ func mustCfg(f string) CfgVar {
 	if _, err := toml.DecodeFile(f, &cfg); err != nil {
 		log.Fatalf("decode config file error: %v", err)
 	}
+
+	cfg.Homepage = mustmd(cfg.Homepage)
 	return cfg
+}
+
+func mustmd(f string) string {
+	var buf bytes.Buffer
+	if err := md.Convert([]byte(f), &buf); err != nil {
+		log.Fatalf("convert markdown error: %v", err)
+	}
+	return buf.String()
 }
 
 var (
@@ -96,6 +108,33 @@ var (
 	funcMap = template.FuncMap{
 		"urlize": urlize,
 		"add":    func(a, b int) int { return a + b },
+		"day": func(s string) string {
+			t, err := time.Parse("2006-01-02T15:04:05Z07:00", s)
+			if err != nil {
+				log.Fatal(err)
+			}
+			return t.Format("2006-01-02")
+		},
+		"humandate": func(s string) string {
+			t, err := time.Parse("2006-01-02T15:04:05Z07:00", s)
+			if err != nil {
+				log.Fatal(err)
+			}
+			return humanize.Time(t)
+		},
+		"dayhumandate": func(s string) string {
+			t, err := time.Parse("2006-01-02T15:04:05Z07:00", s)
+			if err != nil {
+				log.Fatal(err)
+			}
+			return fmt.Sprintf("%s (%s)", t.Format("2006-01-02"), humanize.Time(t))
+		},
+		"slicerange": func(s []string, start int, end int) []string {
+			if end > len(s) {
+				end = len(s)
+			}
+			return s[start:end]
+		},
 	}
 
 	//go:embed tmpl/*
@@ -186,6 +225,21 @@ func RenderIndex() {
 	}
 
 	if err := render(t, data, path.Join(cfgVar.Build.Output, "index.html"), "index"); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := render(t, data, path.Join(cfgVar.Build.Output, "posts/index.html"), "posts"); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func RenderHostsIndex() {
+	data := struct {
+		Site CfgVar
+	}{
+		Site: cfgVar,
+	}
+	if err := render(t, data, path.Join(cfgVar.Build.Output, "hosts/index.html"), "hosts"); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -353,7 +407,7 @@ func main() {
 	TagMap = sortTagMap
 
 	CreateMenuOutputDirs()
-	Renders(RenderIndex, RenderPosts, RenderTags, RenderAbout)
+	Renders(RenderIndex, RenderPosts, RenderTags, RenderAbout, RenderHostsIndex)
 	CpStaticDirToOutput()
 
 	fmt.Println(cr.PLCyan("All done!!!"))

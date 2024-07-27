@@ -1,8 +1,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    
+
+<head>
+  
 <meta charset="UTF-8" />
 <title>Write a s cron expression library in Golang</title>
 <meta name="description" content="Enjoy Focus!" />
@@ -19,15 +20,22 @@
   data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"
 ></script>
 
-  </head>
-  <body class="container">
-    <main>
-      <div class="navbar">
+</head>
+
+<body class="container">
+  <main>
+    <div class="navbar">
 <nav class="navbar">
   
   <ul class="menu">
     <li>
       <a href="/"  class="home">Home</a>
+    </li>
+  </ul>
+  
+  <ul class="menu">
+    <li>
+      <a href="/posts"  class="posts">Posts</a>
     </li>
   </ul>
   
@@ -45,41 +53,48 @@
   
 </nav>
 </div>
-      <hr class="divider" />
-      <h1 class="post-single-title">Write a s cron expression library in Golang</h1>
-      <div class="post-meta">
-        <div class="post-date">Date: 2023-10-29T23:51:37+08:00</div>
-        <nav class="post-tags">
-          
-          <a href="/tags/cron.html" class="tag">#Cron</a>
-          
-        </nav>
-         
-        <script>
-          var tocContent = document.getElementById("toc-content");
+    <hr class="divider" />
+    <h1 class="post-single-title">Write a s cron expression library in Golang</h1>
+    <div class="post-single-meta">
+      <div class="post-date">Date: 2023-10-29 (9 months ago)</div>
+      <nav class="post-tags">
+        
+        <a href="/tags/cron.html" class="tag">#Cron</a>
+        
+      </nav>
+       
+      <script>
+        var tocContent = document.getElementById("toc-content");
 
-          // 监听页面滚动事件
-          window.addEventListener("scroll", function () {
-            var scrollPosition = window.scrollY || window.pageYOffset;
+        // 监听页面滚动事件
+        window.addEventListener("scroll", function () {
+          var scrollPosition = window.scrollY || window.pageYOffset;
 
-            // 保持TocContent在侧边栏顶部
-            tocContent.style.top = scrollPosition + "px";
-          });
+          // 保持TocContent在侧边栏顶部
+          tocContent.style.top = scrollPosition + "px";
+        });
 
-          // 监听目录链接点击事件
-          tocContent.addEventListener("click", function (event) {
-            if (event.target.tagName === "A") {
-              event.preventDefault();
-              var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
-              var targetElement = document.getElementById(targetId);
-              if (targetElement) {
-                targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
-              }
+        // 监听目录链接点击事件
+        tocContent.addEventListener("click", function (event) {
+          if (event.target.tagName === "A") {
+            event.preventDefault();
+            var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
+            var targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
             }
+          }
+        });
+
+        function scrollToTop() {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
           });
-        </script>
-        <div class="sidebar">
-          <div class="post-toc"><ul>
+        }
+      </script>
+      <div class="sidebar">
+        <div class="post-toc"><ul>
 <li>
 Table of Contents<ul>
 <li>
@@ -102,12 +117,12 @@ Table of Contents<ul>
 </li>
 </ul>
 </div>
-        </div>
-         
       </div>
-      <hr class="divider" />
-      <div class="post-content">
-        <article><h2 id="background">Background</h2>
+       
+    </div>
+    <hr class="divider" />
+    <div class="post-content">
+      <article><h2 id="background">Background</h2>
 <p>本文所有的代码都在 <a href="https://github.com/abcdlsj/crone">abcdlsj/crone</a></p>
 <blockquote>
 <p>从零实现一个 <code>Cron</code> 表达式解析器</p>
@@ -424,9 +439,9 @@ Table of Contents<ul>
 <p>实现 <code>Cronexpr</code> 解析器还是很有意思的，这是一个简单的小项目。</p>
 <p>感谢阅读！</p>
 </article>
-      </div>
-      <hr class="divider" />
-      <!-- 
+    </div>
+    <hr class="divider" />
+    <!-- 
 <footer class="footer">
   <p class="footer-author">
     Author <a href="https://github.com/abcdlsj">abcdlsj</a>
@@ -437,24 +452,23 @@ Table of Contents<ul>
   </p>
 </footer>
  -->
-    </main>
+  </main>
+  <div class="go-to-top">
+    <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
+  </div>
+  <div id="disqus_thread"></div>
+  <script>
+    (function () {
+      // DON'T EDIT BELOW THIS LINE
+      var d = document,
+        s = d.createElement("script");
+      s.src = "https://abcdlsj.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</body>
 
-    <div id="disqus_thread"></div>
-    <script>
-      (function () {
-        // DON'T EDIT BELOW THIS LINE
-        var d = document,
-          s = d.createElement("script");
-        s.src = "https://abcdlsj.disqus.com/embed.js";
-        s.setAttribute("data-timestamp", +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript
-      >Please enable JavaScript to view the
-      <a href="https://disqus.com/?ref_noscript"
-        >comments powered by Disqus.</a
-      ></noscript
-    >
-  </body>
 </html>

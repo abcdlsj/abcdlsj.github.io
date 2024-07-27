@@ -1,0 +1,38 @@
+{{define "posts"}}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{template "head" .}}
+  </head>
+  <body class="container">
+    <main>
+      <div class="navbar">{{template "navbar" .}}</div>
+      <hr class="divider" />
+      <h2>All POSTs</h2>
+      <div class="post-list">
+        {{range $i, $post := .Posts}}
+          <article class="post">
+            <div class="post-date">{{.Meta.Date | day}}</div>
+            <div class="post-index">
+              <div class="post-index-title">
+                <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
+              </div>
+              <div class="post-meta">
+                <nav class="post-tags">
+                  {{range $tag := .Meta.Tags}}
+                  <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
+                  {{end}}
+                </nav>
+              </div>
+            </div>
+          </article>
+          {{if ne (add $i 1) (len $.Posts)}}
+            <hr class="divider-short">
+          {{end}}
+        {{end}}
+      </div>
+      <hr class="divider" />
+    </main>
+  </body>
+</html>
+{{end}}

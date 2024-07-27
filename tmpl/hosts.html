@@ -1,0 +1,24 @@
+{{define "hosts"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{template "head" .}}
+</head>
+<body class="container">
+  <main>
+    <div class="navbar">{{template "navbar" .}}</div>
+    <hr class="divider" />
+    <h2>List of Hosts</h2>
+    <ul>
+      {{range .Site.Hosts}}
+      <li>
+        <strong>Name:</strong> {{.Name}} <br>
+        <strong>Type:</strong> {{.Type}} <br>
+        <strong>Output:</strong> <a href="/{{.Output}}">{{.Output}}</a> <br>
+        <br>
+      </li>
+      {{end}}
+    </ul>
+    <body>
+</html>
+{{end}}

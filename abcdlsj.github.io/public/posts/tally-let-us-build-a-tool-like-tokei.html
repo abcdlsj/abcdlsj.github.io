@@ -1,8 +1,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    
+
+<head>
+  
 <meta charset="UTF-8" />
 <title>Tally - Build a tool like tokei/scc</title>
 <meta name="description" content="Enjoy Focus!" />
@@ -19,15 +20,22 @@
   data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"
 ></script>
 
-  </head>
-  <body class="container">
-    <main>
-      <div class="navbar">
+</head>
+
+<body class="container">
+  <main>
+    <div class="navbar">
 <nav class="navbar">
   
   <ul class="menu">
     <li>
       <a href="/"  class="home">Home</a>
+    </li>
+  </ul>
+  
+  <ul class="menu">
+    <li>
+      <a href="/posts"  class="posts">Posts</a>
     </li>
   </ul>
   
@@ -45,41 +53,48 @@
   
 </nav>
 </div>
-      <hr class="divider" />
-      <h1 class="post-single-title">Tally - Build a tool like tokei/scc</h1>
-      <div class="post-meta">
-        <div class="post-date">Date: 2023-08-16T18:47:37+08:00</div>
-        <nav class="post-tags">
-          
-          <a href="/tags/counter.html" class="tag">#Counter</a>
-          
-        </nav>
-         
-        <script>
-          var tocContent = document.getElementById("toc-content");
+    <hr class="divider" />
+    <h1 class="post-single-title">Tally - Build a tool like tokei/scc</h1>
+    <div class="post-single-meta">
+      <div class="post-date">Date: 2023-08-16 (11 months ago)</div>
+      <nav class="post-tags">
+        
+        <a href="/tags/counter.html" class="tag">#Counter</a>
+        
+      </nav>
+       
+      <script>
+        var tocContent = document.getElementById("toc-content");
 
-          // 监听页面滚动事件
-          window.addEventListener("scroll", function () {
-            var scrollPosition = window.scrollY || window.pageYOffset;
+        // 监听页面滚动事件
+        window.addEventListener("scroll", function () {
+          var scrollPosition = window.scrollY || window.pageYOffset;
 
-            // 保持TocContent在侧边栏顶部
-            tocContent.style.top = scrollPosition + "px";
-          });
+          // 保持TocContent在侧边栏顶部
+          tocContent.style.top = scrollPosition + "px";
+        });
 
-          // 监听目录链接点击事件
-          tocContent.addEventListener("click", function (event) {
-            if (event.target.tagName === "A") {
-              event.preventDefault();
-              var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
-              var targetElement = document.getElementById(targetId);
-              if (targetElement) {
-                targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
-              }
+        // 监听目录链接点击事件
+        tocContent.addEventListener("click", function (event) {
+          if (event.target.tagName === "A") {
+            event.preventDefault();
+            var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
+            var targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
             }
+          }
+        });
+
+        function scrollToTop() {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
           });
-        </script>
-        <div class="sidebar">
-          <div class="post-toc"><ul>
+        }
+      </script>
+      <div class="sidebar">
+        <div class="post-toc"><ul>
 <li>
 Table of Contents<ul>
 <li>
@@ -128,12 +143,12 @@ Table of Contents<ul>
 </li>
 </ul>
 </div>
-        </div>
-         
       </div>
-      <hr class="divider" />
-      <div class="post-content">
-        <article><blockquote>
+       
+    </div>
+    <hr class="divider" />
+    <div class="post-content">
+      <article><blockquote>
 <p>Changelog:</p>
 <ul>
 <li>2023-08-16: first version</li>
@@ -614,9 +629,9 @@ I will to optimize it at the second half of this post.</p>
 <a href="https://blog.burntsushi.net/ripgrep/">https://blog.burntsushi.net/ripgrep/</a><br>
 <a href="https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/">https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/</a></p>
 </article>
-      </div>
-      <hr class="divider" />
-      <!-- 
+    </div>
+    <hr class="divider" />
+    <!-- 
 <footer class="footer">
   <p class="footer-author">
     Author <a href="https://github.com/abcdlsj">abcdlsj</a>
@@ -627,24 +642,23 @@ I will to optimize it at the second half of this post.</p>
   </p>
 </footer>
  -->
-    </main>
+  </main>
+  <div class="go-to-top">
+    <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
+  </div>
+  <div id="disqus_thread"></div>
+  <script>
+    (function () {
+      // DON'T EDIT BELOW THIS LINE
+      var d = document,
+        s = d.createElement("script");
+      s.src = "https://abcdlsj.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</body>
 
-    <div id="disqus_thread"></div>
-    <script>
-      (function () {
-        // DON'T EDIT BELOW THIS LINE
-        var d = document,
-          s = d.createElement("script");
-        s.src = "https://abcdlsj.disqus.com/embed.js";
-        s.setAttribute("data-timestamp", +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript
-      >Please enable JavaScript to view the
-      <a href="https://disqus.com/?ref_noscript"
-        >comments powered by Disqus.</a
-      ></noscript
-    >
-  </body>
 </html>

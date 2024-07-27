@@ -1,11 +1,20 @@
 url = "https://abcdlsj.github.io"
 title = "enjoy focus"
 description = "Enjoy Focus!"
+homepage = '''Hi, I'm __abcdlsj__, a nickname I picked up when I first started college, it doesn't really mean anything, I've just been using it since I stepped into the world of programming!
+I love many things in the world, especially animals, games, reading, and movies.
+I try to write my own novel, but it probably won't be in the world for a long time (or ever)
+'''
 
 [[menus]]
 slug = "home"
 name = "Home"
 url = ""
+
+[[menus]]
+slug = "posts"
+name = "Posts"
+url = "posts"
 
 [[menus]]
 slug = "about"
@@ -28,36 +37,36 @@ source = "abcdlsj.github.io/submodules/ddia"
 output = "hosts/ddia"
 type = "static"
 
-# [[host]]
-# name = "knows"
-# source = "$ICLOUD_DIR/iCloud~md~obsidian/Documents/Obsidian/knows.md"
-# type = "render_post"
-# output = "posts/knows.html"
-# header = """
-# ---
-# title: "Knows"
-# date: 2024-03-31T22:30:59+08:00
-# tags:
-#   - Interview
-# hide: true
-# wip: false
-# tocPosition: left-sidebar
-# ---
-# """
+[[host]]
+name = "knows"
+source = "/Users/abcdlsj/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian/appls/knowledge.md"
+type = "render_post"
+output = "posts/knowledge.html"
+header = """
+---
+title: "Kenowledge"
+date: 2024-03-31T22:30:59+08:00
+tags:
+  - Kenowledge
+hide: true
+wip: false
+tocPosition: left-sidebar
+---
+"""
 
-# [[host]]
-# name = "Interview Question"
-# source = "$ICLOUD_DIR/iCloud~md~obsidian/Documents/Obsidian/interview_question.md"
-# type = "render_post"
-# output = "posts/interview_question.html"
-# header = """
-# ---
-# title: "Interview Question"
-# date: 2024-03-31T22:30:59+08:00
-# tags:
-#   - Interview
-# hide: true
-# wip: false
-# tocPosition: left-sidebar
-# ---
-# """
+[[host]]
+name = "GPT Interview Question"
+source = "/Users/abcdlsj/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian/appls/gpt-inter-questions.md"
+type = "render_post"
+output = "posts/gpt-inter-questions.html"
+header = """
+---
+title: "GPT Interview Question"
+date: 2024-03-31T22:30:59+08:00
+tags:
+  - Interview
+hide: true
+wip: false
+tocPosition: left-sidebar
+---
+"""

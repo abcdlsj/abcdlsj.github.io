@@ -7,38 +7,46 @@
   <body class="container">
     <main>
       <div class="navbar">{{template "navbar" .}}</div>
-      <!-- <h1 class="blog-title">===> Enjoy Focus!</h1> -->
       <hr class="divider" />
-      <!-- <div class="hero-image"></div> -->
-      <div class="wip-post">
-        <div class="wip-headline">Write in Progress</div>
-        {{range .WipPosts}}
-        <div class="wip-post-title">
-          <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
-        </div>
+      <div class="hompage-content">
+        {{.Site.Homepage}}
+      </div>
+      <hr class="divider" />
+      <h2>Recently</h2>
+      <div class="post-list">
+        <!-- only show 4 posts -->
+        {{range $i, $post := .Posts}}
+          {{if lt $i 4}}
+            <article class="post">
+              <div class="post-date">{{.Meta.Date | day}}</div>
+              <div class="post-index">
+                <div class="post-index-title">
+                  <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
+                </div>
+                <div class="post-meta">
+                  <nav class="post-tags">
+                    {{range $tag := .Meta.Tags}}
+                    <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
+                    {{end}}
+                  </nav>
+                </div>
+              </div>
+            </article>
+            {{if lt $i 3}}
+              <hr class="divider-short">
+            {{end}}
+          {{end}}
         {{end}}
       </div>
       <hr class="divider" />
-      <h2>POSTs</h2>
-      {{range $i, $posts := .Posts}}
-      <article class="post">
-        <div class="post-meta">
-          <nav class="post-tags">
-            {{range $tag := .Meta.Tags}}
-            <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
-            {{end}}
-          </nav>
+      <div class="wip-post">
+        <div class="wip-headline">DRAFT</div>
+        {{range .WipPosts}}
+        <div class="wip-post-title">
+          <a href="/posts/{{.Uname | urlize}}.html">- {{.Meta.Title}}</a>
         </div>
-        <div class="post-index-title">
-          <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
-        </div>
-      </article>
-      {{if ne (add $i 1) (len $.Posts)}}
-        <hr class="divider-short">
-      {{end}}
-      {{end}}
-      <hr class="divider" />
-      <!-- {{template "footer" .}} -->
+        {{end}}
+      </div>
     </main>
   </body>
 </html>
