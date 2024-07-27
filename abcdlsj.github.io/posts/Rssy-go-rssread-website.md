@@ -7,6 +7,7 @@ tags:
   - RSS
   - Template
 hide: false
+hideToc: true
 ---
 
 For a long time, I used [Miniflux](https://miniflux.app/) to read RSS feeds. However, I encountered several issues with it:

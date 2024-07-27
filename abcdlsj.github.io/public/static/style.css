@@ -59,7 +59,7 @@ blockquote {
 }
 code {
   color: var(--code-color);
-  font-size: 0.9em;
+  font-size: 0.95em;
 }
 pre code {
   background: #f2f3f5;

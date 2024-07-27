@@ -5,6 +5,7 @@ tags:
   - Template
   - Readability
 hide: false
+hideToc: true
 ---
 
 ## Background

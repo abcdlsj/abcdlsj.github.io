@@ -5,6 +5,7 @@ tags:
   - Shortener
   - Template
 hide: false
+hideToc: true
 ---
 
 > What is `url shortener`?

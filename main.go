@@ -136,6 +136,7 @@ type PostMeta struct {
 	Menus       []string `yaml:"menus"`
 	Wip         bool     `yaml:"wip"`
 	TocPosition string   `yaml:"tocPosition"`
+	HideToc     bool     `yaml:"hideToc"`
 }
 
 func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
@@ -147,6 +148,7 @@ func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 		Menus:       getMetaStrs(meta, "menus"),
 		Wip:         getMetaBool(meta, "wip"),
 		TocPosition: orStr(getMetaStr(meta, "tocPosition"), ""),
+		HideToc:     getMetaBool(meta, "hideToc"),
 	}
 }
 
@@ -296,32 +298,37 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 		log.Fatalf("failed to convert markdown, file: %s, err: %v", cleanName, err)
 	}
 
-	doc := tocMd.Parser().Parse(text.NewReader(data))
-
-	tree, err := toc.Inspect(doc, data)
-	if err != nil {
-		log.Fatalf("failed to inspect toc, file: %s, err: %v", cleanName, err)
-	}
-
-	var tocBuf bytes.Buffer
-
-	if len(tree.Items) != 0 {
-		treeList := toc.RenderList(tree)
-
-		if err := tocMd.Renderer().Render(&tocBuf, data, treeList); err != nil {
-			log.Fatalf("failed to render toc, file: %s, err: %v", cleanName, err)
-		}
-	}
-
 	meta := unmarshalPostMeta(meta.Get(context))
 
-	return Post{
-		Site:       cfgVar,
-		Meta:       meta,
-		Body:       buf.String(),
-		Uname:      urlize(cleanName),
-		TocContent: tocBuf.String(),
-	}, nil
+	post := Post{
+		Site:  cfgVar,
+		Meta:  meta,
+		Body:  buf.String(),
+		Uname: urlize(cleanName),
+	}
+
+	if !post.Meta.HideToc {
+		doc := tocMd.Parser().Parse(text.NewReader(data))
+
+		tree, err := toc.Inspect(doc, data)
+		if err != nil {
+			log.Fatalf("failed to inspect toc, file: %s, err: %v", cleanName, err)
+		}
+
+		var tocBuf bytes.Buffer
+
+		if len(tree.Items) != 0 {
+			treeList := toc.RenderList(tree)
+
+			if err := tocMd.Renderer().Render(&tocBuf, data, treeList); err != nil {
+				log.Fatalf("failed to render toc, file: %s, err: %v", cleanName, err)
+			}
+		}
+
+		post.TocContent = tocBuf.String()
+	}
+
+	return post, nil
 }
 
 func main() {
