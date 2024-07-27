@@ -27,11 +27,14 @@
     <div class="navbar">
 <nav class="navbar">
   
+  
   <ul class="menu">
     <li>
       <a href="/"  class="home">Home</a>
     </li>
   </ul>
+  
+  
   
   <ul class="menu">
     <li>
@@ -39,17 +42,16 @@
     </li>
   </ul>
   
+  
+  
   <ul class="menu">
     <li>
       <a href="/about"  class="about">About</a>
     </li>
   </ul>
   
-  <ul class="menu">
-    <li>
-      <a href="/hosts"  class="hosts">Hosts</a>
-    </li>
-  </ul>
+  
+  
   
 </nav>
 </div>
@@ -274,9 +276,7 @@ Table of Contents<ul>
 </ul>
 </li>
 <li>
-<a href="#mysql-db">MySQL DB</a></li>
-<li>
-<a href="#kafka-mq">Kafka MQ</a><ul>
+<a href="#mysql-db">MySQL DB</a><ul>
 <li>
 <a href="#heading-16">索引</a><ul>
 <li>
@@ -413,6 +413,10 @@ Table of Contents<ul>
 <a href="#heading-42">共享内存</a></li>
 <li>
 <a href="#swap">Swap</a></li>
+</ul>
+</li>
+<li>
+<a href="#kafka-mq">Kafka MQ</a><ul>
 <li>
 <a href="#kafka-">Kafka 为什么快？</a><ul>
 <li>
@@ -2007,12 +2011,6 @@ Hash 结构，先检查 key 是否存在，不存在就初始化 brust</p>
 <li>主从复制</li>
 <li>事务特性简单介绍</li>
 </ul>
-<h2 id="kafka-mq">Kafka MQ</h2>
-<p><a href="https://jack-vanlightly.com/blog/2023/11/14/the-architecture-of-serverless-data-systems">https://jack-vanlightly.com/blog/2023/11/14/the-architecture-of-serverless-data-systems</a></p>
-<p><a href="https://mdnice.com/writing/c1d01d8793154629a82a9eb1bc0d1318">https://mdnice.com/writing/c1d01d8793154629a82a9eb1bc0d1318</a></p>
-<p><a href="https://engineering.linkedin.com/kafka/benchmarking-apache-kafka-2-million-writes-second-three-cheap-machines">https://engineering.linkedin.com/kafka/benchmarking-apache-kafka-2-million-writes-second-three-cheap-machines</a></p>
-<p><img src="https://github.com/abcdlsj/picx-images-hosting/raw/master/knows/kaf_producer_write.13ln5f5s7x.webp" alt="kafka producer write|600"></p>
-<p><img src="https://github.com/abcdlsj/picx-images-hosting/raw/master/knows/image.2h869gj07a.webp" alt="kafka consumer read|600"></p>
 <h3 id="heading-16">索引</h3>
 <p>InnoDB 的索引是以 B+树的结构存储的，一颗 M 阶（M≥3）的 B+树有以下特点：</p>
 <ul>
@@ -2579,6 +2577,12 @@ MVCC 的实现，是通过保存数据在某个时间点的快照来实现的。
 <h3 id="swap">Swap</h3>
 <p>内存不够时，允许内存换页到磁盘上，达到缓冲作用</p>
 <p>强内存依赖的组件不能开这个东西，redis 慢可能是因为这个</p>
+<h2 id="kafka-mq">Kafka MQ</h2>
+<p><a href="https://jack-vanlightly.com/blog/2023/11/14/the-architecture-of-serverless-data-systems">https://jack-vanlightly.com/blog/2023/11/14/the-architecture-of-serverless-data-systems</a></p>
+<p><a href="https://mdnice.com/writing/c1d01d8793154629a82a9eb1bc0d1318">https://mdnice.com/writing/c1d01d8793154629a82a9eb1bc0d1318</a></p>
+<p><a href="https://engineering.linkedin.com/kafka/benchmarking-apache-kafka-2-million-writes-second-three-cheap-machines">https://engineering.linkedin.com/kafka/benchmarking-apache-kafka-2-million-writes-second-three-cheap-machines</a></p>
+<p><img src="https://github.com/abcdlsj/picx-images-hosting/raw/master/knows/kaf_producer_write.13ln5f5s7x.webp" alt="kafka producer write|600"></p>
+<p><img src="https://github.com/abcdlsj/picx-images-hosting/raw/master/knows/image.2h869gj07a.webp" alt="kafka consumer read|600"></p>
 <h3 id="kafka-">Kafka 为什么快？</h3>
 <h4 id="-io">顺序磁盘 I/O</h4>
 <blockquote>
