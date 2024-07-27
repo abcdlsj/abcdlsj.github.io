@@ -17,7 +17,6 @@ import (
 	"github.com/BurntSushi/toml"
 	d2 "github.com/FurqanSoftware/goldmark-d2"
 	"github.com/abcdlsj/cr"
-	"github.com/dustin/go-humanize"
 	"github.com/otiai10/copy"
 	log "github.com/sirupsen/logrus"
 	"github.com/yuin/goldmark"
@@ -114,26 +113,6 @@ var (
 				log.Fatal(err)
 			}
 			return t.Format("2006-01-02")
-		},
-		"humandate": func(s string) string {
-			t, err := time.Parse("2006-01-02T15:04:05Z07:00", s)
-			if err != nil {
-				log.Fatal(err)
-			}
-			return humanize.Time(t)
-		},
-		"dayhumandate": func(s string) string {
-			t, err := time.Parse("2006-01-02T15:04:05Z07:00", s)
-			if err != nil {
-				log.Fatal(err)
-			}
-			return fmt.Sprintf("%s (%s)", t.Format("2006-01-02"), humanize.Time(t))
-		},
-		"slicerange": func(s []string, start int, end int) []string {
-			if end > len(s) {
-				end = len(s)
-			}
-			return s[start:end]
 		},
 	}
 

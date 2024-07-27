@@ -12,7 +12,7 @@
     <hr class="divider" />
     <h1 class="post-single-title">{{.Meta.Title}}</h1>
     <div class="post-single-meta">
-      <div class="post-date">Date: {{.Meta.Date | dayhumandate}}</div>
+      <div class="post-date">Date: {{.Meta.Date | day}}</div>
       <nav class="post-tags">
         {{range $tag := .Meta.Tags}}
         <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
