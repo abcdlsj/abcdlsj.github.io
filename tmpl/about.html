@@ -5,12 +5,10 @@
     {{template "head" .}}
   </head>
   <body class="container">
-    <main>
       <div class="navbar">{{template "navbar" .}}</div>
       <hr class="divider" />
-      <article class="about-content">{{.Body}}</article>
+      <article class="post-content">{{.Body}}</article>
       <!-- {{template "footer" .}} -->
-    </main>
   </body>
 </html>
 {{end}}
