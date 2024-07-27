@@ -1,11 +1,13 @@
 {{define "navbar"}}
 <nav class="navbar">
   {{range .Site.Menus}}
+  {{if eq .Hide false}}
   <ul class="menu">
     <li>
       <a href="/{{.URL | urlize}}"  class="{{.Name | urlize}}">{{.Name}}</a>
     </li>
   </ul>
+  {{end}}
   {{end}}
 </nav>
 {{end}}

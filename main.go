@@ -40,6 +40,7 @@ type CfgVar struct {
 		Slug string `toml:"slug"`
 		Name string `toml:"name"`
 		URL  string `toml:"url"`
+		Hide bool   `toml:"hide"`
 	} `toml:"menus"`
 	Build struct {
 		Posts  string `toml:"posts"`

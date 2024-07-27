@@ -907,19 +907,6 @@ https://www.xiaolincoding.com/mysql/
 - 存储引擎简单介绍，如 InnoDB, MyISAM
 - 主从复制
 - 事务特性简单介绍
-
-## Kafka MQ
-https://jack-vanlightly.com/blog/2023/11/14/the-architecture-of-serverless-data-systems
-
-https://mdnice.com/writing/c1d01d8793154629a82a9eb1bc0d1318
-
-https://engineering.linkedin.com/kafka/benchmarking-apache-kafka-2-million-writes-second-three-cheap-machines
-
-
-![kafka producer write|600](https://github.com/abcdlsj/picx-images-hosting/raw/master/knows/kaf_producer_write.13ln5f5s7x.webp)
-
-![kafka consumer read|600](https://github.com/abcdlsj/picx-images-hosting/raw/master/knows/image.2h869gj07a.webp)
-
 ### 索引
 InnoDB 的索引是以 B+树的结构存储的，一颗 M 阶（M≥3）的 B+树有以下特点：
 
@@ -1422,6 +1409,18 @@ https://github.com/pasce/daemon-skeleton-linux-c
 内存不够时，允许内存换页到磁盘上，达到缓冲作用
 
 强内存依赖的组件不能开这个东西，redis 慢可能是因为这个
+
+## Kafka MQ
+https://jack-vanlightly.com/blog/2023/11/14/the-architecture-of-serverless-data-systems
+
+https://mdnice.com/writing/c1d01d8793154629a82a9eb1bc0d1318
+
+https://engineering.linkedin.com/kafka/benchmarking-apache-kafka-2-million-writes-second-three-cheap-machines
+
+
+![kafka producer write|600](https://github.com/abcdlsj/picx-images-hosting/raw/master/knows/kaf_producer_write.13ln5f5s7x.webp)
+
+![kafka consumer read|600](https://github.com/abcdlsj/picx-images-hosting/raw/master/knows/image.2h869gj07a.webp)
 
 ### Kafka 为什么快？
 

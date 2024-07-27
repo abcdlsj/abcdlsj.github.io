@@ -25,6 +25,7 @@ url = "about"
 slug = "hosts"
 name = "Hosts"
 url = "hosts"
+hide = true
 
 [build]
 posts = "abcdlsj.github.io/posts"
