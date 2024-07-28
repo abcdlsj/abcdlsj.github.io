@@ -20,13 +20,14 @@ blockquote {
   --font-color: #000;
   --light-dark-font-color: #565656;
 
-  --title-font: "Charter", "Avro", "Noto Serif", "Georgia", serif;
-  --nav-font: "Avenir";
+  --avenir-font: "Avenir";
+  --serif-font: "Charter", "Avro", "Noto Serif", "Georgia", serif;
+  --content-font: "Avenir", "Noto Serif", Helvetica, Arial, sans-serif;
 }
 body {
   display: flex;
   flex-direction: column;
-  font-family: "Avenir", "Noto Serif", Helvetica, Arial, sans-serif;
+  font-family: var(--content-font);
   line-height: 1.6;
   margin: auto;
   max-width: 55%;
@@ -52,7 +53,7 @@ blockquote {
   padding: 0.5rem 0.75rem 0.25rem 0.75rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  border: 1px solid var(--light-border-color);
+  border: 0.5px solid var(--light-border-color);
   border-left-width: 0.5rem;
   border-radius: 0.25rem;
   background-color: #f2f3f5;
@@ -69,7 +70,7 @@ pre code {
   color: #000;
 }
 .navbar {
-  font-family: var(--nav-font);
+  font-family: var(--avenir-font);
   display: flex;
   color: var(--font-color);
   justify-content: space-between;
@@ -152,10 +153,6 @@ td {
 .post-content th {
   background-color: #f2f2f2;
 }
-.post-meta .post-date {
-  color: black;
-  font-size: 0.8em;
-}
 .blog-title {
   font-size: 2em;
   font-weight: 500;
@@ -167,17 +164,17 @@ td {
 .post-single-title {
   font-size: 2em;
   font-weight: 500;
-  font-family: var(--title-font);
+  font-family: var(--serif-font);
 }
 .post-tag-index-title {
   font-size: 1.5em;
   font-weight: 400;
-  font-family: var(--title-font);
+  font-family: var(--serif-font);
 }
 .post-index-title {
   font-size: 1.5em;
   font-weight: 500;
-  font-family: var(--title-font);
+  font-family: var(--serif-font);
 }
 .wip-headline {
   color: var(--light-dark-font-color);
@@ -256,9 +253,10 @@ img {
   gap: 1rem;
 }
 
-.post-date {
+.post .post-date {
   min-width: 100px;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
+  font-family: var(--serif-font);
   color: #666;
 }
 
@@ -267,8 +265,9 @@ img {
 }
 
 .post-index-title {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.7rem;
+  margin-top: 0;
+  margin-bottom: 0.3rem;
   color: var(--font-color);
 }
 
@@ -326,4 +325,8 @@ img {
 
 .btn-goto-top:hover {
   background-color: #0056b3;
+}
+
+.hompage-content {
+  font-family: var(--serif-font);
 }
