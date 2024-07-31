@@ -37,37 +37,3 @@ name = "DDIA"
 source = "abcdlsj.github.io/submodules/ddia"
 output = "hosts/ddia"
 type = "static"
-
-[[host]]
-name = "knows"
-source = "/Users/abcdlsj/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian/appls/knowledge.md"
-type = "render_post"
-output = "posts/knowledge.html"
-header = """
----
-title: "Kenowledge"
-date: 2024-03-31T22:30:59+08:00
-tags:
-  - Kenowledge
-hide: true
-wip: false
-tocPosition: left-sidebar
----
-"""
-
-[[host]]
-name = "GPT Interview Question"
-source = "/Users/abcdlsj/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian/appls/gpt-inter-questions.md"
-type = "render_post"
-output = "posts/gpt-inter-questions.html"
-header = """
----
-title: "GPT Interview Question"
-date: 2024-03-31T22:30:59+08:00
-tags:
-  - Interview
-hide: true
-wip: false
-tocPosition: left-sidebar
----
-"""

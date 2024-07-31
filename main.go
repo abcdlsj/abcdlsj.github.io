@@ -99,7 +99,7 @@ var (
 		goldmark.WithExtensions(
 			&toc.Extender{
 				MaxDepth: 3,
-				Title:    "Table of Contents",
+				Title:    "",
 			},
 		),
 		goldmark.WithParserOptions(parser.WithAutoHeadingID()),
@@ -325,7 +325,7 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 			}
 		}
 
-		post.TocContent = tocBuf.String()
+		post.TocContent = strings.TrimSuffix(strings.TrimPrefix(tocBuf.String(), "<ul>"), "</ul>")
 	}
 
 	return post, nil
