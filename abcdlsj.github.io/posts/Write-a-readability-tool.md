@@ -9,9 +9,9 @@ hideToc: true
 ---
 
 ## Background
-Many websites use various CSS styles, and some of them can be challenging to read. One way to improve readability is to use a browser extension. Alternatively, you can create your own website [readability](https://www.wikiwand.com/en/Readability) tool. There are numerous language options and implementations available for this purpose. In this case, we will use Go and the [readability](github.com/go-shiori/go-readability) library to implement it. You will see how simple it is.
+Many websites use various CSS styles, and some of them can be challenging to read. One way to improve readability is to use a browser extension. Alternatively, you can create your own website [WIKI - readability](https://www.wikiwand.com/en/Readability) tool. There are numerous language options and implementations available for this purpose. In this case, we will use `Go` to implement it. You will see how simple it is.
 
-You can find all the code on my GitHub repository [readability](https://github.com/abcdlsj/share/tree/master/go/readability)
+You can find all the code on my GitHub repository [here](https://github.com/abcdlsj/share/tree/master/go/readability)
 
 ## Do it
 Start by reading the example code for [go-readability](https://github.com/go-shiori/go-readability) to understand its functionality and usage.
@@ -59,7 +59,7 @@ func main() {
 ```
 It will work as expected.
 
-However, there are instances where a terminal environment may not be available. In such cases, you can run it as a web server using Go's `http` package and `template` library to implement it. (In fact, I used `ChatGPT` to provide this demo.)
+However, there are instances where a terminal environment may not be available. In such cases, you can run it as a web server using Go's `http` package and `template` library to implement it. (In fact, I used `ChatGPT` to provide this demo. Cost 5 minute..)
 
 
 **index.html**
@@ -140,7 +140,7 @@ func render(w http.ResponseWriter, data Article) {
 }
 ```
 
-Implementing it as a web server is also straightforward. 
+Implementing it as a web server is also straightforward.
 
 ## Pack
 Once we have the web server set up, it is generally a best practice to package it into a Docker image.
@@ -200,6 +200,8 @@ After building the Docker image, you can run it using the following command:
 `docker run -it --rm -p <HOST_PORT>:8080 abcdlsj/readability`
 
 Now you can access the website at `http://localhost:<HOST_PORT>`.
+
+That's all of things you can done within 10 minute. Then, I will optimize it!
 
 ## Optimize
 ### `Protect` double slashes
