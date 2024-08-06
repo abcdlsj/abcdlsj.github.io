@@ -33,14 +33,6 @@ body {
   max-width: 55%;
   padding: 10px;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--serif-font);
-}
 .container {
   min-height: calc(95vh - 2.5rem);
   position: relative;
@@ -51,7 +43,7 @@ a {
 }
 a:visited {
   color: var(--font-color);
-  text-decoration: underline;
+  text-decoration: none;
 }
 a:hover {
   color: var(--font-color);
@@ -134,11 +126,11 @@ pre code {
 }
 .post-content a {
   color: var(--href-color);
-  text-decoration: underline;
+  text-decoration: none;
 }
 .post-content a:visited {
   color: var(--href-color);
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .post-content a:hover {
@@ -225,8 +217,8 @@ hr {
 
 .sidebar {
   position: fixed;
-  top: 10%;
-  left: 2%;
+  top: 8%;
+  left: 1%;
   width: 20%;
   height: 100%;
   overflow-y: auto;
