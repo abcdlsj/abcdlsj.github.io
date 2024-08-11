@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>abcdlsj&#39;s blog</title>
+    <link>https://abcdlsj.github.io</link>
+    <description>Enjoy Focus!</description>
+    <item>
+      <title>Rssy - A miniflux rss reader alternative</title>
+      <link>https://abcdlsj.github.io/posts/rssy-go-rssread-website.html</link>
+      <description>Rssy - A miniflux rss reader alternative</description>
+      <pubDate>Mon, 01 Jul 2024 22:47:37 +0800</pubDate>
+    </item>
+    <item>
+      <title>Go Template + Tailwindcss = ❤️</title>
+      <link>https://abcdlsj.github.io/posts/go-template-tailwindcss.html</link>
+      <description>Go Template + Tailwindcss = ❤️</description>
+      <pubDate>Sat, 24 Feb 2024 10:47:37 +0800</pubDate>
+    </item>
+    <item>
+      <title>Pasty - A pastebin website with Go+Turnstile+OAuth</title>
+      <link>https://abcdlsj.github.io/posts/pasty-go-pastebin-like-website.html</link>
+      <description>Pasty - A pastebin website with Go+Turnstile+OAuth</description>
+      <pubDate>Fri, 08 Dec 2023 22:47:37 +0800</pubDate>
+    </item>
+    <item>
+      <title>Gnar - A tunnel proxy like Frp/Ngrok</title>
+      <link>https://abcdlsj.github.io/posts/gnar-build-a-proxy.html</link>
+      <description>Gnar - A tunnel proxy like Frp/Ngrok</description>
+      <pubDate>Sat, 04 Nov 2023 22:47:37 +0800</pubDate>
+    </item>
+    <item>
+      <title>Write a simple cron expression library in Golang</title>
+      <link>https://abcdlsj.github.io/posts/write-a-cron-expr-scheduler.html</link>
+      <description>Write a simple cron expression library in Golang</description>
+      <pubDate>Sun, 29 Oct 2023 23:51:37 +0800</pubDate>
+    </item>
+    <item>
+      <title>Build a website for readability at 10 minute</title>
+      <link>https://abcdlsj.github.io/posts/write-a-readability-tool.html</link>
+      <description>Build a website for readability at 10 minute</description>
+      <pubDate>Sun, 22 Oct 2023 11:51:37 +0800</pubDate>
+    </item>
+    <item>
+      <title>Tally - Build a tool like tokei/scc</title>
+      <link>https://abcdlsj.github.io/posts/tally-let-us-build-a-tool-like-tokei.html</link>
+      <description>Tally - Build a tool like tokei/scc</description>
+      <pubDate>Wed, 16 Aug 2023 18:47:37 +0800</pubDate>
+    </item>
+    <item>
+      <title>Golink - Useful local url shortener</title>
+      <link>https://abcdlsj.github.io/posts/golink-useful-local-url-shortener.html</link>
+      <description>Golink - Useful local url shortener</description>
+      <pubDate>Sun, 16 Apr 2023 22:47:37 +0800</pubDate>
+    </item>
+    <item>
+      <title>2021 ===&gt; 2022</title>
+      <link>https://abcdlsj.github.io/posts/2021.html</link>
+      <description>2021 ===&gt; 2022</description>
+      <pubDate>Fri, 31 Dec 2021 19:47:37 +0800</pubDate>
+    </item>
+    <item>
+      <title>CS144 Lab Notes</title>
+      <link>https://abcdlsj.github.io/posts/cs144-lab-notes.html</link>
+      <description>CS144 Lab Notes</description>
+      <pubDate>Tue, 04 May 2021 19:42:49 +0800</pubDate>
+    </item>
+    <item>
+      <title>Written on the Occasion of 22nd Birthday</title>
+      <link>https://abcdlsj.github.io/posts/written-on-the-occasion-of-22nd-birthday.html</link>
+      <description>Written on the Occasion of 22nd Birthday</description>
+      <pubDate>Thu, 01 Apr 2021 14:04:52 +0800</pubDate>
+    </item>
+  </channel>
+</rss>
