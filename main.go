@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"embed"
+	"encoding/xml"
 	"flag"
 	"fmt"
 	"net/url"
@@ -41,6 +42,7 @@ type CfgVar struct {
 		Name string `toml:"name"`
 		URL  string `toml:"url"`
 		Hide bool   `toml:"hide"`
+		Dir  bool   `toml:"dir"`
 	} `toml:"menus"`
 	Build struct {
 		Posts  string `toml:"posts"`
@@ -172,6 +174,26 @@ type Refer struct {
 	Title string
 	Uname string
 	Meta  PostMeta
+}
+
+type RSS struct {
+	XMLName xml.Name `xml:"rss"`
+	Version string   `xml:"version,attr"`
+	Channel Channel  `xml:"channel"`
+}
+
+type Channel struct {
+	Title       string `xml:"title"`
+	Link        string `xml:"link"`
+	Description string `xml:"description"`
+	Items       []Item `xml:"item"`
+}
+
+type Item struct {
+	Title       string `xml:"title"`
+	Link        string `xml:"link"`
+	Description string `xml:"description"`
+	PubDate     string `xml:"pubDate"`
 }
 
 func init() {
@@ -333,6 +355,49 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 	return post, nil
 }
 
+func GenerateRSS() error {
+	channel := Channel{
+		Title:       cfgVar.Title,
+		Link:        cfgVar.URL,
+		Description: cfgVar.Description,
+	}
+
+	for _, post := range Posts {
+		if post.Meta.Hide {
+			continue
+		}
+		pubDate, _ := time.Parse("2006-01-02T15:04:05Z07:00", post.Meta.Date)
+		item := Item{
+			Title:       post.Meta.Title,
+			Link:        cfgVar.URL + "/posts/" + post.Uname + ".html",
+			Description: post.Meta.Title,
+			PubDate:     pubDate.Format(time.RFC1123Z),
+		}
+		channel.Items = append(channel.Items, item)
+	}
+
+	rss := RSS{
+		Version: "2.0",
+		Channel: channel,
+	}
+
+	output, err := xml.MarshalIndent(rss, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	rssFile, err := os.Create(path.Join(cfgVar.Build.Output, "rss.xml"))
+	if err != nil {
+		return err
+	}
+	defer rssFile.Close()
+
+	rssFile.WriteString(xml.Header)
+	rssFile.Write(output)
+
+	return nil
+}
+
 func main() {
 	cfgVar = mustCfg(*cfgFile)
 
@@ -399,6 +464,10 @@ func main() {
 	Renders(RenderIndex, RenderPosts, RenderTags, RenderAbout, RenderHostsIndex)
 	CpStaticDirToOutput()
 
+	if err := GenerateRSS(); err != nil {
+		log.Fatal(err)
+	}
+
 	fmt.Println(cr.PLCyan("All done!!!"))
 }
 
@@ -449,6 +518,9 @@ func getMetaBool(meta map[string]interface{}, key string) bool {
 func CreateMenuOutputDirs() {
 	fmt.Println(cr.PLCyan("Create menu output dirs"))
 	for _, menu := range cfgVar.Menus {
+		if !menu.Dir {
+			continue
+		}
 		fmt.Printf("Create menu output dir: %s\n", menu.URL)
 		outputMenu := path.Join(cfgVar.Build.Output, menu.URL)
 		if err := os.MkdirAll(outputMenu, 0755); err != nil {

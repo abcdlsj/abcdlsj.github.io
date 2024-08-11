@@ -1,5 +1,5 @@
 url = "https://abcdlsj.github.io"
-title = "enjoy focus"
+title = "abcdlsj's blog"
 description = "Enjoy Focus!"
 homepage = '''Hi, I'm __abcdlsj__, a nickname I picked up when I first started college, it doesn't really mean anything, I've just been using it since I stepped into the world of programming!
 I love many things in the world, especially __animals__, __games__, __reading__, and __movies__.
@@ -14,17 +14,25 @@ url = ""
 slug = "posts"
 name = "Posts"
 url = "posts"
+dir = true
 
 [[menus]]
 slug = "about"
 name = "About"
 url = "about"
+dir = true
 
 [[menus]]
 slug = "hosts"
 name = "Hosts"
 url = "hosts"
 hide = true
+dir = true
+
+[[menus]]
+slug = "rss"
+name = "Feed"
+url = "rss.xml"
 
 [build]
 posts = "abcdlsj.github.io/posts"
