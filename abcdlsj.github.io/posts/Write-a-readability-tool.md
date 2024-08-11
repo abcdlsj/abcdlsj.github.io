@@ -6,6 +6,7 @@ tags:
   - Readability
 hide: false
 hideToc: true
+description: "Build a website for readability at 10 minute"
 ---
 
 ## Background

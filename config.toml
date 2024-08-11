@@ -1,6 +1,8 @@
 url = "https://abcdlsj.github.io"
 title = "abcdlsj's blog"
 description = "Enjoy Focus!"
+author = "abcdlsj"
+keywords = ["blog", "programming", "technology", "life", "travel", "reading", "movies", "games", "animals", "hardware", "software", "ai", "career", "personal"]
 homepage = '''Hi, I'm __abcdlsj__, a nickname I picked up when I first started college, it doesn't really mean anything, I've just been using it since I stepped into the world of programming!
 I love many things in the world, especially __animals__, __games__, __reading__, and __movies__.
 '''

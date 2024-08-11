@@ -8,6 +8,7 @@ tags:
   - SQLite3
 hide: false
 tocPosition: left-sidebar
+description: "Pasty 是一个带有 OAuth 和 Turnstile 的 Pastebin 网站，使用 Go 语言实现。本文详细介绍了 Pasty 的实现原理和关键代码，包括: 使用 SQLite3 来存储和查询数据，使用 Turnstile 来保护表单，使用 OAuth 来实现第三方登录。通过这篇文章，读者可以深入理解 Pastebin 网站的工作原理，学习 Go 网络编程的实践技巧。"
 ---
 
 ## Background

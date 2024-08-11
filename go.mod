@@ -6,6 +6,7 @@ require (
 	github.com/BurntSushi/toml v1.3.2
 	github.com/FurqanSoftware/goldmark-d2 v0.0.0-20230720101241-95b0e4d3e127
 	github.com/abcdlsj/cr v0.0.0-20230826080435-77f6cd9d159d
+	github.com/disintegration/imaging v1.6.2
 	github.com/otiai10/copy v1.9.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/yuin/goldmark v1.5.4

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"embed"
 	"encoding/xml"
+	"errors"
 	"flag"
 	"fmt"
 	"net/url"
@@ -33,10 +34,11 @@ import (
 )
 
 type CfgVar struct {
-	URL         string `toml:"url"`
-	Title       string `toml:"title"`
-	Description string `toml:"description"`
-	Homepage    string `toml:"homepage"`
+	URL         string   `toml:"url"`
+	Title       string   `toml:"title"`
+	Description string   `toml:"description"`
+	Homepage    string   `toml:"homepage"`
+	Keywords    []string `toml:"keywords"`
 	Menus       []struct {
 		Slug string `toml:"slug"`
 		Name string `toml:"name"`
@@ -56,6 +58,7 @@ type CfgVar struct {
 		Type   string `toml:"type"`
 		Header string `toml:"header"`
 	} `toml:"host"`
+	Author string `toml:"author"`
 }
 
 func mustCfg(f string) CfgVar {
@@ -117,6 +120,26 @@ var (
 			}
 			return t.Format("2006-01-02")
 		},
+		"dict": func(values ...interface{}) (map[string]interface{}, error) {
+			if len(values)%2 != 0 {
+				return nil, errors.New("invalid dict call")
+			}
+			dict := make(map[string]interface{}, len(values)/2)
+			for i := 0; i < len(values); i += 2 {
+				key, ok := values[i].(string)
+				if !ok {
+					return nil, errors.New("dict keys must be strings")
+				}
+				dict[key] = values[i+1]
+			}
+			return dict, nil
+		},
+		"truncate": func(s string, n int) string {
+			if len(s) > n {
+				return s[:n] + "..."
+			}
+			return s
+		},
 	}
 
 	//go:embed tmpl/*
@@ -140,6 +163,7 @@ type PostMeta struct {
 	TocPosition string   `yaml:"tocPosition"`
 	HideToc     bool     `yaml:"hideToc"`
 	Hero        string   `yaml:"hero"`
+	Description string   `yaml:"description"`
 }
 
 func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
@@ -153,6 +177,7 @@ func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 		TocPosition: orStr(getMetaStr(meta, "tocPosition"), ""),
 		HideToc:     getMetaBool(meta, "hideToc"),
 		Hero:        orStr(getMetaStr(meta, "hero"), ""),
+		Description: orStr(getMetaStr(meta, "description"), ""),
 	}
 }
 
@@ -328,7 +353,7 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 		Site:  cfgVar,
 		Meta:  meta,
 		Body:  buf.String(),
-		Uname: urlize(cleanName),
+		Uname: generateUniqueURL(cleanName),
 	}
 
 	if !post.Meta.HideToc {
@@ -353,6 +378,10 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 	}
 
 	return post, nil
+}
+
+func generateUniqueURL(name string) string {
+	return urlize(name)
 }
 
 func GenerateRSS() error {
@@ -396,6 +425,43 @@ func GenerateRSS() error {
 	rssFile.Write(output)
 
 	return nil
+}
+
+func optimizeImages(dir string) error {
+	return filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() && (strings.HasSuffix(path, ".jpg") || strings.HasSuffix(path, ".png")) {
+			// img, err := imaging.Open(path)
+			// if err != nil {
+			// 	return err
+			// }
+			// resized := imaging.Resize(img, 800, 0, imaging.Lanczos)
+			// return imaging.Save(resized, path)
+
+			// 啥也不做
+		}
+		return nil
+	})
+}
+
+func generateSitemap() error {
+	sitemap := []string{
+		`<?xml version="1.0" encoding="UTF-8"?>`,
+		`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+	}
+
+	for _, post := range Posts {
+		sitemap = append(sitemap, fmt.Sprintf(`  <url>
+    <loc>%s/posts/%s.html</loc>
+    <lastmod>%s</lastmod>
+  </url>`, cfgVar.URL, post.Uname, post.Meta.Date))
+	}
+
+	sitemap = append(sitemap, `</urlset>`)
+
+	return os.WriteFile(path.Join(cfgVar.Build.Output, "sitemap.xml"), []byte(strings.Join(sitemap, "\n")), 0644)
 }
 
 func main() {
@@ -465,6 +531,14 @@ func main() {
 	CpStaticDirToOutput()
 
 	if err := GenerateRSS(); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := optimizeImages(path.Join(cfgVar.Build.Output, "static")); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := generateSitemap(); err != nil {
 		log.Fatal(err)
 	}
 
