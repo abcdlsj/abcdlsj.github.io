@@ -8,7 +8,7 @@
     <main>
       <div class="navbar">{{template "navbar" .}}</div>
       <hr class="divider" />
-      <h2>All POSTs</h2>
+      <h1 class="posts-title">ALL POSTS ({{len .Posts}})</h1>
       <div class="post-list">
         {{range $i, $post := .Posts}}
           <article class="post">

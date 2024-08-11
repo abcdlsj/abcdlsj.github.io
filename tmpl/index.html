@@ -12,11 +12,11 @@
         {{.Site.Homepage}}
       </div>
       <hr class="divider" />
-      <h2>Recently</h2>
+      <h1 class="posts-title">RECENT POSTS</h1>
       <div class="post-list">
         <!-- only show 4 posts -->
         {{range $i, $post := .Posts}}
-          {{if lt $i 4}}
+          {{if lt $i 5}}
             <article class="post">
               <div class="post-date">{{.Meta.Date | day}}</div>
               <div class="post-index">
@@ -32,7 +32,7 @@
                 </div>
               </div>
             </article>
-            {{if lt $i 3}}
+            {{if lt $i 4}}
               <hr class="divider-short">
             {{end}}
           {{end}}
