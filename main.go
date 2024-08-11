@@ -137,6 +137,7 @@ type PostMeta struct {
 	Wip         bool     `yaml:"wip"`
 	TocPosition string   `yaml:"tocPosition"`
 	HideToc     bool     `yaml:"hideToc"`
+	Hero        string   `yaml:"hero"`
 }
 
 func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
@@ -149,6 +150,7 @@ func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 		Wip:         getMetaBool(meta, "wip"),
 		TocPosition: orStr(getMetaStr(meta, "tocPosition"), ""),
 		HideToc:     getMetaBool(meta, "hideToc"),
+		Hero:        orStr(getMetaStr(meta, "hero"), ""),
 	}
 }
 

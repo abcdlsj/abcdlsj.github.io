@@ -10,7 +10,16 @@
   <main>
     <div class="navbar">{{template "navbar" .}}</div>
     <hr class="divider" />
+    
+    {{if .Meta.Hero}}
+    <div class="hero-container">
+      <h1 class="hero-single-title">{{.Meta.Title}}</h1>
+      <div class="hero-image" style="background-image: url('{{.Meta.Hero}}');"></div>
+    </div>
+    {{else}}
     <h1 class="post-single-title">{{.Meta.Title}}</h1>
+    {{end}}
+    
     <div class="post-single-meta">
       <div class="post-date">Date: {{.Meta.Date | day}}</div>
       <nav class="post-tags">
