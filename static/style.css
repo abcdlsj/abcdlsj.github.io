@@ -20,9 +20,9 @@ blockquote {
   --font-color: #000;
   --light-dark-font-color: #565656;
 
-  --avenir-font: "Avenir";
+  --nav-font: "Roboto", "Helvetica Neue", "Arial", sans-serif;
   --serif-font: "Charter", "Avro", "Noto Serif", "Georgia", serif;
-  --content-font: "Avenir", "Noto Serif", Helvetica, Arial, sans-serif;
+  --content-font: "Avenir", "Noto Serif", "Helvetica Neue", Arial, sans-serif;
 }
 body {
   display: flex;
@@ -70,7 +70,7 @@ pre code {
   color: #000;
 }
 .navbar {
-  font-family: var(--avenir-font);
+  font-family: var(--nav-font);
   display: flex;
   color: var(--font-color);
   justify-content: space-between;
@@ -158,8 +158,12 @@ td {
   font-weight: 500;
 }
 .tag-title {
-  font-size: 1.5em;
-  font-weight: 400;
+  font-size: 1.25em;
+  font-weight: 300;
+}
+.posts-title {
+  font-size: 1.25em;
+  font-weight: 300;
 }
 .post-single-title {
   font-size: 2em;
@@ -217,8 +221,8 @@ hr {
 
 .sidebar {
   position: fixed;
-  top: 8%;
-  left: 1%;
+  top: 10%;
+  left: 4%;
   width: 20%;
   height: 100%;
   overflow-y: auto;
