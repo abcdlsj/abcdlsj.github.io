@@ -228,16 +228,22 @@ hr {
   overflow-y: auto;
 }
 
-.hero-image {
+.hero-container {
+  margin-bottom: 20px;
+}
+
+.hero-container .hero-image {
   width: 100%;
-  height: 50vh;
-  background-image: url("/static/hero.png");
+  height: 400px;
   background-size: cover;
   background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
+}
+
+.hero-container .hero-single-title {
+  font-size: 2em;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-family: var(--serif-font);
 }
 
 img {
@@ -333,4 +339,22 @@ img {
 
 .hompage-content {
   font-family: var(--serif-font);
+}
+
+.hero-image {
+  width: 100%;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.hero-title {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  font-size: 3em;
+  text-align: center;
 }
