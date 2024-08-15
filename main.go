@@ -709,22 +709,13 @@ func generateSearchIndex() error {
 	index := SearchIndex{Words: make(map[string][]string)}
 
 	for _, post := range Posts {
-		if post.Meta.Hide {
-			continue
-		}
-
 		fullText := post.Meta.Title + " " + stripHTML(post.MDData)
 		words := analyze(fullText)
 
 		for _, word := range words {
 			word = strings.ToLower(word)
-			if len(word) > 1 {
-				if _, exists := index.Words[word]; !exists {
-					index.Words[word] = []string{}
-				}
-				if !contains(index.Words[word], post.Uname) {
-					index.Words[word] = append(index.Words[word], post.Uname)
-				}
+			if !contains(index.Words[word], post.Uname) {
+				index.Words[word] = append(index.Words[word], post.Uname)
 			}
 		}
 	}

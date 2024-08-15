@@ -5,6 +5,12 @@
     <link>https://abcdlsj.github.io</link>
     <description>Enjoy Focus!</description>
     <item>
+      <title>Add content search to the blog</title>
+      <link>https://abcdlsj.github.io/posts/add-content-search-to-blog.html</link>
+      <description>Add content search to the blog</description>
+      <pubDate>Thu, 15 Aug 2024 23:42:49 +0800</pubDate>
+    </item>
+    <item>
       <title>Rssy - A miniflux rss reader alternative</title>
       <link>https://abcdlsj.github.io/posts/rssy-go-rssread-website.html</link>
       <description>Rssy - A miniflux rss reader alternative</description>
