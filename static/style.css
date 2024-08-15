@@ -345,3 +345,40 @@ img {
 .hompage-content {
   font-family: var(--serif-font);
 }
+
+.search-container {
+  position: fixed;
+  top: 10%;
+  left: 5%;
+  width: 15%;
+}
+
+#search-input {
+  width: 70%;
+  padding: 8px;
+  border: 1px solid var(--light-border-color);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+#search-results {
+  padding: 0;
+  margin-top: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-family: var(--serif-font);
+}
+
+#search-results li {
+  list-style: square inside;
+  padding: 5px 0;
+}
+
+#search-results a {
+  color: var(--font-color);
+  text-decoration: none;
+}
+
+#search-results a:hover {
+  text-decoration: underline;
+}
