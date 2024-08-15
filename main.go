@@ -18,6 +18,7 @@ import (
 	"text/template"
 	"time"
 	"unicode"
+	"unicode/utf8"
 
 	"github.com/BurntSushi/toml"
 	d2 "github.com/FurqanSoftware/goldmark-d2"
@@ -767,7 +768,9 @@ func analyze(text string) []string {
 			continue
 		}
 
-		if len(word) < 2 {
+		if utf8.RuneCountInString(word) < 2 ||
+			utf8.RuneCountInString(word) > 10 ||
+			len(word) < 2 || len(word) > 10 {
 			continue
 		}
 
