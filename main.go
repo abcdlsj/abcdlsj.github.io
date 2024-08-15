@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"embed"
+	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"flag"
@@ -12,13 +13,16 @@ import (
 	"path"
 	"path/filepath"
 	"sort"
+	"strconv"
 	"strings"
 	"text/template"
 	"time"
+	"unicode"
 
 	"github.com/BurntSushi/toml"
 	d2 "github.com/FurqanSoftware/goldmark-d2"
 	"github.com/abcdlsj/cr"
+	"github.com/huichen/sego"
 	"github.com/otiai10/copy"
 	log "github.com/sirupsen/logrus"
 	"github.com/yuin/goldmark"
@@ -147,6 +151,8 @@ var (
 
 	t *template.Template
 
+	sm sego.Segmenter
+
 	Posts     []Post
 	WipPosts  []Post
 	TagMap    map[string]Tag
@@ -187,6 +193,7 @@ type Post struct {
 	Body       string
 	Uname      string
 	TocContent string
+	MDData     string
 }
 
 type Tag struct {
@@ -221,6 +228,10 @@ type Item struct {
 	PubDate     string `xml:"pubDate"`
 }
 
+type SearchIndex struct {
+	Words map[string][]string `json:"words"`
+}
+
 func init() {
 	flag.Parse()
 
@@ -228,6 +239,8 @@ func init() {
 		TimestampFormat: "2006-01-02 15:04:05",
 	})
 	log.SetLevel(log.DebugLevel)
+
+	smLoadDict()
 }
 
 func RenderIndex() {
@@ -350,10 +363,11 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 	meta := unmarshalPostMeta(meta.Get(context))
 
 	post := Post{
-		Site:  cfgVar,
-		Meta:  meta,
-		Body:  buf.String(),
-		Uname: generateUniqueURL(cleanName),
+		Site:   cfgVar,
+		Meta:   meta,
+		Body:   buf.String(),
+		Uname:  generateUniqueURL(cleanName),
+		MDData: string(data),
 	}
 
 	if !post.Meta.HideToc {
@@ -542,6 +556,10 @@ func main() {
 		log.Fatal(err)
 	}
 
+	if err := generateSearchIndex(); err != nil {
+		log.Fatal(err)
+	}
+
 	fmt.Println(cr.PLCyan("All done!!!"))
 }
 
@@ -684,4 +702,139 @@ func getAllFiles(dir string) ([]string, error) {
 	})
 
 	return result, nil
+}
+
+func generateSearchIndex() error {
+	index := SearchIndex{Words: make(map[string][]string)}
+
+	for _, post := range Posts {
+		if post.Meta.Hide {
+			continue
+		}
+
+		fullText := post.Meta.Title + " " + stripHTML(post.MDData)
+		words := analyze(fullText)
+
+		for _, word := range words {
+			word = strings.ToLower(word)
+			if len(word) > 1 {
+				if _, exists := index.Words[word]; !exists {
+					index.Words[word] = []string{}
+				}
+				if !contains(index.Words[word], post.Uname) {
+					index.Words[word] = append(index.Words[word], post.Uname)
+				}
+			}
+		}
+	}
+
+	jsonData, err := json.Marshal(index)
+	if err != nil {
+		return err
+	}
+
+	return os.WriteFile(path.Join(cfgVar.Build.Output, "search-index.json"), jsonData, 0644)
+}
+
+func stripHTML(input string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(input, "<", " "), ">", " ")
+}
+
+func contains(slice []string, item string) bool {
+	for _, a := range slice {
+		if a == item {
+			return true
+		}
+	}
+	return false
+}
+
+func smLoadDict() {
+	sm.LoadDictionary("dictionary.txt")
+}
+
+func analyze(text string) []string {
+	segments := sm.Segment([]byte(text))
+	words := sego.SegmentsToSlice(segments, false)
+
+	var filteredWords []string
+	for _, word := range words {
+		if isNumeric(word) {
+			continue
+		}
+
+		if isImageFile(word) {
+			continue
+		}
+
+		if len(word) < 2 {
+			continue
+		}
+
+		if isStopWord(word) {
+			continue
+		}
+
+		if isGibberish(word) {
+			continue
+		}
+
+		filteredWords = append(filteredWords, word)
+	}
+
+	return filteredWords
+}
+
+func isNumeric(s string) bool {
+	_, err := strconv.ParseFloat(s, 64)
+	return err == nil
+}
+
+func isImageFile(s string) bool {
+	extensions := []string{".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"}
+	for _, ext := range extensions {
+		if strings.HasSuffix(strings.ToLower(s), ext) {
+			return true
+		}
+	}
+	return false
+}
+
+func isStopWord(s string) bool {
+	stopWords := map[string]bool{
+		"的": true, "了": true, "和": true, "是": true, "就": true,
+		"在": true, "也": true, "为": true, "而": true, "以": true,
+		"与": true, "或": true, "一": true, "把": true, "但": true,
+	}
+	return stopWords[s]
+}
+
+func isGibberish(s string) bool {
+	nonAlphaNumCount := 0
+	for _, r := range s {
+		if !unicode.IsLetter(r) && !unicode.IsNumber(r) {
+			nonAlphaNumCount++
+		}
+	}
+	if float64(nonAlphaNumCount)/float64(len(s)) > 0.3 {
+		return true
+	}
+
+	for i := 0; i < len(s)-2; i++ {
+		if s[i] == s[i+1] && s[i] == s[i+2] {
+			return true
+		}
+	}
+
+	upperCount := 0
+	for _, r := range s {
+		if unicode.IsUpper(r) {
+			upperCount++
+		}
+	}
+	if float64(upperCount)/float64(len(s)) > 0.5 && len(s) > 3 {
+		return true
+	}
+
+	return false
 }

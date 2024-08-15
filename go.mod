@@ -6,7 +6,7 @@ require (
 	github.com/BurntSushi/toml v1.3.2
 	github.com/FurqanSoftware/goldmark-d2 v0.0.0-20230720101241-95b0e4d3e127
 	github.com/abcdlsj/cr v0.0.0-20230826080435-77f6cd9d159d
-	github.com/disintegration/imaging v1.6.2
+	github.com/huichen/sego v0.0.0-20210824061530-c87651ea5c76
 	github.com/otiai10/copy v1.9.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/yuin/goldmark v1.5.4
@@ -19,6 +19,7 @@ require (
 require (
 	cdr.dev/slog v1.4.2-0.20221206192828-e4803b10ae17 // indirect
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
+	github.com/adamzy/cedar-go v0.0.0-20170805034717-80a9c64b256d // indirect
 	github.com/alecthomas/chroma v0.10.0 // indirect
 	github.com/alecthomas/chroma/v2 v2.5.0 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect

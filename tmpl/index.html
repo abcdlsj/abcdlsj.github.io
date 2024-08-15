@@ -5,6 +5,11 @@
     {{template "head" dict "Site" .Site "IsPost" false}}
   </head>
   <body class="container">
+    <div class="search-container">
+      <div>Search posts content</div>
+      <input type="text" id="search-input" placeholder="search...">
+      <ul id="search-results"></ul>
+    </div>
     <main>
       <div class="navbar">{{template "navbar" .}}</div>
       <hr class="divider" />
