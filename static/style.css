@@ -14,14 +14,15 @@ blockquote {
 }
 :root {
   --light-border-color: #91969a;
-  --href-color: #015bbb;
+  --code-color: #d64b4b;
+  --href-color: #0eac8f;
   --dark-ref-color: #186782;
   --font-color: #000;
   --light-dark-font-color: #565656;
 
   --nav-font: "Roboto", "Helvetica Neue", "Arial", sans-serif;
   --serif-font: "Charter", "Avro", "Noto Serif", "Georgia", serif;
-  --content-font: "Helvetica Neue", "Arial", sans-serif;
+  --content-font: "Avenir", "Noto Serif", "Helvetica Neue", Arial, sans-serif;
 }
 body {
   display: flex;
@@ -58,10 +59,8 @@ blockquote {
   background-color: #f2f3f5;
 }
 code {
+  color: var(--code-color);
   font-size: 0.95em;
-  padding: 0.2rem 0.25rem;
-  border-radius: 4px;
-  background-color: #ecedef;
 }
 pre code {
   background: #f2f3f5;
