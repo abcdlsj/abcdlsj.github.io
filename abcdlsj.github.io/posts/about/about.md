@@ -17,6 +17,5 @@ Currently, I live in __Shenzhen__ and work for [Shopee](https://shopee.com/).
 If you want to contact me, please email me: <github@songjian.li> or <lisongjianshuai@gmail.com>
 
 - [GitHub profile](https://github.com/abcdlsj)
-- [CN-EN Resume](https://github.com/abcdlsj/resume/blob/typst/resume-cn-en.pdf)
 
 This site is powered by Go [generator](https://github.com/abcdlsj/abcdlsj.github.io) write by my own.
