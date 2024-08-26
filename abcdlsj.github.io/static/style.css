@@ -27,9 +27,9 @@ body {
   display: flex;
   flex-direction: column;
   font-family: var(--content-font);
-  line-height: 1.8;
+  line-height: 1.6;
   margin: auto;
-  max-width: 55%;
+  max-width: 50%;
   padding: 20px;
 }
 .container {
@@ -227,7 +227,7 @@ hr {
 .sidebar {
   position: fixed;
   top: 10%;
-  left: 4%;
+  left: 8%;
   width: 20%;
   height: 100%;
   overflow-y: auto;
@@ -350,7 +350,7 @@ img {
 .search-container {
   position: fixed;
   top: 10%;
-  left: 5%;
+  left: 8%;
   width: 15%;
 }
 
@@ -383,3 +383,4 @@ img {
 #search-results a:hover {
   text-decoration: underline;
 }
+
