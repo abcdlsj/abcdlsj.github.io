@@ -15,6 +15,7 @@ description: "Gnar 是一个类似 Frp/Ngrok 的隧道代理工具，使用 Go �
 > Changelog:
 > 2023-11-11: 更新了代码结构和接口 
 > 2023-11-06: 添加了 `yamux` 支持
+> 2024-09-08: 更新了 `server` 和 `client` 的 cmd 使用
 
 ## Background
 
@@ -545,7 +546,9 @@ func Stream(s1, s2 io.ReadWriteCloser) {
 到此，`Gnar` 的实现已经差不多，基本上列出了完整的流程，接下来会写下 `Gnar` 所实现的 `Feature`。
 
 ## Feature
+
 ### Auto-Https
+
 > 目标是实现自动 `Subdomain` 分配并且支持 `Https`
 
 也就是假设 Server 运行在 `example.com` 机器，Client 开启转发 `Local 3000` 到 `Server 9000` 端口。
@@ -575,6 +578,12 @@ Server 会生成 `xxx.example.com` 的 `Subdomain`，提供 `Auto-Https`，用�
 
 这是 `Caddy` 部分代码：
 [server/caddy_service.go#L22](https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22)
+
+
+> 这里的 `caddyAddRouteUrl` 我是指定的 `gnar` 作为 server name。
+> 如果是服务器上正在运行的 `Caddy` 服务，可以使用 `sudo caddy adapt --config /etc/caddy/Caddyfile` 去查看一下生成的 `JSON`（正常默认是 `srv0`）
+> 然后对比我上面给出的 `Config`，按需修改 `caddyAddRouteUrl`（最新版本支持自定义 `srv name`）
+
 ```go
 var (
 	caddyAddRouteF         = "{\"@id\":\"%s\",\"match\":[{\"host\":[\"%s\"]}],\"handle\":[{\"handler\":\"reverse_proxy\",\"upstreams\":[{\"dial\":\":%d\"}]}]}"
@@ -601,6 +610,7 @@ func addCaddyRouter(host string, port int) error {
 	return nil
 }
 ```
+
 前置准备：
 1. 要先设置好域名 `DNS` 解析，要设置两条记录 `A *.example.com <your server ip>` 和 `A example.com <your server ip>`。
 2. 运行 `Caddy`（如果是 `Cloudflare DNS` 还需要自己编译支持 `Cloudflare DNS plugin` 的 `Caddy` 版本，以及配置里填写 `Cloudflare KEY`，具体流程如有需要网上找下应该可以找到）。
