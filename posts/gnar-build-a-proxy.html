@@ -185,7 +185,8 @@ Table of Contents<ul>
       <article><blockquote>
 <p>Changelog:<br>
 2023-11-11: 更新了代码结构和接口<br>
-2023-11-06: 添加了 <code>yamux</code> 支持</p>
+2023-11-06: 添加了 <code>yamux</code> 支持<br>
+2024-09-08: 更新了 <code>server</code> 和 <code>client</code> 的 cmd 使用</p>
 </blockquote>
 <h2 id="background">Background</h2>
 <p><strong>实现简单的转发工具</strong></p>
@@ -809,6 +810,11 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，提�
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre><p>这是 <code>Caddy</code> 部分代码：<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22">server/caddy_service.go#L22</a></p>
+<blockquote>
+<p>这里的 <code>caddyAddRouteUrl</code> 我是指定的 <code>gnar</code> 作为 server name。<br>
+如果是服务器上正在运行的 <code>Caddy</code> 服务，可以使用 <code>sudo caddy adapt --config /etc/caddy/Caddyfile</code> 去查看一下生成的 <code>JSON</code>（正常默认是 <code>srv0</code>）<br>
+然后对比我上面给出的 <code>Config</code>，按需修改 <code>caddyAddRouteUrl</code>（最新版本支持自定义 <code>srv name</code>）</p>
+</blockquote>
 <pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
 </span></span><span style="display:flex;"><span>	caddyAddRouteF         = <span style="color:#d14">&#34;{\&#34;@id\&#34;:\&#34;%s\&#34;,\&#34;match\&#34;:[{\&#34;host\&#34;:[\&#34;%s\&#34;]}],\&#34;handle\&#34;:[{\&#34;handler\&#34;:\&#34;reverse_proxy\&#34;,\&#34;upstreams\&#34;:[{\&#34;dial\&#34;:\&#34;:%d\&#34;}]}]}&#34;</span>
 </span></span><span style="display:flex;"><span>	caddyAddRouteUrl       = <span style="color:#d14">&#34;http://127.0.0.1:2019/config/apps/http/servers/gnar/routes&#34;</span>
