@@ -215,11 +215,18 @@ type RSS struct {
 	Channel Channel  `xml:"channel"`
 }
 
+type FollowChanllenge struct {
+	XMLName xml.Name `xml:"follow_challenge"`
+	FeedId  string   `xml:"feedId"`
+	UserId  string   `xml:"userId"`
+}
+
 type Channel struct {
-	Title       string `xml:"title"`
-	Link        string `xml:"link"`
-	Description string `xml:"description"`
-	Items       []Item `xml:"item"`
+	Title           string           `xml:"title"`
+	Link            string           `xml:"link"`
+	Description     string           `xml:"description"`
+	Items           []Item           `xml:"item"`
+	FollowChallenge FollowChanllenge `xml:"follow_challenge"`
 }
 
 type Item struct {
@@ -404,6 +411,10 @@ func GenerateRSS() error {
 		Title:       cfgVar.Title,
 		Link:        cfgVar.URL,
 		Description: cfgVar.Description,
+		FollowChallenge: FollowChanllenge{
+			FeedId: "81944482269007872",
+			UserId: "54069612848210944",
+		},
 	}
 
 	for _, post := range Posts {
