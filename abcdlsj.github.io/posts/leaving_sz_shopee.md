@@ -5,6 +5,7 @@ tags:
     - Summary
 hide: false
 hideToc: true
+hero: "/static/img/shopee_sz.jpeg"
 description: "Leaved Shopee"
 ---
 
