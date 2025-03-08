@@ -145,6 +145,14 @@ var (
 			}
 			return s
 		},
+		"contains": func(slice []string, item string) bool {
+			for _, s := range slice {
+				if s == item {
+					return true
+				}
+			}
+			return false
+		},
 	}
 
 	//go:embed tmpl/*
@@ -171,6 +179,7 @@ type PostMeta struct {
 	HideToc     bool     `yaml:"hideToc"`
 	Hero        string   `yaml:"hero"`
 	Description string   `yaml:"description"`
+	Languages   []string `yaml:"languages"`
 }
 
 func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
@@ -185,6 +194,7 @@ func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 		HideToc:     getMetaBool(meta, "hideToc"),
 		Hero:        orStr(getMetaStr(meta, "hero"), ""),
 		Description: orStr(getMetaStr(meta, "description"), ""),
+		Languages:   orStrs(getMetaStrs(meta, "languages"), []string{"en"}),
 	}
 }
 
@@ -698,6 +708,13 @@ func urlize(s string) string {
 
 func orStr(s string, dv string) string {
 	if s != "" {
+		return s
+	}
+	return dv
+}
+
+func orStrs(s []string, dv []string) []string {
+	if len(s) != 0 {
 		return s
 	}
 	return dv

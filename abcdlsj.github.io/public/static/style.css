@@ -395,3 +395,43 @@ img {
   text-decoration: underline;
 }
 
+/* Language indicator styles */
+.language-indicator {
+  display: inline-block;
+  font-size: 0.7em;
+  margin-left: 8px;
+  vertical-align: middle;
+  color: #999;
+}
+
+.language-indicator.small {
+  font-size: 0.6em;
+  margin-left: 5px;
+}
+
+.lang {
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.lang-active {
+  color: var(--href-color);
+  font-weight: 700;
+}
+
+/* Adjust positioning for language indicators in different contexts */
+.post-index-title {
+  display: flex;
+  align-items: center;
+}
+
+.post-tag-index-title {
+  display: flex;
+  align-items: center;
+}
+
+.wip-post-title {
+  display: flex;
+  align-items: center;
+}
+

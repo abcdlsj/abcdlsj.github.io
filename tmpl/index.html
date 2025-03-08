@@ -27,6 +27,9 @@
               <div class="post-index">
                 <div class="post-index-title">
                   <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
+                  <div class="language-indicator">
+                    <span class="lang {{if contains .Meta.Languages "en"}}lang-active{{end}}">en</span>/<span class="lang {{if contains .Meta.Languages "cn"}}lang-active{{end}}">cn</span>
+                  </div>
                 </div>
                 <div class="post-meta">
                   <nav class="post-tags">
@@ -49,6 +52,9 @@
         {{range .WipPosts}}
         <div class="wip-post-title">
           <a href="/posts/{{.Uname | urlize}}.html">- {{.Meta.Title}}</a>
+          <div class="language-indicator small">
+            <span class="lang {{if contains .Meta.Languages "en"}}lang-active{{end}}">en</span>/<span class="lang {{if contains .Meta.Languages "cn"}}lang-active{{end}}">cn</span>
+          </div>
         </div>
         {{end}}
       </div>
