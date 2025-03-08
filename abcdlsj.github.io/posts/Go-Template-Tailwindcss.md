@@ -6,6 +6,8 @@ tags:
   - Template
 hide: false
 hideToc: true
+languages:
+    - cn
 ---
 
 > 写很多小项目的时候，我都是使用 `Go` `Template` 实现的，也就是渲染 `HTML` 文件模版，代码比较简单，但是样式的部分却很难满意，因为 `CSS` 实在是难以理解（^^），而 [`Tailwind CSS`](https://tailwindcss.com/) 就是另外一个 `CSS` 框架，它可以用简单的方式实现样式。

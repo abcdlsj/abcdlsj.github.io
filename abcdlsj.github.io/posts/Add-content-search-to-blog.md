@@ -10,6 +10,8 @@ hide: false
 toc: true
 tocPosition: left-sidebar
 description: "介绍了如何给 SSG（Static Site Generator）添加内容搜索功能"
+languages:
+    - cn
 ---
 
 ## Background

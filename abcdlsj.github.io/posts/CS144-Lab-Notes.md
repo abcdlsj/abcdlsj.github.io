@@ -6,6 +6,8 @@ tags:
   - Network
 hide: false
 description: "CS144 Lab Notes"
+languages:
+    - cn
 ---
 
 > It’s not always natural what the “right” behavior is.

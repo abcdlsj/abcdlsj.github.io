@@ -7,6 +7,8 @@ hide: false
 hideToc: true
 hero: "/static/img/shopee_sz.jpeg"
 description: "Leaved Shopee"
+languages:
+    - cn
 ---
 
 > 作为在 🦐 厂练习时长 2.5 + 1 年的程序员，我在 11 月末主动离开了 Shopee，这里写下最近几年的流水账吧。
