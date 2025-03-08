@@ -398,15 +398,14 @@ img {
 /* Language indicator styles */
 .language-indicator {
   display: inline-block;
-  font-size: 0.7em;
-  margin-left: 8px;
-  vertical-align: middle;
+  font-size: 0.6em;
   color: #999;
+  margin-left: auto;
+  align-self: flex-end;
 }
 
 .language-indicator.small {
-  font-size: 0.6em;
-  margin-left: 5px;
+  font-size: 0.5em;
 }
 
 .lang {
@@ -422,16 +421,30 @@ img {
 /* Adjust positioning for language indicators in different contexts */
 .post-index-title {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.post-index-title a {
+  margin-right: 10px;
 }
 
 .post-tag-index-title {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.post-tag-index-title a {
+  margin-right: 10px;
 }
 
 .wip-post-title {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
