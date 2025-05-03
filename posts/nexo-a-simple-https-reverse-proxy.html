@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+<meta charset="UTF-8" />
+<title>Nexo - A Simple HTTPS Reverse Proxy</title>
+<meta name="description" content="Enjoy Focus!" />
+
+<meta name="keywords" content="Reverse Proxy,Cert,Cloudflare,">
+<meta name="author" content="abcdlsj">
+<meta property="og:title" content="Nexo - A Simple HTTPS Reverse Proxy">
+<meta property="og:description" content="Nexo 是一个简单但功能强大的 HTTPS 反向代理工具，使用 Go 语言实现。本文详细介绍了 Nexo 的实现原理和关键代码，包括：自动证书管理、Cloudflare DNS 验证、通配符证书支持等特性。通过这篇文章，读者可以深入理解 HTTPS 反向代理的工作原理，以及如何使用 Go 实现一个生产级别的代理服务器。">
+<meta property="og:url" content="https://abcdlsj.github.io/posts/nexo-a-simple-https-reverse-proxy.html">
+<meta property="og:type" content="article">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+/>
+<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="stylesheet" href="/static/style.css" />
+<script
+  defer
+  src="https://us.umami.is/script.js"
+  data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"
+></script>
+<script src="/static/script/search.js"></script>
+
+</head>
+
+<body class="container">
+  <main>
+    <div class="navbar">
+<nav class="navbar">
+  
+  
+  <ul class="menu">
+    <li>
+      <a href="/"  class="home">Home</a>
+    </li>
+  </ul>
+  
+  
+  
+  <ul class="menu">
+    <li>
+      <a href="/posts"  class="posts">Posts</a>
+    </li>
+  </ul>
+  
+  
+  
+  <ul class="menu">
+    <li>
+      <a href="/about"  class="about">About</a>
+    </li>
+  </ul>
+  
+  
+  
+  
+  
+  <ul class="menu">
+    <li>
+      <a href="/rss.xml"  class="feed">Feed</a>
+    </li>
+  </ul>
+  
+  
+</nav>
+</div>
+    <hr class="divider" />
+    
+    
+    <h1 class="post-single-title">Nexo - A Simple HTTPS Reverse Proxy</h1>
+    
+    
+    <div class="post-single-meta">
+      <div class="post-date">Date: 2025-05-03</div>
+      <nav class="post-tags">
+        
+        <a href="/tags/reverse+proxy.html" class="tag">#Reverse Proxy</a>
+        
+        <a href="/tags/cert.html" class="tag">#Cert</a>
+        
+        <a href="/tags/cloudflare.html" class="tag">#Cloudflare</a>
+        
+      </nav>
+       
+      <script>
+        var tocContent = document.getElementById("toc-content");
+
+        // 监听页面滚动事件
+        window.addEventListener("scroll", function () {
+          var scrollPosition = window.scrollY || window.pageYOffset;
+
+          // 保持TocContent在侧边栏顶部
+          tocContent.style.top = scrollPosition + "px";
+        });
+
+        // 监听目录链接点击事件
+        tocContent.addEventListener("click", function (event) {
+          if (event.target.tagName === "A") {
+            event.preventDefault();
+            var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
+            var targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
+            }
+          }
+        });
+
+        function scrollToTop() {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        }
+      </script>
+      <div class="sidebar">
+        <div class="post-toc">
+<li>
+Table of Contents<ul>
+<li>
+<a href="#background">Background</a></li>
+<li>
+<a href="#features">Features</a></li>
+<li>
+<a href="#usage">Usage</a></li>
+<li>
+<a href="#implementation">Implementation</a><ul>
+<li>
+<a href="#certificate-management">Certificate Management</a></li>
+<li>
+<a href="#performance-optimization">Performance Optimization</a></li>
+</ul>
+</li>
+<li>
+<a href="#future-plans">Future Plans</a></li>
+</ul>
+</li>
+</ul>
+</div>
+      </div>
+       
+    </div>
+    <hr class="divider" />
+    <div class="post-content">
+      <article><blockquote>
+<p>Changelog:</p>
+<ul>
+<li>2025-05-03: first 1.0 version</li>
+</ul>
+</blockquote>
+<h2 id="background">Background</h2>
+<blockquote>
+<p>项目地址：<a href="https://github.com/abcdlsj/nexo">abcdlsj/nexo</a></p>
+</blockquote>
+<p>我之前一直在用 <code>Caddy</code> 作为证书管理和反向代理服务器。虽然 <code>Caddy</code> 很强大，但是它的 <code>Caddyfile</code> 配置语法说实话挺反人类的，而且功能太多太复杂了。最让我头疼的是它的 <code>Cloudflare DNS provider</code> 是以插件形式提供的，每次都要用 <code>xcaddy build --with github.com/caddy-dns/cloudflare</code> 去构建，太麻烦了。</p>
+<p>不过因为我之前在腾讯云有台 2 核 4G 的机器（买了 3 年），<code>Caddy</code> 在上面跑得挺好的，几年前配置过一次就一直能用，也就懒得去折腾了。</p>
+<p>但是上个月腾讯云的机器到期了，我换到了一台 0.5 欧元一个月的机器上。这台机器只有 1 核 1G，性能差得要命。迁移服务的时候，我本来想着图省事，就不编译 <code>Caddy</code> 了，换成了 <code>Nginx Proxy Manager</code>。它有个 Web UI，配置很方便，基本上开箱即用。</p>
+<p>结果用了才发现，这玩意儿内存占用居然超过 100M！对于一台 1G 内存的小机器来说，这也太夸张了。于是我就想，干脆自己写一个证书管理加反向代理的服务算了。</p>
+<p>最开始简单写了反向代理的部分，但是发现最麻烦的是证书管理以及处理各种 <code>DNS Provider</code>。</p>
+<p>有一天无意间刷到 <a href="https://github.com/go-acme/lego">go-acme/lego</a> 这个库，于是在 <code>Cursor</code> 的帮助下，很快就把基本功能搭建起来了。最近这两周一直在用，不断发现问题，不断优化，现在终于趋于完善了。</p>
+<h2 id="features">Features</h2>
+<p>Nexo 的主要特性：</p>
+<ol>
+<li>自动管理 HTTPS 证书（申请和续期）</li>
+<li>支持通配符证书</li>
+<li>用 Cloudflare DNS 验证（不用开 80 端口）</li>
+<li>配置简单，一个 YAML 搞定</li>
+<li>支持动态更新配置</li>
+<li>资源占用极低（对比 Nginx Proxy Manager 的 100M+，Nexo 占用低于 10M）</li>
+</ol>
+<h2 id="usage">Usage</h2>
+<p>最简单的方式是用 Docker 启动：</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>docker run --restart<span style="color:#000;font-weight:bold">=</span>unless-stopped --name nexo <span style="color:#d14">\
+</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>  -p 443:443 <span style="color:#d14">\
+</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>  -v ~/.nexo:/etc/nexo <span style="color:#d14">\
+</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>  ghcr.io/abcdlsj/nexo:latest
+</span></span></code></pre><p>当然也可以直接运行二进制：</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>sudo nexo server
+</span></span></code></pre><p>配置文件放在 <code>~/.nexo/config.yaml</code>，示例：</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000080">base_dir</span>:<span style="color:#bbb"> </span>/etc/nexo<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">cert_dir</span>:<span style="color:#bbb"> </span>/etc/nexo/certs<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">email</span>:<span style="color:#bbb"> </span>your-email@example.com<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">cloudflare</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#000080">api_token</span>:<span style="color:#bbb"> </span>your-cloudflare-api-token<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#998;font-style:italic"># 域名级别配置</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">wildcards</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>- <span style="color:#d14">&#34;*.example.com&#34;</span><span style="color:#bbb">    </span><span style="color:#998;font-style:italic"># 表示这个域名使用 wildcard 证书</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">proxies</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#d14">&#34;api.example.com&#34;</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">upstream</span>:<span style="color:#bbb"> </span>http://172.17.0.1:8080<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#d14">&#34;blog.example.com&#34;</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">upstream</span>:<span style="color:#bbb"> </span>http://172.17.0.1:3000<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#d14">&#34;example.com&#34;</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">redirect</span>:<span style="color:#bbb"> </span>github.com/yourusername<span style="color:#bbb"> </span><span style="color:#998;font-style:italic"># 会自动带上 https</span><span style="color:#bbb">
+</span></span></span></code></pre><p>就这么简单，Nexo 会自动：</p>
+<ol>
+<li>申请/续期证书</li>
+<li>处理 DNS 验证</li>
+<li>设置反向代理</li>
+<li>监听配置变化并自动重载</li>
+</ol>
+<h2 id="implementation">Implementation</h2>
+<p>整个项目的实现其实很简单，主要是这么几块：</p>
+<h3 id="certificate-management">Certificate Management</h3>
+<p>证书管理这块用了 <code>go-acme/lego</code> 这个库，它对 <code>Let's Encrypt</code> 的 ACME 协议支持得很好，而且有现成的 <code>Cloudflare DNS</code> 验证实现。</p>
+<p>证书的续期和失败重试逻辑很简单：</p>
+<ul>
+<li>每 24 小时检查一次所有证书</li>
+<li>如果证书快过期了（30 天内），就自动续期</li>
+<li>如果申请失败了，会加入重试队列，每小时重试一次</li>
+</ul>
+<h3 id="performance-optimization">Performance Optimization</h3>
+<p>因为是在 1 核 1G 的小机器上跑，所以做了一些针对性优化：</p>
+<ol>
+<li>内存控制</li>
+</ol>
+<ul>
+<li>限制了请求体大小（默认 10MB）</li>
+<li>限制了请求头大小（默认 1MB）</li>
+<li>实现了请求体的流式处理，避免大请求占用太多内存</li>
+</ul>
+<ol start="2">
+<li>连接优化</li>
+</ol>
+<ul>
+<li>设置了合理的超时时间（读写 30s，空闲 120s）</li>
+<li>启用了 <code>TCP KeepAlive</code>，保持连接复用</li>
+<li>对空闲连接做了限制，避免资源浪费</li>
+<li>针对不同类型的响应设置了合适的 <code>Cache-Control</code> 头，减少不必要的请求</li>
+</ul>
+<ol start="3">
+<li>证书缓存</li>
+</ol>
+<ul>
+<li>证书加载后会缓存在内存中</li>
+<li>只有在证书更新或配置变化时才会重新加载</li>
+<li>通配符证书优先，可以覆盖多个子域名，减少证书数量</li>
+</ul>
+<p>最终在我这台 1 核 1G 的小机器上，<code>Nexo</code> 的内存占用稳定低于 10MB（目前没有太多请求的情况下保持在 5MB 左右），比 <code>Nginx Proxy Manager</code> 省了 <code>90%+</code> 的内存。</p>
+<img alt="nexo docker memory" src="/static/img/nexo-docker-memory.png" width="100%" style="border: 1px solid gray;">
+<p>PS. 1 核 1G 的机器非常垃圾，如果有高 IO / 高 CPU 的需求，千万别用</p>
+<img alt="1h1g memmory usage" src="/static/img/1h1g-memory-usage.png" width="100%" style="border: 1px solid gray;">
+<p>上图看到间断的部分，是机器爆炸后我进行的重启...我连 <code>Memos</code> 服务存储使用 <code>Sqlite3 Blob</code> 都被迫迁移到 <code>S3</code> 了，这个之前在 2 核 4G 机器上不存在问题。</p>
+<h2 id="future-plans">Future Plans</h2>
+<p>无（对我来说完全够用了</p>
+<blockquote>
+<p>没有想到五一还在写代码...</p>
+</blockquote>
+</article>
+    </div>
+    <hr class="divider" />
+    <!-- 
+<footer class="footer">
+  <p class="footer-author">
+    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
+  </p>
+  <p class="footer-proj">
+    Source
+    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
+  </p>
+</footer>
+ -->
+  </main>
+  <div class="go-to-top">
+    <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
+  </div>
+  <div id="disqus_thread"></div>
+  <script>
+    (function () {
+      // DON'T EDIT BELOW THIS LINE
+      var d = document,
+        s = d.createElement("script");
+      s.src = "https://abcdlsj.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</body>
+
+</html>
