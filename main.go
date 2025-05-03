@@ -458,6 +458,7 @@ func GenerateRSS() error {
 	defer rssFile.Close()
 
 	rssFile.WriteString(xml.Header)
+	rssFile.WriteString(`<?xml-stylesheet href="/static/pretty_feed.xsl" type="text/xsl"?>` + "\n")
 	rssFile.Write(output)
 
 	return nil
