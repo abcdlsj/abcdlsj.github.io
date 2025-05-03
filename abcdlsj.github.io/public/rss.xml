@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="/static/pretty_feed.xsl" type="text/xsl"?>
 <rss version="2.0">
   <channel>
     <title>abcdlsj&#39;s blog</title>
     <link>https://abcdlsj.github.io</link>
     <description>Enjoy Focus!</description>
+    <item>
+      <title>Nexo - A Simple HTTPS Reverse Proxy</title>
+      <link>https://abcdlsj.github.io/posts/nexo-a-simple-https-reverse-proxy.html</link>
+      <description>Nexo - A Simple HTTPS Reverse Proxy</description>
+      <pubDate>Sat, 03 May 2025 19:00:00 +0800</pubDate>
+    </item>
     <item>
       <title>2024 Summary &amp; New company</title>
       <link>https://abcdlsj.github.io/posts/2024.html</link>
