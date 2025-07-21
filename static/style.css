@@ -13,31 +13,31 @@ blockquote {
   padding: 0;
 }
 :root {
-  --light-border-color: #91969a;
+  /* Color system */
+  --background-color: #ffffff;
+  --font-color: #060606;  /* Slightly softer than pure black */
+  --light-dark-font-color: #565656;
   --href-color: #015bbb;
   --dark-ref-color: #186782;
-  --font-color: #000;
-  --light-dark-font-color: #565656;
-  --background-color: #ffffff;
+  --light-border-color: #91969a;
   --code-background: #f8f9fa;
   --tag-background: #f3f4f6;
   --tag-hover-background: #e5e7eb;
 
-  --nav-font: "Helvetica Neue", "Roboto", "Arial", sans-serif;
-  --serif-font: "Charter", "Avro", "Noto Serif", "Georgia", serif;
-  --content-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  /* Typography system */
+  --base-font: "Helvetica Neue", -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  --code-font: "JetBrains Mono", "Fira Code", "Source Code Pro", "SF Mono", Menlo, Monaco, Consolas, monospace;
+  --nav-font: var(--base-font);
 }
+
+/* Base typography */
 body {
-  display: flex;
-  flex-direction: column;
-  font-family: var(--content-font);
-  line-height: 1.6;  /* Slightly reduced from 1.7 */
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: var(--background-color);
+  font-family: var(--base-font);
+  font-weight: 400;
+  line-height: 1.6;
   color: var(--font-color);
-  position: relative;  /* For positioning context */
-  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Content wrapper to maintain consistent width */
@@ -87,7 +87,9 @@ blockquote p:last-child {
 }
 
 code {
+  font-family: var(--code-font);
   font-size: 0.95em;
+  font-weight: 400;
   padding: 0.2rem 0.25rem;
   border-radius: 4px;
   background-color: #ecedef;
@@ -98,14 +100,17 @@ pre code {
   padding: 20px;
   white-space: pre-wrap;
   color: #000;
+  line-height: 1.5;
+  tab-size: 4;
 }
+/* Navigation */
 .navbar {
   font-family: var(--nav-font);
+  font-weight: 300;
+  font-size: 1.25em;
   display: flex;
   color: var(--font-color);
   justify-content: space-between;
-  font-size: 1.25em;
-  font-weight: 250;
   padding: 0.5rem 0;
 }
 .navbar a {
@@ -149,47 +154,44 @@ pre code {
 }
 .post-content {
   list-style: none;
-  font-family: var(--content-font);
+  font-family: var(--base-font);
   line-height: 1.8;  /* Slightly increased for better readability */
 }
 
-/* Post content typography improvements */
+/* Consistent heading styles */
 .post-content h1,
 .post-content h2,
 .post-content h3,
 .post-content h4,
 .post-content h5,
 .post-content h6 {
-  font-family: var(--serif-font);
-  font-weight: 500;
-  margin-top: 1.6em;  /* Reduced from 2em */
-  margin-bottom: 0.8em;  /* Reduced from 1em */
+  font-family: var(--base-font);
+  margin-top: 1.6em;
+  margin-bottom: 0.8em;
   line-height: 1.3;
 }
 
-.post-content h1 { 
-  font-size: 2em;
-  margin-top: 1.8em;  /* Slightly larger spacing for h1 */
+.post-content h1 { font-size: 2em; font-weight: 400; }
+.post-content h2 { font-size: 1.7em; font-weight: 400; }
+.post-content h3 { font-size: 1.4em; font-weight: 400; }
+.post-content h4 { font-size: 1.2em; font-weight: 400; }
+.post-content h5 { font-size: 1.1em; font-weight: 400; }
+.post-content h6 { font-size: 1em; font-weight: 400; }
+
+/* Post titles */
+.post-single-title {
+  font-family: var(--base-font);
+  font-size: 2.2em;
+  font-weight: 400;  /* Reduced from 500 */
+  line-height: 1.2;
+  margin: 0.8rem 0;
 }
-.post-content h2 { 
-  font-size: 1.7em;
-  margin-top: 1.6em;
-}
-.post-content h3 { 
-  font-size: 1.4em;
-  margin-top: 1.4em;
-}
-.post-content h4 { 
-  font-size: 1.2em;
-  margin-top: 1.2em;
-}
-.post-content h5 { 
-  font-size: 1.1em;
-  margin-top: 1.1em;
-}
-.post-content h6 { 
-  font-size: 1em;
-  margin-top: 1em;
+
+.post-index-title {
+  font-family: var(--base-font);
+  font-size: 1.6em;
+  font-weight: 300;
+  line-height: 1.3;
 }
 
 .post-content p {
@@ -241,7 +243,7 @@ td {
 }
 .blog-title {
   font-size: 2em;
-  font-weight: 500;
+  font-weight: 300;
 }
 .tag-title {
   font-size: 1.25em;
@@ -250,34 +252,29 @@ td {
 .posts-title {
   font-size: 1.25em;
   font-weight: 300;
-}
-.post-single-title {
-  font-size: 2.2em;
-  font-weight: 500;
-  font-family: var(--serif-font);
-  line-height: 1.2;
-  margin: 0.8rem 0;
+  font-family: var(--base-font);
 }
 .post-tag-index-title {
   font-size: 1.5em;
-  font-weight: 400;
-  font-family: var(--serif-font);
+  font-weight: 300;
+  font-family: var(--base-font);
 }
 .post-index-title {
   font-size: 1.6em;
-  font-weight: 500;
-  font-family: var(--serif-font);
+  font-weight: 300;
   line-height: 1.3;
   margin-bottom: 0.5rem;
+  color: var(--font-color);
 }
 .wip-headline {
   color: var(--light-dark-font-color);
   font-size: 1.05em;
-  font-weight: 500;
+  font-weight: 300;
 }
 .wip-post-title a {
   color: var(--light-dark-font-color);
   font-size: 0.9em;
+  font-weight: 300;
 }
 hr {
   background-color: var(--light-border-color);
@@ -712,3 +709,14 @@ img {
 .post-content pre {
   margin: 1.5em 0;  /* Increased margin around code blocks */
 }
+
+/* CJK specific adjustments */
+:lang(zh),
+:lang(ja),
+:lang(ko) {
+  line-height: 1.8;  /* Increased line height for CJK text */
+  text-align: justify;
+}
+
+/* Add custom font loading for code fonts */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Fira+Code:wght@400;500&display=swap');
