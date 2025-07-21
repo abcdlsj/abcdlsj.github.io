@@ -569,12 +569,12 @@ img {
 }
 
 .changelog {
-  margin: 1.5rem 0;  /* Adjust changelog margins */
+  margin: 1rem 0 0.5rem;  /* 显著减小间距，特别是底部 */
   padding: 0.8rem 1rem;
   border: 1px solid #eaeaea;
   border-radius: 3px;
   background-color: #f8f9fa;
-  width: 100%;  /* Make it full width */
+  width: 100%;
 }
 
 .changelog summary {
@@ -680,10 +680,10 @@ img {
 
 /* Ensure post content has proper spacing */
 .post-content {
+  margin-top: 0.8rem;  /* 显著减小顶部间距 */
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;  /* Prevent horizontal scroll */
-  margin-top: 2rem;  /* Add spacing before post content */
 }
 
 /* Improve TOC styling */
