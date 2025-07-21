@@ -70,20 +70,21 @@ a:hover {
   text-decoration: underline;
 }
 blockquote {
-  padding: 0.5rem 0.75rem 0.25rem 0.75rem;
-  margin: 1rem 0;  /* Reduced from default margins */
-  border: 0.5px solid var(--light-border-color);
-  border-left-width: 0.5rem;
-  border-radius: 0.25rem;
-  background-color: #f2f3f5;
+  padding: 0.8rem 1rem;  /* Even padding on all sides */
+  margin: 1rem 0;
+  border: 1px solid #eaeaea;
+  border-left: 3px solid #d1d5db;  /* Medium-weight left border */
+  border-radius: 3px;
+  background-color: #f8f9fa;  /* Slightly more visible background */
 }
 
 blockquote p {
-  margin-bottom: 0.7em;  /* Reduced paragraph spacing inside blockquotes */
+  margin: 0;  /* Remove margin since we're using padding on the blockquote */
+  color: var(--font-color);  /* Back to normal text color */
 }
 
 blockquote p:last-child {
-  margin-bottom: 0.3em;  /* Remove margin from last paragraph in blockquote */
+  margin-bottom: 0;
 }
 
 code {
@@ -251,7 +252,7 @@ td {
 }
 .posts-title {
   font-size: 1.25em;
-  font-weight: 400;
+  font-weight: 300;
   font-family: var(--base-font);
 }
 .post-tag-index-title {
@@ -449,7 +450,8 @@ img {
 }
 
 .hompage-content {
-  font-family: var(--serif-font);
+  font-family: var(--base-font);
+  margin-bottom: 2rem;  /* Add spacing after homepage content */
 }
 
 .search-container {
@@ -567,11 +569,12 @@ img {
 }
 
 .changelog {
-  margin: 1rem 0;
-  padding: 0.8rem;
-  border: 1px solid #e5e7eb;  /* Light gray border */
-  border-radius: 4px;  /* Subtle border radius */
-  background-color: transparent;  /* Keep transparent background */
+  margin: 1.5rem 0;  /* Adjust changelog margins */
+  padding: 0.8rem 1rem;
+  border: 1px solid #eaeaea;
+  border-radius: 3px;
+  background-color: #f8f9fa;
+  width: 100%;  /* Make it full width */
 }
 
 .changelog summary {
@@ -580,22 +583,25 @@ img {
   font-size: 0.85rem;
   font-weight: 300;
   user-select: none;
-  opacity: 0.8;
-  transition: opacity 0.2s ease;
 }
 
 .changelog summary:hover {
   color: var(--font-color);
-  opacity: 1;
 }
 
 .changelog-content {
   margin-top: 0.8rem;
-  padding: 0.8rem 0 0 0.5rem;  /* Adjust padding */
-  border-top: 1px solid #f0f0f0;  /* Lighter border */
+  padding-top: 0.8rem;
+  border-top: 1px solid #eaeaea;
   font-size: 0.85rem;
   color: var(--light-dark-font-color);
-  opacity: 0.9;
+  line-height: 1.6;  /* Add line height for better readability */
+}
+
+.changelog-content br {
+  display: block;
+  margin: 0.5em 0;  /* Add spacing between changelog entries */
+  content: "";
 }
 
 /* Add style for the disclosure triangle */
@@ -677,6 +683,7 @@ img {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;  /* Prevent horizontal scroll */
+  margin-top: 2rem;  /* Add spacing before post content */
 }
 
 /* Improve TOC styling */
@@ -720,3 +727,16 @@ img {
 
 /* Add custom font loading for code fonts */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Fira+Code:wght@400;500&display=swap');
+
+/* Post title spacing */
+.post-single-title {
+  font-family: var(--base-font);
+  font-size: 2.2em;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0.8rem 0;
+}
+
+.post-content h1:first-of-type {
+  margin-top: 1rem;  /* Reduce top margin of first h1 */
+}

@@ -152,19 +152,16 @@ Table of Contents<ul>
           
         </nav>
       </div>
-      <hr class="divider" />
+
+      
+      <details class="changelog">
+        <summary>Changelog</summary>
+        <div class="changelog-content">- 2024-09-08: 更新了 server 和 client 的 cmd 使用<br>- 2023-11-11: 更新了代码结构和接口<br>- 2023-11-06: 添加了 yamux 支持<br></div>
+      </details>
+      
+
       <div class="post-content">
-        <article><details class="changelog">
-<summary>Changelog</summary>
-<div class="changelog-content">
-<ul>
-<li>2023-11-11: 更新了代码结构和接口</li>
-<li>2023-11-06: 添加了 <code>yamux</code> 支持</li>
-<li>2024-09-08: 更新了 <code>server</code> 和 <code>client</code> 的 cmd 使用</li>
-</ul>
-</div>
-</details>
-<h2 id="background">Background</h2>
+        <article><h2 id="background">Background</h2>
 <p><strong>实现简单的转发工具</strong></p>
 <p>公司内部的服务框架 Service 之间通信是通过连接每台机器的 <code>Agent</code> 监听的 <code>UNIX domain</code> 实现的，在公司容器集群环境，都是会启动 <code>Agent</code>。<br>
 但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到远程搭建的 <code>TCP agent</code> 来启动服务。</p>
