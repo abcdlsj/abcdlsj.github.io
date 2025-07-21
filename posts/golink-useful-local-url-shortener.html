@@ -30,9 +30,12 @@
 
 </head>
 
-<body class="container">
-  <main>
-    <div class="navbar">
+<body>
+  
+  
+  <div class="content-wrapper">
+    <main>
+      <div class="navbar">
 <nav class="navbar">
   
   
@@ -71,26 +74,25 @@
   
 </nav>
 </div>
-    <hr class="divider" />
-    
-    
-    <h1 class="post-single-title">Golink - Useful local url shortener</h1>
-    
-    
-    <div class="post-single-meta">
-      <div class="post-date">Date: 2023-04-16</div>
-      <nav class="post-tags">
-        
-        <a href="/tags/shortener.html" class="tag">#Shortener</a>
-        
-        <a href="/tags/template.html" class="tag">#Template</a>
-        
-      </nav>
+      <hr class="divider" />
       
-    </div>
-    <hr class="divider" />
-    <div class="post-content">
-      <article><blockquote>
+      
+      <h1 class="post-single-title">Golink - Useful local url shortener</h1>
+      
+      
+      <div class="post-single-meta">
+        <div class="post-date">Date: 2023-04-16</div>
+        <nav class="post-tags">
+          
+          <a href="/tags/shortener.html" class="tag">#Shortener</a>
+          
+          <a href="/tags/template.html" class="tag">#Template</a>
+          
+        </nav>
+      </div>
+      <hr class="divider" />
+      <div class="post-content">
+        <article><blockquote>
 <p>What is <code>url shortener</code>?<br>
 Answer: <a href="https://en.wikipedia.org/wiki/URL_shortening">URL Shortening</a></p>
 </blockquote>
@@ -124,27 +126,40 @@ Answer: <a href="https://en.wikipedia.org/wiki/URL_shortening">URL Shortening</a
 <p>This post doesn't include any code samples, as I believe that you can write it yourself for the purpose of learning or practicing a programming language.</p>
 <p>The idea is from <a href="https://github.com/tailscale/golink/tree/main">tailscale/golink</a>, which relies on <code>Tailscale Magic DNS</code>. You can find more information <a href="https://tailscale.com/kb/1081/magicdns/">here</a></p>
 </article>
-    </div>
-    <hr class="divider" />
-    <!-- 
-<footer class="footer">
-  <p class="footer-author">
-    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
-  </p>
-  <p class="footer-proj">
-    Source
-    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
-  </p>
-</footer>
- -->
-  </main>
+      </div>
+      <hr class="divider" />
+    </main>
+  </div>
+
   <div class="go-to-top">
     <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
   </div>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.post-toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
   <div id="disqus_thread"></div>
   <script>
     (function () {
-      // DON'T EDIT BELOW THIS LINE
       var d = document,
         s = d.createElement("script");
       s.src = "https://abcdlsj.disqus.com/embed.js";
@@ -155,5 +170,4 @@ Answer: <a href="https://en.wikipedia.org/wiki/URL_shortening">URL Shortening</a
   <noscript>Please enable JavaScript to view the
     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
-
 </html>

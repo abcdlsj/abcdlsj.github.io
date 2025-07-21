@@ -31,13 +31,28 @@ body {
   display: flex;
   flex-direction: column;
   font-family: var(--content-font);
-  line-height: 1.7;
-  margin: auto;
-  max-width: 45%;
+  line-height: 1.6;  /* Slightly reduced from 1.7 */
+  margin: 0 auto;
   padding: 2rem;
   background-color: var(--background-color);
   color: var(--font-color);
+  position: relative;  /* For positioning context */
+  min-height: 100vh;
 }
+
+/* Content wrapper to maintain consistent width */
+.content-wrapper {
+  width: 100%;
+  max-width: 60%;  /* Reduced from 65% */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Add specific class for pages with TOC */
+body.has-toc {
+  margin-left: calc(20% + 100px);
+}
+
 .container {
   min-height: calc(95vh - 2.5rem);
   position: relative;
@@ -56,13 +71,21 @@ a:hover {
 }
 blockquote {
   padding: 0.5rem 0.75rem 0.25rem 0.75rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin: 1rem 0;  /* Reduced from default margins */
   border: 0.5px solid var(--light-border-color);
   border-left-width: 0.5rem;
   border-radius: 0.25rem;
   background-color: #f2f3f5;
 }
+
+blockquote p {
+  margin-bottom: 0.7em;  /* Reduced paragraph spacing inside blockquotes */
+}
+
+blockquote p:last-child {
+  margin-bottom: 0.3em;  /* Remove margin from last paragraph in blockquote */
+}
+
 code {
   font-size: 0.95em;
   padding: 0.2rem 0.25rem;
@@ -127,9 +150,10 @@ pre code {
 .post-content {
   list-style: none;
   font-family: var(--content-font);
-  line-height: 1.7;
+  line-height: 1.8;  /* Slightly increased for better readability */
 }
 
+/* Post content typography improvements */
 .post-content h1,
 .post-content h2,
 .post-content h3,
@@ -138,27 +162,53 @@ pre code {
 .post-content h6 {
   font-family: var(--serif-font);
   font-weight: 500;
-  margin-top: 1.2em;
-  margin-bottom: 0.6em;
+  margin-top: 1.6em;  /* Reduced from 2em */
+  margin-bottom: 0.8em;  /* Reduced from 1em */
   line-height: 1.3;
 }
 
-.post-content h1 { font-size: 2rem; }
-.post-content h2 { font-size: 1.75rem; }
-.post-content h3 { font-size: 1.5rem; }
-.post-content h4 { font-size: 1.25rem; }
-.post-content h5 { font-size: 1.1rem; }
-.post-content h6 { font-size: 1rem; }
+.post-content h1 { 
+  font-size: 2em;
+  margin-top: 1.8em;  /* Slightly larger spacing for h1 */
+}
+.post-content h2 { 
+  font-size: 1.7em;
+  margin-top: 1.6em;
+}
+.post-content h3 { 
+  font-size: 1.4em;
+  margin-top: 1.4em;
+}
+.post-content h4 { 
+  font-size: 1.2em;
+  margin-top: 1.2em;
+}
+.post-content h5 { 
+  font-size: 1.1em;
+  margin-top: 1.1em;
+}
+.post-content h6 { 
+  font-size: 1em;
+  margin-top: 1em;
+}
 
 .post-content p {
-  margin-bottom: 0.8em;
+  margin: 0 0 1.2em;  /* Reduced from 1.5em */
 }
-.post-content ul {
-  margin-left: 25px;
-  margin-bottom: 1em;
+
+.post-content ul,
+.post-content ol {
+  margin: 0 0 1.2em 1.5em;  /* Reduced from 1.5em */
+  padding: 0;
 }
+
 .post-content li {
-  margin-bottom: 0.4em;
+  margin-bottom: 0.5em;  /* Added space between list items */
+}
+.post-content li > ul,
+.post-content li > ol {
+  margin-top: 0.5em;  /* Space for nested lists */
+  margin-bottom: 0.5em;
 }
 .post-content a {
   color: var(--href-color);
@@ -262,10 +312,27 @@ hr {
 .sidebar {
   position: fixed;
   top: 10%;
-  left: 8%;
-  width: 20%;
-  height: 100%;
+  left: max(20px, calc((100% - 1400px) / 2));  /* Adjusted for new content width */
+  width: 250px;
+  height: calc(90vh - 2rem);
   overflow-y: auto;
+  padding-right: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--light-border-color) transparent;
+}
+
+/* Customize scrollbar for webkit browsers */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--light-border-color);
+  border-radius: 3px;
 }
 
 .hero-container {
@@ -291,16 +358,17 @@ img {
   height: auto;
 }
 
+/* Post list spacing */
 .post-list {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.5rem;  /* Increased gap between posts */
 }
 
 .post {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 1.2rem;  /* Slightly increased gap */
 }
 
 .post .post-date {
@@ -316,8 +384,8 @@ img {
 
 .post-index-title {
   font-size: 1.7rem;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
+  line-height: 1.3;  /* Adjusted line height for titles */
+  margin-bottom: 0.7rem;  /* Added space after title */
   color: var(--font-color);
   line-height: 1.3;
 }
@@ -360,7 +428,7 @@ img {
 
 .go-to-top {
   position: fixed;
-  right: 15%;
+  right: max(20px, calc((100% - 1400px) / 2));  /* Mirror the left side positioning */
   bottom: 20px;
   z-index: 1000;
 }
@@ -389,13 +457,14 @@ img {
 
 .search-container {
   position: fixed;
-  top: 10%;
-  left: 8%;
-  width: 15%;
+  top: 8%;
+  left: max(15px, calc((100% - 1400px) / 2));  /* Match sidebar positioning */
+  width: 200px;
+  z-index: 100;
 }
 
 #search-input {
-  width: 70%;
+  width: 100%;  /* Changed from 70% to 100% for better layout */
   padding: 8px;
   border: 1px solid var(--light-border-color);
   border-radius: 4px;
@@ -488,6 +557,7 @@ img {
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
   background-color: #ecedef;
+  line-height: 1.6;  /* Adjusted line height for code */
 }
 
 .post-content pre code {
@@ -499,29 +569,146 @@ img {
   line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-  body {
-    padding: 1rem;
-    max-width: 90%;
+.changelog {
+  margin: 1rem 0;
+  padding: 0.8rem;
+  border: 1px solid #e5e7eb;  /* Light gray border */
+  border-radius: 4px;  /* Subtle border radius */
+  background-color: transparent;  /* Keep transparent background */
+}
+
+.changelog summary {
+  cursor: pointer;
+  color: var(--light-dark-font-color);
+  font-size: 0.85rem;
+  font-weight: 300;
+  user-select: none;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.changelog summary:hover {
+  color: var(--font-color);
+  opacity: 1;
+}
+
+.changelog-content {
+  margin-top: 0.8rem;
+  padding: 0.8rem 0 0 0.5rem;  /* Adjust padding */
+  border-top: 1px solid #f0f0f0;  /* Lighter border */
+  font-size: 0.85rem;
+  color: var(--light-dark-font-color);
+  opacity: 0.9;
+}
+
+/* Add style for the disclosure triangle */
+.changelog summary::-webkit-details-marker {
+  color: var(--light-dark-font-color);
+  opacity: 0.6;
+}
+
+.changelog summary::marker {
+  color: var(--light-dark-font-color);
+  opacity: 0.6;
+}
+
+/* Disqus container styling */
+#disqus_thread {
+  width: 100%;
+  max-width: 60%;  /* Match content-wrapper width */
+  margin: 2rem auto;
+  padding: 0 20px;
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 1400px) {
+  .content-wrapper {
+    max-width: 65%;  /* Adjusted for better readability */
   }
 
-  .search-container {
-    position: static;
-    width: 100%;
-    margin-bottom: 1rem;
+  #disqus_thread {
+    max-width: 65%;  /* Match content-wrapper responsive width */
   }
 
-  #search-input {
-    width: 100%;
+  .sidebar, .search-container {
+    width: 220px;
+    left: max(20px, calc((100% - 1300px) / 2));
   }
 
-  .post {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .post-date {
-    min-width: auto;
+  .go-to-top {
+    right: max(20px, calc((100% - 1300px) / 2));
   }
 }
 
+@media (max-width: 1200px) {
+  .content-wrapper {
+    max-width: 75%;
+  }
+
+  #disqus_thread {
+    max-width: 75%;
+  }
+  
+  .search-container {
+    position: static;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar {
+    display: none;
+  }
+
+  .go-to-top {
+    right: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  .content-wrapper, #disqus_thread {
+    max-width: 90%;
+    padding: 0 10px;
+  }
+}
+
+/* Ensure post content has proper spacing */
+.post-content {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;  /* Prevent horizontal scroll */
+}
+
+/* Improve TOC styling */
+.post-toc {
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+
+.post-toc ul {
+  margin: 0.5em 0;
+  padding-left: 1.2em;
+}
+
+.post-toc a {
+  color: var(--light-dark-font-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.post-toc a:hover {
+  color: var(--href-color);
+}
+
+/* Blockquote spacing */
+.post-content blockquote {
+  margin: 1rem 0;  /* Override previous blockquote margins in post content */
+  line-height: 1.6;
+}
+
+.post-content pre {
+  margin: 1.5em 0;  /* Increased margin around code blocks */
+}
