@@ -167,8 +167,8 @@ pre code {
 .post-content h5,
 .post-content h6 {
   font-family: var(--base-font);
-  margin-top: 1.6em;
-  margin-bottom: 0.8em;
+  margin-top: 0.8em;  /* 统一减小上边距 */
+  margin-bottom: 0.6em;
   line-height: 1.3;
 }
 
@@ -569,7 +569,7 @@ img {
 }
 
 .changelog {
-  margin: 1rem 0 0.5rem;  /* 显著减小间距，特别是底部 */
+  margin: 0.5rem 0 0.3rem;  /* 显著减小上下间距 */
   padding: 0.8rem 1rem;
   border: 1px solid #eaeaea;
   border-radius: 3px;
@@ -680,7 +680,7 @@ img {
 
 /* Ensure post content has proper spacing */
 .post-content {
-  margin-top: 0.8rem;  /* 显著减小顶部间距 */
+  margin-top: 0.5rem;  /* 进一步减小顶部间距 */
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;  /* Prevent horizontal scroll */
