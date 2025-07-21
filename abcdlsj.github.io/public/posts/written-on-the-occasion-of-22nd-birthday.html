@@ -30,9 +30,12 @@
 
 </head>
 
-<body class="container">
-  <main>
-    <div class="navbar">
+<body>
+  
+  
+  <div class="content-wrapper">
+    <main>
+      <div class="navbar">
 <nav class="navbar">
   
   
@@ -71,27 +74,28 @@
   
 </nav>
 </div>
-    <hr class="divider" />
-    
-    
-    <div class="hero-container">
-      <h1 class="hero-single-title">Written on the Occasion of 22nd Birthday</h1>
-      <div class="hero-image" style="background-image: url('/static/img/hfut_night.jpg');"></div>
-    </div>
-    
-    
-    <div class="post-single-meta">
-      <div class="post-date">Date: 2021-04-01</div>
-      <nav class="post-tags">
-        
-        <a href="/tags/summary.html" class="tag">#Summary</a>
-        
-      </nav>
+      <hr class="divider" />
       
-    </div>
-    <hr class="divider" />
-    <div class="post-content">
-      <article><blockquote>
+      
+      <div class="hero-container">
+        <h1 class="hero-single-title">Written on the Occasion of 22nd Birthday</h1>
+        <div class="hero-image" style="background-image: url('/static/img/hfut_night.jpg');"></div>
+      </div>
+      
+      
+      <div class="post-single-meta">
+        <div class="post-date">Date: 2021-04-01</div>
+        <nav class="post-tags">
+          
+          <a href="/tags/summary.html" class="tag">#Summary</a>
+          
+        </nav>
+      </div>
+
+      
+
+      <div class="post-content">
+        <article><blockquote>
 <p>今年 7 月份就会结束自己的学生生涯，刚好过几天也会迎来自己的 22 岁生日，恰逢在本周收到了还算满意的 <code>offer</code>，所以觉得还是需要写点东西表示一下。</p>
 </blockquote>
 <!--more--> 
@@ -125,27 +129,40 @@
 <p>年初的时候准备写一个静态博客生成器，当时写了简单 <code>Demo</code> 就停滞了，前几天继续写了下，发现单纯利用 <code>markdown</code> 和 <code>template</code> 生成 <code>html</code> 不难，但设计一个满意的博客样式（前端不会），就很困难了。于是打算继续使用 <code>hugo</code>（2023 改为自己实现生成器），修改了几个主题，对现在这个比较满意。</p>
 <p>好好体会最后在学校的时光了。</p>
 </article>
-    </div>
-    <hr class="divider" />
-    <!-- 
-<footer class="footer">
-  <p class="footer-author">
-    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
-  </p>
-  <p class="footer-proj">
-    Source
-    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
-  </p>
-</footer>
- -->
-  </main>
+      </div>
+      <hr class="divider" />
+    </main>
+  </div>
+
   <div class="go-to-top">
     <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
   </div>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.post-toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
   <div id="disqus_thread"></div>
   <script>
     (function () {
-      // DON'T EDIT BELOW THIS LINE
       var d = document,
         s = d.createElement("script");
       s.src = "https://abcdlsj.disqus.com/embed.js";
@@ -156,5 +173,4 @@
   <noscript>Please enable JavaScript to view the
     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
-
 </html>

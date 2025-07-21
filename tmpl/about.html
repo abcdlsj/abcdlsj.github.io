@@ -4,11 +4,12 @@
   <head>
     {{template "head" dict "Site" .Site "IsPost" false}}
   </head>
-  <body class="container">
+  <body>
+    <div class="content-wrapper">
       <div class="navbar">{{template "navbar" .}}</div>
       <hr class="divider" />
       <article class="post-content">{{.Body}}</article>
-      <!-- {{template "footer" .}} -->
+    </div>
   </body>
 </html>
 {{end}}

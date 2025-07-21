@@ -30,101 +30,10 @@
 
 </head>
 
-<body class="container">
-  <main>
-    <div class="navbar">
-<nav class="navbar">
+<body>
   
-  
-  <ul class="menu">
-    <li>
-      <a href="/"  class="home">Home</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/posts"  class="posts">Posts</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/about"  class="about">About</a>
-    </li>
-  </ul>
-  
-  
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/rss.xml"  class="feed">Feed</a>
-    </li>
-  </ul>
-  
-  
-</nav>
-</div>
-    <hr class="divider" />
-    
-    
-    <h1 class="post-single-title">Gnar - A tunnel proxy like Frp/Ngrok</h1>
-    
-    
-    <div class="post-single-meta">
-      <div class="post-date">Date: 2023-11-04</div>
-      <nav class="post-tags">
-        
-        <a href="/tags/network.html" class="tag">#Network</a>
-        
-        <a href="/tags/tunnel.html" class="tag">#Tunnel</a>
-        
-        <a href="/tags/yamux.html" class="tag">#Yamux</a>
-        
-        <a href="/tags/traffic+limit.html" class="tag">#Traffic Limit</a>
-        
-        <a href="/tags/io+package.html" class="tag">#IO Package</a>
-        
-      </nav>
-       
-      <script>
-        var tocContent = document.getElementById("toc-content");
-
-        // 监听页面滚动事件
-        window.addEventListener("scroll", function () {
-          var scrollPosition = window.scrollY || window.pageYOffset;
-
-          // 保持TocContent在侧边栏顶部
-          tocContent.style.top = scrollPosition + "px";
-        });
-
-        // 监听目录链接点击事件
-        tocContent.addEventListener("click", function (event) {
-          if (event.target.tagName === "A") {
-            event.preventDefault();
-            var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
-            var targetElement = document.getElementById(targetId);
-            if (targetElement) {
-              targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
-            }
-          }
-        });
-
-        function scrollToTop() {
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
-        }
-      </script>
-      <div class="sidebar">
-        <div class="post-toc">
+  <div class="sidebar">
+    <div class="post-toc">
 <li>
 Table of Contents<ul>
 <li>
@@ -177,22 +86,82 @@ Table of Contents<ul>
 </li>
 </ul>
 </div>
-      </div>
-       
-    </div>
-    <hr class="divider" />
-    <div class="post-content">
-      <article><details class="changelog">
-<summary>Changelog</summary>
-<div class="changelog-content">
-<ul>
-<li>2023-11-11: 更新了代码结构和接口</li>
-<li>2023-11-06: 添加了 <code>yamux</code> 支持</li>
-<li>2024-09-08: 更新了 <code>server</code> 和 <code>client</code> 的 cmd 使用</li>
-</ul>
+  </div>
+  
+  
+  <div class="content-wrapper">
+    <main>
+      <div class="navbar">
+<nav class="navbar">
+  
+  
+  <ul class="menu">
+    <li>
+      <a href="/"  class="home">Home</a>
+    </li>
+  </ul>
+  
+  
+  
+  <ul class="menu">
+    <li>
+      <a href="/posts"  class="posts">Posts</a>
+    </li>
+  </ul>
+  
+  
+  
+  <ul class="menu">
+    <li>
+      <a href="/about"  class="about">About</a>
+    </li>
+  </ul>
+  
+  
+  
+  
+  
+  <ul class="menu">
+    <li>
+      <a href="/rss.xml"  class="feed">Feed</a>
+    </li>
+  </ul>
+  
+  
+</nav>
 </div>
-</details>
-<h2 id="background">Background</h2>
+      <hr class="divider" />
+      
+      
+      <h1 class="post-single-title">Gnar - A tunnel proxy like Frp/Ngrok</h1>
+      
+      
+      <div class="post-single-meta">
+        <div class="post-date">Date: 2023-11-04</div>
+        <nav class="post-tags">
+          
+          <a href="/tags/network.html" class="tag">#Network</a>
+          
+          <a href="/tags/tunnel.html" class="tag">#Tunnel</a>
+          
+          <a href="/tags/yamux.html" class="tag">#Yamux</a>
+          
+          <a href="/tags/traffic+limit.html" class="tag">#Traffic Limit</a>
+          
+          <a href="/tags/io+package.html" class="tag">#IO Package</a>
+          
+        </nav>
+      </div>
+
+      
+      <details class="changelog">
+        <summary>Changelog</summary>
+        <div class="changelog-content">- 2024-09-08: 更新了 server 和 client 的 cmd 使用<br>- 2023-11-11: 更新了代码结构和接口<br>- 2023-11-06: 添加了 yamux 支持<br></div>
+      </details>
+      
+
+      <div class="post-content">
+        <article><h2 id="background">Background</h2>
 <p><strong>实现简单的转发工具</strong></p>
 <p>公司内部的服务框架 Service 之间通信是通过连接每台机器的 <code>Agent</code> 监听的 <code>UNIX domain</code> 实现的，在公司容器集群环境，都是会启动 <code>Agent</code>。<br>
 但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到远程搭建的 <code>TCP agent</code> 来启动服务。</p>
@@ -1030,27 +999,40 @@ A：<code>frp</code> 有过类似讨论，可以看 <a href="https://github.com/
 <a href="https://github.com/rapiz1/rathole">https://github.com/rapiz1/rathole</a><br>
 <a href="https://github.com/AnimMouse/frp-flyapp">https://github.com/AnimMouse/frp-flyapp</a></p>
 </article>
-    </div>
-    <hr class="divider" />
-    <!-- 
-<footer class="footer">
-  <p class="footer-author">
-    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
-  </p>
-  <p class="footer-proj">
-    Source
-    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
-  </p>
-</footer>
- -->
-  </main>
+      </div>
+      <hr class="divider" />
+    </main>
+  </div>
+
   <div class="go-to-top">
     <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
   </div>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.post-toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
   <div id="disqus_thread"></div>
   <script>
     (function () {
-      // DON'T EDIT BELOW THIS LINE
       var d = document,
         s = d.createElement("script");
       s.src = "https://abcdlsj.disqus.com/embed.js";
@@ -1061,5 +1043,4 @@ A：<code>frp</code> 有过类似讨论，可以看 <a href="https://github.com/
   <noscript>Please enable JavaScript to view the
     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
-
 </html>

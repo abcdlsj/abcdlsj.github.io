@@ -30,9 +30,38 @@
 
 </head>
 
-<body class="container">
-  <main>
-    <div class="navbar">
+<body>
+  
+  <div class="sidebar">
+    <div class="post-toc">
+<li>
+Table of Contents<ul>
+<li>
+<a href="#background">Background</a></li>
+<li>
+<a href="#field-definition">Field definition</a></li>
+<li>
+<a href="#expr-structure">Expr structure</a></li>
+<li>
+<a href="#match-time">Match time</a></li>
+<li>
+<a href="#parse-rule">Parse rule</a></li>
+<li>
+<a href="#wrap-matches">Wrap matches</a></li>
+<li>
+<a href="#functions">Functions</a></li>
+<li>
+<a href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</div>
+  </div>
+  
+  
+  <div class="content-wrapper">
+    <main>
+      <div class="navbar">
 <nav class="navbar">
   
   
@@ -71,82 +100,27 @@
   
 </nav>
 </div>
-    <hr class="divider" />
-    
-    
-    <h1 class="post-single-title">Write a simple cron expression library in Golang</h1>
-    
-    
-    <div class="post-single-meta">
-      <div class="post-date">Date: 2023-10-29</div>
-      <nav class="post-tags">
-        
-        <a href="/tags/cron+expression.html" class="tag">#Cron Expression</a>
-        
-        <a href="/tags/package+design.html" class="tag">#Package Design</a>
-        
-      </nav>
-       
-      <script>
-        var tocContent = document.getElementById("toc-content");
-
-        // 监听页面滚动事件
-        window.addEventListener("scroll", function () {
-          var scrollPosition = window.scrollY || window.pageYOffset;
-
-          // 保持TocContent在侧边栏顶部
-          tocContent.style.top = scrollPosition + "px";
-        });
-
-        // 监听目录链接点击事件
-        tocContent.addEventListener("click", function (event) {
-          if (event.target.tagName === "A") {
-            event.preventDefault();
-            var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
-            var targetElement = document.getElementById(targetId);
-            if (targetElement) {
-              targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
-            }
-          }
-        });
-
-        function scrollToTop() {
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
-        }
-      </script>
-      <div class="sidebar">
-        <div class="post-toc">
-<li>
-Table of Contents<ul>
-<li>
-<a href="#background">Background</a></li>
-<li>
-<a href="#field-definition">Field definition</a></li>
-<li>
-<a href="#expr-structure">Expr structure</a></li>
-<li>
-<a href="#match-time">Match time</a></li>
-<li>
-<a href="#parse-rule">Parse rule</a></li>
-<li>
-<a href="#wrap-matches">Wrap matches</a></li>
-<li>
-<a href="#functions">Functions</a></li>
-<li>
-<a href="#conclusion">Conclusion</a></li>
-</ul>
-</li>
-</ul>
-</div>
+      <hr class="divider" />
+      
+      
+      <h1 class="post-single-title">Write a simple cron expression library in Golang</h1>
+      
+      
+      <div class="post-single-meta">
+        <div class="post-date">Date: 2023-10-29</div>
+        <nav class="post-tags">
+          
+          <a href="/tags/cron+expression.html" class="tag">#Cron Expression</a>
+          
+          <a href="/tags/package+design.html" class="tag">#Package Design</a>
+          
+        </nav>
       </div>
-       
-    </div>
-    <hr class="divider" />
-    <div class="post-content">
-      <article><h2 id="background">Background</h2>
+
+      
+
+      <div class="post-content">
+        <article><h2 id="background">Background</h2>
 <blockquote>
 <p>本文所有的代码都在 <a href="https://github.com/abcdlsj/crone">abcdlsj/crone</a></p>
 </blockquote>
@@ -462,27 +436,40 @@ Table of Contents<ul>
 <p>实现 <code>Cronexpr</code> 解析器还是很有意思的，这是一个简单的小项目。</p>
 <p>感谢阅读！</p>
 </article>
-    </div>
-    <hr class="divider" />
-    <!-- 
-<footer class="footer">
-  <p class="footer-author">
-    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
-  </p>
-  <p class="footer-proj">
-    Source
-    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
-  </p>
-</footer>
- -->
-  </main>
+      </div>
+      <hr class="divider" />
+    </main>
+  </div>
+
   <div class="go-to-top">
     <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
   </div>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.post-toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
   <div id="disqus_thread"></div>
   <script>
     (function () {
-      // DON'T EDIT BELOW THIS LINE
       var d = document,
         s = d.createElement("script");
       s.src = "https://abcdlsj.disqus.com/embed.js";
@@ -493,5 +480,4 @@ Table of Contents<ul>
   <noscript>Please enable JavaScript to view the
     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
-
 </html>

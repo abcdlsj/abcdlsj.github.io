@@ -4,49 +4,45 @@
   <head>
     {{template "head" dict "Site" .Site "IsPost" false}}
   </head>
-  <body class="container">
+  <body>
     <div class="search-container">
       <div>Search posts content</div>
       <input type="text" id="search-input" placeholder="search...">
       <ul id="search-results"></ul>
     </div>
-    <main>
+    <div class="content-wrapper">
       <div class="navbar">{{template "navbar" .}}</div>
       <hr class="divider" />
       <div class="hompage-content">
         {{.Site.Homepage}}
       </div>
-      <hr class="divider" />
+      <hr class="divider-short" />
       <h1 class="posts-title">RECENT POSTS</h1>
       <div class="post-list">
-        <!-- only show 4 posts -->
         {{range $i, $post := .Posts}}
-          {{if lt $i 5}}
-            <article class="post">
-              <div class="post-date">{{.Meta.Date | day}}</div>
-              <div class="post-index">
-                <div class="post-index-title">
-                  <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
-                  <div class="language-indicator">
-                    [<span class="lang {{if contains .Meta.Languages "en"}}lang-active{{end}}">en</span>/<span class="lang {{if contains .Meta.Languages "cn"}}lang-active{{end}}">cn</span>]
-                  </div>
-                </div>
-                <div class="post-meta">
-                  <nav class="post-tags">
-                    {{range $tag := .Meta.Tags}}
-                    <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
-                    {{end}}
-                  </nav>
+          <article class="post">
+            <div class="post-date">{{.Meta.Date | day}}</div>
+            <div class="post-index">
+              <div class="post-index-title">
+                <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
+                <div class="language-indicator">
+                  [<span class="lang {{if contains .Meta.Languages "en"}}lang-active{{end}}">en</span>/<span class="lang {{if contains .Meta.Languages "cn"}}lang-active{{end}}">cn</span>]
                 </div>
               </div>
-            </article>
-            {{if lt $i 4}}
-              <hr class="divider-short">
-            {{end}}
+              <div class="post-meta">
+                <nav class="post-tags">
+                  {{range $tag := .Meta.Tags}}
+                  <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
+                  {{end}}
+                </nav>
+              </div>
+            </div>
+          </article>
+          {{if ne (add $i 1) (len $.Posts)}}
+            <hr class="divider-short">
           {{end}}
         {{end}}
       </div>
-      <hr class="divider" />
       <div class="wip-post">
         <div class="wip-headline">DRAFT</div>
         {{range .WipPosts}}
@@ -55,7 +51,7 @@
         </div>
         {{end}}
       </div>
-    </main>
+    </div>
   </body>
 </html>
 {{end}}

@@ -8,6 +8,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	htmltmpl "html/template"
 	"net/url"
 	"os"
 	"path"
@@ -153,6 +154,22 @@ var (
 			}
 			return false
 		},
+		"formatChangelog": func(s string) htmltmpl.HTML {
+			if s == "" {
+				return ""
+			}
+			lines := strings.Split(strings.TrimSpace(s), "\n")
+			var result strings.Builder
+			for _, line := range lines {
+				line = strings.TrimSpace(line)
+				if line == "" {
+					continue
+				}
+				result.WriteString(line)
+				result.WriteString("<br>")
+			}
+			return htmltmpl.HTML(result.String())
+		},
 	}
 
 	//go:embed tmpl/*
@@ -180,6 +197,7 @@ type PostMeta struct {
 	Hero        string   `yaml:"hero"`
 	Description string   `yaml:"description"`
 	Languages   []string `yaml:"languages"`
+	Changelog   string   `yaml:"changelog"`
 }
 
 func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
@@ -195,6 +213,7 @@ func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 		Hero:        orStr(getMetaStr(meta, "hero"), ""),
 		Description: orStr(getMetaStr(meta, "description"), ""),
 		Languages:   orStrs(getMetaStrs(meta, "languages"), []string{"en"}),
+		Changelog:   orStr(getMetaStr(meta, "changelog"), ""),
 	}
 }
 

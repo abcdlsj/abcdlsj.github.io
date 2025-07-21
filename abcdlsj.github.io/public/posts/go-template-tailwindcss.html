@@ -30,9 +30,12 @@
 
 </head>
 
-<body class="container">
-  <main>
-    <div class="navbar">
+<body>
+  
+  
+  <div class="content-wrapper">
+    <main>
+      <div class="navbar">
 <nav class="navbar">
   
   
@@ -71,26 +74,27 @@
   
 </nav>
 </div>
-    <hr class="divider" />
-    
-    
-    <h1 class="post-single-title">Go Template + Tailwindcss = ❤️</h1>
-    
-    
-    <div class="post-single-meta">
-      <div class="post-date">Date: 2024-02-24</div>
-      <nav class="post-tags">
-        
-        <a href="/tags/tailwindcss.html" class="tag">#TailwindCSS</a>
-        
-        <a href="/tags/template.html" class="tag">#Template</a>
-        
-      </nav>
+      <hr class="divider" />
       
-    </div>
-    <hr class="divider" />
-    <div class="post-content">
-      <article><blockquote>
+      
+      <h1 class="post-single-title">Go Template + Tailwindcss = ❤️</h1>
+      
+      
+      <div class="post-single-meta">
+        <div class="post-date">Date: 2024-02-24</div>
+        <nav class="post-tags">
+          
+          <a href="/tags/tailwindcss.html" class="tag">#TailwindCSS</a>
+          
+          <a href="/tags/template.html" class="tag">#Template</a>
+          
+        </nav>
+      </div>
+
+      
+
+      <div class="post-content">
+        <article><blockquote>
 <p>写很多小项目的时候，我都是使用 <code>Go</code> <code>Template</code> 实现的，也就是渲染 <code>HTML</code> 文件模版，代码比较简单，但是样式的部分却很难满意，因为 <code>CSS</code> 实在是难以理解（^^），而 <a href="https://tailwindcss.com/"><code>Tailwind CSS</code></a> 就是另外一个 <code>CSS</code> 框架，它可以用简单的方式实现样式。<br>
 所以这里介绍下如何将 <code>Go Template</code> 和 <code>Tailwind CSS</code> 结合使用。</p>
 </blockquote>
@@ -159,27 +163,40 @@
 <p>这篇写得特别简单，本文内容基本上都可以在 <a href="https://xeiaso.net/blog/using-tailwind-go/">Xe - How to use Tailwind CSS in your Go programs</a> 找到（知识的剽窃🐛）。</p>
 <p>更加复杂的例子，可以看 <a href="https://github.com/abcdlsj/memos">memos</a>，一个使用 <code>Tailwind CSS</code> + <code>Go Template</code> 实现的类似 <code>Google Keep</code> 功能的项目。</p>
 </article>
-    </div>
-    <hr class="divider" />
-    <!-- 
-<footer class="footer">
-  <p class="footer-author">
-    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
-  </p>
-  <p class="footer-proj">
-    Source
-    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
-  </p>
-</footer>
- -->
-  </main>
+      </div>
+      <hr class="divider" />
+    </main>
+  </div>
+
   <div class="go-to-top">
     <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
   </div>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.post-toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
   <div id="disqus_thread"></div>
   <script>
     (function () {
-      // DON'T EDIT BELOW THIS LINE
       var d = document,
         s = d.createElement("script");
       s.src = "https://abcdlsj.disqus.com/embed.js";
@@ -190,5 +207,4 @@
   <noscript>Please enable JavaScript to view the
     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
-
 </html>

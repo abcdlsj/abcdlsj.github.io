@@ -10,14 +10,9 @@ tocPosition: left-sidebar
 description: "Nexo 是一个简单但功能强大的 HTTPS 反向代理工具，使用 Go 语言实现。本文详细介绍了 Nexo 的实现原理和关键代码，包括：自动证书管理、Cloudflare DNS 验证、通配符证书支持等特性。通过这篇文章，读者可以深入理解 HTTPS 反向代理的工作原理，以及如何使用 Go 实现一个生产级别的代理服务器。"
 languages:
     - cn
+changelog: |
+  - 2025-05-03: first 1.0 version
 ---
-
-<details class="changelog">
-<summary>Changelog</summary>
-<div class="changelog-content">
-- 2025-05-03: first 1.0 version
-</div>
-</details>
 
 ## Background
 > 项目地址：[abcdlsj/nexo](https://github.com/abcdlsj/nexo)

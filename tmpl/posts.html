@@ -4,11 +4,12 @@
   <head>
     {{template "head" dict "Site" .Site "IsPost" false}}
   </head>
-  <body class="container">
-    <main>
+  <body>
+    <div class="content-wrapper">
       <div class="navbar">{{template "navbar" .}}</div>
       <hr class="divider" />
       <h1 class="posts-title">ALL POSTS ({{len .Posts}})</h1>
+      <hr class="divider-short" />
       <div class="post-list">
         {{range $i, $post := .Posts}}
           <article class="post">
@@ -34,8 +35,7 @@
           {{end}}
         {{end}}
       </div>
-      <hr class="divider" />
-    </main>
+    </div>
   </body>
 </html>
 {{end}}

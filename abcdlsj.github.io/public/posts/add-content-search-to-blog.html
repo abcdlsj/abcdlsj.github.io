@@ -30,9 +30,36 @@
 
 </head>
 
-<body class="container">
-  <main>
-    <div class="navbar">
+<body>
+  
+  <div class="sidebar">
+    <div class="post-toc">
+<li>
+Table of Contents<ul>
+<li>
+<a href="#background">Background</a></li>
+<li>
+<a href="#example">Example</a></li>
+<li>
+<a href="#my-implementation">My Implementation</a><ul>
+<li>
+<a href="#generate-index">Generate Index</a></li>
+<li>
+<a href="#search">Search</a></li>
+</ul>
+</li>
+<li>
+<a href="#result">Result</a></li>
+</ul>
+</li>
+</ul>
+</div>
+  </div>
+  
+  
+  <div class="content-wrapper">
+    <main>
+      <div class="navbar">
 <nav class="navbar">
   
   
@@ -71,84 +98,31 @@
   
 </nav>
 </div>
-    <hr class="divider" />
-    
-    
-    <h1 class="post-single-title">Add content search to the blog</h1>
-    
-    
-    <div class="post-single-meta">
-      <div class="post-date">Date: 2024-08-15</div>
-      <nav class="post-tags">
-        
-        <a href="/tags/ssg.html" class="tag">#SSG</a>
-        
-        <a href="/tags/search.html" class="tag">#Search</a>
-        
-        <a href="/tags/word+segmentation.html" class="tag">#Word Segmentation</a>
-        
-        <a href="/tags/inverted+index.html" class="tag">#Inverted Index</a>
-        
-      </nav>
-       
-      <script>
-        var tocContent = document.getElementById("toc-content");
-
-        // 监听页面滚动事件
-        window.addEventListener("scroll", function () {
-          var scrollPosition = window.scrollY || window.pageYOffset;
-
-          // 保持TocContent在侧边栏顶部
-          tocContent.style.top = scrollPosition + "px";
-        });
-
-        // 监听目录链接点击事件
-        tocContent.addEventListener("click", function (event) {
-          if (event.target.tagName === "A") {
-            event.preventDefault();
-            var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
-            var targetElement = document.getElementById(targetId);
-            if (targetElement) {
-              targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
-            }
-          }
-        });
-
-        function scrollToTop() {
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
-        }
-      </script>
-      <div class="sidebar">
-        <div class="post-toc">
-<li>
-Table of Contents<ul>
-<li>
-<a href="#background">Background</a></li>
-<li>
-<a href="#example">Example</a></li>
-<li>
-<a href="#my-implementation">My Implementation</a><ul>
-<li>
-<a href="#generate-index">Generate Index</a></li>
-<li>
-<a href="#search">Search</a></li>
-</ul>
-</li>
-<li>
-<a href="#result">Result</a></li>
-</ul>
-</li>
-</ul>
-</div>
+      <hr class="divider" />
+      
+      
+      <h1 class="post-single-title">Add content search to the blog</h1>
+      
+      
+      <div class="post-single-meta">
+        <div class="post-date">Date: 2024-08-15</div>
+        <nav class="post-tags">
+          
+          <a href="/tags/ssg.html" class="tag">#SSG</a>
+          
+          <a href="/tags/search.html" class="tag">#Search</a>
+          
+          <a href="/tags/word+segmentation.html" class="tag">#Word Segmentation</a>
+          
+          <a href="/tags/inverted+index.html" class="tag">#Inverted Index</a>
+          
+        </nav>
       </div>
-       
-    </div>
-    <hr class="divider" />
-    <div class="post-content">
-      <article><h2 id="background">Background</h2>
+
+      
+
+      <div class="post-content">
+        <article><h2 id="background">Background</h2>
 <p>我目前使用的是自己实现的 SSG（Static Site Generator）程序来生成这个站点，所以很多功能都没有，需要自己添加。</p>
 <p>比如 <code>Feed</code> 功能！</p>
 <p>这个比较简单，特别是目前还有非常强大的 AI 工具，比如 <code>GitHub Copilot</code>，<code>Cursor</code> 等（强烈推荐 <code>Cursor</code> 和 <code>Claude 3.5 Sonnet</code>）。</p>
@@ -302,27 +276,40 @@ Table of Contents<ul>
 <h2 id="result">Result</h2>
 <p>个人觉得搜索效果非常好，可以在首页试试！</p>
 </article>
-    </div>
-    <hr class="divider" />
-    <!-- 
-<footer class="footer">
-  <p class="footer-author">
-    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
-  </p>
-  <p class="footer-proj">
-    Source
-    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
-  </p>
-</footer>
- -->
-  </main>
+      </div>
+      <hr class="divider" />
+    </main>
+  </div>
+
   <div class="go-to-top">
     <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
   </div>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.post-toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
   <div id="disqus_thread"></div>
   <script>
     (function () {
-      // DON'T EDIT BELOW THIS LINE
       var d = document,
         s = d.createElement("script");
       s.src = "https://abcdlsj.disqus.com/embed.js";
@@ -333,5 +320,4 @@ Table of Contents<ul>
   <noscript>Please enable JavaScript to view the
     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
-
 </html>

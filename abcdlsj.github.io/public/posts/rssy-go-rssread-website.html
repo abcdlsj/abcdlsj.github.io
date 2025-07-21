@@ -30,9 +30,12 @@
 
 </head>
 
-<body class="container">
-  <main>
-    <div class="navbar">
+<body>
+  
+  
+  <div class="content-wrapper">
+    <main>
+      <div class="navbar">
 <nav class="navbar">
   
   
@@ -71,30 +74,31 @@
   
 </nav>
 </div>
-    <hr class="divider" />
-    
-    
-    <h1 class="post-single-title">Rssy - A miniflux rss reader alternative</h1>
-    
-    
-    <div class="post-single-meta">
-      <div class="post-date">Date: 2024-07-01</div>
-      <nav class="post-tags">
-        
-        <a href="/tags/sqlite3.html" class="tag">#SQLite3</a>
-        
-        <a href="/tags/postgres.html" class="tag">#Postgres</a>
-        
-        <a href="/tags/rss.html" class="tag">#RSS</a>
-        
-        <a href="/tags/template.html" class="tag">#Template</a>
-        
-      </nav>
+      <hr class="divider" />
       
-    </div>
-    <hr class="divider" />
-    <div class="post-content">
-      <article><p>For a long time, I used <a href="https://miniflux.app/">Miniflux</a> to read RSS feeds. However, I encountered several issues with it:</p>
+      
+      <h1 class="post-single-title">Rssy - A miniflux rss reader alternative</h1>
+      
+      
+      <div class="post-single-meta">
+        <div class="post-date">Date: 2024-07-01</div>
+        <nav class="post-tags">
+          
+          <a href="/tags/sqlite3.html" class="tag">#SQLite3</a>
+          
+          <a href="/tags/postgres.html" class="tag">#Postgres</a>
+          
+          <a href="/tags/rss.html" class="tag">#RSS</a>
+          
+          <a href="/tags/template.html" class="tag">#Template</a>
+          
+        </nav>
+      </div>
+
+      
+
+      <div class="post-content">
+        <article><p>For a long time, I used <a href="https://miniflux.app/">Miniflux</a> to read RSS feeds. However, I encountered several issues with it:</p>
 <ol>
 <li>
 <p>Miniflux only supports <code>PostgreSQL</code>, whereas I typically prefer using <code>SQLite3</code> due to its simplicity for self-hosting. Unfortunately, PostgreSQL can be resource-intensive, especially my server only has 2 cores and 4GB of RAM.</p>
@@ -109,27 +113,40 @@
 <img src="/static/img/rssy-simple-shot.png" alt="rss simple screenshot"></p>
 <p>More pictures you can find <a href="https://github.com/abcdlsj/rssy/blob/main/README.md">here</a></p>
 </article>
-    </div>
-    <hr class="divider" />
-    <!-- 
-<footer class="footer">
-  <p class="footer-author">
-    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
-  </p>
-  <p class="footer-proj">
-    Source
-    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
-  </p>
-</footer>
- -->
-  </main>
+      </div>
+      <hr class="divider" />
+    </main>
+  </div>
+
   <div class="go-to-top">
     <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
   </div>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.post-toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
   <div id="disqus_thread"></div>
   <script>
     (function () {
-      // DON'T EDIT BELOW THIS LINE
       var d = document,
         s = d.createElement("script");
       s.src = "https://abcdlsj.disqus.com/embed.js";
@@ -140,5 +157,4 @@
   <noscript>Please enable JavaScript to view the
     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
-
 </html>

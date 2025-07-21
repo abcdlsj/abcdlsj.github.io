@@ -4,31 +4,35 @@
   <head>
     {{template "head" dict "Site" .Site "IsPost" false}}
   </head>
-  <body class="container">
-    <div class="navbar">{{template "navbar" .}}</div>
-    <hr class="divider" />
-    <header>
-      <h1 class="tag-title">{{.Name}} ({{len .Refers}} posts)</h1>
-    </header>
-    <hr class="divider-short" />
-    <main>
-      <div class="post-list">
-        {{range $i, $post := .Refers}}
-        <article class="post">
-          <div class="post-date">{{$post.Meta.Date | day}}</div>
-          <div class="post-index">
-            <div class="post-tag-index-title">
-              <a class="tag-refer" href="/posts/{{$post.Uname | urlize}}.html">{{$post.Title}}</a>
-              <div class="language-indicator">
-                [<span class="lang {{if contains .Meta.Languages "en"}}lang-active{{end}}">en</span>/<span class="lang {{if contains .Meta.Languages "cn"}}lang-active{{end}}">cn</span>]
+  <body>
+    <div class="content-wrapper">
+      <div class="navbar">{{template "navbar" .}}</div>
+      <hr class="divider" />
+      <header>
+        <h1 class="tag-title">{{.Name}} ({{len .Refers}} posts)</h1>
+      </header>
+      <hr class="divider-short" />
+      <main>
+        <div class="post-list">
+          {{range $i, $post := .Refers}}
+          <article class="post">
+            <div class="post-date">{{$post.Meta.Date | day}}</div>
+            <div class="post-index">
+              <div class="post-index-title">
+                <a href="/posts/{{$post.Uname | urlize}}.html">{{$post.Title}}</a>
+                <div class="language-indicator">
+                  [<span class="lang {{if contains $post.Meta.Languages "en"}}lang-active{{end}}">en</span>/<span class="lang {{if contains $post.Meta.Languages "cn"}}lang-active{{end}}">cn</span>]
+                </div>
               </div>
             </div>
-          </div>
-        </article>
-        <hr class="divider-short" />
-        {{end}}
-      </div>
-    </main>
+          </article>
+          {{if ne (add $i 1) (len $.Refers)}}
+            <hr class="divider-short">
+          {{end}}
+          {{end}}
+        </div>
+      </main>
+    </div>
   </body>
 </html>
 {{end}}

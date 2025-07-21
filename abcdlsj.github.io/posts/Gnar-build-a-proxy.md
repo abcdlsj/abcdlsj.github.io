@@ -12,18 +12,11 @@ tocPosition: left-sidebar
 description: "Gnar 是一个类似 Frp/Ngrok 的隧道代理工具，使用 Go 语言实现。本文详细介绍了 Gnar 的实现原理和关键代码，文章还分享了在 fly.io 上部署 Gnar 服务端的经验，以及使用 Caddy 实现自动 HTTPS 的方法。通过这篇文章，读者可以深入理解内网穿透工具的工作原理，学习 Go 网络编程的实践技巧。无论是网络爱好者还是 Go 开发者，都能从中获得启发。"
 languages:
     - cn
+changelog: |
+  - 2024-09-08: 更新了 server 和 client 的 cmd 使用
+  - 2023-11-11: 更新了代码结构和接口 
+  - 2023-11-06: 添加了 yamux 支持
 ---
-
-<details class="changelog">
-<summary>Changelog</summary>
-<div class="changelog-content">
-
-- 2023-11-11: 更新了代码结构和接口 
-- 2023-11-06: 添加了 `yamux` 支持
-- 2024-09-08: 更新了 `server` 和 `client` 的 cmd 使用
-
-</div>
-</details>
 
 ## Background
 

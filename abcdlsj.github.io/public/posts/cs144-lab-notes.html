@@ -30,9 +30,32 @@
 
 </head>
 
-<body class="container">
-  <main>
-    <div class="navbar">
+<body>
+  
+  <div class="sidebar">
+    <div class="post-toc">
+<li>
+Table of Contents<ul>
+<li>
+<a href="#heading">环境搭建以及如何调试</a></li>
+<li>
+<a href="#lab-0-networking-warmup">Lab 0: networking warmup</a></li>
+<li>
+<a href="#lab-1-stitching-substrings-into-a-byte-stream">Lab 1: stitching substrings into a byte stream</a></li>
+<li>
+<a href="#lab-2-the-tcp-receiver">Lab 2: the TCP receiver</a></li>
+<li>
+<a href="#reference">Reference</a></li>
+</ul>
+</li>
+</ul>
+</div>
+  </div>
+  
+  
+  <div class="content-wrapper">
+    <main>
+      <div class="navbar">
 <nav class="navbar">
   
   
@@ -71,45 +94,27 @@
   
 </nav>
 </div>
-    <hr class="divider" />
-    
-    
-    <h1 class="post-single-title">CS144 Lab Notes</h1>
-    
-    
-    <div class="post-single-meta">
-      <div class="post-date">Date: 2021-05-04</div>
-      <nav class="post-tags">
-        
-        <a href="/tags/cs144.html" class="tag">#CS144</a>
-        
-        <a href="/tags/network.html" class="tag">#Network</a>
-        
-      </nav>
-       
       <hr class="divider" />
-      <div class="post-toc">
-<li>
-Table of Contents<ul>
-<li>
-<a href="#heading">环境搭建以及如何调试</a></li>
-<li>
-<a href="#lab-0-networking-warmup">Lab 0: networking warmup</a></li>
-<li>
-<a href="#lab-1-stitching-substrings-into-a-byte-stream">Lab 1: stitching substrings into a byte stream</a></li>
-<li>
-<a href="#lab-2-the-tcp-receiver">Lab 2: the TCP receiver</a></li>
-<li>
-<a href="#reference">Reference</a></li>
-</ul>
-</li>
-</ul>
-</div>
-       
-    </div>
-    <hr class="divider" />
-    <div class="post-content">
-      <article><blockquote>
+      
+      
+      <h1 class="post-single-title">CS144 Lab Notes</h1>
+      
+      
+      <div class="post-single-meta">
+        <div class="post-date">Date: 2021-05-04</div>
+        <nav class="post-tags">
+          
+          <a href="/tags/cs144.html" class="tag">#CS144</a>
+          
+          <a href="/tags/network.html" class="tag">#Network</a>
+          
+        </nav>
+      </div>
+
+      
+
+      <div class="post-content">
+        <article><blockquote>
 <p>It’s not always natural what the “right” behavior is.</p>
 </blockquote>
  <!--more--> 
@@ -361,27 +366,40 @@ Table of Contents<ul>
 <p><a href="https://zhuanlan.zhihu.com/p/262274265">https://zhuanlan.zhihu.com/p/262274265</a></p>
 <p><a href="https://www.cnblogs.com/kangyupl/p/stanford_cs144_labs.html">https://www.cnblogs.com/kangyupl/p/stanford_cs144_labs.html</a></p>
 </article>
-    </div>
-    <hr class="divider" />
-    <!-- 
-<footer class="footer">
-  <p class="footer-author">
-    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
-  </p>
-  <p class="footer-proj">
-    Source
-    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
-  </p>
-</footer>
- -->
-  </main>
+      </div>
+      <hr class="divider" />
+    </main>
+  </div>
+
   <div class="go-to-top">
     <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
   </div>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.post-toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
   <div id="disqus_thread"></div>
   <script>
     (function () {
-      // DON'T EDIT BELOW THIS LINE
       var d = document,
         s = d.createElement("script");
       s.src = "https://abcdlsj.disqus.com/embed.js";
@@ -392,5 +410,4 @@ Table of Contents<ul>
   <noscript>Please enable JavaScript to view the
     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
-
 </html>

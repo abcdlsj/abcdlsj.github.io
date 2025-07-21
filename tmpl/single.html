@@ -6,80 +6,79 @@
   {{template "head" dict "Site" .Site "Meta" .Meta "Uname" .Uname "IsPost" true}}
 </head>
 
-<body class="container">
-  <main>
-    <div class="navbar">{{template "navbar" .}}</div>
-    <hr class="divider" />
-    
-    {{if .Meta.Hero}}
-    <div class="hero-container">
-      <h1 class="hero-single-title">{{.Meta.Title}}</h1>
-      <div class="hero-image" style="background-image: url('{{.Meta.Hero}}');"></div>
-    </div>
-    {{else}}
-    <h1 class="post-single-title">{{.Meta.Title}}</h1>
-    {{end}}
-    
-    <div class="post-single-meta">
-      <div class="post-date">Date: {{.Meta.Date | day}}</div>
-      <nav class="post-tags">
-        {{range $tag := .Meta.Tags}}
-        <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
-        {{end}}
-      </nav>
-      {{if ne .TocContent ""}} {{if eq .Meta.TocPosition ""}}
+<body>
+  {{if ne .TocContent ""}}
+  <div class="sidebar">
+    <div class="post-toc">{{.TocContent}}</div>
+  </div>
+  {{end}}
+  
+  <div class="content-wrapper">
+    <main>
+      <div class="navbar">{{template "navbar" .}}</div>
       <hr class="divider" />
-      <div class="post-toc">{{.TocContent}}</div>
-      {{else if eq .Meta.TocPosition "left-sidebar"}}
-      <script>
-        var tocContent = document.getElementById("toc-content");
-
-        // 监听页面滚动事件
-        window.addEventListener("scroll", function () {
-          var scrollPosition = window.scrollY || window.pageYOffset;
-
-          // 保持TocContent在侧边栏顶部
-          tocContent.style.top = scrollPosition + "px";
-        });
-
-        // 监听目录链接点击事件
-        tocContent.addEventListener("click", function (event) {
-          if (event.target.tagName === "A") {
-            event.preventDefault();
-            var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
-            var targetElement = document.getElementById(targetId);
-            if (targetElement) {
-              targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
-            }
-          }
-        });
-
-        function scrollToTop() {
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
-        }
-      </script>
-      <div class="sidebar">
-        <div class="post-toc">{{.TocContent}}</div>
+      
+      {{if .Meta.Hero}}
+      <div class="hero-container">
+        <h1 class="hero-single-title">{{.Meta.Title}}</h1>
+        <div class="hero-image" style="background-image: url('{{.Meta.Hero}}');"></div>
       </div>
-      {{end}} {{end}}
-    </div>
-    <hr class="divider" />
-    <div class="post-content">
-      <article>{{.Body}}</article>
-    </div>
-    <hr class="divider" />
-    <!-- {{template "footer" .}} -->
-  </main>
+      {{else}}
+      <h1 class="post-single-title">{{.Meta.Title}}</h1>
+      {{end}}
+      
+      <div class="post-single-meta">
+        <div class="post-date">Date: {{.Meta.Date | day}}</div>
+        <nav class="post-tags">
+          {{range $tag := .Meta.Tags}}
+          <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
+          {{end}}
+        </nav>
+      </div>
+
+      {{if .Meta.Changelog}}
+      <details class="changelog">
+        <summary>Changelog</summary>
+        <div class="changelog-content">{{.Meta.Changelog | formatChangelog}}</div>
+      </details>
+      {{end}}
+
+      <div class="post-content">
+        <article>{{.Body}}</article>
+      </div>
+      <hr class="divider" />
+    </main>
+  </div>
+
   <div class="go-to-top">
     <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
   </div>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.post-toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
   <div id="disqus_thread"></div>
   <script>
     (function () {
-      // DON'T EDIT BELOW THIS LINE
       var d = document,
         s = d.createElement("script");
       s.src = "https://abcdlsj.disqus.com/embed.js";
@@ -90,6 +89,5 @@
   <noscript>Please enable JavaScript to view the
     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
-
 </html>
 {{end}}

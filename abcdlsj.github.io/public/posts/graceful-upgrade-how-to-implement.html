@@ -30,9 +30,28 @@
 
 </head>
 
-<body class="container">
-  <main>
-    <div class="navbar">
+<body>
+  
+  <div class="sidebar">
+    <div class="post-toc">
+<li>
+Table of Contents<ul>
+<li>
+<ul>
+<li>
+<a href="#what-is-graceful-upgrade">What is graceful upgrade?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+  </div>
+  
+  
+  <div class="content-wrapper">
+    <main>
+      <div class="navbar">
 <nav class="navbar">
   
   
@@ -71,100 +90,68 @@
   
 </nav>
 </div>
-    <hr class="divider" />
-    
-    
-    <h1 class="post-single-title">Graceful upgrade - how to implement</h1>
-    
-    
-    <div class="post-single-meta">
-      <div class="post-date">Date: 2024-04-06</div>
-      <nav class="post-tags">
-        
-        <a href="/tags/graceful+upgrade.html" class="tag">#Graceful Upgrade</a>
-        
-        <a href="/tags/network.html" class="tag">#Network</a>
-        
-        <a href="/tags/wip.html" class="tag">#WIP</a>
-        
-      </nav>
-       
-      <script>
-        var tocContent = document.getElementById("toc-content");
-
-        // 监听页面滚动事件
-        window.addEventListener("scroll", function () {
-          var scrollPosition = window.scrollY || window.pageYOffset;
-
-          // 保持TocContent在侧边栏顶部
-          tocContent.style.top = scrollPosition + "px";
-        });
-
-        // 监听目录链接点击事件
-        tocContent.addEventListener("click", function (event) {
-          if (event.target.tagName === "A") {
-            event.preventDefault();
-            var targetId = event.target.getAttribute("href").substring(1); // 获取目标位置ID
-            var targetElement = document.getElementById(targetId);
-            if (targetElement) {
-              targetElement.scrollIntoView({ behavior: "smooth" }); // 平滑滚动到目标位置
-            }
-          }
-        });
-
-        function scrollToTop() {
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
-        }
-      </script>
-      <div class="sidebar">
-        <div class="post-toc">
-<li>
-Table of Contents<ul>
-<li>
-<ul>
-<li>
-<a href="#what-is-graceful-upgrade">What is graceful upgrade?</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
+      <hr class="divider" />
+      
+      
+      <h1 class="post-single-title">Graceful upgrade - how to implement</h1>
+      
+      
+      <div class="post-single-meta">
+        <div class="post-date">Date: 2024-04-06</div>
+        <nav class="post-tags">
+          
+          <a href="/tags/graceful+upgrade.html" class="tag">#Graceful Upgrade</a>
+          
+          <a href="/tags/network.html" class="tag">#Network</a>
+          
+          <a href="/tags/wip.html" class="tag">#WIP</a>
+          
+        </nav>
       </div>
-       
-    </div>
-    <hr class="divider" />
-    <div class="post-content">
-      <article><p>COMMING SOON...</p>
+
+      
+
+      <div class="post-content">
+        <article><p>COMMING SOON...</p>
 <h3 id="what-is-graceful-upgrade">What is <code>graceful upgrade</code>?</h3>
 <blockquote>
 <p>代表「升级」是在「不中断」的情况下进行的，放在 <code>Web Service</code> 这个语境下就是升级过程中，服务端依旧提供服务，客户端对于服务升级本身无感知。</p>
 </blockquote>
 </article>
-    </div>
-    <hr class="divider" />
-    <!-- 
-<footer class="footer">
-  <p class="footer-author">
-    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
-  </p>
-  <p class="footer-proj">
-    Source
-    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
-  </p>
-</footer>
- -->
-  </main>
+      </div>
+      <hr class="divider" />
+    </main>
+  </div>
+
   <div class="go-to-top">
     <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
   </div>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.post-toc a');
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
   <div id="disqus_thread"></div>
   <script>
     (function () {
-      // DON'T EDIT BELOW THIS LINE
       var d = document,
         s = d.createElement("script");
       s.src = "https://abcdlsj.disqus.com/embed.js";
@@ -175,5 +162,4 @@ Table of Contents<ul>
   <noscript>Please enable JavaScript to view the
     <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
-
 </html>
