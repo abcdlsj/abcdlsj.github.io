@@ -740,3 +740,43 @@ img {
 .post-content h1:first-of-type {
   margin-top: 1rem;  /* Reduce top margin of first h1 */
 }
+
+/* Hosts page styles */
+.hosts-list {
+  margin: 1.5rem 0;
+}
+
+.host-item {
+  padding: 0.8rem 0;
+}
+
+.host-name {
+  font-size: 1.2em;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  color: var(--font-color);
+}
+
+.host-meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  color: var(--light-dark-font-color);
+  font-size: 0.9em;
+}
+
+.host-type {
+  padding: 0.2rem 0.5rem;
+  background-color: var(--tag-background);
+  border-radius: 4px;
+}
+
+.host-link {
+  color: var(--href-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.host-link:hover {
+  text-decoration: underline;
+}
