@@ -14,10 +14,16 @@ languages:
     - cn
 ---
 
-> Changelog:
-> 2023-11-11: 更新了代码结构和接口 
-> 2023-11-06: 添加了 `yamux` 支持
-> 2024-09-08: 更新了 `server` 和 `client` 的 cmd 使用
+<details class="changelog">
+<summary>Changelog</summary>
+<div class="changelog-content">
+
+- 2023-11-11: 更新了代码结构和接口 
+- 2023-11-06: 添加了 `yamux` 支持
+- 2024-09-08: 更新了 `server` 和 `client` 的 cmd 使用
+
+</div>
+</details>
 
 ## Background
 

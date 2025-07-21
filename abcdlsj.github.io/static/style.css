@@ -33,7 +33,7 @@ body {
   font-family: var(--content-font);
   line-height: 1.7;
   margin: auto;
-  max-width: 45%;
+  max-width: 60%;
   padding: 2rem;
   background-color: var(--background-color);
   color: var(--font-color);
@@ -499,29 +499,44 @@ img {
   line-height: 1.6;
 }
 
+.changelog {
+  margin: 1rem 0;
+  padding: 0.8rem;
+  border: 1px solid var(--light-border-color);
+  border-radius: 6px;
+  background-color: #f8f9fa;
+}
+
+.changelog summary {
+  cursor: pointer;
+  color: var(--light-dark-font-color);
+  font-size: 0.9rem;
+  font-weight: 400;
+  user-select: none;
+}
+
+.changelog summary:hover {
+  color: var(--font-color);
+}
+
+.changelog-content {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--light-border-color);
+  font-size: 0.9rem;
+  color: var(--light-dark-font-color);
+}
+
+@media (max-width: 1200px) {
+  body {
+    max-width: 70%;
+  }
+}
+
 @media (max-width: 768px) {
   body {
-    padding: 1rem;
     max-width: 90%;
-  }
-
-  .search-container {
-    position: static;
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  #search-input {
-    width: 100%;
-  }
-
-  .post {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .post-date {
-    min-width: auto;
+    padding: 1rem;
   }
 }
 

@@ -9,9 +9,13 @@ tocPosition: left-sidebar
 description: "Tally 是一个类似 tokei/scc 的代码行数统计工具，使用 Go 语言实现。本文详细介绍了 Tally 的实现原理和关键代码，包括: 使用 filepath.Walk 来遍历目录树，使用 bufio.Scanner 来读取文件，使用 sync.WaitGroup 来实现并发。通过这篇文章，读者可以深入理解代码行数统计工具的工作原理，学习 Go 网络编程的实践技巧。"
 ---
 
-> Changelog:
-> - 2023-08-16: first version
-> - 2024-04-03: bechmark refactor
+<details class="changelog">
+<summary>Changelog</summary>
+<div class="changelog-content">
+- 2023-08-16: first version
+- 2024-04-03: bechmark refactor
+</div>
+</details>
 
 ## Background
 I want to build a tool like `scc`, `tokei`, just for learning. It was very easy to write a simple version: [tally - first commit](https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go).

@@ -182,12 +182,16 @@ Table of Contents<ul>
     </div>
     <hr class="divider" />
     <div class="post-content">
-      <article><blockquote>
-<p>Changelog:<br>
-2023-11-11: 更新了代码结构和接口<br>
-2023-11-06: 添加了 <code>yamux</code> 支持<br>
-2024-09-08: 更新了 <code>server</code> 和 <code>client</code> 的 cmd 使用</p>
-</blockquote>
+      <article><details class="changelog">
+<summary>Changelog</summary>
+<div class="changelog-content">
+<ul>
+<li>2023-11-11: 更新了代码结构和接口</li>
+<li>2023-11-06: 添加了 <code>yamux</code> 支持</li>
+<li>2024-09-08: 更新了 <code>server</code> 和 <code>client</code> 的 cmd 使用</li>
+</ul>
+</div>
+</details>
 <h2 id="background">Background</h2>
 <p><strong>实现简单的转发工具</strong></p>
 <p>公司内部的服务框架 Service 之间通信是通过连接每台机器的 <code>Agent</code> 监听的 <code>UNIX domain</code> 实现的，在公司容器集群环境，都是会启动 <code>Agent</code>。<br>

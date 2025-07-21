@@ -12,8 +12,12 @@ languages:
     - cn
 ---
 
-> Changelog:
-> - 2025-05-03: first 1.0 version
+<details class="changelog">
+<summary>Changelog</summary>
+<div class="changelog-content">
+- 2025-05-03: first 1.0 version
+</div>
+</details>
 
 ## Background
 > 项目地址：[abcdlsj/nexo](https://github.com/abcdlsj/nexo)
