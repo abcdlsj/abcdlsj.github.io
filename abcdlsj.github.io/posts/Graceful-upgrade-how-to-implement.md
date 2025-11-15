@@ -5,9 +5,8 @@ tags:
   - Graceful Upgrade
   - Network
   - WIP
-hide: false
+hide: true
 wip: true
-tocPosition: left-sidebar
 ---
 
 COMMING SOON...

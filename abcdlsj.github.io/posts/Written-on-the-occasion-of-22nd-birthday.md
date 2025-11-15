@@ -6,7 +6,7 @@ tags:
 hide: false
 hideToc: true
 hero: "/static/img/hfut_night.jpg"
-description: "今年 7 月份就会结束自己的学生生涯，刚好过几天也会迎来自己的 22 岁生日，恰逢在本周收到了还算满意的 `offer`，所以觉得还是需要写点东西表示一下。"
+description: "写于 22 岁生日之际"
 languages:
     - cn
 ---

@@ -1,9 +1,8 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  
+  <head>
+    
 <meta charset="UTF-8" />
 <title>2024 Summary & New company</title>
 <meta name="description" content="Enjoy Focus!" />
@@ -11,7 +10,7 @@
 <meta name="keywords" content="Summary,">
 <meta name="author" content="abcdlsj">
 <meta property="og:title" content="2024 Summary & New company">
-<meta property="og:description" content="2024 summary">
+<meta property="og:description" content="2024 年末总结">
 <meta property="og:url" content="https://abcdlsj.github.io/posts/2024.html">
 <meta property="og:type" content="article">
 
@@ -28,71 +27,78 @@
 ></script>
 <script src="/static/script/search.js"></script>
 
-</head>
+  </head>
+  <body>
+    <div class="app">
+      
+<header class="site-header">
+  <div class="site-header__brand">
+    <a href="/" class="site-header__title">2024 Summary & New company</a>
+    <p class="site-header__description">
+      Enjoy Focus!
+    </p>
+  </div>
+  <nav class="site-header__nav">
+    <ul class="nav-links">
+      
+      
+      <li>
+        <a href="/" class="nav-link">Home</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/posts" class="nav-link">Posts</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/about" class="nav-link">About</a>
+      </li>
+      
+      
+      
+      
+      
+      <li>
+        <a href="/rss.xml" class="nav-link">Feed</a>
+      </li>
+      
+      
+    </ul>
+  </nav>
+</header>
 
-<body>
-  
-  
-  <div class="content-wrapper">
-    <main>
-      <div class="navbar">
-<nav class="navbar">
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/"  class="home">Home</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/posts"  class="posts">Posts</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/about"  class="about">About</a>
-    </li>
-  </ul>
-  
-  
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/rss.xml"  class="feed">Feed</a>
-    </li>
-  </ul>
-  
-  
-</nav>
-</div>
-      <hr class="divider" />
-      
-      
-      <h1 class="post-single-title">2024 Summary & New company</h1>
-      
-      
-      <div class="post-single-meta">
-        <div class="post-date">Date: 2025-03-08</div>
-        <nav class="post-tags">
+      <div class="article-layout article-layout--single">
+        <article class="surface post-article">
+          <div class="post-leading-meta">
+            <a href="/" class="breadcrumb-link">Home</a>
+            <span>·</span>
+            <a href="/posts" class="breadcrumb-link">Posts</a>
+          </div>
           
-          <a href="/tags/summary.html" class="tag">#Summary</a>
+          <h1 class="post-single-title">2024 Summary & New company</h1>
           
-        </nav>
-      </div>
 
-      
+          <div class="post-meta-row">
+            <div>
+              <p class="post-meta-row__date">写于 2025-03-08</p>
+            </div>
+            
+            <nav class="post-meta-row__tags">
+              
+              <a href="/tags/summary.html" class="tag-chip">#Summary</a>
+              
+            </nav>
+            
+          </div>
 
-      <div class="post-content">
-        <article><blockquote>
+          
+
+          <div class="post-body">
+            <article><blockquote>
 <p>虽然现在已经 3 月份了，但是 24 年没有写年终总结。<br>
 我个人有简单记录，但是 Blog 得写点新内容，于是在这里总结下去年工作部分吧。</p>
 </blockquote>
@@ -150,48 +156,67 @@
 <h2 id="2025">2025</h2>
 <p>就这样吧，没有太多期望，多思考多尝试。</p>
 </article>
+          </div>
+        </article>
+
+        
       </div>
-      <hr class="divider" />
-    </main>
-  </div>
 
-  <div class="go-to-top">
-    <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
-  </div>
+      <section class="surface comments-shell">
+        <div id="disqus_thread"></div>
+      </section>
 
-  <script>
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
+      
+<footer class="footer">
+  <p class="footer-author">
+    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
+  </p>
+  <p class="footer-proj">
+    Source
+    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
+  </p>
+</footer>
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const tocLinks = document.querySelectorAll('.post-toc a');
-      tocLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetElement = document.getElementById(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }
+    </div>
+
+    <button class="back-to-top" type="button" onclick="scrollToTop()">Back to top</button>
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      const backToTop = document.querySelector(".back-to-top");
+      const toggleButton = () => {
+        if (!backToTop) return;
+        backToTop.classList.toggle("back-to-top--visible", window.scrollY > 400);
+      };
+      window.addEventListener("scroll", toggleButton);
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const tocLinks = document.querySelectorAll('.post-toc a');
+        tocLinks.forEach(link => {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
         });
       });
-    });
-  </script>
-  <div id="disqus_thread"></div>
-  <script>
-    (function () {
-      var d = document,
-        s = d.createElement("script");
-      s.src = "https://abcdlsj.disqus.com/embed.js";
-      s.setAttribute("data-timestamp", +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the
-    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</body>
+
+      (function () {
+        var d = document,
+          s = d.createElement("script");
+        s.src = "https://abcdlsj.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </body>
 </html>

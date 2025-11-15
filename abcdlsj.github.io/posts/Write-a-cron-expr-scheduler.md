@@ -5,8 +5,7 @@ tags:
   - Cron Expression
   - Package Design
 hide: false
-tocPosition: left-sidebar
-description: "本文详细介绍了如何从零实现一个初级 Cron 表达式解析器，使用 Go 语言实现。"
+description: "如何使用 Golang 从零实现一个初级 Cron 表达式解析器"
 languages:
     - cn
 ---

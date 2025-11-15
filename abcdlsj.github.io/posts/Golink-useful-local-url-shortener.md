@@ -6,11 +6,11 @@ tags:
   - Template
 hide: false
 hideToc: true
-description: "Golink 是一个本地 URL 短网址生成器，使用 Go 语言实现。本文详细介绍了 Golink 的实现原理和关键代码，包括: 使用 /etc/hosts 文件来实现短网址解析，使用 SQLite3 来存储短网址和原始 URL 的映射关系，使用 Caddy 来实现自动 HTTPS 的方法。通过这篇文章，读者可以深入理解短网址生成器的工作原理，学习 Go 网络编程的实践技巧。"
+description: "Golink is a useful and simple URL shortener with a few neat tricks"
 ---
 
 > What is `url shortener`?
-> Answer: [URL Shortening](https://en.wikipedia.org/wiki/URL_shortening)
+> Get the Answer: [URL Shortening](https://en.wikipedia.org/wiki/URL_shortening)
 
 <!--more-->
 

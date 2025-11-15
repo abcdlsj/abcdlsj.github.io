@@ -1,93 +1,107 @@
 {{define "single"}}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  {{template "head" dict "Site" .Site "Meta" .Meta "Uname" .Uname "IsPost" true}}
-</head>
-
-<body>
-  {{if ne .TocContent ""}}
-  <div class="sidebar">
-    <div class="post-toc">{{.TocContent}}</div>
-  </div>
-  {{end}}
-  
-  <div class="content-wrapper">
-    <main>
-      <div class="navbar">{{template "navbar" .}}</div>
-      <hr class="divider" />
-      
-      {{if .Meta.Hero}}
-      <div class="hero-container">
-        <h1 class="hero-single-title">{{.Meta.Title}}</h1>
-        <div class="hero-image" style="background-image: url('{{.Meta.Hero}}');"></div>
-      </div>
-      {{else}}
-      <h1 class="post-single-title">{{.Meta.Title}}</h1>
-      {{end}}
-      
-      <div class="post-single-meta">
-        <div class="post-date">Date: {{.Meta.Date | day}}</div>
-        <nav class="post-tags">
-          {{range $tag := .Meta.Tags}}
-          <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
+  <head>
+    {{template "head" dict "Site" .Site "Meta" .Meta "Uname" .Uname "IsPost" true}}
+  </head>
+  <body>
+    <div class="app">
+      {{template "navbar" .}}
+      <div class="article-layout {{if eq .TocContent ""}}article-layout--single{{end}}">
+        <article class="surface post-article">
+          <div class="post-leading-meta">
+            <a href="/" class="breadcrumb-link">Home</a>
+            <span>·</span>
+            <a href="/posts" class="breadcrumb-link">Posts</a>
+          </div>
+          {{if .Meta.Hero}}
+          <div class="hero-container">
+            <h1 class="hero-single-title">{{.Meta.Title}}</h1>
+            <div class="hero-image" style="background-image: url('{{.Meta.Hero}}');"></div>
+          </div>
+          {{else}}
+          <h1 class="post-single-title">{{.Meta.Title}}</h1>
           {{end}}
-        </nav>
+
+          <div class="post-meta-row">
+            <div>
+              <p class="post-meta-row__date">写于 {{.Meta.Date | day}}</p>
+            </div>
+            {{if .Meta.Tags}}
+            <nav class="post-meta-row__tags">
+              {{range $tag := .Meta.Tags}}
+              <a href="/tags/{{$tag | urlize}}.html" class="tag-chip">#{{$tag}}</a>
+              {{end}}
+            </nav>
+            {{end}}
+          </div>
+
+          {{if .Meta.Changelog}}
+          <details class="changelog">
+            <summary>Changelog</summary>
+            <div class="changelog-content">{{.Meta.Changelog | formatChangelog}}</div>
+          </details>
+          {{end}}
+
+          <div class="post-body">
+            <article>{{.Body}}</article>
+          </div>
+        </article>
+
+        {{if ne .TocContent ""}}
+        <aside class="toc-panel surface">
+          <p class="toc-title">目录</p>
+          <nav class="post-toc">{{.TocContent}}</nav>
+        </aside>
+        {{end}}
       </div>
 
-      {{if .Meta.Changelog}}
-      <details class="changelog">
-        <summary>Changelog</summary>
-        <div class="changelog-content">{{.Meta.Changelog | formatChangelog}}</div>
-      </details>
-      {{end}}
+      <section class="surface comments-shell">
+        <div id="disqus_thread"></div>
+      </section>
 
-      <div class="post-content">
-        <article>{{.Body}}</article>
-      </div>
-      <hr class="divider" />
-    </main>
-  </div>
+      {{template "footer" .}}
+    </div>
 
-  <div class="go-to-top">
-    <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
-  </div>
+    <button class="back-to-top" type="button" onclick="scrollToTop()">Back to top</button>
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
 
-  <script>
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
+      const backToTop = document.querySelector(".back-to-top");
+      const toggleButton = () => {
+        if (!backToTop) return;
+        backToTop.classList.toggle("back-to-top--visible", window.scrollY > 400);
+      };
+      window.addEventListener("scroll", toggleButton);
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const tocLinks = document.querySelectorAll('.post-toc a');
-      tocLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetElement = document.getElementById(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }
+      document.addEventListener('DOMContentLoaded', function () {
+        const tocLinks = document.querySelectorAll('.post-toc a');
+        tocLinks.forEach(link => {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
         });
       });
-    });
-  </script>
-  <div id="disqus_thread"></div>
-  <script>
-    (function () {
-      var d = document,
-        s = d.createElement("script");
-      s.src = "https://abcdlsj.disqus.com/embed.js";
-      s.setAttribute("data-timestamp", +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the
-    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</body>
+
+      (function () {
+        var d = document,
+          s = d.createElement("script");
+        s.src = "https://abcdlsj.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </body>
 </html>
 {{end}}

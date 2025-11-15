@@ -8,8 +8,7 @@ tags:
   - Inverted Index
 hide: false
 toc: true
-tocPosition: left-sidebar
-description: "介绍了如何给 SSG（Static Site Generator）添加内容搜索功能"
+description: "为 SSG（Static Site Generator）开发搜索功能"
 languages:
     - cn
 ---

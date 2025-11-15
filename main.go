@@ -192,7 +192,6 @@ type PostMeta struct {
 	Hide        bool     `yaml:"hide"`
 	Menus       []string `yaml:"menus"`
 	Wip         bool     `yaml:"wip"`
-	TocPosition string   `yaml:"tocPosition"`
 	HideToc     bool     `yaml:"hideToc"`
 	Hero        string   `yaml:"hero"`
 	Description string   `yaml:"description"`
@@ -208,7 +207,6 @@ func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 		Hide:        meta["hide"].(bool),
 		Menus:       getMetaStrs(meta, "menus"),
 		Wip:         getMetaBool(meta, "wip"),
-		TocPosition: orStr(getMetaStr(meta, "tocPosition"), ""),
 		HideToc:     getMetaBool(meta, "hideToc"),
 		Hero:        orStr(getMetaStr(meta, "hero"), ""),
 		Description: orStr(getMetaStr(meta, "description"), ""),

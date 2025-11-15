@@ -1,9 +1,8 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  
+  <head>
+    
 <meta charset="UTF-8" />
 <title>Add content search to the blog</title>
 <meta name="description" content="Enjoy Focus!" />
@@ -11,7 +10,7 @@
 <meta name="keywords" content="SSG,Search,Word Segmentation,Inverted Index,">
 <meta name="author" content="abcdlsj">
 <meta property="og:title" content="Add content search to the blog">
-<meta property="og:description" content="介绍了如何给 SSG（Static Site Generator）添加内容搜索功能">
+<meta property="og:description" content="为 SSG（Static Site Generator）开发搜索功能">
 <meta property="og:url" content="https://abcdlsj.github.io/posts/add-content-search-to-blog.html">
 <meta property="og:type" content="article">
 
@@ -28,101 +27,84 @@
 ></script>
 <script src="/static/script/search.js"></script>
 
-</head>
-
-<body>
-  
-  <div class="sidebar">
-    <div class="post-toc">
-<li>
-Table of Contents<ul>
-<li>
-<a href="#background">Background</a></li>
-<li>
-<a href="#example">Example</a></li>
-<li>
-<a href="#my-implementation">My Implementation</a><ul>
-<li>
-<a href="#generate-index">Generate Index</a></li>
-<li>
-<a href="#search">Search</a></li>
-</ul>
-</li>
-<li>
-<a href="#result">Result</a></li>
-</ul>
-</li>
-</ul>
-</div>
+  </head>
+  <body>
+    <div class="app">
+      
+<header class="site-header">
+  <div class="site-header__brand">
+    <a href="/" class="site-header__title">Add content search to the blog</a>
+    <p class="site-header__description">
+      Enjoy Focus!
+    </p>
   </div>
-  
-  
-  <div class="content-wrapper">
-    <main>
-      <div class="navbar">
-<nav class="navbar">
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/"  class="home">Home</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/posts"  class="posts">Posts</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/about"  class="about">About</a>
-    </li>
-  </ul>
-  
-  
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/rss.xml"  class="feed">Feed</a>
-    </li>
-  </ul>
-  
-  
-</nav>
-</div>
-      <hr class="divider" />
+  <nav class="site-header__nav">
+    <ul class="nav-links">
       
       
-      <h1 class="post-single-title">Add content search to the blog</h1>
+      <li>
+        <a href="/" class="nav-link">Home</a>
+      </li>
       
       
-      <div class="post-single-meta">
-        <div class="post-date">Date: 2024-08-15</div>
-        <nav class="post-tags">
-          
-          <a href="/tags/ssg.html" class="tag">#SSG</a>
-          
-          <a href="/tags/search.html" class="tag">#Search</a>
-          
-          <a href="/tags/word+segmentation.html" class="tag">#Word Segmentation</a>
-          
-          <a href="/tags/inverted+index.html" class="tag">#Inverted Index</a>
-          
-        </nav>
-      </div>
+      
+      <li>
+        <a href="/posts" class="nav-link">Posts</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/about" class="nav-link">About</a>
+      </li>
+      
+      
+      
+      
+      
+      <li>
+        <a href="/rss.xml" class="nav-link">Feed</a>
+      </li>
+      
+      
+    </ul>
+  </nav>
+</header>
 
-      
+      <div class="article-layout ">
+        <article class="surface post-article">
+          <div class="post-leading-meta">
+            <a href="/" class="breadcrumb-link">Home</a>
+            <span>·</span>
+            <a href="/posts" class="breadcrumb-link">Posts</a>
+          </div>
+          
+          <h1 class="post-single-title">Add content search to the blog</h1>
+          
 
-      <div class="post-content">
-        <article><h2 id="background">Background</h2>
+          <div class="post-meta-row">
+            <div>
+              <p class="post-meta-row__date">写于 2024-08-15</p>
+            </div>
+            
+            <nav class="post-meta-row__tags">
+              
+              <a href="/tags/ssg.html" class="tag-chip">#SSG</a>
+              
+              <a href="/tags/search.html" class="tag-chip">#Search</a>
+              
+              <a href="/tags/word+segmentation.html" class="tag-chip">#Word Segmentation</a>
+              
+              <a href="/tags/inverted+index.html" class="tag-chip">#Inverted Index</a>
+              
+            </nav>
+            
+          </div>
+
+          
+
+          <div class="post-body">
+            <article><h2 id="background">Background</h2>
 <p>我目前使用的是自己实现的 SSG（Static Site Generator）程序来生成这个站点，所以很多功能都没有，需要自己添加。</p>
 <p>比如 <code>Feed</code> 功能！</p>
 <p>这个比较简单，特别是目前还有非常强大的 AI 工具，比如 <code>GitHub Copilot</code>，<code>Cursor</code> 等（强烈推荐 <code>Cursor</code> 和 <code>Claude 3.5 Sonnet</code>）。</p>
@@ -276,48 +258,92 @@ Table of Contents<ul>
 <h2 id="result">Result</h2>
 <p>个人觉得搜索效果非常好，可以在首页试试！</p>
 </article>
+          </div>
+        </article>
+
+        
+        <aside class="toc-panel surface">
+          <p class="toc-title">目录</p>
+          <nav class="post-toc">
+<li>
+Table of Contents<ul>
+<li>
+<a href="#background">Background</a></li>
+<li>
+<a href="#example">Example</a></li>
+<li>
+<a href="#my-implementation">My Implementation</a><ul>
+<li>
+<a href="#generate-index">Generate Index</a></li>
+<li>
+<a href="#search">Search</a></li>
+</ul>
+</li>
+<li>
+<a href="#result">Result</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+        </aside>
+        
       </div>
-      <hr class="divider" />
-    </main>
-  </div>
 
-  <div class="go-to-top">
-    <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
-  </div>
+      <section class="surface comments-shell">
+        <div id="disqus_thread"></div>
+      </section>
 
-  <script>
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
+      
+<footer class="footer">
+  <p class="footer-author">
+    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
+  </p>
+  <p class="footer-proj">
+    Source
+    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
+  </p>
+</footer>
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const tocLinks = document.querySelectorAll('.post-toc a');
-      tocLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetElement = document.getElementById(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }
+    </div>
+
+    <button class="back-to-top" type="button" onclick="scrollToTop()">Back to top</button>
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      const backToTop = document.querySelector(".back-to-top");
+      const toggleButton = () => {
+        if (!backToTop) return;
+        backToTop.classList.toggle("back-to-top--visible", window.scrollY > 400);
+      };
+      window.addEventListener("scroll", toggleButton);
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const tocLinks = document.querySelectorAll('.post-toc a');
+        tocLinks.forEach(link => {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
         });
       });
-    });
-  </script>
-  <div id="disqus_thread"></div>
-  <script>
-    (function () {
-      var d = document,
-        s = d.createElement("script");
-      s.src = "https://abcdlsj.disqus.com/embed.js";
-      s.setAttribute("data-timestamp", +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the
-    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</body>
+
+      (function () {
+        var d = document,
+          s = d.createElement("script");
+        s.src = "https://abcdlsj.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </body>
 </html>

@@ -6,6 +6,7 @@ tags:
   - Template
 hide: false
 hideToc: true
+description: "如何在 Go Template 中使用 Tailwindcss"
 languages:
     - cn
 ---

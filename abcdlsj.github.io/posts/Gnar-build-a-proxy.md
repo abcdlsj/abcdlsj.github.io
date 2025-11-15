@@ -8,8 +8,7 @@ tags:
   - Traffic Limit
   - IO Package
 hide: false
-tocPosition: left-sidebar
-description: "Gnar 是一个类似 Frp/Ngrok 的隧道代理工具，使用 Go 语言实现。本文详细介绍了 Gnar 的实现原理和关键代码，文章还分享了在 fly.io 上部署 Gnar 服务端的经验，以及使用 Caddy 实现自动 HTTPS 的方法。通过这篇文章，读者可以深入理解内网穿透工具的工作原理，学习 Go 网络编程的实践技巧。无论是网络爱好者还是 Go 开发者，都能从中获得启发。"
+description: "从零实现类似 Frp/Ngrok 的内网转发工具"
 languages:
     - cn
 changelog: |

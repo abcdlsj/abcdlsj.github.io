@@ -1,13 +1,21 @@
 {{define "navbar"}}
-<nav class="navbar">
-  {{range .Site.Menus}}
-  {{if eq .Hide false}}
-  <ul class="menu">
-    <li>
-      <a href="/{{.URL | urlize}}"  class="{{.Name | urlize}}">{{.Name}}</a>
-    </li>
-  </ul>
-  {{end}}
-  {{end}}
-</nav>
+<header class="site-header">
+  <div class="site-header__brand">
+    <a href="/" class="site-header__title">{{.Site.Title}}</a>
+    <p class="site-header__description">
+      {{truncate .Site.Description 140}}
+    </p>
+  </div>
+  <nav class="site-header__nav">
+    <ul class="nav-links">
+      {{range .Site.Menus}}
+      {{if eq .Hide false}}
+      <li>
+        <a href="/{{.URL | urlize}}" class="nav-link">{{.Name}}</a>
+      </li>
+      {{end}}
+      {{end}}
+    </ul>
+  </nav>
+</header>
 {{end}}

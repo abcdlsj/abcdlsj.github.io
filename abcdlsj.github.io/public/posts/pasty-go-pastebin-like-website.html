@@ -1,9 +1,8 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  
+  <head>
+    
 <meta charset="UTF-8" />
 <title>Pasty - A pastebin website with Go+Turnstile+OAuth</title>
 <meta name="description" content="Enjoy Focus!" />
@@ -11,7 +10,7 @@
 <meta name="keywords" content="OAuth,Turnstile,Template,SQLite3,">
 <meta name="author" content="abcdlsj">
 <meta property="og:title" content="Pasty - A pastebin website with Go+Turnstile+OAuth">
-<meta property="og:description" content="Pasty 是一个带有 OAuth 和 Turnstile 的 Pastebin 网站，使用 Go 语言实现。本文详细介绍了 Pasty 的实现原理和关键代码，包括: 使用 SQLite3 来存储和查询数据，使用 Turnstile 来保护表单，使用 OAuth 来实现第三方登录。通过这篇文章，读者可以深入理解 Pastebin 网站的工作原理，学习 Go 网络编程的实践技巧。">
+<meta property="og:description" content="Pasty is a pastebin implementation with OAuth/Go/Turnstile">
 <meta property="og:url" content="https://abcdlsj.github.io/posts/pasty-go-pastebin-like-website.html">
 <meta property="og:type" content="article">
 
@@ -28,125 +27,84 @@
 ></script>
 <script src="/static/script/search.js"></script>
 
-</head>
-
-<body>
-  
-  <div class="sidebar">
-    <div class="post-toc">
-<li>
-Table of Contents<ul>
-<li>
-<a href="#background">Background</a></li>
-<li>
-<a href="#lets-building">Let's building</a><ul>
-<li>
-<a href="#endpoint-design">Endpoint design</a></li>
-<li>
-<a href="#orm">ORM</a></li>
-<li>
-<a href="#templates">Templates</a></li>
-<li>
-<a href="#run-it">Run it!</a></li>
-</ul>
-</li>
-<li>
-<a href="#turnstile">Turnstile</a><ul>
-<li>
-<a href="#html-script">HTML script</a></li>
-<li>
-<a href="#server-handler">Server handler</a></li>
-<li>
-<a href="#look-the-site">Look the site</a></li>
-</ul>
-</li>
-<li>
-<a href="#github-oauth">GitHub OAuth</a><ul>
-<li>
-<a href="#api">API</a></li>
-<li>
-<a href="#refresh-logic">Refresh logic</a></li>
-<li>
-<a href="#encrypt-cookie-value">Encrypt cookie value</a></li>
-<li>
-<a href="#conclusion">Conclusion</a></li>
-</ul>
-</li>
-<li>
-<a href="#done">Done</a></li>
-</ul>
-</li>
-</ul>
-</div>
+  </head>
+  <body>
+    <div class="app">
+      
+<header class="site-header">
+  <div class="site-header__brand">
+    <a href="/" class="site-header__title">Pasty - A pastebin website with Go+Turnstile+OAuth</a>
+    <p class="site-header__description">
+      Enjoy Focus!
+    </p>
   </div>
-  
-  
-  <div class="content-wrapper">
-    <main>
-      <div class="navbar">
-<nav class="navbar">
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/"  class="home">Home</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/posts"  class="posts">Posts</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/about"  class="about">About</a>
-    </li>
-  </ul>
-  
-  
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/rss.xml"  class="feed">Feed</a>
-    </li>
-  </ul>
-  
-  
-</nav>
-</div>
-      <hr class="divider" />
+  <nav class="site-header__nav">
+    <ul class="nav-links">
       
       
-      <h1 class="post-single-title">Pasty - A pastebin website with Go+Turnstile+OAuth</h1>
+      <li>
+        <a href="/" class="nav-link">Home</a>
+      </li>
       
       
-      <div class="post-single-meta">
-        <div class="post-date">Date: 2023-12-08</div>
-        <nav class="post-tags">
-          
-          <a href="/tags/oauth.html" class="tag">#OAuth</a>
-          
-          <a href="/tags/turnstile.html" class="tag">#Turnstile</a>
-          
-          <a href="/tags/template.html" class="tag">#Template</a>
-          
-          <a href="/tags/sqlite3.html" class="tag">#SQLite3</a>
-          
-        </nav>
-      </div>
+      
+      <li>
+        <a href="/posts" class="nav-link">Posts</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/about" class="nav-link">About</a>
+      </li>
+      
+      
+      
+      
+      
+      <li>
+        <a href="/rss.xml" class="nav-link">Feed</a>
+      </li>
+      
+      
+    </ul>
+  </nav>
+</header>
 
-      
+      <div class="article-layout ">
+        <article class="surface post-article">
+          <div class="post-leading-meta">
+            <a href="/" class="breadcrumb-link">Home</a>
+            <span>·</span>
+            <a href="/posts" class="breadcrumb-link">Posts</a>
+          </div>
+          
+          <h1 class="post-single-title">Pasty - A pastebin website with Go+Turnstile+OAuth</h1>
+          
 
-      <div class="post-content">
-        <article><h2 id="background">Background</h2>
+          <div class="post-meta-row">
+            <div>
+              <p class="post-meta-row__date">写于 2023-12-08</p>
+            </div>
+            
+            <nav class="post-meta-row__tags">
+              
+              <a href="/tags/oauth.html" class="tag-chip">#OAuth</a>
+              
+              <a href="/tags/turnstile.html" class="tag-chip">#Turnstile</a>
+              
+              <a href="/tags/template.html" class="tag-chip">#Template</a>
+              
+              <a href="/tags/sqlite3.html" class="tag-chip">#SQLite3</a>
+              
+            </nav>
+            
+          </div>
+
+          
+
+          <div class="post-body">
+            <article><h2 id="background">Background</h2>
 <p>I had try to build many of <code>Go</code> simple site, Like <code>Golink</code>, <code>GProbe</code> and so on.<br>
 But it's not secure enough, and very easy to be attacked.<br>
 At these days, I want to build a <code>Pastebin</code> website and its need with powerful <strong>Security</strong>.</p>
@@ -629,48 +587,116 @@ if the <code>Access Token</code> expired, will use <code>Refresh Token</code> to
 <p>The all work is done, you can find the code at <a href="https://github.com/abcdlsj/pasty">github.com/abcdlsj/pasty</a>.</p>
 <p>Thanks for reading.</p>
 </article>
+          </div>
+        </article>
+
+        
+        <aside class="toc-panel surface">
+          <p class="toc-title">目录</p>
+          <nav class="post-toc">
+<li>
+Table of Contents<ul>
+<li>
+<a href="#background">Background</a></li>
+<li>
+<a href="#lets-building">Let's building</a><ul>
+<li>
+<a href="#endpoint-design">Endpoint design</a></li>
+<li>
+<a href="#orm">ORM</a></li>
+<li>
+<a href="#templates">Templates</a></li>
+<li>
+<a href="#run-it">Run it!</a></li>
+</ul>
+</li>
+<li>
+<a href="#turnstile">Turnstile</a><ul>
+<li>
+<a href="#html-script">HTML script</a></li>
+<li>
+<a href="#server-handler">Server handler</a></li>
+<li>
+<a href="#look-the-site">Look the site</a></li>
+</ul>
+</li>
+<li>
+<a href="#github-oauth">GitHub OAuth</a><ul>
+<li>
+<a href="#api">API</a></li>
+<li>
+<a href="#refresh-logic">Refresh logic</a></li>
+<li>
+<a href="#encrypt-cookie-value">Encrypt cookie value</a></li>
+<li>
+<a href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li>
+<a href="#done">Done</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+        </aside>
+        
       </div>
-      <hr class="divider" />
-    </main>
-  </div>
 
-  <div class="go-to-top">
-    <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
-  </div>
+      <section class="surface comments-shell">
+        <div id="disqus_thread"></div>
+      </section>
 
-  <script>
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
+      
+<footer class="footer">
+  <p class="footer-author">
+    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
+  </p>
+  <p class="footer-proj">
+    Source
+    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
+  </p>
+</footer>
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const tocLinks = document.querySelectorAll('.post-toc a');
-      tocLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetElement = document.getElementById(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }
+    </div>
+
+    <button class="back-to-top" type="button" onclick="scrollToTop()">Back to top</button>
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      const backToTop = document.querySelector(".back-to-top");
+      const toggleButton = () => {
+        if (!backToTop) return;
+        backToTop.classList.toggle("back-to-top--visible", window.scrollY > 400);
+      };
+      window.addEventListener("scroll", toggleButton);
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const tocLinks = document.querySelectorAll('.post-toc a');
+        tocLinks.forEach(link => {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
         });
       });
-    });
-  </script>
-  <div id="disqus_thread"></div>
-  <script>
-    (function () {
-      var d = document,
-        s = d.createElement("script");
-      s.src = "https://abcdlsj.disqus.com/embed.js";
-      s.setAttribute("data-timestamp", +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the
-    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</body>
+
+      (function () {
+        var d = document,
+          s = d.createElement("script");
+        s.src = "https://abcdlsj.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </body>
 </html>

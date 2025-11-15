@@ -1,9 +1,8 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  
+  <head>
+    
 <meta charset="UTF-8" />
 <title>Golink - Useful local url shortener</title>
 <meta name="description" content="Enjoy Focus!" />
@@ -11,7 +10,7 @@
 <meta name="keywords" content="Shortener,Template,">
 <meta name="author" content="abcdlsj">
 <meta property="og:title" content="Golink - Useful local url shortener">
-<meta property="og:description" content="Golink 是一个本地 URL 短网址生成器，使用 Go 语言实现。本文详细介绍了 Golink 的实现原理和关键代码，包括: 使用 /etc/hosts 文件来实现短网址解析，使用 SQLite3 来存储短网址和原始 URL 的映射关系，使用 Caddy 来实现自动 HTTPS 的方法。通过这篇文章，读者可以深入理解短网址生成器的工作原理，学习 Go 网络编程的实践技巧。">
+<meta property="og:description" content="Golink is a useful and simple URL shortener with a few neat tricks">
 <meta property="og:url" content="https://abcdlsj.github.io/posts/golink-useful-local-url-shortener.html">
 <meta property="og:type" content="article">
 
@@ -28,75 +27,82 @@
 ></script>
 <script src="/static/script/search.js"></script>
 
-</head>
+  </head>
+  <body>
+    <div class="app">
+      
+<header class="site-header">
+  <div class="site-header__brand">
+    <a href="/" class="site-header__title">Golink - Useful local url shortener</a>
+    <p class="site-header__description">
+      Enjoy Focus!
+    </p>
+  </div>
+  <nav class="site-header__nav">
+    <ul class="nav-links">
+      
+      
+      <li>
+        <a href="/" class="nav-link">Home</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/posts" class="nav-link">Posts</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/about" class="nav-link">About</a>
+      </li>
+      
+      
+      
+      
+      
+      <li>
+        <a href="/rss.xml" class="nav-link">Feed</a>
+      </li>
+      
+      
+    </ul>
+  </nav>
+</header>
 
-<body>
-  
-  
-  <div class="content-wrapper">
-    <main>
-      <div class="navbar">
-<nav class="navbar">
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/"  class="home">Home</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/posts"  class="posts">Posts</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/about"  class="about">About</a>
-    </li>
-  </ul>
-  
-  
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/rss.xml"  class="feed">Feed</a>
-    </li>
-  </ul>
-  
-  
-</nav>
-</div>
-      <hr class="divider" />
-      
-      
-      <h1 class="post-single-title">Golink - Useful local url shortener</h1>
-      
-      
-      <div class="post-single-meta">
-        <div class="post-date">Date: 2023-04-16</div>
-        <nav class="post-tags">
+      <div class="article-layout article-layout--single">
+        <article class="surface post-article">
+          <div class="post-leading-meta">
+            <a href="/" class="breadcrumb-link">Home</a>
+            <span>·</span>
+            <a href="/posts" class="breadcrumb-link">Posts</a>
+          </div>
           
-          <a href="/tags/shortener.html" class="tag">#Shortener</a>
+          <h1 class="post-single-title">Golink - Useful local url shortener</h1>
           
-          <a href="/tags/template.html" class="tag">#Template</a>
-          
-        </nav>
-      </div>
 
-      
+          <div class="post-meta-row">
+            <div>
+              <p class="post-meta-row__date">写于 2023-04-16</p>
+            </div>
+            
+            <nav class="post-meta-row__tags">
+              
+              <a href="/tags/shortener.html" class="tag-chip">#Shortener</a>
+              
+              <a href="/tags/template.html" class="tag-chip">#Template</a>
+              
+            </nav>
+            
+          </div>
 
-      <div class="post-content">
-        <article><blockquote>
+          
+
+          <div class="post-body">
+            <article><blockquote>
 <p>What is <code>url shortener</code>?<br>
-Answer: <a href="https://en.wikipedia.org/wiki/URL_shortening">URL Shortening</a></p>
+Get the Answer: <a href="https://en.wikipedia.org/wiki/URL_shortening">URL Shortening</a></p>
 </blockquote>
 <!--more-->
 <p>There are many posts about <code>url shorteners</code> on the internet, but I wanted to write this post to record my own thoughts.</p>
@@ -128,48 +134,67 @@ Answer: <a href="https://en.wikipedia.org/wiki/URL_shortening">URL Shortening</a
 <p>This post doesn't include any code samples, as I believe that you can write it yourself for the purpose of learning or practicing a programming language.</p>
 <p>The idea is from <a href="https://github.com/tailscale/golink/tree/main">tailscale/golink</a>, which relies on <code>Tailscale Magic DNS</code>. You can find more information <a href="https://tailscale.com/kb/1081/magicdns/">here</a></p>
 </article>
+          </div>
+        </article>
+
+        
       </div>
-      <hr class="divider" />
-    </main>
-  </div>
 
-  <div class="go-to-top">
-    <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
-  </div>
+      <section class="surface comments-shell">
+        <div id="disqus_thread"></div>
+      </section>
 
-  <script>
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
+      
+<footer class="footer">
+  <p class="footer-author">
+    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
+  </p>
+  <p class="footer-proj">
+    Source
+    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
+  </p>
+</footer>
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const tocLinks = document.querySelectorAll('.post-toc a');
-      tocLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetElement = document.getElementById(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }
+    </div>
+
+    <button class="back-to-top" type="button" onclick="scrollToTop()">Back to top</button>
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      const backToTop = document.querySelector(".back-to-top");
+      const toggleButton = () => {
+        if (!backToTop) return;
+        backToTop.classList.toggle("back-to-top--visible", window.scrollY > 400);
+      };
+      window.addEventListener("scroll", toggleButton);
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const tocLinks = document.querySelectorAll('.post-toc a');
+        tocLinks.forEach(link => {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
         });
       });
-    });
-  </script>
-  <div id="disqus_thread"></div>
-  <script>
-    (function () {
-      var d = document,
-        s = d.createElement("script");
-      s.src = "https://abcdlsj.disqus.com/embed.js";
-      s.setAttribute("data-timestamp", +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the
-    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</body>
+
+      (function () {
+        var d = document,
+          s = d.createElement("script");
+        s.src = "https://abcdlsj.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </body>
 </html>

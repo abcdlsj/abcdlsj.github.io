@@ -5,36 +5,40 @@
     {{template "head" dict "Site" .Site "IsPost" false}}
   </head>
   <body>
-    <div class="content-wrapper">
-      <div class="navbar">{{template "navbar" .}}</div>
-      <hr class="divider" />
-      <h1 class="posts-title">ALL POSTS ({{len .Posts}})</h1>
-      <hr class="divider-short" />
-      <div class="post-list">
-        {{range $i, $post := .Posts}}
-          <article class="post">
-            <div class="post-date">{{.Meta.Date | day}}</div>
-            <div class="post-index">
-              <div class="post-index-title">
-                <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
-                <div class="language-indicator">
-                  [<span class="lang {{if contains .Meta.Languages "en"}}lang-active{{end}}">en</span>/<span class="lang {{if contains .Meta.Languages "cn"}}lang-active{{end}}">cn</span>]
-                </div>
-              </div>
-              <div class="post-meta">
-                <nav class="post-tags">
-                  {{range $tag := .Meta.Tags}}
-                  <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
-                  {{end}}
-                </nav>
-              </div>
+    <div class="app">
+      {{template "navbar" .}}
+      <main class="surface list-shell">
+        <div class="section-header">
+          <h1 class="section-title">所有文章 · {{len .Posts}}</h1>
+          <p class="section-hint">按发布时间倒序排列。</p>
+        </div>
+        <div class="article-list">
+          {{range .Posts}}
+          <article class="post-card">
+            <div class="post-card__meta">
+              <time datetime="{{.Meta.Date}}">{{.Meta.Date | day}}</time>
+              <span class="language-pill">
+                {{if contains .Meta.Languages "cn"}}CN{{else}}EN{{end}}
+              </span>
             </div>
+            <h2 class="post-card__title">
+              <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
+            </h2>
+            {{if .Meta.Description}}
+            <p class="post-card__excerpt">{{.Meta.Description}}</p>
+            {{end}}
+            {{if .Meta.Tags}}
+            <div class="post-card__tags">
+              {{range $tag := .Meta.Tags}}
+              <a href="/tags/{{$tag | urlize}}.html" class="tag-chip">#{{$tag}}</a>
+              {{end}}
+            </div>
+            {{end}}
           </article>
-          {{if ne (add $i 1) (len $.Posts)}}
-            <hr class="divider-short">
           {{end}}
-        {{end}}
-      </div>
+        </div>
+      </main>
+      {{template "footer" .}}
     </div>
   </body>
 </html>

@@ -1,12 +1,12 @@
 ---
-title: "Build a website for readability at 10 minute"
+title: "Build a website for readability in 10 minutes"
 date: 2023-10-22T11:51:37+08:00
 tags:
   - Template
   - Readability
 hide: false
 hideToc: true
-description: "Build a website for readability at 10 minute"
+description: "Build a website for readability in 10 minutes"
 ---
 
 ## Background

@@ -1,9 +1,8 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  
+  <head>
+    
 <meta charset="UTF-8" />
 <title>Go Template + Tailwindcss = ❤️</title>
 <meta name="description" content="Enjoy Focus!" />
@@ -11,7 +10,7 @@
 <meta name="keywords" content="TailwindCSS,Template,">
 <meta name="author" content="abcdlsj">
 <meta property="og:title" content="Go Template + Tailwindcss = ❤️">
-<meta property="og:description" content="">
+<meta property="og:description" content="如何在 Go Template 中使用 Tailwindcss">
 <meta property="og:url" content="https://abcdlsj.github.io/posts/go-template-tailwindcss.html">
 <meta property="og:type" content="article">
 
@@ -28,73 +27,80 @@
 ></script>
 <script src="/static/script/search.js"></script>
 
-</head>
+  </head>
+  <body>
+    <div class="app">
+      
+<header class="site-header">
+  <div class="site-header__brand">
+    <a href="/" class="site-header__title">Go Template + Tailwindcss = ❤️</a>
+    <p class="site-header__description">
+      Enjoy Focus!
+    </p>
+  </div>
+  <nav class="site-header__nav">
+    <ul class="nav-links">
+      
+      
+      <li>
+        <a href="/" class="nav-link">Home</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/posts" class="nav-link">Posts</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/about" class="nav-link">About</a>
+      </li>
+      
+      
+      
+      
+      
+      <li>
+        <a href="/rss.xml" class="nav-link">Feed</a>
+      </li>
+      
+      
+    </ul>
+  </nav>
+</header>
 
-<body>
-  
-  
-  <div class="content-wrapper">
-    <main>
-      <div class="navbar">
-<nav class="navbar">
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/"  class="home">Home</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/posts"  class="posts">Posts</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/about"  class="about">About</a>
-    </li>
-  </ul>
-  
-  
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/rss.xml"  class="feed">Feed</a>
-    </li>
-  </ul>
-  
-  
-</nav>
-</div>
-      <hr class="divider" />
-      
-      
-      <h1 class="post-single-title">Go Template + Tailwindcss = ❤️</h1>
-      
-      
-      <div class="post-single-meta">
-        <div class="post-date">Date: 2024-02-24</div>
-        <nav class="post-tags">
+      <div class="article-layout article-layout--single">
+        <article class="surface post-article">
+          <div class="post-leading-meta">
+            <a href="/" class="breadcrumb-link">Home</a>
+            <span>·</span>
+            <a href="/posts" class="breadcrumb-link">Posts</a>
+          </div>
           
-          <a href="/tags/tailwindcss.html" class="tag">#TailwindCSS</a>
+          <h1 class="post-single-title">Go Template + Tailwindcss = ❤️</h1>
           
-          <a href="/tags/template.html" class="tag">#Template</a>
-          
-        </nav>
-      </div>
 
-      
+          <div class="post-meta-row">
+            <div>
+              <p class="post-meta-row__date">写于 2024-02-24</p>
+            </div>
+            
+            <nav class="post-meta-row__tags">
+              
+              <a href="/tags/tailwindcss.html" class="tag-chip">#TailwindCSS</a>
+              
+              <a href="/tags/template.html" class="tag-chip">#Template</a>
+              
+            </nav>
+            
+          </div>
 
-      <div class="post-content">
-        <article><blockquote>
+          
+
+          <div class="post-body">
+            <article><blockquote>
 <p>写很多小项目的时候，我都是使用 <code>Go</code> <code>Template</code> 实现的，也就是渲染 <code>HTML</code> 文件模版，代码比较简单，但是样式的部分却很难满意，因为 <code>CSS</code> 实在是难以理解（^^），而 <a href="https://tailwindcss.com/"><code>Tailwind CSS</code></a> 就是另外一个 <code>CSS</code> 框架，它可以用简单的方式实现样式。<br>
 所以这里介绍下如何将 <code>Go Template</code> 和 <code>Tailwind CSS</code> 结合使用。</p>
 </blockquote>
@@ -163,48 +169,67 @@
 <p>这篇写得特别简单，本文内容基本上都可以在 <a href="https://xeiaso.net/blog/using-tailwind-go/">Xe - How to use Tailwind CSS in your Go programs</a> 找到（知识的剽窃🐛）。</p>
 <p>更加复杂的例子，可以看 <a href="https://github.com/abcdlsj/memos">memos</a>，一个使用 <code>Tailwind CSS</code> + <code>Go Template</code> 实现的类似 <code>Google Keep</code> 功能的项目。</p>
 </article>
+          </div>
+        </article>
+
+        
       </div>
-      <hr class="divider" />
-    </main>
-  </div>
 
-  <div class="go-to-top">
-    <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
-  </div>
+      <section class="surface comments-shell">
+        <div id="disqus_thread"></div>
+      </section>
 
-  <script>
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
+      
+<footer class="footer">
+  <p class="footer-author">
+    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
+  </p>
+  <p class="footer-proj">
+    Source
+    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
+  </p>
+</footer>
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const tocLinks = document.querySelectorAll('.post-toc a');
-      tocLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetElement = document.getElementById(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }
+    </div>
+
+    <button class="back-to-top" type="button" onclick="scrollToTop()">Back to top</button>
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      const backToTop = document.querySelector(".back-to-top");
+      const toggleButton = () => {
+        if (!backToTop) return;
+        backToTop.classList.toggle("back-to-top--visible", window.scrollY > 400);
+      };
+      window.addEventListener("scroll", toggleButton);
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const tocLinks = document.querySelectorAll('.post-toc a');
+        tocLinks.forEach(link => {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
         });
       });
-    });
-  </script>
-  <div id="disqus_thread"></div>
-  <script>
-    (function () {
-      var d = document,
-        s = d.createElement("script");
-      s.src = "https://abcdlsj.disqus.com/embed.js";
-      s.setAttribute("data-timestamp", +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the
-    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</body>
+
+      (function () {
+        var d = document,
+          s = d.createElement("script");
+        s.src = "https://abcdlsj.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </body>
 </html>

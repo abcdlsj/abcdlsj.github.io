@@ -5,10 +5,14 @@
     {{template "head" dict "Site" .Site "IsPost" false}}
   </head>
   <body>
-    <div class="content-wrapper">
-      <div class="navbar">{{template "navbar" .}}</div>
-      <hr class="divider" />
-      <article class="post-content">{{.Body}}</article>
+    <div class="app">
+      {{template "navbar" .}}
+      <main class="surface about-shell">
+        <article class="post-body about-body">
+          {{.Body}}
+        </article>
+      </main>
+      {{template "footer" .}}
     </div>
   </body>
 </html>

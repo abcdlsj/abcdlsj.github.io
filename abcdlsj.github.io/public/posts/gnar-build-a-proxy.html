@@ -1,9 +1,8 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  
+  <head>
+    
 <meta charset="UTF-8" />
 <title>Gnar - A tunnel proxy like Frp/Ngrok</title>
 <meta name="description" content="Enjoy Focus!" />
@@ -11,7 +10,7 @@
 <meta name="keywords" content="Network,Tunnel,Yamux,Traffic Limit,IO Package,">
 <meta name="author" content="abcdlsj">
 <meta property="og:title" content="Gnar - A tunnel proxy like Frp/Ngrok">
-<meta property="og:description" content="Gnar 是一个类似 Frp/Ngrok 的隧道代理工具，使用 Go 语言实现。本文详细介绍了 Gnar 的实现原理和关键代码，文章还分享了在 fly.io 上部署 Gnar 服务端的经验，以及使用 Caddy 实现自动 HTTPS 的方法。通过这篇文章，读者可以深入理解内网穿透工具的工作原理，学习 Go 网络编程的实践技巧。无论是网络爱好者还是 Go 开发者，都能从中获得启发。">
+<meta property="og:description" content="从零实现类似 Frp/Ngrok 的内网转发工具">
 <meta property="og:url" content="https://abcdlsj.github.io/posts/gnar-build-a-proxy.html">
 <meta property="og:type" content="article">
 
@@ -28,140 +27,91 @@
 ></script>
 <script src="/static/script/search.js"></script>
 
-</head>
-
-<body>
-  
-  <div class="sidebar">
-    <div class="post-toc">
-<li>
-Table of Contents<ul>
-<li>
-<a href="#background">Background</a></li>
-<li>
-<a href="#how-to-implement">How to implement</a></li>
-<li>
-<a href="#codes">Codes</a><ul>
-<li>
-<a href="#structure">Structure</a></li>
-<li>
-<a href="#auth">Auth</a></li>
-<li>
-<a href="#message">Message</a><ul>
-<li>
-<a href="#format">format</a></li>
-<li>
-<a href="#packunpack">pack/unpack</a></li>
-<li>
-<a href="#sendrecv">send/recv</a></li>
-</ul>
-</li>
-<li>
-<a href="#forward">Forward</a></li>
-<li>
-<a href="#exchange">Exchange</a></li>
-<li>
-<a href="#proxystream">proxy.Stream</a></li>
-<li>
-<a href="#conclusion">Conclusion</a></li>
-</ul>
-</li>
-<li>
-<a href="#feature">Feature</a><ul>
-<li>
-<a href="#auto-https">Auto-Https</a></li>
-<li>
-<a href="#deploy-at-flyio">Deploy at fly.io</a></li>
-<li>
-<a href="#udp">UDP</a></li>
-<li>
-<a href="#speed-limit">Speed limit</a></li>
-</ul>
-</li>
-<li>
-<a href="#conclusion-1">Conclusion</a></li>
-<li>
-<a href="#refs">refs</a></li>
-</ul>
-</li>
-</ul>
-</div>
+  </head>
+  <body>
+    <div class="app">
+      
+<header class="site-header">
+  <div class="site-header__brand">
+    <a href="/" class="site-header__title">Gnar - A tunnel proxy like Frp/Ngrok</a>
+    <p class="site-header__description">
+      Enjoy Focus!
+    </p>
   </div>
-  
-  
-  <div class="content-wrapper">
-    <main>
-      <div class="navbar">
-<nav class="navbar">
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/"  class="home">Home</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/posts"  class="posts">Posts</a>
-    </li>
-  </ul>
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/about"  class="about">About</a>
-    </li>
-  </ul>
-  
-  
-  
-  
-  
-  <ul class="menu">
-    <li>
-      <a href="/rss.xml"  class="feed">Feed</a>
-    </li>
-  </ul>
-  
-  
-</nav>
-</div>
-      <hr class="divider" />
+  <nav class="site-header__nav">
+    <ul class="nav-links">
       
       
-      <h1 class="post-single-title">Gnar - A tunnel proxy like Frp/Ngrok</h1>
+      <li>
+        <a href="/" class="nav-link">Home</a>
+      </li>
       
       
-      <div class="post-single-meta">
-        <div class="post-date">Date: 2023-11-04</div>
-        <nav class="post-tags">
-          
-          <a href="/tags/network.html" class="tag">#Network</a>
-          
-          <a href="/tags/tunnel.html" class="tag">#Tunnel</a>
-          
-          <a href="/tags/yamux.html" class="tag">#Yamux</a>
-          
-          <a href="/tags/traffic+limit.html" class="tag">#Traffic Limit</a>
-          
-          <a href="/tags/io+package.html" class="tag">#IO Package</a>
-          
-        </nav>
-      </div>
+      
+      <li>
+        <a href="/posts" class="nav-link">Posts</a>
+      </li>
+      
+      
+      
+      <li>
+        <a href="/about" class="nav-link">About</a>
+      </li>
+      
+      
+      
+      
+      
+      <li>
+        <a href="/rss.xml" class="nav-link">Feed</a>
+      </li>
+      
+      
+    </ul>
+  </nav>
+</header>
 
-      
-      <details class="changelog">
-        <summary>Changelog</summary>
-        <div class="changelog-content">- 2024-09-08: 更新了 server 和 client 的 cmd 使用<br>- 2023-11-11: 更新了代码结构和接口<br>- 2023-11-06: 添加了 yamux 支持<br></div>
-      </details>
-      
+      <div class="article-layout ">
+        <article class="surface post-article">
+          <div class="post-leading-meta">
+            <a href="/" class="breadcrumb-link">Home</a>
+            <span>·</span>
+            <a href="/posts" class="breadcrumb-link">Posts</a>
+          </div>
+          
+          <h1 class="post-single-title">Gnar - A tunnel proxy like Frp/Ngrok</h1>
+          
 
-      <div class="post-content">
-        <article><h2 id="background">Background</h2>
+          <div class="post-meta-row">
+            <div>
+              <p class="post-meta-row__date">写于 2023-11-04</p>
+            </div>
+            
+            <nav class="post-meta-row__tags">
+              
+              <a href="/tags/network.html" class="tag-chip">#Network</a>
+              
+              <a href="/tags/tunnel.html" class="tag-chip">#Tunnel</a>
+              
+              <a href="/tags/yamux.html" class="tag-chip">#Yamux</a>
+              
+              <a href="/tags/traffic+limit.html" class="tag-chip">#Traffic Limit</a>
+              
+              <a href="/tags/io+package.html" class="tag-chip">#IO Package</a>
+              
+            </nav>
+            
+          </div>
+
+          
+          <details class="changelog">
+            <summary>Changelog</summary>
+            <div class="changelog-content">- 2024-09-08: 更新了 server 和 client 的 cmd 使用<br>- 2023-11-11: 更新了代码结构和接口<br>- 2023-11-06: 添加了 yamux 支持<br></div>
+          </details>
+          
+
+          <div class="post-body">
+            <article><h2 id="background">Background</h2>
 <p><strong>实现简单的转发工具</strong></p>
 <p>公司内部的服务框架 Service 之间通信是通过连接每台机器的 <code>Agent</code> 监听的 <code>UNIX domain</code> 实现的，在公司容器集群环境，都是会启动 <code>Agent</code>。<br>
 但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到远程搭建的 <code>TCP agent</code> 来启动服务。</p>
@@ -999,48 +949,124 @@ A：<code>frp</code> 有过类似讨论，可以看 <a href="https://github.com/
 <a href="https://github.com/rapiz1/rathole">https://github.com/rapiz1/rathole</a><br>
 <a href="https://github.com/AnimMouse/frp-flyapp">https://github.com/AnimMouse/frp-flyapp</a></p>
 </article>
+          </div>
+        </article>
+
+        
+        <aside class="toc-panel surface">
+          <p class="toc-title">目录</p>
+          <nav class="post-toc">
+<li>
+Table of Contents<ul>
+<li>
+<a href="#background">Background</a></li>
+<li>
+<a href="#how-to-implement">How to implement</a></li>
+<li>
+<a href="#codes">Codes</a><ul>
+<li>
+<a href="#structure">Structure</a></li>
+<li>
+<a href="#auth">Auth</a></li>
+<li>
+<a href="#message">Message</a><ul>
+<li>
+<a href="#format">format</a></li>
+<li>
+<a href="#packunpack">pack/unpack</a></li>
+<li>
+<a href="#sendrecv">send/recv</a></li>
+</ul>
+</li>
+<li>
+<a href="#forward">Forward</a></li>
+<li>
+<a href="#exchange">Exchange</a></li>
+<li>
+<a href="#proxystream">proxy.Stream</a></li>
+<li>
+<a href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li>
+<a href="#feature">Feature</a><ul>
+<li>
+<a href="#auto-https">Auto-Https</a></li>
+<li>
+<a href="#deploy-at-flyio">Deploy at fly.io</a></li>
+<li>
+<a href="#udp">UDP</a></li>
+<li>
+<a href="#speed-limit">Speed limit</a></li>
+</ul>
+</li>
+<li>
+<a href="#conclusion-1">Conclusion</a></li>
+<li>
+<a href="#refs">refs</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+        </aside>
+        
       </div>
-      <hr class="divider" />
-    </main>
-  </div>
 
-  <div class="go-to-top">
-    <button onclick="scrollToTop()" class="btn-goto-top">Go to Top</button>
-  </div>
+      <section class="surface comments-shell">
+        <div id="disqus_thread"></div>
+      </section>
 
-  <script>
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
+      
+<footer class="footer">
+  <p class="footer-author">
+    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
+  </p>
+  <p class="footer-proj">
+    Source
+    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
+  </p>
+</footer>
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const tocLinks = document.querySelectorAll('.post-toc a');
-      tocLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetElement = document.getElementById(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }
+    </div>
+
+    <button class="back-to-top" type="button" onclick="scrollToTop()">Back to top</button>
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      const backToTop = document.querySelector(".back-to-top");
+      const toggleButton = () => {
+        if (!backToTop) return;
+        backToTop.classList.toggle("back-to-top--visible", window.scrollY > 400);
+      };
+      window.addEventListener("scroll", toggleButton);
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const tocLinks = document.querySelectorAll('.post-toc a');
+        tocLinks.forEach(link => {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
         });
       });
-    });
-  </script>
-  <div id="disqus_thread"></div>
-  <script>
-    (function () {
-      var d = document,
-        s = d.createElement("script");
-      s.src = "https://abcdlsj.disqus.com/embed.js";
-      s.setAttribute("data-timestamp", +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the
-    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</body>
+
+      (function () {
+        var d = document,
+          s = d.createElement("script");
+        s.src = "https://abcdlsj.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </body>
 </html>
