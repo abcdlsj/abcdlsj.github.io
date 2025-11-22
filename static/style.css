@@ -646,10 +646,8 @@ mark {
 
 .tag-chip {
   padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-full);
   font-size: var(--text-xs);
   background: var(--bg-tag);
-  border: 1px solid var(--color-primary-bg);
   color: var(--text-link);
   font-weight: 500;
   transition: all var(--duration-normal) var(--ease-out);
