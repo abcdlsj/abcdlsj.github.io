@@ -6,7 +6,7 @@ tags:
   - Template
 hide: false
 hideToc: true
-description: "如何在 Go Template 中使用 Tailwindcss"
+description: "分享如何在 Go Template 项目中集成 Tailwind CSS，让小项目也能拥有专业的样式设计。"
 languages:
     - cn
 ---

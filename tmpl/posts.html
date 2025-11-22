@@ -9,8 +9,8 @@
       {{template "navbar" .}}
       <main class="surface list-shell">
         <div class="section-header">
-          <h1 class="section-title">所有文章 · {{len .Posts}}</h1>
-          <p class="section-hint">按发布时间倒序排列。</p>
+          <h1 class="section-title">All Posts · {{len .Posts}}</h1>
+          <p class="section-hint">Sorted by publish date in descending order.</p>
         </div>
         <div class="article-list">
           {{range .Posts}}

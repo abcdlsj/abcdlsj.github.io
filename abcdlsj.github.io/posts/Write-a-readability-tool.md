@@ -6,7 +6,9 @@ tags:
   - Readability
 hide: false
 hideToc: true
-description: "Build a website for readability in 10 minutes"
+description: "Build a web readability tool in 10 minutes: Using Go and go-readability library to quickly create an online reader that extracts main content and removes distracting elements."
+languages:
+    - en
 ---
 
 ## Background

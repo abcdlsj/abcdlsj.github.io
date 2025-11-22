@@ -7,7 +7,9 @@ tags:
   - Template
   - SQLite3
 hide: false
-description: "Pasty is a pastebin implementation with OAuth/Go/Turnstile"
+description: "Building a secure and reliable code sharing platform: Developing a Pastebin website with GitHub OAuth authentication and Cloudflare Turnstile verification from scratch, sharing the complete technical implementation."
+languages:
+    - en
 ---
 
 ## Background

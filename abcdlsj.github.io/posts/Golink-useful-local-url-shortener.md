@@ -6,7 +6,9 @@ tags:
   - Template
 hide: false
 hideToc: true
-description: "Golink is a useful and simple URL shortener with a few neat tricks"
+description: "Create your personal local URL shortening service: From /etc/hosts to a complete short link system, sharing how to build a lightweight and customizable URL shortener tool."
+languages:
+    - en
 ---
 
 > What is `url shortener`?

@@ -5,6 +5,9 @@ tags:
   - LSM-Tree
 hide: true
 wip: true
+description: "Top-down implementation of LSM-Tree database engine: Deep understanding of modern storage systems' core data structures, complete implementation from memory tables to disk files."
+languages:
+    - en
 ---
 
 Can find the source code: [lsmtree](https://github.com/abcdlsj/lsmtree)

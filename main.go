@@ -41,6 +41,7 @@ import (
 
 type CfgVar struct {
 	URL         string   `toml:"url"`
+	PubURL      string   `toml:"pub_url"`
 	Title       string   `toml:"title"`
 	Description string   `toml:"description"`
 	Homepage    string   `toml:"homepage"`
@@ -424,6 +425,7 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 		}
 
 		post.TocContent = strings.TrimSuffix(strings.TrimPrefix(tocBuf.String(), "<ul>"), "</ul>")
+		post.TocContent = strings.ReplaceAll(post.TocContent, "Table of Contents", "")
 	}
 
 	return post, nil
@@ -518,6 +520,12 @@ func generateSitemap() error {
 	return os.WriteFile(path.Join(cfgVar.Build.Output, "sitemap.xml"), []byte(strings.Join(sitemap, "\n")), 0644)
 }
 
+func generateCNAME() error {
+	domain := strings.TrimPrefix(cfgVar.PubURL, "https://")
+	domain = strings.TrimPrefix(domain, "http://")
+	return os.WriteFile(path.Join(cfgVar.Build.Output, "CNAME"), []byte(domain), 0644)
+}
+
 func main() {
 	cfgVar = mustCfg(*cfgFile)
 
@@ -597,6 +605,10 @@ func main() {
 	}
 
 	if err := generateSearchIndex(); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := generateCNAME(); err != nil {
 		log.Fatal(err)
 	}
 

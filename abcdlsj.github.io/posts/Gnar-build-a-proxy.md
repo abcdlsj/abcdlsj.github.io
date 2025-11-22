@@ -8,7 +8,7 @@ tags:
   - Traffic Limit
   - IO Package
 hide: false
-description: "从零实现类似 Frp/Ngrok 的内网转发工具"
+description: "动手实现一个类 Frp/Ngrok 的内网穿透工具：从 TCP 转发到多协议支持，分享使用 Go 语言构建隧道代理的技术细节和架构思考。"
 languages:
     - cn
 changelog: |

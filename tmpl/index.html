@@ -15,15 +15,15 @@
         <section class="section-block">
           <div class="section-header section-header--with-search">
             <div>
-              <h1 class="section-title">最近更新</h1>
-              <a href="/posts" class="section-link">查看全部</a>
+              <h1 class="section-title">Recent Updates</h1>
+              <a href="/posts" class="section-link">View All</a>
             </div>
             <div class="search-inline">
-              <label for="search-input">搜索文章</label>
+              <label for="search-input">Search Posts</label>
               <input
                 type="text"
                 id="search-input"
-                placeholder="输入关键词即可实时过滤"
+                placeholder="Enter keywords to filter in real-time"
                 autocomplete="off"
               />
               <ul id="search-results" class="search-results"></ul>
@@ -59,8 +59,8 @@
         {{if .WipPosts}}
         <section class="section-block">
           <div class="section-header">
-            <h2 class="section-title">写作中</h2>
-            <p class="section-hint">这些文章尚在打磨，欢迎订阅 RSS 等待更新。</p>
+            <h2 class="section-title">In Progress</h2>
+            <p class="section-hint">These articles are still being polished. Subscribe to RSS for updates.</p>
           </div>
           <ul class="draft-list">
             {{range .WipPosts}}

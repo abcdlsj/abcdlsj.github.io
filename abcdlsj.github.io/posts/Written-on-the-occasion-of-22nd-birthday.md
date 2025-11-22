@@ -6,7 +6,7 @@ tags:
 hide: false
 hideToc: true
 hero: "/static/img/hfut_night.jpg"
-description: "写于 22 岁生日之际"
+description: "写于 22 岁生日和即将步入职场之际，回顾大学四年的技术探索、求职历程，以及对未来程序员生涯的思考与期待。"
 languages:
     - cn
 ---

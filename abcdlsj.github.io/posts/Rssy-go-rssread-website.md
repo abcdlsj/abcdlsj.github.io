@@ -8,7 +8,9 @@ tags:
   - Template
 hide: false
 hideToc: true
-description: "Rssy 是一个 Miniflux 的替代品，使用 Go 语言实现"
+description: "Tired of Miniflux bloat? Sharing how I built a lightweight RSS reader from scratch with SQLite/PostgreSQL dual database support, GitHub OAuth integration, lower resource usage, and cleaner features."
+languages:
+    - en
 ---
 
 For a long time, I used [Miniflux](https://miniflux.app/) to read RSS feeds. However, I encountered several issues with it:

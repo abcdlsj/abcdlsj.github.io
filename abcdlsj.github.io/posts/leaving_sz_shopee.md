@@ -6,7 +6,7 @@ tags:
 hide: false
 hideToc: true
 hero: "/static/img/shopee_sz.jpeg"
-description: "离开校招第一家公司"
+description: "告别 Shopee 的三年半：回顾在过去三年半技术成长、工作经历、生活习惯以及做出离开决定背后的思考，记录选择走向「变化」的心路历程。"
 languages:
     - cn
 ---

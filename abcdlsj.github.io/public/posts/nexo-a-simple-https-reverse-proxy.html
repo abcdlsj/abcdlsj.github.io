@@ -10,7 +10,7 @@
 <meta name="keywords" content="Reverse Proxy,Cert,Cloudflare,">
 <meta name="author" content="abcdlsj">
 <meta property="og:title" content="Nexo - A Simple HTTPS Reverse Proxy">
-<meta property="og:description" content="从零实现一个支持证书管理的 HTTPS 反向代理服务器">
+<meta property="og:description" content="告别 Caddy 和 NPM 的臃肿：分享如何用 Go 语言打造轻量级 HTTPS 反向代理，集成 Cloudflare DNS 和自动证书管理，内存占用不到 10M 的优雅方案。">
 <meta property="og:url" content="https://abcdlsj.github.io/posts/nexo-a-simple-https-reverse-proxy.html">
 <meta property="og:type" content="article">
 
@@ -84,7 +84,7 @@
 
           <div class="post-meta-row">
             <div>
-              <p class="post-meta-row__date">写于 2025-05-03</p>
+              <p class="post-meta-row__date">Written on 2025-05-03</p>
             </div>
             
             <nav class="post-meta-row__tags">
@@ -111,9 +111,9 @@
 <blockquote>
 <p>项目地址：<a href="https://github.com/abcdlsj/nexo">abcdlsj/nexo</a></p>
 </blockquote>
-<p>我之前一直在用 <code>Caddy</code> 作为证书管理和反向代理服务器。虽然 <code>Caddy</code> 很强大，但是它的 <code>Caddyfile</code> 配置语法说实话挺反人类的，而且功能太多太复杂了。最让我头疼的是它的 <code>Cloudflare DNS provider</code> 是以插件形式提供的，每次都要用 <code>xcaddy build --with github.com/caddy-dns/cloudflare</code> 去构建，太麻烦了。</p>
+<p>我之前一直在用 <code>Caddy</code> 作为证书管理和反向代理服务器。虽然 <code>Caddy</code> 很强大，但是它的 <code>Caddyfile</code> 配置语法说实话挺反人类的，而且功能太多太复杂了。最让我头疼的是它的 <code>Cloudflare DNS provider</code> 是以插件形式提供的，每次都要用 <code>xcaddy build --with github.com/caddy-dns/cloudflare</code> 去构建，有点过于麻烦。</p>
 <p>不过因为我之前在腾讯云有台 2 核 4G 的机器（买了 3 年），<code>Caddy</code> 在上面跑得挺好的，几年前配置过一次就一直能用，也就懒得去折腾了。</p>
-<p>但是上个月腾讯云的机器到期了，我换到了一台 0.5 欧元一个月的机器上。这台机器只有 1 核 1G，性能差得要命。迁移服务的时候，我本来想着图省事，就不编译 <code>Caddy</code> 了，换成了 <code>Nginx Proxy Manager</code>。它有个 Web UI，配置很方便，基本上开箱即用。</p>
+<p>但是上个月腾讯云的机器到期了，我换到了一台 0.5 欧元一个月的机器上。这台机器只有 1 核 1G 性能超级差。迁移服务的时候，我本来想着图省事，就不编译 <code>Caddy</code> 了，换成了 <code>Nginx Proxy Manager</code>。它有个 Web UI，配置很方便，基本上开箱即用。</p>
 <p>结果用了才发现，这玩意儿内存占用居然超过 100M！对于一台 1G 内存的小机器来说，这也太夸张了。于是我就想，干脆自己写一个证书管理加反向代理的服务算了。</p>
 <p>最开始简单写了反向代理的部分，但是发现最麻烦的是证书管理以及处理各种 <code>DNS Provider</code>。</p>
 <p>有一天无意间刷到 <a href="https://github.com/go-acme/lego">go-acme/lego</a> 这个库，于是在 <code>Cursor</code> 的帮助下，很快就把基本功能搭建起来了。最近这两周一直在用，不断发现问题，不断优化，现在终于趋于完善了。</p>
@@ -213,10 +213,10 @@
 
         
         <aside class="toc-panel surface">
-          <p class="toc-title">目录</p>
+          <p class="toc-title">Table of Contents</p>
           <nav class="post-toc">
 <li>
-Table of Contents<ul>
+<ul>
 <li>
 <a href="#background">Background</a></li>
 <li>

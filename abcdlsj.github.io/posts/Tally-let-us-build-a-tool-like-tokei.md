@@ -5,7 +5,7 @@ tags:
   - Line Counter
   - Optimization
 hide: false
-description: "Tally is an implementation similar to Tokei/SCC"
+description: "Building a high-performance code statistics tool from scratch: Deep dive into the implementation principles of tokei/scc, sharing the complete development journey of file traversal, line counting, and performance optimization."
 changelog: |
   - 2023-08-16: first version
   - 2024-04-03: bechmark refactor

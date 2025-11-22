@@ -5,7 +5,7 @@ tags:
   - Cron Expression
   - Package Design
 hide: false
-description: "如何使用 Golang 从零实现一个初级 Cron 表达式解析器"
+description: "深入解析 Cron 表达式：从零实现定时任务调度器，掌握时间表达式的解析算法，构建轻量级 Cron 库并理解其底层实现原理。"
 languages:
     - cn
 ---
