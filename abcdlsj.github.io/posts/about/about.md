@@ -6,14 +6,23 @@ menus:
   - about
 ---
 
-Hello everyone, I am __abcdlsj__.
+## Hello 👋
+
+Hi, I'm **abcdlsj**, a nickname I picked up when I first started college. It doesn't really mean anything — I've just been using it since I stepped into the world of programming!
+
+I love many things in the world, especially **animals**, **games**, **reading**, and **movies**.
+
+## About Me
 
 I like to do a lot of `small` projects and am interested in new technologies.
 
-Currently, I worked at [bilibili](https://www.bilibili.com/) as a backend developer.
+Currently, I work at [bilibili](https://www.bilibili.com/) as a backend developer.
 
-If you want to contact me, please email me: <github@songjian.li> or <lisongjianshuai@gmail.com>
+## Contact
 
-- [GitHub profile](https://github.com/abcdlsj)
+If you want to contact me, feel free to reach out:
 
-This site is powered by Go [generator](https://github.com/abcdlsj/abcdlsj.github.io) write by my own.
+- Email: <github@songjian.li> or <lisongjianshuai@gmail.com>
+- GitHub: [abcdlsj](https://github.com/abcdlsj)
+
+*This site is powered by a Go [generator](https://github.com/abcdlsj/abcdlsj.github.io) written by myself.*

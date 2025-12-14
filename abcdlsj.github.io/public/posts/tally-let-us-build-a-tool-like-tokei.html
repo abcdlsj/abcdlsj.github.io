@@ -14,17 +14,19 @@
 <meta property="og:url" content="https://abcdlsj.github.io/posts/tally-let-us-build-a-tool-like-tokei.html">
 <meta property="og:type" content="article">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 <link rel="shortcut icon" href="/static/favicon.ico" />
 <link rel="stylesheet" href="/static/style.css" />
-<script
-  defer
-  src="https://us.umami.is/script.js"
-  data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"
-></script>
+<script>
+  // Theme initialization - runs before page render to prevent flash
+  (function() {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  })();
+</script>
+<script defer src="https://us.umami.is/script.js" data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"></script>
 <script src="/static/script/search.js"></script>
 
   </head>
@@ -32,80 +34,112 @@
     <div class="app">
       
 <header class="site-header">
-  <div class="site-header__brand">
-    <a href="/" class="site-header__title">Tally - Build a tool like tokei/scc</a>
-    <p class="site-header__description">
-      Enjoy Focus!
-    </p>
+  <div class="site-header__inner">
+    <div class="site-header__brand">
+      <a href="/" class="site-header__title">Tally - Build a tool like tokei/scc</a>
+      <span class="site-header__tagline">Enjoy Focus!</span>
+    </div>
+    <nav class="site-header__nav">
+      <ul class="nav-links">
+        
+        
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/posts" class="nav-link">Posts</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/about" class="nav-link">About</a>
+        </li>
+        
+        
+        
+        
+        
+        <li>
+          <a href="/rss.xml" class="nav-link">Feed</a>
+        </li>
+        
+        
+      </ul>
+      <button class="theme-toggle" type="button" aria-label="Toggle theme" onclick="toggleTheme()">
+        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </nav>
   </div>
-  <nav class="site-header__nav">
-    <ul class="nav-links">
-      
-      
-      <li>
-        <a href="/" class="nav-link">Home</a>
-      </li>
-      
-      
-      
-      <li>
-        <a href="/posts" class="nav-link">Posts</a>
-      </li>
-      
-      
-      
-      <li>
-        <a href="/about" class="nav-link">About</a>
-      </li>
-      
-      
-      
-      
-      
-      <li>
-        <a href="/rss.xml" class="nav-link">Feed</a>
-      </li>
-      
-      
-    </ul>
-  </nav>
 </header>
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    let newTheme;
+    if (currentTheme === 'dark') {
+      newTheme = 'light';
+    } else if (currentTheme === 'light') {
+      newTheme = 'dark';
+    } else {
+      // No explicit theme set, toggle based on system preference
+      newTheme = prefersDark ? 'light' : 'dark';
+    }
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  }
+</script>
 
-      <div class="article-layout ">
-        <article class="surface post-article">
-          <div class="post-leading-meta">
-            <a href="/" class="breadcrumb-link">Home</a>
-            <span>·</span>
-            <a href="/posts" class="breadcrumb-link">Posts</a>
-          </div>
-          
-          <h1 class="post-single-title">Tally - Build a tool like tokei/scc</h1>
-          
+      <main class="container">
+        <div class="post-layout post-layout--with-toc">
+          <article class="post-article">
+            <!-- Post Header -->
+            <header class="post-header">
+              
+              <h1 class="post-title">Tally - Build a tool like tokei/scc</h1>
+              <div class="post-meta">
+                <time class="post-date" datetime="2023-08-16T18:47:37+08:00">2023-08-16</time>
+                
+                <div class="post-tags">
+                  
+                  <a href="/tags/line+counter.html" class="tag">#Line Counter</a>
+                  
+                  <a href="/tags/optimization.html" class="tag">#Optimization</a>
+                  
+                </div>
+                
+              </div>
+            </header>
 
-          <div class="post-meta-row">
-            <div>
-              <p class="post-meta-row__date">Written on 2023-08-16</p>
-            </div>
             
-            <nav class="post-meta-row__tags">
-              
-              <a href="/tags/line+counter.html" class="tag-chip">#Line Counter</a>
-              
-              <a href="/tags/optimization.html" class="tag-chip">#Optimization</a>
-              
-            </nav>
+            <details class="changelog">
+              <summary>Changelog</summary>
+              <div class="changelog-content">- 2023-08-16: first version<br>- 2024-04-03: bechmark refactor<br></div>
+            </details>
             
-          </div>
 
-          
-          <details class="changelog">
-            <summary>Changelog</summary>
-            <div class="changelog-content">- 2023-08-16: first version<br>- 2024-04-03: bechmark refactor<br></div>
-          </details>
-          
-
-          <div class="post-body">
-            <article><h2 id="background">Background</h2>
+            <!-- Post Content -->
+            <div class="post-body">
+              <h2 id="background">Background</h2>
 <p>I want to build a tool like <code>scc</code>, <code>tokei</code>, just for learning. It was very easy to write a simple version: <a href="https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go">tally - first commit</a>.<br>
 I will to optimize it at the second half of this post.</p>
 <p>First, allow me to explain it to you.</p>
@@ -578,14 +612,15 @@ I will to optimize it at the second half of this post.</p>
 <a href="https://boyter.org/posts/sloc-cloc-code/">https://boyter.org/posts/sloc-cloc-code/</a><br>
 <a href="https://blog.burntsushi.net/ripgrep/">https://blog.burntsushi.net/ripgrep/</a><br>
 <a href="https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/">https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/</a></p>
-</article>
-          </div>
-        </article>
 
-        
-        <aside class="toc-panel surface">
-          <p class="toc-title">Table of Contents</p>
-          <nav class="post-toc">
+            </div>
+          </article>
+
+          
+          <!-- Table of Contents -->
+          <aside class="toc-panel">
+            <p class="toc-title">On this page</p>
+            <nav class="toc-nav">
 <li>
 <ul>
 <li>
@@ -634,28 +669,31 @@ I will to optimize it at the second half of this post.</p>
 </li>
 </ul>
 </nav>
-        </aside>
-        
-      </div>
+          </aside>
+          
+        </div>
 
-      <section class="surface comments-shell">
-        <div id="disqus_thread"></div>
-      </section>
-
+        <!-- Comments -->
+        <section class="comments-section">
+          <div id="disqus_thread"></div>
+        </section>
+      </main>
       
 <footer class="footer">
-  <p class="footer-author">
-    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
-  </p>
-  <p class="footer-proj">
-    Source
-    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
-  </p>
+  <div class="footer__inner">
+    <p>© 2024 <a href="https://github.com/abcdlsj">abcdlsj</a></p>
+    <p><a href="https://github.com/abcdlsj/abcdlsj.github.io">Source</a></p>
+  </div>
 </footer>
 
     </div>
 
-    <button class="back-to-top" type="button" onclick="scrollToTop()">Back to top</button>
+    <button class="back-to-top" type="button" aria-label="Back to top" onclick="scrollToTop()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
     <script>
       function scrollToTop() {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -668,10 +706,11 @@ I will to optimize it at the second half of this post.</p>
       };
       window.addEventListener("scroll", toggleButton);
 
-      document.addEventListener('DOMContentLoaded', function () {
-        const tocLinks = document.querySelectorAll('.post-toc a');
+      // Smooth scroll for TOC links
+      document.addEventListener('DOMContentLoaded', function() {
+        const tocLinks = document.querySelectorAll('.toc-nav a');
         tocLinks.forEach(link => {
-          link.addEventListener('click', function (e) {
+          link.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
             const targetElement = document.getElementById(targetId);
@@ -680,11 +719,53 @@ I will to optimize it at the second half of this post.</p>
             }
           });
         });
+
+        // TOC scroll tracking
+        const tocNav = document.querySelector('.toc-nav');
+        if (tocNav) {
+          const headings = document.querySelectorAll('.post-body h2, .post-body h3');
+          const tocLinks = Array.from(tocNav.querySelectorAll('a'));
+          
+          function updateActiveHeading() {
+            let activeId = '';
+            
+            // Find the heading currently in view
+            for (let i = 0; i < headings.length; i++) {
+              const rect = headings[i].getBoundingClientRect();
+              if (rect.top <= 150) {  // 150px from top
+                activeId = headings[i].id;
+              }
+            }
+            
+            // Update TOC active state
+            tocLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === '#' + activeId) {
+                link.classList.add('active');
+              }
+            });
+          }
+          
+          // Throttle scroll events for performance
+          let ticking = false;
+          window.addEventListener('scroll', function() {
+            if (!ticking) {
+              requestAnimationFrame(function() {
+                updateActiveHeading();
+                ticking = false;
+              });
+              ticking = true;
+            }
+          });
+          
+          // Initial call
+          updateActiveHeading();
+        }
       });
 
-      (function () {
-        var d = document,
-          s = d.createElement("script");
+      // Disqus
+      (function() {
+        var d = document, s = d.createElement("script");
         s.src = "https://abcdlsj.disqus.com/embed.js";
         s.setAttribute("data-timestamp", +new Date());
         (d.head || d.body).appendChild(s);

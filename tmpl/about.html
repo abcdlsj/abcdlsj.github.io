@@ -7,10 +7,12 @@
   <body>
     <div class="app">
       {{template "navbar" .}}
-      <main class="surface about-shell">
-        <article class="post-body about-body">
-          {{.Body}}
-        </article>
+      <main class="container">
+        <div class="about-content">
+          <article class="about-body post-body">
+            {{.Body}}
+          </article>
+        </div>
       </main>
       {{template "footer" .}}
     </div>

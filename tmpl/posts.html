@@ -7,36 +7,21 @@
   <body>
     <div class="app">
       {{template "navbar" .}}
-      <main class="surface list-shell">
-        <div class="section-header">
-          <h1 class="section-title">All Posts · {{len .Posts}}</h1>
-          <p class="section-hint">Sorted by publish date in descending order.</p>
-        </div>
-        <div class="article-list">
-          {{range .Posts}}
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="{{.Meta.Date}}">{{.Meta.Date | day}}</time>
-              <span class="language-pill">
-                {{if contains .Meta.Languages "cn"}}CN{{else}}EN{{end}}
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/{{.Uname | urlize}}.html">{{.Meta.Title}}</a>
-            </h2>
-            {{if .Meta.Description}}
-            <p class="post-card__excerpt">{{.Meta.Description}}</p>
+      <main class="container">
+        <section class="home-section">
+          <div class="section-header">
+            <h2 class="section-title">All Posts · {{len .Posts}}</h2>
+          </div>
+          <div class="post-list">
+            {{range .Posts}}
+            <article class="post-item">
+              <time class="post-item__date" datetime="{{.Meta.Date}}">{{.Meta.Date | day}}</time>
+              <a href="/posts/{{.Uname | urlize}}.html" class="post-item__title">{{.Meta.Title}}</a>
+              <span class="post-item__lang">{{if contains .Meta.Languages "cn"}}CN{{else}}EN{{end}}</span>
+            </article>
             {{end}}
-            {{if .Meta.Tags}}
-            <div class="post-card__tags">
-              {{range $tag := .Meta.Tags}}
-              <a href="/tags/{{$tag | urlize}}.html" class="tag-chip">#{{$tag}}</a>
-              {{end}}
-            </div>
-            {{end}}
-          </article>
-          {{end}}
-        </div>
+          </div>
+        </section>
       </main>
       {{template "footer" .}}
     </div>

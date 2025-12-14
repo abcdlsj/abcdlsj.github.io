@@ -1,34 +1,35 @@
 {{define "hosts"}}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  {{template "head" dict "Site" .Site "IsPost" false}}
-</head>
-<body>
-  <div class="app">
-    {{template "navbar" .}}
-    <main class="surface hosts-shell">
-      <div class="section-header">
-        <h1 class="section-title">Hosts</h1>
-        <p class="section-hint">Here are the experimental projects or mirrors I host.</p>
-      </div>
-      <div class="hosts-list">
-        {{range .Site.Hosts}}
-        <article class="host-card">
-          <div class="host-card__header">
-            <h2>{{.Name}}</h2>
-            <span class="host-type">{{.Type}}</span>
+  <head>
+    {{template "head" dict "Site" .Site "IsPost" false}}
+  </head>
+  <body>
+    <div class="app">
+      {{template "navbar" .}}
+      <main class="container">
+        <section class="home-section">
+          <div class="section-header">
+            <h2 class="section-title">Hosts</h2>
           </div>
-          <a href="/{{.Output}}" class="host-link">/{{.Output}}</a>
-          {{if .Header}}
-          <p class="host-description">{{.Header}}</p>
-          {{end}}
-        </article>
-        {{end}}
-      </div>
-    </main>
-    {{template "footer" .}}
-  </div>
-</body>
+          <div class="hosts-grid">
+            {{range .Site.Hosts}}
+            <article class="host-card">
+              <div class="host-card__header">
+                <h2>{{.Name}}</h2>
+                <span class="host-type">{{.Type}}</span>
+              </div>
+              <a href="/{{.Output}}" class="host-link">/{{.Output}}</a>
+              {{if .Header}}
+              <p class="host-description">{{.Header}}</p>
+              {{end}}
+            </article>
+            {{end}}
+          </div>
+        </section>
+      </main>
+      {{template "footer" .}}
+    </div>
+  </body>
 </html>
 {{end}}

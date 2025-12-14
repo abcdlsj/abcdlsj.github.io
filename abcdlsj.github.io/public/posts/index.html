@@ -12,19 +12,21 @@
 <meta property="og:title" content="abcdlsj's blog">
 <meta property="og:description" content="Enjoy Focus!">
 <meta property="og:url" content="https://abcdlsj.github.io">
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 <link rel="shortcut icon" href="/static/favicon.ico" />
 <link rel="stylesheet" href="/static/style.css" />
-<script
-  defer
-  src="https://us.umami.is/script.js"
-  data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"
-></script>
+<script>
+  // Theme initialization - runs before page render to prevent flash
+  (function() {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  })();
+</script>
+<script defer src="https://us.umami.is/script.js" data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"></script>
 <script src="/static/script/search.js"></script>
 
   </head>
@@ -32,435 +34,187 @@
     <div class="app">
       
 <header class="site-header">
-  <div class="site-header__brand">
-    <a href="/" class="site-header__title">abcdlsj's blog</a>
-    <p class="site-header__description">
-      Enjoy Focus!
-    </p>
+  <div class="site-header__inner">
+    <div class="site-header__brand">
+      <a href="/" class="site-header__title">abcdlsj's blog</a>
+      <span class="site-header__tagline">Enjoy Focus!</span>
+    </div>
+    <nav class="site-header__nav">
+      <ul class="nav-links">
+        
+        
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/posts" class="nav-link">Posts</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/about" class="nav-link">About</a>
+        </li>
+        
+        
+        
+        
+        
+        <li>
+          <a href="/rss.xml" class="nav-link">Feed</a>
+        </li>
+        
+        
+      </ul>
+      <button class="theme-toggle" type="button" aria-label="Toggle theme" onclick="toggleTheme()">
+        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </nav>
   </div>
-  <nav class="site-header__nav">
-    <ul class="nav-links">
-      
-      
-      <li>
-        <a href="/" class="nav-link">Home</a>
-      </li>
-      
-      
-      
-      <li>
-        <a href="/posts" class="nav-link">Posts</a>
-      </li>
-      
-      
-      
-      <li>
-        <a href="/about" class="nav-link">About</a>
-      </li>
-      
-      
-      
-      
-      
-      <li>
-        <a href="/rss.xml" class="nav-link">Feed</a>
-      </li>
-      
-      
-    </ul>
-  </nav>
 </header>
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    let newTheme;
+    if (currentTheme === 'dark') {
+      newTheme = 'light';
+    } else if (currentTheme === 'light') {
+      newTheme = 'dark';
+    } else {
+      // No explicit theme set, toggle based on system preference
+      newTheme = prefersDark ? 'light' : 'dark';
+    }
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  }
+</script>
 
-      <main class="surface list-shell">
-        <div class="section-header">
-          <h1 class="section-title">All Posts · 15</h1>
-          <p class="section-hint">Sorted by publish date in descending order.</p>
-        </div>
-        <div class="article-list">
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2025-05-03T19:00:00+08:00">2025-05-03</time>
-              <span class="language-pill">
-                CN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/nexo-a-simple-https-reverse-proxy.html">Nexo - A Simple HTTPS Reverse Proxy</a>
-            </h2>
+      <main class="container">
+        <section class="home-section">
+          <div class="section-header">
+            <h2 class="section-title">All Posts · 15</h2>
+          </div>
+          <div class="post-list">
             
-            <p class="post-card__excerpt">告别 Caddy 和 NPM 的臃肿：分享如何用 Go 语言打造轻量级 HTTPS 反向代理，集成 Cloudflare DNS 和自动证书管理，内存占用不到 10M 的优雅方案。</p>
+            <article class="post-item">
+              <time class="post-item__date" datetime="2025-05-03T19:00:00+08:00">2025-05-03</time>
+              <a href="/posts/nexo-a-simple-https-reverse-proxy.html" class="post-item__title">Nexo - A Simple HTTPS Reverse Proxy</a>
+              <span class="post-item__lang">CN</span>
+            </article>
             
+            <article class="post-item">
+              <time class="post-item__date" datetime="2025-03-08T09:41:49+08:00">2025-03-08</time>
+              <a href="/posts/2024.html" class="post-item__title">2024 Summary & New company</a>
+              <span class="post-item__lang">CN</span>
+            </article>
             
-            <div class="post-card__tags">
-              
-              <a href="/tags/reverse+proxy.html" class="tag-chip">#Reverse Proxy</a>
-              
-              <a href="/tags/cert.html" class="tag-chip">#Cert</a>
-              
-              <a href="/tags/cloudflare.html" class="tag-chip">#Cloudflare</a>
-              
-            </div>
+            <article class="post-item">
+              <time class="post-item__date" datetime="2024-12-02T19:47:37+08:00">2024-12-02</time>
+              <a href="/posts/leaving_sz_shopee.html" class="post-item__title">Leaved 🦐</a>
+              <span class="post-item__lang">CN</span>
+            </article>
             
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2025-03-08T09:41:49+08:00">2025-03-08</time>
-              <span class="language-pill">
-                CN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/2024.html">2024 Summary & New company</a>
-            </h2>
+            <article class="post-item">
+              <time class="post-item__date" datetime="2024-08-15T23:42:49+08:00">2024-08-15</time>
+              <a href="/posts/add-content-search-to-blog.html" class="post-item__title">Add content search to the blog</a>
+              <span class="post-item__lang">CN</span>
+            </article>
             
-            <p class="post-card__excerpt">记录 2024 年跳槽历程，分享面试经验、offer 选择思考，以及从深圳到上海的生活变化。</p>
+            <article class="post-item">
+              <time class="post-item__date" datetime="2024-07-01T22:47:37+08:00">2024-07-01</time>
+              <a href="/posts/rssy-go-rssread-website.html" class="post-item__title">Rssy - A miniflux rss reader alternative</a>
+              <span class="post-item__lang">EN</span>
+            </article>
             
+            <article class="post-item">
+              <time class="post-item__date" datetime="2024-02-24T10:47:37+08:00">2024-02-24</time>
+              <a href="/posts/go-template-tailwindcss.html" class="post-item__title">Go Template + Tailwindcss = ❤️</a>
+              <span class="post-item__lang">CN</span>
+            </article>
             
-            <div class="post-card__tags">
-              
-              <a href="/tags/summary.html" class="tag-chip">#Summary</a>
-              
-            </div>
+            <article class="post-item">
+              <time class="post-item__date" datetime="2023-12-08T22:47:37+08:00">2023-12-08</time>
+              <a href="/posts/pasty-go-pastebin-like-website.html" class="post-item__title">Pasty - A pastebin website with Go+Turnstile+OAuth</a>
+              <span class="post-item__lang">EN</span>
+            </article>
             
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2024-12-02T19:47:37+08:00">2024-12-02</time>
-              <span class="language-pill">
-                CN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/leaving_sz_shopee.html">Leaved 🦐</a>
-            </h2>
+            <article class="post-item">
+              <time class="post-item__date" datetime="2023-11-04T22:47:37+08:00">2023-11-04</time>
+              <a href="/posts/gnar-build-a-proxy.html" class="post-item__title">Gnar - A tunnel proxy like Frp/Ngrok</a>
+              <span class="post-item__lang">CN</span>
+            </article>
             
-            <p class="post-card__excerpt">告别 Shopee 的三年半：回顾在过去三年半技术成长、工作经历、生活习惯以及做出离开决定背后的思考，记录选择走向「变化」的心路历程。</p>
+            <article class="post-item">
+              <time class="post-item__date" datetime="2023-10-29T23:51:37+08:00">2023-10-29</time>
+              <a href="/posts/write-a-cron-expr-scheduler.html" class="post-item__title">Write a simple cron expression library in Golang</a>
+              <span class="post-item__lang">CN</span>
+            </article>
             
+            <article class="post-item">
+              <time class="post-item__date" datetime="2023-10-22T11:51:37+08:00">2023-10-22</time>
+              <a href="/posts/write-a-readability-tool.html" class="post-item__title">Build a website for readability in 10 minutes</a>
+              <span class="post-item__lang">EN</span>
+            </article>
             
-            <div class="post-card__tags">
-              
-              <a href="/tags/summary.html" class="tag-chip">#Summary</a>
-              
-            </div>
+            <article class="post-item">
+              <time class="post-item__date" datetime="2023-08-16T18:47:37+08:00">2023-08-16</time>
+              <a href="/posts/tally-let-us-build-a-tool-like-tokei.html" class="post-item__title">Tally - Build a tool like tokei/scc</a>
+              <span class="post-item__lang">EN</span>
+            </article>
             
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2024-08-15T23:42:49+08:00">2024-08-15</time>
-              <span class="language-pill">
-                CN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/add-content-search-to-blog.html">Add content search to the blog</a>
-            </h2>
+            <article class="post-item">
+              <time class="post-item__date" datetime="2023-04-16T22:47:37+08:00">2023-04-16</time>
+              <a href="/posts/golink-useful-local-url-shortener.html" class="post-item__title">Golink - Useful local url shortener</a>
+              <span class="post-item__lang">EN</span>
+            </article>
             
-            <p class="post-card__excerpt">为静态网站添加搜索功能的设计记录：从倒排索引设计到中文分词处理，分享如何使用 Go 和 JavaScript 实现一个轻量级的全文搜索系统。</p>
+            <article class="post-item">
+              <time class="post-item__date" datetime="2021-12-31T19:47:37+08:00">2021-12-31</time>
+              <a href="/posts/2021.html" class="post-item__title">2021 ===> 2022</a>
+              <span class="post-item__lang">CN</span>
+            </article>
             
+            <article class="post-item">
+              <time class="post-item__date" datetime="2021-05-04T19:42:49+08:00">2021-05-04</time>
+              <a href="/posts/cs144-lab-notes.html" class="post-item__title">CS144 Lab Notes</a>
+              <span class="post-item__lang">CN</span>
+            </article>
             
-            <div class="post-card__tags">
-              
-              <a href="/tags/ssg.html" class="tag-chip">#SSG</a>
-              
-              <a href="/tags/search.html" class="tag-chip">#Search</a>
-              
-              <a href="/tags/word+segmentation.html" class="tag-chip">#Word Segmentation</a>
-              
-              <a href="/tags/inverted+index.html" class="tag-chip">#Inverted Index</a>
-              
-            </div>
+            <article class="post-item">
+              <time class="post-item__date" datetime="2021-04-01T14:04:52+08:00">2021-04-01</time>
+              <a href="/posts/written-on-the-occasion-of-22nd-birthday.html" class="post-item__title">Written on the Occasion of 22nd Birthday</a>
+              <span class="post-item__lang">CN</span>
+            </article>
             
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2024-07-01T22:47:37+08:00">2024-07-01</time>
-              <span class="language-pill">
-                EN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/rssy-go-rssread-website.html">Rssy - A miniflux rss reader alternative</a>
-            </h2>
-            
-            <p class="post-card__excerpt">Tired of Miniflux bloat? Sharing how I built a lightweight RSS reader from scratch with SQLite/PostgreSQL dual database support, GitHub OAuth integration, lower resource usage, and cleaner features.</p>
-            
-            
-            <div class="post-card__tags">
-              
-              <a href="/tags/sqlite3.html" class="tag-chip">#SQLite3</a>
-              
-              <a href="/tags/postgres.html" class="tag-chip">#Postgres</a>
-              
-              <a href="/tags/rss.html" class="tag-chip">#RSS</a>
-              
-              <a href="/tags/template.html" class="tag-chip">#Template</a>
-              
-            </div>
-            
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2024-02-24T10:47:37+08:00">2024-02-24</time>
-              <span class="language-pill">
-                CN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/go-template-tailwindcss.html">Go Template + Tailwindcss = ❤️</a>
-            </h2>
-            
-            <p class="post-card__excerpt">分享如何在 Go Template 项目中集成 Tailwind CSS，让小项目也能拥有专业的样式设计。</p>
-            
-            
-            <div class="post-card__tags">
-              
-              <a href="/tags/tailwindcss.html" class="tag-chip">#TailwindCSS</a>
-              
-              <a href="/tags/template.html" class="tag-chip">#Template</a>
-              
-            </div>
-            
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2023-12-08T22:47:37+08:00">2023-12-08</time>
-              <span class="language-pill">
-                EN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/pasty-go-pastebin-like-website.html">Pasty - A pastebin website with Go+Turnstile+OAuth</a>
-            </h2>
-            
-            <p class="post-card__excerpt">Building a secure and reliable code sharing platform: Developing a Pastebin website with GitHub OAuth authentication and Cloudflare Turnstile verification from scratch, sharing the complete technical implementation.</p>
-            
-            
-            <div class="post-card__tags">
-              
-              <a href="/tags/oauth.html" class="tag-chip">#OAuth</a>
-              
-              <a href="/tags/turnstile.html" class="tag-chip">#Turnstile</a>
-              
-              <a href="/tags/template.html" class="tag-chip">#Template</a>
-              
-              <a href="/tags/sqlite3.html" class="tag-chip">#SQLite3</a>
-              
-            </div>
-            
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2023-11-04T22:47:37+08:00">2023-11-04</time>
-              <span class="language-pill">
-                CN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/gnar-build-a-proxy.html">Gnar - A tunnel proxy like Frp/Ngrok</a>
-            </h2>
-            
-            <p class="post-card__excerpt">动手实现一个类 Frp/Ngrok 的内网穿透工具：从 TCP 转发到多协议支持，分享使用 Go 语言构建隧道代理的技术细节和架构思考。</p>
-            
-            
-            <div class="post-card__tags">
-              
-              <a href="/tags/network.html" class="tag-chip">#Network</a>
-              
-              <a href="/tags/tunnel.html" class="tag-chip">#Tunnel</a>
-              
-              <a href="/tags/yamux.html" class="tag-chip">#Yamux</a>
-              
-              <a href="/tags/traffic+limit.html" class="tag-chip">#Traffic Limit</a>
-              
-              <a href="/tags/io+package.html" class="tag-chip">#IO Package</a>
-              
-            </div>
-            
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2023-10-29T23:51:37+08:00">2023-10-29</time>
-              <span class="language-pill">
-                CN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/write-a-cron-expr-scheduler.html">Write a simple cron expression library in Golang</a>
-            </h2>
-            
-            <p class="post-card__excerpt">深入解析 Cron 表达式：从零实现定时任务调度器，掌握时间表达式的解析算法，构建轻量级 Cron 库并理解其底层实现原理。</p>
-            
-            
-            <div class="post-card__tags">
-              
-              <a href="/tags/cron+expression.html" class="tag-chip">#Cron Expression</a>
-              
-              <a href="/tags/package+design.html" class="tag-chip">#Package Design</a>
-              
-            </div>
-            
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2023-10-22T11:51:37+08:00">2023-10-22</time>
-              <span class="language-pill">
-                EN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/write-a-readability-tool.html">Build a website for readability in 10 minutes</a>
-            </h2>
-            
-            <p class="post-card__excerpt">Build a web readability tool in 10 minutes: Using Go and go-readability library to quickly create an online reader that extracts main content and removes distracting elements.</p>
-            
-            
-            <div class="post-card__tags">
-              
-              <a href="/tags/template.html" class="tag-chip">#Template</a>
-              
-              <a href="/tags/readability.html" class="tag-chip">#Readability</a>
-              
-            </div>
-            
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2023-08-16T18:47:37+08:00">2023-08-16</time>
-              <span class="language-pill">
-                EN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/tally-let-us-build-a-tool-like-tokei.html">Tally - Build a tool like tokei/scc</a>
-            </h2>
-            
-            <p class="post-card__excerpt">Building a high-performance code statistics tool from scratch: Deep dive into the implementation principles of tokei/scc, sharing the complete development journey of file traversal, line counting, and performance optimization.</p>
-            
-            
-            <div class="post-card__tags">
-              
-              <a href="/tags/line+counter.html" class="tag-chip">#Line Counter</a>
-              
-              <a href="/tags/optimization.html" class="tag-chip">#Optimization</a>
-              
-            </div>
-            
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2023-04-16T22:47:37+08:00">2023-04-16</time>
-              <span class="language-pill">
-                EN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/golink-useful-local-url-shortener.html">Golink - Useful local url shortener</a>
-            </h2>
-            
-            <p class="post-card__excerpt">Create your personal local URL shortening service: From /etc/hosts to a complete short link system, sharing how to build a lightweight and customizable URL shortener tool.</p>
-            
-            
-            <div class="post-card__tags">
-              
-              <a href="/tags/shortener.html" class="tag-chip">#Shortener</a>
-              
-              <a href="/tags/template.html" class="tag-chip">#Template</a>
-              
-            </div>
-            
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2021-12-31T19:47:37+08:00">2021-12-31</time>
-              <span class="language-pill">
-                CN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/2021.html">2021 ===> 2022</a>
-            </h2>
-            
-            <p class="post-card__excerpt">分享初入职场半年工作经历以及生活。</p>
-            
-            
-            <div class="post-card__tags">
-              
-              <a href="/tags/summary.html" class="tag-chip">#Summary</a>
-              
-            </div>
-            
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2021-05-04T19:42:49+08:00">2021-05-04</time>
-              <span class="language-pill">
-                CN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/cs144-lab-notes.html">CS144 Lab Notes</a>
-            </h2>
-            
-            <p class="post-card__excerpt">CS144 计算机网络实验踩坑指南：分享 Lab 环境搭建、调试技巧以及常见问题的解决方案。</p>
-            
-            
-            <div class="post-card__tags">
-              
-              <a href="/tags/cs144.html" class="tag-chip">#CS144</a>
-              
-              <a href="/tags/network.html" class="tag-chip">#Network</a>
-              
-            </div>
-            
-          </article>
-          
-          <article class="post-card">
-            <div class="post-card__meta">
-              <time datetime="2021-04-01T14:04:52+08:00">2021-04-01</time>
-              <span class="language-pill">
-                CN
-              </span>
-            </div>
-            <h2 class="post-card__title">
-              <a href="/posts/written-on-the-occasion-of-22nd-birthday.html">Written on the Occasion of 22nd Birthday</a>
-            </h2>
-            
-            <p class="post-card__excerpt">写于 22 岁生日和即将步入职场之际，回顾大学四年的技术探索、求职历程，以及对未来程序员生涯的思考与期待。</p>
-            
-            
-            <div class="post-card__tags">
-              
-              <a href="/tags/summary.html" class="tag-chip">#Summary</a>
-              
-            </div>
-            
-          </article>
-          
-        </div>
+          </div>
+        </section>
       </main>
       
 <footer class="footer">
-  <p class="footer-author">
-    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
-  </p>
-  <p class="footer-proj">
-    Source
-    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
-  </p>
+  <div class="footer__inner">
+    <p>© 2024 <a href="https://github.com/abcdlsj">abcdlsj</a></p>
+    <p><a href="https://github.com/abcdlsj/abcdlsj.github.io">Source</a></p>
+  </div>
 </footer>
 
     </div>

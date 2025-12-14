@@ -15,18 +15,20 @@
 <meta property="og:title" content="{{.Site.Title}}">
 <meta property="og:description" content="{{.Site.Description}}">
 <meta property="og:url" content="{{.Site.URL}}">
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 {{end}}
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 <link rel="shortcut icon" href="/static/favicon.ico" />
 <link rel="stylesheet" href="/static/style.css" />
-<script
-  defer
-  src="https://us.umami.is/script.js"
-  data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"
-></script>
+<script>
+  // Theme initialization - runs before page render to prevent flash
+  (function() {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  })();
+</script>
+<script defer src="https://us.umami.is/script.js" data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"></script>
 <script src="/static/script/search.js"></script>
 {{end}}

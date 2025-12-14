@@ -7,63 +7,65 @@
   <body>
     <div class="app">
       {{template "navbar" .}}
-      <div class="article-layout {{if eq .TocContent ""}}article-layout--single{{end}}">
-        <article class="surface post-article">
-          <div class="post-leading-meta">
-            <a href="/" class="breadcrumb-link">Home</a>
-            <span>·</span>
-            <a href="/posts" class="breadcrumb-link">Posts</a>
-          </div>
-          {{if .Meta.Hero}}
-          <div class="hero-container">
-            <h1 class="hero-single-title">{{.Meta.Title}}</h1>
-            <div class="hero-image" style="background-image: url('{{.Meta.Hero}}');"></div>
-          </div>
-          {{else}}
-          <h1 class="post-single-title">{{.Meta.Title}}</h1>
-          {{end}}
-
-          <div class="post-meta-row">
-            <div>
-              <p class="post-meta-row__date">Written on {{.Meta.Date | day}}</p>
-            </div>
-            {{if .Meta.Tags}}
-            <nav class="post-meta-row__tags">
-              {{range $tag := .Meta.Tags}}
-              <a href="/tags/{{$tag | urlize}}.html" class="tag-chip">#{{$tag}}</a>
+      <main class="container">
+        <div class="post-layout {{if ne .TocContent ""}}post-layout--with-toc{{end}}">
+          <article class="post-article">
+            <!-- Post Header -->
+            <header class="post-header">
+              {{if .Meta.Hero}}
+              <div class="post-hero">
+                <img src="{{.Meta.Hero}}" alt="{{.Meta.Title}}" />
+              </div>
               {{end}}
-            </nav>
+              <h1 class="post-title">{{.Meta.Title}}</h1>
+              <div class="post-meta">
+                <time class="post-date" datetime="{{.Meta.Date}}">{{.Meta.Date | day}}</time>
+                {{if .Meta.Tags}}
+                <div class="post-tags">
+                  {{range $tag := .Meta.Tags}}
+                  <a href="/tags/{{$tag | urlize}}.html" class="tag">#{{$tag}}</a>
+                  {{end}}
+                </div>
+                {{end}}
+              </div>
+            </header>
+
+            {{if .Meta.Changelog}}
+            <details class="changelog">
+              <summary>Changelog</summary>
+              <div class="changelog-content">{{.Meta.Changelog | formatChangelog}}</div>
+            </details>
             {{end}}
-          </div>
 
-          {{if .Meta.Changelog}}
-          <details class="changelog">
-            <summary>Changelog</summary>
-            <div class="changelog-content">{{.Meta.Changelog | formatChangelog}}</div>
-          </details>
+            <!-- Post Content -->
+            <div class="post-body">
+              {{.Body}}
+            </div>
+          </article>
+
+          {{if ne .TocContent ""}}
+          <!-- Table of Contents -->
+          <aside class="toc-panel">
+            <p class="toc-title">On this page</p>
+            <nav class="toc-nav">{{.TocContent}}</nav>
+          </aside>
           {{end}}
+        </div>
 
-          <div class="post-body">
-            <article>{{.Body}}</article>
-          </div>
-        </article>
-
-        {{if ne .TocContent ""}}
-        <aside class="toc-panel surface">
-          <p class="toc-title">Table of Contents</p>
-          <nav class="post-toc">{{.TocContent}}</nav>
-        </aside>
-        {{end}}
-      </div>
-
-      <section class="surface comments-shell">
-        <div id="disqus_thread"></div>
-      </section>
-
+        <!-- Comments -->
+        <section class="comments-section">
+          <div id="disqus_thread"></div>
+        </section>
+      </main>
       {{template "footer" .}}
     </div>
 
-    <button class="back-to-top" type="button" onclick="scrollToTop()">Back to top</button>
+    <button class="back-to-top" type="button" aria-label="Back to top" onclick="scrollToTop()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
     <script>
       function scrollToTop() {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -76,10 +78,11 @@
       };
       window.addEventListener("scroll", toggleButton);
 
-      document.addEventListener('DOMContentLoaded', function () {
-        const tocLinks = document.querySelectorAll('.post-toc a');
+      // Smooth scroll for TOC links
+      document.addEventListener('DOMContentLoaded', function() {
+        const tocLinks = document.querySelectorAll('.toc-nav a');
         tocLinks.forEach(link => {
-          link.addEventListener('click', function (e) {
+          link.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
             const targetElement = document.getElementById(targetId);
@@ -88,11 +91,53 @@
             }
           });
         });
+
+        // TOC scroll tracking
+        const tocNav = document.querySelector('.toc-nav');
+        if (tocNav) {
+          const headings = document.querySelectorAll('.post-body h2, .post-body h3');
+          const tocLinks = Array.from(tocNav.querySelectorAll('a'));
+          
+          function updateActiveHeading() {
+            let activeId = '';
+            
+            // Find the heading currently in view
+            for (let i = 0; i < headings.length; i++) {
+              const rect = headings[i].getBoundingClientRect();
+              if (rect.top <= 150) {  // 150px from top
+                activeId = headings[i].id;
+              }
+            }
+            
+            // Update TOC active state
+            tocLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === '#' + activeId) {
+                link.classList.add('active');
+              }
+            });
+          }
+          
+          // Throttle scroll events for performance
+          let ticking = false;
+          window.addEventListener('scroll', function() {
+            if (!ticking) {
+              requestAnimationFrame(function() {
+                updateActiveHeading();
+                ticking = false;
+              });
+              ticking = true;
+            }
+          });
+          
+          // Initial call
+          updateActiveHeading();
+        }
       });
 
-      (function () {
-        var d = document,
-          s = d.createElement("script");
+      // Disqus
+      (function() {
+        var d = document, s = d.createElement("script");
         s.src = "https://abcdlsj.disqus.com/embed.js";
         s.setAttribute("data-timestamp", +new Date());
         (d.head || d.body).appendChild(s);
