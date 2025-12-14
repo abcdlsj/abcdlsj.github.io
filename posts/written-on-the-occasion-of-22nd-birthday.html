@@ -14,17 +14,19 @@
 <meta property="og:url" content="https://abcdlsj.github.io/posts/written-on-the-occasion-of-22nd-birthday.html">
 <meta property="og:type" content="article">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 <link rel="shortcut icon" href="/static/favicon.ico" />
 <link rel="stylesheet" href="/static/style.css" />
-<script
-  defer
-  src="https://us.umami.is/script.js"
-  data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"
-></script>
+<script>
+  // Theme initialization - runs before page render to prevent flash
+  (function() {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  })();
+</script>
+<script defer src="https://us.umami.is/script.js" data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"></script>
 <script src="/static/script/search.js"></script>
 
   </head>
@@ -32,76 +34,109 @@
     <div class="app">
       
 <header class="site-header">
-  <div class="site-header__brand">
-    <a href="/" class="site-header__title">Written on the Occasion of 22nd Birthday</a>
-    <p class="site-header__description">
-      Enjoy Focus!
-    </p>
+  <div class="site-header__inner">
+    <div class="site-header__brand">
+      <a href="/" class="site-header__title">Written on the Occasion of 22nd Birthday</a>
+      <span class="site-header__tagline">Enjoy Focus!</span>
+    </div>
+    <nav class="site-header__nav">
+      <ul class="nav-links">
+        
+        
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/posts" class="nav-link">Posts</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/about" class="nav-link">About</a>
+        </li>
+        
+        
+        
+        
+        
+        <li>
+          <a href="/rss.xml" class="nav-link">Feed</a>
+        </li>
+        
+        
+      </ul>
+      <button class="theme-toggle" type="button" aria-label="Toggle theme" onclick="toggleTheme()">
+        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </nav>
   </div>
-  <nav class="site-header__nav">
-    <ul class="nav-links">
-      
-      
-      <li>
-        <a href="/" class="nav-link">Home</a>
-      </li>
-      
-      
-      
-      <li>
-        <a href="/posts" class="nav-link">Posts</a>
-      </li>
-      
-      
-      
-      <li>
-        <a href="/about" class="nav-link">About</a>
-      </li>
-      
-      
-      
-      
-      
-      <li>
-        <a href="/rss.xml" class="nav-link">Feed</a>
-      </li>
-      
-      
-    </ul>
-  </nav>
 </header>
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    let newTheme;
+    if (currentTheme === 'dark') {
+      newTheme = 'light';
+    } else if (currentTheme === 'light') {
+      newTheme = 'dark';
+    } else {
+      // No explicit theme set, toggle based on system preference
+      newTheme = prefersDark ? 'light' : 'dark';
+    }
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  }
+</script>
 
-      <div class="article-layout article-layout--single">
-        <article class="surface post-article">
-          <div class="post-leading-meta">
-            <a href="/" class="breadcrumb-link">Home</a>
-            <span>·</span>
-            <a href="/posts" class="breadcrumb-link">Posts</a>
-          </div>
-          
-          <div class="hero-container">
-            <h1 class="hero-single-title">Written on the Occasion of 22nd Birthday</h1>
-            <div class="hero-image" style="background-image: url('/static/img/hfut_night.jpg');"></div>
-          </div>
-          
-
-          <div class="post-meta-row">
-            <div>
-              <p class="post-meta-row__date">Written on 2021-04-01</p>
-            </div>
-            
-            <nav class="post-meta-row__tags">
+      <main class="container">
+        <div class="post-layout ">
+          <article class="post-article">
+            <!-- Post Header -->
+            <header class="post-header">
               
-              <a href="/tags/summary.html" class="tag-chip">#Summary</a>
+              <div class="post-hero">
+                <img src="/static/img/hfut_night.jpg" alt="Written on the Occasion of 22nd Birthday" />
+              </div>
               
-            </nav>
+              <h1 class="post-title">Written on the Occasion of 22nd Birthday</h1>
+              <div class="post-meta">
+                <time class="post-date" datetime="2021-04-01T14:04:52+08:00">2021-04-01</time>
+                
+                <div class="post-tags">
+                  
+                  <a href="/tags/summary.html" class="tag">#Summary</a>
+                  
+                </div>
+                
+              </div>
+            </header>
+
             
-          </div>
 
-          
-
-          <div class="post-body">
-            <article><blockquote>
+            <!-- Post Content -->
+            <div class="post-body">
+              <blockquote>
 <p>今年 7 月份就会结束自己的学生生涯，刚好过几天也会迎来自己的 22 岁生日，恰逢在本周收到了还算满意的 <code>offer</code>，所以觉得还是需要写点东西表示一下。</p>
 </blockquote>
 <!--more--> 
@@ -134,31 +169,34 @@
 <p>现在打算把收藏了很久的公开课学习下，然后看看一些 <code>Go</code> 相关的实战视频，学习下工程上的实践。之前已经做了某些公开课的前一两个 <code>Lab</code>，打算陆续慢慢做做，不过毕业之前肯定没法全部完成（我了解自己，绝对不会做...）。</p>
 <p>年初的时候准备写一个静态博客生成器，当时写了简单 <code>Demo</code> 就停滞了，前几天继续写了下，发现单纯利用 <code>markdown</code> 和 <code>template</code> 生成 <code>html</code> 不难，但设计一个满意的博客样式（前端不会），就很困难了。于是打算继续使用 <code>hugo</code>（2023 改为自己实现生成器），修改了几个主题，对现在这个比较满意。</p>
 <p>好好体会最后在学校的时光了。</p>
-</article>
-          </div>
-        </article>
 
-        
-      </div>
+            </div>
+          </article>
 
-      <section class="surface comments-shell">
-        <div id="disqus_thread"></div>
-      </section>
+          
+        </div>
 
+        <!-- Comments -->
+        <section class="comments-section">
+          <div id="disqus_thread"></div>
+        </section>
+      </main>
       
 <footer class="footer">
-  <p class="footer-author">
-    Author <a href="https://github.com/abcdlsj">abcdlsj</a>
-  </p>
-  <p class="footer-proj">
-    Source
-    <a href="https://github.com/abcdlsj/abcdlsj.github.io">abcdlsj.github.io</a>
-  </p>
+  <div class="footer__inner">
+    <p>© 2024 <a href="https://github.com/abcdlsj">abcdlsj</a></p>
+    <p><a href="https://github.com/abcdlsj/abcdlsj.github.io">Source</a></p>
+  </div>
 </footer>
 
     </div>
 
-    <button class="back-to-top" type="button" onclick="scrollToTop()">Back to top</button>
+    <button class="back-to-top" type="button" aria-label="Back to top" onclick="scrollToTop()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
     <script>
       function scrollToTop() {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -171,10 +209,11 @@
       };
       window.addEventListener("scroll", toggleButton);
 
-      document.addEventListener('DOMContentLoaded', function () {
-        const tocLinks = document.querySelectorAll('.post-toc a');
+      // Smooth scroll for TOC links
+      document.addEventListener('DOMContentLoaded', function() {
+        const tocLinks = document.querySelectorAll('.toc-nav a');
         tocLinks.forEach(link => {
-          link.addEventListener('click', function (e) {
+          link.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
             const targetElement = document.getElementById(targetId);
@@ -183,11 +222,53 @@
             }
           });
         });
+
+        // TOC scroll tracking
+        const tocNav = document.querySelector('.toc-nav');
+        if (tocNav) {
+          const headings = document.querySelectorAll('.post-body h2, .post-body h3');
+          const tocLinks = Array.from(tocNav.querySelectorAll('a'));
+          
+          function updateActiveHeading() {
+            let activeId = '';
+            
+            // Find the heading currently in view
+            for (let i = 0; i < headings.length; i++) {
+              const rect = headings[i].getBoundingClientRect();
+              if (rect.top <= 150) {  // 150px from top
+                activeId = headings[i].id;
+              }
+            }
+            
+            // Update TOC active state
+            tocLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === '#' + activeId) {
+                link.classList.add('active');
+              }
+            });
+          }
+          
+          // Throttle scroll events for performance
+          let ticking = false;
+          window.addEventListener('scroll', function() {
+            if (!ticking) {
+              requestAnimationFrame(function() {
+                updateActiveHeading();
+                ticking = false;
+              });
+              ticking = true;
+            }
+          });
+          
+          // Initial call
+          updateActiveHeading();
+        }
       });
 
-      (function () {
-        var d = document,
-          s = d.createElement("script");
+      // Disqus
+      (function() {
+        var d = document, s = d.createElement("script");
         s.src = "https://abcdlsj.disqus.com/embed.js";
         s.setAttribute("data-timestamp", +new Date());
         (d.head || d.body).appendChild(s);
