@@ -2,9 +2,9 @@
 <?xml-stylesheet href="/static/pretty_feed.xsl" type="text/xsl"?>
 <rss version="2.0">
   <channel>
-    <title>abcdlsj&#39;s blog</title>
+    <title>L&#39;iving and Discovering</title>
     <link>https://abcdlsj.github.io</link>
-    <description>Enjoy Focus!</description>
+    <description>Exploring the intersections of life/programming/technology.</description>
     <item>
       <title>Nexo - A Simple HTTPS Reverse Proxy</title>
       <link>https://abcdlsj.github.io/posts/nexo-a-simple-https-reverse-proxy.html</link>
