@@ -15,9 +15,8 @@
           <div class="post-list">
             {{range .Posts}}
             <article class="post-item">
-              <time class="post-item__date" datetime="{{.Meta.Date}}">{{.Meta.Date | day}}</time>
               <a href="/posts/{{.Uname | urlize}}.html" class="post-item__title">{{.Meta.Title}}</a>
-              <span class="post-item__lang">{{if contains .Meta.Languages "cn"}}CN{{else}}EN{{end}}</span>
+              <time class="post-item__date" datetime="{{.Meta.Date}}">{{.Meta.Date | day}}</time>
             </article>
             {{end}}
           </div>
