@@ -6,10 +6,16 @@
     <link>https://abcdlsj.github.io</link>
     <description>Exploring the intersections of life/programming/technology.</description>
     <item>
-      <title>迟来的 25 年总结（未完）</title>
+      <title>最近 Vibe Coding 项目</title>
+      <link>https://abcdlsj.github.io/posts/2026vibe_coding.html</link>
+      <description>最近 Vibe Coding 项目</description>
+      <pubDate>Sun, 01 Feb 2026 22:00:49 +0800</pubDate>
+    </item>
+    <item>
+      <title>迟来的 25 年总结</title>
       <link>https://abcdlsj.github.io/posts/2025.html</link>
-      <description>迟来的 25 年总结（未完）</description>
-      <pubDate>Sat, 31 Jan 2026 13:00:49 +0800</pubDate>
+      <description>迟来的 25 年总结</description>
+      <pubDate>Sun, 01 Feb 2026 13:00:49 +0800</pubDate>
     </item>
     <item>
       <title>Nexo - A Simple HTTPS Reverse Proxy</title>
