@@ -99,7 +99,7 @@ var (
 			extension.CJK,
 			&d2.Extender{
 				Layout:  d2dagrelayout.DefaultLayout,
-				ThemeID: d2themescatalog.NeutralDefault.ID,
+				ThemeID: &d2themescatalog.NeutralDefault.ID,
 				Sketch:  true,
 			},
 		),
