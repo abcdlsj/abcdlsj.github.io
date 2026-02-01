@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+<meta charset="UTF-8" />
+<title>最近 Vibe Coding 项目</title>
+<meta name="description" content="Exploring the intersections of life/programming/technology." />
+
+<meta name="keywords" content="Summary,">
+<meta name="author" content="abcdlsj">
+<meta property="og:title" content="最近 Vibe Coding 项目">
+<meta property="og:description" content="最近的 Vibe Coding 项目">
+<meta property="og:url" content="https://abcdlsj.github.io/posts/2026vibe_coding.html">
+<meta property="og:type" content="article">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="stylesheet" href="/static/style.css" />
+<script>
+  // Theme initialization - runs before page render to prevent flash
+  (function() {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  })();
+</script>
+<script defer src="https://us.umami.is/script.js" data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"></script>
+<script src="/static/script/search.js"></script>
+
+  </head>
+  <body>
+    <div class="app">
+      
+<header class="site-header">
+  <div class="site-header__inner">
+    <div class="site-header__brand">
+      <a href="/" class="site-header__title">最近 Vibe Coding 项目</a>
+      <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
+    </div>
+    <nav class="site-header__nav">
+      <ul class="nav-links">
+        
+        
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/posts" class="nav-link">Posts</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/about" class="nav-link">About</a>
+        </li>
+        
+        
+        
+        
+        
+        <li>
+          <a href="/rss.xml" class="nav-link">Feed</a>
+        </li>
+        
+        
+      </ul>
+      <button class="theme-toggle" type="button" aria-label="Toggle theme" onclick="toggleTheme()">
+        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </nav>
+  </div>
+</header>
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    let newTheme;
+    if (currentTheme === 'dark') {
+      newTheme = 'light';
+    } else if (currentTheme === 'light') {
+      newTheme = 'dark';
+    } else {
+      // No explicit theme set, toggle based on system preference
+      newTheme = prefersDark ? 'light' : 'dark';
+    }
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  }
+</script>
+
+      <main class="container">
+        <div class="post-layout post-layout--with-toc">
+          <article class="post-article">
+            <!-- Post Header -->
+            <header class="post-header">
+              
+              <h1 class="post-title">最近 Vibe Coding 项目</h1>
+              <div class="post-meta">
+                <time class="post-date" datetime="2026-02-01T22:00:49+08:00">2026-02-01</time>
+                
+                <div class="post-tags">
+                  
+                  <a href="/tags/summary.html" class="tag">#Summary</a>
+                  
+                </div>
+                
+              </div>
+            </header>
+
+            
+
+            <!-- Post Content -->
+            <div class="post-body">
+              <h2 id="emby-cli-">Emby CLI 客户端</h2>
+<p>因为现在懒得自己去找各种资源然后下载，所以都是直接订阅的 Emby 资源库，苦于 MAC 端不少 Emby 客户端都收费，于是 Vibe Coding 了一个。</p>
+<p>播放使用 MPV，支持整季连播和字幕。</p>
+<p>截图如下：<br>
+<img alt="ember-2026-02-01-home" src="/static/img/ember-2026-02-01-home.png" width="100%" style="border: 1px solid gray;"></p>
+<img alt="ember-2026-02-01-ping-server" src="/static/img/ember-2026-02-01-ping-server.png" width="100%" style="border: 1px solid gray;">
+<p>各种 Features：</p>
+<ol>
+<li>支持海报展示，用的 Go Chafa 库（没用原生 Kitty 协议，我不喜欢 Kitty 终端）。</li>
+<li>支持多服务器管理以及服务器组测速，以及同前缀服务器用相同配置用以负载均衡。</li>
+</ol>
+<p>主要使用 <code>Claude Opus4.5</code> 做初始化项目，用 <code>GLM 4.7</code> 以及 <code>MiniMax M2.1</code> 免费模型进行各种修正和调优。</p>
+<h2 id="rssy-">Rssy 前端重构</h2>
+<p>Rssy 是我一个之前写的 RSS 订阅阅读站点，域名 <a href="https://rssy.songjian.li">https://rssy.songjian.li</a>。</p>
+<p>之前前端页面一直比较朴素，用的 <code>Water CSS</code>，我最近使用 <code>Kimi K2.5</code> 模型修改了下前端页面。</p>
+<p>现在长这样：</p>
+<p>首页<br>
+<img alt="rssy-2026-02-01-home" src="/static/img/rssy-2026-02-01-home.png" width="100%" style="border: 1px solid gray;"></p>
+<p>Stream 各种信息流页面</p>
+<img alt="rssy-2026-02-01-stream" src="/static/img/rssy-2026-02-01-stream.png" width="100%" style="border: 1px solid gray;">
+<p>使用 <code>Kimi K2.5</code> 模型进行前端重构。</p>
+<h2 id="heading">个人博客前端重构</h2>
+<p>优化了下页面展示，各种 CSS 以及字体，完全使用 <code>Kimi K2.5</code> 模型。</p>
+<h2 id="heading-1">总结</h2>
+<p><code>Kimi K2.5</code> 目前前端审美在第一梯队，Opencode 配合 Agent-Browser 可以做到很好的进行前端开发。</p>
+<p>项目初始化搭建最好使用 <code>Claude Opus4.5</code>，后续调优可以换其它第一梯队的模型，例如 <code>Kimi K2.5</code>、<code>MiniMax M2.1</code>、<code>GLM 4.7</code> 等。</p>
+
+            </div>
+          </article>
+
+          
+          <!-- Table of Contents -->
+          <aside class="toc-panel">
+            <p class="toc-title">On this page</p>
+            <nav class="toc-nav">
+<li>
+<ul>
+<li>
+<a href="#emby-cli-">Emby CLI 客户端</a></li>
+<li>
+<a href="#rssy-">Rssy 前端重构</a></li>
+<li>
+<a href="#heading">个人博客前端重构</a></li>
+<li>
+<a href="#heading-1">总结</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+          </aside>
+          
+        </div>
+
+        <!-- Comments -->
+        <section class="comments-section">
+          <div id="disqus_thread"></div>
+        </section>
+      </main>
+      
+<footer class="footer">
+  <div class="footer__inner">
+    <p>© 2024 <a href="https://github.com/abcdlsj">abcdlsj</a></p>
+    <p><a href="https://github.com/abcdlsj/abcdlsj.github.io">Source</a></p>
+  </div>
+</footer>
+
+    </div>
+
+    <button class="back-to-top" type="button" aria-label="Back to top" onclick="scrollToTop()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      const backToTop = document.querySelector(".back-to-top");
+      const toggleButton = () => {
+        if (!backToTop) return;
+        backToTop.classList.toggle("back-to-top--visible", window.scrollY > 400);
+      };
+      window.addEventListener("scroll", toggleButton);
+
+      // Smooth scroll for TOC links
+      document.addEventListener('DOMContentLoaded', function() {
+        const tocLinks = document.querySelectorAll('.toc-nav a');
+        tocLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
+        });
+
+        // TOC scroll tracking
+        const tocNav = document.querySelector('.toc-nav');
+        if (tocNav) {
+          const headings = document.querySelectorAll('.post-body h2, .post-body h3');
+          const tocLinks = Array.from(tocNav.querySelectorAll('a'));
+          
+          function updateActiveHeading() {
+            let activeId = '';
+            
+            // Find the heading currently in view
+            for (let i = 0; i < headings.length; i++) {
+              const rect = headings[i].getBoundingClientRect();
+              if (rect.top <= 150) {  // 150px from top
+                activeId = headings[i].id;
+              }
+            }
+            
+            // Update TOC active state
+            tocLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === '#' + activeId) {
+                link.classList.add('active');
+              }
+            });
+          }
+          
+          // Throttle scroll events for performance
+          let ticking = false;
+          window.addEventListener('scroll', function() {
+            if (!ticking) {
+              requestAnimationFrame(function() {
+                updateActiveHeading();
+                ticking = false;
+              });
+              ticking = true;
+            }
+          });
+          
+          // Initial call
+          updateActiveHeading();
+        }
+      });
+
+      // Disqus
+      (function() {
+        var d = document, s = d.createElement("script");
+        s.src = "https://abcdlsj.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </body>
+</html>
