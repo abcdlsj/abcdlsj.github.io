@@ -12,6 +12,8 @@ languages:
 
 ## Emby CLI 客户端
 
+> 地址 https://github.com/abcdlsj/ember
+
 因为现在懒得自己去找各种资源然后下载，所以都是直接订阅的 Emby 资源库，苦于 MAC 端不少 Emby 客户端都收费，于是 Vibe Coding 了一个。
 
 播放使用 MPV，支持整季连播和字幕。
@@ -44,6 +46,24 @@ Stream 各种信息流页面
 
 
 使用 `Kimi K2.5` 模型进行前端重构。
+
+## Gnar CLI 的优化
+
+<img alt="gnar-2026-02-01-home" src="/static/img/gnar-2026-02-01-home.png" width="100%" style="border: 1px solid gray;">
+
+也使用 `Kimi K2.5` 模型进行优化，优化了下 CLI 的展示，但是涉及「内网穿透」功能的设计，`K2.5` 就不够了，`Claude Opus4.5` 才能做得相对比较好。
+
+## Gump 一个 Agent Kanban 任务管理 TUI
+
+> 地址 https://github.com/abcdlsj/gump
+
+<img alt="gump-2026-02-01" src="/static/img/gump-2026-02-01.png" width="100%" style="border: 1px solid gray;">
+
+1. 使用 TMUX 进行任务管理，一个 Agent 一个 TMUX Session。
+2. Git Worktree 管理分支。
+
+
+基本使用 `Claude Opus4.5` 实现，免费模型能力有限改动比较少。
 
 ## 个人博客前端重构
 
