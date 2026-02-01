@@ -145,19 +145,22 @@
 <h3 id="tab-">TAB 补全</h3>
 <p>Cursor 作为里程碑式的产品，以其独特的超乎平常体验的智能补全 Tab 而著称，Cursor 在补全一项已经做到极致了，曾经 Windsurf 补全也很好用，甚至比 Cursor 更早实现了行内插入补全（比如，在一行代码，能从中间写入字符时插入补全），可惜没落了。</p>
 <p>在这个阶段，AI Coding 仅仅是帮忙补全函数、实现模版式代码、进行 JSON/TOML 与编程语言 Model 的相互转换而已。</p>
-<h3 id="agent-cli">Agent CLI</h3>
-<p>随着模型能力的不断提升，再之后就出现了纯 Vibe Coding 生成式编程框架了，例如 <a href="http://bolt.new">bolt.new</a>。</p>
-<p>再之后，一个杀手级别的应用诞生了 — Claude Code，Claude Code 最开始仅仅是 Claude 模型的承载者，强的是 Claude 3.7 Sonnet，这个时期只能作为一些简单 Demo 搭建，以及问答代码库的助手而已，开发还不如自己后写代码使用 Cursor 补全来得快。</p>
+<h3 id="agent-cli--claude-code">Agent CLI &amp; Claude Code</h3>
+<p>随着模型能力的不断提升，再之后就出现了纯 Vibe Coding 生成式编程，例如 <a href="http://bolt.new">bolt.new</a> 服务。</p>
+<p>随后，一个杀手级别的应用诞生了 — Claude Code，Claude Code 最开始仅仅是 Claude 模型的承载者，强的是 Claude 3.7 Sonnet。</p>
+<p>这个时期只能作为一些简单 Demo 搭建，以及问答代码库的助手而已，开发还不如自己后写代码使用 Cursor 补全来得快。</p>
 <p>但是它进化的速度太快了，就在短短几个月，Claude 4 代模型发布，Claude Sonnet 4 模型已经足够好用，甚至足以完成初级开发任务。</p>
 <p>我还记得用了 Sonnet 4 之后，我已经觉得对写业务代码效率的提升是无比巨大的，很多复杂/困难的 Feature 我都可以用它帮我实现，而在此之前，我是没办法在十几分钟内将 Idea 转化为实现。</p>
 <p>这种几分钟式的 Coding 方式，MVP 式的实现 Idea，对非程序员是无比震撼的（对程序员也一样），并不需要过高的准确度，几分钟的试错成本让准确度黯然失色，Coding 行业之所以门槛比较低，原因就是学习成本低，AI Coding 又再一次拉低了这个门槛。</p>
-<h3 id="claude-code">Claude Code</h3>
 <p>我可以叫它帮我将 TS 代码的逻辑转化到 Go，也可以叫它帮我实现一个 IOS App，这些我都做过，已经完成得很好了</p>
-<p>随之而来的是 Opus 4.5，一个目前地表最强 Coding 模型，在 Thinking 的加持下，以及 Claude Code 本身工程性的不断迭代，Claude Code 搭配 Opus 4.5 已经让我已经再也离不了了（PS. 公司前段时间因为中转站的封号，停了 Claude Code，d导致每天不断有人问 Claude Code 回来了没有）。</p>
+<p>随之而来的是 Opus 4.5，一个目前地表最强 Coding 模型，在 Thinking 的加持下，以及 Claude Code 本身工程性的不断迭代。</p>
+<p>Claude Code 搭配 Opus 4.5 已经让我再也离不开了（PS. 公司前段时间因为中转站的封号，停了 Claude Code，导致每天不断有人问 Claude Code 回来了没有）。</p>
 <h2 id="heading">工具</h2>
-<p>在 Claude Code 出现以后，Codex/Gemini/Copilot/Amp/Droid/Kimi 等等一堆 Agent CLI 也出现了，因为 Coding 可以不再需要手工修改，所以也诞生了很多纯管理 Agent CLI 干活的工具，例如 Vibe-Kanban、Conductor，核心逻辑就是使用 Git worktree，实现子任务以及合并流程，我也 Vibe 了一个类似的东西，但是感觉没啥亮点，不再多说。</p>
+<p>在 Claude Code 出现以后，Codex/Gemini/Copilot/Amp/Droid/Kimi 等等一堆 Agent CLI 也出现了，因为 Coding 可以不再需要手工修改。</p>
+<p>所以也诞生了很多纯管理 Agent CLI 干活的工具，例如 Vibe-Kanban、Conductor，核心逻辑就是使用 Git worktree，实现子任务以及合并流程。</p>
+<p>我也 Vibe 了一个类似的东西，但是感觉没啥亮点，不再多说，地址在这里 <a href="https://github.com/abcdlsj/gump">https://github.com/abcdlsj/gump</a>。</p>
 <h3 id="heading-1">总结</h3>
-<p>AI 编程本身是一个互联网上铺天盖地浩浩荡荡的玩意，我就不再多说了，只能说对未来无法预估会变成什么样了，充满了变化～</p>
+<p>AI 编程是一个互联网上铺天盖地浩浩荡荡的玩意，对未来无法预估会变成什么样了，充满了变化～</p>
 <h2 id="heading-2">工作</h2>
 <p>最近一年主要职责是维护主站侧的「动态/图文/小站」网关服务，这是一个业务复杂度比较高的 BFF 服务，采用的是「充血模型」，业务逻辑交由网关实现。</p>
 <p>作为服务的 Owner，我需要对代码修改负责，所以只要是相关的评审都会去参加。</p>
@@ -210,9 +213,7 @@
 <li>
 <a href="#tab-">TAB 补全</a></li>
 <li>
-<a href="#agent-cli">Agent CLI</a></li>
-<li>
-<a href="#claude-code">Claude Code</a></li>
+<a href="#agent-cli--claude-code">Agent CLI &amp; Claude Code</a></li>
 </ul>
 </li>
 <li>
