@@ -107,6 +107,38 @@
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
   }
+
+  (function initHeaderScrollBehavior() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+
+    let lastY = window.scrollY || 0;
+    const threshold = 6;
+
+    function handleScroll() {
+      const y = window.scrollY || 0;
+      if (y < 56) {
+        header.classList.remove('site-header--hidden');
+        lastY = y;
+        return;
+      }
+
+      if (document.body.classList.contains('sidepanel-open')) {
+        header.classList.remove('site-header--hidden');
+        lastY = y;
+        return;
+      }
+
+      if (y > lastY + threshold) {
+        header.classList.add('site-header--hidden');
+      } else if (y < lastY - threshold) {
+        header.classList.remove('site-header--hidden');
+      }
+      lastY = y;
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+  })();
 </script>
 
       <main class="container">
@@ -196,6 +228,7 @@
         <polyline points="18 15 12 9 6 15"></polyline>
       </svg>
     </button>
+    
 
     <script>
       function scrollToTop() {
@@ -211,7 +244,29 @@
 
       // Smooth scroll for TOC links
       document.addEventListener('DOMContentLoaded', function() {
-        const tocLinks = document.querySelectorAll('.toc-nav a');
+        const tocLinks = document.querySelectorAll('.toc-nav:not(.timeline-nav) a');
+        const tocPanel = document.querySelector('.toc-panel');
+        const sidepanelToggle = document.getElementById('sidepanel-toggle');
+        const closeSidepanel = () => {
+          if (!tocPanel) return;
+          tocPanel.classList.remove('toc-panel--open');
+          document.body.classList.remove('sidepanel-open');
+        };
+        const toggleSidepanel = () => {
+          if (!tocPanel) return;
+          const opening = !tocPanel.classList.contains('toc-panel--open');
+          tocPanel.classList.toggle('toc-panel--open', opening);
+          document.body.classList.toggle('sidepanel-open', opening);
+        };
+        if (sidepanelToggle) {
+          sidepanelToggle.addEventListener('click', toggleSidepanel);
+        }
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            closeSidepanel();
+          }
+        });
+
         tocLinks.forEach(link => {
           link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -219,50 +274,103 @@
             const targetElement = document.getElementById(targetId);
             if (targetElement) {
               targetElement.scrollIntoView({ behavior: 'smooth' });
+              closeSidepanel();
             }
           });
         });
 
         // TOC scroll tracking
         const tocNav = document.querySelector('.toc-nav');
-        if (tocNav) {
-          const headings = document.querySelectorAll('.post-body h2, .post-body h3');
-          const tocLinks = Array.from(tocNav.querySelectorAll('a'));
-          
-          function updateActiveHeading() {
-            let activeId = '';
-            
-            // Find the heading currently in view
-            for (let i = 0; i < headings.length; i++) {
-              const rect = headings[i].getBoundingClientRect();
-              if (rect.top <= 150) {  // 150px from top
-                activeId = headings[i].id;
+        if (tocNav && !tocNav.classList.contains('timeline-nav')) {
+          const headings = Array.from(document.querySelectorAll('.post-body h2[id], .post-body h3[id]'));
+          const tocLinks = Array.from(tocNav.querySelectorAll('a[href^="#"]'));
+          const linkById = new Map();
+          tocLinks.forEach(link => {
+            const id = link.getAttribute('href').slice(1);
+            if (id) linkById.set(id, link);
+          });
+
+          const setActiveToc = (id) => {
+            tocLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + id));
+          };
+
+          let currentActive = '';
+          const observer = new IntersectionObserver((entries) => {
+            const visible = entries
+              .filter(entry => entry.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+            if (visible.length) {
+              const id = visible[0].target.id;
+              if (id && id !== currentActive) {
+                currentActive = id;
+                setActiveToc(id);
               }
             }
-            
-            // Update TOC active state
-            tocLinks.forEach(link => {
-              link.classList.remove('active');
-              if (link.getAttribute('href') === '#' + activeId) {
-                link.classList.add('active');
+          }, {
+            threshold: 0.2,
+            rootMargin: '-20% 0px -65% 0px'
+          });
+
+          headings.forEach(h => observer.observe(h));
+          if (headings.length) {
+            setActiveToc(headings[0].id);
+          }
+        }
+
+        // Timeline behavior
+        const timelineLinks = Array.from(document.querySelectorAll('.timeline-nav a[data-timeline-id]'));
+        const timelineSegments = Array.from(document.querySelectorAll('[data-timeline-segment]'));
+        if (timelineLinks.length && timelineSegments.length) {
+          const setTimelineActive = (id) => {
+            timelineLinks.forEach(link => {
+              link.classList.toggle('active', link.dataset.timelineId === id);
+            });
+          };
+
+          const flashSegment = (id) => {
+            timelineSegments.forEach(segment => segment.classList.remove('timeline-segment--flash'));
+            const targetSegment = document.querySelector('[data-timeline-segment][data-timeline-id=\"' + id + '\"]');
+            if (targetSegment) {
+              targetSegment.classList.add('timeline-segment--flash');
+            }
+          };
+
+          timelineLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+              e.preventDefault();
+              const id = link.dataset.timelineId;
+              const target = document.getElementById(id);
+              if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                history.replaceState(null, '', '#' + id);
+                setTimelineActive(id);
+                flashSegment(id);
+                closeSidepanel();
               }
             });
-          }
-          
-          // Throttle scroll events for performance
-          let ticking = false;
-          window.addEventListener('scroll', function() {
-            if (!ticking) {
-              requestAnimationFrame(function() {
-                updateActiveHeading();
-                ticking = false;
-              });
-              ticking = true;
-            }
           });
-          
-          // Initial call
-          updateActiveHeading();
+
+          const observer = new IntersectionObserver((entries) => {
+            const visible = entries
+              .filter(entry => entry.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+            if (visible.length) {
+              const id = visible[0].target.getAttribute('data-timeline-id');
+              if (id) {
+                setTimelineActive(id);
+              }
+            }
+          }, {
+            threshold: 0.2,
+            rootMargin: '-15% 0px -65% 0px'
+          });
+
+          timelineSegments.forEach(segment => observer.observe(segment));
+
+          const initialId = location.hash ? location.hash.slice(1) : timelineSegments[0].getAttribute('data-timeline-id');
+          if (initialId) {
+            setTimelineActive(initialId);
+          }
         }
       });
 

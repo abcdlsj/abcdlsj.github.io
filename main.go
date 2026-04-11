@@ -188,20 +188,22 @@ var (
 )
 
 type PostMeta struct {
-	Title       string   `yaml:"title"`
-	Date        string   `yaml:"date"`
-	Tags        []string `yaml:"tags"`
-	Hide        bool     `yaml:"hide"`
-	Menus       []string `yaml:"menus"`
-	Wip         bool     `yaml:"wip"`
-	HideToc     bool     `yaml:"hideToc"`
-	Hero        string   `yaml:"hero"`
-	Thumbnail   string   `yaml:"thumbnail"`
-	Cover       string   `yaml:"cover"`
-	Description string   `yaml:"description"`
-	Summary     string   `yaml:"summary"`
-	Languages   []string `yaml:"languages"`
-	Changelog   string   `yaml:"changelog"`
+	Title         string   `yaml:"title"`
+	Date          string   `yaml:"date"`
+	Tags          []string `yaml:"tags"`
+	Hide          bool     `yaml:"hide"`
+	Menus         []string `yaml:"menus"`
+	Wip           bool     `yaml:"wip"`
+	HideToc       bool     `yaml:"hideToc"`
+	Hero          string   `yaml:"hero"`
+	Thumbnail     string   `yaml:"thumbnail"`
+	Cover         string   `yaml:"cover"`
+	Description   string   `yaml:"description"`
+	Summary       string   `yaml:"summary"`
+	Languages     []string `yaml:"languages"`
+	Changelog     string   `yaml:"changelog"`
+	Sidebar       string   `yaml:"sidebar"`
+	TimelineTitle string   `yaml:"timeline_title"`
 }
 
 func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
@@ -230,6 +232,13 @@ func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 	if len(langs) == 0 {
 		langs = []string{"en"}
 	}
+	sidebar := strings.ToLower(strings.TrimSpace(pickString(meta, "sidebar")))
+	if sidebar == "" {
+		sidebar = "toc"
+	}
+	if sidebar != "timeline" {
+		sidebar = "toc"
+	}
 
 	hide := pickBool(meta, "hide")
 	// `published: false` => hidden post.
@@ -249,21 +258,29 @@ func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 	}
 
 	return PostMeta{
-		Title:       title,
-		Date:        date,
-		Tags:        tags,
-		Hide:        hide,
-		Menus:       menus,
-		Wip:         wip,
-		HideToc:     hideToc,
-		Hero:        hero,
-		Thumbnail:   thumbnail,
-		Cover:       cover,
-		Description: description,
-		Summary:     summary,
-		Languages:   langs,
-		Changelog:   pickString(meta, "changelog"),
+		Title:         title,
+		Date:          date,
+		Tags:          tags,
+		Hide:          hide,
+		Menus:         menus,
+		Wip:           wip,
+		HideToc:       hideToc,
+		Hero:          hero,
+		Thumbnail:     thumbnail,
+		Cover:         cover,
+		Description:   description,
+		Summary:       summary,
+		Languages:     langs,
+		Changelog:     pickString(meta, "changelog"),
+		Sidebar:       sidebar,
+		TimelineTitle: pickString(meta, "timeline_title"),
 	}
+}
+
+type TimelineItem struct {
+	ID    string
+	Date  string
+	Title string
 }
 
 type Post struct {
@@ -275,6 +292,7 @@ type Post struct {
 	MDData     string
 	Cover      string
 	Excerpt    string
+	Timeline   []TimelineItem
 }
 
 type Tag struct {
@@ -450,28 +468,33 @@ func parseTags(tagNames []string, post Post) error {
 }
 
 func parsePost(data []byte, cleanName string) (Post, error) {
+	rawMD := string(data)
+	processedMD, timelineItems := extractTimeline(rawMD)
+
 	var buf bytes.Buffer
 	context := parser.NewContext()
-	if err := md.Convert(data, &buf, parser.WithContext(context)); err != nil {
+	if err := md.Convert([]byte(processedMD), &buf, parser.WithContext(context)); err != nil {
 		return Post{}, fmt.Errorf("failed to convert markdown, file: %s, err: %w", cleanName, err)
 	}
 
 	postMeta := unmarshalPostMeta(meta.Get(context))
 
 	post := Post{
-		Site:   cfgVar,
-		Meta:   postMeta,
-		Body:   buf.String(),
-		Uname:  generateUniqueURL(cleanName),
-		MDData: string(data),
+		Site:     cfgVar,
+		Meta:     postMeta,
+		Body:     applyTimelineSegments(buf.String(), timelineItems),
+		Uname:    generateUniqueURL(cleanName),
+		MDData:   rawMD,
+		Timeline: timelineItems,
 	}
 
 	enrichPost(&post)
 
-	if !post.Meta.HideToc {
-		doc := tocMd.Parser().Parse(text.NewReader(data))
+	if !post.Meta.HideToc && post.Meta.Sidebar != "timeline" {
+		tocData := []byte(processedMD)
+		doc := tocMd.Parser().Parse(text.NewReader(tocData))
 
-		tree, err := toc.Inspect(doc, data)
+		tree, err := toc.Inspect(doc, tocData)
 		if err != nil {
 			return Post{}, fmt.Errorf("failed to inspect toc, file: %s, err: %w", cleanName, err)
 		}
@@ -481,7 +504,7 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 		if len(tree.Items) != 0 {
 			treeList := toc.RenderList(tree)
 
-			if err := tocMd.Renderer().Render(&tocBuf, data, treeList); err != nil {
+			if err := tocMd.Renderer().Render(&tocBuf, tocData, treeList); err != nil {
 				return Post{}, fmt.Errorf("failed to render toc, file: %s, err: %w", cleanName, err)
 			}
 		}
@@ -499,13 +522,93 @@ func enrichPost(post *Post) {
 }
 
 var (
-	mdImgRe    = regexp.MustCompile(`!\[[^\]]*\]\(([^)\s]+(?:\s+"[^"]*")?)\)`)
-	htmlImgRe  = regexp.MustCompile(`(?i)<img[^>]+src=["']([^"']+)["']`)
-	mdLinkRe   = regexp.MustCompile(`\[(.*?)\]\((.*?)\)`)
-	htmlTagRe  = regexp.MustCompile(`<[^>]+>`)
-	spaceRe    = regexp.MustCompile(`\s+`)
-	decoration = strings.NewReplacer("`", "", "*", "", "_", "", "#", "", ">", "", "-", "", "!", "")
+	mdImgRe        = regexp.MustCompile(`!\[[^\]]*\]\(([^)\s]+(?:\s+"[^"]*")?)\)`)
+	htmlImgRe      = regexp.MustCompile(`(?i)<img[^>]+src=["']([^"']+)["']`)
+	timelineLineRe = regexp.MustCompile(`^\[timeline:\s*([^|\]]+)\s*\|\s*([^\]]+)\]\s*$`)
+	mdLinkRe       = regexp.MustCompile(`\[(.*?)\]\((.*?)\)`)
+	htmlTagRe      = regexp.MustCompile(`<[^>]+>`)
+	spaceRe        = regexp.MustCompile(`\s+`)
+	nonAlnumRe     = regexp.MustCompile(`[^a-z0-9]+`)
+	decoration     = strings.NewReplacer("`", "", "*", "", "_", "", "#", "", ">", "", "-", "", "!", "")
 )
+
+func extractTimeline(rawMD string) (string, []TimelineItem) {
+	lines := strings.Split(rawMD, "\n")
+	var out []string
+	items := make([]TimelineItem, 0)
+	inCodeBlock := false
+
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		if strings.HasPrefix(trimmed, "```") {
+			inCodeBlock = !inCodeBlock
+			out = append(out, line)
+			continue
+		}
+
+		if !inCodeBlock {
+			matches := timelineLineRe.FindStringSubmatch(trimmed)
+			if len(matches) == 3 {
+				date := strings.TrimSpace(matches[1])
+				title := strings.TrimSpace(matches[2])
+				id := timelineAnchorID(len(items)+1, date, title)
+
+				out = append(out, fmt.Sprintf(`<!-- timeline-marker:%s -->`, id))
+				items = append(items, TimelineItem{
+					ID:    id,
+					Date:  date,
+					Title: title,
+				})
+				continue
+			}
+		}
+
+		out = append(out, line)
+	}
+
+	return strings.Join(out, "\n"), items
+}
+
+func applyTimelineSegments(body string, items []TimelineItem) string {
+	if len(items) == 0 {
+		return body
+	}
+
+	markerRe := regexp.MustCompile(`<!--\s*timeline-marker:([a-z0-9\-]+)\s*-->`)
+	matches := markerRe.FindAllStringSubmatchIndex(body, -1)
+	if len(matches) == 0 {
+		return body
+	}
+
+	var b strings.Builder
+	b.WriteString(body[:matches[0][0]])
+
+	for i, match := range matches {
+		id := body[match[2]:match[3]]
+		segmentStart := match[1]
+		segmentEnd := len(body)
+		if i+1 < len(matches) {
+			segmentEnd = matches[i+1][0]
+		}
+
+		b.WriteString(fmt.Sprintf(`<div id="%s" class="timeline-anchor" data-timeline-anchor></div>`, id))
+		b.WriteString(fmt.Sprintf(`<div class="timeline-segment" data-timeline-segment data-timeline-id="%s">`, id))
+		b.WriteString(body[segmentStart:segmentEnd])
+		b.WriteString(`</div>`)
+	}
+
+	return b.String()
+}
+
+func timelineAnchorID(index int, date, title string) string {
+	base := strings.ToLower(strings.TrimSpace(date + "-" + title))
+	base = nonAlnumRe.ReplaceAllString(base, "-")
+	base = strings.Trim(base, "-")
+	if base == "" {
+		base = "timeline"
+	}
+	return fmt.Sprintf("tl-%d-%s", index, base)
+}
 
 func detectPostCover(post Post) string {
 	if post.Meta.Cover != "" {
