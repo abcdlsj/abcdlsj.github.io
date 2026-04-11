@@ -6,8 +6,8 @@ tags:
   - Turnstile
   - Template
   - SQLite3
-hide: false
-description: "Building a secure and reliable code sharing platform: Developing a Pastebin website with GitHub OAuth authentication and Cloudflare Turnstile verification from scratch, sharing the complete technical implementation."
+published: true
+summary: "Building a Pastebin website with GitHub OAuth and Cloudflare Turnstile from scratch."
 languages:
     - en
 ---
@@ -183,7 +183,7 @@ We just need to create 2 pages: `index.html` and `paste.html`.
 
 You just need to import `water.css` to `html` file, and you will got a pretty website with auto dark mode.
 Add this to `head` element.
-```
+```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 ```
 

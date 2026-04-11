@@ -7,8 +7,8 @@ tags:
   - Yamux
   - Traffic Limit
   - IO Package
-hide: false
-description: "动手实现一个类 Frp/Ngrok 的内网穿透工具：从 TCP 转发到多协议支持，分享使用 Go 语言构建隧道代理的技术细节和架构思考。"
+published: true
+summary: "动手实现一个类 Frp/Ngrok 的内网穿透工具：从 TCP 转发到多协议支持，记录使用 Go 语言构建代理的技术细节和架构思考。"
 languages:
     - cn
 changelog: |
@@ -111,7 +111,7 @@ Flow: {
 ## Codes
 ### Structure
 结构大概是这样：
-```
+```text
 .
 ├── client
 │   ├── cfg.toml
@@ -240,7 +240,7 @@ func (s *Server) handle(conn net.Conn) {
 #### format
 规定 `Message` 的 `format` 如下：
 
-```
+```text
 |<1 byte>|<2 byte>|<length byte>|
 |PacketType|Length| Json Message|
 ```

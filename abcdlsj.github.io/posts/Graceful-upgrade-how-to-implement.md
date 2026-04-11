@@ -5,9 +5,9 @@ tags:
   - Graceful Upgrade
   - Network
   - WIP
-hide: true
-wip: true
-description: "零停机服务升级方案探究：深入分析优雅升级的技术实现，从连接迁移到流量切换，构建高可用的服务更新机制。"
+published: false
+draft: true
+summary: "零停机服务升级方案探究：深入分析优雅升级的技术实现，从连接迁移到流量切换，构建高可用的服务更新机制。"
 languages:
     - cn
 ---

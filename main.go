@@ -13,6 +13,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -121,7 +122,7 @@ var (
 		"urlize": urlize,
 		"add":    func(a, b int) int { return a + b },
 		"day": func(s string) string {
-			t, err := time.Parse("2006-01-02T15:04:05Z07:00", s)
+			t, err := parsePostDate(s)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -195,24 +196,73 @@ type PostMeta struct {
 	Wip         bool     `yaml:"wip"`
 	HideToc     bool     `yaml:"hideToc"`
 	Hero        string   `yaml:"hero"`
+	Thumbnail   string   `yaml:"thumbnail"`
+	Cover       string   `yaml:"cover"`
 	Description string   `yaml:"description"`
+	Summary     string   `yaml:"summary"`
 	Languages   []string `yaml:"languages"`
 	Changelog   string   `yaml:"changelog"`
 }
 
 func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
+	title := pickString(meta, "title")
+	date := pickString(meta, "date")
+	tags := pickStringSlice(meta, "tags")
+	menus := pickStringSlice(meta, "menus")
+	wip := pickBool(meta, "wip", "draft")
+	hideToc := pickBool(meta, "hideToc")
+
+	// New schema prefers `cover`; keep backward compatibility with `thumbnail` and `hero`.
+	cover := pickString(meta, "cover", "thumbnail", "hero")
+	thumbnail := pickString(meta, "thumbnail")
+	hero := pickString(meta, "hero")
+	if thumbnail == "" {
+		thumbnail = cover
+	}
+	if hero == "" {
+		hero = cover
+	}
+
+	description := pickString(meta, "description", "summary", "excerpt")
+	summary := pickString(meta, "summary", "description", "excerpt")
+
+	langs := pickStringSlice(meta, "languages", "language")
+	if len(langs) == 0 {
+		langs = []string{"en"}
+	}
+
+	hide := pickBool(meta, "hide")
+	// `published: false` => hidden post.
+	if published, ok := pickOptionalBool(meta, "published"); ok {
+		hide = !published
+	}
+	// `toc: false` => hide toc.
+	if toc, ok := pickOptionalBool(meta, "toc"); ok {
+		hideToc = !toc
+	}
+
+	if title == "" {
+		title = "Untitled"
+	}
+	if date == "" {
+		date = "1970-01-01T00:00:00+00:00"
+	}
+
 	return PostMeta{
-		Title:       meta["title"].(string),
-		Date:        orStr(meta["date"].(string), "1970-01-01"),
-		Tags:        getMetaStrs(meta, "tags"),
-		Hide:        meta["hide"].(bool),
-		Menus:       getMetaStrs(meta, "menus"),
-		Wip:         getMetaBool(meta, "wip"),
-		HideToc:     getMetaBool(meta, "hideToc"),
-		Hero:        orStr(getMetaStr(meta, "hero"), ""),
-		Description: orStr(getMetaStr(meta, "description"), ""),
-		Languages:   orStrs(getMetaStrs(meta, "languages"), []string{"en"}),
-		Changelog:   orStr(getMetaStr(meta, "changelog"), ""),
+		Title:       title,
+		Date:        date,
+		Tags:        tags,
+		Hide:        hide,
+		Menus:       menus,
+		Wip:         wip,
+		HideToc:     hideToc,
+		Hero:        hero,
+		Thumbnail:   thumbnail,
+		Cover:       cover,
+		Description: description,
+		Summary:     summary,
+		Languages:   langs,
+		Changelog:   pickString(meta, "changelog"),
 	}
 }
 
@@ -223,6 +273,8 @@ type Post struct {
 	Uname      string
 	TocContent string
 	MDData     string
+	Cover      string
+	Excerpt    string
 }
 
 type Tag struct {
@@ -232,9 +284,11 @@ type Tag struct {
 }
 
 type Refer struct {
-	Title string
-	Uname string
-	Meta  PostMeta
+	Title   string
+	Uname   string
+	Meta    PostMeta
+	Cover   string
+	Excerpt string
 }
 
 type RSS struct {
@@ -368,12 +422,18 @@ func openWithCreatePath(filename string) (*os.File, error) {
 
 func parseTags(tagNames []string, post Post) error {
 	tagRefer := Refer{
-		Title: post.Meta.Title,
-		Uname: post.Uname,
-		Meta:  post.Meta,
+		Title:   post.Meta.Title,
+		Uname:   post.Uname,
+		Meta:    post.Meta,
+		Cover:   post.Cover,
+		Excerpt: post.Excerpt,
 	}
 
 	for _, tag := range tagNames {
+		tag = strings.TrimSpace(tag)
+		if tag == "" {
+			continue
+		}
 		if entry, ok := TagMap[tag]; !ok {
 			TagMap[tag] = Tag{
 				Name:   tag,
@@ -393,25 +453,27 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 	var buf bytes.Buffer
 	context := parser.NewContext()
 	if err := md.Convert(data, &buf, parser.WithContext(context)); err != nil {
-		log.Fatalf("failed to convert markdown, file: %s, err: %v", cleanName, err)
+		return Post{}, fmt.Errorf("failed to convert markdown, file: %s, err: %w", cleanName, err)
 	}
 
-	meta := unmarshalPostMeta(meta.Get(context))
+	postMeta := unmarshalPostMeta(meta.Get(context))
 
 	post := Post{
 		Site:   cfgVar,
-		Meta:   meta,
+		Meta:   postMeta,
 		Body:   buf.String(),
 		Uname:  generateUniqueURL(cleanName),
 		MDData: string(data),
 	}
+
+	enrichPost(&post)
 
 	if !post.Meta.HideToc {
 		doc := tocMd.Parser().Parse(text.NewReader(data))
 
 		tree, err := toc.Inspect(doc, data)
 		if err != nil {
-			log.Fatalf("failed to inspect toc, file: %s, err: %v", cleanName, err)
+			return Post{}, fmt.Errorf("failed to inspect toc, file: %s, err: %w", cleanName, err)
 		}
 
 		var tocBuf bytes.Buffer
@@ -420,7 +482,7 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 			treeList := toc.RenderList(tree)
 
 			if err := tocMd.Renderer().Render(&tocBuf, data, treeList); err != nil {
-				log.Fatalf("failed to render toc, file: %s, err: %v", cleanName, err)
+				return Post{}, fmt.Errorf("failed to render toc, file: %s, err: %w", cleanName, err)
 			}
 		}
 
@@ -429,6 +491,119 @@ func parsePost(data []byte, cleanName string) (Post, error) {
 	}
 
 	return post, nil
+}
+
+func enrichPost(post *Post) {
+	post.Cover = detectPostCover(*post)
+	post.Excerpt = buildPostExcerpt(*post)
+}
+
+var (
+	mdImgRe    = regexp.MustCompile(`!\[[^\]]*\]\(([^)\s]+(?:\s+"[^"]*")?)\)`)
+	htmlImgRe  = regexp.MustCompile(`(?i)<img[^>]+src=["']([^"']+)["']`)
+	mdLinkRe   = regexp.MustCompile(`\[(.*?)\]\((.*?)\)`)
+	htmlTagRe  = regexp.MustCompile(`<[^>]+>`)
+	spaceRe    = regexp.MustCompile(`\s+`)
+	decoration = strings.NewReplacer("`", "", "*", "", "_", "", "#", "", ">", "", "-", "", "!", "")
+)
+
+func detectPostCover(post Post) string {
+	if post.Meta.Cover != "" {
+		return strings.TrimSpace(post.Meta.Cover)
+	}
+	if post.Meta.Thumbnail != "" {
+		return strings.TrimSpace(post.Meta.Thumbnail)
+	}
+	if post.Meta.Hero != "" {
+		return strings.TrimSpace(post.Meta.Hero)
+	}
+
+	if matches := mdImgRe.FindStringSubmatch(post.MDData); len(matches) > 1 {
+		candidate := strings.TrimSpace(matches[1])
+		if idx := strings.Index(candidate, " "); idx > 0 {
+			candidate = candidate[:idx]
+		}
+		candidate = strings.Trim(candidate, `<>`)
+		if candidate != "" {
+			return candidate
+		}
+	}
+
+	if matches := htmlImgRe.FindStringSubmatch(post.Body); len(matches) > 1 {
+		return strings.TrimSpace(matches[1])
+	}
+
+	return ""
+}
+
+func buildPostExcerpt(post Post) string {
+	if post.Meta.Description != "" {
+		return post.Meta.Description
+	}
+	if post.Meta.Summary != "" {
+		return post.Meta.Summary
+	}
+
+	content := stripFrontMatter(post.MDData)
+	lines := strings.Split(content, "\n")
+	var b strings.Builder
+	inCodeBlock := false
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		if trimmed == "" {
+			continue
+		}
+
+		if strings.HasPrefix(trimmed, "```") {
+			inCodeBlock = !inCodeBlock
+			continue
+		}
+		if inCodeBlock || strings.HasPrefix(trimmed, "#") || strings.HasPrefix(trimmed, "![") {
+			continue
+		}
+
+		b.WriteString(trimmed)
+		b.WriteString(" ")
+		if b.Len() > 500 {
+			break
+		}
+	}
+
+	excerpt := b.String()
+	excerpt = mdLinkRe.ReplaceAllString(excerpt, `$1`)
+	excerpt = htmlTagRe.ReplaceAllString(excerpt, " ")
+	excerpt = decoration.Replace(excerpt)
+	excerpt = strings.TrimSpace(spaceRe.ReplaceAllString(excerpt, " "))
+
+	if excerpt == "" {
+		return ""
+	}
+
+	rs := []rune(excerpt)
+	if len(rs) > 180 {
+		return string(rs[:180]) + "..."
+	}
+	return excerpt
+}
+
+func stripFrontMatter(content string) string {
+	content = strings.TrimSpace(content)
+	if !strings.HasPrefix(content, "---") {
+		return content
+	}
+
+	lines := strings.Split(content, "\n")
+	if len(lines) < 3 || strings.TrimSpace(lines[0]) != "---" {
+		return content
+	}
+
+	for i := 1; i < len(lines); i++ {
+		if strings.TrimSpace(lines[i]) == "---" {
+			return strings.Join(lines[i+1:], "\n")
+		}
+	}
+
+	return content
 }
 
 func generateUniqueURL(name string) string {
@@ -450,7 +625,10 @@ func GenerateRSS() error {
 		if post.Meta.Hide {
 			continue
 		}
-		pubDate, _ := time.Parse("2006-01-02T15:04:05Z07:00", post.Meta.Date)
+		pubDate, err := parsePostDate(post.Meta.Date)
+		if err != nil {
+			pubDate = time.Unix(0, 0).UTC()
+		}
 		item := Item{
 			Title:       post.Meta.Title,
 			Link:        cfgVar.URL + "/posts/" + post.Uname + ".html",
@@ -616,14 +794,12 @@ func main() {
 }
 
 func dateCompare(a, b string) bool {
-	layout := "2006-01-02T15:04:05Z07:00"
-
-	ta, err := time.Parse(layout, a)
+	ta, err := parsePostDate(a)
 	if err != nil {
 		log.Fatal(err)
 		return false
 	}
-	tb, err := time.Parse(layout, b)
+	tb, err := parsePostDate(b)
 	if err != nil {
 		log.Fatal(err)
 		return false
@@ -632,31 +808,126 @@ func dateCompare(a, b string) bool {
 	return ta.After(tb)
 }
 
-func getMetaStrs(meta map[string]interface{}, key string) []string {
-	if val, ok := meta[key]; ok {
-		strs := val.([]interface{})
-		var strsStrs []string
-		for _, str := range strs {
-			strsStrs = append(strsStrs, fmt.Sprintf("%v", str))
+func parsePostDate(value string) (time.Time, error) {
+	value = strings.TrimSpace(value)
+	if value == "" {
+		return time.Time{}, errors.New("empty date")
+	}
+
+	layouts := []string{
+		time.RFC3339,
+		"2006-01-02",
+		"2006-01-02 15:04:05",
+	}
+
+	var lastErr error
+	for _, layout := range layouts {
+		t, err := time.Parse(layout, value)
+		if err == nil {
+			return t, nil
 		}
-		return strsStrs
+		lastErr = err
+	}
+
+	return time.Time{}, fmt.Errorf("unsupported date format: %q, err: %w", value, lastErr)
+}
+
+func pickString(meta map[string]interface{}, keys ...string) string {
+	for _, key := range keys {
+		val, ok := meta[key]
+		if !ok || val == nil {
+			continue
+		}
+
+		switch v := val.(type) {
+		case string:
+			if strings.TrimSpace(v) != "" {
+				return strings.TrimSpace(v)
+			}
+		case fmt.Stringer:
+			s := strings.TrimSpace(v.String())
+			if s != "" {
+				return s
+			}
+		default:
+			s := strings.TrimSpace(fmt.Sprintf("%v", v))
+			if s != "" && s != "<nil>" {
+				return s
+			}
+		}
+	}
+	return ""
+}
+
+func pickStringSlice(meta map[string]interface{}, keys ...string) []string {
+	for _, key := range keys {
+		val, ok := meta[key]
+		if !ok || val == nil {
+			continue
+		}
+		switch v := val.(type) {
+		case []string:
+			return sanitizeStringSlice(v)
+		case []interface{}:
+			out := make([]string, 0, len(v))
+			for _, item := range v {
+				out = append(out, strings.TrimSpace(fmt.Sprintf("%v", item)))
+			}
+			return sanitizeStringSlice(out)
+		case string:
+			if strings.TrimSpace(v) == "" {
+				return nil
+			}
+			parts := strings.Split(v, ",")
+			return sanitizeStringSlice(parts)
+		}
 	}
 	return nil
 }
 
-func getMetaStr(meta map[string]interface{}, key string) string {
-	if val, ok := meta[key]; ok {
-		return fmt.Sprintf("%v", val)
+func sanitizeStringSlice(vs []string) []string {
+	out := make([]string, 0, len(vs))
+	for _, item := range vs {
+		item = strings.TrimSpace(item)
+		if item == "" {
+			continue
+		}
+		out = append(out, item)
 	}
-
-	return ""
+	return out
 }
 
-func getMetaBool(meta map[string]interface{}, key string) bool {
-	if val, ok := meta[key]; ok {
-		return val.(bool)
+func pickBool(meta map[string]interface{}, keys ...string) bool {
+	val, ok := pickOptionalBool(meta, keys...)
+	return ok && val
+}
+
+func pickOptionalBool(meta map[string]interface{}, keys ...string) (bool, bool) {
+	for _, key := range keys {
+		val, ok := meta[key]
+		if !ok || val == nil {
+			continue
+		}
+
+		switch v := val.(type) {
+		case bool:
+			return v, true
+		case string:
+			switch strings.ToLower(strings.TrimSpace(v)) {
+			case "true", "yes", "1", "on":
+				return true, true
+			case "false", "no", "0", "off":
+				return false, true
+			}
+		case int:
+			return v != 0, true
+		case int64:
+			return v != 0, true
+		case float64:
+			return v != 0, true
+		}
 	}
-	return false
+	return false, false
 }
 
 func CreateMenuOutputDirs() {
@@ -734,20 +1005,6 @@ func Renders(fns ...func()) {
 
 func urlize(s string) string {
 	return strings.ToLower(url.QueryEscape(s))
-}
-
-func orStr(s string, dv string) string {
-	if s != "" {
-		return s
-	}
-	return dv
-}
-
-func orStrs(s []string, dv []string) []string {
-	if len(s) != 0 {
-		return s
-	}
-	return dv
 }
 
 func getAllFiles(dir string) ([]string, error) {

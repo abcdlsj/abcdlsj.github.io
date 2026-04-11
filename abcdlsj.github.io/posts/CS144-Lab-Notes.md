@@ -4,8 +4,8 @@ date: 2021-05-04T19:42:49+08:00
 tags:
   - CS144
   - Network
-hide: false
-description: "CS144 计算机网络实验踩坑指南：分享 Lab 环境搭建、调试技巧以及常见问题的解决方案。"
+published: true
+summary: "CS144 计算机网络实验踩坑指南：分享 Lab 环境搭建、调试技巧以及常见问题的解决方案。"
 languages:
     - cn
 ---

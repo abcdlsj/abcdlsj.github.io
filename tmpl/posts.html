@@ -14,9 +14,19 @@
           </div>
           <div class="post-list">
             {{range .Posts}}
-            <article class="post-item">
-              <a href="/posts/{{.Uname | urlize}}.html" class="post-item__title">{{.Meta.Title}}</a>
-              <time class="post-item__date" datetime="{{.Meta.Date}}">{{.Meta.Date | day}}</time>
+            <article class="post-item {{if eq .Cover ""}}post-item--no-cover{{end}}">
+              <div class="post-item__main">
+                <a href="/posts/{{.Uname | urlize}}.html" class="post-item__title">{{.Meta.Title}}</a>
+                {{if .Excerpt}}
+                <p class="post-item__excerpt">{{.Excerpt}}</p>
+                {{end}}
+                <time class="post-item__date" datetime="{{.Meta.Date}}">{{.Meta.Date | day}}</time>
+              </div>
+              {{if ne .Cover ""}}
+              <a class="post-item__thumb" href="/posts/{{.Uname | urlize}}.html" aria-label="{{.Meta.Title}}">
+                <img src="{{.Cover}}" alt="{{.Meta.Title}}" loading="lazy" />
+              </a>
+              {{end}}
             </article>
             {{end}}
           </div>

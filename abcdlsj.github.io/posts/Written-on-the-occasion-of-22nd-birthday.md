@@ -1,12 +1,12 @@
 ---
-title: "Written on the Occasion of 22nd Birthday"
+title: "写于 22 岁生日之际"
 date: 2021-04-01T14:04:52+08:00
 tags:
   - Summary
-hide: false
-hideToc: true
-hero: "/static/img/hfut_night.jpg"
-description: "写于 22 岁生日和即将步入职场之际，回顾大学四年的技术探索、求职历程，以及对未来程序员生涯的思考与期待。"
+published: true
+toc: false
+cover: "/static/img/hfut_night.jpg"
+summary: "回顾大学四年的技术探索、求职历程，以及对未来程序员生涯的思考与期待。"
 languages:
     - cn
 ---

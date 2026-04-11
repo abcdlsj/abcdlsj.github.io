@@ -4,9 +4,9 @@ date: 2023-04-16T22:47:37+08:00
 tags:
   - Shortener
   - Template
-hide: false
-hideToc: true
-description: "Create your personal local URL shortening service: From /etc/hosts to a complete short link system, sharing how to build a lightweight and customizable URL shortener tool."
+published: true
+toc: false
+summary: "Create your personal local URL shortening service."
 languages:
     - en
 ---
@@ -32,7 +32,7 @@ I just want to create a url shortener in my local network, so I am interested in
 > `/etc/hosts` is a file in Linux that can link a domain to an IP address.
 
 For example, I can add the following line to `/etc/hosts`:
-```
+```text
 127.0.0.1      go
 ```
 This allows me to access `go` in my browser.

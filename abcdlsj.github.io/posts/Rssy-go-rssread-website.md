@@ -6,9 +6,9 @@ tags:
   - Postgres
   - RSS
   - Template
-hide: false
-hideToc: true
-description: "Tired of Miniflux bloat? Sharing how I built a lightweight RSS reader from scratch with SQLite/PostgreSQL dual database support, GitHub OAuth integration, lower resource usage, and cleaner features."
+published: true
+toc: false
+summary: "Sharing how I built a lightweight RSS reader from scratch with SQLite/PostgreSQL dual database support, GitHub OAuth integration, lower resource usage, and cleaner features."
 languages:
     - en
 ---

@@ -1,11 +1,11 @@
 ---
-title: "最近 Vibe Coding 项目"
+title: "最近部分 Vibe Coding 项目"
 date: 2026-02-01T22:00:49+08:00
 tags:
   - Summary
-hide: false
+published: true
 toc: true
-description: "最近的 Vibe Coding 项目"
+summary: "日常 Vibe Coding 项目（部分）"
 languages:
     - cn
 ---

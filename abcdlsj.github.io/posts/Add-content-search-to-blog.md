@@ -1,14 +1,14 @@
 ---
-title: "Add content search to the blog"
+title: "如何为静态博客增加搜索？"
 date: 2024-08-15T23:42:49+08:00
 tags:
   - SSG
   - Search
   - Word Segmentation
   - Inverted Index
-hide: false
+published: true
 toc: true
-description: "为静态网站添加搜索功能的设计记录：从倒排索引设计到中文分词处理，分享如何使用 Go 和 JavaScript 实现一个轻量级的全文搜索系统。"
+summary: "分享如何使用 Go 和 JavaScript 实现一个轻量级的全文搜索系统。"
 languages:
     - cn
 ---

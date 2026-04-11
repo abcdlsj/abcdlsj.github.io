@@ -4,8 +4,8 @@ date: 2023-08-16T18:47:37+08:00
 tags:
   - Line Counter
   - Optimization
-hide: false
-description: "Building a high-performance code statistics tool from scratch: Deep dive into the implementation principles of tokei/scc, sharing the complete development journey of file traversal, line counting, and performance optimization."
+published: true
+summary: "Building a high-performance code statistics tool from scratch: Deep dive into the implementation principles of tokei/scc."
 changelog: |
   - 2023-08-16: first version
   - 2024-04-03: bechmark refactor

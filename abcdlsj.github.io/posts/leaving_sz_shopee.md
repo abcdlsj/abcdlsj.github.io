@@ -3,10 +3,10 @@ title: "Leaved 🦐"
 date: 2024-12-02T19:47:37+08:00
 tags:
     - Summary
-hide: false
-hideToc: true
-hero: "/static/img/shopee_sz.jpeg"
-description: "告别 Shopee 的三年半：回顾在过去三年半技术成长、工作经历、生活习惯以及做出离开决定背后的思考，记录选择走向「变化」的心路历程。"
+published: true
+toc: false
+cover: "/static/img/shopee_sz.jpeg"
+summary: "在 🦐 厂练习时长 3.5 年，回顾在过去技术成长/工作经历/生活习惯以及做出离开决定背后的思考，记录选择走向「变化」的心路历程。"
 languages:
     - cn
 ---

@@ -4,9 +4,9 @@ date: 2024-02-24T10:47:37+08:00
 tags:
   - TailwindCSS
   - Template
-hide: false
-hideToc: true
-description: "分享如何在 Go Template 项目中集成 Tailwind CSS，让小项目也能拥有专业的样式设计。"
+published: true
+toc: false
+summary: "分享如何在 Go Template 项目中集成 Tailwind CSS（虽然实际很少用"
 languages:
     - cn
 ---
@@ -20,7 +20,7 @@ languages:
 > **_NOTE:_** 确保 `Go Template` 的部分已经正常实现
 
 假设项目结构
-```
+```text
 .
 ├── main.go
 ├── package.json

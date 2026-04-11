@@ -1,12 +1,12 @@
 ---
-title: "Nexo - A Simple HTTPS Reverse Proxy"
+title: "轻量级 HTTPS 代理实现 - Nexo"
 date: 2025-05-03T19:00:00+08:00
 tags:
   - Reverse Proxy
   - Cert
   - Cloudflare
-hide: false
-description: "告别 Caddy 和 NPM 的臃肿：分享如何用 Go 语言打造轻量级 HTTPS 反向代理，集成 Cloudflare DNS 和自动证书管理，内存占用不到 10M 的优雅方案。"
+published: true
+summary: "告别 Caddy 和 NPM 的臃肿，用 Go 语言打造轻量级 HTTPS 反向代理，内存占用不到 10M 的优雅方案。"
 languages:
     - cn
 changelog: |

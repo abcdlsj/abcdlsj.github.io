@@ -4,9 +4,9 @@ date: 2023-10-22T11:51:37+08:00
 tags:
   - Template
   - Readability
-hide: false
-hideToc: true
-description: "Build a web readability tool in 10 minutes: Using Go and go-readability library to quickly create an online reader that extracts main content and removes distracting elements."
+published: true
+toc: false
+summary: "Build a web readability tool in 10 minutes."
 languages:
     - en
 ---
@@ -182,7 +182,7 @@ This Dockerfile copies the readability library into the image. Therefore, you ne
 
 I have also written a simple tool called nestg for packing binary files into a Docker image. You can find it at [share/nestg](https://github.com/abcdlsj/share/tree/master/go/nestg)
 
-```
+```text
 Usage of nestg:
   -b string
         go build flags
@@ -193,7 +193,7 @@ Usage of nestg:
 ```
 
 Use `nestg`
-```
+```text
 nestg -i abcdlsj/readability -p 8080
 ```
 

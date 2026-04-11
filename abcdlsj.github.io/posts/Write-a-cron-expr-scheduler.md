@@ -1,11 +1,11 @@
 ---
-title: "Write a simple cron expression library in Golang"
+title: "从零解析 Cron 表达式"
 date: 2023-10-29T23:51:37+08:00
 tags:
   - Cron Expression
   - Package Design
-hide: false
-description: "深入解析 Cron 表达式：从零实现定时任务调度器，掌握时间表达式的解析算法，构建轻量级 Cron 库并理解其底层实现原理。"
+published: true
+summary: "深入解析 Cron 表达式：从零实现时间表达式的解析，构建轻量级 Cron 库并理解其底层实现原理。"
 languages:
     - cn
 ---
@@ -14,7 +14,7 @@ languages:
 > 本文所有的代码都在 [abcdlsj/crone](https://github.com/abcdlsj/crone)
 
 从零实现一个初级 `Cron` 表达式解析器，只有以下几个字段规则：
-```
+```text
 # ┌───────────── minute (0–59)
 # │ ┌───────────── hour (0–23)
 # │ │ ┌───────────── day of the month (1–31)

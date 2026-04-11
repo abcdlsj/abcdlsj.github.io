@@ -4,13 +4,13 @@
   <head>
     
 <meta charset="UTF-8" />
-<title>Write a simple cron expression library in Golang</title>
+<title>从零解析 Cron 表达式</title>
 <meta name="description" content="Exploring the intersections of life/programming/technology." />
 
 <meta name="keywords" content="Cron Expression,Package Design,">
 <meta name="author" content="abcdlsj">
-<meta property="og:title" content="Write a simple cron expression library in Golang">
-<meta property="og:description" content="深入解析 Cron 表达式：从零实现定时任务调度器，掌握时间表达式的解析算法，构建轻量级 Cron 库并理解其底层实现原理。">
+<meta property="og:title" content="从零解析 Cron 表达式">
+<meta property="og:description" content="深入解析 Cron 表达式：从零实现时间表达式的解析，构建轻量级 Cron 库并理解其底层实现原理。">
 <meta property="og:url" content="https://abcdlsj.github.io/posts/write-a-cron-expr-scheduler.html">
 <meta property="og:type" content="article">
 
@@ -36,7 +36,7 @@
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__brand">
-      <a href="/" class="site-header__title">Write a simple cron expression library in Golang</a>
+      <a href="/" class="site-header__title">从零解析 Cron 表达式</a>
       <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
     </div>
     <nav class="site-header__nav">
@@ -115,7 +115,7 @@
             <!-- Post Header -->
             <header class="post-header">
               
-              <h1 class="post-title">Write a simple cron expression library in Golang</h1>
+              <h1 class="post-title">从零解析 Cron 表达式</h1>
               <div class="post-meta">
                 <time class="post-date" datetime="2023-10-29T23:51:37+08:00">2023-10-29</time>
                 
@@ -139,17 +139,16 @@
 <p>本文所有的代码都在 <a href="https://github.com/abcdlsj/crone">abcdlsj/crone</a></p>
 </blockquote>
 <p>从零实现一个初级 <code>Cron</code> 表达式解析器，只有以下几个字段规则：</p>
-<pre><code># ┌───────────── minute (0–59)
-# │ ┌───────────── hour (0–23)
-# │ │ ┌───────────── day of the month (1–31)
-# │ │ │ ┌───────────── month (1–12)
-# │ │ │ │ ┌───────────── day of the week (0–6) (Sunday to Saturday;
-# │ │ │ │ │                                   7 is also Sunday on some systems)
-# │ │ │ │ │
-# │ │ │ │ │
-# * * * * * &lt;command to execute&gt;
-</code></pre>
-<p>没有 <code>yearly</code> <code>monthly</code> <code>weekly</code> <code>daily</code> <code>hourly</code> <code>reboot</code> 等特殊规则。</p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span># ┌───────────── minute (0–59)
+</span></span><span style="display:flex;"><span># │ ┌───────────── hour (0–23)
+</span></span><span style="display:flex;"><span># │ │ ┌───────────── day of the month (1–31)
+</span></span><span style="display:flex;"><span># │ │ │ ┌───────────── month (1–12)
+</span></span><span style="display:flex;"><span># │ │ │ │ ┌───────────── day of the week (0–6) (Sunday to Saturday;
+</span></span><span style="display:flex;"><span># │ │ │ │ │                                   7 is also Sunday on some systems)
+</span></span><span style="display:flex;"><span># │ │ │ │ │
+</span></span><span style="display:flex;"><span># │ │ │ │ │
+</span></span><span style="display:flex;"><span># * * * * * &lt;command to execute&gt;
+</span></span></code></pre><p>没有 <code>yearly</code> <code>monthly</code> <code>weekly</code> <code>daily</code> <code>hourly</code> <code>reboot</code> 等特殊规则。</p>
 <table>
 <thead>
 <tr>
