@@ -10,7 +10,7 @@
 <meta name="keywords" content="TailwindCSS,Template,">
 <meta name="author" content="abcdlsj">
 <meta property="og:title" content="Go Template + Tailwindcss = ❤️">
-<meta property="og:description" content="分享如何在 Go Template 项目中集成 Tailwind CSS，让小项目也能拥有专业的样式设计。">
+<meta property="og:description" content="分享如何在 Go Template 项目中集成 Tailwind CSS（虽然实际很少用">
 <meta property="og:url" content="https://abcdlsj.github.io/posts/go-template-tailwindcss.html">
 <meta property="og:type" content="article">
 
@@ -144,18 +144,17 @@
 <p><strong><em>NOTE:</em></strong> 确保 <code>Go Template</code> 的部分已经正常实现</p>
 </blockquote>
 <p>假设项目结构</p>
-<pre><code>.
-├── main.go
-├── package.json
-├── static
-│   └── css
-│       ├── main.css
-│       └── tailwind.css
-├── tailwind.config.js
-└── tmpl
-    └── index.html
-</code></pre>
-<h2 id="config">Config</h2>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>.
+</span></span><span style="display:flex;"><span>├── main.go
+</span></span><span style="display:flex;"><span>├── package.json
+</span></span><span style="display:flex;"><span>├── static
+</span></span><span style="display:flex;"><span>│   └── css
+</span></span><span style="display:flex;"><span>│       ├── main.css
+</span></span><span style="display:flex;"><span>│       └── tailwind.css
+</span></span><span style="display:flex;"><span>├── tailwind.config.js
+</span></span><span style="display:flex;"><span>└── tmpl
+</span></span><span style="display:flex;"><span>    └── index.html
+</span></span></code></pre><h2 id="config">Config</h2>
 <p>创建 <code>Tailwind CSS</code> 必须的文件</p>
 <ol>
 <li>初始化 <code>package.json</code> 文件</li>

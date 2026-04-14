@@ -6,9 +6,9 @@
     <link>https://abcdlsj.github.io</link>
     <description>Exploring the intersections of life/programming/technology.</description>
     <item>
-      <title>最近 Vibe Coding 项目</title>
+      <title>最近部分 Vibe Coding 项目</title>
       <link>https://abcdlsj.github.io/posts/2026vibe_coding.html</link>
-      <description>最近 Vibe Coding 项目</description>
+      <description>最近部分 Vibe Coding 项目</description>
       <pubDate>Sun, 01 Feb 2026 22:00:49 +0800</pubDate>
     </item>
     <item>
@@ -18,15 +18,15 @@
       <pubDate>Sun, 01 Feb 2026 13:00:49 +0800</pubDate>
     </item>
     <item>
-      <title>Nexo - A Simple HTTPS Reverse Proxy</title>
+      <title>轻量级 HTTPS 代理实现 - Nexo</title>
       <link>https://abcdlsj.github.io/posts/nexo-a-simple-https-reverse-proxy.html</link>
-      <description>Nexo - A Simple HTTPS Reverse Proxy</description>
+      <description>轻量级 HTTPS 代理实现 - Nexo</description>
       <pubDate>Sat, 03 May 2025 19:00:00 +0800</pubDate>
     </item>
     <item>
-      <title>2024 Summary &amp; New company</title>
+      <title>2024 总结 &amp; 新的生活</title>
       <link>https://abcdlsj.github.io/posts/2024.html</link>
-      <description>2024 Summary &amp; New company</description>
+      <description>2024 总结 &amp; 新的生活</description>
       <pubDate>Sat, 08 Mar 2025 09:41:49 +0800</pubDate>
     </item>
     <item>
@@ -36,9 +36,9 @@
       <pubDate>Mon, 02 Dec 2024 19:47:37 +0800</pubDate>
     </item>
     <item>
-      <title>Add content search to the blog</title>
+      <title>如何为静态博客增加搜索？</title>
       <link>https://abcdlsj.github.io/posts/add-content-search-to-blog.html</link>
-      <description>Add content search to the blog</description>
+      <description>如何为静态博客增加搜索？</description>
       <pubDate>Thu, 15 Aug 2024 23:42:49 +0800</pubDate>
     </item>
     <item>
@@ -66,9 +66,9 @@
       <pubDate>Sat, 04 Nov 2023 22:47:37 +0800</pubDate>
     </item>
     <item>
-      <title>Write a simple cron expression library in Golang</title>
+      <title>从零解析 Cron 表达式</title>
       <link>https://abcdlsj.github.io/posts/write-a-cron-expr-scheduler.html</link>
-      <description>Write a simple cron expression library in Golang</description>
+      <description>从零解析 Cron 表达式</description>
       <pubDate>Sun, 29 Oct 2023 23:51:37 +0800</pubDate>
     </item>
     <item>
@@ -102,9 +102,9 @@
       <pubDate>Tue, 04 May 2021 19:42:49 +0800</pubDate>
     </item>
     <item>
-      <title>Written on the Occasion of 22nd Birthday</title>
+      <title>写于 22 岁生日之际</title>
       <link>https://abcdlsj.github.io/posts/written-on-the-occasion-of-22nd-birthday.html</link>
-      <description>Written on the Occasion of 22nd Birthday</description>
+      <description>写于 22 岁生日之际</description>
       <pubDate>Thu, 01 Apr 2021 14:04:52 +0800</pubDate>
     </item>
     <follow_challenge>

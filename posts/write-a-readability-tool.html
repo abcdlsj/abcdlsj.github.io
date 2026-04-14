@@ -10,7 +10,7 @@
 <meta name="keywords" content="Template,Readability,">
 <meta name="author" content="abcdlsj">
 <meta property="og:title" content="Build a website for readability in 10 minutes">
-<meta property="og:description" content="Build a web readability tool in 10 minutes: Using Go and go-readability library to quickly create an online reader that extracts main content and removes distracting elements.">
+<meta property="og:description" content="Build a web readability tool in 10 minutes.">
 <meta property="og:url" content="https://abcdlsj.github.io/posts/write-a-readability-tool.html">
 <meta property="og:type" content="article">
 
@@ -277,18 +277,16 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">CMD</span> [<span style="color:#d14">&#34;/app/readability&#34;</span>]<span style="color:#a61717;background-color:#e3d2d2">
 </span></span></span></code></pre><p>This Dockerfile copies the readability library into the image. Therefore, you need to compile it first using the command <code>CGO_ENABLED=0 GOOS=linux go build -o readability</code>.</p>
 <p>I have also written a simple tool called nestg for packing binary files into a Docker image. You can find it at <a href="https://github.com/abcdlsj/share/tree/master/go/nestg">share/nestg</a></p>
-<pre><code>Usage of nestg:
-  -b string
-        go build flags
-  -i string
-        image name
-  -p string
-        port
-</code></pre>
-<p>Use <code>nestg</code></p>
-<pre><code>nestg -i abcdlsj/readability -p 8080
-</code></pre>
-<h3 id="run">Run</h3>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>Usage of nestg:
+</span></span><span style="display:flex;"><span>  -b string
+</span></span><span style="display:flex;"><span>        go build flags
+</span></span><span style="display:flex;"><span>  -i string
+</span></span><span style="display:flex;"><span>        image name
+</span></span><span style="display:flex;"><span>  -p string
+</span></span><span style="display:flex;"><span>        port
+</span></span></code></pre><p>Use <code>nestg</code></p>
+<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>nestg -i abcdlsj/readability -p 8080
+</span></span></code></pre><h3 id="run">Run</h3>
 <p>After building the Docker image, you can run it using the following command:</p>
 <p><code>docker run -it --rm -p &lt;HOST_PORT&gt;:8080 abcdlsj/readability</code></p>
 <p>Now you can access the website at <code>http://localhost:&lt;HOST_PORT&gt;</code>.</p>
