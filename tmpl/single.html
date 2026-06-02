@@ -4,7 +4,7 @@
   <head>
     {{template "head" dict "Site" .Site "Meta" .Meta "Uname" .Uname "IsPost" true}}
   </head>
-  <body>
+  <body class="post-page">
     <div class="app">
       {{template "navbar" .}}
       <main class="container">
@@ -12,9 +12,9 @@
           <article class="post-article">
             <!-- Post Header -->
             <header class="post-header">
-              {{if .Cover}}
+              {{if .Meta.Hero}}
               <div class="post-hero">
-                <img src="{{.Cover}}" alt="{{.Meta.Title}}" />
+                <img src="{{.Meta.Hero}}" alt="{{.Meta.Title}}" />
               </div>
               {{end}}
               <h1 class="post-title">{{.Meta.Title}}</h1>

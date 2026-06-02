@@ -221,9 +221,6 @@ func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 	if thumbnail == "" {
 		thumbnail = cover
 	}
-	if hero == "" {
-		hero = cover
-	}
 
 	description := pickString(meta, "description", "summary", "excerpt")
 	summary := pickString(meta, "summary", "description", "excerpt")
@@ -398,7 +395,6 @@ func RenderHostsIndex() {
 
 func RenderPosts() {
 	for _, post := range append(Posts, WipPosts...) {
-		post.Site.Title = post.Meta.Title
 		if err := render(t, post, path.Join(cfgVar.Build.Output, "posts", post.Uname+".html"), "single"); err != nil {
 			log.Fatal(err)
 		}

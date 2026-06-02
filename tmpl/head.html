@@ -1,6 +1,11 @@
 {{define "head"}}
 <meta charset="UTF-8" />
+<meta name="color-scheme" content="light dark" />
+{{if .IsPost}}
+<title>{{.Meta.Title}}</title>
+{{else}}
 <title>{{.Site.Title}}</title>
+{{end}}
 <meta name="description" content="{{.Site.Description}}" />
 {{if .IsPost}}
 <meta name="keywords" content="{{range .Meta.Tags}}{{.}},{{end}}">
