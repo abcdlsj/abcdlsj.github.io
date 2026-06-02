@@ -4,7 +4,10 @@
   <head>
     
 <meta charset="UTF-8" />
+<meta name="color-scheme" content="light dark" />
+
 <title>L'iving and Discovering</title>
+
 <meta name="description" content="Exploring the intersections of life/programming/technology." />
 
 <meta name="keywords" content="blog,programming,technology,life,travel,reading,movies,games,animals,hardware,software,ai,career,personal,">
@@ -107,6 +110,38 @@
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
   }
+
+  (function initHeaderScrollBehavior() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+
+    let lastY = window.scrollY || 0;
+    const threshold = 6;
+
+    function handleScroll() {
+      const y = window.scrollY || 0;
+      if (y < 56) {
+        header.classList.remove('site-header--hidden');
+        lastY = y;
+        return;
+      }
+
+      if (document.body.classList.contains('sidepanel-open')) {
+        header.classList.remove('site-header--hidden');
+        lastY = y;
+        return;
+      }
+
+      if (y > lastY + threshold) {
+        header.classList.add('site-header--hidden');
+      } else if (y < lastY - threshold) {
+        header.classList.remove('site-header--hidden');
+      }
+      lastY = y;
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+  })();
 </script>
 
       <main class="container">
