@@ -22,9 +22,9 @@ const { [browserType]: pw } = require('playwright');
   await page.waitForTimeout(4000);
 
   const before = await page.evaluate(() => {
-    const moon = document.querySelector('.icon-moon');
-    const sun = document.querySelector('.icon-sun');
-    const btn = document.querySelector('.theme-toggle');
+    const searchToggle = document.querySelector('.site-search__toggle');
+    const oldToggle = document.querySelector('.theme-toggle');
+    const searchRoot = document.querySelector('#site-search');
     const body = document.querySelector('body');
     const root = document.documentElement;
     return {
@@ -37,13 +37,15 @@ const { [browserType]: pw } = require('playwright');
       bodyExists: !!body,
       bodyChildren: body ? body.children.length : null,
       bodyBg: body ? getComputedStyle(body).backgroundColor : null,
-      btnExists: !!btn,
-      btnClass: btn ? btn.className : null,
-      btnText: btn ? btn.ariaLabel : null,
-      moonDisplay: moon ? getComputedStyle(moon).display : 'no-el',
-      sunDisplay: sun ? getComputedStyle(sun).display : 'no-el',
-      moonRect: moon ? JSON.parse(JSON.stringify(moon.getBoundingClientRect())) : null,
-      sunRect: sun ? JSON.parse(JSON.stringify(sun.getBoundingClientRect())) : null,
+      oldThemeToggleExists: !!oldToggle,
+      searchToggleExists: !!searchToggle,
+      searchToggleClass: searchToggle ? searchToggle.className : null,
+      searchToggleLabel: searchToggle ? searchToggle.ariaLabel : null,
+      searchToggleDisplay: searchToggle ? getComputedStyle(searchToggle).display : null,
+      searchToggleWidth: searchToggle ? getComputedStyle(searchToggle).width : null,
+      searchToggleRect: searchToggle ? JSON.parse(JSON.stringify(searchToggle.getBoundingClientRect())) : null,
+      searchRootExists: !!searchRoot,
+      headerSearchIcons: document.querySelectorAll('.site-search__toggle svg, .site-search__field svg').length,
       scriptCount: document.scripts.length,
       styleSheets: document.styleSheets.length,
       sheetHref: document.styleSheets[0] ? document.styleSheets[0].href : null,
@@ -62,23 +64,44 @@ const { [browserType]: pw } = require('playwright');
   });
   console.log('BEFORE:', JSON.stringify(before, null, 2));
 
-  const clickInfo = await page.evaluate(() => {
-    const btn = document.querySelector('.theme-toggle');
-    let before = null;
-    let after = null;
-    if (btn && typeof toggleTheme === 'function') {
-      before = document.documentElement.getAttribute('data-theme');
-      btn.click();
-      after = document.documentElement.getAttribute('data-theme');
+  const clickInfo = await page.evaluate(async () => {
+    const root = document.querySelector('#site-search');
+    const toggle = document.querySelector('#search-toggle');
+    let openBefore = null;
+    let openAfter = null;
+    if (root && toggle) {
+      openBefore = root.classList.contains('site-search--open');
+      toggle.click();
+      openAfter = root.classList.contains('site-search--open');
+    }
+    const input = document.querySelector('#search-input');
+    let searchResultCount = null;
+    if (input) {
+      input.value = 'go';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      await new Promise((r) => setTimeout(r, 1200));
+      const results = document.querySelector('#search-results');
+      searchResultCount = results ? results.children.length : -1;
     }
     return {
-      hasBtn: !!btn,
-      hasToggleTheme: typeof toggleTheme === 'function',
-      before,
-      after,
+      hasRoot: !!root,
+      hasToggle: !!toggle,
+      openBefore,
+      openAfter,
+      searchResultCount,
     };
   });
   console.log('CLICK:', JSON.stringify(clickInfo, null, 2));
+
+  const realClick = await page.evaluate(() => {
+    const root = document.querySelector('#site-search');
+    const toggle = document.querySelector('#search-toggle');
+    if (root && toggle) {
+      toggle.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+    }
+    return root ? root.classList.contains('site-search--open') : null;
+  });
+  console.log('REAL CLICK OPEN:', realClick);
 
   const styles = await page.evaluate(() => {
     const pick = (sel) => {
@@ -101,7 +124,7 @@ const { [browserType]: pw } = require('playwright');
       sectionTitle: pick('.section-title'),
       postItem: pick('.post-item'),
       footer: pick('.footer'),
-      themeToggle: pick('.theme-toggle'),
+      searchToggle: pick('.site-search__toggle'),
     };
   });
   console.log('STYLES:', JSON.stringify(styles, null, 2));

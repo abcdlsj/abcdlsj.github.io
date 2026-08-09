@@ -2,8 +2,8 @@
 <!--
   Pretty Feed, adapted to the abcdlsj.github.io design system.
 
-  The feed preview reuses /static/style.css so it stays visually in sync
-  with the blog: same fonts, colors, dark mode, header, post list and footer.
+  The feed preview reuses /static/style.css and mirrors the blog's current
+  header (brand + nav + search), post list, footer and back-to-top button.
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
@@ -97,17 +97,7 @@
             }
           }
         </style>
-        <script>
-          // Theme initialization - runs before page render to prevent flash
-          (function() {
-            try {
-              const theme = localStorage.getItem('theme');
-              if (theme) {
-                document.documentElement.setAttribute('data-theme', theme);
-              }
-            } catch (e) {}
-          })();
-        </script>
+        <script defer="defer" src="/static/script/search.js"></script>
       </head>
       <body>
         <div class="app">
@@ -125,22 +115,26 @@
                   <li><a href="/about" class="nav-link">About</a></li>
                   <li><a href="/rss.xml" class="nav-link">Feed</a></li>
                 </ul>
-                <button class="theme-toggle" type="button" aria-label="Toggle theme" onclick="toggleTheme()">
-                  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                  </svg>
-                  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                  </svg>
-                </button>
+                <div class="site-search" id="site-search">
+                  <button class="site-search__toggle" id="search-toggle" type="button" aria-label="Search posts" aria-controls="site-search-panel" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="11" cy="11" r="7"></circle>
+                      <path d="m20 20-4-4"></path>
+                    </svg>
+                  </button>
+                  <div class="site-search__panel" id="site-search-panel">
+                    <label class="sr-only" for="search-input">Search posts</label>
+                    <div class="site-search__field">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="m20 20-4-4"></path>
+                      </svg>
+                      <input id="search-input" type="search" placeholder="Search posts..." autocomplete="off" spellcheck="false"/>
+                    </div>
+                    <ul id="search-results" aria-label="Search results"></ul>
+                    <p class="site-search__hint">Type at least 2 characters to search.</p>
+                  </div>
+                </div>
               </nav>
             </div>
           </header>
@@ -160,11 +154,8 @@
 
             <section class="home-section">
               <div class="section-header">
-                <h2 class="section-title">Recent Items · <xsl:value-of select="count(/rss/channel/item)"/></h2>
-                <a class="section-link" target="_blank">
-                  <xsl:attribute name="href"><xsl:value-of select="/rss/channel/link"/></xsl:attribute>
-                  Visit Website →
-                </a>
+                <h2 class="section-title">Recent Posts · <xsl:value-of select="count(/rss/channel/item)"/></h2>
+                <a href="/posts" class="section-link">View all →</a>
               </div>
 
               <div class="post-list">
@@ -206,30 +197,6 @@
         </button>
 
         <script>
-          function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            let newTheme;
-            if (currentTheme === 'dark') {
-              newTheme = 'light';
-            } else if (currentTheme === 'light') {
-              newTheme = 'dark';
-            } else {
-              newTheme = prefersDark ? 'light' : 'dark';
-            }
-
-            html.setAttribute('data-theme', newTheme);
-            try {
-              localStorage.setItem('theme', newTheme);
-            } catch (e) {}
-
-            document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
-              meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
-            });
-          }
-
           function scrollToTop() {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }
