@@ -25,6 +25,7 @@ import (
 	"github.com/BurntSushi/toml"
 	d2 "github.com/FurqanSoftware/goldmark-d2"
 	"github.com/abcdlsj/cr"
+	chromahtml "github.com/alecthomas/chroma/formatters/html"
 	"github.com/huichen/sego"
 	"github.com/otiai10/copy"
 	log "github.com/sirupsen/logrus"
@@ -94,7 +95,10 @@ var (
 	md = goldmark.New(
 		goldmark.WithExtensions(
 			meta.Meta,
-			highlighting.Highlighting,
+			highlighting.NewHighlighting(
+				highlighting.WithStyle("github"),
+				highlighting.WithFormatOptions(chromahtml.WithClasses(true)),
+			),
 			extension.GFM,
 			extension.Footnote,
 			extension.CJK,
@@ -218,6 +222,9 @@ func unmarshalPostMeta(meta map[string]interface{}) PostMeta {
 	cover := pickString(meta, "cover", "thumbnail", "hero")
 	thumbnail := pickString(meta, "thumbnail")
 	hero := pickString(meta, "hero")
+	if hero == "" {
+		hero = cover
+	}
 	if thumbnail == "" {
 		thumbnail = cover
 	}
@@ -290,6 +297,14 @@ type Post struct {
 	Cover      string
 	Excerpt    string
 	Timeline   []TimelineItem
+	Newer      *PostLink
+	Older      *PostLink
+}
+
+type PostLink struct {
+	Title string
+	Uname string
+	Date  string
 }
 
 type Tag struct {
@@ -394,7 +409,30 @@ func RenderHostsIndex() {
 }
 
 func RenderPosts() {
+	all := make([]Post, 0, len(Posts)+len(WipPosts))
 	for _, post := range append(Posts, WipPosts...) {
+		all = append(all, post)
+	}
+	sort.Slice(all, func(i, j int) bool {
+		return dateCompare(all[i].Meta.Date, all[j].Meta.Date)
+	})
+
+	for i := range all {
+		post := all[i]
+		if i > 0 {
+			post.Newer = &PostLink{
+				Title: all[i-1].Meta.Title,
+				Uname: all[i-1].Uname,
+				Date:  all[i-1].Meta.Date,
+			}
+		}
+		if i < len(all)-1 {
+			post.Older = &PostLink{
+				Title: all[i+1].Meta.Title,
+				Uname: all[i+1].Uname,
+				Date:  all[i+1].Meta.Date,
+			}
+		}
 		if err := render(t, post, path.Join(cfgVar.Build.Output, "posts", post.Uname+".html"), "single"); err != nil {
 			log.Fatal(err)
 		}

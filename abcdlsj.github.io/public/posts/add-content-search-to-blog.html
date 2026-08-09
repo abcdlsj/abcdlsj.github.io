@@ -5,6 +5,8 @@
     
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 
 <title>如何为静态博客增加搜索？</title>
 
@@ -34,11 +36,13 @@
 
   </head>
   <body class="post-page">
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
     <div class="app">
       
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
       <a href="/" class="site-header__title">L'iving and Discovering</a>
       <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
     </div>
@@ -109,6 +113,10 @@
     
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
+    });
   }
 
   (function initHeaderScrollBehavior() {
@@ -153,6 +161,7 @@
               <h1 class="post-title">如何为静态博客增加搜索？</h1>
               <div class="post-meta">
                 <time class="post-date" datetime="2024-08-15T23:42:49+08:00">2024-08-15</time>
+                <span class="post-reading-time" id="reading-time"></span>
                 
                 <div class="post-tags">
                   
@@ -196,132 +205,132 @@
 <p>PS: 很早之前使用 <code>sego</code> 和 <code>tfidf</code> 实现过一个简单的搜索 <code>wikipedia</code> 的小程序，在这里 <a href="https://github.com/abcdlsj/seeker">seeker</a>。</p>
 </blockquote>
 <p>sego 分词器加载词典文件 <code>dictionary.txt</code>，这个文件在 repo 里有。</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">loadDict</span>() {
-</span></span><span style="display:flex;"><span>	sm.<span style="color:#900;font-weight:bold">LoadDictionary</span>(<span style="color:#d14">&#34;dictionary.txt&#34;</span>)
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">loadDict</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">sm</span><span class="p">.</span><span class="nf">LoadDictionary</span><span class="p">(</span><span class="s">&#34;dictionary.txt&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>分词部分的代码如下：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">analyze</span>(text <span style="color:#458;font-weight:bold">string</span>) []<span style="color:#458;font-weight:bold">string</span> {
-</span></span><span style="display:flex;"><span>	segments <span style="color:#000;font-weight:bold">:=</span> sm.<span style="color:#900;font-weight:bold">Segment</span>([]<span style="color:#0086b3">byte</span>(text))
-</span></span><span style="display:flex;"><span>	words <span style="color:#000;font-weight:bold">:=</span> sego.<span style="color:#900;font-weight:bold">SegmentsToSlice</span>(segments, <span style="color:#000;font-weight:bold">false</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">var</span> filteredWords []<span style="color:#458;font-weight:bold">string</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> _, word <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> words {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> <span style="color:#900;font-weight:bold">isNumeric</span>(word) {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">continue</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> <span style="color:#900;font-weight:bold">isImageFile</span>(word) {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">continue</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> utf8.<span style="color:#900;font-weight:bold">RuneCountInString</span>(word) &lt; <span style="color:#099">2</span> <span style="color:#000;font-weight:bold">||</span>
-</span></span><span style="display:flex;"><span>			utf8.<span style="color:#900;font-weight:bold">RuneCountInString</span>(word) &gt; <span style="color:#099">10</span> <span style="color:#000;font-weight:bold">||</span>
-</span></span><span style="display:flex;"><span>			<span style="color:#0086b3">len</span>(word) &lt; <span style="color:#099">2</span> <span style="color:#000;font-weight:bold">||</span> <span style="color:#0086b3">len</span>(word) &gt; <span style="color:#099">10</span> {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">continue</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> <span style="color:#900;font-weight:bold">isStopWord</span>(word) {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">continue</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> <span style="color:#900;font-weight:bold">isGibberish</span>(word) {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">continue</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		filteredWords = <span style="color:#0086b3">append</span>(filteredWords, word)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> filteredWords
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">analyze</span><span class="p">(</span><span class="nx">text</span> <span class="kt">string</span><span class="p">)</span> <span class="p">[]</span><span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">segments</span> <span class="o">:=</span> <span class="nx">sm</span><span class="p">.</span><span class="nf">Segment</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">text</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">words</span> <span class="o">:=</span> <span class="nx">sego</span><span class="p">.</span><span class="nf">SegmentsToSlice</span><span class="p">(</span><span class="nx">segments</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">filteredWords</span> <span class="p">[]</span><span class="kt">string</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">word</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">words</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nf">isNumeric</span><span class="p">(</span><span class="nx">word</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">continue</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nf">isImageFile</span><span class="p">(</span><span class="nx">word</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">continue</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">utf8</span><span class="p">.</span><span class="nf">RuneCountInString</span><span class="p">(</span><span class="nx">word</span><span class="p">)</span> <span class="p">&lt;</span> <span class="mi">2</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">utf8</span><span class="p">.</span><span class="nf">RuneCountInString</span><span class="p">(</span><span class="nx">word</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">10</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">			<span class="nb">len</span><span class="p">(</span><span class="nx">word</span><span class="p">)</span> <span class="p">&lt;</span> <span class="mi">2</span> <span class="o">||</span> <span class="nb">len</span><span class="p">(</span><span class="nx">word</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">10</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">continue</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nf">isStopWord</span><span class="p">(</span><span class="nx">word</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">continue</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nf">isGibberish</span><span class="p">(</span><span class="nx">word</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">continue</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="nx">filteredWords</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">filteredWords</span><span class="p">,</span> <span class="nx">word</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">filteredWords</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>注意过滤一些不需要的「词」，例如纯数字、图片、停用词、单个字符、过长或过短的词。</p>
 <blockquote>
 <p>需要注意，汉字需要使用 <code>utf8.RuneCountInString</code> 来计算长度。</p>
 </blockquote>
 <p>生成 <code>index.json</code> 部分：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">generateSearchIndex</span>() <span style="color:#458;font-weight:bold">error</span> {
-</span></span><span style="display:flex;"><span>	index <span style="color:#000;font-weight:bold">:=</span> SearchIndex{Words: <span style="color:#0086b3">make</span>(<span style="color:#000;font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">string</span>][]<span style="color:#458;font-weight:bold">string</span>)}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> _, post <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> Posts {
-</span></span><span style="display:flex;"><span>		fullText <span style="color:#000;font-weight:bold">:=</span> post.Meta.Title <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34; &#34;</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#900;font-weight:bold">stripHTML</span>(post.MDData)
-</span></span><span style="display:flex;"><span>		words <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">analyze</span>(fullText)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">for</span> _, word <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> words {
-</span></span><span style="display:flex;"><span>			word = strings.<span style="color:#900;font-weight:bold">ToLower</span>(word)
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> !<span style="color:#900;font-weight:bold">contains</span>(index.Words[word], post.Uname) {
-</span></span><span style="display:flex;"><span>				index.Words[word] = <span style="color:#0086b3">append</span>(index.Words[word], post.Uname)
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// save to file
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">generateSearchIndex</span><span class="p">()</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">index</span> <span class="o">:=</span> <span class="nx">SearchIndex</span><span class="p">{</span><span class="nx">Words</span><span class="p">:</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="kt">string</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">post</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">Posts</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fullText</span> <span class="o">:=</span> <span class="nx">post</span><span class="p">.</span><span class="nx">Meta</span><span class="p">.</span><span class="nx">Title</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="nf">stripHTML</span><span class="p">(</span><span class="nx">post</span><span class="p">.</span><span class="nx">MDData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">words</span> <span class="o">:=</span> <span class="nf">analyze</span><span class="p">(</span><span class="nx">fullText</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">word</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">words</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">word</span> <span class="p">=</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">ToLower</span><span class="p">(</span><span class="nx">word</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="p">!</span><span class="nf">contains</span><span class="p">(</span><span class="nx">index</span><span class="p">.</span><span class="nx">Words</span><span class="p">[</span><span class="nx">word</span><span class="p">],</span> <span class="nx">post</span><span class="p">.</span><span class="nx">Uname</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">index</span><span class="p">.</span><span class="nx">Words</span><span class="p">[</span><span class="nx">word</span><span class="p">]</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">index</span><span class="p">.</span><span class="nx">Words</span><span class="p">[</span><span class="nx">word</span><span class="p">],</span> <span class="nx">post</span><span class="p">.</span><span class="nx">Uname</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// save to file
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre><h3 id="search">Search</h3>
 <p>有了 <code>index.json</code> 文件后，就可以写一个简单的 <code>JavaScript</code> 来实现搜索功能。</p>
 <blockquote>
 <p>这是完全通过 <code>Cursor</code> 生成的代码，我就加了两行 <code>console.log</code> 来调试。</p>
 </blockquote>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">let</span> searchIndex <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">null</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">async</span> <span style="color:#000;font-weight:bold">function</span> loadSearchIndex() {
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (searchIndex <span style="color:#000;font-weight:bold">===</span> <span style="color:#000;font-weight:bold">null</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">const</span> response <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">await</span> fetch(<span style="color:#d14">&#39;/search-index.json&#39;</span>);
-</span></span><span style="display:flex;"><span>        searchIndex <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">await</span> response.json();
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">async</span> <span style="color:#000;font-weight:bold">function</span> search(query) {
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">await</span> loadSearchIndex();
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">const</span> words <span style="color:#000;font-weight:bold">=</span> query.toLowerCase().split(<span style="color:#009926">/\s+/</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">const</span> results <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Set();
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">for</span> (<span style="color:#000;font-weight:bold">const</span> word <span style="color:#000;font-weight:bold">of</span> words) {
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">if</span> (word <span style="color:#000;font-weight:bold">in</span> searchIndex.words) {
-</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">for</span> (<span style="color:#000;font-weight:bold">const</span> postUrl <span style="color:#000;font-weight:bold">of</span> searchIndex.words[word]) {
-</span></span><span style="display:flex;"><span>                results.add(postUrl);
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> <span style="color:#0086b3">Array</span>.from(results);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">let</span> searchTimeout <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">null</span>;
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">let</span> isComposing <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">false</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#0086b3">document</span>.addEventListener(<span style="color:#d14">&#39;DOMContentLoaded&#39;</span>, () =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">const</span> searchInput <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">document</span>.getElementById(<span style="color:#d14">&#39;search-input&#39;</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">const</span> searchResults <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">document</span>.getElementById(<span style="color:#d14">&#39;search-results&#39;</span>);
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    searchInput.addEventListener(<span style="color:#d14">&#39;input&#39;</span>, () =&gt; {
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">if</span> (isComposing) <span style="color:#000;font-weight:bold">return</span>;
-</span></span><span style="display:flex;"><span>        scheduleSearch();
-</span></span><span style="display:flex;"><span>    });
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    searchInput.addEventListener(<span style="color:#d14">&#39;compositionstart&#39;</span>, () =&gt; {
-</span></span><span style="display:flex;"><span>        isComposing <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">true</span>;
-</span></span><span style="display:flex;"><span>    });
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    searchInput.addEventListener(<span style="color:#d14">&#39;compositionend&#39;</span>, () =&gt; {
-</span></span><span style="display:flex;"><span>        isComposing <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">false</span>;
-</span></span><span style="display:flex;"><span>        scheduleSearch();
-</span></span><span style="display:flex;"><span>    });
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">function</span> scheduleSearch() {
-</span></span><span style="display:flex;"><span>        clearTimeout(searchTimeout);
-</span></span><span style="display:flex;"><span>        searchTimeout <span style="color:#000;font-weight:bold">=</span> setTimeout(() =&gt; performSearch(), <span style="color:#099">300</span>);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">async</span> <span style="color:#000;font-weight:bold">function</span> performSearch() {
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">const</span> query <span style="color:#000;font-weight:bold">=</span> searchInput.value.trim();
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">if</span> (query.length <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">2</span>) {
-</span></span><span style="display:flex;"><span>            searchResults.innerHTML <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;&#39;</span>;
-</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">return</span>;
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">const</span> results <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">await</span> search(query);
-</span></span><span style="display:flex;"><span>        searchResults.innerHTML <span style="color:#000;font-weight:bold">=</span> results.map(url =&gt; <span style="color:#d14">`&lt;li&gt;&lt;a href=&#34;/posts/</span><span style="color:#d14">${</span>url<span style="color:#d14">}</span><span style="color:#d14">.html&#34;&gt;</span><span style="color:#d14">${</span>url<span style="color:#d14">}</span><span style="color:#d14">&lt;/a&gt;&lt;/li&gt;`</span>).join(<span style="color:#d14">&#39;&#39;</span>);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>});
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">searchIndex</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">async</span> <span class="kd">function</span> <span class="nx">loadSearchIndex</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">searchIndex</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="kr">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/search-index.json&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">searchIndex</span> <span class="o">=</span> <span class="kr">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">async</span> <span class="kd">function</span> <span class="nx">search</span><span class="p">(</span><span class="nx">query</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">await</span> <span class="nx">loadSearchIndex</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">words</span> <span class="o">=</span> <span class="nx">query</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">split</span><span class="p">(</span><span class="sr">/\s+/</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">results</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Set</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">word</span> <span class="k">of</span> <span class="nx">words</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">word</span> <span class="k">in</span> <span class="nx">searchIndex</span><span class="p">.</span><span class="nx">words</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">postUrl</span> <span class="k">of</span> <span class="nx">searchIndex</span><span class="p">.</span><span class="nx">words</span><span class="p">[</span><span class="nx">word</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">results</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">postUrl</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="nx">results</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">searchTimeout</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">isComposing</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMContentLoaded&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">searchInput</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;search-input&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">searchResults</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;search-results&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nx">searchInput</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">isComposing</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">scheduleSearch</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">searchInput</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;compositionstart&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">isComposing</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">searchInput</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;compositionend&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">isComposing</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">scheduleSearch</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">function</span> <span class="nx">scheduleSearch</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">searchTimeout</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">searchTimeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="nx">performSearch</span><span class="p">(),</span> <span class="mi">300</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">async</span> <span class="kd">function</span> <span class="nx">performSearch</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">query</span> <span class="o">=</span> <span class="nx">searchInput</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">query</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">searchResults</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">results</span> <span class="o">=</span> <span class="kr">await</span> <span class="nx">search</span><span class="p">(</span><span class="nx">query</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">searchResults</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">results</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">url</span> <span class="p">=&gt;</span> <span class="sb">`&lt;li&gt;&lt;a href=&#34;/posts/</span><span class="si">${</span><span class="nx">url</span><span class="si">}</span><span class="sb">.html&#34;&gt;</span><span class="si">${</span><span class="nx">url</span><span class="si">}</span><span class="sb">&lt;/a&gt;&lt;/li&gt;`</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
 </span></span></code></pre><p>这部分，最开始在搜索中文的时候我发现，中文输入被转换成了拼音，因为 <code>input</code> 事件触发时机太快，输入法还没有生成汉字。</p>
 <p><code>Cursor</code> 帮我优化了这个小问题，通过 <code>compositionstart</code> 和 <code>compositionend</code> 来跟踪输入法的状态，从而避免这个问题，并且添加了 <code>setTimeout</code> 来优化搜索频率。</p>
 <h2 id="result">Result</h2>
@@ -358,6 +367,23 @@
           </aside>
           
         </div>
+
+        
+        <nav class="post-nav" aria-label="Post navigation">
+          
+          <a class="post-nav__link" href="/posts/leaving_sz_shopee.html">
+            <span class="post-nav__dir">← Newer</span>
+            <span class="post-nav__title">Leaved 🦐</span>
+          </a>
+          
+          
+          <a class="post-nav__link post-nav__link--next" href="/posts/rssy-go-rssread-website.html">
+            <span class="post-nav__dir">Older →</span>
+            <span class="post-nav__title">Rssy - A miniflux rss reader alternative</span>
+          </a>
+          
+        </nav>
+        
 
         <!-- Comments -->
         <section class="comments-section">
@@ -403,6 +429,65 @@
 
       // Smooth scroll for TOC links
       document.addEventListener('DOMContentLoaded', function() {
+        // Reading progress
+        const progressBar = document.getElementById('reading-progress-bar');
+        const updateProgress = () => {
+          if (!progressBar) return;
+          const doc = document.documentElement;
+          const scrollable = doc.scrollHeight - doc.clientHeight;
+          const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+          progressBar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, progress)) + ')';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress, { passive: true });
+        updateProgress();
+
+        // Reading time
+        const readingTime = document.getElementById('reading-time');
+        const postBody = document.querySelector('.post-body');
+        if (readingTime && postBody) {
+          const text = postBody.textContent || '';
+          const cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+          const words = (text.replace(/[\u4e00-\u9fff\u3400-\u4dbf]/g, ' ').match(/[A-Za-z0-9_]+/g) || []).length;
+          const minutes = Math.max(1, Math.round(cjk / 350 + words / 200));
+          readingTime.textContent = '· ' + minutes + ' min read';
+        }
+
+        // Wrap tables for horizontal scrolling on small screens
+        document.querySelectorAll('.post-body > table').forEach(table => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-scroll';
+          table.parentNode.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        });
+
+        // Copy buttons for code blocks
+        document.querySelectorAll('.post-body pre').forEach(pre => {
+          if (pre.querySelector('.code-copy')) return;
+          const button = document.createElement('button');
+          button.className = 'code-copy';
+          button.type = 'button';
+          button.textContent = 'Copy';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.addEventListener('click', async () => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+            try {
+              await navigator.clipboard.writeText(code.textContent);
+              button.textContent = 'Copied';
+              button.classList.add('code-copy--copied');
+              setTimeout(() => {
+                button.textContent = 'Copy';
+                button.classList.remove('code-copy--copied');
+              }, 1800);
+            } catch (e) {
+              button.textContent = 'Failed';
+              setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+            }
+          });
+          pre.appendChild(button);
+        });
+
         const tocLinks = document.querySelectorAll('.toc-nav:not(.timeline-nav) a');
         const tocPanel = document.querySelector('.toc-panel');
         const sidepanelToggle = document.getElementById('sidepanel-toggle');

@@ -5,6 +5,8 @@
     
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 
 <title>轻量级 HTTPS 代理实现 - Nexo</title>
 
@@ -34,11 +36,13 @@
 
   </head>
   <body class="post-page">
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
     <div class="app">
       
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
       <a href="/" class="site-header__title">L'iving and Discovering</a>
       <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
     </div>
@@ -109,6 +113,10 @@
     
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
+    });
   }
 
   (function initHeaderScrollBehavior() {
@@ -153,6 +161,7 @@
               <h1 class="post-title">轻量级 HTTPS 代理实现 - Nexo</h1>
               <div class="post-meta">
                 <time class="post-date" datetime="2025-05-03T19:00:00+08:00">2025-05-03</time>
+                <span class="post-reading-time" id="reading-time"></span>
                 
                 <div class="post-tags">
                   
@@ -198,30 +207,30 @@
 </ol>
 <h2 id="usage">Usage</h2>
 <p>最简单的方式是用 Docker 启动：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>docker run --restart<span style="color:#000;font-weight:bold">=</span>unless-stopped --name nexo <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>  -p 443:443 <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>  -v ~/.nexo:/etc/nexo <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>  ghcr.io/abcdlsj/nexo:latest
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">docker run --restart<span class="o">=</span>unless-stopped --name nexo <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -p 443:443 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v ~/.nexo:/etc/nexo <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  ghcr.io/abcdlsj/nexo:latest
 </span></span></code></pre><p>当然也可以直接运行二进制：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>sudo nexo server
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">sudo nexo server
 </span></span></code></pre><p>配置文件放在 <code>~/.nexo/config.yaml</code>，示例：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000080">base_dir</span>:<span style="color:#bbb"> </span>/etc/nexo<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">cert_dir</span>:<span style="color:#bbb"> </span>/etc/nexo/certs<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">email</span>:<span style="color:#bbb"> </span>your-email@example.com<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">cloudflare</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#000080">api_token</span>:<span style="color:#bbb"> </span>your-cloudflare-api-token<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#998;font-style:italic"># 域名级别配置</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">wildcards</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>- <span style="color:#d14">&#34;*.example.com&#34;</span><span style="color:#bbb">    </span><span style="color:#998;font-style:italic"># 表示这个域名使用 wildcard 证书</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">proxies</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#d14">&#34;api.example.com&#34;</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">upstream</span>:<span style="color:#bbb"> </span>http://172.17.0.1:8080<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#d14">&#34;blog.example.com&#34;</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">upstream</span>:<span style="color:#bbb"> </span>http://172.17.0.1:3000<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#d14">&#34;example.com&#34;</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">redirect</span>:<span style="color:#bbb"> </span>github.com/yourusername<span style="color:#bbb"> </span><span style="color:#998;font-style:italic"># 会自动带上 https</span><span style="color:#bbb">
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nt">base_dir</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/nexo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">cert_dir</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/nexo/certs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">email</span><span class="p">:</span><span class="w"> </span><span class="l">your-email@example.com</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">cloudflare</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">api_token</span><span class="p">:</span><span class="w"> </span><span class="l">your-cloudflare-api-token</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 域名级别配置</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">wildcards</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="s2">&#34;*.example.com&#34;</span><span class="w">    </span><span class="c"># 表示这个域名使用 wildcard 证书</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">proxies</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s2">&#34;api.example.com&#34;</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">upstream</span><span class="p">:</span><span class="w"> </span><span class="l">http://172.17.0.1:8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s2">&#34;blog.example.com&#34;</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">upstream</span><span class="p">:</span><span class="w"> </span><span class="l">http://172.17.0.1:3000</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s2">&#34;example.com&#34;</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">redirect</span><span class="p">:</span><span class="w"> </span><span class="l">github.com/yourusername</span><span class="w"> </span><span class="c"># 会自动带上 https</span><span class="w">
 </span></span></span></code></pre><p>就这么简单，Nexo 会自动：</p>
 <ol>
 <li>申请/续期证书</li>
@@ -311,6 +320,23 @@
           
         </div>
 
+        
+        <nav class="post-nav" aria-label="Post navigation">
+          
+          <a class="post-nav__link" href="/posts/2025.html">
+            <span class="post-nav__dir">← Newer</span>
+            <span class="post-nav__title">迟来的 25 年总结</span>
+          </a>
+          
+          
+          <a class="post-nav__link post-nav__link--next" href="/posts/2024.html">
+            <span class="post-nav__dir">Older →</span>
+            <span class="post-nav__title">2024 总结 & 新的生活</span>
+          </a>
+          
+        </nav>
+        
+
         <!-- Comments -->
         <section class="comments-section">
           <div id="disqus_thread"></div>
@@ -355,6 +381,65 @@
 
       // Smooth scroll for TOC links
       document.addEventListener('DOMContentLoaded', function() {
+        // Reading progress
+        const progressBar = document.getElementById('reading-progress-bar');
+        const updateProgress = () => {
+          if (!progressBar) return;
+          const doc = document.documentElement;
+          const scrollable = doc.scrollHeight - doc.clientHeight;
+          const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+          progressBar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, progress)) + ')';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress, { passive: true });
+        updateProgress();
+
+        // Reading time
+        const readingTime = document.getElementById('reading-time');
+        const postBody = document.querySelector('.post-body');
+        if (readingTime && postBody) {
+          const text = postBody.textContent || '';
+          const cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+          const words = (text.replace(/[\u4e00-\u9fff\u3400-\u4dbf]/g, ' ').match(/[A-Za-z0-9_]+/g) || []).length;
+          const minutes = Math.max(1, Math.round(cjk / 350 + words / 200));
+          readingTime.textContent = '· ' + minutes + ' min read';
+        }
+
+        // Wrap tables for horizontal scrolling on small screens
+        document.querySelectorAll('.post-body > table').forEach(table => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-scroll';
+          table.parentNode.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        });
+
+        // Copy buttons for code blocks
+        document.querySelectorAll('.post-body pre').forEach(pre => {
+          if (pre.querySelector('.code-copy')) return;
+          const button = document.createElement('button');
+          button.className = 'code-copy';
+          button.type = 'button';
+          button.textContent = 'Copy';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.addEventListener('click', async () => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+            try {
+              await navigator.clipboard.writeText(code.textContent);
+              button.textContent = 'Copied';
+              button.classList.add('code-copy--copied');
+              setTimeout(() => {
+                button.textContent = 'Copy';
+                button.classList.remove('code-copy--copied');
+              }, 1800);
+            } catch (e) {
+              button.textContent = 'Failed';
+              setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+            }
+          });
+          pre.appendChild(button);
+        });
+
         const tocLinks = document.querySelectorAll('.toc-nav:not(.timeline-nav) a');
         const tocPanel = document.querySelector('.toc-panel');
         const sidepanelToggle = document.getElementById('sidepanel-toggle');

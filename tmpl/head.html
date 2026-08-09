@@ -1,6 +1,8 @@
 {{define "head"}}
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 {{if .IsPost}}
 <title>{{.Meta.Title}}</title>
 {{else}}
