@@ -8,33 +8,23 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 
-<title>Gnar - A tunnel proxy like Frp/Ngrok</title>
+<title>Gnar - A tunnel proxy like frp/ngrok</title>
 
 <meta name="description" content="Exploring the intersections of life/programming/technology." />
 
 <meta name="keywords" content="Network,Tunnel,Yamux,Traffic Limit,IO Package,">
 <meta name="author" content="abcdlsj">
-<meta property="og:title" content="Gnar - A tunnel proxy like Frp/Ngrok">
-<meta property="og:description" content="从 0 实现一个类 Frp/Ngrok 的内网穿透工具：从 TCP 转发到多协议支持">
+<meta property="og:title" content="Gnar - A tunnel proxy like frp/ngrok">
+<meta property="og:description" content="从 0 实现一个类 frp/ngrok 的内网穿透工具：从 TCP 转发到多协议支持">
 <meta property="og:url" content="https://abcdlsj.github.io/posts/gnar-build-a-proxy.html">
 <meta property="og:type" content="article">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
-<link rel="icon" href="/static/favicon.ico" sizes="any" />
 <link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
-<script>
-  // Theme initialization - runs before page render to prevent flash
-  (function() {
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-    }
-  })();
-</script>
+<script defer src="/static/script/search.js"></script>
 <script defer src="https://us.umami.is/script.js" data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"></script>
-<script src="/static/script/search.js"></script>
 
   </head>
   <body class="post-page">
@@ -78,49 +68,30 @@
         
         
       </ul>
-      <button class="theme-toggle" type="button" aria-label="Toggle theme" onclick="toggleTheme()">
-        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>
+      <div class="site-search" id="site-search">
+        <button class="site-search__toggle" id="search-toggle" type="button" aria-label="Search posts" aria-controls="site-search-panel" aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-4-4"></path>
+          </svg>
+        </button>
+        <div class="site-search__panel" id="site-search-panel">
+          <label class="sr-only" for="search-input">Search posts</label>
+          <div class="site-search__field">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-4-4"></path>
+            </svg>
+            <input id="search-input" type="search" placeholder="Search posts..." autocomplete="off" spellcheck="false" />
+          </div>
+          <ul id="search-results" aria-label="Search results"></ul>
+          <p class="site-search__hint">Type at least 2 characters to search.</p>
+        </div>
+      </div>
     </nav>
   </div>
 </header>
 <script>
-  function toggleTheme() {
-    const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    let newTheme;
-    if (currentTheme === 'dark') {
-      newTheme = 'light';
-    } else if (currentTheme === 'light') {
-      newTheme = 'dark';
-    } else {
-      // No explicit theme set, toggle based on system preference
-      newTheme = prefersDark ? 'light' : 'dark';
-    }
-    
-    html.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-
-    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
-      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
-    });
-  }
-
   (function initHeaderScrollBehavior() {
     const header = document.querySelector('.site-header');
     if (!header) return;
@@ -136,7 +107,8 @@
         return;
       }
 
-      if (document.body.classList.contains('sidepanel-open')) {
+      if (document.body.classList.contains('sidepanel-open') ||
+          header.querySelector('.site-search--open')) {
         header.classList.remove('site-header--hidden');
         lastY = y;
         return;
@@ -160,7 +132,7 @@
             <!-- Post Header -->
             <header class="post-header">
               
-              <h1 class="post-title">Gnar - A tunnel proxy like Frp/Ngrok</h1>
+              <h1 class="post-title">Gnar - A tunnel proxy like frp/ngrok</h1>
               <div class="post-meta">
                 <time class="post-date" datetime="2023-11-04T22:47:37+08:00">2023-11-04</time>
                 <span class="post-reading-time" id="reading-time"></span>
@@ -193,7 +165,7 @@
             <div class="post-body">
               <h2 id="background">Background</h2>
 <p><strong>实现简单的转发工具</strong></p>
-<p>公司内部的服务框架 Service 之间通信是通过连接每台机器的 <code>Agent</code> 监听的 <code>UNIX domain</code> 实现的，在公司容器集群环境，都是会启动 <code>Agent</code>。<br>
+<p>公司内部的服务框架 <code>Service</code> 之间通信是通过连接每台机器的 <code>Agent</code> 监听的 <code>UNIX domain</code> 实现的，在公司容器集群环境，都是会启动 <code>Agent</code>。<br>
 但是作为本地环境，没有 <code>Agent</code> 的条件，所以本地服务都是使用 <code>socat</code> 将本地 <code>UNIX domain</code> 流量转发到远程搭建的 <code>TCP agent</code> 来启动服务。</p>
 <p>在公司内部，我们一般是使用 <code>socat -d -d -d UNIX-LISTEN:/tmp/xxx.sock,reuseaddr,fork TCP:agent-tcp.xxxx.io:9299</code> 来做转发的。</p>
 <blockquote>
@@ -201,17 +173,17 @@
 </blockquote>
 <p>有次想到既然原理这么简单，那么实现一个类似功能的转发工具应该也很简单，借助 <code>io.Copy()</code> 以及 <code>net</code> 包，一小会就实现了代码，总代码量不超过 50 行，但是却非常实用，启动速度比 <code>socat</code> 还要快一点。</p>
 <p><strong>远程端口转发</strong></p>
-<p>再后来想到可以实现一个类似 <code>Frp</code> 和 <code>Ngrok</code> 的工具，代码是年初 or 去年末写了第一个版本，后边改了一些，现在和最初的版本相比要复杂一些。</p>
+<p>再后来想到可以实现一个类似 <code>frp</code> 和 <code>ngrok</code> 的工具，代码是年初或去年末写了第一个版本，后边改了一些，现在和最初的版本相比要复杂一些。</p>
 <blockquote>
-<p>开始只实现 <code>TCP</code> 转发，带有 <code>Caddy</code> 来做 <code>Auto Subdomain HTTPS</code>，代码不到 <code>1000</code> 行。现在支持 <code>TCP/UDP</code> 协议，所以本文只涉及 <code>TCP/UDP</code> 实现（不过其它协议也大都类似</p>
+<p>开始只实现 <code>TCP</code> 转发，带有 <code>Caddy</code> 来做 <code>Auto Subdomain HTTPS</code>，代码不到 <code>1000</code> 行。现在支持 <code>TCP/UDP</code> 协议，所以本文只涉及 <code>TCP/UDP</code> 实现（不过其它协议也大都类似）</p>
 <p>顺带一提，<code>GitHub</code> 有非常多类似的实现，比如 <a href="https://github.com/ekzhang/bore">ekzhang/bore</a> 和 <a href="https://github.com/rapiz1/rathole/">rapiz1/rathole</a>（<code>Tokio</code> 的功能太强大了，忍不住想用 <code>Rust</code> 重写 :P）</p>
 </blockquote>
-<p>所有的代码都在 <a href="https://github.com/abcdlsj/gnar/tree/484084da8b9edb99fb39e5d7561cc94d16d7031c">abcdlsj/gnar</a> 里（本文纂写时的版本）</p>
+<p>所有的代码都在 <a href="https://github.com/abcdlsj/gnar/tree/484084da8b9edb99fb39e5d7561cc94d16d7031c">abcdlsj/gnar</a> 里（本文撰写时的版本）</p>
 <h2 id="how-to-implement">How to implement</h2>
 <p>假设有一个服务器（Server）和一个客户端（Client）。其中，服务器的 IP 可以直接从公网访问，而客户端的 IP 则不行，并且客户端可以访问服务器。</p>
 <p>我们希望有一种方法来建立服务器端口和客户端端口之间的关联，将对服务器端口的访问转发到客户端的对应端口，通过公网访问服务器的端口就相当于访问客户端的端口。</p>
 <p>假设我们 Server 通信端口是 8910，要将 Client 的 3000 端口穿透到 Server 的 9000 端口。<br>
-首先 Server 端应该和 Client 端进行通信（8910 端口），对于 Server 端的目标端口（9000）的用户请求，将用户请求和 Client 连接进行流量「代理」，Client 则对本地端口（3000）和通信接口连接进行流量「代理」）。<br>
+首先 Server 端应该和 Client 端进行通信（8910 端口），对于 Server 端的目标端口（9000）的用户请求，将用户请求和 Client 连接进行流量「代理」，Client 则对本地端口（3000）和通信接口连接进行流量「代理」。<br>
 这样流量路径就是：用户请求 -&gt; Server 「代理」的通信连接（也是 Client 端「代理」的通信连接） -&gt; Client 端本地链接</p>
 <p>最后结构差不多就是这样：</p>
 <div class="d2"><?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.7.1-HEAD" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1128 922"><svg class="d2-1721285503 d2-svg" width="1128" height="922" viewBox="-95 -121 1128 922"><rect x="-95.000000" y="-121.000000" width="1128.000000" height="922.000000" rx="0.000000" fill="#FFFFFF" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
@@ -346,7 +318,7 @@
 </ol>
 <blockquote>
 <p>对于 1 和 2 可以看下面的详细实现<br>
-对于 3，如果没有实现过类似的工具可能不太清楚为什么会有这个问题，看了下面详细的流程大概就清楚了（忽略「鉴权」部分</p>
+对于 3，如果没有实现过类似的工具可能不太清楚为什么会有这个问题，看了下面详细的流程大概就清楚了（忽略「鉴权」部分）</p>
 </blockquote>
 <ol>
 <li>首先启动 Server 端，监听 8910 端口。</li>
@@ -686,7 +658,7 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>大概流程就是：</p>
 <ol>
-<li>check port available</li>
+<li>检查端口是否可用</li>
 <li>发送 <code>ForwardResp</code> 消息</li>
 <li>创建 <code>uListener</code> 并且等待用户连接</li>
 <li>收到用户连接，创建 <code>uuid</code>，发送 <code>Exchange</code> 消息</li>
@@ -782,14 +754,14 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </span></span></code></pre><h3 id="conclusion">Conclusion</h3>
 <p>到此，<code>Gnar</code> 的实现已经差不多，基本上列出了完整的流程，接下来会写下 <code>Gnar</code> 所实现的 <code>Feature</code>。</p>
 <h2 id="feature">Feature</h2>
-<h3 id="auto-https">Auto-Https</h3>
+<h3 id="auto-https">Auto-HTTPS</h3>
 <blockquote>
-<p>目标是实现自动 <code>Subdomain</code> 分配并且支持 <code>Https</code></p>
+<p>目标是实现自动 <code>Subdomain</code> 分配并且支持 <code>HTTPS</code></p>
 </blockquote>
 <p>也就是假设 Server 运行在 <code>example.com</code> 机器，Client 开启转发 <code>Local 3000</code> 到 <code>Server 9000</code> 端口。<br>
-Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，提供 <code>Auto-Https</code>，用户可以通过 <code>https://xxx.example.com</code> 来访问。</p>
+Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，提供 <code>Auto-HTTPS</code>，用户可以通过 <code>https://xxx.example.com</code> 来访问。</p>
 <blockquote>
-<p>这里可以自己通过 Reverse Proxy 来实现 <code>Auto-Https</code></p>
+<p>这里可以自己通过 Reverse Proxy 来实现 <code>Auto-HTTPS</code></p>
 </blockquote>
 <p>或者可以借助 <code>Caddy/Nginx</code> 来实现，这里我使用的 <code>Caddy</code>，借助 <code>Caddy</code> 的 <code>API</code> 功能来实现。</p>
 <p>先启动 <code>Caddy</code> 创建一个 <code>server</code>，这是配置内容，<code>routes</code> 留空就可以。</p>
@@ -951,7 +923,7 @@ A：<code>frp</code> 有过类似讨论，可以看 <a href="https://github.com/
 </span></span><span class="line"><span class="cl">		<span class="p">}()</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre><p>相当于 <code>TCP</code> 转发里的 <code>proxy.Stream</code> 替代。</p>
+</span></span></code></pre><p>相当于 <code>TCP</code> 转发里的 <code>proxy.Stream</code> 的替代。</p>
 <h3 id="speed-limit">Speed limit</h3>
 <p>得益于 <code>io.Reader</code> 和 <code>io.Writer</code> 接口，以及 <code>rate</code> 包，实现限速其实也很简单。</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">LimitStream</span> <span class="kd">struct</span> <span class="p">{</span>
@@ -1014,12 +986,12 @@ A：<code>frp</code> 有过类似讨论，可以看 <a href="https://github.com/
 <p>写了下如何实现一个内网转发的小工具，代码本身还有很多可以优化的地方，比如</p>
 <ol>
 <li>完善「错误处理」「重试」，对于哪些错误需要重试，哪些错误直接退出。</li>
-<li>支持更多转发协议，例如 <code>HTTP/Quic/WebSocket</code>，<code>Control</code> 协议也可以支持更多，目前是 <code>TCP</code>，可以支持 <code>UDP/KCP</code> 等。</li>
+<li>支持更多转发协议，例如 <code>HTTP/QUIC/WebSocket</code>，<code>Control</code> 协议也可以支持更多，目前是 <code>TCP</code>，可以支持 <code>UDP/KCP</code> 等。</li>
 <li>完善监控采集，这部分可以用 <code>Prometheus</code>，但是对于小项目来说太麻烦了。</li>
-<li><code>Serverside Load-Balancing</code> 这部分一直在思考如何做，从上边 <code>fly.io</code> 的部署就能知道，<code>Server</code> 端访问只能是单机的。</li>
+<li><code>Server-side Load-Balancing</code> 这部分一直在思考如何做，从上边 <code>fly.io</code> 的部署就能知道，<code>Server</code> 端访问只能是单机的。</li>
 </ol>
 <p>最后，感谢阅读！</p>
-<h2 id="refs">refs</h2>
+<h2 id="references">References</h2>
 <p><a href="https://pandaychen.github.io/2020/01/01/MAGIC-GO-IO-PACKAGE/">https://pandaychen.github.io/2020/01/01/MAGIC-GO-IO-PACKAGE/</a><br>
 <a href="https://github.com/ekzhang/bore">https://github.com/ekzhang/bore</a><br>
 <a href="https://github.com/rapiz1/rathole">https://github.com/rapiz1/rathole</a><br>
@@ -1068,7 +1040,7 @@ A：<code>frp</code> 有过类似讨论，可以看 <a href="https://github.com/
 <li>
 <a href="#feature">Feature</a><ul>
 <li>
-<a href="#auto-https">Auto-Https</a></li>
+<a href="#auto-https">Auto-HTTPS</a></li>
 <li>
 <a href="#deploy-at-flyio">Deploy at fly.io</a></li>
 <li>
@@ -1080,7 +1052,7 @@ A：<code>frp</code> 有过类似讨论，可以看 <a href="https://github.com/
 <li>
 <a href="#conclusion-1">Conclusion</a></li>
 <li>
-<a href="#refs">refs</a></li>
+<a href="#references">References</a></li>
 </ul>
 </li>
 </ul>

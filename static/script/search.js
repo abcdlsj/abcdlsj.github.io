@@ -1,217 +1,208 @@
-/**
- * 搜索功能 - Enhanced Search Functionality
- * 提供流畅的搜索体验和更好的用户界面
- */
-
 let searchIndex = null;
-let searchCache = new Map();
+const searchCache = new Map();
 
-/**
- * 加载搜索索引
- */
 async function loadSearchIndex() {
-    if (searchIndex === null) {
-        try {
-            const response = await fetch('/search-index.json');
-            searchIndex = await response.json();
-            console.log('搜索索引加载完成');
-        } catch (error) {
-            console.error('加载搜索索引失败:', error);
-            searchIndex = { words: {}, posts: {} };
-        }
-    }
+  if (searchIndex !== null) return searchIndex;
+
+  try {
+    const response = await fetch('/search-index.json');
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    searchIndex = await response.json();
+  } catch (error) {
+    console.error('Failed to load the search index:', error);
+    searchIndex = { words: {}, posts: {} };
+  }
+
+  return searchIndex;
 }
 
-/**
- * 执行搜索
- */
 async function search(query) {
-    await loadSearchIndex();
-    
-    // 检查缓存
-    if (searchCache.has(query)) {
-        return searchCache.get(query);
+  await loadSearchIndex();
+
+  const normalizedQuery = query.trim().toLowerCase();
+  if (searchCache.has(normalizedQuery)) {
+    return searchCache.get(normalizedQuery);
+  }
+
+  const words = normalizedQuery.split(/\s+/).filter(Boolean);
+  const results = new Map();
+
+  for (const word of words) {
+    for (const postURL of searchIndex.words[word] || []) {
+      results.set(postURL, (results.get(postURL) || 0) + 1);
     }
-    
-    const words = query.toLowerCase().split(/\s+/).filter(word => word.length > 0);
-    const results = new Map();
-    
-    for (const word of words) {
-        if (word in searchIndex.words) {
-            for (const postUrl of searchIndex.words[word]) {
-                const currentCount = results.get(postUrl) || 0;
-                results.set(postUrl, currentCount + 1);
-            }
-        }
+
+    for (const [postURL, post] of Object.entries(searchIndex.posts || {})) {
+      if ((post.title || '').toLowerCase().includes(word)) {
+        results.set(postURL, (results.get(postURL) || 0) + 2);
+      }
     }
-    
-    // 按匹配度排序
-    const sortedResults = Array.from(results.entries())
-        .sort((a, b) => b[1] - a[1])
-        .map(([url]) => url);
-    
-    // 缓存结果
-    searchCache.set(query, sortedResults);
-    
-    return sortedResults;
+  }
+
+  const sortedResults = Array.from(results.entries())
+    .sort((a, b) => b[1] - a[1])
+    .map(([url]) => url);
+
+  searchCache.set(normalizedQuery, sortedResults);
+  return sortedResults;
 }
 
-/**
- * 获取文章标题
- */
-function getPostTitle(url) {
-    if (searchIndex && searchIndex.posts && searchIndex.posts[url]) {
-        return searchIndex.posts[url].title || url;
-    }
-    return url;
+function escapeHTML(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
 }
 
-/**
- * 高亮搜索关键词
- */
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function highlightText(text, query) {
-    if (!text || !query) return text;
-    
-    const words = query.toLowerCase().split(/\s+/).filter(word => word.length > 0);
-    let highlightedText = text;
-    
-    words.forEach(word => {
-        const regex = new RegExp(`(${word})`, 'gi');
-        highlightedText = highlightedText.replace(regex, '<mark>$1</mark>');
-    });
-    
-    return highlightedText;
+  const safeText = escapeHTML(text);
+  const words = query.trim().split(/\s+/).filter(Boolean).map(escapeRegExp);
+  if (words.length === 0) return safeText;
+
+  return safeText.replace(new RegExp(`(${words.join('|')})`, 'gi'), '<mark>$1</mark>');
 }
 
-/**
- * 显示搜索结果
- */
+function formatSearchDate(value) {
+  return value ? escapeHTML(value.slice(0, 10)) : '';
+}
+
 function displayResults(results, query) {
-    const searchResults = document.getElementById('search-results');
-    
-    if (results.length === 0) {
-        searchResults.innerHTML = '<li class="search-no-results">未找到相关文章</li>';
-        return;
-    }
-    
-    const resultsHTML = results.slice(0, 8).map(url => {
-        const title = getPostTitle(url);
-        const highlightedTitle = highlightText(title, query);
-        
-        return `
-            <li class="search-result-item">
-                <a href="/posts/${url}.html" class="search-result-link">
-                    ${highlightedTitle}
-                </a>
-            </li>
-        `;
-    }).join('');
-    
-    searchResults.innerHTML = resultsHTML;
+  const searchResults = document.getElementById('search-results');
+  if (!searchResults) return;
+
+  if (results.length === 0) {
+    searchResults.innerHTML = '<li class="search-no-results">No matching posts.</li>';
+    return;
+  }
+
+  searchResults.innerHTML = results.slice(0, 8).map((url) => {
+    const post = searchIndex.posts?.[url] || {};
+    const title = post.title || url;
+    const date = formatSearchDate(post.date);
+
+    return `
+      <li class="search-result-item">
+        <a href="/posts/${escapeHTML(url)}.html" class="search-result-link">
+          <span class="search-result-title">${highlightText(title, query)}</span>
+          ${date ? `<time class="search-result-date">${date}</time>` : ''}
+        </a>
+      </li>
+    `;
+  }).join('');
 }
 
-/**
- * 显示搜索状态
- */
 function showSearchStatus(message) {
-    const searchResults = document.getElementById('search-results');
-    searchResults.innerHTML = `<li class="search-status">${message}</li>`;
+  const searchResults = document.getElementById('search-results');
+  if (searchResults) {
+    searchResults.innerHTML = `<li class="search-status">${escapeHTML(message)}</li>`;
+  }
 }
 
-// 搜索控制变量
-let searchTimeout = null;
-let isComposing = false;
-let isSearching = false;
+function initSearch() {
+  const searchRoot = document.getElementById('site-search');
+  const searchToggle = document.getElementById('search-toggle');
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+  if (!searchRoot || !searchToggle || !searchInput || !searchResults) return;
 
-/**
- * 初始化搜索功能
- */
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('search-input');
-    const searchResults = document.getElementById('search-results');
-    
-    if (!searchInput || !searchResults) {
-        console.log('搜索元素未找到，跳过搜索初始化');
-        return;
+  let searchTimeout = null;
+  let isComposing = false;
+  let requestID = 0;
+
+  function setSearchOpen(open) {
+    searchRoot.classList.toggle('site-search--open', open);
+    searchToggle.setAttribute('aria-expanded', String(open));
+    if (open) {
+      window.requestAnimationFrame(() => searchInput.focus());
     }
-    
-    // 输入事件处理
-    searchInput.addEventListener('input', () => {
-        if (isComposing || isSearching) return;
-        scheduleSearch();
-    });
+  }
 
-    // 输入法组合事件
-    searchInput.addEventListener('compositionstart', () => {
-        isComposing = true;
-    });
+  async function performSearch() {
+    const query = searchInput.value.trim();
+    const currentRequest = ++requestID;
 
-    searchInput.addEventListener('compositionend', () => {
-        isComposing = false;
-        scheduleSearch();
-    });
-
-    // 键盘导航
-    searchInput.addEventListener('keydown', (e) => {
-        const items = searchResults.querySelectorAll('.search-result-link');
-        const currentIndex = Array.from(items).findIndex(item => item === document.activeElement);
-        
-        if (e.key === 'ArrowDown' && items.length > 0) {
-            e.preventDefault();
-            const nextIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
-            items[nextIndex].focus();
-        } else if (e.key === 'ArrowUp' && items.length > 0) {
-            e.preventDefault();
-            const prevIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
-            items[prevIndex].focus();
-        } else if (e.key === 'Escape') {
-            searchInput.value = '';
-            searchResults.innerHTML = '';
-            searchInput.blur();
-        }
-    });
-
-    // 失去焦点时隐藏结果（延迟以允许点击）
-    searchInput.addEventListener('blur', () => {
-        setTimeout(() => {
-            if (!searchResults.contains(document.activeElement)) {
-                searchResults.innerHTML = '';
-            }
-        }, 200);
-    });
-
-    /**
-     * 调度搜索
-     */
-    function scheduleSearch() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => performSearch(), 200);
+    if (query.length < 2) {
+      searchResults.innerHTML = '';
+      return;
     }
 
-    /**
-     * 执行搜索
-     */
-    async function performSearch() {
-        const query = searchInput.value.trim();
-        
-        if (query.length < 2) {
-            searchResults.innerHTML = '';
-            return;
-        }
-        
-        if (isSearching) return;
-        isSearching = true;
-        
-        showSearchStatus('搜索中...');
-        
-        try {
-            const results = await search(query);
-            displayResults(results, query);
-        } catch (error) {
-            console.error('搜索失败:', error);
-            showSearchStatus('搜索失败，请重试');
-        } finally {
-            isSearching = false;
-        }
+    showSearchStatus('Searching...');
+    const results = await search(query);
+    if (currentRequest === requestID) displayResults(results, query);
+  }
+
+  function scheduleSearch() {
+    window.clearTimeout(searchTimeout);
+    searchTimeout = window.setTimeout(performSearch, 160);
+  }
+
+  searchToggle.addEventListener('click', () => {
+    setSearchOpen(!searchRoot.classList.contains('site-search--open'));
+  });
+
+  searchInput.addEventListener('input', () => {
+    if (!isComposing) scheduleSearch();
+  });
+
+  searchInput.addEventListener('compositionstart', () => {
+    isComposing = true;
+  });
+
+  searchInput.addEventListener('compositionend', () => {
+    isComposing = false;
+    scheduleSearch();
+  });
+
+  searchInput.addEventListener('keydown', (event) => {
+    const items = Array.from(searchResults.querySelectorAll('.search-result-link'));
+    if (event.key === 'ArrowDown' && items.length > 0) {
+      event.preventDefault();
+      items[0].focus();
     }
-});
+  });
+
+  searchResults.addEventListener('keydown', (event) => {
+    const items = Array.from(searchResults.querySelectorAll('.search-result-link'));
+    const currentIndex = items.indexOf(document.activeElement);
+
+    if (event.key === 'ArrowDown' && items.length > 0) {
+      event.preventDefault();
+      items[(currentIndex + 1) % items.length].focus();
+    } else if (event.key === 'ArrowUp' && items.length > 0) {
+      event.preventDefault();
+      items[(currentIndex - 1 + items.length) % items.length].focus();
+    }
+  });
+
+  document.addEventListener('pointerdown', (event) => {
+    if (!searchRoot.contains(event.target)) setSearchOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && searchRoot.classList.contains('site-search--open')) {
+      setSearchOpen(false);
+      searchToggle.focus();
+      return;
+    }
+
+    const target = event.target;
+    const isTyping = target instanceof HTMLInputElement ||
+      target instanceof HTMLTextAreaElement || target.isContentEditable;
+    if (event.key === '/' && !isTyping && !event.metaKey && !event.ctrlKey && !event.altKey) {
+      event.preventDefault();
+      setSearchOpen(true);
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSearch);
+} else {
+  initSearch();
+}

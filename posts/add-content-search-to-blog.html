@@ -21,20 +21,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
-<link rel="icon" href="/static/favicon.ico" sizes="any" />
 <link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
-<script>
-  // Theme initialization - runs before page render to prevent flash
-  (function() {
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-    }
-  })();
-</script>
+<script defer src="/static/script/search.js"></script>
 <script defer src="https://us.umami.is/script.js" data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"></script>
-<script src="/static/script/search.js"></script>
 
   </head>
   <body class="post-page">
@@ -78,49 +68,30 @@
         
         
       </ul>
-      <button class="theme-toggle" type="button" aria-label="Toggle theme" onclick="toggleTheme()">
-        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>
+      <div class="site-search" id="site-search">
+        <button class="site-search__toggle" id="search-toggle" type="button" aria-label="Search posts" aria-controls="site-search-panel" aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-4-4"></path>
+          </svg>
+        </button>
+        <div class="site-search__panel" id="site-search-panel">
+          <label class="sr-only" for="search-input">Search posts</label>
+          <div class="site-search__field">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-4-4"></path>
+            </svg>
+            <input id="search-input" type="search" placeholder="Search posts..." autocomplete="off" spellcheck="false" />
+          </div>
+          <ul id="search-results" aria-label="Search results"></ul>
+          <p class="site-search__hint">Type at least 2 characters to search.</p>
+        </div>
+      </div>
     </nav>
   </div>
 </header>
 <script>
-  function toggleTheme() {
-    const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    let newTheme;
-    if (currentTheme === 'dark') {
-      newTheme = 'light';
-    } else if (currentTheme === 'light') {
-      newTheme = 'dark';
-    } else {
-      // No explicit theme set, toggle based on system preference
-      newTheme = prefersDark ? 'light' : 'dark';
-    }
-    
-    html.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-
-    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
-      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
-    });
-  }
-
   (function initHeaderScrollBehavior() {
     const header = document.querySelector('.site-header');
     if (!header) return;
@@ -136,7 +107,8 @@
         return;
       }
 
-      if (document.body.classList.contains('sidepanel-open')) {
+      if (document.body.classList.contains('sidepanel-open') ||
+          header.querySelector('.site-search--open')) {
         header.classList.remove('site-header--hidden');
         lastY = y;
         return;
@@ -185,9 +157,9 @@
             <!-- Post Content -->
             <div class="post-body">
               <h2 id="background">Background</h2>
-<p>我目前使用的是自己实现的 SSG（Static Site Generator）程序来生成这个站点，所以很多功能都没有，需要自己添加。</p>
+<p>我目前使用的是自己实现的 <code>SSG</code>（<code>Static Site Generator</code>）程序来生成这个站点，所以很多功能都没有，需要自己添加。</p>
 <p>比如 <code>Feed</code> 功能！</p>
-<p>这个比较简单，特别是目前还有非常强大的 AI 工具，比如 <code>GitHub Copilot</code>，<code>Cursor</code> 等（强烈推荐 <code>Cursor</code> 和 <code>Claude 3.5 Sonnet</code>）。</p>
+<p>这个比较简单，特别是目前还有非常强大的 <code>AI</code> 工具，比如 <code>GitHub Copilot</code>，<code>Cursor</code> 等（强烈推荐 <code>Cursor</code> 和 <code>Claude 3.5 Sonnet</code>）。</p>
 <p>很快就能实现，只需要代码里将 <code>Feed</code> 结构体定义好，将 <code>Post</code> 转换到结构体里，<code>xml.Marshal</code> 一下，然后就能生成 <code>rss.xml</code> 文件。将文件放到目录下，定义一个 <code>Menu</code> 访问文件链接，就 <code>ok</code> 了。</p>
 <p>也有稍微麻烦的功能，例如 <code>Search</code> 功能。</p>
 <h2 id="example">Example</h2>
@@ -206,7 +178,7 @@
 <blockquote>
 <p>PS: 很早之前使用 <code>sego</code> 和 <code>tfidf</code> 实现过一个简单的搜索 <code>wikipedia</code> 的小程序，在这里 <a href="https://github.com/abcdlsj/seeker">seeker</a>。</p>
 </blockquote>
-<p>sego 分词器加载词典文件 <code>dictionary.txt</code>，这个文件在 repo 里有。</p>
+<p><code>sego</code> 分词器加载词典文件 <code>dictionary.txt</code>，这个文件在 <code>repo</code> 里有。</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">loadDict</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">sm</span><span class="p">.</span><span class="nf">LoadDictionary</span><span class="p">(</span><span class="s">&#34;dictionary.txt&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>

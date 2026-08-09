@@ -21,20 +21,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
-<link rel="icon" href="/static/favicon.ico" sizes="any" />
 <link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
-<script>
-  // Theme initialization - runs before page render to prevent flash
-  (function() {
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-    }
-  })();
-</script>
+<script defer src="/static/script/search.js"></script>
 <script defer src="https://us.umami.is/script.js" data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"></script>
-<script src="/static/script/search.js"></script>
 
   </head>
   <body class="post-page">
@@ -78,49 +68,30 @@
         
         
       </ul>
-      <button class="theme-toggle" type="button" aria-label="Toggle theme" onclick="toggleTheme()">
-        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>
+      <div class="site-search" id="site-search">
+        <button class="site-search__toggle" id="search-toggle" type="button" aria-label="Search posts" aria-controls="site-search-panel" aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-4-4"></path>
+          </svg>
+        </button>
+        <div class="site-search__panel" id="site-search-panel">
+          <label class="sr-only" for="search-input">Search posts</label>
+          <div class="site-search__field">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-4-4"></path>
+            </svg>
+            <input id="search-input" type="search" placeholder="Search posts..." autocomplete="off" spellcheck="false" />
+          </div>
+          <ul id="search-results" aria-label="Search results"></ul>
+          <p class="site-search__hint">Type at least 2 characters to search.</p>
+        </div>
+      </div>
     </nav>
   </div>
 </header>
 <script>
-  function toggleTheme() {
-    const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    let newTheme;
-    if (currentTheme === 'dark') {
-      newTheme = 'light';
-    } else if (currentTheme === 'light') {
-      newTheme = 'dark';
-    } else {
-      // No explicit theme set, toggle based on system preference
-      newTheme = prefersDark ? 'light' : 'dark';
-    }
-    
-    html.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-
-    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
-      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
-    });
-  }
-
   (function initHeaderScrollBehavior() {
     const header = document.querySelector('.site-header');
     if (!header) return;
@@ -136,7 +107,8 @@
         return;
       }
 
-      if (document.body.classList.contains('sidepanel-open')) {
+      if (document.body.classList.contains('sidepanel-open') ||
+          header.querySelector('.site-search--open')) {
         header.classList.remove('site-header--hidden');
         lastY = y;
         return;
@@ -184,67 +156,67 @@
 <p>25 年完整一年在 B 站上班，年初一月份因为刚来一个月还是继续在熟悉环境。</p>
 <p>过年比较早，于是1月中就回家过年了，因为刚来没有年假，所以在家呆了 8 天就回到了上海，真是充实的一个春节假期。</p>
 <p>总体来说是比较平稳的一年，虽然下半年有一次裁员，没我，于是感触不是很深。</p>
-<p>其它主要还是 AI Coding 方面，感觉到有点时代颠覆的感觉，最近几个月都高强度使用 Agent CLI 编程，公司给每个人都充了 Claude Code 额度。</p>
+<p>其它主要还是 <code>AI Coding</code> 方面，感觉到有点时代颠覆的感觉，最近几个月都高强度使用 <code>Agent CLI</code> 编程，公司给每个人都充了 <code>Claude Code</code> 额度。</p>
 <h2 id="ai-">AI 编程</h2>
-<p>我是跟随 AI Coding 发展的一批人，上大学时折腾 Emacs 时最早用 Tabnine — 一个补全框架。</p>
-<p>后边 Copilot 上线，就使用 Copilot 在工作/生活中进行开发，再后来 ChatGPT 发布，随之而来 Cursor/Windsurf/Augment 这类编程 IDE 或者插件雨后春笋般冒了出来。</p>
-<h3 id="tab-">TAB 补全</h3>
-<p>Cursor 作为里程碑式的产品，以其独特的超乎平常体验的智能补全 Tab 而著称，Cursor 在补全一项已经做到极致了，曾经 Windsurf 补全也很好用，甚至比 Cursor 更早实现了行内插入补全（比如，在一行代码，能从中间写入字符时插入补全），可惜没落了。</p>
-<p>在这个阶段，AI Coding 仅仅是帮忙补全函数、实现模版式代码、进行 JSON/TOML 与编程语言 Model 的相互转换而已。</p>
-<h3 id="agent-cli--">Agent CLI &amp; 模型</h3>
-<p>随着模型能力的不断提升，再之后就出现了纯 Vibe Coding 生成式编程，例如 <a href="http://bolt.new">bolt.new</a> 服务。</p>
-<p>也可能是 Coding 协作模式的进化，出现了 Claude Code 这样的 Agent CLI 应用，Claude Code 最开始仅仅是 Claude 模型的承载者，强的是 Claude 3.7 Sonnet。</p>
-<p>这个时期只能作为一些简单 Demo 搭建，以及问答代码库的助手而已，开发还不如自己后写代码使用 Cursor 补全来得快。</p>
-<p>但是它进化的速度太快了，就在短短几个月，Claude 4 代模型发布，Claude Sonnet 4 模型已经足够好用，甚至足以完成初级开发任务。</p>
-<p>我还记得用了 Sonnet 4 之后，我觉得对写业务代码效率的提升是无比巨大的，甚至很多复杂/困难的 Feature 我都可以用它帮我实现，而在此之前，没办法在十几分钟内将 Idea 转化为实现。</p>
-<p>这种几分钟式的 Coding 方式，MVP 式的实现 Idea，对程序员是无比震撼的，并不需要过高的准确度，几分钟的试错成本让准确度黯然失色，Coding 行业之所以门槛比较低，原因就是学习成本低，AI Coding 又再一次拉低了这个门槛。</p>
-<p>我现在可以叫它帮我将 TS 代码的逻辑转化到 Go，也可以叫它帮我实现一个 IOS App，这些我都做过，仅从 Demo 角度已经完成得很好了，更细致的调优则需要进一步与程序员协作。</p>
-<p>再之后是 Opus 4.5，一个目前地表最强 Coding 模型，在 Thinking 的加持下，以及 Claude Code 本身工程性的不断迭代。</p>
-<p>Claude Code 搭配 Opus 4.5 已经让我再也离不开了（没有 Opus 4.5 无法工作了</p>
-<p>最近的 Kimi K2.5 也非常好，我个人觉得体验已经在第一梯队了。</p>
+<p>我是跟随 <code>AI Coding</code> 发展的一批人，上大学时折腾 <code>Emacs</code> 时最早用 <code>Tabnine</code> — 一个补全框架。</p>
+<p>后边 <code>Copilot</code> 上线，就使用 <code>Copilot</code> 在工作/生活中进行开发，再后来 <code>ChatGPT</code> 发布，随之而来 <code>Cursor</code>/<code>Windsurf</code>/<code>Augment</code> 这类编程 <code>IDE</code> 或者插件雨后春笋般冒了出来。</p>
+<h3 id="tab-"><code>Tab</code> 补全</h3>
+<p><code>Cursor</code> 作为里程碑式的产品，以其独特的超乎平常体验的智能补全 <code>Tab</code> 而著称，<code>Cursor</code> 在补全一项已经做到极致了，曾经 <code>Windsurf</code> 补全也很好用，甚至比 <code>Cursor</code> 更早实现了行内插入补全（比如，在一行代码，能从中间写入字符时插入补全），可惜没落了。</p>
+<p>在这个阶段，<code>AI Coding</code> 仅仅是帮忙补全函数、实现模版式代码、进行 <code>JSON</code>/<code>TOML</code> 与编程语言 <code>Model</code> 的相互转换而已。</p>
+<h3 id="agent-cli--"><code>Agent CLI</code> &amp; 模型</h3>
+<p>随着模型能力的不断提升，再之后就出现了纯 <code>Vibe Coding</code> 生成式编程，例如 <a href="http://bolt.new">bolt.new</a> 服务。</p>
+<p>也可能是 <code>Coding</code> 协作模式的进化，出现了 <code>Claude Code</code> 这样的 <code>Agent CLI</code> 应用，<code>Claude Code</code> 最开始仅仅是 <code>Claude</code> 模型的承载者，强的是 <code>Claude 3.7 Sonnet</code>。</p>
+<p>这个时期只能作为一些简单 <code>Demo</code> 搭建，以及问答代码库的助手而已，开发还不如自己后写代码使用 <code>Cursor</code> 补全来得快。</p>
+<p>但是它进化的速度太快了，就在短短几个月，<code>Claude 4</code> 代模型发布，<code>Claude Sonnet 4</code> 模型已经足够好用，甚至足以完成初级开发任务。</p>
+<p>我还记得用了 <code>Sonnet 4</code> 之后，我觉得对写业务代码效率的提升是无比巨大的，甚至很多复杂/困难的 <code>Feature</code> 我都可以用它帮我实现，而在此之前，没办法在十几分钟内将 <code>Idea</code> 转化为实现。</p>
+<p>这种几分钟式的 <code>Coding</code> 方式，<code>MVP</code> 式的实现 <code>Idea</code>，对程序员是无比震撼的，并不需要过高的准确度，几分钟的试错成本让准确度黯然失色，<code>Coding</code> 行业之所以门槛比较低，原因就是学习成本低，<code>AI Coding</code> 又再一次拉低了这个门槛。</p>
+<p>我现在可以叫它帮我将 <code>TS</code> 代码的逻辑转化到 <code>Go</code>，也可以叫它帮我实现一个 <code>iOS App</code>，这些我都做过，仅从 <code>Demo</code> 角度已经完成得很好了，更细致的调优则需要进一步与程序员协作。</p>
+<p>再之后是 <code>Opus 4.5</code>，一个目前地表最强 <code>Coding</code> 模型，在 <code>Thinking</code> 的加持下，以及 <code>Claude Code</code> 本身工程性的不断迭代。</p>
+<p><code>Claude Code</code> 搭配 <code>Opus 4.5</code> 已经让我再也离不开了（没有 <code>Opus 4.5</code> 无法工作了）</p>
+<p>最近的 <code>Kimi K2.5</code> 也非常好，我个人觉得体验已经在第一梯队了。</p>
 <h3 id="heading">工具</h3>
-<p>在 Claude Code 出现以后，Codex/Gemini/Copilot/Amp/Droid/Kimi 等等一堆 Agent CLI 也出现了。</p>
-<p>因为 Coding 可以不再需要手工修改，所以也诞生了很多纯管理 Agent CLI 干活的工具，例如 Vibe-Kanban、Conductor，核心逻辑就是使用 Git Worktree，实现子任务以及合并流程。</p>
-<p>我最近也 Vibe 了一个类似的东西，但是感觉没啥亮点，不再多说，地址在这里 <a href="https://github.com/abcdlsj/gump">https://github.com/abcdlsj/gump</a>。</p>
+<p>在 <code>Claude Code</code> 出现以后，<code>Codex</code>/<code>Gemini</code>/<code>Copilot</code>/<code>Amp</code>/<code>Droid</code>/<code>Kimi</code> 等等一堆 <code>Agent CLI</code> 也出现了。</p>
+<p>因为 <code>Coding</code> 可以不再需要手工修改，所以也诞生了很多纯管理 <code>Agent CLI</code> 干活的工具，例如 <code>Vibe-Kanban</code>、<code>Conductor</code>，核心逻辑就是使用 <code>Git Worktree</code>，实现子任务以及合并流程。</p>
+<p>我最近也 <code>Vibe</code> 了一个类似的东西，但是感觉没啥亮点，不再多说，地址在这里 <a href="https://github.com/abcdlsj/gump">https://github.com/abcdlsj/gump</a>。</p>
 <h3 id="heading-1">总结</h3>
 <p>AI 编程是一个互联网上铺天盖地浩浩荡荡的玩意，对未来无法预估会变成什么样了，充满了变化～</p>
 <h2 id="heading-2">工作</h2>
 <h3 id="heading-3">维护与迁移</h3>
-<p>最近一年主要职责是维护主站侧的「动态/图文/小站」网关服务，这是一个业务复杂度比较高的 BFF 服务，采用的是「充血模型」，业务逻辑交由网关实现。</p>
-<p>作为服务的 Owner，我需要对代码修改负责，所以只要是相关的评审都会去参加，有相关的代码修改合并前也会 Review。</p>
-<p>另一块则是主导了 Web 侧动态服务由「某支持编排以及 DSL 的网关框架」到纯 Go 服务的迁移。从年初到年末，在这个过程，AI 工具提供了很大的帮助，目前的迁移超过一半的代码逻辑我都用 Claude Code 一次性生成，剩下的则是和 Claude Code 协作让其修改并验证。</p>
-<p>最近在使用 <a href="https://github.com/breaking-brake/cc-wf-studio">cc-wf-studio</a> 这个 Workflow 工具，下批次迁移可能会用到，有机会也会写一下使用 Workflow 做代码迁移的实践。</p>
-<p>但是，需要警惕的是，纯 100% AI Coding 重点就会转移到测试上，例如上周就出现了一个 Bug，AI 错误识别了一个函数的逻辑，导致迁移时错误迁移，产生了进线反馈，而这部分因为数据原因测试是没有覆盖到的。</p>
-<p>AI Coding 的 Review 部分感觉是未来的重点。</p>
+<p>最近一年主要职责是维护主站侧的「动态/图文/小站」网关服务，这是一个业务复杂度比较高的 <code>BFF</code> 服务，采用的是「充血模型」，业务逻辑交由网关实现。</p>
+<p>作为服务的 <code>Owner</code>，我需要对代码修改负责，所以只要是相关的评审都会去参加，有相关的代码修改合并前也会 <code>Review</code>。</p>
+<p>另一块则是主导了 <code>Web</code> 侧动态服务由「某支持编排以及 <code>DSL</code> 的网关框架」到纯 <code>Go</code> 服务的迁移。从年初到年末，在这个过程，<code>AI</code> 工具提供了很大的帮助，目前的迁移超过一半的代码逻辑我都用 <code>Claude Code</code> 一次性生成，剩下的则是和 <code>Claude Code</code> 协作让其修改并验证。</p>
+<p>最近在使用 <a href="https://github.com/breaking-brake/cc-wf-studio">cc-wf-studio</a> 这个 <code>Workflow</code> 工具，下批次迁移可能会用到，有机会也会写一下使用 <code>Workflow</code> 做代码迁移的实践。</p>
+<p>但是，需要警惕的是，纯 100% <code>AI Coding</code> 重点就会转移到测试上，例如上周就出现了一个 <code>Bug</code>，<code>AI</code> 错误识别了一个函数的逻辑，导致迁移时错误迁移，产生了进线反馈，而这部分因为数据原因测试是没有覆盖到的。</p>
+<p><code>AI Coding</code> 的 <code>Review</code> 部分感觉是未来的重点。</p>
 <h3 id="heading-4">各种活动开发</h3>
 <p>下半年，公司为 93 阅兵实现了一个「线上方阵」的活动，作为增长服务端所在组，我被叫去参与开发。中间周末加了几天班，实现了「高性能坐标分配与查询」方案，最终整个活动周期都没问题。</p>
 <p>有了这个经验，年末时，公司要开启新年活动，又进行了为期 1 个月的封闭开发，因为活动目前还未上线，没其它讲的。</p>
 <p>超多团队的跨团队合作/协调真的是现代软件工程最困难的地方。</p>
 <h2 id="heading-5">生活</h2>
 <p>年初过完年回来我就去驾校准备考驾照，最终也是简单轻松的通过了考试拿到了上海的驾驶证，工作日要上班，学车都只能放到周末，所以过程拉得比较漫长。</p>
-<p>学完驾照之后，我又准备学游泳，在课程为期不长的 6 个课时结束之后，还是没有学会（</p>
+<p>学完驾照之后，我又准备学游泳，在课程为期不长的 6 个课时结束之后，还是没有学会。</p>
 <p>后续我换了一个教练和场地继续学习，最终在国庆节回家的前一天，自己去找了个泳池泡了一个小时，终于掌握了节奏。</p>
-<p>最近 2 个月，我基本每周都会去游泳，如果天气合适我会去两次，每次游大概一千多的样子，持续不断的精进，蛙泳已经不是问题。</p>
+<p>最近 2 个月，我基本每周都会去游泳，如果天气合适我会去两次，每次游大概一千多的样子，持续不断地精进，蛙泳已经不是问题。</p>
 <p>自由泳则完全没入门的样子，之后再去学习一下。</p>
-<p>一年都没怎么出门旅游，原因有上边说的，工作繁忙（</p>
+<p>一年都没怎么出门旅游，原因有上边说的，工作繁忙。</p>
 <p>参与一个大型活动上线之后，留下的就只有「补偿」，周末猛猛玩游戏，没有想过出门游玩。</p>
 <p>最近办了护照，今年会考虑多出去玩一玩！！</p>
 <p>目前因为合租周末也没有做饭吃，买了个小宿舍锅，偶尔会煮了点火锅吃，空气炸锅倒是经常用来烤红薯和虾干，偶尔烤烤土豆。</p>
 <h2 id="heading-6">娱乐</h2>
-<p>今年买了不少游戏机，例如 NDS/3DS/RG 34xxSP 等，用来玩特定几个游戏。</p>
-<p>Steam 上 10/11 月份「逃离鸭科夫」挺好玩的，玩了二十多小时，阿 b 出品的独立游戏目前来看口碑都不错（叔叔是对的.jpg）。</p>
+<p>今年买了不少游戏机，例如 <code>NDS</code>/<code>3DS</code>/<code>RG 34xxSP</code> 等，用来玩特定几个游戏。</p>
+<p><code>Steam</code> 上 10/11 月份「逃离鸭科夫」挺好玩的，玩了二十多小时，阿 b 出品的独立游戏目前来看口碑都不错（叔叔是对的.jpg）。</p>
 <p>丝之歌上线后，也是打了挺久，但是国庆假期没玩，回来之后就玩其它的去了，于是搁置了，不过，等想玩的时候依旧可以玩起来，好的作品永远是这样。</p>
-<p>Steam 还有不少独立游戏，今年也都玩了下，很多非常不错！</p>
-<p>偶尔再玩玩喷喷与塞尔达，Switch2 加持下，4k 的体验非常好！</p>
+<p><code>Steam</code> 还有不少独立游戏，今年也都玩了下，很多非常不错！</p>
+<p>偶尔再玩玩喷喷与塞尔达，<code>Switch 2</code> 加持下，<code>4K</code> 的体验非常好！</p>
 <p>最近 2 个月则是沉迷「海克斯大乱斗」！</p>
-<p>小说大多数时候都会去看看，虽然进度缓慢但基本上不会断，不断的看各种网文/经典文学，上个月重看了几部经典文学小说，甚至有时候看到凌晨 3/4 点，感受到了不少文字的魅力，也有不少体会。</p>
+<p>小说大多数时候都会去看看，虽然进度缓慢但基本上不会断，不断地看各种网文/经典文学，上个月重看了几部经典文学小说，甚至有时候看到凌晨 3/4 点，感受到了不少文字的魅力，也有不少体会。</p>
 <p>电影去年看得不多，但是都是自己找的电影看得都很爽，我喜欢周末看电影的时光。</p>
 <p>剧集上，印象比较深刻的是「人生切割术」，少见的第二季比第一季观感好不少的美剧。也看了几部老日剧，就是没有看完。</p>
 <p>番剧上，因为在国内目前二次元相对浓厚的一家公司，所以日常同事们会聊不少番剧，我也会对自己感兴趣的某些番剧尝试去看看，例如「JoJo」，最早大学时同学推荐我看，但是当时不感兴趣，现在来看我只想说爽爆了！还有「电锯人」，藤本树真的太会了！</p>
 <h2 id="heading-7">总结</h2>
 <p>25 年很多时候还是比较焦虑的，身处变革当中的普通人，这也正常。</p>
 <p>我也感觉到这种情绪变得过多，最近有意识去调整，多看看小说，以及考虑写小说，这件事没什么进展，没什么写的。</p>
-<p>如果不考虑职业发展与稳定性，我觉得目前的生活还是不错的，尽情 Vibe 也能体会到 Building 的乐趣，找回了曾经学习编程的快乐。</p>
+<p>如果不考虑职业发展与稳定性，我觉得目前的生活还是不错的，尽情 <code>Vibe</code> 也能体会到 <code>Building</code> 的乐趣，找回了曾经学习编程的快乐。</p>
 <p>希望 26 年接下来几个月，能多出去逛逛，多感受下不同的情绪！</p>
 
             </div>
@@ -260,7 +232,7 @@
 <li>
 <a href="#ai-">AI 编程</a><ul>
 <li>
-<a href="#tab-">TAB 补全</a></li>
+<a href="#tab-">Tab 补全</a></li>
 <li>
 <a href="#agent-cli--">Agent CLI &amp; 模型</a></li>
 <li>
