@@ -14,7 +14,7 @@ languages:
 
 > 代码地址 https://github.com/abcdlsj/ember
 
-`Mac` 端目前好用的 `Emby` 客户端都是收费，加上日常使用终端想要试试中端的 `Emby`，于是 `Vibe` 了一个 `TUI` 版本的。播放使用 `MPV`，支持整季连播和字幕。
+`Mac` 端目前好用的 `Emby` 客户端都是收费，加上日常使用终端想要试试终端的 `Emby`，于是 `Vibe` 了一个 `TUI` 版本的。播放使用 `MPV`，支持整季连播和字幕。
 
 截图如下：
 <img alt="ember-2026-02-01-home" src="/static/img/ember-2026-02-01-home.png" width="100%" style="border: 1px solid gray;">
@@ -31,9 +31,9 @@ languages:
 
 > `Gnar` 是一个内网穿透的 `CLI`，类似 `frp`/`ngrok`，可以看这篇博文 [A tunnel proxy like frp/ngrok](https://blog.songjian.li/posts/gnar-build-a-proxy.html)
 
-<img alt="ggnar-2026-08-09" src="/static/img/gnar-2026-08-09.png" width="100%" style="border: 1px solid gray;">
+<img alt="gnar-2026-08-09" src="/static/img/gnar-2026-08-09.png" width="100%" style="border: 1px solid gray;">
 
-`Gnar` 之前迭代过很多功能，但是从易用性上还是不够「直接」，好的 `UX` 设计应该是讲用户路径化为最简。于是最近用 `Rust` 重重构了一波，最终使用只需要 `$ gnar` 一个命令就行，会自动检测当前本地的服务。
+`Gnar` 之前迭代过很多功能，但是从易用性上还是不够「直接」，好的 `UX` 设计应该是将用户路径化为最简。于是最近用 `Rust` 重构了一波，最终使用只需要 `$ gnar` 一个命令就行，会自动检测当前本地的服务。
 
 用的 `GPT-5.6 Sol` 全程开发。
 

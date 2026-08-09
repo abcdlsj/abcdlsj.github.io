@@ -55,7 +55,8 @@
         return;
       }
 
-      if (document.body.classList.contains('sidepanel-open')) {
+      if (document.body.classList.contains('sidepanel-open') ||
+          header.querySelector('.site-search--open')) {
         header.classList.remove('site-header--hidden');
         lastY = y;
         return;
