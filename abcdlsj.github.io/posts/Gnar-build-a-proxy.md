@@ -1,5 +1,5 @@
 ---
-title: "Gnar - A tunnel proxy like Frp/Ngrok"
+title: "Gnar - A tunnel proxy like frp/ngrok"
 date: 2023-11-04T22:47:37+08:00
 tags:
   - Network
@@ -8,7 +8,7 @@ tags:
   - Traffic Limit
   - IO Package
 published: true
-summary: "从 0 实现一个类 Frp/Ngrok 的内网穿透工具：从 TCP 转发到多协议支持"
+summary: "从 0 实现一个类 frp/ngrok 的内网穿透工具：从 TCP 转发到多协议支持"
 languages:
     - cn
 changelog: |
@@ -21,7 +21,7 @@ changelog: |
 
 **实现简单的转发工具**
 
-公司内部的服务框架 Service 之间通信是通过连接每台机器的 `Agent` 监听的 `UNIX domain` 实现的，在公司容器集群环境，都是会启动 `Agent`。
+公司内部的服务框架 `Service` 之间通信是通过连接每台机器的 `Agent` 监听的 `UNIX domain` 实现的，在公司容器集群环境，都是会启动 `Agent`。
 但是作为本地环境，没有 `Agent` 的条件，所以本地服务都是使用 `socat` 将本地 `UNIX domain` 流量转发到远程搭建的 `TCP agent` 来启动服务。
 
 在公司内部，我们一般是使用 `socat -d -d -d UNIX-LISTEN:/tmp/xxx.sock,reuseaddr,fork TCP:agent-tcp.xxxx.io:9299` 来做转发的。
@@ -32,13 +32,13 @@ changelog: |
 
 **远程端口转发**
 
-再后来想到可以实现一个类似 `Frp` 和 `Ngrok` 的工具，代码是年初 or 去年末写了第一个版本，后边改了一些，现在和最初的版本相比要复杂一些。
+再后来想到可以实现一个类似 `frp` 和 `ngrok` 的工具，代码是年初 or 去年末写了第一个版本，后边改了一些，现在和最初的版本相比要复杂一些。
 
-> 开始只实现 `TCP` 转发，带有 `Caddy` 来做 `Auto Subdomain HTTPS`，代码不到 `1000` 行。现在支持 `TCP/UDP` 协议，所以本文只涉及 `TCP/UDP` 实现（不过其它协议也大都类似
+> 开始只实现 `TCP` 转发，带有 `Caddy` 来做 `Auto Subdomain HTTPS`，代码不到 `1000` 行。现在支持 `TCP/UDP` 协议，所以本文只涉及 `TCP/UDP` 实现（不过其它协议也大都类似）
 > 
 > 顺带一提，`GitHub` 有非常多类似的实现，比如 [ekzhang/bore](https://github.com/ekzhang/bore) 和 [rapiz1/rathole](https://github.com/rapiz1/rathole/)（`Tokio` 的功能太强大了，忍不住想用 `Rust` 重写 :P）
 
-所有的代码都在 [abcdlsj/gnar](https://github.com/abcdlsj/gnar/tree/484084da8b9edb99fb39e5d7561cc94d16d7031c) 里（本文纂写时的版本）
+所有的代码都在 [abcdlsj/gnar](https://github.com/abcdlsj/gnar/tree/484084da8b9edb99fb39e5d7561cc94d16d7031c) 里（本文撰写时的版本）
 
 ## How to implement
 
@@ -47,7 +47,7 @@ changelog: |
 我们希望有一种方法来建立服务器端口和客户端端口之间的关联，将对服务器端口的访问转发到客户端的对应端口，通过公网访问服务器的端口就相当于访问客户端的端口。
 
 假设我们 Server 通信端口是 8910，要将 Client 的 3000 端口穿透到 Server 的 9000 端口。
-首先 Server 端应该和 Client 端进行通信（8910 端口），对于 Server 端的目标端口（9000）的用户请求，将用户请求和 Client 连接进行流量「代理」，Client 则对本地端口（3000）和通信接口连接进行流量「代理」）。
+首先 Server 端应该和 Client 端进行通信（8910 端口），对于 Server 端的目标端口（9000）的用户请求，将用户请求和 Client 连接进行流量「代理」，Client 则对本地端口（3000）和通信接口连接进行流量「代理」。
 这样流量路径就是：用户请求 -> Server 「代理」的通信连接（也是 Client 端「代理」的通信连接） -> Client 端本地链接
 
 最后结构差不多就是这样：
@@ -73,7 +73,7 @@ Flow: {
 3. Client 端接收到 `Proxy` 请求后，进行 `io.Copy()` 的是哪个连接，Server 端又怎样处理呢？
 
 > 对于 1 和 2 可以看下面的详细实现
-> 对于 3，如果没有实现过类似的工具可能不太清楚为什么会有这个问题，看了下面详细的流程大概就清楚了（忽略「鉴权」部分
+> 对于 3，如果没有实现过类似的工具可能不太清楚为什么会有这个问题，看了下面详细的流程大概就清楚了（忽略「鉴权」部分）
 
 1. 首先启动 Server 端，监听 8910 端口。
 2. 启动 Client, Client 端和 Server 端建立 `Control` 连接，然后发送一条 `Forward` 接口告诉 Server 端将要转发到 9000 端口。
@@ -440,10 +440,10 @@ func (s *Server) handleForward(cConn net.Conn, msg *proto.MsgForwardReq, failCha
 }
 ```
 大概流程就是：
-1. check port available
-3. 发送 `ForwardResp` 消息
-4. 创建 `uListener` 并且等待用户连接
-5. 收到用户连接，创建 `uuid`，发送 `Exchange` 消息
+1. 检查端口是否可用
+2. 发送 `ForwardResp` 消息
+3. 创建 `uListener` 并且等待用户连接
+4. 收到用户连接，创建 `uuid`，发送 `Exchange` 消息
 
 ### Exchange
 
@@ -547,14 +547,14 @@ func Stream(s1, s2 io.ReadWriteCloser) {
 
 ## Feature
 
-### Auto-Https
+### Auto-HTTPS
 
-> 目标是实现自动 `Subdomain` 分配并且支持 `Https`
+> 目标是实现自动 `Subdomain` 分配并且支持 `HTTPS`
 
 也就是假设 Server 运行在 `example.com` 机器，Client 开启转发 `Local 3000` 到 `Server 9000` 端口。
-Server 会生成 `xxx.example.com` 的 `Subdomain`，提供 `Auto-Https`，用户可以通过 `https://xxx.example.com` 来访问。
+Server 会生成 `xxx.example.com` 的 `Subdomain`，提供 `Auto-HTTPS`，用户可以通过 `https://xxx.example.com` 来访问。
 
-> 这里可以自己通过 Reverse Proxy 来实现 `Auto-Https`
+> 这里可以自己通过 Reverse Proxy 来实现 `Auto-HTTPS`
 
 或者可以借助 `Caddy/Nginx` 来实现，这里我使用的 `Caddy`，借助 `Caddy` 的 `API` 功能来实现。
 
@@ -732,7 +732,7 @@ func UDPDatagram(token string, tcp io.ReadWriteCloser, udp *net.UDPConn) error {
 }
 ```
 
-相当于 `TCP` 转发里的 `proxy.Stream` 替代。
+相当于 `TCP` 转发里的 `proxy.Stream` 的替代。
 
 ### Speed limit
 得益于 `io.Reader` 和 `io.Writer` 接口，以及 `rate` 包，实现限速其实也很简单。
@@ -799,13 +799,13 @@ func (s *LimitStream) Read(p []byte) (int, error) {
 ## Conclusion
 写了下如何实现一个内网转发的小工具，代码本身还有很多可以优化的地方，比如
 1. 完善「错误处理」「重试」，对于哪些错误需要重试，哪些错误直接退出。
-2. 支持更多转发协议，例如 `HTTP/Quic/WebSocket`，`Control` 协议也可以支持更多，目前是 `TCP`，可以支持 `UDP/KCP` 等。
+2. 支持更多转发协议，例如 `HTTP/QUIC/WebSocket`，`Control` 协议也可以支持更多，目前是 `TCP`，可以支持 `UDP/KCP` 等。
 3. 完善监控采集，这部分可以用 `Prometheus`，但是对于小项目来说太麻烦了。
-4. `Serverside Load-Balancing` 这部分一直在思考如何做，从上边 `fly.io` 的部署就能知道，`Server` 端访问只能是单机的。
+4. `Server-side Load-Balancing` 这部分一直在思考如何做，从上边 `fly.io` 的部署就能知道，`Server` 端访问只能是单机的。
 
 最后，感谢阅读！
 
-## refs
+## References
 <https://pandaychen.github.io/2020/01/01/MAGIC-GO-IO-PACKAGE/>
 <https://github.com/ekzhang/bore>
 <https://github.com/rapiz1/rathole>

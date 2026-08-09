@@ -95,7 +95,7 @@ Lab 1 要求实现一个 `StreamReassembler`，在 Lab 的 TCP 实现图当中�
 
 - `first unread` 值是什么？
 
-  因为 `StreamReassembler` 的目的是保存那些`无法立即写入`到 `ByteStreams` 的子串，所有的串最终都会传输到 `ByteStreams`。那么 `first unread`  在整个流中的位置其实就是 `ByteStream` 中的 `bytes_read()`， 即 `readed` 的数据长度。
+  因为 `StreamReassembler` 的目的是保存那些`无法立即写入`到 `ByteStreams` 的子串，所有的串最终都会传输到 `ByteStreams`。那么 `first unread`  在整个流中的位置其实就是 `ByteStream` 中的 `bytes_read()`， 即已经读出的数据长度。
 
 - `first unassembled`  值？
 
@@ -266,7 +266,7 @@ https://cs144.github.io/assignments/lab2.pdf
 
 第一个任务就是进行 32 位索引值和 64 位索引值的相互转换。
 
-`warp` 是包装 64 位索引到 `WrappingInt32` 中，直接截取后 32 位加上 `ISN` 就可以了。
+`wrap` 是包装 64 位索引到 `WrappingInt32` 中，直接截取后 32 位加上 `ISN` 就可以了。
 
 ```c++
 WrappingInt32 wrap(uint64_t n, WrappingInt32 isn) {

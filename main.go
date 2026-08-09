@@ -349,7 +349,13 @@ type Item struct {
 }
 
 type SearchIndex struct {
-	Words map[string][]string `json:"words"`
+	Words map[string][]string        `json:"words"`
+	Posts map[string]SearchIndexPost `json:"posts"`
+}
+
+type SearchIndexPost struct {
+	Title string `json:"title"`
+	Date  string `json:"date"`
 }
 
 func init() {
@@ -1158,9 +1164,21 @@ func getAllFiles(dir string) ([]string, error) {
 }
 
 func generateSearchIndex() error {
-	index := SearchIndex{Words: make(map[string][]string)}
+	index := SearchIndex{
+		Words: make(map[string][]string),
+		Posts: make(map[string]SearchIndexPost),
+	}
 
 	for _, post := range Posts {
+		if post.Meta.Hide {
+			continue
+		}
+
+		index.Posts[post.Uname] = SearchIndexPost{
+			Title: post.Meta.Title,
+			Date:  post.Meta.Date,
+		}
+
 		fullText := post.Meta.Title + " " + stripHTML(post.MDData)
 		words := analyze(fullText)
 

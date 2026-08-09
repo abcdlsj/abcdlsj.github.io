@@ -225,7 +225,7 @@ func newMatches(expr string) Matches {
 
 通过 `matches` 我们知道了，我们可以判断某个 `Time` 是否符合 `Cronexpr` 的触发时间。
 
-那 `nexnN(n)` 里，我们就需要对「未来」的时间进行枚举，然后通过 `matches` 判断是否符合。
+那 `nextN(n)` 里，我们就需要对「未来」的时间进行枚举，然后通过 `matches` 判断是否符合。
 
 这里还有一个问题，「未来时间」的间隔应该是多少呢，因为我们表达式里面的最小单位是 `minute`。
 
@@ -270,7 +270,7 @@ func (e *Cronexpr) next1(z time.Time) time.Time {
 
 这里 `for range` 的时候初始值 `t` 加上 `accurate` 是为了防止如果 `z` 符合要求函数就会一直直接返回 `true`，导致 `nextN` 里的 `for` 循环就会返回同样的值。
 
-`Notify` 函数实现主要是多了 `ctx deadline` 的判断退出，这里可以简单的使用 `time ticker` 来获取需要检查的时间点。
+`Notify` 函数实现主要是多了 `ctx deadline` 的判断退出，这里可以简单的使用 `time.Ticker` 来获取需要检查的时间点。
 ```go
 func (e *Cronexpr) Notify(ctx context.Context, out chan<- time.Time) {
 	ticker := time.NewTicker(e.accurate)
@@ -295,4 +295,3 @@ func (e *Cronexpr) Notify(ctx context.Context, out chan<- time.Time) {
 实现 `Cronexpr` 解析器还是很有意思的，这是一个简单的小项目。
 
 感谢阅读！
-

@@ -1,12 +1,12 @@
 ---
-title: "Go Template + Tailwindcss = ❤️"
+title: "Go Template + Tailwind CSS = ❤️"
 date: 2024-02-24T10:47:37+08:00
 tags:
   - TailwindCSS
   - Template
 published: true
 toc: false
-summary: "分享如何在 Go Template 项目中集成 Tailwind CSS（虽然实际很少用"
+summary: "分享如何在 Go Template 项目中集成 Tailwind CSS（虽然实际很少用）"
 languages:
     - cn
 ---
@@ -58,7 +58,7 @@ module.exports = {
 };
 ```
 
-`content` 是代表需要「扫描」并「生成」`CSS` 的 templates，官方 [doc](https://www.tailwindcss.cn/docs/content-configuration)
+`content` 是代表需要「扫描」并「生成」`CSS` 的 `templates`，官方 [`doc`](https://www.tailwindcss.cn/docs/content-configuration)
 
 4. 添加初始化样式 `tailwind.css`
 ```css

@@ -25,11 +25,11 @@ languages:
 1. 支持海报展示，用的 `Go Chafa` 库（没用原生 `Kitty` 协议，我不喜欢 `Kitty` 终端）。
 2. 支持多服务器管理以及服务器组测速，以及同前缀服务器用相同配置用以负载均衡。
 
-主要使用 `Claude Opus4.5` 做初始化项目，用 `GLM 4.7` 以及 `MiniMax M2.1` 免费模型进行各种修正和调优。
+主要使用 `Claude Opus 4.5` 做初始化项目，用 `GLM 4.7` 以及 `MiniMax M2.1` 免费模型进行各种修正和调优。
 
 ## `Gnar` 重构
 
-> Gnar 是一个内网穿透的 CLI，类似 `Ngork/Frp`，可以看这篇这篇博文 [A tunnel proxy like Frp/Ngrok](https://blog.songjian.li/posts/gnar-build-a-proxy.html)
+> `Gnar` 是一个内网穿透的 `CLI`，类似 `frp`/`ngrok`，可以看这篇博文 [A tunnel proxy like frp/ngrok](https://blog.songjian.li/posts/gnar-build-a-proxy.html)
 
 <img alt="ggnar-2026-08-09" src="/static/img/gnar-2026-08-09.png" width="100%" style="border: 1px solid gray;">
 
@@ -43,19 +43,19 @@ languages:
 
 <img alt="gump-2026-02-01" src="/static/img/gump-2026-02-01.png" width="100%" style="border: 1px solid gray;">
 
-1. 使用 `Tmux` 进行任务管理，一个 Agent 一个 `Tmux Session`。
+1. 使用 `Tmux` 进行任务管理，一个 `Agent` 一个 `Tmux Session`。
 2. `Git Worktree` 管理分支。
 
-基本使用 `Claude Opus4.5` 实现，免费模型能力有限改动比较少。
+基本使用 `Claude Opus 4.5` 实现，免费模型能力有限改动比较少。
 
 ## 个人博客前端重构
 
-优化了下页面展示，各种 CSS 以及字体，完全使用 `Kimi K2.5` 模型。
+优化了下页面展示，各种 `CSS` 以及字体，完全使用 `Kimi K2.5` 模型。
 
 ## 总结
 
 `Kimi K2.5` 目前前端审美在第一梯队，`OpenCode` 配合 `Agent-Browser` 可以做到很好的进行前端开发。
 
-项目初始化搭建最好使用 `Claude Opus4.5`，后续调优可以换其它第一梯队的模型，例如 `Kimi K2.5`、`MiniMax M2.1`、`GLM 4.7` 等。
+项目初始化搭建最好使用 `Claude Opus 4.5`，后续调优可以换其它第一梯队的模型，例如 `Kimi K2.5`、`MiniMax M2.1`、`GLM 4.7` 等。
 
 > 26 年 8 月初更新：`GPT-5.6 Sol` 很强，`DeepSeek-V4-Flash-0731` 更让人惊喜。

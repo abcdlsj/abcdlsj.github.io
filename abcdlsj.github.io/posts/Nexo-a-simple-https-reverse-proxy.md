@@ -16,7 +16,7 @@ changelog: |
 ## Background
 > 项目地址：[abcdlsj/nexo](https://github.com/abcdlsj/nexo)
 
-之前我一直在用 `Caddy` 管理 `VPS` 部署的各种 `Docker` 服务，但是 `Caddyfile` 配置语法很反人类。并且如果使用 CF 托管域名，就需要安装 `Cloudflare DNS provider`，但是这个是以插件形式提供的，每次都要用 `xcaddy build --with github.com/caddy-dns/cloudflare` 去构建，每次使用都要当场去查一下插件安装。
+之前我一直在用 `Caddy` 管理 `VPS` 部署的各种 `Docker` 服务，但是 `Caddyfile` 配置语法很反人类。并且如果使用 `CF` 托管域名，就需要安装 `Cloudflare DNS provider`，但是这个是以插件形式提供的，每次都要用 `xcaddy build --with github.com/caddy-dns/cloudflare` 去构建，每次使用都要当场去查一下插件安装。
 
 我常用的 VPS 是在腾讯云 2 核 4G 的机器，日常用 `Caddy` 也还行，几年前配置过一次就一直能用，也就懒得去折腾了。
 
@@ -120,7 +120,7 @@ proxies:
 
 <img alt="nexo docker memory" src="/static/img/nexo-docker-memory.png" width="100%" style="border: 1px solid gray;">
 
-PS. 1 核 1G 的机器非常垃圾，如果有高 IO / 高 CPU 的需求，千万别用
+PS. 1 核 1G 的机器非常垃圾，如果有高 `IO` / 高 `CPU` 的需求，千万别用
 
 <img alt="1h1g memmory usage" src="/static/img/1h1g-memory-usage.png" width="100%" style="border: 1px solid gray;">
 
@@ -128,6 +128,6 @@ PS. 1 核 1G 的机器非常垃圾，如果有高 IO / 高 CPU 的需求，千�
 
 ## Future Plans
 
-无（对我来说完全够用了
+无（对我来说完全够用了）
 
 > 没有想到五一还在写代码...

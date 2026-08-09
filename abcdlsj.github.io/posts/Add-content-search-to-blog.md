@@ -15,11 +15,11 @@ languages:
 
 ## Background
 
-我目前使用的是自己实现的 SSG（Static Site Generator）程序来生成这个站点，所以很多功能都没有，需要自己添加。
+我目前使用的是自己实现的 `SSG`（`Static Site Generator`）程序来生成这个站点，所以很多功能都没有，需要自己添加。
 
 比如 `Feed` 功能！
 
-这个比较简单，特别是目前还有非常强大的 AI 工具，比如 `GitHub Copilot`，`Cursor` 等（强烈推荐 `Cursor` 和 `Claude 3.5 Sonnet`）。
+这个比较简单，特别是目前还有非常强大的 `AI` 工具，比如 `GitHub Copilot`，`Cursor` 等（强烈推荐 `Cursor` 和 `Claude 3.5 Sonnet`）。
 
 很快就能实现，只需要代码里将 `Feed` 结构体定义好，将 `Post` 转换到结构体里，`xml.Marshal` 一下，然后就能生成 `rss.xml` 文件。将文件放到目录下，定义一个 `Menu` 访问文件链接，就 `ok` 了。
 
@@ -54,7 +54,7 @@ languages:
 > PS: 很早之前使用 `sego` 和 `tfidf` 实现过一个简单的搜索 `wikipedia` 的小程序，在这里 [seeker](https://github.com/abcdlsj/seeker)。
 
 
-sego 分词器加载词典文件 `dictionary.txt`，这个文件在 repo 里有。
+`sego` 分词器加载词典文件 `dictionary.txt`，这个文件在 `repo` 里有。
 ```go
 func loadDict() {
 	sm.LoadDictionary("dictionary.txt")

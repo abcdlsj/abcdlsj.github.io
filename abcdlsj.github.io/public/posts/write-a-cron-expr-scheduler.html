@@ -24,17 +24,8 @@
 <link rel="icon" href="/static/favicon.ico" sizes="any" />
 <link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
-<script>
-  // Theme initialization - runs before page render to prevent flash
-  (function() {
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-    }
-  })();
-</script>
 <script defer src="https://us.umami.is/script.js" data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"></script>
-<script src="/static/script/search.js"></script>
+<script defer src="/static/script/search.js"></script>
 
   </head>
   <body class="post-page">
@@ -78,49 +69,30 @@
         
         
       </ul>
-      <button class="theme-toggle" type="button" aria-label="Toggle theme" onclick="toggleTheme()">
-        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>
+      <div class="site-search" id="site-search">
+        <button class="site-search__toggle" id="search-toggle" type="button" aria-label="Search posts" aria-controls="site-search-panel" aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-4-4"></path>
+          </svg>
+        </button>
+        <div class="site-search__panel" id="site-search-panel">
+          <label class="sr-only" for="search-input">Search posts</label>
+          <div class="site-search__field">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-4-4"></path>
+            </svg>
+            <input id="search-input" type="search" placeholder="Search posts..." autocomplete="off" spellcheck="false" />
+          </div>
+          <ul id="search-results" aria-label="Search results"></ul>
+          <p class="site-search__hint">Type at least 2 characters to search.</p>
+        </div>
+      </div>
     </nav>
   </div>
 </header>
 <script>
-  function toggleTheme() {
-    const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    let newTheme;
-    if (currentTheme === 'dark') {
-      newTheme = 'light';
-    } else if (currentTheme === 'light') {
-      newTheme = 'dark';
-    } else {
-      // No explicit theme set, toggle based on system preference
-      newTheme = prefersDark ? 'light' : 'dark';
-    }
-    
-    html.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-
-    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
-      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
-    });
-  }
-
   (function initHeaderScrollBehavior() {
     const header = document.querySelector('.site-header');
     if (!header) return;
@@ -441,7 +413,7 @@
 <h2 id="functions">Functions</h2>
 <p>到了使用的入口函数了，<code>Next()</code> or <code>NextN(n)</code> 需要实现这样一个方法 <code>nextN(n)</code></p>
 <p>通过 <code>matches</code> 我们知道了，我们可以判断某个 <code>Time</code> 是否符合 <code>Cronexpr</code> 的触发时间。</p>
-<p>那 <code>nexnN(n)</code> 里，我们就需要对「未来」的时间进行枚举，然后通过 <code>matches</code> 判断是否符合。</p>
+<p>那 <code>nextN(n)</code> 里，我们就需要对「未来」的时间进行枚举，然后通过 <code>matches</code> 判断是否符合。</p>
 <p>这里还有一个问题，「未来时间」的间隔应该是多少呢，因为我们表达式里面的最小单位是 <code>minute</code>。</p>
 <p>所以枚举时间的间隔应该是 <code>1 * minute</code>，其中 <code>Cronexpr.accurate</code> 就是代表这个。</p>
 <blockquote>
@@ -474,7 +446,7 @@
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">END</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>这里 <code>for range</code> 的时候初始值 <code>t</code> 加上 <code>accurate</code> 是为了防止如果 <code>z</code> 符合要求函数就会一直直接返回 <code>true</code>，导致 <code>nextN</code> 里的 <code>for</code> 循环就会返回同样的值。</p>
-<p><code>Notify</code> 函数实现主要是多了 <code>ctx deadline</code> 的判断退出，这里可以简单的使用 <code>time ticker</code> 来获取需要检查的时间点。</p>
+<p><code>Notify</code> 函数实现主要是多了 <code>ctx deadline</code> 的判断退出，这里可以简单的使用 <code>time.Ticker</code> 来获取需要检查的时间点。</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">e</span> <span class="o">*</span><span class="nx">Cronexpr</span><span class="p">)</span> <span class="nf">Notify</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">out</span> <span class="kd">chan</span><span class="o">&lt;-</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">ticker</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">NewTicker</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">accurate</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">ticker</span><span class="p">.</span><span class="nf">Stop</span><span class="p">()</span>
@@ -534,7 +506,7 @@
           
           <a class="post-nav__link" href="/posts/gnar-build-a-proxy.html">
             <span class="post-nav__dir">← Newer</span>
-            <span class="post-nav__title">Gnar - A tunnel proxy like Frp/Ngrok</span>
+            <span class="post-nav__title">Gnar - A tunnel proxy like frp/ngrok</span>
           </a>
           
           
