@@ -104,7 +104,7 @@ function showSearchStatus(message) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initSearch() {
   const searchRoot = document.getElementById('site-search');
   const searchToggle = document.getElementById('search-toggle');
   const searchInput = document.getElementById('search-input');
@@ -199,4 +199,10 @@ document.addEventListener('DOMContentLoaded', () => {
       setSearchOpen(true);
     }
   });
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSearch);
+} else {
+  initSearch();
+}

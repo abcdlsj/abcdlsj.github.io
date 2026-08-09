@@ -97,7 +97,7 @@
             }
           }
         </style>
-        <script defer="defer" src="/static/script/search.js"></script>
+        <script src="/static/script/search.js"></script>
       </head>
       <body>
         <div class="app">
