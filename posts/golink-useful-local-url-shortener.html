@@ -5,6 +5,8 @@
     
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 
 <title>Golink - Useful local url shortener</title>
 
@@ -18,7 +20,9 @@
 <meta property="og:type" content="article">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="icon" href="/static/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
 <script>
   // Theme initialization - runs before page render to prevent flash
@@ -34,11 +38,13 @@
 
   </head>
   <body class="post-page">
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
     <div class="app">
       
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
       <a href="/" class="site-header__title">L'iving and Discovering</a>
       <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
     </div>
@@ -109,6 +115,10 @@
     
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
+    });
   }
 
   (function initHeaderScrollBehavior() {
@@ -153,6 +163,7 @@
               <h1 class="post-title">Golink - Useful local url shortener</h1>
               <div class="post-meta">
                 <time class="post-date" datetime="2023-04-16T22:47:37+08:00">2023-04-16</time>
+                <span class="post-reading-time" id="reading-time"></span>
                 
                 <div class="post-tags">
                   
@@ -179,24 +190,24 @@ Get the Answer: <a href="https://en.wikipedia.org/wiki/URL_shortening">URL Short
 <p>Short domains can be quite expensive.</p>
 <p>An alternative is to use a <code>DNS server</code> to map a short domain to a long domain.</p>
 <p>However, in most cases, this is not necessary for me.</p>
-<p>I just want to create a url shortener in my local network, so I am interested in using a local <code>url shortener</code>.</p>
+<p>I just want a shortener for my local network, which is exactly what a local <code>url shortener</code> does.</p>
 <h2 id="etchosts">/etc/hosts</h2>
 <blockquote>
 <p><code>/etc/hosts</code> is a file in Linux that can link a domain to an IP address.</p>
 </blockquote>
 <p>For example, I can add the following line to <code>/etc/hosts</code>:</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>127.0.0.1      go
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">127.0.0.1      go
 </span></span></code></pre><p>This allows me to access <code>go</code> in my browser.</p>
 <p>When I enter <code>go</code> in my browser, it sends a request to <code>127.0.0.1:80</code> (you cannot specify a port in <code>/etc/hosts</code> because it works like a <code>DNS server</code> and can only link a domain to an IP address).</p>
 <h2 id="code">Code</h2>
 <p>Writing a url shortener is quite simple: just create an HTTP server that maps a domain to a URL.</p>
-<p>You can write one yourself or take a look at my <a href="https://github.com/abcdlsj/share/tree/master/go/golink">abcdlsj/golink</a> implementation (Use <code>SQLite3</code>, With <code>import/export</code> features).</p>
+<p>You can write one yourself or take a look at my <a href="https://github.com/abcdlsj/share/tree/master/go/golink">abcdlsj/golink</a> implementation (it uses <code>SQLite3</code> and supports <code>import</code>/<code>export</code> features).</p>
 <h2 id="run-it">Run it</h2>
 <p>Run it as a daemon:</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>nohup golink &amp;
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nohup golink <span class="p">&amp;</span>
 </span></span></code></pre><h2 id="view">View</h2>
 <img alt="golink screenshot" src="/static/img/golink-screenshot.png" width="100%" style="border: 1px solid gray;">
-<p>You also can add a <code>Chrome Site-search</code> to make it easier to use.</p>
+<p>You can also add a <code>Chrome</code> site-search shortcut to make it easier to use.</p>
 <img alt="Chrome Site-search setting" src="/static/img/golink-chrome-site-search.png" width="100%" style="border: 1px solid gray;">
 <h2 id="end">End</h2>
 <p>This post doesn't include any code samples, as I believe that you can write it yourself for the purpose of learning or practicing a programming language.</p>
@@ -207,6 +218,23 @@ Get the Answer: <a href="https://en.wikipedia.org/wiki/URL_shortening">URL Short
 
           
         </div>
+
+        
+        <nav class="post-nav" aria-label="Post navigation">
+          
+          <a class="post-nav__link" href="/posts/tally-let-us-build-a-tool-like-tokei.html">
+            <span class="post-nav__dir">← Newer</span>
+            <span class="post-nav__title">Tally - Build a tool like tokei/scc</span>
+          </a>
+          
+          
+          <a class="post-nav__link post-nav__link--next" href="/posts/2021.html">
+            <span class="post-nav__dir">Older →</span>
+            <span class="post-nav__title">2021 ===> 2022</span>
+          </a>
+          
+        </nav>
+        
 
         <!-- Comments -->
         <section class="comments-section">
@@ -244,6 +272,65 @@ Get the Answer: <a href="https://en.wikipedia.org/wiki/URL_shortening">URL Short
 
       // Smooth scroll for TOC links
       document.addEventListener('DOMContentLoaded', function() {
+        // Reading progress
+        const progressBar = document.getElementById('reading-progress-bar');
+        const updateProgress = () => {
+          if (!progressBar) return;
+          const doc = document.documentElement;
+          const scrollable = doc.scrollHeight - doc.clientHeight;
+          const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+          progressBar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, progress)) + ')';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress, { passive: true });
+        updateProgress();
+
+        // Reading time
+        const readingTime = document.getElementById('reading-time');
+        const postBody = document.querySelector('.post-body');
+        if (readingTime && postBody) {
+          const text = postBody.textContent || '';
+          const cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+          const words = (text.replace(/[\u4e00-\u9fff\u3400-\u4dbf]/g, ' ').match(/[A-Za-z0-9_]+/g) || []).length;
+          const minutes = Math.max(1, Math.round(cjk / 350 + words / 200));
+          readingTime.textContent = '· ' + minutes + ' min read';
+        }
+
+        // Wrap tables for horizontal scrolling on small screens
+        document.querySelectorAll('.post-body > table').forEach(table => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-scroll';
+          table.parentNode.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        });
+
+        // Copy buttons for code blocks
+        document.querySelectorAll('.post-body pre').forEach(pre => {
+          if (pre.querySelector('.code-copy')) return;
+          const button = document.createElement('button');
+          button.className = 'code-copy';
+          button.type = 'button';
+          button.textContent = 'Copy';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.addEventListener('click', async () => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+            try {
+              await navigator.clipboard.writeText(code.textContent);
+              button.textContent = 'Copied';
+              button.classList.add('code-copy--copied');
+              setTimeout(() => {
+                button.textContent = 'Copy';
+                button.classList.remove('code-copy--copied');
+              }, 1800);
+            } catch (e) {
+              button.textContent = 'Failed';
+              setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+            }
+          });
+          pre.appendChild(button);
+        });
+
         const tocLinks = document.querySelectorAll('.toc-nav:not(.timeline-nav) a');
         const tocPanel = document.querySelector('.toc-panel');
         const sidepanelToggle = document.getElementById('sidepanel-toggle');

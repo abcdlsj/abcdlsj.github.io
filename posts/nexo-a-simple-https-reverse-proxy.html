@@ -5,6 +5,8 @@
     
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 
 <title>轻量级 HTTPS 代理实现 - Nexo</title>
 
@@ -18,7 +20,9 @@
 <meta property="og:type" content="article">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="icon" href="/static/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
 <script>
   // Theme initialization - runs before page render to prevent flash
@@ -34,11 +38,13 @@
 
   </head>
   <body class="post-page">
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
     <div class="app">
       
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
       <a href="/" class="site-header__title">L'iving and Discovering</a>
       <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
     </div>
@@ -109,6 +115,10 @@
     
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
+    });
   }
 
   (function initHeaderScrollBehavior() {
@@ -153,6 +163,7 @@
               <h1 class="post-title">轻量级 HTTPS 代理实现 - Nexo</h1>
               <div class="post-meta">
                 <time class="post-date" datetime="2025-05-03T19:00:00+08:00">2025-05-03</time>
+                <span class="post-reading-time" id="reading-time"></span>
                 
                 <div class="post-tags">
                   
@@ -180,11 +191,11 @@
 <blockquote>
 <p>项目地址：<a href="https://github.com/abcdlsj/nexo">abcdlsj/nexo</a></p>
 </blockquote>
-<p>我之前一直在用 <code>Caddy</code> 作为证书管理和反向代理服务器。虽然 <code>Caddy</code> 很强大，但是它的 <code>Caddyfile</code> 配置语法说实话挺反人类的，而且功能太多太复杂了。最让我头疼的是它的 <code>Cloudflare DNS provider</code> 是以插件形式提供的，每次都要用 <code>xcaddy build --with github.com/caddy-dns/cloudflare</code> 去构建，有点过于麻烦。</p>
-<p>不过因为我之前在腾讯云有台 2 核 4G 的机器（买了 3 年），<code>Caddy</code> 在上面跑得挺好的，几年前配置过一次就一直能用，也就懒得去折腾了。</p>
-<p>但是上个月腾讯云的机器到期了，我换到了一台 0.5 欧元一个月的机器上。这台机器只有 1 核 1G 性能超级差。迁移服务的时候，我本来想着图省事，就不编译 <code>Caddy</code> 了，换成了 <code>Nginx Proxy Manager</code>。它有个 Web UI，配置很方便，基本上开箱即用。</p>
-<p>结果用了才发现，这玩意儿内存占用居然超过 100M！对于一台 1G 内存的小机器来说，这也太夸张了。于是我就想，干脆自己写一个证书管理加反向代理的服务算了。</p>
-<p>最开始简单写了反向代理的部分，但是发现最麻烦的是证书管理以及处理各种 <code>DNS Provider</code>。</p>
+<p>之前我一直在用 <code>Caddy</code> 管理 <code>VPS</code> 部署的各种 <code>Docker</code> 服务，但是 <code>Caddyfile</code> 配置语法很反人类。并且如果使用 CF 托管域名，就需要安装 <code>Cloudflare DNS provider</code>，但是这个是以插件形式提供的，每次都要用 <code>xcaddy build --with github.com/caddy-dns/cloudflare</code> 去构建，每次使用都要当场去查一下插件安装。</p>
+<p>我常用的 VPS 是在腾讯云 2 核 4G 的机器，日常用 <code>Caddy</code> 也还行，几年前配置过一次就一直能用，也就懒得去折腾了。</p>
+<p>但是上个月机器到期了，我换到了一台 0.5 欧一个月的机器上。这台机器只有 1 核 1G 性能超级差。迁移服务的时候，为了方便就没编译 <code>Caddy</code>。换成了 <code>Nginx Proxy Manager</code>，它有个 <code>Web UI</code>，配置很方便，基本上开箱即用。</p>
+<p>结果用了才发现，这玩意儿内存占用居然超过 100M！对于一台 1G 内存的小机器来说，这是不可以接受的。于是我就想，干脆自己写一个证书管理加反向代理的服务算了。</p>
+<p>最开始简单写了反向代理的部分，发现麻烦的是证书管理以及处理各种 <code>DNS Provider</code> 上，就暂时搁置了。</p>
 <p>有一天无意间刷到 <a href="https://github.com/go-acme/lego">go-acme/lego</a> 这个库，于是在 <code>Cursor</code> 的帮助下，很快就把基本功能搭建起来了。最近这两周一直在用，不断发现问题，不断优化，现在终于趋于完善了。</p>
 <h2 id="features">Features</h2>
 <p>Nexo 的主要特性：</p>
@@ -198,30 +209,30 @@
 </ol>
 <h2 id="usage">Usage</h2>
 <p>最简单的方式是用 Docker 启动：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>docker run --restart<span style="color:#000;font-weight:bold">=</span>unless-stopped --name nexo <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>  -p 443:443 <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>  -v ~/.nexo:/etc/nexo <span style="color:#d14">\
-</span></span></span><span style="display:flex;"><span><span style="color:#d14"></span>  ghcr.io/abcdlsj/nexo:latest
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">docker run --restart<span class="o">=</span>unless-stopped --name nexo <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -p 443:443 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v ~/.nexo:/etc/nexo <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  ghcr.io/abcdlsj/nexo:latest
 </span></span></code></pre><p>当然也可以直接运行二进制：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>sudo nexo server
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">sudo nexo server
 </span></span></code></pre><p>配置文件放在 <code>~/.nexo/config.yaml</code>，示例：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000080">base_dir</span>:<span style="color:#bbb"> </span>/etc/nexo<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">cert_dir</span>:<span style="color:#bbb"> </span>/etc/nexo/certs<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">email</span>:<span style="color:#bbb"> </span>your-email@example.com<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">cloudflare</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#000080">api_token</span>:<span style="color:#bbb"> </span>your-cloudflare-api-token<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#998;font-style:italic"># 域名级别配置</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">wildcards</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>- <span style="color:#d14">&#34;*.example.com&#34;</span><span style="color:#bbb">    </span><span style="color:#998;font-style:italic"># 表示这个域名使用 wildcard 证书</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#000080">proxies</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#d14">&#34;api.example.com&#34;</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">upstream</span>:<span style="color:#bbb"> </span>http://172.17.0.1:8080<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#d14">&#34;blog.example.com&#34;</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">upstream</span>:<span style="color:#bbb"> </span>http://172.17.0.1:3000<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#d14">&#34;example.com&#34;</span>:<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">redirect</span>:<span style="color:#bbb"> </span>github.com/yourusername<span style="color:#bbb"> </span><span style="color:#998;font-style:italic"># 会自动带上 https</span><span style="color:#bbb">
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nt">base_dir</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/nexo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">cert_dir</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/nexo/certs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">email</span><span class="p">:</span><span class="w"> </span><span class="l">your-email@example.com</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">cloudflare</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">api_token</span><span class="p">:</span><span class="w"> </span><span class="l">your-cloudflare-api-token</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 域名级别配置</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">wildcards</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="s2">&#34;*.example.com&#34;</span><span class="w">    </span><span class="c"># 表示这个域名使用 wildcard 证书</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">proxies</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s2">&#34;api.example.com&#34;</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">upstream</span><span class="p">:</span><span class="w"> </span><span class="l">http://172.17.0.1:8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s2">&#34;blog.example.com&#34;</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">upstream</span><span class="p">:</span><span class="w"> </span><span class="l">http://172.17.0.1:3000</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s2">&#34;example.com&#34;</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">redirect</span><span class="p">:</span><span class="w"> </span><span class="l">github.com/yourusername</span><span class="w"> </span><span class="c"># 会自动带上 https</span><span class="w">
 </span></span></span></code></pre><p>就这么简单，Nexo 会自动：</p>
 <ol>
 <li>申请/续期证书</li>
@@ -270,7 +281,7 @@
 <img alt="nexo docker memory" src="/static/img/nexo-docker-memory.png" width="100%" style="border: 1px solid gray;">
 <p>PS. 1 核 1G 的机器非常垃圾，如果有高 IO / 高 CPU 的需求，千万别用</p>
 <img alt="1h1g memmory usage" src="/static/img/1h1g-memory-usage.png" width="100%" style="border: 1px solid gray;">
-<p>上图看到间断的部分，是机器爆炸后我进行的重启...我连 <code>Memos</code> 服务存储使用 <code>Sqlite3 Blob</code> 都被迫迁移到 <code>S3</code> 了，这个之前在 2 核 4G 机器上不存在问题。</p>
+<p>上图看到间断的部分，是机器爆炸后我进行的重启...一旦进行编译这种高 <code>CPU</code> 的任务就会直接宕机。</p>
 <h2 id="future-plans">Future Plans</h2>
 <p>无（对我来说完全够用了</p>
 <blockquote>
@@ -310,6 +321,23 @@
           </aside>
           
         </div>
+
+        
+        <nav class="post-nav" aria-label="Post navigation">
+          
+          <a class="post-nav__link" href="/posts/2025.html">
+            <span class="post-nav__dir">← Newer</span>
+            <span class="post-nav__title">迟来的 25 年总结</span>
+          </a>
+          
+          
+          <a class="post-nav__link post-nav__link--next" href="/posts/2024.html">
+            <span class="post-nav__dir">Older →</span>
+            <span class="post-nav__title">2024 总结 & 新的生活</span>
+          </a>
+          
+        </nav>
+        
 
         <!-- Comments -->
         <section class="comments-section">
@@ -355,6 +383,65 @@
 
       // Smooth scroll for TOC links
       document.addEventListener('DOMContentLoaded', function() {
+        // Reading progress
+        const progressBar = document.getElementById('reading-progress-bar');
+        const updateProgress = () => {
+          if (!progressBar) return;
+          const doc = document.documentElement;
+          const scrollable = doc.scrollHeight - doc.clientHeight;
+          const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+          progressBar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, progress)) + ')';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress, { passive: true });
+        updateProgress();
+
+        // Reading time
+        const readingTime = document.getElementById('reading-time');
+        const postBody = document.querySelector('.post-body');
+        if (readingTime && postBody) {
+          const text = postBody.textContent || '';
+          const cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+          const words = (text.replace(/[\u4e00-\u9fff\u3400-\u4dbf]/g, ' ').match(/[A-Za-z0-9_]+/g) || []).length;
+          const minutes = Math.max(1, Math.round(cjk / 350 + words / 200));
+          readingTime.textContent = '· ' + minutes + ' min read';
+        }
+
+        // Wrap tables for horizontal scrolling on small screens
+        document.querySelectorAll('.post-body > table').forEach(table => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-scroll';
+          table.parentNode.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        });
+
+        // Copy buttons for code blocks
+        document.querySelectorAll('.post-body pre').forEach(pre => {
+          if (pre.querySelector('.code-copy')) return;
+          const button = document.createElement('button');
+          button.className = 'code-copy';
+          button.type = 'button';
+          button.textContent = 'Copy';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.addEventListener('click', async () => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+            try {
+              await navigator.clipboard.writeText(code.textContent);
+              button.textContent = 'Copied';
+              button.classList.add('code-copy--copied');
+              setTimeout(() => {
+                button.textContent = 'Copy';
+                button.classList.remove('code-copy--copied');
+              }, 1800);
+            } catch (e) {
+              button.textContent = 'Failed';
+              setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+            }
+          });
+          pre.appendChild(button);
+        });
+
         const tocLinks = document.querySelectorAll('.toc-nav:not(.timeline-nav) a');
         const tocPanel = document.querySelector('.toc-panel');
         const sidepanelToggle = document.getElementById('sidepanel-toggle');

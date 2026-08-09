@@ -5,6 +5,8 @@
     
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 
 <title>L'iving and Discovering</title>
 
@@ -18,7 +20,9 @@
 <meta property="og:type" content="website">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="icon" href="/static/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
 <script>
   // Theme initialization - runs before page render to prevent flash
@@ -39,6 +43,7 @@
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
       <a href="/" class="site-header__title">L'iving and Discovering</a>
       <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
     </div>
@@ -109,6 +114,10 @@
     
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
+    });
   }
 
   (function initHeaderScrollBehavior() {
@@ -167,22 +176,22 @@
         <!-- Recent Posts -->
         <section class="home-section">
           <div class="section-header">
-            <h2 class="section-title">Recent Posts</h2>
+            <h2 class="section-title">Recent Posts · 17</h2>
             <a href="/posts" class="section-link">View all →</a>
           </div>
           <div class="post-list">
             
             <article class="post-item ">
               <div class="post-item__main">
-                <a href="/posts/2026vibe_coding.html" class="post-item__title">最近部分 Vibe Coding 项目</a>
+                <a href="/posts/2026vibe_coding.html" class="post-item__title">近日部分 Vibe Coding 项目</a>
                 
-                <p class="post-item__excerpt">日常 Vibe Coding 项目（部分）</p>
+                <p class="post-item__excerpt">Vibe Coding 太好玩辣！</p>
                 
                 <time class="post-item__date" datetime="2026-02-01T22:00:49+08:00">2026-02-01</time>
               </div>
               
-              <a class="post-item__thumb" href="/posts/2026vibe_coding.html" aria-label="最近部分 Vibe Coding 项目">
-                <img src="/static/img/ember-2026-02-01-home.png" alt="最近部分 Vibe Coding 项目" loading="lazy" />
+              <a class="post-item__thumb" href="/posts/2026vibe_coding.html" aria-label="近日部分 Vibe Coding 项目">
+                <img src="/static/img/ember-2026-02-01-home.png" alt="近日部分 Vibe Coding 项目" loading="lazy" />
               </a>
               
             </article>
@@ -226,15 +235,15 @@
             
             <article class="post-item ">
               <div class="post-item__main">
-                <a href="/posts/leaving_sz_shopee.html" class="post-item__title">Leaved 🦐</a>
+                <a href="/posts/leaving_sz_shopee.html" class="post-item__title">Leaving Shopee</a>
                 
                 <p class="post-item__excerpt">在 🦐 厂练习时长 3.5 年，回顾在过去技术成长/工作经历/生活习惯以及做出离开决定背后的思考，记录选择走向「变化」的心路历程。</p>
                 
                 <time class="post-item__date" datetime="2024-12-02T19:47:37+08:00">2024-12-02</time>
               </div>
               
-              <a class="post-item__thumb" href="/posts/leaving_sz_shopee.html" aria-label="Leaved 🦐">
-                <img src="/static/img/shopee_sz.jpeg" alt="Leaved 🦐" loading="lazy" />
+              <a class="post-item__thumb" href="/posts/leaving_sz_shopee.html" aria-label="Leaving Shopee">
+                <img src="/static/img/shopee_sz.jpeg" alt="Leaving Shopee" loading="lazy" />
               </a>
               
             </article>
@@ -254,7 +263,7 @@
               <div class="post-item__main">
                 <a href="/posts/rssy-go-rssread-website.html" class="post-item__title">Rssy - A miniflux rss reader alternative</a>
                 
-                <p class="post-item__excerpt">Sharing how I built a lightweight RSS reader from scratch with SQLite/PostgreSQL dual database support, GitHub OAuth integration, lower resource usage, and cleaner features.</p>
+                <p class="post-item__excerpt">Sharing how I built a lightweight, low-resource RSS reader from scratch with a cleaner feature set.</p>
                 
                 <time class="post-item__date" datetime="2024-07-01T22:47:37+08:00">2024-07-01</time>
               </div>
@@ -295,7 +304,7 @@
               <div class="post-item__main">
                 <a href="/posts/gnar-build-a-proxy.html" class="post-item__title">Gnar - A tunnel proxy like Frp/Ngrok</a>
                 
-                <p class="post-item__excerpt">动手实现一个类 Frp/Ngrok 的内网穿透工具：从 TCP 转发到多协议支持，记录使用 Go 语言构建代理的技术细节和架构思考。</p>
+                <p class="post-item__excerpt">从 0 实现一个类 Frp/Ngrok 的内网穿透工具：从 TCP 转发到多协议支持</p>
                 
                 <time class="post-item__date" datetime="2023-11-04T22:47:37+08:00">2023-11-04</time>
               </div>
@@ -384,7 +393,7 @@
               <div class="post-item__main">
                 <a href="/posts/written-on-the-occasion-of-22nd-birthday.html" class="post-item__title">写于 22 岁生日之际</a>
                 
-                <p class="post-item__excerpt">回顾大学四年的技术探索、求职历程，以及对未来程序员生涯的思考与期待。</p>
+                <p class="post-item__excerpt">回顾大学四年..</p>
                 
                 <time class="post-item__date" datetime="2021-04-01T14:04:52+08:00">2021-04-01</time>
               </div>

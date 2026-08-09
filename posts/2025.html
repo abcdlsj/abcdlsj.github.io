@@ -5,6 +5,8 @@
     
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 
 <title>迟来的 25 年总结</title>
 
@@ -18,7 +20,9 @@
 <meta property="og:type" content="article">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="icon" href="/static/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
 <script>
   // Theme initialization - runs before page render to prevent flash
@@ -34,11 +38,13 @@
 
   </head>
   <body class="post-page">
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
     <div class="app">
       
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
       <a href="/" class="site-header__title">L'iving and Discovering</a>
       <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
     </div>
@@ -109,6 +115,10 @@
     
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
+    });
   }
 
   (function initHeaderScrollBehavior() {
@@ -153,6 +163,7 @@
               <h1 class="post-title">迟来的 25 年总结</h1>
               <div class="post-meta">
                 <time class="post-date" datetime="2026-02-01T13:00:49+08:00">2026-02-01</time>
+                <span class="post-reading-time" id="reading-time"></span>
                 
                 <div class="post-tags">
                   
@@ -182,28 +193,28 @@
 <p>在这个阶段，AI Coding 仅仅是帮忙补全函数、实现模版式代码、进行 JSON/TOML 与编程语言 Model 的相互转换而已。</p>
 <h3 id="agent-cli--">Agent CLI &amp; 模型</h3>
 <p>随着模型能力的不断提升，再之后就出现了纯 Vibe Coding 生成式编程，例如 <a href="http://bolt.new">bolt.new</a> 服务。</p>
-<p>随后，一个杀手级别的应用诞生了 — Claude Code，Claude Code 最开始仅仅是 Claude 模型的承载者，强的是 Claude 3.7 Sonnet。</p>
+<p>也可能是 Coding 协作模式的进化，出现了 Claude Code 这样的 Agent CLI 应用，Claude Code 最开始仅仅是 Claude 模型的承载者，强的是 Claude 3.7 Sonnet。</p>
 <p>这个时期只能作为一些简单 Demo 搭建，以及问答代码库的助手而已，开发还不如自己后写代码使用 Cursor 补全来得快。</p>
 <p>但是它进化的速度太快了，就在短短几个月，Claude 4 代模型发布，Claude Sonnet 4 模型已经足够好用，甚至足以完成初级开发任务。</p>
-<p>我还记得用了 Sonnet 4 之后，我已经觉得对写业务代码效率的提升是无比巨大的，很多复杂/困难的 Feature 我都可以用它帮我实现，而在此之前，我是没办法在十几分钟内将 Idea 转化为实现。</p>
-<p>这种几分钟式的 Coding 方式，MVP 式的实现 Idea，对非程序员是无比震撼的（对程序员也一样），并不需要过高的准确度，几分钟的试错成本让准确度黯然失色，Coding 行业之所以门槛比较低，原因就是学习成本低，AI Coding 又再一次拉低了这个门槛。</p>
-<p>我可以叫它帮我将 TS 代码的逻辑转化到 Go，也可以叫它帮我实现一个 IOS App，这些我都做过，已经完成得很好了</p>
-<p>随之而来的是 Opus 4.5，一个目前地表最强 Coding 模型，在 Thinking 的加持下，以及 Claude Code 本身工程性的不断迭代。</p>
-<p>Claude Code 搭配 Opus 4.5 已经让我再也离不开了（PS. 公司前段时间因为中转站的封号，停了 Claude Code，导致每天不断有人问 Claude Code 回来了没有）。</p>
+<p>我还记得用了 Sonnet 4 之后，我觉得对写业务代码效率的提升是无比巨大的，甚至很多复杂/困难的 Feature 我都可以用它帮我实现，而在此之前，没办法在十几分钟内将 Idea 转化为实现。</p>
+<p>这种几分钟式的 Coding 方式，MVP 式的实现 Idea，对程序员是无比震撼的，并不需要过高的准确度，几分钟的试错成本让准确度黯然失色，Coding 行业之所以门槛比较低，原因就是学习成本低，AI Coding 又再一次拉低了这个门槛。</p>
+<p>我现在可以叫它帮我将 TS 代码的逻辑转化到 Go，也可以叫它帮我实现一个 IOS App，这些我都做过，仅从 Demo 角度已经完成得很好了，更细致的调优则需要进一步与程序员协作。</p>
+<p>再之后是 Opus 4.5，一个目前地表最强 Coding 模型，在 Thinking 的加持下，以及 Claude Code 本身工程性的不断迭代。</p>
+<p>Claude Code 搭配 Opus 4.5 已经让我再也离不开了（没有 Opus 4.5 无法工作了</p>
 <p>最近的 Kimi K2.5 也非常好，我个人觉得体验已经在第一梯队了。</p>
 <h3 id="heading">工具</h3>
-<p>在 Claude Code 出现以后，Codex/Gemini/Copilot/Amp/Droid/Kimi 等等一堆 Agent CLI 也出现了，因为 Coding 可以不再需要手工修改。</p>
-<p>所以也诞生了很多纯管理 Agent CLI 干活的工具，例如 Vibe-Kanban、Conductor，核心逻辑就是使用 Git worktree，实现子任务以及合并流程。</p>
-<p>我也 Vibe 了一个类似的东西，但是感觉没啥亮点，不再多说，地址在这里 <a href="https://github.com/abcdlsj/gump">https://github.com/abcdlsj/gump</a>。</p>
+<p>在 Claude Code 出现以后，Codex/Gemini/Copilot/Amp/Droid/Kimi 等等一堆 Agent CLI 也出现了。</p>
+<p>因为 Coding 可以不再需要手工修改，所以也诞生了很多纯管理 Agent CLI 干活的工具，例如 Vibe-Kanban、Conductor，核心逻辑就是使用 Git Worktree，实现子任务以及合并流程。</p>
+<p>我最近也 Vibe 了一个类似的东西，但是感觉没啥亮点，不再多说，地址在这里 <a href="https://github.com/abcdlsj/gump">https://github.com/abcdlsj/gump</a>。</p>
 <h3 id="heading-1">总结</h3>
 <p>AI 编程是一个互联网上铺天盖地浩浩荡荡的玩意，对未来无法预估会变成什么样了，充满了变化～</p>
 <h2 id="heading-2">工作</h2>
 <h3 id="heading-3">维护与迁移</h3>
 <p>最近一年主要职责是维护主站侧的「动态/图文/小站」网关服务，这是一个业务复杂度比较高的 BFF 服务，采用的是「充血模型」，业务逻辑交由网关实现。</p>
-<p>作为服务的 Owner，我需要对代码修改负责，所以只要是相关的评审都会去参加。</p>
-<p>另一块则是主导了 Web 侧动态服务由「某支持编排以及 DSL 的网关框架」到纯 Go 服务的迁移。从年初到年末，在这个过程，AI 工具提供了很大的帮助，目前的迁移超过一半的代码逻辑我都用 Claude Code 生成。</p>
-<p>Claude Code 也有一个 Workflow 框架 <a href="https://github.com/breaking-brake/cc-wf-studio">https://github.com/breaking-brake/cc-wf-studio</a>，最近也在使用，下批次迁移可能会用到，有机会也会写一下使用 Workflow 做代码迁移的实践。</p>
-<p>但是，需要警惕的是，AI Coding 出现问题的概率是超过手动开发的，上周就出现了一个 Bug，AI 错误识别了一个函数的逻辑，导致迁移时错误迁移，产生了进线反馈。</p>
+<p>作为服务的 Owner，我需要对代码修改负责，所以只要是相关的评审都会去参加，有相关的代码修改合并前也会 Review。</p>
+<p>另一块则是主导了 Web 侧动态服务由「某支持编排以及 DSL 的网关框架」到纯 Go 服务的迁移。从年初到年末，在这个过程，AI 工具提供了很大的帮助，目前的迁移超过一半的代码逻辑我都用 Claude Code 一次性生成，剩下的则是和 Claude Code 协作让其修改并验证。</p>
+<p>最近在使用 <a href="https://github.com/breaking-brake/cc-wf-studio">cc-wf-studio</a> 这个 Workflow 工具，下批次迁移可能会用到，有机会也会写一下使用 Workflow 做代码迁移的实践。</p>
+<p>但是，需要警惕的是，纯 100% AI Coding 重点就会转移到测试上，例如上周就出现了一个 Bug，AI 错误识别了一个函数的逻辑，导致迁移时错误迁移，产生了进线反馈，而这部分因为数据原因测试是没有覆盖到的。</p>
 <p>AI Coding 的 Review 部分感觉是未来的重点。</p>
 <h3 id="heading-4">各种活动开发</h3>
 <p>下半年，公司为 93 阅兵实现了一个「线上方阵」的活动，作为增长服务端所在组，我被叫去参与开发。中间周末加了几天班，实现了「高性能坐标分配与查询」方案，最终整个活动周期都没问题。</p>
@@ -213,7 +224,7 @@
 <p>年初过完年回来我就去驾校准备考驾照，最终也是简单轻松的通过了考试拿到了上海的驾驶证，工作日要上班，学车都只能放到周末，所以过程拉得比较漫长。</p>
 <p>学完驾照之后，我又准备学游泳，在课程为期不长的 6 个课时结束之后，还是没有学会（</p>
 <p>后续我换了一个教练和场地继续学习，最终在国庆节回家的前一天，自己去找了个泳池泡了一个小时，终于掌握了节奏。</p>
-<p>最近 2 个月，我基本每周都会去游泳，如果天气合适我会去两次，每次游大概一千多的样子，持续不断的精进，蛙泳已经不是问题，虽然速度不快，并且也不能连续游很久。</p>
+<p>最近 2 个月，我基本每周都会去游泳，如果天气合适我会去两次，每次游大概一千多的样子，持续不断的精进，蛙泳已经不是问题。</p>
 <p>自由泳则完全没入门的样子，之后再去学习一下。</p>
 <p>一年都没怎么出门旅游，原因有上边说的，工作繁忙（</p>
 <p>参与一个大型活动上线之后，留下的就只有「补偿」，周末猛猛玩游戏，没有想过出门游玩。</p>
@@ -280,6 +291,23 @@
           
         </div>
 
+        
+        <nav class="post-nav" aria-label="Post navigation">
+          
+          <a class="post-nav__link" href="/posts/2026vibe_coding.html">
+            <span class="post-nav__dir">← Newer</span>
+            <span class="post-nav__title">近日部分 Vibe Coding 项目</span>
+          </a>
+          
+          
+          <a class="post-nav__link post-nav__link--next" href="/posts/nexo-a-simple-https-reverse-proxy.html">
+            <span class="post-nav__dir">Older →</span>
+            <span class="post-nav__title">轻量级 HTTPS 代理实现 - Nexo</span>
+          </a>
+          
+        </nav>
+        
+
         <!-- Comments -->
         <section class="comments-section">
           <div id="disqus_thread"></div>
@@ -324,6 +352,65 @@
 
       // Smooth scroll for TOC links
       document.addEventListener('DOMContentLoaded', function() {
+        // Reading progress
+        const progressBar = document.getElementById('reading-progress-bar');
+        const updateProgress = () => {
+          if (!progressBar) return;
+          const doc = document.documentElement;
+          const scrollable = doc.scrollHeight - doc.clientHeight;
+          const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+          progressBar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, progress)) + ')';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress, { passive: true });
+        updateProgress();
+
+        // Reading time
+        const readingTime = document.getElementById('reading-time');
+        const postBody = document.querySelector('.post-body');
+        if (readingTime && postBody) {
+          const text = postBody.textContent || '';
+          const cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+          const words = (text.replace(/[\u4e00-\u9fff\u3400-\u4dbf]/g, ' ').match(/[A-Za-z0-9_]+/g) || []).length;
+          const minutes = Math.max(1, Math.round(cjk / 350 + words / 200));
+          readingTime.textContent = '· ' + minutes + ' min read';
+        }
+
+        // Wrap tables for horizontal scrolling on small screens
+        document.querySelectorAll('.post-body > table').forEach(table => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-scroll';
+          table.parentNode.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        });
+
+        // Copy buttons for code blocks
+        document.querySelectorAll('.post-body pre').forEach(pre => {
+          if (pre.querySelector('.code-copy')) return;
+          const button = document.createElement('button');
+          button.className = 'code-copy';
+          button.type = 'button';
+          button.textContent = 'Copy';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.addEventListener('click', async () => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+            try {
+              await navigator.clipboard.writeText(code.textContent);
+              button.textContent = 'Copied';
+              button.classList.add('code-copy--copied');
+              setTimeout(() => {
+                button.textContent = 'Copy';
+                button.classList.remove('code-copy--copied');
+              }, 1800);
+            } catch (e) {
+              button.textContent = 'Failed';
+              setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+            }
+          });
+          pre.appendChild(button);
+        });
+
         const tocLinks = document.querySelectorAll('.toc-nav:not(.timeline-nav) a');
         const tocPanel = document.querySelector('.toc-panel');
         const sidepanelToggle = document.getElementById('sidepanel-toggle');

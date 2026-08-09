@@ -5,6 +5,8 @@
     
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 
 <title>Tally - Build a tool like tokei/scc</title>
 
@@ -18,7 +20,9 @@
 <meta property="og:type" content="article">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="icon" href="/static/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
 <script>
   // Theme initialization - runs before page render to prevent flash
@@ -34,11 +38,13 @@
 
   </head>
   <body class="post-page">
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
     <div class="app">
       
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
       <a href="/" class="site-header__title">L'iving and Discovering</a>
       <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
     </div>
@@ -109,6 +115,10 @@
     
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
+    });
   }
 
   (function initHeaderScrollBehavior() {
@@ -153,6 +163,7 @@
               <h1 class="post-title">Tally - Build a tool like tokei/scc</h1>
               <div class="post-meta">
                 <time class="post-date" datetime="2023-08-16T18:47:37+08:00">2023-08-16</time>
+                <span class="post-reading-time" id="reading-time"></span>
                 
                 <div class="post-tags">
                   
@@ -168,161 +179,160 @@
             
             <details class="changelog">
               <summary>Changelog</summary>
-              <div class="changelog-content">- 2023-08-16: first version<br>- 2024-04-03: bechmark refactor<br></div>
+              <div class="changelog-content">- 2023-08-16: first version<br>- 2024-04-03: benchmark refactor<br></div>
             </details>
             
 
             <!-- Post Content -->
             <div class="post-body">
               <h2 id="background">Background</h2>
-<p>I want to build a tool like <code>scc</code>, <code>tokei</code>, just for learning. It was very easy to write a simple version: <a href="https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go">tally - first commit</a>.<br>
-I will to optimize it at the second half of this post.</p>
+<p>I want to build a tool like <code>scc</code> or <code>tokei</code>, just for learning. Writing a simple version was very easy: <a href="https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go">tally - first commit</a>. I'll optimize it in the second half of this post.</p>
 <p>First, allow me to explain it to you.</p>
 <h2 id="steps">Steps</h2>
-<p>The counting-line machine worked similar to the <code>Putting elephants in the freezer</code>, so the steps are:</p>
+<p>The counting machine works a lot like the classic &quot;putting an elephant in the freezer&quot; analogy:</p>
 <ol>
-<li>Walk directory tree.</li>
-<li>Read file and Count lines.</li>
-<li>Output result.</li>
+<li>Walk the directory tree.</li>
+<li>Read files and count lines.</li>
+<li>Output the results.</li>
 </ol>
 <h3 id="walk-directory">Walk directory</h3>
-<p>Use <code>filepath.Walk</code> to walk directory tree, it's very easy to use.</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>filepath.<span style="color:#900;font-weight:bold">Walk</span>(os.Args[<span style="color:#099">1</span>], <span style="color:#000;font-weight:bold">func</span>(path <span style="color:#458;font-weight:bold">string</span>, info os.FileInfo, err <span style="color:#458;font-weight:bold">error</span>) <span style="color:#458;font-weight:bold">error</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#0086b3">panic</span>(err)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> info.<span style="color:#900;font-weight:bold">IsDir</span>() {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">countLine</span>(path)
-</span></span><span style="display:flex;"><span>})
-</span></span></code></pre><h3 id="read-and-count"><code>Read</code> and <code>Count</code></h3>
-<p>Count line we need to know what is a line. A line is a string end with <code>\n</code> or <code>\r\n</code>. So we can just split the file content with <code>\n</code> or <code>\r\n</code> to get the lines.</p>
-<p>Because we need to count the code lines, so we need to ignore the comment lines. I just use a simple way to ignore the comment lines, just ignore the line start with a rule string(<strong>by the way: the first version I just conside the single line comment.</strong>).</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Counter <span style="color:#000;font-weight:bold">struct</span> {
-</span></span><span style="display:flex;"><span>	idx     <span style="color:#458;font-weight:bold">int</span>
-</span></span><span style="display:flex;"><span>	lang    <span style="color:#458;font-weight:bold">string</span>
-</span></span><span style="display:flex;"><span>	comment <span style="color:#458;font-weight:bold">string</span>
-</span></span><span style="display:flex;"><span>	exts    []<span style="color:#458;font-weight:bold">string</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
-</span></span><span style="display:flex;"><span>	Go       = Counter{<span style="color:#099">1</span>, <span style="color:#d14">&#34;Go&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.go&#34;</span>)}
-</span></span><span style="display:flex;"><span>	Rust     = Counter{<span style="color:#099">2</span>, <span style="color:#d14">&#34;Rust&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.rs&#34;</span>)}
-</span></span><span style="display:flex;"><span>	Java     = Counter{<span style="color:#099">3</span>, <span style="color:#d14">&#34;Java&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.java&#34;</span>)}
-</span></span><span style="display:flex;"><span>	Python   = Counter{<span style="color:#099">4</span>, <span style="color:#d14">&#34;Python&#34;</span>, <span style="color:#d14">&#34;#&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.py&#34;</span>)}
-</span></span><span style="display:flex;"><span>	C        = Counter{<span style="color:#099">5</span>, <span style="color:#d14">&#34;C&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.c&#34;</span>, <span style="color:#d14">&#34;.h&#34;</span>)}
-</span></span><span style="display:flex;"><span>	Cpp      = Counter{<span style="color:#099">6</span>, <span style="color:#d14">&#34;C++&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.cpp&#34;</span>, <span style="color:#d14">&#34;.hpp&#34;</span>)}
-</span></span><span style="display:flex;"><span>	Js       = Counter{<span style="color:#099">7</span>, <span style="color:#d14">&#34;Javascript&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.js&#34;</span>)}
-</span></span><span style="display:flex;"><span>	Ts       = Counter{<span style="color:#099">8</span>, <span style="color:#d14">&#34;Typescript&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.ts&#34;</span>)}
-</span></span><span style="display:flex;"><span>	HTML     = Counter{<span style="color:#099">9</span>, <span style="color:#d14">&#34;HTML&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.html&#34;</span>, <span style="color:#d14">&#34;.htm&#34;</span>)}
-</span></span><span style="display:flex;"><span>	JSON     = Counter{<span style="color:#099">10</span>, <span style="color:#d14">&#34;JSON&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.json&#34;</span>)}
-</span></span><span style="display:flex;"><span>	Protobuf = Counter{<span style="color:#099">11</span>, <span style="color:#d14">&#34;Protobuf&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.proto&#34;</span>)}
-</span></span><span style="display:flex;"><span>	Markdown = Counter{<span style="color:#099">12</span>, <span style="color:#d14">&#34;Markdown&#34;</span>, <span style="color:#d14">&#34;//&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.md&#34;</span>)}
-</span></span><span style="display:flex;"><span>	Shell    = Counter{<span style="color:#099">13</span>, <span style="color:#d14">&#34;Shell&#34;</span>, <span style="color:#d14">&#34;#&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.sh&#34;</span>)}
-</span></span><span style="display:flex;"><span>	YAML     = Counter{<span style="color:#099">14</span>, <span style="color:#d14">&#34;YAML&#34;</span>, <span style="color:#d14">&#34;#&#34;</span>, <span style="color:#900;font-weight:bold">vec</span>(<span style="color:#d14">&#34;.yaml&#34;</span>, <span style="color:#d14">&#34;.yml&#34;</span>)}
-</span></span><span style="display:flex;"><span>)
+<p><code>filepath.Walk</code> makes walking the directory tree very easy:</p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nx">filepath</span><span class="p">.</span><span class="nf">Walk</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="kd">func</span><span class="p">(</span><span class="nx">path</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">info</span> <span class="nx">os</span><span class="p">.</span><span class="nx">FileInfo</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">info</span><span class="p">.</span><span class="nf">IsDir</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nf">countLine</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre><h3 id="read-and-count">Read and count</h3>
+<p>To count lines, we first need to define what a line is: a string ending with <code>\n</code> or <code>\r\n</code>. So we can split the file content on <code>\n</code> (or <code>\r\n</code>) to get the lines.</p>
+<p>Since we're counting code, we also need to ignore comment lines. I used a simple approach: ignore any line that starts with a rule string. (By the way, the first version only handled single-line comments.)</p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Counter</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">idx</span>     <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">lang</span>    <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">comment</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">exts</span>    <span class="p">[]</span><span class="kt">string</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Go</span>       <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#34;Go&#34;</span><span class="p">,</span> <span class="s">&#34;//&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.go&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Rust</span>     <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#34;Rust&#34;</span><span class="p">,</span> <span class="s">&#34;//&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.rs&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Java</span>     <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#34;Java&#34;</span><span class="p">,</span> <span class="s">&#34;//&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.java&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Python</span>   <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">4</span><span class="p">,</span> <span class="s">&#34;Python&#34;</span><span class="p">,</span> <span class="s">&#34;#&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.py&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">C</span>        <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">5</span><span class="p">,</span> <span class="s">&#34;C&#34;</span><span class="p">,</span> <span class="s">&#34;//&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.c&#34;</span><span class="p">,</span> <span class="s">&#34;.h&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Cpp</span>      <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">6</span><span class="p">,</span> <span class="s">&#34;C++&#34;</span><span class="p">,</span> <span class="s">&#34;//&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.cpp&#34;</span><span class="p">,</span> <span class="s">&#34;.hpp&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Js</span>       <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">7</span><span class="p">,</span> <span class="s">&#34;Javascript&#34;</span><span class="p">,</span> <span class="s">&#34;//&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.js&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Ts</span>       <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">8</span><span class="p">,</span> <span class="s">&#34;Typescript&#34;</span><span class="p">,</span> <span class="s">&#34;//&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.ts&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">HTML</span>     <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">9</span><span class="p">,</span> <span class="s">&#34;HTML&#34;</span><span class="p">,</span> <span class="s">&#34;//&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.html&#34;</span><span class="p">,</span> <span class="s">&#34;.htm&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">JSON</span>     <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="s">&#34;JSON&#34;</span><span class="p">,</span> <span class="s">&#34;//&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.json&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Protobuf</span> <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">11</span><span class="p">,</span> <span class="s">&#34;Protobuf&#34;</span><span class="p">,</span> <span class="s">&#34;//&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.proto&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Markdown</span> <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">12</span><span class="p">,</span> <span class="s">&#34;Markdown&#34;</span><span class="p">,</span> <span class="s">&#34;//&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.md&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Shell</span>    <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">13</span><span class="p">,</span> <span class="s">&#34;Shell&#34;</span><span class="p">,</span> <span class="s">&#34;#&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.sh&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">YAML</span>     <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">14</span><span class="p">,</span> <span class="s">&#34;YAML&#34;</span><span class="p">,</span> <span class="s">&#34;#&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.yaml&#34;</span><span class="p">,</span> <span class="s">&#34;.yml&#34;</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
 </span></span></code></pre><blockquote>
-<p>vec is a function to create a slice. (Nostalgia for <code>Rust</code> <code>vec!</code> :p)</p>
+<p><code>vec</code> is a helper that creates a slice — a little nostalgia for Rust's <code>vec!</code> :p</p>
 </blockquote>
 <p>Count line logic:</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">countLine</span>(path <span style="color:#458;font-weight:bold">string</span>) <span style="color:#458;font-weight:bold">error</span> {
-</span></span><span style="display:flex;"><span>	data, err <span style="color:#000;font-weight:bold">:=</span> os.<span style="color:#900;font-weight:bold">ReadFile</span>(path)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> err
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	c <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">guessLang</span>(path)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> c.lang <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#34;&#34;</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	lines <span style="color:#000;font-weight:bold">:=</span> bytes.<span style="color:#900;font-weight:bold">Split</span>(data, []<span style="color:#0086b3">byte</span>(<span style="color:#d14">&#34;\n&#34;</span>))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	item <span style="color:#000;font-weight:bold">:=</span> Item{
-</span></span><span style="display:flex;"><span>		lang:  c.lang,
-</span></span><span style="display:flex;"><span>		lines: <span style="color:#0086b3">len</span>(lines),
-</span></span><span style="display:flex;"><span>		files: <span style="color:#099">1</span>,
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> _, line <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> lines {
-</span></span><span style="display:flex;"><span>		line <span style="color:#000;font-weight:bold">:=</span> bytes.<span style="color:#900;font-weight:bold">TrimSpace</span>(line)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(line) <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> {
-</span></span><span style="display:flex;"><span>			item.blank<span style="color:#000;font-weight:bold">++</span>
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">continue</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> c.<span style="color:#900;font-weight:bold">isComment</span>(line) {
-</span></span><span style="display:flex;"><span>			item.comment<span style="color:#000;font-weight:bold">++</span>
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">continue</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		item.code<span style="color:#000;font-weight:bold">++</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	result.<span style="color:#900;font-weight:bold">Add</span>(c, item)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">countLine</span><span class="p">(</span><span class="nx">path</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">data</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">ReadFile</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">c</span> <span class="o">:=</span> <span class="nf">guessLang</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">c</span><span class="p">.</span><span class="nx">lang</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">lines</span> <span class="o">:=</span> <span class="nx">bytes</span><span class="p">.</span><span class="nf">Split</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;\n&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">item</span> <span class="o">:=</span> <span class="nx">Item</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">lang</span><span class="p">:</span>  <span class="nx">c</span><span class="p">.</span><span class="nx">lang</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">lines</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nx">lines</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">files</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">line</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">lines</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">line</span> <span class="o">:=</span> <span class="nx">bytes</span><span class="p">.</span><span class="nf">TrimSpace</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">item</span><span class="p">.</span><span class="nx">blank</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl">			<span class="k">continue</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">c</span><span class="p">.</span><span class="nf">isComment</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">item</span><span class="p">.</span><span class="nx">comment</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl">			<span class="k">continue</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="nx">item</span><span class="p">.</span><span class="nx">code</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">result</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><h3 id="output-style">Output style</h3>
-<p>Actually, this is the most hard part. you need to output the result intuitively. thanks to <code>tokei</code> and <code>scc</code>, I just need to do a <code>copy</code> the output format from them :smile:.</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (r <span style="color:#000;font-weight:bold">*</span>Result) <span style="color:#900;font-weight:bold">String</span>() {
-</span></span><span style="display:flex;"><span>	itemF <span style="color:#000;font-weight:bold">:=</span> <span style="color:#d14">&#34;%-10s %10d %10d %10d %10d %10d\n&#34;</span>
-</span></span><span style="display:flex;"><span>	headerF <span style="color:#000;font-weight:bold">:=</span> <span style="color:#d14">&#34;%-10s %10s %10s %10s %10s %10s\n&#34;</span>
-</span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(strings.<span style="color:#900;font-weight:bold">Repeat</span>(<span style="color:#d14">&#34;━&#34;</span>, <span style="color:#099">65</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34;\n&#34;</span>)
-</span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(headerF, <span style="color:#d14">&#34;Language&#34;</span>, <span style="color:#d14">&#34;Files&#34;</span>, <span style="color:#d14">&#34;Lines&#34;</span>, <span style="color:#d14">&#34;Code&#34;</span>, <span style="color:#d14">&#34;Comments&#34;</span>, <span style="color:#d14">&#34;Blanks&#34;</span>)
-</span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(strings.<span style="color:#900;font-weight:bold">Repeat</span>(<span style="color:#d14">&#34;━&#34;</span>, <span style="color:#099">65</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34;\n&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">var</span> total Item
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	sort.<span style="color:#900;font-weight:bold">Slice</span>(r.data, <span style="color:#000;font-weight:bold">func</span>(i, j <span style="color:#458;font-weight:bold">int</span>) <span style="color:#458;font-weight:bold">bool</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> r.data[i].lines &gt; r.data[j].lines
-</span></span><span style="display:flex;"><span>	})
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> _, item <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> r.data {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> item.files <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">continue</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		total = <span style="color:#900;font-weight:bold">mergeItem</span>(total, item)
-</span></span><span style="display:flex;"><span>		fmt.<span style="color:#900;font-weight:bold">Printf</span>(itemF, item.lang, item.files, item.lines, item.code, item.comment, item.blank)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(strings.<span style="color:#900;font-weight:bold">Repeat</span>(<span style="color:#d14">&#34;━&#34;</span>, <span style="color:#099">65</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34;\n&#34;</span>)
-</span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(itemF, <span style="color:#d14">&#34;Total&#34;</span>, total.files, total.lines, total.code, total.comment, total.blank)
-</span></span><span style="display:flex;"><span>	fmt.<span style="color:#900;font-weight:bold">Printf</span>(strings.<span style="color:#900;font-weight:bold">Repeat</span>(<span style="color:#d14">&#34;━&#34;</span>, <span style="color:#099">65</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34;\n&#34;</span>)
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre><p>Let's Test it.</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>tally .
-</span></span></code></pre><pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-</span></span><span style="display:flex;"><span>Language        Files      Lines       Code   Comments     Blanks
-</span></span><span style="display:flex;"><span>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-</span></span><span style="display:flex;"><span>Go                  1        242        199          0         43
-</span></span><span style="display:flex;"><span>Markdown            1          3          2          0          1
-</span></span><span style="display:flex;"><span>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-</span></span><span style="display:flex;"><span>Total               2        245        201          0         44
-</span></span><span style="display:flex;"><span>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-</span></span></code></pre><p>It's looks very good :)</p>
-<p>At next, I will benchmark and optimize it.</p>
+<p>Actually, this was the hardest part — presenting results in a readable way. Thanks to <code>tokei</code> and <code>scc</code>, I just copied their output format :smile:.</p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">Result</span><span class="p">)</span> <span class="nf">String</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">itemF</span> <span class="o">:=</span> <span class="s">&#34;%-10s %10d %10d %10d %10d %10d\n&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">headerF</span> <span class="o">:=</span> <span class="s">&#34;%-10s %10s %10s %10s %10s %10s\n&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nf">Repeat</span><span class="p">(</span><span class="s">&#34;━&#34;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#34;\n&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">headerF</span><span class="p">,</span> <span class="s">&#34;Language&#34;</span><span class="p">,</span> <span class="s">&#34;Files&#34;</span><span class="p">,</span> <span class="s">&#34;Lines&#34;</span><span class="p">,</span> <span class="s">&#34;Code&#34;</span><span class="p">,</span> <span class="s">&#34;Comments&#34;</span><span class="p">,</span> <span class="s">&#34;Blanks&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nf">Repeat</span><span class="p">(</span><span class="s">&#34;━&#34;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#34;\n&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">total</span> <span class="nx">Item</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">sort</span><span class="p">.</span><span class="nf">Slice</span><span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">r</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">lines</span> <span class="p">&gt;</span> <span class="nx">r</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">lines</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">item</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">r</span><span class="p">.</span><span class="nx">data</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">item</span><span class="p">.</span><span class="nx">files</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">continue</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="nx">total</span> <span class="p">=</span> <span class="nf">mergeItem</span><span class="p">(</span><span class="nx">total</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">itemF</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">lang</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">files</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">lines</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">code</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">comment</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">blank</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nf">Repeat</span><span class="p">(</span><span class="s">&#34;━&#34;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#34;\n&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">itemF</span><span class="p">,</span> <span class="s">&#34;Total&#34;</span><span class="p">,</span> <span class="nx">total</span><span class="p">.</span><span class="nx">files</span><span class="p">,</span> <span class="nx">total</span><span class="p">.</span><span class="nx">lines</span><span class="p">,</span> <span class="nx">total</span><span class="p">.</span><span class="nx">code</span><span class="p">,</span> <span class="nx">total</span><span class="p">.</span><span class="nx">comment</span><span class="p">,</span> <span class="nx">total</span><span class="p">.</span><span class="nx">blank</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nf">Repeat</span><span class="p">(</span><span class="s">&#34;━&#34;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#34;\n&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre><p>Let's test it.</p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">tally .
+</span></span></code></pre><pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+</span></span><span class="line"><span class="cl">Language        Files      Lines       Code   Comments     Blanks
+</span></span><span class="line"><span class="cl">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+</span></span><span class="line"><span class="cl">Go                  1        242        199          0         43
+</span></span><span class="line"><span class="cl">Markdown            1          3          2          0          1
+</span></span><span class="line"><span class="cl">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+</span></span><span class="line"><span class="cl">Total               2        245        201          0         44
+</span></span><span class="line"><span class="cl">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+</span></span></code></pre><p>It looks very good :)</p>
+<p>Next, I'll benchmark and optimize it.</p>
 <h2 id="benchmark">Benchmark</h2>
-<p>use <code>time</code> for benchmarks is not accurate enough.</p>
+<p>Using the <code>time</code> command for benchmarks isn't accurate enough.</p>
 <blockquote>
 <p><a href="https://stackoverflow.com/questions/9006596/is-the-unix-time-command-accurate-enough-for-benchmarks">stackoverflow - Is the UNIX <code>time</code> command accurate enough for benchmarks? [closed]</a></p>
 </blockquote>
 <blockquote>
-<p>TLDR: Can use <code>perf stat</code> to benchmarks<br>
+<p>TLDR: use <code>perf stat</code> for benchmarks:<br>
 <code>perf stat -r 10 -d &lt;CMD&gt;</code></p>
 </blockquote>
-<p>There are also many of powerful tools for benchmarks.</p>
+<p>There are plenty of powerful benchmarking tools.</p>
 <p>I use <code>hyperfine</code> for benchmarks at my <code>MacBook Pro 16 (2019)</code> machine.</p>
 <blockquote>
 <p><a href="https://github.com/sharkdp/hyperfine">hyperfine - Command-line benchmarking tool</a></p>
 </blockquote>
-<p><code>hyperfine</code> support warmup file system to reduce noise, and it can compare multiple commands and export to markdown. (very nice! :smile:)</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>hyperfine <span style="color:#d14">&#39;tokei .&#39;</span> <span style="color:#d14">&#39;scc .&#39;</span> <span style="color:#d14">&#39;tally .&#39;</span> --warmup <span style="color:#099">3</span> --export-markdown bench.md
+<p><code>hyperfine</code> supports a warmup phase to reduce noise, compares multiple commands, and can export results as markdown. (Very nice! :smile:)</p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">hyperfine <span class="s1">&#39;tokei .&#39;</span> <span class="s1">&#39;scc .&#39;</span> <span class="s1">&#39;tally .&#39;</span> --warmup <span class="m">3</span> --export-markdown bench.md
 </span></span></code></pre><h3 id="small-repo">Small repo</h3>
-<p>I use the repo <a href="https://github.com/firecracker-microvm/firecracker">https://github.com/firecracker-microvm/firecracker</a> to do the benchmarks</p>
+<p>I benchmarked against the <a href="https://github.com/firecracker-microvm/firecracker">https://github.com/firecracker-microvm/firecracker</a> repo.</p>
 <p>Results:</p>
 <table>
 <thead>
@@ -358,8 +368,8 @@ I will to optimize it at the second half of this post.</p>
 </tr>
 </tbody>
 </table>
-<p>We can see, the origin version is not fast enough. but I thought it's already usable.</p>
-<p>Let's see large repo.</p>
+<p>The original version isn't fast enough, but it's still usable.</p>
+<p>Now let's try a large repo.</p>
 <h3 id="large-repo">Large repo</h3>
 <p>Use <a href="https://github.com/moby/moby">https://github.com/moby/moby</a></p>
 <p>Results:</p>
@@ -397,15 +407,15 @@ I will to optimize it at the second half of this post.</p>
 </tr>
 </tbody>
 </table>
-<p>Okay, seems there had a relatively large gap between <code>tokei/scc</code> and <code>tally</code>.</p>
+<p>There's a fairly large gap between <code>tokei</code>/<code>scc</code> and <code>tally</code>.</p>
 <h2 id="optimize1---improve-the-code">Optimize1 - Improve the code</h2>
-<p>My first version is very simple and it's just support inline comments, and use <code>split</code> to count lines.</p>
-<p>There have two optimal point:</p>
+<p>My first version was very simple: it only supported inline comments and used <code>split</code> to count lines.</p>
+<p>There are two optimization points:</p>
 <ol>
-<li>Use <code>Bufio.Scanner</code> to readline</li>
+<li>Use <code>bufio.Scanner</code> to read lines</li>
 <li>Support multiple comments</li>
 </ol>
-<p>For these two, can see the commits <a href="https://github.com/abcdlsj/share/commits/master/go/tally">https://github.com/abcdlsj/share/commits/master/go/tally</a></p>
+<p>See the commits <a href="https://github.com/abcdlsj/share/commits/master/go/tally">https://github.com/abcdlsj/share/commits/master/go/tally</a> for both.</p>
 <p>There's nothing to say here.</p>
 <h3 id="compare">Compare</h3>
 <ul>
@@ -468,145 +478,145 @@ I will to optimize it at the second half of this post.</p>
 </tr>
 </tbody>
 </table>
-<p>We can see, for the small repo the gap is smaller. use <code>bufio.Scanner</code> is very effective. but for large repo, it seems not very effective.</p>
+<p>The gap is much smaller on the small repo — <code>bufio.Scanner</code> is effective there — but on the large repo it barely matters.</p>
 <h2 id="optimize2---faster-filepath-walking">Optimize2 - Faster filepath walking</h2>
-<p>Based on this post <a href="https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/">You Don't Need a Library for File Walking in Go</a>, the result shows the <code>offical filepath walk</code> are faster enough. And I want to build <code>tally</code> without any <code>third-party dependencies</code>, so I won't use other faster <code>walkdir</code> library.</p>
-<p>Currently, I use the <code>filepath.Walk</code> to <code>walking</code> dir, use <code>filepth.Walkdir</code> will be faster a little.</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>&gt; hyperfine <span style="color:#d14">&#39;tally .&#39;</span> <span style="color:#d14">&#39;tally_walkdir .&#39;</span> --warmup <span style="color:#099">3</span>
-</span></span><span style="display:flex;"><span>Benchmark 1: tally .
-</span></span><span style="display:flex;"><span>  Time <span style="color:#000;font-weight:bold">(</span>mean ± σ<span style="color:#000;font-weight:bold">)</span>:      66.4 ms ±   6.6 ms    <span style="color:#000;font-weight:bold">[</span>User: 21.8 ms, System: 43.0 ms<span style="color:#000;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span>  Range <span style="color:#000;font-weight:bold">(</span>min … max<span style="color:#000;font-weight:bold">)</span>:    58.0 ms …  82.8 ms    <span style="color:#099">37</span> runs
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Benchmark 2: tally_walkdir .
-</span></span><span style="display:flex;"><span>  Time <span style="color:#000;font-weight:bold">(</span>mean ± σ<span style="color:#000;font-weight:bold">)</span>:      62.8 ms ±   8.1 ms    <span style="color:#000;font-weight:bold">[</span>User: 21.5 ms, System: 39.1 ms<span style="color:#000;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span>  Range <span style="color:#000;font-weight:bold">(</span>min … max<span style="color:#000;font-weight:bold">)</span>:    51.8 ms …  89.9 ms    <span style="color:#099">43</span> runs
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Summary
-</span></span><span style="display:flex;"><span>  tally_walkdir . ran
-</span></span><span style="display:flex;"><span>    1.06 ± 0.17 <span style="color:#0086b3">times</span> faster than tally .
-</span></span></code></pre><p>(Just a small improvement, So I won't commit the change.)</p>
+<p>According to <a href="https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/">this post</a>, the official <code>filepath.Walk</code> is already fast enough. I also want <code>tally</code> to have zero third-party dependencies, so I won't pull in a faster <code>walkdir</code> library.</p>
+<p>I currently use <code>filepath.Walk</code>; switching to <code>filepath.WalkDir</code> would be a little faster.</p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">&gt; hyperfine <span class="s1">&#39;tally .&#39;</span> <span class="s1">&#39;tally_walkdir .&#39;</span> --warmup <span class="m">3</span>
+</span></span><span class="line"><span class="cl">Benchmark 1: tally .
+</span></span><span class="line"><span class="cl">  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:      66.4 ms ±   6.6 ms    <span class="o">[</span>User: 21.8 ms, System: 43.0 ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">  Range <span class="o">(</span>min … max<span class="o">)</span>:    58.0 ms …  82.8 ms    <span class="m">37</span> runs
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Benchmark 2: tally_walkdir .
+</span></span><span class="line"><span class="cl">  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:      62.8 ms ±   8.1 ms    <span class="o">[</span>User: 21.5 ms, System: 39.1 ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">  Range <span class="o">(</span>min … max<span class="o">)</span>:    51.8 ms …  89.9 ms    <span class="m">43</span> runs
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Summary
+</span></span><span class="line"><span class="cl">  tally_walkdir . ran
+</span></span><span class="line"><span class="cl">    1.06 ± 0.17 <span class="nb">times</span> faster than tally .
+</span></span></code></pre><p>(It's only a small improvement, so I won't commit it.)</p>
 <h2 id="optimize3---parallelism">Optimize3 - Parallelism</h2>
 <h3 id="fanout">Fanout</h3>
-<p><code>Go</code> supports concurrency perfectly, we can use the parttern named <code>Fanout</code> to <code>allocate</code> file to <code>worker</code>.</p>
-<p>We follow there steps:</p>
+<p><code>Go</code> makes concurrency easy. I used a fan-out pattern to distribute files to workers.</p>
+<p>The steps are:</p>
 <ol>
-<li>Passing variables via <code>channel</code></li>
-<li><code>Walk</code> dir will send files firstly to <code>channel</code></li>
-<li>Use multiple <code>worker</code> to <code>read</code> files from <code>channel</code></li>
-<li>Use <code>sync.WaitGroup</code> to <code>wait</code> for <code>worker</code> done</li>
-<li>Use <code>mutex</code> to <code>lock</code> the <code>result</code> data</li>
+<li>Pass files through a <code>channel</code>.</li>
+<li>The directory walk sends files to the <code>channel</code> first.</li>
+<li>Multiple workers read files from the <code>channel</code>.</li>
+<li><code>sync.WaitGroup</code> waits for the workers to finish.</li>
+<li>A <code>mutex</code> protects the shared result data.</li>
 </ol>
 <p>These are changes:</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#999">diff --git a/go/tally/main.go b/go/tally/main.go
-</span></span></span><span style="display:flex;"><span><span style="color:#999">index f184b31..23f5fae 100644
-</span></span></span><span style="display:flex;"><span><span style="color:#999"></span><span style="color:#000;background-color:#fdd">--- a/go/tally/main.go
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+++ b/go/tally/main.go
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span><span style="color:#aaa">@@ -6,8 +6,10 @@ import (
-</span></span></span><span style="display:flex;"><span><span style="color:#aaa"></span> 	&#34;fmt&#34;
-</span></span><span style="display:flex;"><span> 	&#34;os&#34;
-</span></span><span style="display:flex;"><span> 	&#34;path/filepath&#34;
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	&#34;runtime&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	&#34;sort&#34;
-</span></span><span style="display:flex;"><span> 	&#34;strings&#34;
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	&#34;sync&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> )
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span> type Counter struct {
-</span></span><span style="display:flex;"><span><span style="color:#aaa">@@ -48,18 +50,29 @@ func init() {
-</span></span></span><span style="display:flex;"><span><span style="color:#aaa"></span> 		}
-</span></span><span style="display:flex;"><span> 	}
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	result = NewResult()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+	result = &amp;Result{
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		data: make([]Item, registedNum),
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	}
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> }
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span> var result *Result
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-func main() {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	if len(os.Args) &lt; 2 {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-		fmt.Println(&#34;Usage: tally &lt;path&gt;&#34;)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-		os.Exit(1)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+var fileChan = make(chan string, 100)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+func process(dir string) {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	var wg sync.WaitGroup
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	wg.Add(runtime.NumCPU() * 2)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	for i := 0; i &lt; runtime.NumCPU()*2; i++ {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		go func() {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			defer wg.Done()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			for file := range fileChan {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+				countLine(file)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+			}
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		}()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	}
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	filepath.Walk(os.Args[1], func(path string, info os.FileInfo, err error) error {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 		if err != nil {
-</span></span><span style="display:flex;"><span> 			panic(err)
-</span></span><span style="display:flex;"><span> 		}
-</span></span><span style="display:flex;"><span><span style="color:#aaa">@@ -68,9 +81,24 @@ func main() {
-</span></span></span><span style="display:flex;"><span><span style="color:#aaa"></span> 			return nil
-</span></span><span style="display:flex;"><span> 		}
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-		return countLine(path)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span><span style="color:#000;background-color:#dfd">+		fileChan &lt;- path
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		return nil
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	})
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	close(fileChan)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	wg.Wait()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+}
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+func main() {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	if len(os.Args) &lt; 2 {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		fmt.Println(&#34;Usage: tally &lt;path&gt;&#34;)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+		os.Exit(1)
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	}
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	process(os.Args[1])
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	result.String()
-</span></span><span style="display:flex;"><span> }
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span><span style="color:#aaa">@@ -95,16 +123,13 @@ func mergeItem(a, b Item) Item {
-</span></span></span><span style="display:flex;"><span><span style="color:#aaa"></span> }
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span> type Result struct {
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	mu   sync.Mutex
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	data []Item
-</span></span><span style="display:flex;"><span> }
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-func NewResult() *Result {
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	return &amp;Result{
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-		data: make([]Item, registedNum),
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-	}
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-}
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd">-
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#fdd"></span> func (r *Result) Add(c Counter, item Item) {
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	r.mu.Lock()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+	defer r.mu.Unlock()
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	r.data[c.idx-1] = mergeItem(r.data[c.idx-1], item)
-</span></span><span style="display:flex;"><span> }
-</span></span><span style="display:flex;"><span> 
-</span></span><span style="display:flex;"><span><span style="color:#aaa">@@ -174,6 +199,7 @@ func guessLang(file string) Counter {
-</span></span></span><span style="display:flex;"><span><span style="color:#aaa"></span> func countLine(path string) error {
-</span></span><span style="display:flex;"><span> 	f, err := os.Open(path)
-</span></span><span style="display:flex;"><span> 	scanner := bufio.NewScanner(f)
-</span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd">+
-</span></span></span><span style="display:flex;"><span><span style="color:#000;background-color:#dfd"></span> 	if err != nil {
-</span></span><span style="display:flex;"><span> 		return err
-</span></span><span style="display:flex;"><span> 	}
-</span></span></code></pre><p>The <code>fileChan</code> size is 100, the worker number is 2 * <code>CPU number</code>. I don't do much test here.</p>
-<p>According common knowledge:</p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="gh">diff --git a/go/tally/main.go b/go/tally/main.go
+</span></span></span><span class="line"><span class="cl"><span class="gh">index f184b31..23f5fae 100644
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span><span class="gd">--- a/go/tally/main.go
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+++ b/go/tally/main.go
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span><span class="gu">@@ -6,8 +6,10 @@ import (
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> 	&#34;fmt&#34;
+</span></span><span class="line"><span class="cl"> 	&#34;os&#34;
+</span></span><span class="line"><span class="cl"> 	&#34;path/filepath&#34;
+</span></span><span class="line"><span class="cl"><span class="gi">+	&#34;runtime&#34;
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> 	&#34;sort&#34;
+</span></span><span class="line"><span class="cl"> 	&#34;strings&#34;
+</span></span><span class="line"><span class="cl"><span class="gi">+	&#34;sync&#34;
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> )
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> type Counter struct {
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -48,18 +50,29 @@ func init() {
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> 		}
+</span></span><span class="line"><span class="cl"> 	}
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gd">-	result = NewResult()
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+	result = &amp;Result{
+</span></span></span><span class="line"><span class="cl"><span class="gi">+		data: make([]Item, registedNum),
+</span></span></span><span class="line"><span class="cl"><span class="gi">+	}
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> }
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> var result *Result
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gd">-func main() {
+</span></span></span><span class="line"><span class="cl"><span class="gd">-	if len(os.Args) &lt; 2 {
+</span></span></span><span class="line"><span class="cl"><span class="gd">-		fmt.Println(&#34;Usage: tally &lt;path&gt;&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="gd">-		os.Exit(1)
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+var fileChan = make(chan string, 100)
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl"><span class="gi">+func process(dir string) {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+	var wg sync.WaitGroup
+</span></span></span><span class="line"><span class="cl"><span class="gi">+	wg.Add(runtime.NumCPU() * 2)
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl"><span class="gi">+	for i := 0; i &lt; runtime.NumCPU()*2; i++ {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+		go func() {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+			defer wg.Done()
+</span></span></span><span class="line"><span class="cl"><span class="gi">+			for file := range fileChan {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+				countLine(file)
+</span></span></span><span class="line"><span class="cl"><span class="gi">+			}
+</span></span></span><span class="line"><span class="cl"><span class="gi">+		}()
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> 	}
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gd">-	filepath.Walk(os.Args[1], func(path string, info os.FileInfo, err error) error {
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> 		if err != nil {
+</span></span><span class="line"><span class="cl"> 			panic(err)
+</span></span><span class="line"><span class="cl"> 		}
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -68,9 +81,24 @@ func main() {
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> 			return nil
+</span></span><span class="line"><span class="cl"> 		}
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gd">-		return countLine(path)
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+		fileChan &lt;- path
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl"><span class="gi">+		return nil
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> 	})
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gi">+	close(fileChan)
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl"><span class="gi">+	wg.Wait()
+</span></span></span><span class="line"><span class="cl"><span class="gi">+}
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl"><span class="gi">+func main() {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+	if len(os.Args) &lt; 2 {
+</span></span></span><span class="line"><span class="cl"><span class="gi">+		fmt.Println(&#34;Usage: tally &lt;path&gt;&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="gi">+		os.Exit(1)
+</span></span></span><span class="line"><span class="cl"><span class="gi">+	}
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl"><span class="gi">+	process(os.Args[1])
+</span></span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> 	result.String()
+</span></span><span class="line"><span class="cl"> }
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -95,16 +123,13 @@ func mergeItem(a, b Item) Item {
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> }
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> type Result struct {
+</span></span><span class="line"><span class="cl"><span class="gi">+	mu   sync.Mutex
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> 	data []Item
+</span></span><span class="line"><span class="cl"> }
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gd">-func NewResult() *Result {
+</span></span></span><span class="line"><span class="cl"><span class="gd">-	return &amp;Result{
+</span></span></span><span class="line"><span class="cl"><span class="gd">-		data: make([]Item, registedNum),
+</span></span></span><span class="line"><span class="cl"><span class="gd">-	}
+</span></span></span><span class="line"><span class="cl"><span class="gd">-}
+</span></span></span><span class="line"><span class="cl"><span class="gd">-
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span> func (r *Result) Add(c Counter, item Item) {
+</span></span><span class="line"><span class="cl"><span class="gi">+	r.mu.Lock()
+</span></span></span><span class="line"><span class="cl"><span class="gi">+	defer r.mu.Unlock()
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> 	r.data[c.idx-1] = mergeItem(r.data[c.idx-1], item)
+</span></span><span class="line"><span class="cl"> }
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="gu">@@ -174,6 +199,7 @@ func guessLang(file string) Counter {
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span> func countLine(path string) error {
+</span></span><span class="line"><span class="cl"> 	f, err := os.Open(path)
+</span></span><span class="line"><span class="cl"> 	scanner := bufio.NewScanner(f)
+</span></span><span class="line"><span class="cl"><span class="gi">+
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span> 	if err != nil {
+</span></span><span class="line"><span class="cl"> 		return err
+</span></span><span class="line"><span class="cl"> 	}
+</span></span></code></pre><p>The <code>fileChan</code> buffer is 100 and the worker count is 2 × the CPU core count. I didn't do much tuning here.</p>
+<p>The general rule of thumb:</p>
 <ul>
-<li>CPU-bound task, the number of workers should not exceed the number of logical CPU cores available, as having more workers than cores will not improve performance and may even degrade it due to context switching</li>
-<li>I/O-bound tasks, more workers than CPU cores is probably a good idea, because I/O operations often block, allowing other workers to proceed with their tasks</li>
+<li>For CPU-bound tasks, workers shouldn't exceed the number of logical CPU cores — more workers only adds context-switching overhead.</li>
+<li>For I/O-bound tasks, more workers than cores usually helps, because blocked I/O lets other workers proceed.</li>
 </ul>
 <h3 id="result">Result</h3>
 <table>
@@ -636,12 +646,12 @@ I will to optimize it at the second half of this post.</p>
 </tr>
 </tbody>
 </table>
-<p>Use <code>Fanout</code> pattern will speed up a lot.</p>
+<p>The fan-out pattern speeds things up a lot.</p>
 <h2 id="optimize4---use-pprof">Optimize4 - Use Pprof</h2>
 <p>TODO...</p>
 <h2 id="end">End</h2>
-<p>The post is just a learning progress, you can find source code at <a href="https://github.com/abcdlsj/share/tree/master/go/tally">github - abcdlsj/tally</a></p>
-<p>I'll do more test and optimize at the future.</p>
+<p>This post is my learning journey — the source is at <a href="https://github.com/abcdlsj/share/tree/master/go/tally">github - abcdlsj/tally</a>.</p>
+<p>I'll benchmark and optimize more in the future.</p>
 <h2 id="ref">Ref</h2>
 <p><a href="https://github.com/boyter/scc/">https://github.com/boyter/scc/</a><br>
 <a href="https://boyter.org/posts/sloc-cloc-code/">https://boyter.org/posts/sloc-cloc-code/</a><br>
@@ -665,7 +675,7 @@ I will to optimize it at the second half of this post.</p>
 <li>
 <a href="#walk-directory">Walk directory</a></li>
 <li>
-<a href="#read-and-count">Read and Count</a></li>
+<a href="#read-and-count">Read and count</a></li>
 <li>
 <a href="#output-style">Output style</a></li>
 </ul>
@@ -707,6 +717,23 @@ I will to optimize it at the second half of this post.</p>
           </aside>
           
         </div>
+
+        
+        <nav class="post-nav" aria-label="Post navigation">
+          
+          <a class="post-nav__link" href="/posts/write-a-readability-tool.html">
+            <span class="post-nav__dir">← Newer</span>
+            <span class="post-nav__title">Build a website for readability in 10 minutes</span>
+          </a>
+          
+          
+          <a class="post-nav__link post-nav__link--next" href="/posts/golink-useful-local-url-shortener.html">
+            <span class="post-nav__dir">Older →</span>
+            <span class="post-nav__title">Golink - Useful local url shortener</span>
+          </a>
+          
+        </nav>
+        
 
         <!-- Comments -->
         <section class="comments-section">
@@ -752,6 +779,65 @@ I will to optimize it at the second half of this post.</p>
 
       // Smooth scroll for TOC links
       document.addEventListener('DOMContentLoaded', function() {
+        // Reading progress
+        const progressBar = document.getElementById('reading-progress-bar');
+        const updateProgress = () => {
+          if (!progressBar) return;
+          const doc = document.documentElement;
+          const scrollable = doc.scrollHeight - doc.clientHeight;
+          const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+          progressBar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, progress)) + ')';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress, { passive: true });
+        updateProgress();
+
+        // Reading time
+        const readingTime = document.getElementById('reading-time');
+        const postBody = document.querySelector('.post-body');
+        if (readingTime && postBody) {
+          const text = postBody.textContent || '';
+          const cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+          const words = (text.replace(/[\u4e00-\u9fff\u3400-\u4dbf]/g, ' ').match(/[A-Za-z0-9_]+/g) || []).length;
+          const minutes = Math.max(1, Math.round(cjk / 350 + words / 200));
+          readingTime.textContent = '· ' + minutes + ' min read';
+        }
+
+        // Wrap tables for horizontal scrolling on small screens
+        document.querySelectorAll('.post-body > table').forEach(table => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-scroll';
+          table.parentNode.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        });
+
+        // Copy buttons for code blocks
+        document.querySelectorAll('.post-body pre').forEach(pre => {
+          if (pre.querySelector('.code-copy')) return;
+          const button = document.createElement('button');
+          button.className = 'code-copy';
+          button.type = 'button';
+          button.textContent = 'Copy';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.addEventListener('click', async () => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+            try {
+              await navigator.clipboard.writeText(code.textContent);
+              button.textContent = 'Copied';
+              button.classList.add('code-copy--copied');
+              setTimeout(() => {
+                button.textContent = 'Copy';
+                button.classList.remove('code-copy--copied');
+              }, 1800);
+            } catch (e) {
+              button.textContent = 'Failed';
+              setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+            }
+          });
+          pre.appendChild(button);
+        });
+
         const tocLinks = document.querySelectorAll('.toc-nav:not(.timeline-nav) a');
         const tocPanel = document.querySelector('.toc-panel');
         const sidepanelToggle = document.getElementById('sidepanel-toggle');

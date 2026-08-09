@@ -5,6 +5,8 @@
     
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 
 <title>Go Template + Tailwindcss = ❤️</title>
 
@@ -18,7 +20,9 @@
 <meta property="og:type" content="article">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="icon" href="/static/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
 <script>
   // Theme initialization - runs before page render to prevent flash
@@ -34,11 +38,13 @@
 
   </head>
   <body class="post-page">
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
     <div class="app">
       
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
       <a href="/" class="site-header__title">L'iving and Discovering</a>
       <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
     </div>
@@ -109,6 +115,10 @@
     
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
+    });
   }
 
   (function initHeaderScrollBehavior() {
@@ -153,6 +163,7 @@
               <h1 class="post-title">Go Template + Tailwindcss = ❤️</h1>
               <div class="post-meta">
                 <time class="post-date" datetime="2024-02-24T10:47:37+08:00">2024-02-24</time>
+                <span class="post-reading-time" id="reading-time"></span>
                 
                 <div class="post-tags">
                   
@@ -179,57 +190,57 @@
 <p><strong><em>NOTE:</em></strong> 确保 <code>Go Template</code> 的部分已经正常实现</p>
 </blockquote>
 <p>假设项目结构</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>.
-</span></span><span style="display:flex;"><span>├── main.go
-</span></span><span style="display:flex;"><span>├── package.json
-</span></span><span style="display:flex;"><span>├── static
-</span></span><span style="display:flex;"><span>│   └── css
-</span></span><span style="display:flex;"><span>│       ├── main.css
-</span></span><span style="display:flex;"><span>│       └── tailwind.css
-</span></span><span style="display:flex;"><span>├── tailwind.config.js
-</span></span><span style="display:flex;"><span>└── tmpl
-</span></span><span style="display:flex;"><span>    └── index.html
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">├── main.go
+</span></span><span class="line"><span class="cl">├── package.json
+</span></span><span class="line"><span class="cl">├── static
+</span></span><span class="line"><span class="cl">│   └── css
+</span></span><span class="line"><span class="cl">│       ├── main.css
+</span></span><span class="line"><span class="cl">│       └── tailwind.css
+</span></span><span class="line"><span class="cl">├── tailwind.config.js
+</span></span><span class="line"><span class="cl">└── tmpl
+</span></span><span class="line"><span class="cl">    └── index.html
 </span></span></code></pre><h2 id="config">Config</h2>
 <p>创建 <code>Tailwind CSS</code> 必须的文件</p>
 <ol>
 <li>初始化 <code>package.json</code> 文件</li>
 </ol>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>npm init
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">npm init
 </span></span></code></pre><ol start="2">
 <li>下载 <code>Tailwind CSS</code></li>
 </ol>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>npm install -D tailwindcss
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">npm install -D tailwindcss
 </span></span></code></pre><ol start="3">
 <li>创建 <code>tailwind.config.js</code> 文件</li>
 </ol>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>module.exports <span style="color:#000;font-weight:bold">=</span> {
-</span></span><span style="display:flex;"><span>  content<span style="color:#000;font-weight:bold">:</span> [<span style="color:#d14">&#34;./tmpl/*.html&#34;</span>],
-</span></span><span style="display:flex;"><span>  theme<span style="color:#000;font-weight:bold">:</span> {
-</span></span><span style="display:flex;"><span>    extend<span style="color:#000;font-weight:bold">:</span> {},
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  plugins<span style="color:#000;font-weight:bold">:</span> [],
-</span></span><span style="display:flex;"><span>};
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">content</span><span class="o">:</span> <span class="p">[</span><span class="s2">&#34;./tmpl/*.html&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">theme</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">extend</span><span class="o">:</span> <span class="p">{},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">plugins</span><span class="o">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre><p><code>content</code> 是代表需要「扫描」并「生成」<code>CSS</code> 的 templates，官方 <a href="https://www.tailwindcss.cn/docs/content-configuration">doc</a></p>
 <ol start="4">
 <li>添加初始化样式 <code>tailwind.css</code></li>
 </ol>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>@<span style="color:#000;font-weight:bold">tailwind</span> <span style="color:#000080">base</span>;
-</span></span><span style="display:flex;"><span>@<span style="color:#000;font-weight:bold">tailwind</span> <span style="color:#000080">components</span>;
-</span></span><span style="display:flex;"><span>@<span style="color:#000;font-weight:bold">tailwind</span> <span style="color:#000080">utilities</span>;
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="p">@</span><span class="k">tailwind</span> <span class="nt">base</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">@</span><span class="k">tailwind</span> <span class="nt">components</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">@</span><span class="k">tailwind</span> <span class="nt">utilities</span><span class="p">;</span>
 </span></span></code></pre><ol start="5">
 <li>生成 <code>Tailwind CSS</code></li>
 </ol>
 <p>这里可以选择通过 <code>npm script</code> 来实现，也可以手动运行 <code>npx tailwindcss -i &lt;source.css&gt; -o &lt;output.css&gt;</code></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#000080">&#34;scripts&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;build&#34;</span>: <span style="color:#d14">&#34;npx tailwindcss -i static/css/tailwind.css -o static/css/main.css&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;watch&#34;</span>: <span style="color:#d14">&#34;npx tailwindcss -i static/css/tailwind.css -o static/css/main.css --watch&#34;</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;scripts&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;build&#34;</span><span class="p">:</span> <span class="s2">&#34;npx tailwindcss -i static/css/tailwind.css -o static/css/main.css&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;watch&#34;</span><span class="p">:</span> <span class="s2">&#34;npx tailwindcss -i static/css/tailwind.css -o static/css/main.css --watch&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><ol start="6">
 <li><code>HTML</code> 添加「生成」的 <code>CSS</code> 文件</li>
 </ol>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>&lt;<span style="color:#000080">link</span> <span style="color:#008080">rel</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;stylesheet&#34;</span> <span style="color:#008080">href</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;static/css/main.css&#34;</span>&gt;
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;static/css/main.css&#34;</span><span class="p">&gt;</span>
 </span></span></code></pre><blockquote>
 <p><strong><em>NOTE:</em></strong> 确保文件「相对路径」正确</p>
 </blockquote>
@@ -242,6 +253,23 @@
 
           
         </div>
+
+        
+        <nav class="post-nav" aria-label="Post navigation">
+          
+          <a class="post-nav__link" href="/posts/rssy-go-rssread-website.html">
+            <span class="post-nav__dir">← Newer</span>
+            <span class="post-nav__title">Rssy - A miniflux rss reader alternative</span>
+          </a>
+          
+          
+          <a class="post-nav__link post-nav__link--next" href="/posts/pasty-go-pastebin-like-website.html">
+            <span class="post-nav__dir">Older →</span>
+            <span class="post-nav__title">Pasty - A pastebin website with Go+Turnstile+OAuth</span>
+          </a>
+          
+        </nav>
+        
 
         <!-- Comments -->
         <section class="comments-section">
@@ -279,6 +307,65 @@
 
       // Smooth scroll for TOC links
       document.addEventListener('DOMContentLoaded', function() {
+        // Reading progress
+        const progressBar = document.getElementById('reading-progress-bar');
+        const updateProgress = () => {
+          if (!progressBar) return;
+          const doc = document.documentElement;
+          const scrollable = doc.scrollHeight - doc.clientHeight;
+          const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+          progressBar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, progress)) + ')';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress, { passive: true });
+        updateProgress();
+
+        // Reading time
+        const readingTime = document.getElementById('reading-time');
+        const postBody = document.querySelector('.post-body');
+        if (readingTime && postBody) {
+          const text = postBody.textContent || '';
+          const cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+          const words = (text.replace(/[\u4e00-\u9fff\u3400-\u4dbf]/g, ' ').match(/[A-Za-z0-9_]+/g) || []).length;
+          const minutes = Math.max(1, Math.round(cjk / 350 + words / 200));
+          readingTime.textContent = '· ' + minutes + ' min read';
+        }
+
+        // Wrap tables for horizontal scrolling on small screens
+        document.querySelectorAll('.post-body > table').forEach(table => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-scroll';
+          table.parentNode.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        });
+
+        // Copy buttons for code blocks
+        document.querySelectorAll('.post-body pre').forEach(pre => {
+          if (pre.querySelector('.code-copy')) return;
+          const button = document.createElement('button');
+          button.className = 'code-copy';
+          button.type = 'button';
+          button.textContent = 'Copy';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.addEventListener('click', async () => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+            try {
+              await navigator.clipboard.writeText(code.textContent);
+              button.textContent = 'Copied';
+              button.classList.add('code-copy--copied');
+              setTimeout(() => {
+                button.textContent = 'Copy';
+                button.classList.remove('code-copy--copied');
+              }, 1800);
+            } catch (e) {
+              button.textContent = 'Failed';
+              setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+            }
+          });
+          pre.appendChild(button);
+        });
+
         const tocLinks = document.querySelectorAll('.toc-nav:not(.timeline-nav) a');
         const tocPanel = document.querySelector('.toc-panel');
         const sidepanelToggle = document.getElementById('sidepanel-toggle');

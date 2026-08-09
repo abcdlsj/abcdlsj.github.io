@@ -5,6 +5,8 @@
     
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 
 <title>Gnar - A tunnel proxy like Frp/Ngrok</title>
 
@@ -13,12 +15,14 @@
 <meta name="keywords" content="Network,Tunnel,Yamux,Traffic Limit,IO Package,">
 <meta name="author" content="abcdlsj">
 <meta property="og:title" content="Gnar - A tunnel proxy like Frp/Ngrok">
-<meta property="og:description" content="动手实现一个类 Frp/Ngrok 的内网穿透工具：从 TCP 转发到多协议支持，记录使用 Go 语言构建代理的技术细节和架构思考。">
+<meta property="og:description" content="从 0 实现一个类 Frp/Ngrok 的内网穿透工具：从 TCP 转发到多协议支持">
 <meta property="og:url" content="https://abcdlsj.github.io/posts/gnar-build-a-proxy.html">
 <meta property="og:type" content="article">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="icon" href="/static/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
 <script>
   // Theme initialization - runs before page render to prevent flash
@@ -34,11 +38,13 @@
 
   </head>
   <body class="post-page">
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
     <div class="app">
       
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
       <a href="/" class="site-header__title">L'iving and Discovering</a>
       <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
     </div>
@@ -109,6 +115,10 @@
     
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
+    });
   }
 
   (function initHeaderScrollBehavior() {
@@ -153,6 +163,7 @@
               <h1 class="post-title">Gnar - A tunnel proxy like Frp/Ngrok</h1>
               <div class="post-meta">
                 <time class="post-date" datetime="2023-11-04T22:47:37+08:00">2023-11-04</time>
+                <span class="post-reading-time" id="reading-time"></span>
                 
                 <div class="post-tags">
                   
@@ -377,37 +388,37 @@ A：不能，因为 <code>Control</code> 连接还会有来自 Server 或者 Cli
 <h2 id="codes">Codes</h2>
 <h3 id="structure">Structure</h3>
 <p>结构大概是这样：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>.
-</span></span><span style="display:flex;"><span>├── client
-</span></span><span style="display:flex;"><span>│   ├── cfg.toml
-</span></span><span style="display:flex;"><span>│   ├── cmd.go
-</span></span><span style="display:flex;"><span>│   ├── config.go
-</span></span><span style="display:flex;"><span>│   └── serve.go
-</span></span><span style="display:flex;"><span>├── cmd
-</span></span><span style="display:flex;"><span>│   └── cmd.go
-</span></span><span style="display:flex;"><span>├── logger
-</span></span><span style="display:flex;"><span>│   └── log.go
-</span></span><span style="display:flex;"><span>├── main.go
-</span></span><span style="display:flex;"><span>├── pio
-</span></span><span style="display:flex;"><span>│   ├── encrypt.go
-</span></span><span style="display:flex;"><span>│   └── limit.go
-</span></span><span style="display:flex;"><span>├── proto
-</span></span><span style="display:flex;"><span>│   ├── error.go
-</span></span><span style="display:flex;"><span>│   ├── msg.go
-</span></span><span style="display:flex;"><span>│   └── packet.go
-</span></span><span style="display:flex;"><span>├── proxy
-</span></span><span style="display:flex;"><span>│   ├── buf.go
-</span></span><span style="display:flex;"><span>│   ├── proxy.go
-</span></span><span style="display:flex;"><span>│   └── udp.go
-</span></span><span style="display:flex;"><span>└── server
-</span></span><span style="display:flex;"><span>    ├── cfg.toml
-</span></span><span style="display:flex;"><span>    ├── cmd.go
-</span></span><span style="display:flex;"><span>    ├── config.go
-</span></span><span style="display:flex;"><span>    ├── conn
-</span></span><span style="display:flex;"><span>    │   ├── constant.go
-</span></span><span style="display:flex;"><span>    │   ├── tcp.go
-</span></span><span style="display:flex;"><span>    │   └── udp.go
-</span></span><span style="display:flex;"><span>    └── serve.go
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">├── client
+</span></span><span class="line"><span class="cl">│   ├── cfg.toml
+</span></span><span class="line"><span class="cl">│   ├── cmd.go
+</span></span><span class="line"><span class="cl">│   ├── config.go
+</span></span><span class="line"><span class="cl">│   └── serve.go
+</span></span><span class="line"><span class="cl">├── cmd
+</span></span><span class="line"><span class="cl">│   └── cmd.go
+</span></span><span class="line"><span class="cl">├── logger
+</span></span><span class="line"><span class="cl">│   └── log.go
+</span></span><span class="line"><span class="cl">├── main.go
+</span></span><span class="line"><span class="cl">├── pio
+</span></span><span class="line"><span class="cl">│   ├── encrypt.go
+</span></span><span class="line"><span class="cl">│   └── limit.go
+</span></span><span class="line"><span class="cl">├── proto
+</span></span><span class="line"><span class="cl">│   ├── error.go
+</span></span><span class="line"><span class="cl">│   ├── msg.go
+</span></span><span class="line"><span class="cl">│   └── packet.go
+</span></span><span class="line"><span class="cl">├── proxy
+</span></span><span class="line"><span class="cl">│   ├── buf.go
+</span></span><span class="line"><span class="cl">│   ├── proxy.go
+</span></span><span class="line"><span class="cl">│   └── udp.go
+</span></span><span class="line"><span class="cl">└── server
+</span></span><span class="line"><span class="cl">    ├── cfg.toml
+</span></span><span class="line"><span class="cl">    ├── cmd.go
+</span></span><span class="line"><span class="cl">    ├── config.go
+</span></span><span class="line"><span class="cl">    ├── conn
+</span></span><span class="line"><span class="cl">    │   ├── constant.go
+</span></span><span class="line"><span class="cl">    │   ├── tcp.go
+</span></span><span class="line"><span class="cl">    │   └── udp.go
+</span></span><span class="line"><span class="cl">    └── serve.go
 </span></span></code></pre><p>简要描述下：</p>
 <ul>
 <li>cmd: <code>cmd</code> 入口，<code>cobra</code></li>
@@ -422,67 +433,67 @@ A：不能，因为 <code>Control</code> 连接还会有来自 Server 或者 Cli
 <p><code>Auth</code> 采用简单的 Token 校验，消息里有 <code>Token</code> 以及 <code>Timestamp</code> 字段，收到消息会 <code>md5(Token + Timestamp)</code> 进行校验（最开始我的实现 Client 和 Server 每个收发消息都会带上校验字段，好处是少一次 Auth 的发送时间，后来看到很多实现都只是在建立连接的时候校验，所以也改成连接创建时校验）</p>
 <p><code>MsgLogin</code> 结构体<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L56">proto/msg.go#L56</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> MsgLogin <span style="color:#000;font-weight:bold">struct</span> {
-</span></span><span style="display:flex;"><span>	Token     <span style="color:#458;font-weight:bold">string</span> <span style="color:#d14">`json:&#34;token&#34;`</span>
-</span></span><span style="display:flex;"><span>	Version   <span style="color:#458;font-weight:bold">string</span> <span style="color:#d14">`json:&#34;client_version&#34;`</span>
-</span></span><span style="display:flex;"><span>	Timestamp <span style="color:#458;font-weight:bold">int64</span>  <span style="color:#d14">`json:&#34;timestamp&#34;`</span>
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">MsgLogin</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Token</span>     <span class="kt">string</span> <span class="s">`json:&#34;token&#34;`</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Version</span>   <span class="kt">string</span> <span class="s">`json:&#34;client_version&#34;`</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Timestamp</span> <span class="kt">int64</span>  <span class="s">`json:&#34;timestamp&#34;`</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p><strong>Client</strong> <code>Dial</code> 创建和 <code>Auth</code> 部分差不多是这样：<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L75">client/serve.go#L75</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">authDialSvr</span>(svraddr <span style="color:#458;font-weight:bold">string</span>, token <span style="color:#458;font-weight:bold">string</span>) (net.Conn, <span style="color:#458;font-weight:bold">error</span>) {
-</span></span><span style="display:flex;"><span>	conn, err <span style="color:#000;font-weight:bold">:=</span> net.<span style="color:#900;font-weight:bold">Dial</span>(<span style="color:#d14">&#34;tcp&#34;</span>, svraddr)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>, err
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(conn, proto.<span style="color:#900;font-weight:bold">NewMsgLogin</span>(token)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>, err
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> conn, <span style="color:#000;font-weight:bold">nil</span>
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">authDialSvr</span><span class="p">(</span><span class="nx">svraddr</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">token</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">conn</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">Dial</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="nx">svraddr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Send</span><span class="p">(</span><span class="nx">conn</span><span class="p">,</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">NewMsgLogin</span><span class="p">(</span><span class="nx">token</span><span class="p">));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">conn</span><span class="p">,</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p><code>Auth</code> 的部分还有其它更有意思的实现，例如 <code>OpenID Connect (OIDC)</code>，可以实现扫码认证之类的功能。</p>
 <p><strong>Server 部分</strong><br>
 Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接到来（没有特别说明都当作是 <code>8910</code>）。<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L38-L62">server/serve.go#L38-L62</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>Server) <span style="color:#900;font-weight:bold">Run</span>() {
-</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">...</span>
-</span></span><span style="display:flex;"><span>  listener, err <span style="color:#000;font-weight:bold">:=</span> net.<span style="color:#900;font-weight:bold">Listen</span>(<span style="color:#d14">&#34;tcp&#34;</span>, fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;:%d&#34;</span>, s.cfg.Port))
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Fatalf</span>(<span style="color:#d14">&#34;Error listening: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> listener.<span style="color:#900;font-weight:bold">Close</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> {
-</span></span><span style="display:flex;"><span>		conn, err <span style="color:#000;font-weight:bold">:=</span> listener.<span style="color:#900;font-weight:bold">Accept</span>()
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			logger.<span style="color:#900;font-weight:bold">Infof</span>(<span style="color:#d14">&#34;Error accepting: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">go</span> s.<span style="color:#900;font-weight:bold">handle</span>(conn)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">Server</span><span class="p">)</span> <span class="nf">Run</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">listener</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">Listen</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;:%d&#34;</span><span class="p">,</span> <span class="nx">s</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">Port</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">logger</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;Error listening: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">listener</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">conn</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">listener</span><span class="p">.</span><span class="nf">Accept</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">logger</span><span class="p">.</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;Error accepting: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">go</span> <span class="nx">s</span><span class="p">.</span><span class="nf">handle</span><span class="p">(</span><span class="nx">conn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>Server handle 部分对 <code>MsgLogin</code> 进行校验，校验不通过直接断开连接。<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L64-L79">server/serve.go#L64-L79</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>Server) <span style="color:#900;font-weight:bold">handle</span>(conn net.Conn) {
-</span></span><span style="display:flex;"><span>	loginMsg <span style="color:#000;font-weight:bold">:=</span> proto.MsgLogin{}
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Recv</span>(conn, <span style="color:#000;font-weight:bold">&amp;</span>loginMsg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error reading from connection: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>		conn.<span style="color:#900;font-weight:bold">Close</span>()
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	hash <span style="color:#000;font-weight:bold">:=</span> md5.<span style="color:#900;font-weight:bold">New</span>()
-</span></span><span style="display:flex;"><span>	hash.<span style="color:#900;font-weight:bold">Write</span>([]<span style="color:#0086b3">byte</span>(s.cfg.Token <span style="color:#000;font-weight:bold">+</span> fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;%d&#34;</span>, loginMsg.Timestamp)))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;%x&#34;</span>, hash.<span style="color:#900;font-weight:bold">Sum</span>(<span style="color:#000;font-weight:bold">nil</span>)) <span style="color:#000;font-weight:bold">!=</span> loginMsg.Token {
-</span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Invalid token, client addr: %s&#34;</span>, conn.<span style="color:#900;font-weight:bold">RemoteAddr</span>().<span style="color:#900;font-weight:bold">String</span>())
-</span></span><span style="display:flex;"><span>		conn.<span style="color:#900;font-weight:bold">Close</span>()
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">...</span>
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">Server</span><span class="p">)</span> <span class="nf">handle</span><span class="p">(</span><span class="nx">conn</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">loginMsg</span> <span class="o">:=</span> <span class="nx">proto</span><span class="p">.</span><span class="nx">MsgLogin</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Recv</span><span class="p">(</span><span class="nx">conn</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">loginMsg</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">logger</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Error reading from connection: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">conn</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">hash</span> <span class="o">:=</span> <span class="nx">md5</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">hash</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">Token</span> <span class="o">+</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span> <span class="nx">loginMsg</span><span class="p">.</span><span class="nx">Timestamp</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;%x&#34;</span><span class="p">,</span> <span class="nx">hash</span><span class="p">.</span><span class="nf">Sum</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span> <span class="o">!=</span> <span class="nx">loginMsg</span><span class="p">.</span><span class="nx">Token</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">logger</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Invalid token, client addr: %s&#34;</span><span class="p">,</span> <span class="nx">conn</span><span class="p">.</span><span class="nf">RemoteAddr</span><span class="p">().</span><span class="nf">String</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">conn</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><blockquote>
 <p>这里最开始是想的返回 <code>MsgLoginResp</code> 但是发现其实没有必要，直接断开也是可以的</p>
 </blockquote>
@@ -491,188 +502,188 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 <p><code>TCP</code> 是 <code>Stream</code> 协议，我们并不知道需要读取多少字节，每个消息的长度也都是不固定的，所以需要实现自己的序列化规则。</p>
 <h4 id="format">format</h4>
 <p>规定 <code>Message</code> 的 <code>format</code> 如下：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>|&lt;1 byte&gt;|&lt;2 byte&gt;|&lt;length byte&gt;|
-</span></span><span style="display:flex;"><span>|PacketType|Length| Json Message|
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">|&lt;1 byte&gt;|&lt;2 byte&gt;|&lt;length byte&gt;|
+</span></span><span class="line"><span class="cl">|PacketType|Length| Json Message|
 </span></span></code></pre><h4 id="packunpack">pack/unpack</h4>
 <p><a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/packet.go#L42">proto/packet.go#L42</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">packet</span>(typ PacketType, msg <span style="color:#000;font-weight:bold">interface</span>{}) ([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#458;font-weight:bold">error</span>) {
-</span></span><span style="display:flex;"><span>	buf, err <span style="color:#000;font-weight:bold">:=</span> json.<span style="color:#900;font-weight:bold">Marshal</span>(msg)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>, err
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">packet0</span>(typ, buf)
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">packet0</span>(typ PacketType, buf []<span style="color:#458;font-weight:bold">byte</span>) ([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#458;font-weight:bold">error</span>) {
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(buf) &gt; <span style="color:#099">65535</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>, ErrMsgLength
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	ret <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#099">3</span><span style="color:#000;font-weight:bold">+</span><span style="color:#0086b3">len</span>(buf))
-</span></span><span style="display:flex;"><span>	ret[<span style="color:#099">0</span>] = <span style="color:#0086b3">byte</span>(typ)
-</span></span><span style="display:flex;"><span>	ret[<span style="color:#099">1</span>] = <span style="color:#0086b3">byte</span>(<span style="color:#0086b3">len</span>(buf) <span style="color:#000;font-weight:bold">&gt;&gt;</span> <span style="color:#099">8</span>)
-</span></span><span style="display:flex;"><span>	ret[<span style="color:#099">2</span>] = <span style="color:#0086b3">byte</span>(<span style="color:#0086b3">len</span>(buf))
-</span></span><span style="display:flex;"><span>	<span style="color:#0086b3">copy</span>(ret[<span style="color:#099">3</span>:], buf)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> ret, <span style="color:#000;font-weight:bold">nil</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">read</span>(r io.Reader) (PacketType, []<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#458;font-weight:bold">error</span>) {
-</span></span><span style="display:flex;"><span>	typ, buf, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">read0</span>(r)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> PacketUnknown, <span style="color:#000;font-weight:bold">nil</span>, err
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">PacketType</span>(typ), buf, <span style="color:#000;font-weight:bold">nil</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">read0</span>(r io.Reader) (typ <span style="color:#458;font-weight:bold">byte</span>, buf []<span style="color:#458;font-weight:bold">byte</span>, err <span style="color:#458;font-weight:bold">error</span>) {
-</span></span><span style="display:flex;"><span>	buf = <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#099">1</span>)
-</span></span><span style="display:flex;"><span>	_, err = r.<span style="color:#900;font-weight:bold">Read</span>(buf)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	typ = buf[<span style="color:#099">0</span>]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	buf = <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#099">2</span>)
-</span></span><span style="display:flex;"><span>	_, err = r.<span style="color:#900;font-weight:bold">Read</span>(buf)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		err = ErrMsgRead
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	l <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">int</span>(buf[<span style="color:#099">0</span>])<span style="color:#000;font-weight:bold">&lt;&lt;</span><span style="color:#099">8</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#0086b3">int</span>(buf[<span style="color:#099">1</span>])
-</span></span><span style="display:flex;"><span>	buf = <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, l)
-</span></span><span style="display:flex;"><span>	n, err <span style="color:#000;font-weight:bold">:=</span> io.<span style="color:#900;font-weight:bold">ReadFull</span>(r, buf)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> n <span style="color:#000;font-weight:bold">!=</span> l {
-</span></span><span style="display:flex;"><span>		err = ErrMsgLength
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">packet</span><span class="p">(</span><span class="nx">typ</span> <span class="nx">PacketType</span><span class="p">,</span> <span class="nx">msg</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">buf</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">Marshal</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nf">packet0</span><span class="p">(</span><span class="nx">typ</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">packet0</span><span class="p">(</span><span class="nx">typ</span> <span class="nx">PacketType</span><span class="p">,</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">65535</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">ErrMsgLength</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ret</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">3</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="nx">buf</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="nb">byte</span><span class="p">(</span><span class="nx">typ</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="nb">byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ret</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">=</span> <span class="nb">byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">buf</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">copy</span><span class="p">(</span><span class="nx">ret</span><span class="p">[</span><span class="mi">3</span><span class="p">:],</span> <span class="nx">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">ret</span><span class="p">,</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">read</span><span class="p">(</span><span class="nx">r</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">)</span> <span class="p">(</span><span class="nx">PacketType</span><span class="p">,</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">typ</span><span class="p">,</span> <span class="nx">buf</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">read0</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">PacketUnknown</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nf">PacketType</span><span class="p">(</span><span class="nx">typ</span><span class="p">),</span> <span class="nx">buf</span><span class="p">,</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">read0</span><span class="p">(</span><span class="nx">r</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">)</span> <span class="p">(</span><span class="nx">typ</span> <span class="kt">byte</span><span class="p">,</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">buf</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">r</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">typ</span> <span class="p">=</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">buf</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">r</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">err</span> <span class="p">=</span> <span class="nx">ErrMsgRead</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">l</span> <span class="o">:=</span> <span class="nb">int</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">&lt;&lt;</span><span class="mi">8</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">buf</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="nx">l</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">n</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">io</span><span class="p">.</span><span class="nf">ReadFull</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">n</span> <span class="o">!=</span> <span class="nx">l</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">err</span> <span class="p">=</span> <span class="nx">ErrMsgLength</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><h4 id="sendrecv">send/recv</h4>
 <p><a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proto/msg.go#L16">proto/msg.go#L16</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Send</span>(w io.Writer, msg Msg) <span style="color:#458;font-weight:bold">error</span> {
-</span></span><span style="display:flex;"><span>	buf, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">packet</span>(msg.<span style="color:#900;font-weight:bold">Type</span>(), msg)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> err
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	_, err = w.<span style="color:#900;font-weight:bold">Write</span>(buf)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> err
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Recv</span>(r io.Reader, msg Msg) <span style="color:#458;font-weight:bold">error</span> {
-</span></span><span style="display:flex;"><span>	p, buf, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">read</span>(r)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> err
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> p <span style="color:#000;font-weight:bold">!=</span> msg.<span style="color:#900;font-weight:bold">Type</span>() {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> ErrInvalidMsg
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> json.<span style="color:#900;font-weight:bold">Unmarshal</span>(buf, msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> err
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Send</span><span class="p">(</span><span class="nx">w</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span> <span class="nx">msg</span> <span class="nx">Msg</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">buf</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">packet</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nf">Type</span><span class="p">(),</span> <span class="nx">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">w</span><span class="p">.</span><span class="nf">Write</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Recv</span><span class="p">(</span><span class="nx">r</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span> <span class="nx">msg</span> <span class="nx">Msg</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">p</span><span class="p">,</span> <span class="nx">buf</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">read</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">p</span> <span class="o">!=</span> <span class="nx">msg</span><span class="p">.</span><span class="nf">Type</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">ErrInvalidMsg</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">Unmarshal</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">msg</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>到这里 <code>Message</code> 的序列化和解析已经完成了，之后使用 <code>Msg</code> 或者添加新的 <code>Msg</code> 都不用关注这部分。</p>
 <h3 id="forward">Forward</h3>
 <p>client 部分就是发送 <code>Forward</code> 消息，接收返回的 <code>ForwardResp</code>。<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L88">client/serve.go#L88</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (f <span style="color:#000;font-weight:bold">*</span>Forwarder) <span style="color:#900;font-weight:bold">Run</span>() {
-</span></span><span style="display:flex;"><span>	rConn, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">authDialSvr</span>(f.svraddr, f.token)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">...</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(rConn, proto.<span style="color:#900;font-weight:bold">NewMsgForward</span>(f.proxyName, f.subdomain,
-</span></span><span style="display:flex;"><span>		f.proxyType, f.remotePort)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		f.logger.<span style="color:#900;font-weight:bold">Fatalf</span>(<span style="color:#d14">&#34;Error send forward msg to remote: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	frdResp <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>proto.MsgForwardResp{}
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Recv</span>(rConn, frdResp); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		f.logger.<span style="color:#900;font-weight:bold">Fatal</span>(<span style="color:#d14">&#34;Error reading forward resp msg from remote, please check your config&#34;</span>)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> frdResp.Status <span style="color:#000;font-weight:bold">!=</span> <span style="color:#d14">&#34;success&#34;</span> {
-</span></span><span style="display:flex;"><span>		f.logger.<span style="color:#900;font-weight:bold">Fatalf</span>(<span style="color:#d14">&#34;Forward failed, status: %s, remote port: %d&#34;</span>, frdResp.Status, f.remotePort)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">...</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">f</span> <span class="o">*</span><span class="nx">Forwarder</span><span class="p">)</span> <span class="nf">Run</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">rConn</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">authDialSvr</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">svraddr</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">token</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="o">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Send</span><span class="p">(</span><span class="nx">rConn</span><span class="p">,</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">NewMsgForward</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">proxyName</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">subdomain</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">f</span><span class="p">.</span><span class="nx">proxyType</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">remotePort</span><span class="p">));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="nx">f</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;Error send forward msg to remote: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">frdResp</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">proto</span><span class="p">.</span><span class="nx">MsgForwardResp</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Recv</span><span class="p">(</span><span class="nx">rConn</span><span class="p">,</span> <span class="nx">frdResp</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">f</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="s">&#34;Error reading forward resp msg from remote, please check your config&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">frdResp</span><span class="p">.</span><span class="nx">Status</span> <span class="o">!=</span> <span class="s">&#34;success&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">f</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;Forward failed, status: %s, remote port: %d&#34;</span><span class="p">,</span> <span class="nx">frdResp</span><span class="p">.</span><span class="nx">Status</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">remotePort</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="o">...</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>发送后，如果检验成功，Client 端会在 <code>for</code> 循环里接收来自 Server 端的消息。</p>
 <p><strong>Server 端处理 <code>Forward</code> 消息</strong><br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L83-L107">server/serve.go#L83-L107</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>pt, buf, err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Read</span>(conn)
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>	logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error reading from connection: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">switch</span> pt {
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">case</span> proto.PacketForwardReq:
-</span></span><span style="display:flex;"><span>	failChan <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>(<span style="color:#000;font-weight:bold">chan</span> <span style="color:#000;font-weight:bold">struct</span>{})
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> <span style="color:#0086b3">close</span>(failChan)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">&lt;-</span>failChan
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Send</span>(conn, proto.<span style="color:#900;font-weight:bold">NewMsgForwardResp</span>(<span style="color:#d14">&#34;&#34;</span>, <span style="color:#d14">&#34;failed&#34;</span>)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error sending forward failed resp message: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	msg <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>proto.MsgForwardReq{}
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> json.<span style="color:#900;font-weight:bold">Unmarshal</span>(buf, msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error unmarshalling message: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	s.<span style="color:#900;font-weight:bold">handleForward</span>(conn, msg, failChan)
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nx">pt</span><span class="p">,</span> <span class="nx">buf</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">conn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">logger</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Error reading from connection: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">switch</span> <span class="nx">pt</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="nx">proto</span><span class="p">.</span><span class="nx">PacketForwardReq</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">failChan</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{})</span>
+</span></span><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nb">close</span><span class="p">(</span><span class="nx">failChan</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="o">&lt;-</span><span class="nx">failChan</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Send</span><span class="p">(</span><span class="nx">conn</span><span class="p">,</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">NewMsgForwardResp</span><span class="p">(</span><span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;failed&#34;</span><span class="p">));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">logger</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Error sending forward failed resp message: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">msg</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">proto</span><span class="p">.</span><span class="nx">MsgForwardReq</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">Unmarshal</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">msg</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">logger</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Error unmarshalling message: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">s</span><span class="p">.</span><span class="nf">handleForward</span><span class="p">(</span><span class="nx">conn</span><span class="p">,</span> <span class="nx">msg</span><span class="p">,</span> <span class="nx">failChan</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p><code>handleForward</code> 函数<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L133">server/serve.go#L133</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>Server) <span style="color:#900;font-weight:bold">handleForward</span>(cConn net.Conn, msg <span style="color:#000;font-weight:bold">*</span>proto.MsgForwardReq, failChan <span style="color:#000;font-weight:bold">chan</span> <span style="color:#000;font-weight:bold">struct</span>{}) {
-</span></span><span style="display:flex;"><span>	uPort <span style="color:#000;font-weight:bold">:=</span> msg.RemotePort
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> !s.<span style="color:#900;font-weight:bold">availablePort</span>(uPort) {
-</span></span><span style="display:flex;"><span>		failChan <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#000;font-weight:bold">struct</span>{}{}
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	from <span style="color:#000;font-weight:bold">:=</span> cConn.<span style="color:#900;font-weight:bold">RemoteAddr</span>().<span style="color:#900;font-weight:bold">String</span>()
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> msg.ProxyType {
-</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;tcp&#34;</span>:
-</span></span><span style="display:flex;"><span>		uListener, err <span style="color:#000;font-weight:bold">:=</span> net.<span style="color:#900;font-weight:bold">Listen</span>(<span style="color:#d14">&#34;tcp&#34;</span>, fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;:%d&#34;</span>, uPort))
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			failChan <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#000;font-weight:bold">struct</span>{}{}
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">defer</span> uListener.<span style="color:#900;font-weight:bold">Close</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(cConn, proto.<span style="color:#900;font-weight:bold">NewMsgForwardResp</span>(domain, <span style="color:#d14">&#34;success&#34;</span>)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			failChan <span style="color:#000;font-weight:bold">&lt;-</span> <span style="color:#000;font-weight:bold">struct</span>{}{}
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">for</span> {
-</span></span><span style="display:flex;"><span>			userConn, err <span style="color:#000;font-weight:bold">:=</span> uListener.<span style="color:#900;font-weight:bold">Accept</span>()
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
-</span></span><span style="display:flex;"><span>				uid <span style="color:#000;font-weight:bold">:=</span> conn.<span style="color:#900;font-weight:bold">NewUuid</span>()
-</span></span><span style="display:flex;"><span>				s.tcpConnMap.<span style="color:#900;font-weight:bold">Add</span>(uid, userConn)
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Send</span>(cConn, proto.<span style="color:#900;font-weight:bold">NewMsgExchange</span>(uid, msg.ProxyType)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>					logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error sending exchange message: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>				}
-</span></span><span style="display:flex;"><span>			}()
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">Server</span><span class="p">)</span> <span class="nf">handleForward</span><span class="p">(</span><span class="nx">cConn</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span> <span class="nx">msg</span> <span class="o">*</span><span class="nx">proto</span><span class="p">.</span><span class="nx">MsgForwardReq</span><span class="p">,</span> <span class="nx">failChan</span> <span class="kd">chan</span> <span class="kd">struct</span><span class="p">{})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">uPort</span> <span class="o">:=</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">RemotePort</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">!</span><span class="nx">s</span><span class="p">.</span><span class="nf">availablePort</span><span class="p">(</span><span class="nx">uPort</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">failChan</span> <span class="o">&lt;-</span> <span class="kd">struct</span><span class="p">{}{}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">from</span> <span class="o">:=</span> <span class="nx">cConn</span><span class="p">.</span><span class="nf">RemoteAddr</span><span class="p">().</span><span class="nf">String</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">switch</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">ProxyType</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="s">&#34;tcp&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">uListener</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">Listen</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;:%d&#34;</span><span class="p">,</span> <span class="nx">uPort</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">failChan</span> <span class="o">&lt;-</span> <span class="kd">struct</span><span class="p">{}{}</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">defer</span> <span class="nx">uListener</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Send</span><span class="p">(</span><span class="nx">cConn</span><span class="p">,</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">NewMsgForwardResp</span><span class="p">(</span><span class="nx">domain</span><span class="p">,</span> <span class="s">&#34;success&#34;</span><span class="p">));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">failChan</span> <span class="o">&lt;-</span> <span class="kd">struct</span><span class="p">{}{}</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">userConn</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">uListener</span><span class="p">.</span><span class="nf">Accept</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="k">return</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">uid</span> <span class="o">:=</span> <span class="nx">conn</span><span class="p">.</span><span class="nf">NewUuid</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">s</span><span class="p">.</span><span class="nx">tcpConnMap</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nx">uid</span><span class="p">,</span> <span class="nx">userConn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Send</span><span class="p">(</span><span class="nx">cConn</span><span class="p">,</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">NewMsgExchange</span><span class="p">(</span><span class="nx">uid</span><span class="p">,</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">ProxyType</span><span class="p">));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="nx">logger</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Error sending exchange message: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}()</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>大概流程就是：</p>
 <ol>
 <li>check port available</li>
@@ -683,45 +694,45 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 <h3 id="exchange">Exchange</h3>
 <p>Client 端从发送 <code>Forward</code> 消息后的 <code>for</code> 里不断获取消息，然后如果是 <code>Exchange</code> 消息。<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/client/serve.go#L124">client/serve.go#L124</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">for</span> {
-</span></span><span style="display:flex;"><span>	p, buf, err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Read</span>(rConn)
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		f.logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error reading msg from remote: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	nlogger <span style="color:#000;font-weight:bold">:=</span> f.logger.<span style="color:#900;font-weight:bold">CloneAdd</span>(p.<span style="color:#900;font-weight:bold">String</span>())
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> p {
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> proto.PacketExchange:
-</span></span><span style="display:flex;"><span>		msg <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>proto.MsgExchange{}
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> json.<span style="color:#900;font-weight:bold">Unmarshal</span>(buf, msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			<span style="color:#900;font-weight:bold">cancelForward</span>(f.token, f.svraddr, f.proxyName, f.localPort, f.remotePort)
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">switch</span> msg.ProxyType {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;tcp&#34;</span>:
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
-</span></span><span style="display:flex;"><span>				nRconn, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">authDialSvr</span>(f.svraddr, f.token)
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>					nlogger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error connecting to remote: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>					<span style="color:#900;font-weight:bold">cancelForward</span>(f.token, f.svraddr, f.proxyName, f.localPort, f.remotePort)
-</span></span><span style="display:flex;"><span>					<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>				}
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(nRconn, proto.<span style="color:#900;font-weight:bold">NewMsgExchange</span>(msg.ConnId, f.proxyType)); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>					nlogger.<span style="color:#900;font-weight:bold">Infof</span>(<span style="color:#d14">&#34;Error sending exchange msg to remote: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>				}
-</span></span><span style="display:flex;"><span>				lConn, err <span style="color:#000;font-weight:bold">:=</span> net.<span style="color:#900;font-weight:bold">Dial</span>(msg.ProxyType, fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;:%d&#34;</span>, f.localPort))
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>					nlogger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Error connecting to local: %v, will close forward, %s:%d&#34;</span>, err, f.proxyType, f.localPort)
-</span></span><span style="display:flex;"><span>					<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>				}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>				proxy.<span style="color:#900;font-weight:bold">Stream</span>(lConn, nRconn)
-</span></span><span style="display:flex;"><span>			}()
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">p</span><span class="p">,</span> <span class="nx">buf</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">rConn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">f</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Error reading msg from remote: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">nlogger</span> <span class="o">:=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nf">CloneAdd</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">	<span class="k">switch</span> <span class="nx">p</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">case</span> <span class="nx">proto</span><span class="p">.</span><span class="nx">PacketExchange</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">msg</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">proto</span><span class="p">.</span><span class="nx">MsgExchange</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">Unmarshal</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="nx">msg</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nf">cancelForward</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">token</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">svraddr</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">proxyName</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">localPort</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">remotePort</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">switch</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">ProxyType</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">case</span> <span class="s">&#34;tcp&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">			<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">nRconn</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">authDialSvr</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">svraddr</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">token</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="nx">nlogger</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Error connecting to remote: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">					<span class="nf">cancelForward</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">token</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">svraddr</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">proxyName</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">localPort</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">remotePort</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">					<span class="k">return</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Send</span><span class="p">(</span><span class="nx">nRconn</span><span class="p">,</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">NewMsgExchange</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">ConnId</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">proxyType</span><span class="p">));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="nx">nlogger</span><span class="p">.</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;Error sending exchange msg to remote: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">lConn</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">Dial</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">ProxyType</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;:%d&#34;</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">localPort</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="nx">nlogger</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Error connecting to local: %v, will close forward, %s:%d&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">proxyType</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">localPort</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">					<span class="k">return</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">				<span class="nx">proxy</span><span class="p">.</span><span class="nf">Stream</span><span class="p">(</span><span class="nx">lConn</span><span class="p">,</span> <span class="nx">nRconn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}()</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>这里可以看到逻辑很简单</p>
 <ol>
 <li>接收到 <code>Exchange</code> 消息后</li>
@@ -731,43 +742,43 @@ Server 会 <code>Listen</code> 端口 <code>8910</code>，等待 Client 连接�
 </ol>
 <p>Server 端接收到 <code>Exchange</code> 消息就很简单了，从 <code>tcpConnMap</code> 里拿出对应的连接，然后同样的 <code>proxy.Stream</code> 进行流量 <code>Copy</code>。<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/serve.go#L254">server/serve.go#L254</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>Server) <span style="color:#900;font-weight:bold">handleExchange</span>(conn net.Conn, msg <span style="color:#000;font-weight:bold">*</span>proto.MsgExchange) {
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> msg.ProxyType {
-</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">case</span> <span style="color:#d14">&#34;tcp&#34;</span>:
-</span></span><span style="display:flex;"><span>		uConn, ok <span style="color:#000;font-weight:bold">:=</span> s.tcpConnMap.<span style="color:#900;font-weight:bold">Get</span>(msg.ConnId)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> !ok {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">defer</span> s.tcpConnMap.<span style="color:#900;font-weight:bold">Del</span>(msg.ConnId)
-</span></span><span style="display:flex;"><span>		proxy.<span style="color:#900;font-weight:bold">Stream</span>(conn, uConn)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">Server</span><span class="p">)</span> <span class="nf">handleExchange</span><span class="p">(</span><span class="nx">conn</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span> <span class="nx">msg</span> <span class="o">*</span><span class="nx">proto</span><span class="p">.</span><span class="nx">MsgExchange</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">switch</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">ProxyType</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="s">&#34;tcp&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">uConn</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">tcpConnMap</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">ConnId</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">defer</span> <span class="nx">s</span><span class="p">.</span><span class="nx">tcpConnMap</span><span class="p">.</span><span class="nf">Del</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">ConnId</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">proxy</span><span class="p">.</span><span class="nf">Stream</span><span class="p">(</span><span class="nx">conn</span><span class="p">,</span> <span class="nx">uConn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><h3 id="proxystream"><code>proxy.Stream</code></h3>
 <p><code>proxy.Stream</code> 就是封装了 <code>io.Copy</code><br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proxy/proxy.go#L7C1-L28C2">proxy.go#L7C1-L28C2</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Stream</span>(s1, s2 io.ReadWriteCloser) {
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> s1.<span style="color:#900;font-weight:bold">Close</span>()
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> s2.<span style="color:#900;font-weight:bold">Close</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	copy <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">func</span>(src io.Reader, dst io.Writer) {
-</span></span><span style="display:flex;"><span>		buf <span style="color:#000;font-weight:bold">:=</span> bufPool.<span style="color:#900;font-weight:bold">Get</span>().(<span style="color:#000;font-weight:bold">*</span>Buf)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">defer</span> bufPool.<span style="color:#900;font-weight:bold">Put</span>(buf)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">for</span> {
-</span></span><span style="display:flex;"><span>			n, err <span style="color:#000;font-weight:bold">:=</span> io.<span style="color:#900;font-weight:bold">CopyBuffer</span>(dst, src, buf.buf)
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">==</span> io.EOF <span style="color:#000;font-weight:bold">||</span> n <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span> {
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">break</span>
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
-</span></span><span style="display:flex;"><span>		<span style="color:#0086b3">copy</span>(s1, s2)
-</span></span><span style="display:flex;"><span>	}()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#0086b3">copy</span>(s2, s1)
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Stream</span><span class="p">(</span><span class="nx">s1</span><span class="p">,</span> <span class="nx">s2</span> <span class="nx">io</span><span class="p">.</span><span class="nx">ReadWriteCloser</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">s1</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">s2</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">copy</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">src</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span> <span class="nx">dst</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">buf</span> <span class="o">:=</span> <span class="nx">bufPool</span><span class="p">.</span><span class="nf">Get</span><span class="p">().(</span><span class="o">*</span><span class="nx">Buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">defer</span> <span class="nx">bufPool</span><span class="p">.</span><span class="nf">Put</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">n</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">io</span><span class="p">.</span><span class="nf">CopyBuffer</span><span class="p">(</span><span class="nx">dst</span><span class="p">,</span> <span class="nx">src</span><span class="p">,</span> <span class="nx">buf</span><span class="p">.</span><span class="nx">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="nx">io</span><span class="p">.</span><span class="nx">EOF</span> <span class="o">||</span> <span class="nx">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="k">break</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">copy</span><span class="p">(</span><span class="nx">s1</span><span class="p">,</span> <span class="nx">s2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nb">copy</span><span class="p">(</span><span class="nx">s2</span><span class="p">,</span> <span class="nx">s1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><h3 id="conclusion">Conclusion</h3>
 <p>到此，<code>Gnar</code> 的实现已经差不多，基本上列出了完整的流程，接下来会写下 <code>Gnar</code> 所实现的 <code>Feature</code>。</p>
 <h2 id="feature">Feature</h2>
@@ -782,20 +793,20 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，提�
 </blockquote>
 <p>或者可以借助 <code>Caddy/Nginx</code> 来实现，这里我使用的 <code>Caddy</code>，借助 <code>Caddy</code> 的 <code>API</code> 功能来实现。</p>
 <p>先启动 <code>Caddy</code> 创建一个 <code>server</code>，这是配置内容，<code>routes</code> 留空就可以。</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#000080">&#34;apps&#34;</span>: {
-</span></span><span style="display:flex;"><span>		<span style="color:#000080">&#34;http&#34;</span>: {
-</span></span><span style="display:flex;"><span>			<span style="color:#000080">&#34;servers&#34;</span>: {
-</span></span><span style="display:flex;"><span>				<span style="color:#000080">&#34;gnar&#34;</span>: {
-</span></span><span style="display:flex;"><span>					<span style="color:#000080">&#34;listen&#34;</span>: [
-</span></span><span style="display:flex;"><span>						<span style="color:#d14">&#34;:443&#34;</span>
-</span></span><span style="display:flex;"><span>					],
-</span></span><span style="display:flex;"><span>					<span style="color:#000080">&#34;routes&#34;</span>: []
-</span></span><span style="display:flex;"><span>				}
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;apps&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nt">&#34;http&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nt">&#34;servers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nt">&#34;gnar&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="nt">&#34;listen&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">						<span class="s2">&#34;:443&#34;</span>
+</span></span><span class="line"><span class="cl">					<span class="p">],</span>
+</span></span><span class="line"><span class="cl">					<span class="nt">&#34;routes&#34;</span><span class="p">:</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>这是 <code>Caddy</code> 部分代码：<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/server/caddy_service.go#L22">server/caddy_service.go#L22</a></p>
 <blockquote>
@@ -803,30 +814,30 @@ Server 会生成 <code>xxx.example.com</code> 的 <code>Subdomain</code>，提�
 如果是服务器上正在运行的 <code>Caddy</code> 服务，可以使用 <code>sudo caddy adapt --config /etc/caddy/Caddyfile</code> 去查看一下生成的 <code>JSON</code>（正常默认是 <code>srv0</code>）<br>
 然后对比我上面给出的 <code>Config</code>，按需修改 <code>caddyAddRouteUrl</code>（最新版本支持自定义 <code>srv name</code>）</p>
 </blockquote>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
-</span></span><span style="display:flex;"><span>	caddyAddRouteF         = <span style="color:#d14">&#34;{\&#34;@id\&#34;:\&#34;%s\&#34;,\&#34;match\&#34;:[{\&#34;host\&#34;:[\&#34;%s\&#34;]}],\&#34;handle\&#34;:[{\&#34;handler\&#34;:\&#34;reverse_proxy\&#34;,\&#34;upstreams\&#34;:[{\&#34;dial\&#34;:\&#34;:%d\&#34;}]}]}&#34;</span>
-</span></span><span style="display:flex;"><span>	caddyAddRouteUrl       = <span style="color:#d14">&#34;http://127.0.0.1:2019/config/apps/http/servers/gnar/routes&#34;</span>
-</span></span><span style="display:flex;"><span>	caddyAddTlsSubjectsUrl = <span style="color:#d14">&#34;http://127.0.0.1:2019/config/apps/tls/automation/policies/0/subjects&#34;</span>
-</span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">addCaddyRouter</span>(host <span style="color:#458;font-weight:bold">string</span>, port <span style="color:#458;font-weight:bold">int</span>) <span style="color:#458;font-weight:bold">error</span> {
-</span></span><span style="display:flex;"><span>	tunnelId <span style="color:#000;font-weight:bold">:=</span> fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;%s.%d&#34;</span>, host, port)
-</span></span><span style="display:flex;"><span>	resp, err <span style="color:#000;font-weight:bold">:=</span> http.<span style="color:#900;font-weight:bold">Post</span>(caddyAddRouteUrl, <span style="color:#d14">&#34;application/json&#34;</span>, bytes.<span style="color:#900;font-weight:bold">NewBuffer</span>([]<span style="color:#0086b3">byte</span>(fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(caddyAddRouteF, tunnelId, host, port))))
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Tunnel creation failed, err: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> err
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> resp.Body.<span style="color:#900;font-weight:bold">Close</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	resp, err = http.<span style="color:#900;font-weight:bold">Post</span>(caddyAddTlsSubjectsUrl, <span style="color:#d14">&#34;application/json&#34;</span>, bytes.<span style="color:#900;font-weight:bold">NewBuffer</span>([]<span style="color:#0086b3">byte</span>(fmt.<span style="color:#900;font-weight:bold">Sprintf</span>(<span style="color:#d14">&#34;\&#34;%s\&#34;&#34;</span>, host))))
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		logger.<span style="color:#900;font-weight:bold">Errorf</span>(<span style="color:#d14">&#34;Tunnel creation failed, err: %v&#34;</span>, err)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> err
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">defer</span> resp.Body.<span style="color:#900;font-weight:bold">Close</span>()
-</span></span><span style="display:flex;"><span>	logger.<span style="color:#900;font-weight:bold">Infof</span>(<span style="color:#d14">&#34;Tunnel created successfully, id: %s, host: %s&#34;</span>, tunnelId, cr.<span style="color:#900;font-weight:bold">PWhiteUnderline</span>(host))
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">nil</span>
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">caddyAddRouteF</span>         <span class="p">=</span> <span class="s">&#34;{\&#34;@id\&#34;:\&#34;%s\&#34;,\&#34;match\&#34;:[{\&#34;host\&#34;:[\&#34;%s\&#34;]}],\&#34;handle\&#34;:[{\&#34;handler\&#34;:\&#34;reverse_proxy\&#34;,\&#34;upstreams\&#34;:[{\&#34;dial\&#34;:\&#34;:%d\&#34;}]}]}&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">caddyAddRouteUrl</span>       <span class="p">=</span> <span class="s">&#34;http://127.0.0.1:2019/config/apps/http/servers/gnar/routes&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">caddyAddTlsSubjectsUrl</span> <span class="p">=</span> <span class="s">&#34;http://127.0.0.1:2019/config/apps/tls/automation/policies/0/subjects&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">addCaddyRouter</span><span class="p">(</span><span class="nx">host</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">port</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">tunnelId</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;%s.%d&#34;</span><span class="p">,</span> <span class="nx">host</span><span class="p">,</span> <span class="nx">port</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">resp</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">Post</span><span class="p">(</span><span class="nx">caddyAddRouteUrl</span><span class="p">,</span> <span class="s">&#34;application/json&#34;</span><span class="p">,</span> <span class="nx">bytes</span><span class="p">.</span><span class="nf">NewBuffer</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="nx">caddyAddRouteF</span><span class="p">,</span> <span class="nx">tunnelId</span><span class="p">,</span> <span class="nx">host</span><span class="p">,</span> <span class="nx">port</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">logger</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Tunnel creation failed, err: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">resp</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">Post</span><span class="p">(</span><span class="nx">caddyAddTlsSubjectsUrl</span><span class="p">,</span> <span class="s">&#34;application/json&#34;</span><span class="p">,</span> <span class="nx">bytes</span><span class="p">.</span><span class="nf">NewBuffer</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;\&#34;%s\&#34;&#34;</span><span class="p">,</span> <span class="nx">host</span><span class="p">))))</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">logger</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;Tunnel creation failed, err: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">logger</span><span class="p">.</span><span class="nf">Infof</span><span class="p">(</span><span class="s">&#34;Tunnel created successfully, id: %s, host: %s&#34;</span><span class="p">,</span> <span class="nx">tunnelId</span><span class="p">,</span> <span class="nx">cr</span><span class="p">.</span><span class="nf">PWhiteUnderline</span><span class="p">(</span><span class="nx">host</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>前置准备：</p>
 <ol>
 <li>要先设置好域名 <code>DNS</code> 解析，要设置两条记录 <code>A *.example.com &lt;your server ip&gt;</code> 和 <code>A example.com &lt;your server ip&gt;</code>。</li>
@@ -845,40 +856,40 @@ A：<code>frp</code> 有过类似讨论，可以看 <a href="https://github.com/
 </blockquote>
 <p>因为 <code>fly.io</code> 支持 <code>Dockerfile</code>，所以只用简单的写个 <code>Dockerfile</code> 即可。<br>
 关键是 <code>fly.toml</code>：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>app = <span style="color:#d14">&#34;xxxx&#34;</span>
-</span></span><span style="display:flex;"><span>primary_region = <span style="color:#d14">&#34;hkg&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>[build]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Control</span>
-</span></span><span style="display:flex;"><span>[[services]]
-</span></span><span style="display:flex;"><span>  internal_port = <span style="color:#099">8910</span>
-</span></span><span style="display:flex;"><span>  protocol = <span style="color:#d14">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  [[services.ports]]
-</span></span><span style="display:flex;"><span>    port = <span style="color:#099">8910</span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Admin</span>
-</span></span><span style="display:flex;"><span>[[services]]
-</span></span><span style="display:flex;"><span>  internal_port = <span style="color:#099">8911</span>
-</span></span><span style="display:flex;"><span>  protocol = <span style="color:#d14">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  [[services.ports]]
-</span></span><span style="display:flex;"><span>    handlers = [<span style="color:#d14">&#34;http&#34;</span>]
-</span></span><span style="display:flex;"><span>    port = <span style="color:#099">80</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  [[services.ports]]
-</span></span><span style="display:flex;"><span>    handlers = [<span style="color:#d14">&#34;tls&#34;</span>, <span style="color:#d14">&#34;http&#34;</span>]
-</span></span><span style="display:flex;"><span>    port = <span style="color:#099">443</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Forward TCP</span>
-</span></span><span style="display:flex;"><span>[[services]]
-</span></span><span style="display:flex;"><span>  internal_port = <span style="color:#099">9000</span>
-</span></span><span style="display:flex;"><span>  protocol = <span style="color:#d14">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  [[services.ports]]
-</span></span><span style="display:flex;"><span>    handlers = [<span style="color:#d14">&#34;tls&#34;</span>, <span style="color:#d14">&#34;http&#34;</span>]
-</span></span><span style="display:flex;"><span>    port = <span style="color:#099">9000</span>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nx">app</span> <span class="p">=</span> <span class="s2">&#34;xxxx&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">primary_region</span> <span class="p">=</span> <span class="s2">&#34;hkg&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">build</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Control</span>
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">services</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">internal_port</span> <span class="p">=</span> <span class="mi">8910</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">protocol</span> <span class="p">=</span> <span class="s2">&#34;tcp&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">services</span><span class="p">.</span><span class="nx">ports</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">port</span> <span class="p">=</span> <span class="mi">8910</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="c"># Admin</span>
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">services</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">internal_port</span> <span class="p">=</span> <span class="mi">8911</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">protocol</span> <span class="p">=</span> <span class="s2">&#34;tcp&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">services</span><span class="p">.</span><span class="nx">ports</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">handlers</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;http&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">port</span> <span class="p">=</span> <span class="mi">80</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">services</span><span class="p">.</span><span class="nx">ports</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">handlers</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;tls&#34;</span><span class="p">,</span> <span class="s2">&#34;http&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">port</span> <span class="p">=</span> <span class="mi">443</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Forward TCP</span>
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">services</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">internal_port</span> <span class="p">=</span> <span class="mi">9000</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">protocol</span> <span class="p">=</span> <span class="s2">&#34;tcp&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">services</span><span class="p">.</span><span class="nx">ports</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">handlers</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;tls&#34;</span><span class="p">,</span> <span class="s2">&#34;http&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">port</span> <span class="p">=</span> <span class="mi">9000</span>
 </span></span></code></pre><p><code>Control</code> 和 <code>Admin</code> 因为都是 <code>TCP</code>，所以 <code>protocol</code> 是 <code>tcp</code>，然后 <code>Admin</code> 希望直接从 <a href="https://xxxx.fly.dev/">https://xxxx.fly.dev/</a> 访问，就需要加上 <code>handlers = [&quot;http&quot;]</code> 以及 <code>https</code> 的 <code>handlers = [&quot;tls&quot;, &quot;http&quot;]</code>。</p>
 <p>然后这里需要在配置里指定出 <code>Forward</code> 的端口，这样运行 Server 和 Client 后，访问 <code>&lt;https://xxxx.fly.dev:9000&gt;</code> 就会访问到 Client <code>Local 3000</code> 端口了。</p>
 <blockquote>
@@ -888,114 +899,114 @@ A：<code>frp</code> 有过类似讨论，可以看 <a href="https://github.com/
 <p><code>UDP</code> 的支持，因为 <code>UDP</code> 没有连接的概念，只有 <code>Packet</code> 概念，所以我们可以封装 <code>UDP</code> 流量作为一个消息 <code>MsgUDPDatagram</code>，然后做流量的 <code>Copy</code>（实际上就是 <code>Readloop</code> 和 <code>Writeloop</code>）。</p>
 <p>代码如下：<br>
 <a href="https://github.com/abcdlsj/gnar/blob/484084da8b9edb99fb39e5d7561cc94d16d7031c/proxy/udp.go#L1-L77">proxy/udp.go#L1-L77</a></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">UDPClientStream</span>(token <span style="color:#458;font-weight:bold">string</span>, tcp, udp io.ReadWriteCloser) <span style="color:#458;font-weight:bold">error</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">for</span> {
-</span></span><span style="display:flex;"><span>			msg <span style="color:#000;font-weight:bold">:=</span> proto.MsgUDPDatagram{}
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Recv</span>(tcp, <span style="color:#000;font-weight:bold">&amp;</span>msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>			n, err <span style="color:#000;font-weight:bold">:=</span> udp.<span style="color:#900;font-weight:bold">Write</span>(msg.Payload)
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> n <span style="color:#000;font-weight:bold">!=</span> <span style="color:#0086b3">len</span>(msg.Payload) {
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> {
-</span></span><span style="display:flex;"><span>		buf <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#099">4096</span>)
-</span></span><span style="display:flex;"><span>		n, err <span style="color:#000;font-weight:bold">:=</span> udp.<span style="color:#900;font-weight:bold">Read</span>(buf)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> err
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(tcp, proto.<span style="color:#900;font-weight:bold">NewMsgUDPDatagram</span>(<span style="color:#000;font-weight:bold">nil</span>, buf[:n])); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> err
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">UDPDatagram</span>(token <span style="color:#458;font-weight:bold">string</span>, tcp io.ReadWriteCloser, udp <span style="color:#000;font-weight:bold">*</span>net.UDPConn) <span style="color:#458;font-weight:bold">error</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> {
-</span></span><span style="display:flex;"><span>		buf <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#099">4096</span>)
-</span></span><span style="display:flex;"><span>		n, addr, err <span style="color:#000;font-weight:bold">:=</span> udp.<span style="color:#900;font-weight:bold">ReadFromUDP</span>(buf)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> err
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err = proto.<span style="color:#900;font-weight:bold">Send</span>(tcp, proto.<span style="color:#900;font-weight:bold">NewMsgUDPDatagram</span>(addr, buf[:n])); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> err
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">go</span> <span style="color:#000;font-weight:bold">func</span>() {
-</span></span><span style="display:flex;"><span>			msg <span style="color:#000;font-weight:bold">:=</span> proto.MsgUDPDatagram{}
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> proto.<span style="color:#900;font-weight:bold">Recv</span>(tcp, <span style="color:#000;font-weight:bold">&amp;</span>msg); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>			_, err <span style="color:#000;font-weight:bold">:=</span> udp.<span style="color:#900;font-weight:bold">WriteTo</span>(msg.Payload, addr)
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>				<span style="color:#000;font-weight:bold">return</span>
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>		}()
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">UDPClientStream</span><span class="p">(</span><span class="nx">token</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">tcp</span><span class="p">,</span> <span class="nx">udp</span> <span class="nx">io</span><span class="p">.</span><span class="nx">ReadWriteCloser</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">msg</span> <span class="o">:=</span> <span class="nx">proto</span><span class="p">.</span><span class="nx">MsgUDPDatagram</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Recv</span><span class="p">(</span><span class="nx">tcp</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">msg</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="k">return</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">n</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">udp</span><span class="p">.</span><span class="nf">Write</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">Payload</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="k">return</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">n</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">Payload</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="k">return</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">buf</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">n</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">udp</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Send</span><span class="p">(</span><span class="nx">tcp</span><span class="p">,</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">NewMsgUDPDatagram</span><span class="p">(</span><span class="kc">nil</span><span class="p">,</span> <span class="nx">buf</span><span class="p">[:</span><span class="nx">n</span><span class="p">]));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">UDPDatagram</span><span class="p">(</span><span class="nx">token</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">tcp</span> <span class="nx">io</span><span class="p">.</span><span class="nx">ReadWriteCloser</span><span class="p">,</span> <span class="nx">udp</span> <span class="o">*</span><span class="nx">net</span><span class="p">.</span><span class="nx">UDPConn</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">buf</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">n</span><span class="p">,</span> <span class="nx">addr</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">udp</span><span class="p">.</span><span class="nf">ReadFromUDP</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Send</span><span class="p">(</span><span class="nx">tcp</span><span class="p">,</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">NewMsgUDPDatagram</span><span class="p">(</span><span class="nx">addr</span><span class="p">,</span> <span class="nx">buf</span><span class="p">[:</span><span class="nx">n</span><span class="p">]));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">msg</span> <span class="o">:=</span> <span class="nx">proto</span><span class="p">.</span><span class="nx">MsgUDPDatagram</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">proto</span><span class="p">.</span><span class="nf">Recv</span><span class="p">(</span><span class="nx">tcp</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">msg</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="k">return</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">udp</span><span class="p">.</span><span class="nf">WriteTo</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">Payload</span><span class="p">,</span> <span class="nx">addr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="k">return</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>相当于 <code>TCP</code> 转发里的 <code>proxy.Stream</code> 替代。</p>
 <h3 id="speed-limit">Speed limit</h3>
 <p>得益于 <code>io.Reader</code> 和 <code>io.Writer</code> 接口，以及 <code>rate</code> 包，实现限速其实也很简单。</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> LimitStream <span style="color:#000;font-weight:bold">struct</span> {
-</span></span><span style="display:flex;"><span>	rw       io.ReadWriteCloser
-</span></span><span style="display:flex;"><span>	ctx      context.Context
-</span></span><span style="display:flex;"><span>	wlimiter <span style="color:#000;font-weight:bold">*</span>rate.Limiter
-</span></span><span style="display:flex;"><span>	rlimiter <span style="color:#000;font-weight:bold">*</span>rate.Limiter
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NewLimitStream</span>(rw io.ReadWriteCloser, limit <span style="color:#458;font-weight:bold">int</span>) <span style="color:#000;font-weight:bold">*</span>LimitStream {
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">&amp;</span>LimitStream{
-</span></span><span style="display:flex;"><span>		rw:       rw,
-</span></span><span style="display:flex;"><span>		ctx:      context.<span style="color:#900;font-weight:bold">Background</span>(),
-</span></span><span style="display:flex;"><span>		wlimiter: rate.<span style="color:#900;font-weight:bold">NewLimiter</span>(rate.<span style="color:#900;font-weight:bold">Limit</span>(limit), limit), <span style="color:#998;font-style:italic">// set burst = limit
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>		rlimiter: rate.<span style="color:#900;font-weight:bold">NewLimiter</span>(rate.<span style="color:#900;font-weight:bold">Limit</span>(limit), limit), <span style="color:#998;font-style:italic">// set burst = limit
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>	}
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (s <span style="color:#000;font-weight:bold">*</span>LimitStream) <span style="color:#900;font-weight:bold">Read</span>(p []<span style="color:#458;font-weight:bold">byte</span>) (<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">error</span>) {
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> s.rlimiter <span style="color:#000;font-weight:bold">==</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> s.rw.<span style="color:#900;font-weight:bold">Read</span>(p)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	do <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">func</span>(r <span style="color:#000;font-weight:bold">*</span>LimitStream, p []<span style="color:#458;font-weight:bold">byte</span>) (<span style="color:#458;font-weight:bold">int</span>, <span style="color:#458;font-weight:bold">error</span>) {
-</span></span><span style="display:flex;"><span>		n, err <span style="color:#000;font-weight:bold">:=</span> r.rw.<span style="color:#900;font-weight:bold">Read</span>(p)
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> n, err
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">:=</span> r.rlimiter.<span style="color:#900;font-weight:bold">WaitN</span>(r.ctx, n); err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> n, err
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> n, <span style="color:#000;font-weight:bold">nil</span>
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">len</span>(p) &lt; s.rlimiter.<span style="color:#900;font-weight:bold">Burst</span>() {
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">do</span>(s, p)
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	burst <span style="color:#000;font-weight:bold">:=</span> s.rlimiter.<span style="color:#900;font-weight:bold">Burst</span>()
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">var</span> read <span style="color:#458;font-weight:bold">int</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">:=</span> <span style="color:#099">0</span>; i &lt; <span style="color:#0086b3">len</span>(p); i <span style="color:#000;font-weight:bold">+=</span> burst {
-</span></span><span style="display:flex;"><span>		end <span style="color:#000;font-weight:bold">:=</span> i <span style="color:#000;font-weight:bold">+</span> burst
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> end &gt; <span style="color:#0086b3">len</span>(p) {
-</span></span><span style="display:flex;"><span>			end = <span style="color:#0086b3">len</span>(p)
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		n, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">do</span>(s, p[i:end])
-</span></span><span style="display:flex;"><span>		read <span style="color:#000;font-weight:bold">+=</span> n
-</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
-</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">return</span> read, err
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> read, <span style="color:#000;font-weight:bold">nil</span>
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">LimitStream</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">rw</span>       <span class="nx">io</span><span class="p">.</span><span class="nx">ReadWriteCloser</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ctx</span>      <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">wlimiter</span> <span class="o">*</span><span class="nx">rate</span><span class="p">.</span><span class="nx">Limiter</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">rlimiter</span> <span class="o">*</span><span class="nx">rate</span><span class="p">.</span><span class="nx">Limiter</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NewLimitStream</span><span class="p">(</span><span class="nx">rw</span> <span class="nx">io</span><span class="p">.</span><span class="nx">ReadWriteCloser</span><span class="p">,</span> <span class="nx">limit</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span><span class="nx">LimitStream</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">LimitStream</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">rw</span><span class="p">:</span>       <span class="nx">rw</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">ctx</span><span class="p">:</span>      <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">wlimiter</span><span class="p">:</span> <span class="nx">rate</span><span class="p">.</span><span class="nf">NewLimiter</span><span class="p">(</span><span class="nx">rate</span><span class="p">.</span><span class="nf">Limit</span><span class="p">(</span><span class="nx">limit</span><span class="p">),</span> <span class="nx">limit</span><span class="p">),</span> <span class="c1">// set burst = limit
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">rlimiter</span><span class="p">:</span> <span class="nx">rate</span><span class="p">.</span><span class="nf">NewLimiter</span><span class="p">(</span><span class="nx">rate</span><span class="p">.</span><span class="nf">Limit</span><span class="p">(</span><span class="nx">limit</span><span class="p">),</span> <span class="nx">limit</span><span class="p">),</span> <span class="c1">// set burst = limit
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">LimitStream</span><span class="p">)</span> <span class="nf">Read</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">s</span><span class="p">.</span><span class="nx">rlimiter</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">s</span><span class="p">.</span><span class="nx">rw</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">do</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">LimitStream</span><span class="p">,</span> <span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">n</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">rw</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">n</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">rlimiter</span><span class="p">.</span><span class="nf">WaitN</span><span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">n</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">n</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">n</span><span class="p">,</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">&lt;</span> <span class="nx">s</span><span class="p">.</span><span class="nx">rlimiter</span><span class="p">.</span><span class="nf">Burst</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nf">do</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">burst</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">rlimiter</span><span class="p">.</span><span class="nf">Burst</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">read</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">);</span> <span class="nx">i</span> <span class="o">+=</span> <span class="nx">burst</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">end</span> <span class="o">:=</span> <span class="nx">i</span> <span class="o">+</span> <span class="nx">burst</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">end</span> <span class="p">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">end</span> <span class="p">=</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="nx">n</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">do</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">p</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">end</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">read</span> <span class="o">+=</span> <span class="nx">n</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">read</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">read</span><span class="p">,</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p>原理就是，假如说我们想要限速到 <code>10k/s</code>，那么就初始化 <code>burst=10k</code> 的 <code>rate.Limiter</code>。<br>
 <code>Read</code> 的时候，调用 <code>WaitN</code>，因为容量为 <code>10k</code>，所以 <code>WaitN</code> 每读取 <code>10k byte</code> 就会等待 <code>1s</code>。<br>
 这样就实现了 <code>10k/s</code> 的限速，而且使用上非常简单，初始化一个 <code>LimitStream</code> 就可以了。</p>
@@ -1078,6 +1089,23 @@ A：<code>frp</code> 有过类似讨论，可以看 <a href="https://github.com/
           
         </div>
 
+        
+        <nav class="post-nav" aria-label="Post navigation">
+          
+          <a class="post-nav__link" href="/posts/pasty-go-pastebin-like-website.html">
+            <span class="post-nav__dir">← Newer</span>
+            <span class="post-nav__title">Pasty - A pastebin website with Go+Turnstile+OAuth</span>
+          </a>
+          
+          
+          <a class="post-nav__link post-nav__link--next" href="/posts/write-a-cron-expr-scheduler.html">
+            <span class="post-nav__dir">Older →</span>
+            <span class="post-nav__title">从零解析 Cron 表达式</span>
+          </a>
+          
+        </nav>
+        
+
         <!-- Comments -->
         <section class="comments-section">
           <div id="disqus_thread"></div>
@@ -1122,6 +1150,65 @@ A：<code>frp</code> 有过类似讨论，可以看 <a href="https://github.com/
 
       // Smooth scroll for TOC links
       document.addEventListener('DOMContentLoaded', function() {
+        // Reading progress
+        const progressBar = document.getElementById('reading-progress-bar');
+        const updateProgress = () => {
+          if (!progressBar) return;
+          const doc = document.documentElement;
+          const scrollable = doc.scrollHeight - doc.clientHeight;
+          const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+          progressBar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, progress)) + ')';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress, { passive: true });
+        updateProgress();
+
+        // Reading time
+        const readingTime = document.getElementById('reading-time');
+        const postBody = document.querySelector('.post-body');
+        if (readingTime && postBody) {
+          const text = postBody.textContent || '';
+          const cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+          const words = (text.replace(/[\u4e00-\u9fff\u3400-\u4dbf]/g, ' ').match(/[A-Za-z0-9_]+/g) || []).length;
+          const minutes = Math.max(1, Math.round(cjk / 350 + words / 200));
+          readingTime.textContent = '· ' + minutes + ' min read';
+        }
+
+        // Wrap tables for horizontal scrolling on small screens
+        document.querySelectorAll('.post-body > table').forEach(table => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-scroll';
+          table.parentNode.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        });
+
+        // Copy buttons for code blocks
+        document.querySelectorAll('.post-body pre').forEach(pre => {
+          if (pre.querySelector('.code-copy')) return;
+          const button = document.createElement('button');
+          button.className = 'code-copy';
+          button.type = 'button';
+          button.textContent = 'Copy';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.addEventListener('click', async () => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+            try {
+              await navigator.clipboard.writeText(code.textContent);
+              button.textContent = 'Copied';
+              button.classList.add('code-copy--copied');
+              setTimeout(() => {
+                button.textContent = 'Copy';
+                button.classList.remove('code-copy--copied');
+              }, 1800);
+            } catch (e) {
+              button.textContent = 'Failed';
+              setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+            }
+          });
+          pre.appendChild(button);
+        });
+
         const tocLinks = document.querySelectorAll('.toc-nav:not(.timeline-nav) a');
         const tocPanel = document.querySelector('.toc-panel');
         const sidepanelToggle = document.getElementById('sidepanel-toggle');

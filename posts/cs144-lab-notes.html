@@ -5,6 +5,8 @@
     
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 
 <title>CS144 Lab Notes</title>
 
@@ -18,7 +20,9 @@
 <meta property="og:type" content="article">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="icon" href="/static/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
 <script>
   // Theme initialization - runs before page render to prevent flash
@@ -34,11 +38,13 @@
 
   </head>
   <body class="post-page">
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
     <div class="app">
       
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
       <a href="/" class="site-header__title">L'iving and Discovering</a>
       <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
     </div>
@@ -109,6 +115,10 @@
     
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
+    });
   }
 
   (function initHeaderScrollBehavior() {
@@ -153,6 +163,7 @@
               <h1 class="post-title">CS144 Lab Notes</h1>
               <div class="post-meta">
                 <time class="post-date" datetime="2021-05-04T19:42:49+08:00">2021-05-04</time>
+                <span class="post-reading-time" id="reading-time"></span>
                 
                 <div class="post-tags">
                   
@@ -173,25 +184,25 @@
 <p>It’s not always natural what the “right” behavior is.</p>
 </blockquote>
  <!--more--> 
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>                   -`                    abcdlsj@Lenovo-13ARE
-</span></span><span style="display:flex;"><span>                  .o+`                   --------------------
-</span></span><span style="display:flex;"><span>                 `ooo/                   OS: Arch Linux x86_64
-</span></span><span style="display:flex;"><span>                `+oooo:                  Host: 82DM Lenovo XiaoXinPro-13ARE 2020
-</span></span><span style="display:flex;"><span>               `+oooooo:                 Kernel: 5.11.4-zen1-1-zen
-</span></span><span style="display:flex;"><span>               -+oooooo+:                Uptime: 1 hour, 54 mins
-</span></span><span style="display:flex;"><span>             `/:-:++oooo+:               Packages: 1326 (pacman)
-</span></span><span style="display:flex;"><span>            `/++++/+++++++:              Shell: zsh 5.8
-</span></span><span style="display:flex;"><span>           `/++++++++++++++:             Resolution: 2560x1600
-</span></span><span style="display:flex;"><span>          `/+++ooooooooooooo/`           WM: i3
-</span></span><span style="display:flex;"><span>         ./ooosssso++osssssso+`          Theme: Adwaita-dark [GTK2/3]
-</span></span><span style="display:flex;"><span>        .oossssso-````/ossssss+`         Icons: Papirus-Dark [GTK2/3]
-</span></span><span style="display:flex;"><span>       -osssssso.      :ssssssso.        Terminal: alacritty
-</span></span><span style="display:flex;"><span>      :osssssss/        osssso+++.       CPU: AMD Ryzen 7 4800U with Radeon Graphics (16) @ 1.800GHz
-</span></span><span style="display:flex;"><span>     /ossssssss/        +ssssooo/-       GPU: AMD ATI 03:00.0 Renoir
-</span></span><span style="display:flex;"><span>   `/ossssso+/:-        -:/+osssso+-     Memory: 5086MiB / 13912MiB
-</span></span><span style="display:flex;"><span>  `+sso+:-`                 `.-/+oso:
-</span></span><span style="display:flex;"><span> `++:.                           `-/+/
-</span></span><span style="display:flex;"><span> .`                                 `/
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">                   -`                    abcdlsj@Lenovo-13ARE
+</span></span><span class="line"><span class="cl">                  .o+`                   --------------------
+</span></span><span class="line"><span class="cl">                 `ooo/                   OS: Arch Linux x86_64
+</span></span><span class="line"><span class="cl">                `+oooo:                  Host: 82DM Lenovo XiaoXinPro-13ARE 2020
+</span></span><span class="line"><span class="cl">               `+oooooo:                 Kernel: 5.11.4-zen1-1-zen
+</span></span><span class="line"><span class="cl">               -+oooooo+:                Uptime: 1 hour, 54 mins
+</span></span><span class="line"><span class="cl">             `/:-:++oooo+:               Packages: 1326 (pacman)
+</span></span><span class="line"><span class="cl">            `/++++/+++++++:              Shell: zsh 5.8
+</span></span><span class="line"><span class="cl">           `/++++++++++++++:             Resolution: 2560x1600
+</span></span><span class="line"><span class="cl">          `/+++ooooooooooooo/`           WM: i3
+</span></span><span class="line"><span class="cl">         ./ooosssso++osssssso+`          Theme: Adwaita-dark [GTK2/3]
+</span></span><span class="line"><span class="cl">        .oossssso-````/ossssss+`         Icons: Papirus-Dark [GTK2/3]
+</span></span><span class="line"><span class="cl">       -osssssso.      :ssssssso.        Terminal: alacritty
+</span></span><span class="line"><span class="cl">      :osssssss/        osssso+++.       CPU: AMD Ryzen 7 4800U with Radeon Graphics (16) @ 1.800GHz
+</span></span><span class="line"><span class="cl">     /ossssssss/        +ssssooo/-       GPU: AMD ATI 03:00.0 Renoir
+</span></span><span class="line"><span class="cl">   `/ossssso+/:-        -:/+osssso+-     Memory: 5086MiB / 13912MiB
+</span></span><span class="line"><span class="cl">  `+sso+:-`                 `.-/+oso:
+</span></span><span class="line"><span class="cl"> `++:.                           `-/+/
+</span></span><span class="line"><span class="cl"> .`                                 `/
 </span></span></code></pre><h2 id="heading">环境搭建以及如何调试</h2>
 <p>环境用官方的虚拟机或者自己的 <code>Linux</code> 发行版也可以，下载必需的包就可以，官方有写。</p>
 <p>调试可以看看 <a href="https://blog.csdn.net/kangyupl/article/details/108589594">https://blog.csdn.net/kangyupl/article/details/108589594</a></p>
@@ -200,18 +211,18 @@
 <p><a href="https://cs144.github.io/assignments/lab0.pdf">https://cs144.github.io/assignments/lab0.pdf</a></p>
 <p><code>Lab 0</code> 实现有两个任务，<code>webget</code> 和 <code>ByteStreams</code></p>
 <p><code>webget</code> 实现如下：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>TCPSocket sock{};
-</span></span><span style="display:flex;"><span>sock.connect(Address(host, <span style="color:#d14">&#34;http&#34;</span>));
-</span></span><span style="display:flex;"><span>string <span style="color:#900;font-weight:bold">input</span>(<span style="color:#d14">&#34;GET &#34;</span> <span style="color:#000;font-weight:bold">+</span> path <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34; HTTP/1.1</span><span style="color:#d14">\r\n</span><span style="color:#d14">host: &#34;</span> <span style="color:#000;font-weight:bold">+</span> host <span style="color:#000;font-weight:bold">+</span> <span style="color:#d14">&#34;</span><span style="color:#d14">\r\n\r\n</span><span style="color:#d14">&#34;</span>);
-</span></span><span style="display:flex;"><span>sock.write(input);
-</span></span><span style="display:flex;"><span>sock.shutdown(SHUT_WR);
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">while</span> (<span style="color:#000;font-weight:bold">!</span>sock.eof()) {
-</span></span><span style="display:flex;"><span>    cout <span style="color:#000;font-weight:bold">&lt;&lt;</span> sock.read();
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>sock.close();
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="n">TCPSocket</span> <span class="n">sock</span><span class="p">{};</span>
+</span></span><span class="line"><span class="cl"><span class="n">sock</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">Address</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="s">&#34;http&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">string</span> <span class="nf">input</span><span class="p">(</span><span class="s">&#34;GET &#34;</span> <span class="o">+</span> <span class="n">path</span> <span class="o">+</span> <span class="s">&#34; HTTP/1.1</span><span class="se">\r\n</span><span class="s">host: &#34;</span> <span class="o">+</span> <span class="n">host</span> <span class="o">+</span> <span class="s">&#34;</span><span class="se">\r\n\r\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">sock</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">input</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">sock</span><span class="p">.</span><span class="n">shutdown</span><span class="p">(</span><span class="n">SHUT_WR</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">sock</span><span class="p">.</span><span class="n">eof</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">sock</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">sock</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
 </span></span></code></pre><p><code>ByteStreams</code> 则是实现一个类似双端队列的东西，我直接使用 <code>std::deque&lt;char&gt;</code> 实现。</p>
 <p>这里写下 <code>eof</code> 实现：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#458;font-weight:bold">bool</span> ByteStream<span style="color:#000;font-weight:bold">::</span>eof() <span style="color:#000;font-weight:bold">const</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#900;font-weight:bold">input_ended</span>() <span style="color:#000;font-weight:bold">&amp;&amp;</span> buffer_empty(); }
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">ByteStream</span><span class="o">::</span><span class="n">eof</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">input_ended</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">buffer_empty</span><span class="p">();</span> <span class="p">}</span>
 </span></span></code></pre><p><code>eof</code> 代表无法继续从 <code>stream</code> 读出数据，不仅要判断输入完成，还要判断 <code>buffer</code> 已被读完。</p>
 <h2 id="lab-1-stitching-substrings-into-a-byte-stream">Lab 1: stitching substrings into a byte stream</h2>
 <p><a href="https://cs144.github.io/assignments/lab1.pdf">https://cs144.github.io/assignments/lab1.pdf</a></p>
@@ -246,120 +257,120 @@
 <img src="/static/img/cs144lab1_streamreassembler_capacity.png" width="600">
 <p><strong>代码：</strong></p>
 <p>这是未重组部分的节点构造，包含一个 <code>index</code> 和 <code>data</code></p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">struct</span> <span style="color:#458;font-weight:bold">Segment</span> {
-</span></span><span style="display:flex;"><span>    size_t _index;
-</span></span><span style="display:flex;"><span>    std<span style="color:#000;font-weight:bold">::</span>string _data;
-</span></span><span style="display:flex;"><span>    Segment(<span style="color:#458;font-weight:bold">int</span> index, std<span style="color:#000;font-weight:bold">::</span>string data) <span style="color:#000;font-weight:bold">:</span> _index(index), _data(data) {}
-</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">operator</span><span style="color:#000;font-weight:bold">&lt;</span>(<span style="color:#000;font-weight:bold">const</span> Segment <span style="color:#000;font-weight:bold">&amp;</span>s) <span style="color:#000;font-weight:bold">const</span> { <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">this</span><span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">&lt;</span> s._index; }
-</span></span><span style="display:flex;"><span>};
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Segment</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">size_t</span> <span class="n">_index</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">_data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Segment</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">data</span><span class="p">)</span> <span class="o">:</span> <span class="n">_index</span><span class="p">(</span><span class="n">index</span><span class="p">),</span> <span class="n">_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">Segment</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">_index</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">_index</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre><p><code>StreamReassembler</code> 结构</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>ByteStream _output;  <span style="color:#998;font-style:italic">//!&lt; The reassembled in-order byte stream
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>size_t _capacity;    <span style="color:#998;font-style:italic">//!&lt; The maximum number of bytes
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>std<span style="color:#000;font-weight:bold">::</span>set<span style="color:#000;font-weight:bold">&lt;</span>Segment<span style="color:#000;font-weight:bold">&gt;</span> _waiting_buffer;
-</span></span><span style="display:flex;"><span>size_t _unassembled_bytes_size;
-</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">bool</span> _flag_eof;
-</span></span><span style="display:flex;"><span>size_t _pos_eof;
-</span></span></code></pre><pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&#34;stream_reassembler.hh&#34;</span><span style="color:#999;font-weight:bold;font-style:italic">
-</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic"></span>
-</span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;cstddef&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
-</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;pthread.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
-</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic"></span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Dummy implementation of a stream reassembler.
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// For Lab 1, please replace with a real implementation that passes the
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// automated checks run by `make check_lab1`.
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// You will need to add private members to the class declaration in `stream_reassembler.hh`
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">template</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000;font-weight:bold">typename</span>... Targs<span style="color:#000;font-weight:bold">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">void</span> DUMMY_CODE(Targs <span style="color:#000;font-weight:bold">&amp;&amp;</span>...<span style="color:#998;font-style:italic">/* unused */</span>) {}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">using</span> <span style="color:#000;font-weight:bold">namespace</span> std;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>StreamReassembler<span style="color:#000;font-weight:bold">::</span>StreamReassembler(<span style="color:#000;font-weight:bold">const</span> size_t capacity)
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">:</span> _output(capacity)
-</span></span><span style="display:flex;"><span>    , _capacity(capacity)
-</span></span><span style="display:flex;"><span>    , _waiting_buffer({})
-</span></span><span style="display:flex;"><span>    , _unassembled_bytes_size(<span style="color:#099">0</span>)
-</span></span><span style="display:flex;"><span>    , _flag_eof(<span style="color:#0086b3">false</span>)
-</span></span><span style="display:flex;"><span>    , _pos_eof(<span style="color:#099">0</span>) {}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">//! \details This function accepts a substring (aka a segment) of bytes,
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">//! possibly out-of-order, from the logical stream, and assembles any newly
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">//! contiguous substrings and writes them into the output stream in order.
-</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span><span style="color:#458;font-weight:bold">void</span> StreamReassembler<span style="color:#000;font-weight:bold">::</span>insert_buffer(<span style="color:#000;font-weight:bold">const</span> Segment <span style="color:#000;font-weight:bold">&amp;</span>s) {
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (_waiting_buffer.empty()) {
-</span></span><span style="display:flex;"><span>        _waiting_buffer.insert(s);
-</span></span><span style="display:flex;"><span>        _unassembled_bytes_size <span style="color:#000;font-weight:bold">+=</span> s._data.size();
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    Segment c <span style="color:#000;font-weight:bold">=</span> s;
-</span></span><span style="display:flex;"><span>    size_t idx <span style="color:#000;font-weight:bold">=</span> c._index, sz <span style="color:#000;font-weight:bold">=</span> c._data.size();
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">auto</span> it <span style="color:#000;font-weight:bold">=</span> _waiting_buffer.lower_bound(s);
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (it <span style="color:#000;font-weight:bold">!=</span> _waiting_buffer.begin()) {
-</span></span><span style="display:flex;"><span>        it<span style="color:#000;font-weight:bold">--</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">if</span> (it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">+</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size() <span style="color:#000;font-weight:bold">&gt;</span> idx) {
-</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span> (idx <span style="color:#000;font-weight:bold">+</span> sz <span style="color:#000;font-weight:bold">&lt;=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">+</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size())
-</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">return</span>;
-</span></span><span style="display:flex;"><span>            c._data <span style="color:#000;font-weight:bold">=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data <span style="color:#000;font-weight:bold">+</span> c._data.substr(it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">+</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size() <span style="color:#000;font-weight:bold">-</span> idx);
-</span></span><span style="display:flex;"><span>            c._index <span style="color:#000;font-weight:bold">=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index;
-</span></span><span style="display:flex;"><span>            idx <span style="color:#000;font-weight:bold">=</span> c._index, sz <span style="color:#000;font-weight:bold">=</span> c._data.size();
-</span></span><span style="display:flex;"><span>            _unassembled_bytes_size <span style="color:#000;font-weight:bold">-=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size();
-</span></span><span style="display:flex;"><span>            _waiting_buffer.erase(it<span style="color:#000;font-weight:bold">++</span>);
-</span></span><span style="display:flex;"><span>        } <span style="color:#000;font-weight:bold">else</span> {
-</span></span><span style="display:flex;"><span>            it<span style="color:#000;font-weight:bold">++</span>;
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">while</span> (it <span style="color:#000;font-weight:bold">!=</span> _waiting_buffer.end() <span style="color:#000;font-weight:bold">&amp;&amp;</span> idx <span style="color:#000;font-weight:bold">+</span> sz <span style="color:#000;font-weight:bold">&gt;</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index) {
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">if</span> (idx <span style="color:#000;font-weight:bold">&gt;=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">&amp;&amp;</span> idx <span style="color:#000;font-weight:bold">+</span> sz <span style="color:#000;font-weight:bold">&lt;=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">+</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size())
-</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">return</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">if</span> (idx <span style="color:#000;font-weight:bold">+</span> sz <span style="color:#000;font-weight:bold">&lt;</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">+</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size()) {
-</span></span><span style="display:flex;"><span>            c._data <span style="color:#000;font-weight:bold">+=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.substr(idx <span style="color:#000;font-weight:bold">+</span> sz <span style="color:#000;font-weight:bold">-</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index);
-</span></span><span style="display:flex;"><span>            sz <span style="color:#000;font-weight:bold">=</span> c._data.size();
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        _unassembled_bytes_size <span style="color:#000;font-weight:bold">-=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size();
-</span></span><span style="display:flex;"><span>        _waiting_buffer.erase(it<span style="color:#000;font-weight:bold">++</span>);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    _unassembled_bytes_size <span style="color:#000;font-weight:bold">+=</span> c._data.size();
-</span></span><span style="display:flex;"><span>    _waiting_buffer.insert(c);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">void</span> StreamReassembler<span style="color:#000;font-weight:bold">::</span>push_substring(<span style="color:#000;font-weight:bold">const</span> string <span style="color:#000;font-weight:bold">&amp;</span>data, <span style="color:#000;font-weight:bold">const</span> size_t index, <span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">bool</span> eof) {
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">auto</span> s <span style="color:#000;font-weight:bold">=</span> Segment(index, data);
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">auto</span> first_unread_idx <span style="color:#000;font-weight:bold">=</span> _output.bytes_read();
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">auto</span> first_unassembled_idx <span style="color:#000;font-weight:bold">=</span> _output.bytes_written();
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">auto</span> first_unacceptable_idx <span style="color:#000;font-weight:bold">=</span> first_unread_idx <span style="color:#000;font-weight:bold">+</span> _capacity;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (index <span style="color:#000;font-weight:bold">&gt;=</span> first_unacceptable_idx <span style="color:#000;font-weight:bold">||</span> index <span style="color:#000;font-weight:bold">+</span> data.size() <span style="color:#000;font-weight:bold">&lt;</span> first_unassembled_idx)
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (index <span style="color:#000;font-weight:bold">+</span> data.size() <span style="color:#000;font-weight:bold">&gt;</span> first_unacceptable_idx) {
-</span></span><span style="display:flex;"><span>        s._data <span style="color:#000;font-weight:bold">=</span> s._data.substr(<span style="color:#099">0</span>, first_unacceptable_idx <span style="color:#000;font-weight:bold">-</span> index);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (index <span style="color:#000;font-weight:bold">&lt;=</span> first_unassembled_idx) {
-</span></span><span style="display:flex;"><span>        _output.write(s._data.substr(first_unassembled_idx <span style="color:#000;font-weight:bold">-</span> index));
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">auto</span> it <span style="color:#000;font-weight:bold">=</span> _waiting_buffer.begin();
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">while</span> (it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">&lt;=</span> _output.bytes_written() <span style="color:#000;font-weight:bold">&amp;&amp;</span> <span style="color:#000;font-weight:bold">!</span>_waiting_buffer.empty()) {
-</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">if</span> (it<span style="color:#000;font-weight:bold">-&gt;</span>_index <span style="color:#000;font-weight:bold">+</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size() <span style="color:#000;font-weight:bold">&gt;</span> s._index <span style="color:#000;font-weight:bold">+</span> s._data.size()) {
-</span></span><span style="display:flex;"><span>                _output.write(it<span style="color:#000;font-weight:bold">-&gt;</span>_data.substr(_output.bytes_written() <span style="color:#000;font-weight:bold">-</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_index));
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>            _unassembled_bytes_size <span style="color:#000;font-weight:bold">-=</span> it<span style="color:#000;font-weight:bold">-&gt;</span>_data.size();
-</span></span><span style="display:flex;"><span>            _waiting_buffer.erase(it<span style="color:#000;font-weight:bold">++</span>);
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    } <span style="color:#000;font-weight:bold">else</span> {
-</span></span><span style="display:flex;"><span>        insert_buffer(s);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (eof) {
-</span></span><span style="display:flex;"><span>        _flag_eof <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">true</span>;
-</span></span><span style="display:flex;"><span>        _pos_eof <span style="color:#000;font-weight:bold">=</span> index <span style="color:#000;font-weight:bold">+</span> data.size();
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (_flag_eof <span style="color:#000;font-weight:bold">&amp;&amp;</span> _output.bytes_written() <span style="color:#000;font-weight:bold">==</span> _pos_eof) {
-</span></span><span style="display:flex;"><span>        _output.end_input();
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>size_t StreamReassembler<span style="color:#000;font-weight:bold">::</span>unassembled_bytes() <span style="color:#000;font-weight:bold">const</span> { <span style="color:#000;font-weight:bold">return</span> _unassembled_bytes_size; }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#458;font-weight:bold">bool</span> StreamReassembler<span style="color:#000;font-weight:bold">::</span>empty() <span style="color:#000;font-weight:bold">const</span> { <span style="color:#000;font-weight:bold">return</span> _unassembled_bytes_size <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">0</span>; }
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="n">ByteStream</span> <span class="n">_output</span><span class="p">;</span>  <span class="c1">//!&lt; The reassembled in-order byte stream
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">size_t</span> <span class="n">_capacity</span><span class="p">;</span>    <span class="c1">//!&lt; The maximum number of bytes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="n">Segment</span><span class="o">&gt;</span> <span class="n">_waiting_buffer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">size_t</span> <span class="n">_unassembled_bytes_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">_flag_eof</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">size_t</span> <span class="n">_pos_eof</span><span class="p">;</span>
+</span></span></code></pre><pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;stream_reassembler.hh&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstddef&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;pthread.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Dummy implementation of a stream reassembler.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// For Lab 1, please replace with a real implementation that passes the
+</span></span></span><span class="line"><span class="cl"><span class="c1">// automated checks run by `make check_lab1`.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// You will need to add private members to the class declaration in `stream_reassembler.hh`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Targs</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">DUMMY_CODE</span><span class="p">(</span><span class="n">Targs</span> <span class="o">&amp;&amp;</span><span class="p">...</span><span class="cm">/* unused */</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">StreamReassembler</span><span class="o">::</span><span class="n">StreamReassembler</span><span class="p">(</span><span class="k">const</span> <span class="n">size_t</span> <span class="n">capacity</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">:</span> <span class="n">_output</span><span class="p">(</span><span class="n">capacity</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">,</span> <span class="n">_capacity</span><span class="p">(</span><span class="n">capacity</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">,</span> <span class="n">_waiting_buffer</span><span class="p">({})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">,</span> <span class="n">_unassembled_bytes_size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">,</span> <span class="n">_flag_eof</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">,</span> <span class="n">_pos_eof</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//! \details This function accepts a substring (aka a segment) of bytes,
+</span></span></span><span class="line"><span class="cl"><span class="c1">//! possibly out-of-order, from the logical stream, and assembles any newly
+</span></span></span><span class="line"><span class="cl"><span class="c1">//! contiguous substrings and writes them into the output stream in order.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="n">StreamReassembler</span><span class="o">::</span><span class="n">insert_buffer</span><span class="p">(</span><span class="k">const</span> <span class="n">Segment</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_waiting_buffer</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_waiting_buffer</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_unassembled_bytes_size</span> <span class="o">+=</span> <span class="n">s</span><span class="p">.</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Segment</span> <span class="n">c</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">size_t</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">_index</span><span class="p">,</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">_waiting_buffer</span><span class="p">.</span><span class="n">lower_bound</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="n">_waiting_buffer</span><span class="p">.</span><span class="n">begin</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">it</span><span class="o">--</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">_index</span> <span class="o">+</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">idx</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="n">sz</span> <span class="o">&lt;=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_index</span> <span class="o">+</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">c</span><span class="p">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_data</span> <span class="o">+</span> <span class="n">c</span><span class="p">.</span><span class="n">_data</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">_index</span> <span class="o">+</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="n">idx</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">c</span><span class="p">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_index</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">idx</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">_index</span><span class="p">,</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_unassembled_bytes_size</span> <span class="o">-=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_waiting_buffer</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">it</span><span class="o">++</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">it</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="n">_waiting_buffer</span><span class="p">.</span><span class="n">end</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">idx</span> <span class="o">+</span> <span class="n">sz</span> <span class="o">&gt;</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_index</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">&gt;=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_index</span> <span class="o">&amp;&amp;</span> <span class="n">idx</span> <span class="o">+</span> <span class="n">sz</span> <span class="o">&lt;=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_index</span> <span class="o">+</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="n">sz</span> <span class="o">&lt;</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_index</span> <span class="o">+</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">c</span><span class="p">.</span><span class="n">_data</span> <span class="o">+=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_data</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="n">sz</span> <span class="o">-</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_index</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sz</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_unassembled_bytes_size</span> <span class="o">-=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_waiting_buffer</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">it</span><span class="o">++</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_unassembled_bytes_size</span> <span class="o">+=</span> <span class="n">c</span><span class="p">.</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_waiting_buffer</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">StreamReassembler</span><span class="o">::</span><span class="n">push_substring</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span> <span class="o">&amp;</span><span class="n">data</span><span class="p">,</span> <span class="k">const</span> <span class="n">size_t</span> <span class="n">index</span><span class="p">,</span> <span class="k">const</span> <span class="kt">bool</span> <span class="n">eof</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">first_unread_idx</span> <span class="o">=</span> <span class="n">_output</span><span class="p">.</span><span class="n">bytes_read</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">first_unassembled_idx</span> <span class="o">=</span> <span class="n">_output</span><span class="p">.</span><span class="n">bytes_written</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">first_unacceptable_idx</span> <span class="o">=</span> <span class="n">first_unread_idx</span> <span class="o">+</span> <span class="n">_capacity</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">first_unacceptable_idx</span> <span class="o">||</span> <span class="n">index</span> <span class="o">+</span> <span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">first_unassembled_idx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">first_unacceptable_idx</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">s</span><span class="p">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">_data</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">first_unacceptable_idx</span> <span class="o">-</span> <span class="n">index</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">first_unassembled_idx</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_output</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">_data</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">first_unassembled_idx</span> <span class="o">-</span> <span class="n">index</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">_waiting_buffer</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">_index</span> <span class="o">&lt;=</span> <span class="n">_output</span><span class="p">.</span><span class="n">bytes_written</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">_waiting_buffer</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">_index</span> <span class="o">+</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">s</span><span class="p">.</span><span class="n">_index</span> <span class="o">+</span> <span class="n">s</span><span class="p">.</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_output</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">_data</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">_output</span><span class="p">.</span><span class="n">bytes_written</span><span class="p">()</span> <span class="o">-</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_index</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_unassembled_bytes_size</span> <span class="o">-=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">_data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_waiting_buffer</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">it</span><span class="o">++</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">insert_buffer</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">eof</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_flag_eof</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_pos_eof</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_flag_eof</span> <span class="o">&amp;&amp;</span> <span class="n">_output</span><span class="p">.</span><span class="n">bytes_written</span><span class="p">()</span> <span class="o">==</span> <span class="n">_pos_eof</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_output</span><span class="p">.</span><span class="n">end_input</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">size_t</span> <span class="n">StreamReassembler</span><span class="o">::</span><span class="n">unassembled_bytes</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_unassembled_bytes_size</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">StreamReassembler</span><span class="o">::</span><span class="n">empty</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_unassembled_bytes_size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
 </span></span></code></pre><p>思路在代码中已经很清楚了。</p>
 <h2 id="lab-2-the-tcp-receiver">Lab 2: the TCP receiver</h2>
 <p><a href="https://cs144.github.io/assignments/lab2.pdf">https://cs144.github.io/assignments/lab2.pdf</a></p>
@@ -400,22 +411,22 @@
 <p>因为在 <code>StreamReassembler</code> 模块中使用的索引值是从 0 开始的，所以 <code>TCP receiver</code> 在重组子串之前，需要将从<code>SYN+1</code> 开始的 32 位索引还原成从 0 开始的 64 位索引。</p>
 <p>第一个任务就是进行 32 位索引值和 64 位索引值的相互转换。</p>
 <p><code>warp</code> 是包装 64 位索引到 <code>WrappingInt32</code> 中，直接截取后 32 位加上 <code>ISN</code> 就可以了。</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span>WrappingInt32 <span style="color:#900;font-weight:bold">wrap</span>(<span style="color:#458;font-weight:bold">uint64_t</span> n, WrappingInt32 isn) {
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> WrappingInt32{<span style="color:#000;font-weight:bold">static_cast</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#458;font-weight:bold">uint32_t</span><span style="color:#000;font-weight:bold">&gt;</span>(n) <span style="color:#000;font-weight:bold">+</span> isn.raw_value()};
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="n">WrappingInt32</span> <span class="nf">wrap</span><span class="p">(</span><span class="kt">uint64_t</span> <span class="n">n</span><span class="p">,</span> <span class="n">WrappingInt32</span> <span class="n">isn</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">WrappingInt32</span><span class="p">{</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">isn</span><span class="p">.</span><span class="n">raw_value</span><span class="p">()};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p><code>unwrap</code> 实现（仿照网上实现写的）：</p>
-<pre tabindex="0" style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#458;font-weight:bold">uint64_t</span> <span style="color:#900;font-weight:bold">unwrap</span>(WrappingInt32 n, WrappingInt32 isn, <span style="color:#458;font-weight:bold">uint64_t</span> checkpoint) {
-</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">uint64_t</span> a <span style="color:#000;font-weight:bold">=</span> n.raw_value() <span style="color:#000;font-weight:bold">-</span> isn.raw_value();
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (checkpoint <span style="color:#000;font-weight:bold">&lt;=</span> a)
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> a;
-</span></span><span style="display:flex;"><span>    <span style="color:#458;font-weight:bold">uint64_t</span> d <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1ul</span> <span style="color:#000;font-weight:bold">&lt;&lt;</span> <span style="color:#099">32</span>, b, c;
-</span></span><span style="display:flex;"><span>    b <span style="color:#000;font-weight:bold">=</span> (checkpoint <span style="color:#000;font-weight:bold">-</span> a) <span style="color:#000;font-weight:bold">&gt;&gt;</span> <span style="color:#099">32</span>;
-</span></span><span style="display:flex;"><span>    c <span style="color:#000;font-weight:bold">=</span> ((checkpoint <span style="color:#000;font-weight:bold">-</span> a) <span style="color:#000;font-weight:bold">&lt;&lt;</span> <span style="color:#099">32</span>) <span style="color:#000;font-weight:bold">&gt;&gt;</span> <span style="color:#099">32</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> (c <span style="color:#000;font-weight:bold">&lt;</span> d <span style="color:#000;font-weight:bold">/</span> <span style="color:#099">2</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> b <span style="color:#000;font-weight:bold">*</span> d <span style="color:#000;font-weight:bold">+</span> a;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> (b <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">*</span> d <span style="color:#000;font-weight:bold">+</span> a;
-</span></span><span style="display:flex;"><span>}
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kt">uint64_t</span> <span class="nf">unwrap</span><span class="p">(</span><span class="n">WrappingInt32</span> <span class="n">n</span><span class="p">,</span> <span class="n">WrappingInt32</span> <span class="n">isn</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="n">checkpoint</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint64_t</span> <span class="n">a</span> <span class="o">=</span> <span class="n">n</span><span class="p">.</span><span class="n">raw_value</span><span class="p">()</span> <span class="o">-</span> <span class="n">isn</span><span class="p">.</span><span class="n">raw_value</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">checkpoint</span> <span class="o">&lt;=</span> <span class="n">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint64_t</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">1ul</span> <span class="o">&lt;&lt;</span> <span class="mi">32</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">checkpoint</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">32</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">c</span> <span class="o">=</span> <span class="p">((</span><span class="n">checkpoint</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">32</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">32</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">&lt;</span> <span class="n">d</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">b</span> <span class="o">*</span> <span class="n">d</span> <span class="o">+</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">d</span> <span class="o">+</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><p><strong>TCP receiver</strong></p>
 <h2 id="reference">Reference</h2>
 <p><a href="https://zhuanlan.zhihu.com/p/262274265">https://zhuanlan.zhihu.com/p/262274265</a></p>
@@ -448,6 +459,23 @@
           </aside>
           
         </div>
+
+        
+        <nav class="post-nav" aria-label="Post navigation">
+          
+          <a class="post-nav__link" href="/posts/2021.html">
+            <span class="post-nav__dir">← Newer</span>
+            <span class="post-nav__title">2021 ===> 2022</span>
+          </a>
+          
+          
+          <a class="post-nav__link post-nav__link--next" href="/posts/written-on-the-occasion-of-22nd-birthday.html">
+            <span class="post-nav__dir">Older →</span>
+            <span class="post-nav__title">写于 22 岁生日之际</span>
+          </a>
+          
+        </nav>
+        
 
         <!-- Comments -->
         <section class="comments-section">
@@ -493,6 +521,65 @@
 
       // Smooth scroll for TOC links
       document.addEventListener('DOMContentLoaded', function() {
+        // Reading progress
+        const progressBar = document.getElementById('reading-progress-bar');
+        const updateProgress = () => {
+          if (!progressBar) return;
+          const doc = document.documentElement;
+          const scrollable = doc.scrollHeight - doc.clientHeight;
+          const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+          progressBar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, progress)) + ')';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress, { passive: true });
+        updateProgress();
+
+        // Reading time
+        const readingTime = document.getElementById('reading-time');
+        const postBody = document.querySelector('.post-body');
+        if (readingTime && postBody) {
+          const text = postBody.textContent || '';
+          const cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+          const words = (text.replace(/[\u4e00-\u9fff\u3400-\u4dbf]/g, ' ').match(/[A-Za-z0-9_]+/g) || []).length;
+          const minutes = Math.max(1, Math.round(cjk / 350 + words / 200));
+          readingTime.textContent = '· ' + minutes + ' min read';
+        }
+
+        // Wrap tables for horizontal scrolling on small screens
+        document.querySelectorAll('.post-body > table').forEach(table => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-scroll';
+          table.parentNode.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        });
+
+        // Copy buttons for code blocks
+        document.querySelectorAll('.post-body pre').forEach(pre => {
+          if (pre.querySelector('.code-copy')) return;
+          const button = document.createElement('button');
+          button.className = 'code-copy';
+          button.type = 'button';
+          button.textContent = 'Copy';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.addEventListener('click', async () => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+            try {
+              await navigator.clipboard.writeText(code.textContent);
+              button.textContent = 'Copied';
+              button.classList.add('code-copy--copied');
+              setTimeout(() => {
+                button.textContent = 'Copy';
+                button.classList.remove('code-copy--copied');
+              }, 1800);
+            } catch (e) {
+              button.textContent = 'Failed';
+              setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+            }
+          });
+          pre.appendChild(button);
+        });
+
         const tocLinks = document.querySelectorAll('.toc-nav:not(.timeline-nav) a');
         const tocPanel = document.querySelector('.toc-panel');
         const sidepanelToggle = document.getElementById('sidepanel-toggle');

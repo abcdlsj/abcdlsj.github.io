@@ -5,6 +5,8 @@
     
 <meta charset="UTF-8" />
 <meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
 
 <title>L'iving and Discovering</title>
 
@@ -18,7 +20,9 @@
 <meta property="og:type" content="website">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="icon" href="/static/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
 <script>
   // Theme initialization - runs before page render to prevent flash
@@ -39,6 +43,7 @@
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
       <a href="/" class="site-header__title">L'iving and Discovering</a>
       <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
     </div>
@@ -109,6 +114,10 @@
     
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+      meta.setAttribute('content', newTheme === 'dark' ? '#111114' : '#fbfbfc');
+    });
   }
 
   (function initHeaderScrollBehavior() {
@@ -151,7 +160,7 @@
 <p>Hi, I'm <strong>abcdlsj</strong>, a nickname I picked up when I first started college. It doesn't really mean anything — I've just been using it since I stepped into the world of programming!</p>
 <p>I love many things in the world, especially <strong>animals</strong>, <strong>games</strong>, <strong>reading</strong>, and <strong>movies</strong>.</p>
 <h2 id="about-me">About Me</h2>
-<p>I like to do a lot of <code>small</code> projects and am interested in new technologies.</p>
+<p>I like building small projects and am curious about new technologies.</p>
 <p>Currently, I work at <a href="https://www.bilibili.com/">bilibili</a> as a backend developer.</p>
 <h2 id="contact">Contact</h2>
 <p>If you want to contact me, feel free to reach out:</p>
@@ -159,7 +168,7 @@
 <li>Email: <a href="mailto:github@songjian.li">github@songjian.li</a> or <a href="mailto:lisongjianshuai@gmail.com">lisongjianshuai@gmail.com</a></li>
 <li>GitHub: <a href="https://github.com/abcdlsj">abcdlsj</a></li>
 </ul>
-<p><em>This site is powered by a Go <a href="https://github.com/abcdlsj/abcdlsj.github.io">generator</a> written by myself.</em></p>
+<p><em>This site is powered by a <code>Go</code> <a href="https://github.com/abcdlsj/abcdlsj.github.io">generator</a> that I wrote myself.</em></p>
 
           </article>
         </div>
