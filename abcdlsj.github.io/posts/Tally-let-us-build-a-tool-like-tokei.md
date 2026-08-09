@@ -8,24 +8,23 @@ published: true
 summary: "Building a high-performance code statistics tool from scratch: Deep dive into the implementation principles of tokei/scc."
 changelog: |
   - 2023-08-16: first version
-  - 2024-04-03: bechmark refactor
+  - 2024-04-03: benchmark refactor
 ---
 
 ## Background
-I want to build a tool like `scc`, `tokei`, just for learning. It was very easy to write a simple version: [tally - first commit](https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go).
-I will to optimize it at the second half of this post.
+I want to build a tool like `scc` or `tokei`, just for learning. Writing a simple version was very easy: [tally - first commit](https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go). I'll optimize it in the second half of this post.
 
 First, allow me to explain it to you.
 
 ## Steps
-The counting-line machine worked similar to the `Putting elephants in the freezer`, so the steps are: 
-1. Walk directory tree.
-2. Read file and Count lines.
-1. Output result.
+The counting machine works a lot like the classic "putting an elephant in the freezer" analogy:
+1. Walk the directory tree.
+2. Read files and count lines.
+3. Output the results.
 
 ### Walk directory
 
-Use `filepath.Walk` to walk directory tree, it's very easy to use.
+`filepath.Walk` makes walking the directory tree very easy:
 ```go
 filepath.Walk(os.Args[1], func(path string, info os.FileInfo, err error) error {
 	if err != nil {
@@ -40,10 +39,10 @@ filepath.Walk(os.Args[1], func(path string, info os.FileInfo, err error) error {
 })
 ```
 
-### `Read` and `Count`
-Count line we need to know what is a line. A line is a string end with `\n` or `\r\n`. So we can just split the file content with `\n` or `\r\n` to get the lines.
+### Read and count
+To count lines, we first need to define what a line is: a string ending with `\n` or `\r\n`. So we can split the file content on `\n` (or `\r\n`) to get the lines.
 
-Because we need to count the code lines, so we need to ignore the comment lines. I just use a simple way to ignore the comment lines, just ignore the line start with a rule string(**by the way: the first version I just conside the single line comment.**).
+Since we're counting code, we also need to ignore comment lines. I used a simple approach: ignore any line that starts with a rule string. (By the way, the first version only handled single-line comments.)
 
 ```go
 type Counter struct {
@@ -71,7 +70,7 @@ var (
 )
 ```
 
-> vec is a function to create a slice. (Nostalgia for `Rust` `vec!` :p)
+> `vec` is a helper that creates a slice — a little nostalgia for Rust's `vec!` :p
 
 Count line logic:
 ```go
@@ -116,7 +115,7 @@ func countLine(path string) error {
 ```
 
 ### Output style
-Actually, this is the most hard part. you need to output the result intuitively. thanks to `tokei` and `scc`, I just need to do a `copy` the output format from them :smile:.
+Actually, this was the hardest part — presenting results in a readable way. Thanks to `tokei` and `scc`, I just copied their output format :smile:.
 
 ```go
 func (r *Result) String() {
@@ -146,7 +145,7 @@ func (r *Result) String() {
 }
 ```
 
-Let's Test it.
+Let's test it.
 
 ```shell
 tally .
@@ -163,24 +162,24 @@ Total               2        245        201          0         44
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-It's looks very good :)
+It looks very good :)
 
-At next, I will benchmark and optimize it.
+Next, I'll benchmark and optimize it.
 
 ## Benchmark
-use `time` for benchmarks is not accurate enough.
+Using the `time` command for benchmarks isn't accurate enough.
 
 > [stackoverflow - Is the UNIX `time` command accurate enough for benchmarks? [closed]](https://stackoverflow.com/questions/9006596/is-the-unix-time-command-accurate-enough-for-benchmarks)
 
-> TLDR: Can use `perf stat` to benchmarks
+> TLDR: use `perf stat` for benchmarks:
 > `perf stat -r 10 -d <CMD>`
 
-There are also many of powerful tools for benchmarks.
+There are plenty of powerful benchmarking tools.
 
 I use `hyperfine` for benchmarks at my `MacBook Pro 16 (2019)` machine.
 > [hyperfine - Command-line benchmarking tool](https://github.com/sharkdp/hyperfine)
 
-`hyperfine` support warmup file system to reduce noise, and it can compare multiple commands and export to markdown. (very nice! :smile:)
+`hyperfine` supports a warmup phase to reduce noise, compares multiple commands, and can export results as markdown. (Very nice! :smile:)
 
 ```shell
 hyperfine 'tokei .' 'scc .' 'tally .' --warmup 3 --export-markdown bench.md
@@ -188,7 +187,7 @@ hyperfine 'tokei .' 'scc .' 'tally .' --warmup 3 --export-markdown bench.md
 
 ### Small repo
 
-I use the repo <https://github.com/firecracker-microvm/firecracker> to do the benchmarks
+I benchmarked against the <https://github.com/firecracker-microvm/firecracker> repo.
 
 Results:
 
@@ -198,9 +197,9 @@ Results:
 | `scc .` | 41.0 ± 7.7 | 28.0 | 58.9 | 1.13 ± 0.29 |
 | `tally .` | 114.4 ± 4.8 | 108.5 | 123.6 | 3.16 ± 0.57 |
 
-We can see, the origin version is not fast enough. but I thought it's already usable.
+The original version isn't fast enough, but it's still usable.
 
-Let's see large repo.
+Now let's try a large repo.
 
 ### Large repo
 
@@ -213,17 +212,17 @@ Results:
 | `scc .` | 343.7 ± 29.4 | 296.0 | 399.3 | 1.00 |
 | `tally .` | 1038.1 ± 77.2 | 947.3 | 1173.8 | 3.02 ± 0.34 |
 
-Okay, seems there had a relatively large gap between `tokei/scc` and `tally`.
+There's a fairly large gap between `tokei`/`scc` and `tally`.
 
 ## Optimize1 - Improve the code
 
-My first version is very simple and it's just support inline comments, and use `split` to count lines.
+My first version was very simple: it only supported inline comments and used `split` to count lines.
 
-There have two optimal point:
-1. Use `Bufio.Scanner` to readline
+There are two optimization points:
+1. Use `bufio.Scanner` to read lines
 2. Support multiple comments
 
-For these two, can see the commits <https://github.com/abcdlsj/share/commits/master/go/tally>
+See the commits <https://github.com/abcdlsj/share/commits/master/go/tally> for both.
 
 There's nothing to say here.
 
@@ -243,13 +242,13 @@ There's nothing to say here.
 | `tally .` | 1.073 ± 0.129 | 0.892 | 1.295 | 1.00 |
 | `tally1 .` | 1.113 ± 0.139 | 0.928 | 1.277 | 1.04 ± 0.18 |
 
-We can see, for the small repo the gap is smaller. use `bufio.Scanner` is very effective. but for large repo, it seems not very effective.
+The gap is much smaller on the small repo — `bufio.Scanner` is effective there — but on the large repo it barely matters.
 
 ## Optimize2 - Faster filepath walking
 
-Based on this post [You Don't Need a Library for File Walking in Go](https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/), the result shows the `offical filepath walk` are faster enough. And I want to build `tally` without any `third-party dependencies`, so I won't use other faster `walkdir` library.
+According to [this post](https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/), the official `filepath.Walk` is already fast enough. I also want `tally` to have zero third-party dependencies, so I won't pull in a faster `walkdir` library.
 
-Currently, I use the `filepath.Walk` to `walking` dir, use `filepth.Walkdir` will be faster a little.
+I currently use `filepath.Walk`; switching to `filepath.WalkDir` would be a little faster.
 
 ```shell
 > hyperfine 'tally .' 'tally_walkdir .' --warmup 3
@@ -266,20 +265,20 @@ Summary
     1.06 ± 0.17 times faster than tally .
 ```
 
-(Just a small improvement, So I won't commit the change.)
+(It's only a small improvement, so I won't commit it.)
 
 ## Optimize3 - Parallelism
 
 ### Fanout
 
-`Go` supports concurrency perfectly, we can use the parttern named `Fanout` to `allocate` file to `worker`.
+`Go` makes concurrency easy. I used a fan-out pattern to distribute files to workers.
 
-We follow there steps:
-1. Passing variables via `channel`
-2. `Walk` dir will send files firstly to `channel`
-3. Use multiple `worker` to `read` files from `channel`
-4. Use `sync.WaitGroup` to `wait` for `worker` done
-5. Use `mutex` to `lock` the `result` data
+The steps are:
+1. Pass files through a `channel`.
+2. The directory walk sends files to the `channel` first.
+3. Multiple workers read files from the `channel`.
+4. `sync.WaitGroup` waits for the workers to finish.
+5. A `mutex` protects the shared result data.
 
 These are changes:
 ```diff
@@ -390,11 +389,11 @@ index f184b31..23f5fae 100644
  	}
 ```
 
-The `fileChan` size is 100, the worker number is 2 * `CPU number`. I don't do much test here.
+The `fileChan` buffer is 100 and the worker count is 2 × the CPU core count. I didn't do much tuning here.
 
-According common knowledge:
-- CPU-bound task, the number of workers should not exceed the number of logical CPU cores available, as having more workers than cores will not improve performance and may even degrade it due to context switching
-- I/O-bound tasks, more workers than CPU cores is probably a good idea, because I/O operations often block, allowing other workers to proceed with their tasks
+The general rule of thumb:
+- For CPU-bound tasks, workers shouldn't exceed the number of logical CPU cores — more workers only adds context-switching overhead.
+- For I/O-bound tasks, more workers than cores usually helps, because blocked I/O lets other workers proceed.
 
 
 ### Result
@@ -404,7 +403,7 @@ According common knowledge:
 | `tally .` | 65.6 ± 6.1 | 56.8 | 85.1 | 1.89 ± 0.33 |
 | `tally_fanout .` | 34.8 ± 5.2 | 26.9 | 53.2 | 1.00 |
 
-Use `Fanout` pattern will speed up a lot.
+The fan-out pattern speeds things up a lot.
 
 ## Optimize4 - Use Pprof
 
@@ -412,9 +411,9 @@ TODO...
 
 ## End
 
-The post is just a learning progress, you can find source code at [github - abcdlsj/tally](https://github.com/abcdlsj/share/tree/master/go/tally)
+This post is my learning journey — the source is at [github - abcdlsj/tally](https://github.com/abcdlsj/share/tree/master/go/tally).
 
-I'll do more test and optimize at the future.
+I'll benchmark and optimize more in the future.
 
 ## Ref
 
@@ -422,4 +421,3 @@ https://github.com/boyter/scc/
 https://boyter.org/posts/sloc-cloc-code/
 https://blog.burntsushi.net/ripgrep/
 https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/
-

@@ -13,7 +13,7 @@ languages:
 
 > 本文所有的代码都在 [abcdlsj/crone](https://github.com/abcdlsj/crone)
 
-从零实现一个初级 `Cron` 表达式解析器，只有以下几个字段规则：
+基础的 `Cron` 表达式解析器，只有以下几个字段规则：
 ```text
 # ┌───────────── minute (0–59)
 # │ ┌───────────── hour (0–23)

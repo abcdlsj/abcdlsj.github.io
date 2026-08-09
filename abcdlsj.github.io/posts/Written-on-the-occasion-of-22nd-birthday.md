@@ -6,7 +6,7 @@ tags:
 published: true
 toc: false
 cover: "/static/img/hfut_night.jpg"
-summary: "回顾大学四年的技术探索、求职历程，以及对未来程序员生涯的思考与期待。"
+summary: "回顾大学四年.."
 languages:
     - cn
 ---

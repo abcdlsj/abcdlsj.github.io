@@ -26,7 +26,7 @@ An alternative is to use a `DNS server` to map a short domain to a long domain.
 
 However, in most cases, this is not necessary for me.
 
-I just want to create a url shortener in my local network, so I am interested in using a local `url shortener`.
+I just want a shortener for my local network, which is exactly what a local `url shortener` does.
 
 ## /etc/hosts
 > `/etc/hosts` is a file in Linux that can link a domain to an IP address.
@@ -42,7 +42,7 @@ When I enter `go` in my browser, it sends a request to `127.0.0.1:80` (you canno
 ## Code
 Writing a url shortener is quite simple: just create an HTTP server that maps a domain to a URL.
 
-You can write one yourself or take a look at my [abcdlsj/golink](https://github.com/abcdlsj/share/tree/master/go/golink) implementation (Use `SQLite3`, With `import/export` features).
+You can write one yourself or take a look at my [abcdlsj/golink](https://github.com/abcdlsj/share/tree/master/go/golink) implementation (it uses `SQLite3` and supports `import`/`export` features).
 
 ## Run it
 Run it as a daemon:
@@ -54,7 +54,7 @@ nohup golink &
 
 <img alt="golink screenshot" src="/static/img/golink-screenshot.png" width="100%" style="border: 1px solid gray;">
 
-You also can add a `Chrome Site-search` to make it easier to use.
+You can also add a `Chrome` site-search shortcut to make it easier to use.
 
 <img alt="Chrome Site-search setting" src="/static/img/golink-chrome-site-search.png" width="100%" style="border: 1px solid gray;">
 

@@ -16,15 +16,15 @@ changelog: |
 ## Background
 > 项目地址：[abcdlsj/nexo](https://github.com/abcdlsj/nexo)
 
-我之前一直在用 `Caddy` 作为证书管理和反向代理服务器。虽然 `Caddy` 很强大，但是它的 `Caddyfile` 配置语法说实话挺反人类的，而且功能太多太复杂了。最让我头疼的是它的 `Cloudflare DNS provider` 是以插件形式提供的，每次都要用 `xcaddy build --with github.com/caddy-dns/cloudflare` 去构建，有点过于麻烦。
+之前我一直在用 `Caddy` 管理 `VPS` 部署的各种 `Docker` 服务，但是 `Caddyfile` 配置语法很反人类。并且如果使用 CF 托管域名，就需要安装 `Cloudflare DNS provider`，但是这个是以插件形式提供的，每次都要用 `xcaddy build --with github.com/caddy-dns/cloudflare` 去构建，每次使用都要当场去查一下插件安装。
 
-不过因为我之前在腾讯云有台 2 核 4G 的机器（买了 3 年），`Caddy` 在上面跑得挺好的，几年前配置过一次就一直能用，也就懒得去折腾了。
+我常用的 VPS 是在腾讯云 2 核 4G 的机器，日常用 `Caddy` 也还行，几年前配置过一次就一直能用，也就懒得去折腾了。
 
-但是上个月腾讯云的机器到期了，我换到了一台 0.5 欧元一个月的机器上。这台机器只有 1 核 1G 性能超级差。迁移服务的时候，我本来想着图省事，就不编译 `Caddy` 了，换成了 `Nginx Proxy Manager`。它有个 Web UI，配置很方便，基本上开箱即用。
+但是上个月机器到期了，我换到了一台 0.5 欧一个月的机器上。这台机器只有 1 核 1G 性能超级差。迁移服务的时候，为了方便就没编译 `Caddy`。换成了 `Nginx Proxy Manager`，它有个 `Web UI`，配置很方便，基本上开箱即用。
 
-结果用了才发现，这玩意儿内存占用居然超过 100M！对于一台 1G 内存的小机器来说，这也太夸张了。于是我就想，干脆自己写一个证书管理加反向代理的服务算了。
+结果用了才发现，这玩意儿内存占用居然超过 100M！对于一台 1G 内存的小机器来说，这是不可以接受的。于是我就想，干脆自己写一个证书管理加反向代理的服务算了。
 
-最开始简单写了反向代理的部分，但是发现最麻烦的是证书管理以及处理各种 `DNS Provider`。
+最开始简单写了反向代理的部分，发现麻烦的是证书管理以及处理各种 `DNS Provider` 上，就暂时搁置了。
 
 有一天无意间刷到 [go-acme/lego](https://github.com/go-acme/lego) 这个库，于是在 `Cursor` 的帮助下，很快就把基本功能搭建起来了。最近这两周一直在用，不断发现问题，不断优化，现在终于趋于完善了。
 
@@ -124,7 +124,7 @@ PS. 1 核 1G 的机器非常垃圾，如果有高 IO / 高 CPU 的需求，千�
 
 <img alt="1h1g memmory usage" src="/static/img/1h1g-memory-usage.png" width="100%" style="border: 1px solid gray;">
 
-上图看到间断的部分，是机器爆炸后我进行的重启...我连 `Memos` 服务存储使用 `Sqlite3 Blob` 都被迫迁移到 `S3` 了，这个之前在 2 核 4G 机器上不存在问题。
+上图看到间断的部分，是机器爆炸后我进行的重启...一旦进行编译这种高 `CPU` 的任务就会直接宕机。
 
 ## Future Plans
 

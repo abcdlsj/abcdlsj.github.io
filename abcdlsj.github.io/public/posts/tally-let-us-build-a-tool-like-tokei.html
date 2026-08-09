@@ -20,7 +20,9 @@
 <meta property="og:type" content="article">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="icon" href="/static/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
 <script>
   // Theme initialization - runs before page render to prevent flash
@@ -177,25 +179,24 @@
             
             <details class="changelog">
               <summary>Changelog</summary>
-              <div class="changelog-content">- 2023-08-16: first version<br>- 2024-04-03: bechmark refactor<br></div>
+              <div class="changelog-content">- 2023-08-16: first version<br>- 2024-04-03: benchmark refactor<br></div>
             </details>
             
 
             <!-- Post Content -->
             <div class="post-body">
               <h2 id="background">Background</h2>
-<p>I want to build a tool like <code>scc</code>, <code>tokei</code>, just for learning. It was very easy to write a simple version: <a href="https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go">tally - first commit</a>.<br>
-I will to optimize it at the second half of this post.</p>
+<p>I want to build a tool like <code>scc</code> or <code>tokei</code>, just for learning. Writing a simple version was very easy: <a href="https://github.com/abcdlsj/share/blob/7ac6cbbf36a9d72b09603b160569db5f5a27fa81/go/tally/main.go">tally - first commit</a>. I'll optimize it in the second half of this post.</p>
 <p>First, allow me to explain it to you.</p>
 <h2 id="steps">Steps</h2>
-<p>The counting-line machine worked similar to the <code>Putting elephants in the freezer</code>, so the steps are:</p>
+<p>The counting machine works a lot like the classic &quot;putting an elephant in the freezer&quot; analogy:</p>
 <ol>
-<li>Walk directory tree.</li>
-<li>Read file and Count lines.</li>
-<li>Output result.</li>
+<li>Walk the directory tree.</li>
+<li>Read files and count lines.</li>
+<li>Output the results.</li>
 </ol>
 <h3 id="walk-directory">Walk directory</h3>
-<p>Use <code>filepath.Walk</code> to walk directory tree, it's very easy to use.</p>
+<p><code>filepath.Walk</code> makes walking the directory tree very easy:</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nx">filepath</span><span class="p">.</span><span class="nf">Walk</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="kd">func</span><span class="p">(</span><span class="nx">path</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">info</span> <span class="nx">os</span><span class="p">.</span><span class="nx">FileInfo</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
@@ -207,9 +208,9 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nf">countLine</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">})</span>
-</span></span></code></pre><h3 id="read-and-count"><code>Read</code> and <code>Count</code></h3>
-<p>Count line we need to know what is a line. A line is a string end with <code>\n</code> or <code>\r\n</code>. So we can just split the file content with <code>\n</code> or <code>\r\n</code> to get the lines.</p>
-<p>Because we need to count the code lines, so we need to ignore the comment lines. I just use a simple way to ignore the comment lines, just ignore the line start with a rule string(<strong>by the way: the first version I just conside the single line comment.</strong>).</p>
+</span></span></code></pre><h3 id="read-and-count">Read and count</h3>
+<p>To count lines, we first need to define what a line is: a string ending with <code>\n</code> or <code>\r\n</code>. So we can split the file content on <code>\n</code> (or <code>\r\n</code>) to get the lines.</p>
+<p>Since we're counting code, we also need to ignore comment lines. I used a simple approach: ignore any line that starts with a rule string. (By the way, the first version only handled single-line comments.)</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Counter</span> <span class="kd">struct</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">idx</span>     <span class="kt">int</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">lang</span>    <span class="kt">string</span>
@@ -234,7 +235,7 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span class="line"><span class="cl">	<span class="nx">YAML</span>     <span class="p">=</span> <span class="nx">Counter</span><span class="p">{</span><span class="mi">14</span><span class="p">,</span> <span class="s">&#34;YAML&#34;</span><span class="p">,</span> <span class="s">&#34;#&#34;</span><span class="p">,</span> <span class="nf">vec</span><span class="p">(</span><span class="s">&#34;.yaml&#34;</span><span class="p">,</span> <span class="s">&#34;.yml&#34;</span><span class="p">)}</span>
 </span></span><span class="line"><span class="cl"><span class="p">)</span>
 </span></span></code></pre><blockquote>
-<p>vec is a function to create a slice. (Nostalgia for <code>Rust</code> <code>vec!</code> :p)</p>
+<p><code>vec</code> is a helper that creates a slice — a little nostalgia for Rust's <code>vec!</code> :p</p>
 </blockquote>
 <p>Count line logic:</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">countLine</span><span class="p">(</span><span class="nx">path</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
@@ -276,7 +277,7 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="kc">nil</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre><h3 id="output-style">Output style</h3>
-<p>Actually, this is the most hard part. you need to output the result intuitively. thanks to <code>tokei</code> and <code>scc</code>, I just need to do a <code>copy</code> the output format from them :smile:.</p>
+<p>Actually, this was the hardest part — presenting results in a readable way. Thanks to <code>tokei</code> and <code>scc</code>, I just copied their output format :smile:.</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">r</span> <span class="o">*</span><span class="nx">Result</span><span class="p">)</span> <span class="nf">String</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">itemF</span> <span class="o">:=</span> <span class="s">&#34;%-10s %10d %10d %10d %10d %10d\n&#34;</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">headerF</span> <span class="o">:=</span> <span class="s">&#34;%-10s %10s %10s %10s %10s %10s\n&#34;</span>
@@ -302,7 +303,7 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">itemF</span><span class="p">,</span> <span class="s">&#34;Total&#34;</span><span class="p">,</span> <span class="nx">total</span><span class="p">.</span><span class="nx">files</span><span class="p">,</span> <span class="nx">total</span><span class="p">.</span><span class="nx">lines</span><span class="p">,</span> <span class="nx">total</span><span class="p">.</span><span class="nx">code</span><span class="p">,</span> <span class="nx">total</span><span class="p">.</span><span class="nx">comment</span><span class="p">,</span> <span class="nx">total</span><span class="p">.</span><span class="nx">blank</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nf">Repeat</span><span class="p">(</span><span class="s">&#34;━&#34;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#34;\n&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre><p>Let's Test it.</p>
+</span></span></code></pre><p>Let's test it.</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">tally .
 </span></span></code></pre><pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 </span></span><span class="line"><span class="cl">Language        Files      Lines       Code   Comments     Blanks
@@ -312,26 +313,26 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span class="line"><span class="cl">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 </span></span><span class="line"><span class="cl">Total               2        245        201          0         44
 </span></span><span class="line"><span class="cl">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-</span></span></code></pre><p>It's looks very good :)</p>
-<p>At next, I will benchmark and optimize it.</p>
+</span></span></code></pre><p>It looks very good :)</p>
+<p>Next, I'll benchmark and optimize it.</p>
 <h2 id="benchmark">Benchmark</h2>
-<p>use <code>time</code> for benchmarks is not accurate enough.</p>
+<p>Using the <code>time</code> command for benchmarks isn't accurate enough.</p>
 <blockquote>
 <p><a href="https://stackoverflow.com/questions/9006596/is-the-unix-time-command-accurate-enough-for-benchmarks">stackoverflow - Is the UNIX <code>time</code> command accurate enough for benchmarks? [closed]</a></p>
 </blockquote>
 <blockquote>
-<p>TLDR: Can use <code>perf stat</code> to benchmarks<br>
+<p>TLDR: use <code>perf stat</code> for benchmarks:<br>
 <code>perf stat -r 10 -d &lt;CMD&gt;</code></p>
 </blockquote>
-<p>There are also many of powerful tools for benchmarks.</p>
+<p>There are plenty of powerful benchmarking tools.</p>
 <p>I use <code>hyperfine</code> for benchmarks at my <code>MacBook Pro 16 (2019)</code> machine.</p>
 <blockquote>
 <p><a href="https://github.com/sharkdp/hyperfine">hyperfine - Command-line benchmarking tool</a></p>
 </blockquote>
-<p><code>hyperfine</code> support warmup file system to reduce noise, and it can compare multiple commands and export to markdown. (very nice! :smile:)</p>
+<p><code>hyperfine</code> supports a warmup phase to reduce noise, compares multiple commands, and can export results as markdown. (Very nice! :smile:)</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">hyperfine <span class="s1">&#39;tokei .&#39;</span> <span class="s1">&#39;scc .&#39;</span> <span class="s1">&#39;tally .&#39;</span> --warmup <span class="m">3</span> --export-markdown bench.md
 </span></span></code></pre><h3 id="small-repo">Small repo</h3>
-<p>I use the repo <a href="https://github.com/firecracker-microvm/firecracker">https://github.com/firecracker-microvm/firecracker</a> to do the benchmarks</p>
+<p>I benchmarked against the <a href="https://github.com/firecracker-microvm/firecracker">https://github.com/firecracker-microvm/firecracker</a> repo.</p>
 <p>Results:</p>
 <table>
 <thead>
@@ -367,8 +368,8 @@ I will to optimize it at the second half of this post.</p>
 </tr>
 </tbody>
 </table>
-<p>We can see, the origin version is not fast enough. but I thought it's already usable.</p>
-<p>Let's see large repo.</p>
+<p>The original version isn't fast enough, but it's still usable.</p>
+<p>Now let's try a large repo.</p>
 <h3 id="large-repo">Large repo</h3>
 <p>Use <a href="https://github.com/moby/moby">https://github.com/moby/moby</a></p>
 <p>Results:</p>
@@ -406,15 +407,15 @@ I will to optimize it at the second half of this post.</p>
 </tr>
 </tbody>
 </table>
-<p>Okay, seems there had a relatively large gap between <code>tokei/scc</code> and <code>tally</code>.</p>
+<p>There's a fairly large gap between <code>tokei</code>/<code>scc</code> and <code>tally</code>.</p>
 <h2 id="optimize1---improve-the-code">Optimize1 - Improve the code</h2>
-<p>My first version is very simple and it's just support inline comments, and use <code>split</code> to count lines.</p>
-<p>There have two optimal point:</p>
+<p>My first version was very simple: it only supported inline comments and used <code>split</code> to count lines.</p>
+<p>There are two optimization points:</p>
 <ol>
-<li>Use <code>Bufio.Scanner</code> to readline</li>
+<li>Use <code>bufio.Scanner</code> to read lines</li>
 <li>Support multiple comments</li>
 </ol>
-<p>For these two, can see the commits <a href="https://github.com/abcdlsj/share/commits/master/go/tally">https://github.com/abcdlsj/share/commits/master/go/tally</a></p>
+<p>See the commits <a href="https://github.com/abcdlsj/share/commits/master/go/tally">https://github.com/abcdlsj/share/commits/master/go/tally</a> for both.</p>
 <p>There's nothing to say here.</p>
 <h3 id="compare">Compare</h3>
 <ul>
@@ -477,10 +478,10 @@ I will to optimize it at the second half of this post.</p>
 </tr>
 </tbody>
 </table>
-<p>We can see, for the small repo the gap is smaller. use <code>bufio.Scanner</code> is very effective. but for large repo, it seems not very effective.</p>
+<p>The gap is much smaller on the small repo — <code>bufio.Scanner</code> is effective there — but on the large repo it barely matters.</p>
 <h2 id="optimize2---faster-filepath-walking">Optimize2 - Faster filepath walking</h2>
-<p>Based on this post <a href="https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/">You Don't Need a Library for File Walking in Go</a>, the result shows the <code>offical filepath walk</code> are faster enough. And I want to build <code>tally</code> without any <code>third-party dependencies</code>, so I won't use other faster <code>walkdir</code> library.</p>
-<p>Currently, I use the <code>filepath.Walk</code> to <code>walking</code> dir, use <code>filepth.Walkdir</code> will be faster a little.</p>
+<p>According to <a href="https://engineering.kablamo.com.au/posts/2021/quick-comparison-between-go-file-walk-implementations/">this post</a>, the official <code>filepath.Walk</code> is already fast enough. I also want <code>tally</code> to have zero third-party dependencies, so I won't pull in a faster <code>walkdir</code> library.</p>
+<p>I currently use <code>filepath.Walk</code>; switching to <code>filepath.WalkDir</code> would be a little faster.</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">&gt; hyperfine <span class="s1">&#39;tally .&#39;</span> <span class="s1">&#39;tally_walkdir .&#39;</span> --warmup <span class="m">3</span>
 </span></span><span class="line"><span class="cl">Benchmark 1: tally .
 </span></span><span class="line"><span class="cl">  Time <span class="o">(</span>mean ± σ<span class="o">)</span>:      66.4 ms ±   6.6 ms    <span class="o">[</span>User: 21.8 ms, System: 43.0 ms<span class="o">]</span>
@@ -493,17 +494,17 @@ I will to optimize it at the second half of this post.</p>
 </span></span><span class="line"><span class="cl">Summary
 </span></span><span class="line"><span class="cl">  tally_walkdir . ran
 </span></span><span class="line"><span class="cl">    1.06 ± 0.17 <span class="nb">times</span> faster than tally .
-</span></span></code></pre><p>(Just a small improvement, So I won't commit the change.)</p>
+</span></span></code></pre><p>(It's only a small improvement, so I won't commit it.)</p>
 <h2 id="optimize3---parallelism">Optimize3 - Parallelism</h2>
 <h3 id="fanout">Fanout</h3>
-<p><code>Go</code> supports concurrency perfectly, we can use the parttern named <code>Fanout</code> to <code>allocate</code> file to <code>worker</code>.</p>
-<p>We follow there steps:</p>
+<p><code>Go</code> makes concurrency easy. I used a fan-out pattern to distribute files to workers.</p>
+<p>The steps are:</p>
 <ol>
-<li>Passing variables via <code>channel</code></li>
-<li><code>Walk</code> dir will send files firstly to <code>channel</code></li>
-<li>Use multiple <code>worker</code> to <code>read</code> files from <code>channel</code></li>
-<li>Use <code>sync.WaitGroup</code> to <code>wait</code> for <code>worker</code> done</li>
-<li>Use <code>mutex</code> to <code>lock</code> the <code>result</code> data</li>
+<li>Pass files through a <code>channel</code>.</li>
+<li>The directory walk sends files to the <code>channel</code> first.</li>
+<li>Multiple workers read files from the <code>channel</code>.</li>
+<li><code>sync.WaitGroup</code> waits for the workers to finish.</li>
+<li>A <code>mutex</code> protects the shared result data.</li>
 </ol>
 <p>These are changes:</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="gh">diff --git a/go/tally/main.go b/go/tally/main.go
@@ -611,11 +612,11 @@ I will to optimize it at the second half of this post.</p>
 </span></span></span><span class="line"><span class="cl"><span class="gi"></span> 	if err != nil {
 </span></span><span class="line"><span class="cl"> 		return err
 </span></span><span class="line"><span class="cl"> 	}
-</span></span></code></pre><p>The <code>fileChan</code> size is 100, the worker number is 2 * <code>CPU number</code>. I don't do much test here.</p>
-<p>According common knowledge:</p>
+</span></span></code></pre><p>The <code>fileChan</code> buffer is 100 and the worker count is 2 × the CPU core count. I didn't do much tuning here.</p>
+<p>The general rule of thumb:</p>
 <ul>
-<li>CPU-bound task, the number of workers should not exceed the number of logical CPU cores available, as having more workers than cores will not improve performance and may even degrade it due to context switching</li>
-<li>I/O-bound tasks, more workers than CPU cores is probably a good idea, because I/O operations often block, allowing other workers to proceed with their tasks</li>
+<li>For CPU-bound tasks, workers shouldn't exceed the number of logical CPU cores — more workers only adds context-switching overhead.</li>
+<li>For I/O-bound tasks, more workers than cores usually helps, because blocked I/O lets other workers proceed.</li>
 </ul>
 <h3 id="result">Result</h3>
 <table>
@@ -645,12 +646,12 @@ I will to optimize it at the second half of this post.</p>
 </tr>
 </tbody>
 </table>
-<p>Use <code>Fanout</code> pattern will speed up a lot.</p>
+<p>The fan-out pattern speeds things up a lot.</p>
 <h2 id="optimize4---use-pprof">Optimize4 - Use Pprof</h2>
 <p>TODO...</p>
 <h2 id="end">End</h2>
-<p>The post is just a learning progress, you can find source code at <a href="https://github.com/abcdlsj/share/tree/master/go/tally">github - abcdlsj/tally</a></p>
-<p>I'll do more test and optimize at the future.</p>
+<p>This post is my learning journey — the source is at <a href="https://github.com/abcdlsj/share/tree/master/go/tally">github - abcdlsj/tally</a>.</p>
+<p>I'll benchmark and optimize more in the future.</p>
 <h2 id="ref">Ref</h2>
 <p><a href="https://github.com/boyter/scc/">https://github.com/boyter/scc/</a><br>
 <a href="https://boyter.org/posts/sloc-cloc-code/">https://boyter.org/posts/sloc-cloc-code/</a><br>
@@ -674,7 +675,7 @@ I will to optimize it at the second half of this post.</p>
 <li>
 <a href="#walk-directory">Walk directory</a></li>
 <li>
-<a href="#read-and-count">Read and Count</a></li>
+<a href="#read-and-count">Read and count</a></li>
 <li>
 <a href="#output-style">Output style</a></li>
 </ul>

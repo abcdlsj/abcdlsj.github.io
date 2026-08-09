@@ -14,7 +14,7 @@ I love many things in the world, especially **animals**, **games**, **reading**,
 
 ## About Me
 
-I like to do a lot of `small` projects and am interested in new technologies.
+I like building small projects and am curious about new technologies.
 
 Currently, I work at [bilibili](https://www.bilibili.com/) as a backend developer.
 
@@ -25,4 +25,4 @@ If you want to contact me, feel free to reach out:
 - Email: <github@songjian.li> or <lisongjianshuai@gmail.com>
 - GitHub: [abcdlsj](https://github.com/abcdlsj)
 
-*This site is powered by a Go [generator](https://github.com/abcdlsj/abcdlsj.github.io) written by myself.*
+*This site is powered by a `Go` [generator](https://github.com/abcdlsj/abcdlsj.github.io) that I wrote myself.*

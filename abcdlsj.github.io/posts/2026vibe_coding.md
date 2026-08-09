@@ -1,67 +1,50 @@
 ---
-title: "最近部分 Vibe Coding 项目"
+title: "近日部分 Vibe Coding 项目"
 date: 2026-02-01T22:00:49+08:00
 tags:
   - Summary
 published: true
 toc: true
-summary: "日常 Vibe Coding 项目（部分）"
+summary: "Vibe Coding 太好玩辣！"
 languages:
     - cn
 ---
 
-## Emby CLI 客户端
+## `Emby TUI` 客户端
 
-> 地址 https://github.com/abcdlsj/ember
+> 代码地址 https://github.com/abcdlsj/ember
 
-因为现在懒得自己去找各种资源然后下载，所以都是直接订阅的 Emby 资源库，苦于 MAC 端不少 Emby 客户端都收费，于是 Vibe Coding 了一个。
-
-播放使用 MPV，支持整季连播和字幕。
+`Mac` 端目前好用的 `Emby` 客户端都是收费，加上日常使用终端想要试试中端的 `Emby`，于是 `Vibe` 了一个 `TUI` 版本的。播放使用 `MPV`，支持整季连播和字幕。
 
 截图如下：
 <img alt="ember-2026-02-01-home" src="/static/img/ember-2026-02-01-home.png" width="100%" style="border: 1px solid gray;">
 
 <img alt="ember-2026-02-01-ping-server" src="/static/img/ember-2026-02-01-ping-server.png" width="100%" style="border: 1px solid gray;">
 
-各种 Features：
-1. 支持海报展示，用的 Go Chafa 库（没用原生 Kitty 协议，我不喜欢 Kitty 终端）。
+各种 `Features`：
+1. 支持海报展示，用的 `Go Chafa` 库（没用原生 `Kitty` 协议，我不喜欢 `Kitty` 终端）。
 2. 支持多服务器管理以及服务器组测速，以及同前缀服务器用相同配置用以负载均衡。
 
 主要使用 `Claude Opus4.5` 做初始化项目，用 `GLM 4.7` 以及 `MiniMax M2.1` 免费模型进行各种修正和调优。
 
-## Rssy 前端重构
+## `Gnar` 重构
 
-Rssy 是我一个之前写的 RSS 订阅阅读站点，域名 https://rssy.songjian.li。
+> Gnar 是一个内网穿透的 CLI，类似 `Ngork/Frp`，可以看这篇这篇博文 [A tunnel proxy like Frp/Ngrok](https://blog.songjian.li/posts/gnar-build-a-proxy.html)
 
-之前前端页面一直比较朴素，用的 `Water CSS`，我最近使用 `Kimi K2.5` 模型修改了下前端页面。
+<img alt="ggnar-2026-08-09" src="/static/img/gnar-2026-08-09.png" width="100%" style="border: 1px solid gray;">
 
-现在长这样：
+`Gnar` 之前迭代过很多功能，但是从易用性上还是不够「直接」，好的 `UX` 设计应该是讲用户路径化为最简。于是最近用 `Rust` 重重构了一波，最终使用只需要 `$ gnar` 一个命令就行，会自动检测当前本地的服务。
 
-首页
-<img alt="rssy-2026-02-01-home" src="/static/img/rssy-2026-02-01-home.png" width="100%" style="border: 1px solid gray;">
+用的 `GPT-5.6 Sol` 全程开发。
 
-Stream 各种信息流页面
-
-<img alt="rssy-2026-02-01-stream" src="/static/img/rssy-2026-02-01-stream.png" width="100%" style="border: 1px solid gray;">
-
-
-使用 `Kimi K2.5` 模型进行前端重构。
-
-## Gnar CLI 的优化
-
-<img alt="gnar-2026-02-01-home" src="/static/img/gnar-2026-02-01-home.png" width="100%" style="border: 1px solid gray;">
-
-也使用 `Kimi K2.5` 模型进行优化，优化了下 CLI 的展示，但是涉及「内网穿透」功能的设计，`K2.5` 就不够了，`Claude Opus4.5` 才能做得相对比较好。
-
-## Gump 一个 Agent Kanban 任务管理 TUI
+## Gump 一个 `Agent Kanban` 任务管理 `TUI`
 
 > 地址 https://github.com/abcdlsj/gump
 
 <img alt="gump-2026-02-01" src="/static/img/gump-2026-02-01.png" width="100%" style="border: 1px solid gray;">
 
-1. 使用 TMUX 进行任务管理，一个 Agent 一个 TMUX Session。
-2. Git Worktree 管理分支。
-
+1. 使用 `Tmux` 进行任务管理，一个 Agent 一个 `Tmux Session`。
+2. `Git Worktree` 管理分支。
 
 基本使用 `Claude Opus4.5` 实现，免费模型能力有限改动比较少。
 
@@ -71,6 +54,8 @@ Stream 各种信息流页面
 
 ## 总结
 
-`Kimi K2.5` 目前前端审美在第一梯队，Opencode 配合 Agent-Browser 可以做到很好的进行前端开发。
+`Kimi K2.5` 目前前端审美在第一梯队，`OpenCode` 配合 `Agent-Browser` 可以做到很好的进行前端开发。
 
 项目初始化搭建最好使用 `Claude Opus4.5`，后续调优可以换其它第一梯队的模型，例如 `Kimi K2.5`、`MiniMax M2.1`、`GLM 4.7` 等。
+
+> 26 年 8 月初更新：`GPT-5.6 Sol` 很强，`DeepSeek-V4-Flash-0731` 更让人惊喜。

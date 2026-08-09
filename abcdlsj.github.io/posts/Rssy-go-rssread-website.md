@@ -8,20 +8,20 @@ tags:
   - Template
 published: true
 toc: false
-summary: "Sharing how I built a lightweight RSS reader from scratch with SQLite/PostgreSQL dual database support, GitHub OAuth integration, lower resource usage, and cleaner features."
+summary: "Sharing how I built a lightweight, low-resource RSS reader from scratch with a cleaner feature set."
 languages:
     - en
 ---
 
 For a long time, I used [Miniflux](https://miniflux.app/) to read RSS feeds. However, I encountered several issues with it:
 
-1. Miniflux only supports `PostgreSQL`, whereas I typically prefer using `SQLite3` due to its simplicity for self-hosting. Unfortunately, PostgreSQL can be resource-intensive, especially my server only has 2 cores and 4GB of RAM.
+1. Miniflux only supports `PostgreSQL`, whereas I typically prefer using `SQLite3` due to its simplicity for self-hosting. Unfortunately, `PostgreSQL` can be resource-intensive, especially since my server only has 2 cores and 4GB of RAM.
    
 2. I found that Miniflux offers many features that I don't necessarily need. I mainly need to pull and display RSS feeds on a regular basis and manage subscriptions.
 
-After a challenging night of migrating my local PostgreSQL data to a free PostgreSQL service like `Supabase`, I encountered numerous data errors. This experience prompted me to develop my own RSS reader in `Go`.
+After a painful night migrating my local `PostgreSQL` data to a free service like `Supabase` — and hitting one data error after another — I decided to write my own RSS reader in `Go`.
 
-The result is [rssy](https://github.com/abcdlsj/rssy), a project built with support for `GitHub OAuth`, `Water CSS`, `Go Template`, `SQLite3`, and `PostgreSQL`.
+The result is [rssy](https://github.com/abcdlsj/rssy), a project built with support for `GitHub OAuth`, `water.css`, `Go` templates, `SQLite3`, and `PostgreSQL`.
 
 Here is a screenshot of the project:
 ![rss simple screenshot](/static/img/rssy-simple-shot.png)

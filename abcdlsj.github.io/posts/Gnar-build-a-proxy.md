@@ -8,7 +8,7 @@ tags:
   - Traffic Limit
   - IO Package
 published: true
-summary: "动手实现一个类 Frp/Ngrok 的内网穿透工具：从 TCP 转发到多协议支持，记录使用 Go 语言构建代理的技术细节和架构思考。"
+summary: "从 0 实现一个类 Frp/Ngrok 的内网穿透工具：从 TCP 转发到多协议支持"
 languages:
     - cn
 changelog: |

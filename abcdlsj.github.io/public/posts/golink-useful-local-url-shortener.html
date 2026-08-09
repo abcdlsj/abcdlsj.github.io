@@ -20,7 +20,9 @@
 <meta property="og:type" content="article">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="icon" href="/static/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
 <script>
   // Theme initialization - runs before page render to prevent flash
@@ -188,7 +190,7 @@ Get the Answer: <a href="https://en.wikipedia.org/wiki/URL_shortening">URL Short
 <p>Short domains can be quite expensive.</p>
 <p>An alternative is to use a <code>DNS server</code> to map a short domain to a long domain.</p>
 <p>However, in most cases, this is not necessary for me.</p>
-<p>I just want to create a url shortener in my local network, so I am interested in using a local <code>url shortener</code>.</p>
+<p>I just want a shortener for my local network, which is exactly what a local <code>url shortener</code> does.</p>
 <h2 id="etchosts">/etc/hosts</h2>
 <blockquote>
 <p><code>/etc/hosts</code> is a file in Linux that can link a domain to an IP address.</p>
@@ -199,13 +201,13 @@ Get the Answer: <a href="https://en.wikipedia.org/wiki/URL_shortening">URL Short
 <p>When I enter <code>go</code> in my browser, it sends a request to <code>127.0.0.1:80</code> (you cannot specify a port in <code>/etc/hosts</code> because it works like a <code>DNS server</code> and can only link a domain to an IP address).</p>
 <h2 id="code">Code</h2>
 <p>Writing a url shortener is quite simple: just create an HTTP server that maps a domain to a URL.</p>
-<p>You can write one yourself or take a look at my <a href="https://github.com/abcdlsj/share/tree/master/go/golink">abcdlsj/golink</a> implementation (Use <code>SQLite3</code>, With <code>import/export</code> features).</p>
+<p>You can write one yourself or take a look at my <a href="https://github.com/abcdlsj/share/tree/master/go/golink">abcdlsj/golink</a> implementation (it uses <code>SQLite3</code> and supports <code>import</code>/<code>export</code> features).</p>
 <h2 id="run-it">Run it</h2>
 <p>Run it as a daemon:</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nohup golink <span class="p">&amp;</span>
 </span></span></code></pre><h2 id="view">View</h2>
 <img alt="golink screenshot" src="/static/img/golink-screenshot.png" width="100%" style="border: 1px solid gray;">
-<p>You also can add a <code>Chrome Site-search</code> to make it easier to use.</p>
+<p>You can also add a <code>Chrome</code> site-search shortcut to make it easier to use.</p>
 <img alt="Chrome Site-search setting" src="/static/img/golink-chrome-site-search.png" width="100%" style="border: 1px solid gray;">
 <h2 id="end">End</h2>
 <p>This post doesn't include any code samples, as I believe that you can write it yourself for the purpose of learning or practicing a programming language.</p>

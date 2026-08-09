@@ -12,7 +12,7 @@ languages:
 ---
 
 ## Background
-Many websites use various CSS styles, and some of them can be challenging to read. One way to improve readability is to use a browser extension. Alternatively, you can create your own website [WIKI - readability](https://www.wikiwand.com/en/Readability) tool. There are numerous language options and implementations available for this purpose. In this case, we will use `Go` to implement it. You will see how simple it is.
+Many websites use various CSS styles, and some of them are hard to read. One way to improve readability is to use a browser extension; another is to build your own readability tool as a website. There are plenty of languages and implementations to choose from — in this post I'll use `Go`. You'll see how simple it is.
 
 You can find all the code on my GitHub repository [here](https://github.com/abcdlsj/share/tree/master/go/readability)
 
@@ -60,9 +60,9 @@ func main() {
 	extract(inputurl)
 }
 ```
-It will work as expected.
+It works as expected.
 
-However, there are instances where a terminal environment may not be available. In such cases, you can run it as a web server using Go's `http` package and `template` library to implement it. (In fact, I used `ChatGPT` to provide this demo. Cost 5 minute..)
+However, a terminal isn't always available. In that case, you can run it as a web server using Go's `http` package and the `html/template` library. (Full disclosure: `ChatGPT` wrote this demo for me — it only took about five minutes.)
 
 
 **index.html**
@@ -146,9 +146,9 @@ func render(w http.ResponseWriter, data Article) {
 Implementing it as a web server is also straightforward.
 
 ## Pack
-Once we have the web server set up, it is generally a best practice to package it into a Docker image.
+Once the web server works, it's a good idea to package it into a `Docker` image.
 
-So you may need to pack the files `index.html` and `article.html` into a Docker image. In Go, you can use `embed` to embed these files into the binary. 
+You'll also need to ship `index.html` and `article.html`. In `Go`, `embed` lets you bundle them into the binary:
 ```go
 var (
 	//go:embed *.html
@@ -168,7 +168,7 @@ var (
 ## Docker
 
 ### Dockerfile
-`Go` is a cross-platform programming language, you can copy the binary files into a base image to execute it. Here's an example of a Dockerfile:
+`Go` binaries are cross-platform, so you can copy the compiled binary into a minimal base image. Here's an example `Dockerfile`:
 
 Sample:
 ```docker
@@ -178,9 +178,15 @@ WORKDIR /app
 COPY . .
 CMD ["/app/readability"]
 ```
-This Dockerfile copies the readability library into the image. Therefore, you need to compile it first using the command `CGO_ENABLED=0 GOOS=linux go build -o readability`.
+Build the binary first, then copy it into the image:
 
-I have also written a simple tool called nestg for packing binary files into a Docker image. You can find it at [share/nestg](https://github.com/abcdlsj/share/tree/master/go/nestg)
+```shell
+CGO_ENABLED=0 GOOS=linux go build -o readability
+```
+
+(The example `Dockerfile` above assumes the binary is already compiled.)
+
+I have also written a simple tool called `nestg` for packing binary files into a Docker image. You can find it at [share/nestg](https://github.com/abcdlsj/share/tree/master/go/nestg)
 
 ```text
 Usage of nestg:
@@ -204,12 +210,12 @@ After building the Docker image, you can run it using the following command:
 
 Now you can access the website at `http://localhost:<HOST_PORT>`.
 
-That's all of things you can done within 10 minute. Then, I will optimize it!
+That's everything you can build within ten minutes. Now let's optimize it!
 
 ## Optimize
-### `Protect` double slashes
+### Handling double slashes
 
-You can enhance the functionality by utilizing URL parameters, making it more useful. I attempted to add an HTTP URL to the path, but encountered a problem with the parser.
+URL parameters make the tool more useful. I tried putting the target `HTTP` URL directly in the path, but hit a parsing problem.
 
 For example, when you make a request to `https://xxx.com/read/https://nautil.us/mirror-image-life-412729/`, the appended path becomes `https:/nautil.us/mirror-image-life-412729` due to the modification of `//` to `/`. This behavior is a result of the following explanation from the documentation:
 
@@ -222,16 +228,16 @@ I came across some useful links that discuss this issue:
 - [Stack Overflow - How do I get Go's net/http package to stop removing double slashes?](https://stackoverflow.com/questions/51908277/how-do-i-get-gos-net-http-package-to-stop-removing-double-slashes)
 - [Github issue - net/http: ServeMux forcibly cleans double forward slash in URLs even when behaving as a gateway](https://github.com/golang/go/issues/42244)
 
-The suggested solution is to use `https://github.com/gorilla/mux` or implement your own `ServeMux`. By using gorilla/mux, you simply need to call `SkipClean(true)`. After doing this, the double slashes won't be removed.
+The suggested solutions are `gorilla/mux` or a custom `ServeMux`. With `gorilla/mux`, you just call `SkipClean(true)` and the double slashes are preserved.
 
 ### `http.Redirect` clean double slashes
 However, I encountered another issue when using redirects after submitting a link form. The redirect operation also removes the double slashes from the URL path, and unfortunately, `gorilla/mux` does not support handling this situation.
 
-Because `http.Redirect` call `url = path.Clean(url)` to clean the URL, it also will `clean` double slashes.
+`http.Redirect` internally calls `path.Clean(url)`, which also collapses double slashes.
 
-> Can see code [/src/net/http/server.go](https://github.com/golang/go/blob/8c92897e15d15fbc664cd5a05132ce800cf4017f/src/net/http/server.go#L2247C25-L2247C25)
+> See the source: [server.go](https://github.com/golang/go/blob/8c92897e15d15fbc664cd5a05132ce800cf4017f/src/net/http/server.go#L2247C25-L2247C25)
 
-Luckily, there is a workaround available. You can escape the `/` characters as `%2F` to prevent the removal of double slashes during the redirect process.
+Luckily, there's a workaround: escape the `/` characters as `%2F` so the redirect doesn't collapse them.
 
 You can find this version of the code at [readability - 909fcb5e80fe](https://github.com/abcdlsj/share/tree/909fcb5e80fef9ecfaf68259ae98fb6694d3e984/go/readability). Please note that there are some additional adjustments made as well.
 
@@ -243,7 +249,7 @@ After adding some simple `CSS` to the `HTML template`, you will see the result:
 <img alt="article page" src="/static/img/readability_screenshot.png" width="100%"  style="border: 1px solid gray;">
 
 > 04/14/2024 Update: 
-> Add recently viewed using `Redis` `list` to store, and `zset` store view count [commit](https://github.com/abcdlsj/share/commit/08837c71ff065791a400b976fa23ca2fd338d5bc).
+> Added a recently-viewed list using `Redis` — a `list` for history and a `zset` for view counts. [commit](https://github.com/abcdlsj/share/commit/08837c71ff065791a400b976fa23ca2fd338d5bc).
 
 <img alt="`recently` homepage" src="/static/img/readability_screenshot3.png" width="100%"  style="border: 1px solid gray;">
 

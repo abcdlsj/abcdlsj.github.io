@@ -20,7 +20,9 @@
 <meta property="og:type" content="article">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<link rel="shortcut icon" href="/static/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="icon" href="/static/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
 <link rel="stylesheet" href="/static/style.css" />
 <script>
   // Theme initialization - runs before page render to prevent flash
@@ -182,7 +184,7 @@
 <blockquote>
 <p>本文所有的代码都在 <a href="https://github.com/abcdlsj/crone">abcdlsj/crone</a></p>
 </blockquote>
-<p>从零实现一个初级 <code>Cron</code> 表达式解析器，只有以下几个字段规则：</p>
+<p>基础的 <code>Cron</code> 表达式解析器，只有以下几个字段规则：</p>
 <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"># ┌───────────── minute (0–59)
 </span></span><span class="line"><span class="cl"># │ ┌───────────── hour (0–23)
 </span></span><span class="line"><span class="cl"># │ │ ┌───────────── day of the month (1–31)

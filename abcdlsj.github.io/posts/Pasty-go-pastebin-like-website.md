@@ -13,23 +13,21 @@ languages:
 ---
 
 ## Background
-I had try to build many of `Go` simple site, Like `Golink`, `GProbe` and so on.
-But it's not secure enough, and very easy to be attacked.
-At these days, I want to build a `Pastebin` website and its need with powerful **Security**.
+I've built a few simple `Go` sites before, like `Golink` and `GProbe`. They worked, but they weren't secure enough and were easy to attack. Lately I wanted to build a `Pastebin`-style website, and this time it needed strong **security**.
 
-## Let's building
+## Let's build it
 
-Its all old way like I posted before. 
-- `Go` serve HTTP endpoints.
-- template to render HTML.
-- SQLite3 to store and query data.
+It follows the same pattern as my previous posts:
+- `Go` serves the HTTP endpoints.
+- Go templates render the HTML.
+- `SQLite3` stores and queries the data.
 
 ### Endpoint design
-For simply, I just make 2 endpoints for `Pasty`:
-1. `/`: to get index page(`GET`) and create a new paste(`POST`)
-2. `/paste/`: to get paste page(`GET`) and delete it(`DELETE`)
+To keep things simple, I only made two endpoints for `Pasty`:
+1. `/`: get the index page (`GET`) and create a new paste (`POST`)
+2. `/paste/`: get a paste (`GET`) and delete it (`DELETE`)
 
-This is the whole APIs I need to write.
+That's the whole API surface I needed.
 
 Let's start:
 ```go
@@ -62,14 +60,12 @@ http.HandleFunc("/paste/", func(w http.ResponseWriter, r *http.Request) {
 })
 ```
 
-Then we need to write `tmpl` and implement `CRUD`(`getAllPastes`, `getPasteWithID`, `insertPaste`, `deletePaste`)
+Then we need to write the templates and implement the `CRUD` operations (`getAllPastes`, `getPasteWithID`, `insertPaste`, `deletePaste`).
 
 ### ORM
-Actually, I'm a original-thinker, I don't like to use third-party packages.
-But `ORM` will make program easier.
+I'm an original thinker — I don't like depending on third-party packages. But an `ORM` makes this much easier.
 
-I use `SQLite3` and `Gorm` to store and query data.
-`Gorm` is easy to use, it provide a lot of functionality.
+I use `SQLite3` with `Gorm` for storage. `Gorm` is easy to use and provides a lot of functionality out of the box.
 
 ```go
 type Paste struct {
@@ -101,10 +97,9 @@ func deletePaste(db *gorm.DB, uid string) {
 }
 ```
 
-There are all we need!
+That's everything we need!
 
-Oh.. maybe we need to init a database?
-Right, It's also very easy to init databse, `Gorm` will help you.
+Oh — maybe we should initialize the database? Right, that's easy too; `Gorm` handles it.
 ```go
 func initDB(filepath string) *gorm.DB {
 	db, err := gorm.Open(sqlite.Open(filepath), &gorm.Config{
@@ -122,11 +117,10 @@ func initDB(filepath string) *gorm.DB {
 	return db
 }
 ```
-We just need to open the database and migrate the table. If table not exist, it will create it. and if exist, it will do nothing.
+We just open the database and run the migration. `AutoMigrate` creates the table if it doesn't exist and leaves it alone if it does.
 
 ### Templates
-I thought `Template` is very powerful when build simple website.
-We just need to create 2 pages: `index.html` and `paste.html`.
+I think Go's `html/template` is really powerful for building simple websites. We just need two pages: `index.html` and `paste.html`.
 
 ```html
 <!DOCTYPE html>
@@ -178,11 +172,10 @@ We just need to create 2 pages: `index.html` and `paste.html`.
 </html>
 ```
 
-`CSS` is the hardest part I thoguht when I write any website. So I use `water.css` for styling.
-> `Water.css` is a drop-in collection of CSS styles to make simple websites like this just a little bit nicer.<https://watercss.kognise.dev/>
+`CSS` has always been the hardest part for me, so I used `water.css` for styling.
+> `Water.css` is a drop-in collection of CSS styles that makes simple websites like this a little nicer — <https://watercss.kognise.dev/>
 
-You just need to import `water.css` to `html` file, and you will got a pretty website with auto dark mode.
-Add this to `head` element.
+Just import `water.css` in the `HTML` file and you get a decent-looking site with automatic dark mode. Add this to the `head` element:
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 ```
@@ -192,10 +185,9 @@ Add this to `head` element.
 <img alt="pasty screenshot1" src="/static/img/pasty-1.png" width="100%" style="border: 1px solid gray;">
 
 Looks pretty good!
-> It's use `gg font` as `font-family`.
+> It uses `gg font` as its `font-family`.
 
-You also can add a `favicon` and add a copy button at `paste` page.
-Using `Javascript` to `copy` the content.
+You can also add a `favicon` and a copy button on the paste page, using `JavaScript` to copy the content.
 ```html
 <!DOCTYPE html>
 <html>
@@ -253,31 +245,30 @@ Using `Javascript` to `copy` the content.
   </body>
 </html>
 ```
-This will have a copy button at `paste` content right top.
+This puts a copy button at the top-right of the paste content.
 <img alt="pasty with copy button" src="/static/img/pasty-3.png" width="100%" style="border: 1px solid gray;">
-It's looks also pretty good!
+It looks pretty good too!
 
-At the last step, we will to add `Turnstile`.
+As a final step, let's add `Turnstile`.
 
 ## Turnstile
 > Turnstile is Cloudflare’s smart CAPTCHA alternative. It can be embedded into any website without sending traffic through Cloudflare and works without showing visitors a CAPTCHA. [Cloudflare](https://developers.cloudflare.com/turnstile/get-started)
 
-For my wrote tools, it's always have not security views. We can use `CAPTCHA` to protect our forms.
+My previous tools never had a real security layer. A `CAPTCHA` is a good way to protect forms.
 
 ### HTML script
-Add `Turnstile` also very easy, at first, you need to add `Turnstile` script to your website.
+Adding `Turnstile` is also very easy. First, add its script to your website:
 ```html
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 ```
 
-Then you can add `cf-turnstile` to form.
+Then you can add `cf-turnstile` to the form:
 
 ```html
 <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY"></div>
 ```
 
-I just add `Turnstile` to `index.html` page `submit` form.
-This is the result
+I added `Turnstile` to the submit form on `index.html`. This is the result:
 ```html
 <!DOCTYPE html>
 <html>
@@ -307,18 +298,18 @@ This is the result
 </html>
 ```
 
-You also need do something configuration for `Turnstile`. 
-- Add site
-- Copy site key, secret key
-You can find this at cloudflare's [documentation](https://developers.cloudflare.com/turnstile/get-started).
+You also need to configure `Turnstile` in the Cloudflare dashboard:
+- Add a site
+- Copy the site key and secret key
+
+You can find the details in Cloudflare's [documentation](https://developers.cloudflare.com/turnstile/get-started).
 
 ### Server handler
 
-The new form which we add `Turnstile` will send `cf-turnstile-response`, you can use this to validate the user.
-This is the sample code.
+The form now sends a `cf-turnstile-response` field, which you can use to validate the user. Here's the sample code:
 
-> The validation request param `CF-Connecting-IP` is optional. if you are using Cloudflare DNS, you can add this param.
-> `CF-Connecting-IP provides the client IP address connecting to Cloudflare to the origin web server. This header will only be sent on the traffic from Cloudflare’s edge to your origin web server.`
+> The `CF-Connecting-IP` request parameter is optional — include it if you're behind Cloudflare DNS.
+> `CF-Connecting-IP` provides the client IP address connecting to Cloudflare to the origin web server. This header is only sent for traffic from Cloudflare's edge to your origin web server.
 > [Cloudflare - HTTP request headers](https://developers.cloudflare.com/fundamentals/reference/http-request-headers/)
 
 ```go
@@ -354,36 +345,36 @@ func cfValidate(r *http.Request) bool {
 }
 ```
 
-The result will contain `success`, can judge it by self.
+The response contains a `success` field that you can check yourself.
 
 ### Look the site
 After add `Turnstile`, there will have a `Turnstile` validation at the `submit` button bottom.
 
 <img alt="pasty with turnstile" src="/static/img/pasty-2.png" width="100%" style="border: 1px solid gray;">
 
-Ok, now we have protect our `form` with `Turnstile`.
+OK — our form is now protected by `Turnstile`.
 
 ## GitHub OAuth
 
-After add `Turnstile`, I thought the site also too `open`, anyone can view it.
-So we can add some `Authentication` feature, example to use `OAuth`.
+After adding `Turnstile`, the site still felt too open — anyone could view it. So let's add authentication with `OAuth`.
 
-OAuth had many `client`, `Google`, `GitHub`, etc. I use `GitHub` there.
+`OAuth` has many providers — `Google`, `GitHub`, and so on. I used `GitHub`.
 
-These is the `GitHub OAuth` flow
-1. Request `GitHub` Identity API
-2. User accept request, redirect to `Callback` URL with `Code`.
-3. At `Callback` logic, request `GitHub` Access Token API with `Code`.
-4. Use `Access Token` to request `GitHub` User API.
+Here's the `GitHub OAuth` flow:
+1. Request GitHub's Identity API.
+2. The user accepts and gets redirected to the `Callback` URL with a `Code`.
+3. In the `Callback` handler, exchange the `Code` for an `Access Token` via GitHub's API.
+4. Use the `Access Token` to fetch the GitHub user profile.
 
-You first need to get `Client ID` and `Client Secret`. you can create a application at `https://github.com/settings/applications/new`
+First, create an OAuth app at `https://github.com/settings/applications/new` to get a `Client ID` and `Client Secret`.
 
 ### API
 
-Base on the `OAuth` flow, let's design the APIs.
-At first, we don't want user goto login flow at every time. So we need to store the `Login Status`. at where? at the `Cookie`.
-So we will store `Login Status` in `Cookie`. then once the user view we will check the `Login Status`. if it's not `Login`, we will redirect he goto login flow.
-So we have a API to trigger login flow, we also need a `Callback` API to get `Access Token` and `User`.
+Based on that flow, let's design the APIs. First, we don't want users to go through the login flow on every visit, so we need to persist the login state — where? In a `Cookie`.
+
+We store the login state in a `Cookie` and check it on every request. If the user isn't logged in, redirect them to the login flow.
+
+We need one API to trigger the login flow and a `Callback` API that returns the `Access Token` and user info.
 
 ```go
 var GHRedirectURL =  fmt.Sprintf("https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s", GHClientID, fmt.Sprintf("%s/login/callback", SiteURL))
@@ -407,13 +398,11 @@ http.HandleFunc("/login/callback", func(w http.ResponseWriter, r *http.Request) 
 ```
 
 ### Refresh logic
-`GitHub OAuth` can use `refresh token` to refresh `Access Token`, so we can use `refresh token` to get new `Access Token` when `Access Token` expired.
-All these information will be stored in `Cookie`.
+`GitHub OAuth` supports refresh tokens, so when the `Access Token` expires we can request a new one. All of this is stored in the `Cookie`.
 
-> Cookie value should be encrypted, need to implement encryption and decryption.
+> The cookie value should be encrypted, so I implemented encryption and decryption.
 
-This is my all implementation
-`Session` struct.
+Here's my implementation — the `Session` struct:
 ```go
 type Session struct {
 	AK     string `json:"ak"`
@@ -423,7 +412,7 @@ type Session struct {
 ```
 
 
-Use `Code` or `Refresh Token` to get `Access Token`, `Refresh Token`, `Expires In`.
+This function exchanges a `Code` or `Refresh Token` for a fresh `Access Token`, `Refresh Token`, and `Expires In`:
 ```go
 func getGithubAccessToken(code, rk string) (string, string, int) {
 	params := map[string]string{"client_id": GHClientID, "client_secret": GHSecret}
@@ -471,8 +460,7 @@ func getGithubAccessToken(code, rk string) (string, string, int) {
 }
 ```
 
-`checkRefreshGHStatus` will check `Login Status`, if there not have `Session`, return `false`, goto login flow.
-if the `Access Token` expired, will use `Refresh Token` to get new `Access Token`.
+`checkRefreshGHStatus` checks the login state: if there's no `Session`, it returns `false` and the user is sent to the login flow. If the `Access Token` has expired, it uses the `Refresh Token` to get a new one.
 ```go
 func checkRefreshGHStatus(w http.ResponseWriter, r *http.Request) bool {
 	session := getCookieSession(r)
@@ -506,7 +494,7 @@ func checkRefreshGHStatus(w http.ResponseWriter, r *http.Request) bool {
 
 ### Encrypt cookie value
 
-`Cookie` value should be encrypted, need to implement encryption and decryption. can use `aes` to encrypt and `base64` to encode.
+The `Cookie` value should be encrypted. I used `AES` for encryption and `base64` for encoding:
 
 ```go
 func encryptData(data []byte) (string, error) {
@@ -553,14 +541,14 @@ func decryptStr(str string) ([]byte, error) {
 ```
 
 ### Conclusion
-> When a user concept exists,it may be necessary to add `User` functionality. Add the `User` field to the `Paste` structure and form and perform a `CRUD` with the logged in user.((I left this part unimplemented to be lazy :p)
+> With users in place, the natural next step is to add `User` functionality: attach the logged-in user to each `Paste` and scope the `CRUD` operations accordingly. (I left this part unimplemented because I was lazy :p)
 
-After setting GitHub application, you can see this page when first view index page.
+After setting up the GitHub app, this is what the index page looks like on first visit:
 
 <img alt="pasty github oauth page" src="/static/img/pasty-4.png" width="100%" style="border: 1px solid gray;">
 
 ## Done
 
-The all work is done, you can find the code at [github.com/abcdlsj/pasty](https://github.com/abcdlsj/pasty).
+That's it! The full source is at [github.com/abcdlsj/pasty](https://github.com/abcdlsj/pasty).
 
 Thanks for reading.
