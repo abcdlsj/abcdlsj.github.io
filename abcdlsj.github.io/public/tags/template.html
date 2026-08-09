@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+<meta charset="UTF-8" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
+
+<title>L'iving and Discovering</title>
+
+<meta name="description" content="Exploring the intersections of life/programming/technology." />
+
+<meta name="keywords" content="blog,programming,technology,life,travel,reading,movies,games,animals,hardware,software,ai,career,personal,">
+<meta name="author" content="abcdlsj">
+<meta property="og:title" content="L'iving and Discovering">
+<meta property="og:description" content="Exploring the intersections of life/programming/technology.">
+<meta property="og:url" content="https://abcdlsj.github.io">
+<meta property="og:type" content="website">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="stylesheet" href="/static/style.css" />
+<script defer src="/static/script/search.js"></script>
+<script defer src="https://us.umami.is/script.js" data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"></script>
+
+  </head>
+  <body>
+    <div class="app">
+      
+<header class="site-header">
+  <div class="site-header__inner">
+    <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <a href="/" class="site-header__title">L'iving and Discovering</a>
+      <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
+    </div>
+    <nav class="site-header__nav">
+      <ul class="nav-links">
+        
+        
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/posts" class="nav-link">Posts</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/about" class="nav-link">About</a>
+        </li>
+        
+        
+        
+        
+        
+        <li>
+          <a href="/rss.xml" class="nav-link">Feed</a>
+        </li>
+        
+        
+      </ul>
+      <div class="site-search" id="site-search">
+        <button class="site-search__toggle" id="search-toggle" type="button" aria-label="Search posts" aria-controls="site-search-panel" aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-4-4"></path>
+          </svg>
+        </button>
+        <div class="site-search__panel" id="site-search-panel">
+          <label class="sr-only" for="search-input">Search posts</label>
+          <div class="site-search__field">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-4-4"></path>
+            </svg>
+            <input id="search-input" type="search" placeholder="Search posts..." autocomplete="off" spellcheck="false" />
+          </div>
+          <ul id="search-results" aria-label="Search results"></ul>
+          <p class="site-search__hint">Type at least 2 characters to search.</p>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<script>
+  (function initHeaderScrollBehavior() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+
+    let lastY = window.scrollY || 0;
+    const threshold = 6;
+
+    function handleScroll() {
+      const y = window.scrollY || 0;
+      if (y < 56) {
+        header.classList.remove('site-header--hidden');
+        lastY = y;
+        return;
+      }
+
+      if (document.body.classList.contains('sidepanel-open') ||
+          header.querySelector('.site-search--open')) {
+        header.classList.remove('site-header--hidden');
+        lastY = y;
+        return;
+      }
+
+      if (y > lastY + threshold) {
+        header.classList.add('site-header--hidden');
+      } else if (y < lastY - threshold) {
+        header.classList.remove('site-header--hidden');
+      }
+      lastY = y;
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+  })();
+</script>
+
+      <main class="container">
+        <section class="home-section">
+          <div class="section-header">
+            <h2 class="section-title">#Template · 5 posts</h2>
+          </div>
+          <div class="post-list">
+            
+            <article class="post-item ">
+              <div class="post-item__main">
+                <a href="/posts/rssy-go-rssread-website.html" class="post-item__title">Rssy - A miniflux rss reader alternative</a>
+                
+                <p class="post-item__excerpt">Sharing how I built a lightweight, low-resource RSS reader from scratch with a cleaner feature set.</p>
+                
+                <div class="post-item__meta">
+                  <time class="post-item__date" datetime="2024-07-01T22:47:37+08:00">2024-07-01</time>
+                  <span class="post-item__lang">EN</span>
+                </div>
+              </div>
+              
+              <a class="post-item__thumb" href="/posts/rssy-go-rssread-website.html" aria-label="Rssy - A miniflux rss reader alternative">
+                <img src="/static/img/rssy-simple-shot.png" alt="Rssy - A miniflux rss reader alternative" loading="lazy" />
+              </a>
+              
+            </article>
+            
+            <article class="post-item post-item--no-cover">
+              <div class="post-item__main">
+                <a href="/posts/go-template-tailwindcss.html" class="post-item__title">Go Template + Tailwind CSS = ❤️</a>
+                
+                <p class="post-item__excerpt">分享如何在 Go Template 项目中集成 Tailwind CSS（虽然实际很少用）</p>
+                
+                <div class="post-item__meta">
+                  <time class="post-item__date" datetime="2024-02-24T10:47:37+08:00">2024-02-24</time>
+                  <span class="post-item__lang">CN</span>
+                </div>
+              </div>
+              
+            </article>
+            
+            <article class="post-item ">
+              <div class="post-item__main">
+                <a href="/posts/pasty-go-pastebin-like-website.html" class="post-item__title">Pasty - A pastebin website with Go+Turnstile+OAuth</a>
+                
+                <p class="post-item__excerpt">Building a Pastebin website with GitHub OAuth and Cloudflare Turnstile from scratch.</p>
+                
+                <div class="post-item__meta">
+                  <time class="post-item__date" datetime="2023-12-08T22:47:37+08:00">2023-12-08</time>
+                  <span class="post-item__lang">EN</span>
+                </div>
+              </div>
+              
+              <a class="post-item__thumb" href="/posts/pasty-go-pastebin-like-website.html" aria-label="Pasty - A pastebin website with Go+Turnstile+OAuth">
+                <img src="/static/img/pasty-1.png" alt="Pasty - A pastebin website with Go+Turnstile+OAuth" loading="lazy" />
+              </a>
+              
+            </article>
+            
+            <article class="post-item ">
+              <div class="post-item__main">
+                <a href="/posts/write-a-readability-tool.html" class="post-item__title">Build a website for readability in 10 minutes</a>
+                
+                <p class="post-item__excerpt">Build a web readability tool in 10 minutes.</p>
+                
+                <div class="post-item__meta">
+                  <time class="post-item__date" datetime="2023-10-22T11:51:37+08:00">2023-10-22</time>
+                  <span class="post-item__lang">EN</span>
+                </div>
+              </div>
+              
+              <a class="post-item__thumb" href="/posts/write-a-readability-tool.html" aria-label="Build a website for readability in 10 minutes">
+                <img src="/static/img/readability_screenshot2.png" alt="Build a website for readability in 10 minutes" loading="lazy" />
+              </a>
+              
+            </article>
+            
+            <article class="post-item ">
+              <div class="post-item__main">
+                <a href="/posts/golink-useful-local-url-shortener.html" class="post-item__title">Golink - Useful local url shortener</a>
+                
+                <p class="post-item__excerpt">Create your personal local URL shortening service.</p>
+                
+                <div class="post-item__meta">
+                  <time class="post-item__date" datetime="2023-04-16T22:47:37+08:00">2023-04-16</time>
+                  <span class="post-item__lang">EN</span>
+                </div>
+              </div>
+              
+              <a class="post-item__thumb" href="/posts/golink-useful-local-url-shortener.html" aria-label="Golink - Useful local url shortener">
+                <img src="/static/img/golink-screenshot.png" alt="Golink - Useful local url shortener" loading="lazy" />
+              </a>
+              
+            </article>
+            
+          </div>
+        </section>
+      </main>
+      
+<footer class="footer">
+  <div class="footer__inner">
+    <p>© 2024 <a href="https://github.com/abcdlsj">abcdlsj</a></p>
+    <p><a href="https://github.com/abcdlsj/abcdlsj.github.io">Source</a></p>
+  </div>
+</footer>
+
+    </div>
+
+    <button class="back-to-top" type="button" aria-label="Back to top" onclick="scrollToTop()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      const backToTop = document.querySelector(".back-to-top");
+      const toggleButton = () => {
+        if (!backToTop) return;
+        backToTop.classList.toggle("back-to-top--visible", window.scrollY > 400);
+      };
+      window.addEventListener("scroll", toggleButton);
+    </script>
+  </body>
+</html>

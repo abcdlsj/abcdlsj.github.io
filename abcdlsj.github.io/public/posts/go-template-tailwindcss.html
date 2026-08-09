@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+<meta charset="UTF-8" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
+
+<title>Go Template + Tailwind CSS = ❤️</title>
+
+<meta name="description" content="Exploring the intersections of life/programming/technology." />
+
+<meta name="keywords" content="TailwindCSS,Template,">
+<meta name="author" content="abcdlsj">
+<meta property="og:title" content="Go Template + Tailwind CSS = ❤️">
+<meta property="og:description" content="分享如何在 Go Template 项目中集成 Tailwind CSS（虽然实际很少用）">
+<meta property="og:url" content="https://abcdlsj.github.io/posts/go-template-tailwindcss.html">
+<meta property="og:type" content="article">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="stylesheet" href="/static/style.css" />
+<script defer src="/static/script/search.js"></script>
+<script defer src="https://us.umami.is/script.js" data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"></script>
+
+  </head>
+  <body class="post-page">
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
+    <div class="app">
+      
+<header class="site-header">
+  <div class="site-header__inner">
+    <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <a href="/" class="site-header__title">L'iving and Discovering</a>
+      <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
+    </div>
+    <nav class="site-header__nav">
+      <ul class="nav-links">
+        
+        
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/posts" class="nav-link">Posts</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/about" class="nav-link">About</a>
+        </li>
+        
+        
+        
+        
+        
+        <li>
+          <a href="/rss.xml" class="nav-link">Feed</a>
+        </li>
+        
+        
+      </ul>
+      <div class="site-search" id="site-search">
+        <button class="site-search__toggle" id="search-toggle" type="button" aria-label="Search posts" aria-controls="site-search-panel" aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-4-4"></path>
+          </svg>
+        </button>
+        <div class="site-search__panel" id="site-search-panel">
+          <label class="sr-only" for="search-input">Search posts</label>
+          <div class="site-search__field">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-4-4"></path>
+            </svg>
+            <input id="search-input" type="search" placeholder="Search posts..." autocomplete="off" spellcheck="false" />
+          </div>
+          <ul id="search-results" aria-label="Search results"></ul>
+          <p class="site-search__hint">Type at least 2 characters to search.</p>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<script>
+  (function initHeaderScrollBehavior() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+
+    let lastY = window.scrollY || 0;
+    const threshold = 6;
+
+    function handleScroll() {
+      const y = window.scrollY || 0;
+      if (y < 56) {
+        header.classList.remove('site-header--hidden');
+        lastY = y;
+        return;
+      }
+
+      if (document.body.classList.contains('sidepanel-open') ||
+          header.querySelector('.site-search--open')) {
+        header.classList.remove('site-header--hidden');
+        lastY = y;
+        return;
+      }
+
+      if (y > lastY + threshold) {
+        header.classList.add('site-header--hidden');
+      } else if (y < lastY - threshold) {
+        header.classList.remove('site-header--hidden');
+      }
+      lastY = y;
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+  })();
+</script>
+
+      <main class="container">
+        <div class="post-layout ">
+          <article class="post-article">
+            <!-- Post Header -->
+            <header class="post-header">
+              
+              <h1 class="post-title">Go Template + Tailwind CSS = ❤️</h1>
+              <div class="post-meta">
+                <time class="post-date" datetime="2024-02-24T10:47:37+08:00">2024-02-24</time>
+                <span class="post-reading-time" id="reading-time"></span>
+                
+                <div class="post-tags">
+                  
+                  <a href="/tags/tailwindcss.html" class="tag">#TailwindCSS</a>
+                  
+                  <a href="/tags/template.html" class="tag">#Template</a>
+                  
+                </div>
+                
+              </div>
+            </header>
+
+            
+
+            <!-- Post Content -->
+            <div class="post-body">
+              <blockquote>
+<p>写很多小项目的时候，我都是使用 <code>Go</code> <code>Template</code> 实现的，也就是渲染 <code>HTML</code> 文件模版，代码比较简单，但是样式的部分却很难满意，因为 <code>CSS</code> 实在是难以理解（^^），而 <a href="https://tailwindcss.com/"><code>Tailwind CSS</code></a> 就是另外一个 <code>CSS</code> 框架，它可以用简单的方式实现样式。<br>
+所以这里介绍下如何将 <code>Go Template</code> 和 <code>Tailwind CSS</code> 结合使用。</p>
+</blockquote>
+<!-- more -->
+<h2 id="before-start">Before Start</h2>
+<blockquote>
+<p><strong><em>NOTE:</em></strong> 确保 <code>Go Template</code> 的部分已经正常实现</p>
+</blockquote>
+<p>假设项目结构</p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">├── main.go
+</span></span><span class="line"><span class="cl">├── package.json
+</span></span><span class="line"><span class="cl">├── static
+</span></span><span class="line"><span class="cl">│   └── css
+</span></span><span class="line"><span class="cl">│       ├── main.css
+</span></span><span class="line"><span class="cl">│       └── tailwind.css
+</span></span><span class="line"><span class="cl">├── tailwind.config.js
+</span></span><span class="line"><span class="cl">└── tmpl
+</span></span><span class="line"><span class="cl">    └── index.html
+</span></span></code></pre><h2 id="config">Config</h2>
+<p>创建 <code>Tailwind CSS</code> 必须的文件</p>
+<ol>
+<li>初始化 <code>package.json</code> 文件</li>
+</ol>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">npm init
+</span></span></code></pre><ol start="2">
+<li>下载 <code>Tailwind CSS</code></li>
+</ol>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">npm install -D tailwindcss
+</span></span></code></pre><ol start="3">
+<li>创建 <code>tailwind.config.js</code> 文件</li>
+</ol>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">content</span><span class="o">:</span> <span class="p">[</span><span class="s2">&#34;./tmpl/*.html&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">theme</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">extend</span><span class="o">:</span> <span class="p">{},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">plugins</span><span class="o">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre><p><code>content</code> 是代表需要「扫描」并「生成」<code>CSS</code> 的 <code>templates</code>，官方 <a href="https://www.tailwindcss.cn/docs/content-configuration"><code>doc</code></a></p>
+<ol start="4">
+<li>添加初始化样式 <code>tailwind.css</code></li>
+</ol>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="p">@</span><span class="k">tailwind</span> <span class="nt">base</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">@</span><span class="k">tailwind</span> <span class="nt">components</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">@</span><span class="k">tailwind</span> <span class="nt">utilities</span><span class="p">;</span>
+</span></span></code></pre><ol start="5">
+<li>生成 <code>Tailwind CSS</code></li>
+</ol>
+<p>这里可以选择通过 <code>npm script</code> 来实现，也可以手动运行 <code>npx tailwindcss -i &lt;source.css&gt; -o &lt;output.css&gt;</code></p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;scripts&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;build&#34;</span><span class="p">:</span> <span class="s2">&#34;npx tailwindcss -i static/css/tailwind.css -o static/css/main.css&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;watch&#34;</span><span class="p">:</span> <span class="s2">&#34;npx tailwindcss -i static/css/tailwind.css -o static/css/main.css --watch&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre><ol start="6">
+<li><code>HTML</code> 添加「生成」的 <code>CSS</code> 文件</li>
+</ol>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;static/css/main.css&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre><blockquote>
+<p><strong><em>NOTE:</em></strong> 确保文件「相对路径」正确</p>
+</blockquote>
+<h2 id="conclusion">Conclusion</h2>
+<p>这篇写得特别简单，本文内容基本上都可以在 <a href="https://xeiaso.net/blog/using-tailwind-go/">Xe - How to use Tailwind CSS in your Go programs</a> 找到（知识的剽窃🐛）。</p>
+<p>更加复杂的例子，可以看 <a href="https://github.com/abcdlsj/memos">memos</a>，一个使用 <code>Tailwind CSS</code> + <code>Go Template</code> 实现的类似 <code>Google Keep</code> 功能的项目。</p>
+
+            </div>
+          </article>
+
+          
+        </div>
+
+        
+        <nav class="post-nav" aria-label="Post navigation">
+          
+          <a class="post-nav__link" href="/posts/rssy-go-rssread-website.html">
+            <span class="post-nav__dir">← Newer</span>
+            <span class="post-nav__title">Rssy - A miniflux rss reader alternative</span>
+          </a>
+          
+          
+          <a class="post-nav__link post-nav__link--next" href="/posts/pasty-go-pastebin-like-website.html">
+            <span class="post-nav__dir">Older →</span>
+            <span class="post-nav__title">Pasty - A pastebin website with Go+Turnstile+OAuth</span>
+          </a>
+          
+        </nav>
+        
+
+        <!-- Comments -->
+        <section class="comments-section">
+          <div id="disqus_thread"></div>
+        </section>
+      </main>
+      
+<footer class="footer">
+  <div class="footer__inner">
+    <p>© 2024 <a href="https://github.com/abcdlsj">abcdlsj</a></p>
+    <p><a href="https://github.com/abcdlsj/abcdlsj.github.io">Source</a></p>
+  </div>
+</footer>
+
+    </div>
+
+    <button class="back-to-top" type="button" aria-label="Back to top" onclick="scrollToTop()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+    
+
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      const backToTop = document.querySelector(".back-to-top");
+      const toggleButton = () => {
+        if (!backToTop) return;
+        backToTop.classList.toggle("back-to-top--visible", window.scrollY > 400);
+      };
+      window.addEventListener("scroll", toggleButton);
+
+      // Smooth scroll for TOC links
+      document.addEventListener('DOMContentLoaded', function() {
+        // Reading progress
+        const progressBar = document.getElementById('reading-progress-bar');
+        const updateProgress = () => {
+          if (!progressBar) return;
+          const doc = document.documentElement;
+          const scrollable = doc.scrollHeight - doc.clientHeight;
+          const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+          progressBar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, progress)) + ')';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress, { passive: true });
+        updateProgress();
+
+        // Reading time
+        const readingTime = document.getElementById('reading-time');
+        const postBody = document.querySelector('.post-body');
+        if (readingTime && postBody) {
+          const text = postBody.textContent || '';
+          const cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+          const words = (text.replace(/[\u4e00-\u9fff\u3400-\u4dbf]/g, ' ').match(/[A-Za-z0-9_]+/g) || []).length;
+          const minutes = Math.max(1, Math.round(cjk / 350 + words / 200));
+          readingTime.textContent = '· ' + minutes + ' min read';
+        }
+
+        // Wrap tables for horizontal scrolling on small screens
+        document.querySelectorAll('.post-body > table').forEach(table => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-scroll';
+          table.parentNode.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        });
+
+        // Copy buttons for code blocks
+        document.querySelectorAll('.post-body pre').forEach(pre => {
+          if (pre.querySelector('.code-copy')) return;
+          const button = document.createElement('button');
+          button.className = 'code-copy';
+          button.type = 'button';
+          button.textContent = 'Copy';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.addEventListener('click', async () => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+            try {
+              await navigator.clipboard.writeText(code.textContent);
+              button.textContent = 'Copied';
+              button.classList.add('code-copy--copied');
+              setTimeout(() => {
+                button.textContent = 'Copy';
+                button.classList.remove('code-copy--copied');
+              }, 1800);
+            } catch (e) {
+              button.textContent = 'Failed';
+              setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+            }
+          });
+          pre.appendChild(button);
+        });
+
+        const tocLinks = document.querySelectorAll('.toc-nav:not(.timeline-nav) a');
+        const tocPanel = document.querySelector('.toc-panel');
+        const sidepanelToggle = document.getElementById('sidepanel-toggle');
+        const closeSidepanel = () => {
+          if (!tocPanel) return;
+          tocPanel.classList.remove('toc-panel--open');
+          document.body.classList.remove('sidepanel-open');
+        };
+        const toggleSidepanel = () => {
+          if (!tocPanel) return;
+          const opening = !tocPanel.classList.contains('toc-panel--open');
+          tocPanel.classList.toggle('toc-panel--open', opening);
+          document.body.classList.toggle('sidepanel-open', opening);
+        };
+        if (sidepanelToggle) {
+          sidepanelToggle.addEventListener('click', toggleSidepanel);
+        }
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            closeSidepanel();
+          }
+        });
+
+        tocLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+              closeSidepanel();
+            }
+          });
+        });
+
+        // TOC scroll tracking
+        const tocNav = document.querySelector('.toc-nav');
+        if (tocNav && !tocNav.classList.contains('timeline-nav')) {
+          const headings = Array.from(document.querySelectorAll('.post-body h2[id], .post-body h3[id]'));
+          const tocLinks = Array.from(tocNav.querySelectorAll('a[href^="#"]'));
+          const linkById = new Map();
+          tocLinks.forEach(link => {
+            const id = link.getAttribute('href').slice(1);
+            if (id) linkById.set(id, link);
+          });
+
+          const setActiveToc = (id) => {
+            tocLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + id));
+          };
+
+          let currentActive = '';
+          const observer = new IntersectionObserver((entries) => {
+            const visible = entries
+              .filter(entry => entry.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+            if (visible.length) {
+              const id = visible[0].target.id;
+              if (id && id !== currentActive) {
+                currentActive = id;
+                setActiveToc(id);
+              }
+            }
+          }, {
+            threshold: 0.2,
+            rootMargin: '-20% 0px -65% 0px'
+          });
+
+          headings.forEach(h => observer.observe(h));
+          if (headings.length) {
+            setActiveToc(headings[0].id);
+          }
+        }
+
+        // Timeline behavior
+        const timelineLinks = Array.from(document.querySelectorAll('.timeline-nav a[data-timeline-id]'));
+        const timelineSegments = Array.from(document.querySelectorAll('[data-timeline-segment]'));
+        if (timelineLinks.length && timelineSegments.length) {
+          const setTimelineActive = (id) => {
+            timelineLinks.forEach(link => {
+              link.classList.toggle('active', link.dataset.timelineId === id);
+            });
+          };
+
+          const flashSegment = (id) => {
+            timelineSegments.forEach(segment => segment.classList.remove('timeline-segment--flash'));
+            const targetSegment = document.querySelector('[data-timeline-segment][data-timeline-id=\"' + id + '\"]');
+            if (targetSegment) {
+              targetSegment.classList.add('timeline-segment--flash');
+            }
+          };
+
+          timelineLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+              e.preventDefault();
+              const id = link.dataset.timelineId;
+              const target = document.getElementById(id);
+              if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                history.replaceState(null, '', '#' + id);
+                setTimelineActive(id);
+                flashSegment(id);
+                closeSidepanel();
+              }
+            });
+          });
+
+          const observer = new IntersectionObserver((entries) => {
+            const visible = entries
+              .filter(entry => entry.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+            if (visible.length) {
+              const id = visible[0].target.getAttribute('data-timeline-id');
+              if (id) {
+                setTimelineActive(id);
+              }
+            }
+          }, {
+            threshold: 0.2,
+            rootMargin: '-15% 0px -65% 0px'
+          });
+
+          timelineSegments.forEach(segment => observer.observe(segment));
+
+          const initialId = location.hash ? location.hash.slice(1) : timelineSegments[0].getAttribute('data-timeline-id');
+          if (initialId) {
+            setTimelineActive(initialId);
+          }
+        }
+      });
+
+      // Disqus
+      (function() {
+        var d = document, s = d.createElement("script");
+        s.src = "https://abcdlsj.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </body>
+</html>

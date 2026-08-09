@@ -1,0 +1,610 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+<meta charset="UTF-8" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfc" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111114" />
+
+<title>Build a website for readability in 10 minutes</title>
+
+<meta name="description" content="Exploring the intersections of life/programming/technology." />
+
+<meta name="keywords" content="Template,Readability,">
+<meta name="author" content="abcdlsj">
+<meta property="og:title" content="Build a website for readability in 10 minutes">
+<meta property="og:description" content="Build a web readability tool in 10 minutes.">
+<meta property="og:url" content="https://abcdlsj.github.io/posts/write-a-readability-tool.html">
+<meta property="og:type" content="article">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+<link rel="stylesheet" href="/static/style.css" />
+<script defer src="/static/script/search.js"></script>
+<script defer src="https://us.umami.is/script.js" data-website-id="5af61252-79b1-48a0-a452-fdeefbf6a3ee"></script>
+
+  </head>
+  <body class="post-page">
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
+    <div class="app">
+      
+<header class="site-header">
+  <div class="site-header__inner">
+    <div class="site-header__brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <a href="/" class="site-header__title">L'iving and Discovering</a>
+      <span class="site-header__tagline">Exploring the intersections of life/programming/technology.</span>
+    </div>
+    <nav class="site-header__nav">
+      <ul class="nav-links">
+        
+        
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/posts" class="nav-link">Posts</a>
+        </li>
+        
+        
+        
+        <li>
+          <a href="/about" class="nav-link">About</a>
+        </li>
+        
+        
+        
+        
+        
+        <li>
+          <a href="/rss.xml" class="nav-link">Feed</a>
+        </li>
+        
+        
+      </ul>
+      <div class="site-search" id="site-search">
+        <button class="site-search__toggle" id="search-toggle" type="button" aria-label="Search posts" aria-controls="site-search-panel" aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-4-4"></path>
+          </svg>
+        </button>
+        <div class="site-search__panel" id="site-search-panel">
+          <label class="sr-only" for="search-input">Search posts</label>
+          <div class="site-search__field">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-4-4"></path>
+            </svg>
+            <input id="search-input" type="search" placeholder="Search posts..." autocomplete="off" spellcheck="false" />
+          </div>
+          <ul id="search-results" aria-label="Search results"></ul>
+          <p class="site-search__hint">Type at least 2 characters to search.</p>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<script>
+  (function initHeaderScrollBehavior() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+
+    let lastY = window.scrollY || 0;
+    const threshold = 6;
+
+    function handleScroll() {
+      const y = window.scrollY || 0;
+      if (y < 56) {
+        header.classList.remove('site-header--hidden');
+        lastY = y;
+        return;
+      }
+
+      if (document.body.classList.contains('sidepanel-open') ||
+          header.querySelector('.site-search--open')) {
+        header.classList.remove('site-header--hidden');
+        lastY = y;
+        return;
+      }
+
+      if (y > lastY + threshold) {
+        header.classList.add('site-header--hidden');
+      } else if (y < lastY - threshold) {
+        header.classList.remove('site-header--hidden');
+      }
+      lastY = y;
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+  })();
+</script>
+
+      <main class="container">
+        <div class="post-layout ">
+          <article class="post-article">
+            <!-- Post Header -->
+            <header class="post-header">
+              
+              <h1 class="post-title">Build a website for readability in 10 minutes</h1>
+              <div class="post-meta">
+                <time class="post-date" datetime="2023-10-22T11:51:37+08:00">2023-10-22</time>
+                <span class="post-reading-time" id="reading-time"></span>
+                
+                <div class="post-tags">
+                  
+                  <a href="/tags/template.html" class="tag">#Template</a>
+                  
+                  <a href="/tags/readability.html" class="tag">#Readability</a>
+                  
+                </div>
+                
+              </div>
+            </header>
+
+            
+
+            <!-- Post Content -->
+            <div class="post-body">
+              <h2 id="background">Background</h2>
+<p>Many websites use various CSS styles, and some of them are hard to read. One way to improve readability is to use a browser extension; another is to build your own readability tool as a website. There are plenty of languages and implementations to choose from — in this post I'll use <code>Go</code>. You'll see how simple it is.</p>
+<p>You can find all the code on my GitHub repository <a href="https://github.com/abcdlsj/share/tree/master/go/readability">here</a></p>
+<h2 id="do-it">Do it</h2>
+<p>Start by reading the example code for <a href="https://github.com/go-shiori/go-readability">go-readability</a> to understand its functionality and usage.</p>
+<p>You can write the following code, which can be used as a command-line interface (CLI) tool.</p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;flag&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;log&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">readability</span> <span class="s">&#34;github.com/go-shiori/go-readability&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">extract</span><span class="p">(</span><span class="nx">url</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">readability</span><span class="p">.</span><span class="nx">Article</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">article</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">readability</span><span class="p">.</span><span class="nf">FromURL</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="mi">30</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed to parse %s, %v\n&#34;</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Title   : %s\n&#34;</span><span class="p">,</span> <span class="nx">article</span><span class="p">.</span><span class="nx">Title</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Author  : %s\n&#34;</span><span class="p">,</span> <span class="nx">article</span><span class="p">.</span><span class="nx">Byline</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;SiteName: %s\n&#34;</span><span class="p">,</span> <span class="nx">article</span><span class="p">.</span><span class="nx">SiteName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Content : %s\n&#34;</span><span class="p">,</span> <span class="nx">article</span><span class="p">.</span><span class="nx">Content</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">article</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">inputurl</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">flag</span><span class="p">.</span><span class="nf">StringVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">inputurl</span><span class="p">,</span> <span class="s">&#34;url&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;URL&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">flag</span><span class="p">.</span><span class="nf">Parse</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">inputurl</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">flag</span><span class="p">.</span><span class="nf">Usage</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">extract</span><span class="p">(</span><span class="nx">inputurl</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre><p>It works as expected.</p>
+<p>However, a terminal isn't always available. In that case, you can run it as a web server using Go's <code>http</code> package and the <code>html/template</code> library. (Full disclosure: <code>ChatGPT</code> wrote this demo for me — it only took about five minutes.)</p>
+<p><strong>index.html</strong></p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Extract Article Content<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Extract Article Content<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;/read&#34;</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;post&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;url&#34;</span><span class="p">&gt;</span>Enter URL:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;url&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;url&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;Extract&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre><p><strong>article.html</strong></p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Article Content<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>{{.Title}}<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	{{if .ErrorMsg}}
+</span></span><span class="line"><span class="cl">		<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>{{.ErrorMsg}}<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	{{else}}
+</span></span><span class="line"><span class="cl">		<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;content&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">			{{.Content | safeHTML}}
+</span></span><span class="line"><span class="cl">		<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	{{end}}
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre><p><strong>main.go</strong></p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tmpl</span> <span class="p">=</span> <span class="o">...</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">http</span><span class="p">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s">&#34;/&#34;</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">http</span><span class="p">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s">&#34;/read&#34;</span><span class="p">,</span> <span class="nx">read</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s">&#34;:8080&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">index</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">tmpl</span><span class="p">.</span><span class="nf">ExecuteTemplate</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="s">&#34;index.html&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">http</span><span class="p">.</span><span class="nf">Error</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">(),</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusInternalServerError</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">read</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">url</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nf">FormValue</span><span class="p">(</span><span class="s">&#34;url&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">article</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">readability</span><span class="p">.</span><span class="nf">FromURL</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="mi">30</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">render</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">Article</span><span class="p">{</span><span class="nx">URL</span><span class="p">:</span> <span class="nx">url</span><span class="p">,</span> <span class="nx">ErrorMsg</span><span class="p">:</span> <span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">()})</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">render</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">Article</span><span class="p">{</span><span class="nx">URL</span><span class="p">:</span> <span class="nx">url</span><span class="p">,</span> <span class="nx">Title</span><span class="p">:</span> <span class="nx">article</span><span class="p">.</span><span class="nx">Title</span><span class="p">,</span> <span class="nx">Content</span><span class="p">:</span> <span class="nx">article</span><span class="p">.</span><span class="nx">Content</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">render</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">data</span> <span class="nx">Article</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">tmpl</span><span class="p">.</span><span class="nf">ExecuteTemplate</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="s">&#34;article.html&#34;</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">http</span><span class="p">.</span><span class="nf">Error</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">(),</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusInternalServerError</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre><p>Implementing it as a web server is also straightforward.</p>
+<h2 id="pack">Pack</h2>
+<p>Once the web server works, it's a good idea to package it into a <code>Docker</code> image.</p>
+<p>You'll also need to ship <code>index.html</code> and <code>article.html</code>. In <code>Go</code>, <code>embed</code> lets you bundle them into the binary:</p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//go:embed *.html
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">tmplFiles</span> <span class="nx">embed</span><span class="p">.</span><span class="nx">FS</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">funcMap</span> <span class="p">=</span> <span class="nx">template</span><span class="p">.</span><span class="nx">FuncMap</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="s">&#34;safeHTML&#34;</span><span class="p">:</span> <span class="kd">func</span><span class="p">(</span><span class="nx">content</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">template</span><span class="p">.</span><span class="nx">HTML</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">template</span><span class="p">.</span><span class="nf">HTML</span><span class="p">(</span><span class="nx">content</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">},</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">tmpl</span> <span class="p">=</span> <span class="nx">template</span><span class="p">.</span><span class="nf">Must</span><span class="p">(</span><span class="nx">template</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;article.html&#34;</span><span class="p">).</span><span class="nf">Funcs</span><span class="p">(</span><span class="nx">funcMap</span><span class="p">).</span><span class="nf">ParseFS</span><span class="p">(</span><span class="nx">tmplFiles</span><span class="p">,</span> <span class="s">&#34;article.html&#34;</span><span class="p">,</span> <span class="s">&#34;index.html&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre><p><code>embed</code> will embed files at <code>compile</code> time.</p>
+<h2 id="docker">Docker</h2>
+<h3 id="dockerfile">Dockerfile</h3>
+<p><code>Go</code> binaries are cross-platform, so you can copy the compiled binary into a minimal base image. Here's an example <code>Dockerfile</code>:</p>
+<p>Sample:</p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> alpine:latest</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> mkdir /app<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /app</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> . .<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;/app/readability&#34;</span><span class="p">]</span><span class="err">
+</span></span></span></code></pre><p>Build the binary first, then copy it into the image:</p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span> <span class="nv">GOOS</span><span class="o">=</span>linux go build -o readability
+</span></span></code></pre><p>(The example <code>Dockerfile</code> above assumes the binary is already compiled.)</p>
+<p>I have also written a simple tool called <code>nestg</code> for packing binary files into a Docker image. You can find it at <a href="https://github.com/abcdlsj/share/tree/master/go/nestg">share/nestg</a></p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">Usage of nestg:
+</span></span><span class="line"><span class="cl">  -b string
+</span></span><span class="line"><span class="cl">        go build flags
+</span></span><span class="line"><span class="cl">  -i string
+</span></span><span class="line"><span class="cl">        image name
+</span></span><span class="line"><span class="cl">  -p string
+</span></span><span class="line"><span class="cl">        port
+</span></span></code></pre><p>Use <code>nestg</code></p>
+<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nestg -i abcdlsj/readability -p 8080
+</span></span></code></pre><h3 id="run">Run</h3>
+<p>After building the Docker image, you can run it using the following command:</p>
+<p><code>docker run -it --rm -p &lt;HOST_PORT&gt;:8080 abcdlsj/readability</code></p>
+<p>Now you can access the website at <code>http://localhost:&lt;HOST_PORT&gt;</code>.</p>
+<p>That's everything you can build within ten minutes. Now let's optimize it!</p>
+<h2 id="optimize">Optimize</h2>
+<h3 id="handling-double-slashes">Handling double slashes</h3>
+<p>URL parameters make the tool more useful. I tried putting the target <code>HTTP</code> URL directly in the path, but hit a parsing problem.</p>
+<p>For example, when you make a request to <code>https://xxx.com/read/https://nautil.us/mirror-image-life-412729/</code>, the appended path becomes <code>https:/nautil.us/mirror-image-life-412729</code> due to the modification of <code>//</code> to <code>/</code>. This behavior is a result of the following explanation from the documentation:</p>
+<blockquote>
+<p>ServeMux also takes care of sanitizing the URL request path and the Host header, stripping the port number and redirecting any request containing . or .. elements or repeated slashes to an equivalent, cleaner URL.</p>
+</blockquote>
+<p>This information was obtained from the documentation found at <a href="https://pkg.go.dev/net/http#ServeMux">net/http#ServeMux</a></p>
+<p>I came across some useful links that discuss this issue:</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/55716545/url-escaped-parameter-not-resolving-properly">Stack Overflow - URL-escaped parameter not resolving properly</a></li>
+<li><a href="https://stackoverflow.com/questions/51908277/how-do-i-get-gos-net-http-package-to-stop-removing-double-slashes">Stack Overflow - How do I get Go's net/http package to stop removing double slashes?</a></li>
+<li><a href="https://github.com/golang/go/issues/42244">Github issue - net/http: ServeMux forcibly cleans double forward slash in URLs even when behaving as a gateway</a></li>
+</ul>
+<p>The suggested solutions are <code>gorilla/mux</code> or a custom <code>ServeMux</code>. With <code>gorilla/mux</code>, you just call <code>SkipClean(true)</code> and the double slashes are preserved.</p>
+<h3 id="httpredirect-clean-double-slashes"><code>http.Redirect</code> clean double slashes</h3>
+<p>However, I encountered another issue when using redirects after submitting a link form. The redirect operation also removes the double slashes from the URL path, and unfortunately, <code>gorilla/mux</code> does not support handling this situation.</p>
+<p><code>http.Redirect</code> internally calls <code>path.Clean(url)</code>, which also collapses double slashes.</p>
+<blockquote>
+<p>See the source: <a href="https://github.com/golang/go/blob/8c92897e15d15fbc664cd5a05132ce800cf4017f/src/net/http/server.go#L2247C25-L2247C25">server.go</a></p>
+</blockquote>
+<p>Luckily, there's a workaround: escape the <code>/</code> characters as <code>%2F</code> so the redirect doesn't collapse them.</p>
+<p>You can find this version of the code at <a href="https://github.com/abcdlsj/share/tree/909fcb5e80fef9ecfaf68259ae98fb6694d3e984/go/readability">readability - 909fcb5e80fe</a>. Please note that there are some additional adjustments made as well.</p>
+<h2 id="pictures">Pictures</h2>
+<p>After adding some simple <code>CSS</code> to the <code>HTML template</code>, you will see the result:</p>
+<img alt="homepage" src="/static/img/readability_screenshot2.png" width="100%" style="border: 1px solid gray;">
+<img alt="article page" src="/static/img/readability_screenshot.png" width="100%"  style="border: 1px solid gray;">
+<blockquote>
+<p>04/14/2024 Update:<br>
+Added a recently-viewed list using <code>Redis</code> — a <code>list</code> for history and a <code>zset</code> for view counts. <a href="https://github.com/abcdlsj/share/commit/08837c71ff065791a400b976fa23ca2fd338d5bc">commit</a>.</p>
+</blockquote>
+<img alt="`recently` homepage" src="/static/img/readability_screenshot3.png" width="100%"  style="border: 1px solid gray;">
+<h2 id="conclusion">Conclusion</h2>
+<p>This is a small weekend project.</p>
+<p>Thanks for reading!</p>
+
+            </div>
+          </article>
+
+          
+        </div>
+
+        
+        <nav class="post-nav" aria-label="Post navigation">
+          
+          <a class="post-nav__link" href="/posts/write-a-cron-expr-scheduler.html">
+            <span class="post-nav__dir">← Newer</span>
+            <span class="post-nav__title">从零解析 Cron 表达式</span>
+          </a>
+          
+          
+          <a class="post-nav__link post-nav__link--next" href="/posts/tally-let-us-build-a-tool-like-tokei.html">
+            <span class="post-nav__dir">Older →</span>
+            <span class="post-nav__title">Tally - Build a tool like tokei/scc</span>
+          </a>
+          
+        </nav>
+        
+
+        <!-- Comments -->
+        <section class="comments-section">
+          <div id="disqus_thread"></div>
+        </section>
+      </main>
+      
+<footer class="footer">
+  <div class="footer__inner">
+    <p>© 2024 <a href="https://github.com/abcdlsj">abcdlsj</a></p>
+    <p><a href="https://github.com/abcdlsj/abcdlsj.github.io">Source</a></p>
+  </div>
+</footer>
+
+    </div>
+
+    <button class="back-to-top" type="button" aria-label="Back to top" onclick="scrollToTop()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+    
+
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      const backToTop = document.querySelector(".back-to-top");
+      const toggleButton = () => {
+        if (!backToTop) return;
+        backToTop.classList.toggle("back-to-top--visible", window.scrollY > 400);
+      };
+      window.addEventListener("scroll", toggleButton);
+
+      // Smooth scroll for TOC links
+      document.addEventListener('DOMContentLoaded', function() {
+        // Reading progress
+        const progressBar = document.getElementById('reading-progress-bar');
+        const updateProgress = () => {
+          if (!progressBar) return;
+          const doc = document.documentElement;
+          const scrollable = doc.scrollHeight - doc.clientHeight;
+          const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+          progressBar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, progress)) + ')';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('resize', updateProgress, { passive: true });
+        updateProgress();
+
+        // Reading time
+        const readingTime = document.getElementById('reading-time');
+        const postBody = document.querySelector('.post-body');
+        if (readingTime && postBody) {
+          const text = postBody.textContent || '';
+          const cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+          const words = (text.replace(/[\u4e00-\u9fff\u3400-\u4dbf]/g, ' ').match(/[A-Za-z0-9_]+/g) || []).length;
+          const minutes = Math.max(1, Math.round(cjk / 350 + words / 200));
+          readingTime.textContent = '· ' + minutes + ' min read';
+        }
+
+        // Wrap tables for horizontal scrolling on small screens
+        document.querySelectorAll('.post-body > table').forEach(table => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-scroll';
+          table.parentNode.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        });
+
+        // Copy buttons for code blocks
+        document.querySelectorAll('.post-body pre').forEach(pre => {
+          if (pre.querySelector('.code-copy')) return;
+          const button = document.createElement('button');
+          button.className = 'code-copy';
+          button.type = 'button';
+          button.textContent = 'Copy';
+          button.setAttribute('aria-label', 'Copy code to clipboard');
+          button.addEventListener('click', async () => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+            try {
+              await navigator.clipboard.writeText(code.textContent);
+              button.textContent = 'Copied';
+              button.classList.add('code-copy--copied');
+              setTimeout(() => {
+                button.textContent = 'Copy';
+                button.classList.remove('code-copy--copied');
+              }, 1800);
+            } catch (e) {
+              button.textContent = 'Failed';
+              setTimeout(() => { button.textContent = 'Copy'; }, 1800);
+            }
+          });
+          pre.appendChild(button);
+        });
+
+        const tocLinks = document.querySelectorAll('.toc-nav:not(.timeline-nav) a');
+        const tocPanel = document.querySelector('.toc-panel');
+        const sidepanelToggle = document.getElementById('sidepanel-toggle');
+        const closeSidepanel = () => {
+          if (!tocPanel) return;
+          tocPanel.classList.remove('toc-panel--open');
+          document.body.classList.remove('sidepanel-open');
+        };
+        const toggleSidepanel = () => {
+          if (!tocPanel) return;
+          const opening = !tocPanel.classList.contains('toc-panel--open');
+          tocPanel.classList.toggle('toc-panel--open', opening);
+          document.body.classList.toggle('sidepanel-open', opening);
+        };
+        if (sidepanelToggle) {
+          sidepanelToggle.addEventListener('click', toggleSidepanel);
+        }
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            closeSidepanel();
+          }
+        });
+
+        tocLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+              closeSidepanel();
+            }
+          });
+        });
+
+        // TOC scroll tracking
+        const tocNav = document.querySelector('.toc-nav');
+        if (tocNav && !tocNav.classList.contains('timeline-nav')) {
+          const headings = Array.from(document.querySelectorAll('.post-body h2[id], .post-body h3[id]'));
+          const tocLinks = Array.from(tocNav.querySelectorAll('a[href^="#"]'));
+          const linkById = new Map();
+          tocLinks.forEach(link => {
+            const id = link.getAttribute('href').slice(1);
+            if (id) linkById.set(id, link);
+          });
+
+          const setActiveToc = (id) => {
+            tocLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + id));
+          };
+
+          let currentActive = '';
+          const observer = new IntersectionObserver((entries) => {
+            const visible = entries
+              .filter(entry => entry.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+            if (visible.length) {
+              const id = visible[0].target.id;
+              if (id && id !== currentActive) {
+                currentActive = id;
+                setActiveToc(id);
+              }
+            }
+          }, {
+            threshold: 0.2,
+            rootMargin: '-20% 0px -65% 0px'
+          });
+
+          headings.forEach(h => observer.observe(h));
+          if (headings.length) {
+            setActiveToc(headings[0].id);
+          }
+        }
+
+        // Timeline behavior
+        const timelineLinks = Array.from(document.querySelectorAll('.timeline-nav a[data-timeline-id]'));
+        const timelineSegments = Array.from(document.querySelectorAll('[data-timeline-segment]'));
+        if (timelineLinks.length && timelineSegments.length) {
+          const setTimelineActive = (id) => {
+            timelineLinks.forEach(link => {
+              link.classList.toggle('active', link.dataset.timelineId === id);
+            });
+          };
+
+          const flashSegment = (id) => {
+            timelineSegments.forEach(segment => segment.classList.remove('timeline-segment--flash'));
+            const targetSegment = document.querySelector('[data-timeline-segment][data-timeline-id=\"' + id + '\"]');
+            if (targetSegment) {
+              targetSegment.classList.add('timeline-segment--flash');
+            }
+          };
+
+          timelineLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+              e.preventDefault();
+              const id = link.dataset.timelineId;
+              const target = document.getElementById(id);
+              if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                history.replaceState(null, '', '#' + id);
+                setTimelineActive(id);
+                flashSegment(id);
+                closeSidepanel();
+              }
+            });
+          });
+
+          const observer = new IntersectionObserver((entries) => {
+            const visible = entries
+              .filter(entry => entry.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+            if (visible.length) {
+              const id = visible[0].target.getAttribute('data-timeline-id');
+              if (id) {
+                setTimelineActive(id);
+              }
+            }
+          }, {
+            threshold: 0.2,
+            rootMargin: '-15% 0px -65% 0px'
+          });
+
+          timelineSegments.forEach(segment => observer.observe(segment));
+
+          const initialId = location.hash ? location.hash.slice(1) : timelineSegments[0].getAttribute('data-timeline-id');
+          if (initialId) {
+            setTimelineActive(initialId);
+          }
+        }
+      });
+
+      // Disqus
+      (function() {
+        var d = document, s = d.createElement("script");
+        s.src = "https://abcdlsj.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </body>
+</html>

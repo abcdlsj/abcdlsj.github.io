@@ -35,8 +35,6 @@ languages:
 
 `Gnar` 之前迭代过很多功能，但是从易用性上还是不够「直接」，好的 `UX` 设计应该是将用户路径化为最简。于是最近用 `Rust` 重构了一波，最终使用只需要 `$ gnar` 一个命令就行，会自动检测当前本地的服务。
 
-用的 `GPT-5.6 Sol` 全程开发。
-
 ## Gump 一个 `Agent Kanban` 任务管理 `TUI`
 
 > 地址 https://github.com/abcdlsj/gump
