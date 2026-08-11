@@ -44,3 +44,9 @@ name = "DDIA"
 source = "abcdlsj.github.io/submodules/ddia"
 output = "hosts/ddia"
 type = "static"
+
+[[host]]
+name = "LLM From Scratch Reader"
+source = "abcdlsj.github.io/submodules/llm-from-scratch-reader/dist"
+output = "hosts/llm-from-scratch-reader"
+type = "static"

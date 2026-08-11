@@ -1,3 +1,6 @@
 [submodule "abcdlsj.github.io/submodules/ddia"]
 	path = abcdlsj.github.io/submodules/ddia
 	url = https://github.com/Vonng/ddia
+[submodule "abcdlsj.github.io/submodules/llm-from-scratch-reader"]
+	path = abcdlsj.github.io/submodules/llm-from-scratch-reader
+	url = https://github.com/abcdlsj/llm-from-scratch-reader.git
